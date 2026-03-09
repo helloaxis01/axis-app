@@ -4171,7 +4171,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       <div className="app-orbs" style={{background:"var(--orb1), var(--orb2), var(--orb3)",animation:"orbFloat 24s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate", transition:"background 2s ease"}} />
         <div className="app-body">
         <div className="home">
-          <div className="home-hdr">
+          <div className="home-hdr" style={{padding:"calc(env(safe-area-inset-top, 0px) + 72px) 24px 0", width:"100%", boxSizing:"border-box"}}>
             <div className="home-brand">
               <div className="home-wordmark">AXIS</div>
             </div>
