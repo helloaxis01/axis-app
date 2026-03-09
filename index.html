@@ -73,8 +73,10 @@ const obCss = `
     background:var(--ob-page-bg); font-family:'Barlow',sans-serif; font-weight:300;
     box-sizing:border-box;
   }
-  /* orbs rendered via explicit div in JSX */
-  @keyframes obOrb { 0%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.06) translate(10px,-8px)} 100%{transform:scale(0.97) translate(-6px,12px)} }
+  /* orbs — match main app orbFloat + sheen when in color mode */
+  @keyframes orbFloat { 0%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.06) translate(12px,-10px)} 100%{transform:scale(0.96) translate(-8px,14px)} }
+  .ob-orbs-layer { position:fixed; inset:0; z-index:0; pointer-events:none; }
+  .ob-orbs-layer::after { content:''; position:absolute; inset:0; pointer-events:none; background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.02) 60%, transparent 100%); }
   .ob-label { display:none; }
   .ob-shell { width:100%; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; position:relative; z-index:1; flex:1; display:flex; flex-direction:column; box-sizing:border-box; }
   .ob-screen { width:100%; min-height:100vh; display:flex; flex-direction:column; position:relative; box-sizing:border-box; animation:obFadeIn 0.3s ease; }
@@ -82,7 +84,12 @@ const obCss = `
   @keyframes obColorFadeIn { from { opacity:0; } to { opacity:1; } }
   .ob-color-reveal { animation: obColorFadeIn 2.5s ease-out forwards; }
   .ob-pad { padding:calc(env(safe-area-inset-top, 0px) + 72px) 32px 140px; flex:1; box-sizing:border-box; width:100%; }
-  .ob-s0 { align-items:center; justify-content:center; text-align:center; padding:60px 32px; }
+  .ob-s0 {
+    display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center;
+    min-height:100vh; padding:60px 32px 80px; box-sizing:border-box;
+  }
+  .ob-s0-top { flex:1.4; display:flex; align-items:center; justify-content:center; width:100%; min-height:0; }
+  .ob-s0-bottom { flex:1; display:flex; align-items:center; justify-content:center; width:100%; min-height:0; padding-top:24px; }
   .ob-splash-icon {
     width:110px; height:110px; border-radius:28px; margin-bottom:32px;
     background:var(--ob-nav-bg); border-top:1px solid var(--ob-box-border);
@@ -210,6 +217,10 @@ const MAIN_APP_BG = {
   dark: "radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%)",
   light: "linear-gradient(145deg, #dce6f0 0%, #e4ebf4 35%, #eaf0f7 70%, #f0f5fa 100%)",
 };
+
+// Brand logo PNGs: 02 = black on light (light theme), 05 = white on dark (dark theme)
+const AXIS_LOGO_LIGHT = "Logo - Vector/AXIS_Branding_LightMode_Outlined.svg";
+const AXIS_LOGO_DARK = "Logo - Vector/AXIS_Branding_DarkMode_Outlined.svg";
 
 // Grey/monochrome theme for onboarding intro (screens 0–4) — color appears at Appearance
 const OB_GREY = {
@@ -358,7 +369,7 @@ function applyCircadianTheme(isDark, period) {
 
 function Onboarding({ theme, onComplete }) {
   const [cur, setCur] = useState(0);
-  const total = 8;
+  const total = 7;
   const [disclaimerName, setDisclaimerName] = useState("");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
   const [disclaimerWarning, setDisclaimerWarning] = useState(false);
@@ -367,13 +378,18 @@ function Onboarding({ theme, onComplete }) {
   // Live circadian — onboarding matches the app color at time of signup
   const [obPeriod, setObPeriod] = useState(null); // null = none selected; first mood user picks lights up
   const [obTheme, setObTheme] = useState(theme || "dark");
+  const [obAutoTime, setObAutoTime] = useState(true); // true = follow time of day; false = use selected mood
+  const [obReason, setObReason] = useState(null); // "tightness" | "stress" | "routine" for calibration / Start here
+  const [obArea, setObArea] = useState(null); // back / neck / hips / knees / feet / general
   const [hasChosenMood, setHasChosenMood] = useState(false); // Grey until user picks a mood on Appearance
   const [colorRevealed, setColorRevealed] = useState(false); // true after fade-in completes so we switch theme
   const iconColor = obTheme === "dark" ? "#ffffff" : "#111111";
   const periodForTheme = obPeriod ?? getCircadianPeriod();
   const ct = CIRCADIAN_THEMES[periodForTheme][obTheme === "dark" ? "dark" : "light"];
-  const useGrey = cur < 5 || (cur === 5 && !colorRevealed); // Grey until color fade-in completes
-  const t = useGrey ? OB_GREY[obTheme === "dark" ? "dark" : "light"] : { ...ct, bg: MAIN_APP_BG[obTheme === "dark" ? "dark" : "light"] };
+  const useGrey = cur < 3 || (cur === 3 && !colorRevealed); // Grey until color fade-in completes after Appearance
+  const t = useGrey
+    ? OB_GREY[obTheme === "dark" ? "dark" : "light"]
+    : { ...ct, bg: MAIN_APP_BG[obTheme === "dark" ? "dark" : "light"] };
   const colorTheme = { ...ct, bg: MAIN_APP_BG[obTheme === "dark" ? "dark" : "light"] };
   // After color overlay animation (2.5s), switch main theme to color
   useEffect(() => {
@@ -411,10 +427,9 @@ function Onboarding({ theme, onComplete }) {
   return (
     <div className="ob-wrap" style={{ background: t.bg, transition: "background 0.6s ease" }}>
       <style>{obCss}{`:root,body,[data-ob]{${vars}}.ob-wrap{${vars}}`}</style>
-      <div style={{
-        position:"fixed", inset:0, pointerEvents:"none", zIndex:0,
+      <div className="ob-orbs-layer" style={{
         background:`${t.orb1}, ${t.orb2}, ${t.orb3}`,
-        animation:"obOrb 24s cubic-bezier(0.37,0,0.63,1) infinite alternate",
+        animation:"orbFloat 24s cubic-bezier(0.37,0,0.63,1) infinite alternate",
         transition:"background 0.6s ease",
       }} />
       {hasChosenMood && !colorRevealed && (
@@ -434,31 +449,45 @@ function Onboarding({ theme, onComplete }) {
             position:"fixed", inset:0, pointerEvents:"none", zIndex:0.5,
             background: `${colorTheme.orb1}, ${colorTheme.orb2}, ${colorTheme.orb3}`,
             opacity: 0,
-            animation: "obColorFadeIn 2.5s ease-out forwards, obOrb 24s cubic-bezier(0.37,0,0.63,1) infinite alternate",
+            animation: "obColorFadeIn 2.5s ease-out forwards, orbFloat 24s cubic-bezier(0.37,0,0.63,1) infinite alternate",
           }}
         />
       )}
-      <div className="ob-shell" onClick={e => { if (cur === 6) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
+      <div className="ob-shell" onClick={e => { if (cur === 5) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
         {cur === 0 && (
           <div className="ob-screen ob-s0">
-            <AxisIcon size={100} color={iconColor} />
-            <div className="ob-splash-name">AXIS</div>
-            <div className="ob-splash-tag">X &nbsp;MOVE &nbsp;X&nbsp; MEND &nbsp;X&nbsp; MAINTAIN &nbsp;X</div>
+            <div className="ob-s0-top">
+              <img src={obTheme === "dark" ? AXIS_LOGO_DARK : AXIS_LOGO_LIGHT} alt="AXIS" style={{ height: 200, width: "auto", objectFit: "contain" }} />
+            </div>
+            <div className="ob-s0-bottom">
+              <div className="ob-splash-tag">X &nbsp;MOVE &nbsp;X&nbsp; MEND &nbsp;X&nbsp; MAINTAIN &nbsp;X</div>
+            </div>
           </div>
         )}
 
-          {/* 1: THE CONTEXT */}
+          {/* 1: PERSPECTIVE + FOUNDATION (merged) */}
           {cur === 1 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">The Perspective</div>
               <div className="ob-heading">Modern life is hard on the <em>human frame.</em></div>
-              <div className="ob-body" style={{marginBottom:24}}>
+              <div className="ob-body" style={{marginBottom:20}}>
                 Whether it’s back tension, tight hips, or "tech neck," physical discomfort is the result of a lifestyle our bodies weren't designed for. AXIS is the recalibration.
               </div>
               <div className="ob-sci-blocks">
                 <div className="ob-sci"><div className="ob-sci-text">•{"\u00A0\u00A0\u00A0\u00A0"}80% of us will face back pain.</div></div>
                 <div className="ob-sci"><div className="ob-sci-text">•{"\u00A0\u00A0\u00A0\u00A0"}70% of office workers experience chronic neck strain.</div></div>
-                <div className="ob-sci"><div className="ob-sci-text">•{"\u00A0\u00A0\u00A0\u00A0"}100% of us benefit from moving better.</div></div>
+                <div className="ob-sci">                <div className="ob-sci-text">•{"\u00A0\u00A0\u00A0\u00A0"}100% of us benefit from moving better.</div></div>
+              </div>
+              <div className="ob-eyebrow" style={{marginTop:24}}>The Foundation</div>
+              <div className="ob-heading">Movement is <em>medicine.</em></div>
+              <div className="ob-body" style={{marginBottom:20}}>
+                AXIS isn't a workout; it's a nervous system reset. We use movements with decades of peer-reviewed clinical evidence to lower pain sensitivity and restore core recruitment.
+              </div>
+              <div className="ob-sci-blocks">
+                <div className="ob-sci">
+                  <div className="ob-sci-label">The Science</div>
+                  <div className="ob-sci-text">Exercise therapy consistently outperforms passive treatments for chronic pain. Your body is built to heal through input.</div>
+                </div>
               </div>
             </div>
             <div className="ob-nav-bar">
@@ -468,18 +497,25 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 2: THE FOUNDATION */}
+          {/* 2: METHOD + ETHICS (merged) */}
           {cur === 2 && <div className="ob-screen">
             <div className="ob-pad">
-              <div className="ob-eyebrow">The Foundation</div>
-              <div className="ob-heading">Movement is <em>medicine.</em></div>
-              <div className="ob-body" style={{marginBottom:24}}>
-                AXIS isn't a workout; it’s a nervous system reset. We use movements with decades of peer-reviewed clinical evidence to lower pain sensitivity and restore core recruitment.
+              <div className="ob-eyebrow">The Method</div>
+              <div className="ob-heading">One session. Total <em>reset.</em></div>
+              <div className="ob-body" style={{marginBottom:20}}>
+                AXIS adapts to your day. From 8-minute morning refreshes to deep-tissue evening releases, we handle the cues and the timing so you can stay in the flow.
+              </div>
+              <div className="ob-sci-blocks">
+                <div className="ob-sci"><div className="ob-sci-text" style={{fontStyle:"italic", opacity:0.85}}>You just show up and move. Your body does the rest.</div></div>
+              </div>
+              <div className="ob-eyebrow" style={{marginTop:24}}>The Ethics</div>
+              <div className="ob-heading">Genuine <em>privacy.</em></div>
+              <div className="ob-body" style={{marginBottom:20}}>
+                We collect nothing. No accounts, no tracking, no analytics. Your favorites and session history live on your device and nowhere else.
               </div>
               <div className="ob-sci-blocks">
                 <div className="ob-sci">
-                  <div className="ob-sci-label">The Science</div>
-                  <div className="ob-sci-text">Exercise therapy consistently outperforms passive treatments for chronic pain. Your body is built to heal through input.</div>
+                  <div className="ob-sci-text">We don't sync across devices, but we think your peace of mind is worth it.</div>
                 </div>
               </div>
             </div>
@@ -490,54 +526,13 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 3: THE METHOD */}
+          {/* 3: APPEARANCE */}
           {cur === 3 && <div className="ob-screen">
-            <div className="ob-pad">
-              <div className="ob-eyebrow">The Method</div>
-              <div className="ob-heading">One session. Total <em>reset.</em></div>
-              <div className="ob-body" style={{marginBottom:24}}>
-                AXIS adapts to your day. From 8-minute morning refreshes to deep-tissue evening releases, we handle the cues and the timing so you can stay in the flow.
-              </div>
-              <div className="ob-sci-blocks">
-                <div className="ob-sci"><div className="ob-sci-text" style={{fontStyle:"italic", opacity:0.85}}>You just show up and move. Your body does the rest.</div></div>
-              </div>
-            </div>
-            <div className="ob-nav-bar">
-              <button className="ob-nav-back" onClick={() => go(2)}>←</button>
-              {dots(2)}
-              <button className="ob-nav-next" onClick={() => go(4)}>Next</button>
-            </div>
-          </div>}
-
-          {/* 4: THE PRIVACY */}
-          {cur === 4 && <div className="ob-screen">
-            <div className="ob-pad">
-              <div className="ob-eyebrow">The Ethics</div>
-              <div className="ob-heading">Genuine <em>privacy.</em></div>
-              <div className="ob-body" style={{marginBottom:24}}>
-                We collect nothing. No accounts, no tracking, no analytics. Your favorites and session history live on your device and nowhere else.
-              </div>
-              <div className="ob-sci-blocks">
-                <div className="ob-sci">
-                  <div className="ob-sci-text">We don’t sync across devices, but we think your peace of mind is worth it.</div>
-                </div>
-              </div>
-            </div>
-            <div className="ob-nav-bar">
-              <button className="ob-nav-back" onClick={() => go(3)}>←</button>
-              {dots(3)}
-              <button className="ob-nav-next" onClick={() => go(5)}>Next</button>
-            </div>
-          </div>}
-
-
-          {/* 5: MOOD PICKER */}
-          {cur === 5 && <div className="ob-screen">
             <div className="ob-pad" style={{paddingBottom:"calc(env(safe-area-inset-bottom,0px) + 80px)"}}>
               <div className="ob-eyebrow">Appearance</div>
               <div className="ob-heading" style={{fontSize:36}}>Set your <em>mood.</em></div>
               <div className="ob-body" style={{marginBottom:28, fontSize:14}}>
-                AXIS shifts color with the time of day. Pick a mood now — you can always change it in the app.
+                AXIS shifts color with the time of day. Pick a mood now; you can always change it in the app.
               </div>
 
               {/* Dark / Light toggle */}
@@ -553,6 +548,22 @@ function Onboarding({ theme, onComplete }) {
                     transition:"all 0.18s",
                   }}>{label}</button>
                 ))}
+              </div>
+
+              {/* Auto time of day */}
+              <div style={{marginBottom:24}}>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 16px",borderRadius:12,background:"var(--ob-box-bg)",border:"1px solid var(--ob-box-border)"}}>
+                  <span style={{fontSize:14,color:"var(--ob-text-head)",fontWeight:500}}>Auto time of day</span>
+                  <button type="button" role="switch" aria-checked={obAutoTime} onClick={()=>setObAutoTime(v=>!v)} style={{
+                    width:44,height:26,border:"1px solid",borderColor:obAutoTime?"var(--ob-accent)":"var(--ob-box-border)",
+                    borderRadius:13,background:obAutoTime?"var(--ob-accent)":"var(--ob-box-bg)",cursor:"pointer",position:"relative",transition:"all 0.2s",
+                  }}>
+                    <div style={{position:"absolute",top:3,left:obAutoTime?22:3,width:18,height:18,borderRadius:"50%",background:obTheme==="dark"?"#fff":"#111",transition:"left 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.3)"}}/>
+                  </button>
+                </div>
+                <div className="ob-body" style={{marginTop:6,marginBottom:0,fontSize:13,color:"var(--ob-text-sec)"}}>
+                  {obAutoTime ? "Colors will follow the time of day. Turn off to lock the mood you pick below." : "Colors are locked to the mood you select below."}
+                </div>
               </div>
 
               {/* Period cards */}
@@ -597,17 +608,68 @@ function Onboarding({ theme, onComplete }) {
                     </button>
                   );
                 })}
+              
               </div>
             </div>
             <div className="ob-nav-bar">
-              <button className="ob-nav-back" onClick={() => go(4)}>←</button>
-              {dots(4)}
-              <button className="ob-nav-next" onClick={() => { if (obPeriod == null) { setObPeriod(getCircadianPeriod()); setHasChosenMood(true); } go(6); }}>Next</button>
+              <button className="ob-nav-back" onClick={() => go(2)}>←</button>
+              {dots(2)}
+              <button className="ob-nav-next" onClick={() => { if (obPeriod == null) { setObPeriod(getCircadianPeriod()); setHasChosenMood(true); } go(4); }}>Next</button>
             </div>
           </div>}
 
-          {/* 6: SAFETY + DISCLAIMER (combined) */}
-          {cur === 6 && <div className="ob-screen ob-cta-screen">
+          {/* 4: CALIBRATION */}
+          {cur === 4 && <div className="ob-screen">
+            <div className="ob-pad" style={{paddingBottom:"calc(env(safe-area-inset-bottom,0px) + 80px)"}}>
+              <div className="ob-eyebrow">Calibration</div>
+              <div className="ob-heading" style={{fontSize:36}}>What brought you here today?</div>
+              <div className="ob-body" style={{marginBottom:24, fontSize:15}}>
+                We'll suggest a track to start with based on this.
+              </div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:12,marginBottom:28}}>
+                {[
+                  { val: "tightness", label: "Tightness" },
+                  { val: "stress", label: "Stress" },
+                  { val: "routine", label: "Routine" },
+                ].map(({ val, label }) => (
+                  <button key={val} onClick={() => setObReason(val)} style={{
+                    padding: "14px 22px", borderRadius: 14, cursor: "pointer", fontFamily: "'Barlow',sans-serif", fontSize: 15, fontWeight: 500,
+                    border: obReason === val ? "1.5px solid var(--ob-accent)" : "1px solid var(--ob-box-border)",
+                    background: obReason === val ? "var(--ob-accent-dim)" : "var(--ob-box-bg)",
+                    color: obReason === val ? "var(--ob-accent)" : "var(--ob-text-sec)",
+                    transition: "all 0.18s",
+                  }}>{label}</button>
+                ))}
+              </div>
+              <div className="ob-body" style={{marginBottom:16, fontSize:14}}>Where do you feel it most?</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:10}}>
+                {[
+                  { val: "back", label: "Back" },
+                  { val: "neck", label: "Neck & shoulders" },
+                  { val: "hips", label: "Hips" },
+                  { val: "knees", label: "Knees" },
+                  { val: "feet", label: "Feet" },
+                  { val: "general", label: "General tension" },
+                ].map(({ val, label }) => (
+                  <button key={val} onClick={() => setObArea(val)} style={{
+                    padding: "10px 18px", borderRadius: 12, cursor: "pointer", fontFamily: "'Barlow',sans-serif", fontSize: 13, fontWeight: 500,
+                    border: obArea === val ? "1.5px solid var(--ob-accent)" : "1px solid var(--ob-box-border)",
+                    background: obArea === val ? "var(--ob-accent-dim)" : "var(--ob-box-bg)",
+                    color: obArea === val ? "var(--ob-accent)" : "var(--ob-text-sec)",
+                    transition: "all 0.18s",
+                  }}>{label}</button>
+                ))}
+              </div>
+            </div>
+            <div className="ob-nav-bar">
+              <button className="ob-nav-back" onClick={() => go(3)}>←</button>
+              {dots(3)}
+              <button className="ob-nav-next" onClick={() => go(5)}>Next</button>
+            </div>
+          </div>}
+
+          {/* 5: SAFETY + DISCLAIMER (combined) */}
+          {cur === 5 && <div className="ob-screen ob-cta-screen">
             <div className="ob-pad" style={{paddingBottom:"calc(env(safe-area-inset-bottom, 0px) + 120px)"}}>
               <div className="ob-eyebrow" style={{marginBottom:8}}>The Safety</div>
               <div className="ob-heading" style={{ fontSize: 36, marginBottom: 12 }}>A note on your <em>safety.</em></div>
@@ -714,26 +776,29 @@ function Onboarding({ theme, onComplete }) {
                     accepted: true,
                   };
                   try { localStorage.setItem("axis_disclaimer", JSON.stringify(record)); } catch(e) {}
-                  storageSet("axis_period", periodForTheme); storageSet("axis_theme", obTheme); go(7);
+                  storageSet("axis_period", obAutoTime ? null : periodForTheme);
+                  storageSet("axis_theme", obTheme);
+                  storageSet("axis_calibration_reason", obReason || "routine");
+                  go(6);
                 }}
               >Accept & Continue</button>
             </div>
             <div className="ob-nav-bar">
-              <button className="ob-nav-back" onClick={() => go(5)}>←</button>
-              {dots(5)}
+              <button className="ob-nav-back" onClick={() => go(4)}>←</button>
+              {dots(4)}
             </div>
           </div>}
 
-          {cur === 7 && <div className="ob-screen ob-cta-screen" style={{display:"flex",flexDirection:"column",minHeight:"100vh"}}>
+          {cur === 6 && <div className="ob-screen ob-cta-screen" style={{display:"flex",flexDirection:"column",minHeight:"100vh"}}>
             <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textAlign:"center",padding:"60px 32px 0"}}>
-              <AxisIcon size={100} color={iconColor} />
-              <div className="ob-cta-head" style={{fontSize:48,marginTop:32,marginBottom:0}}>You're <em>ready.</em></div>
+              <img src={obTheme === "dark" ? AXIS_LOGO_DARK : AXIS_LOGO_LIGHT} alt="AXIS" style={{ height: 200, width: "auto", objectFit: "contain" }} />
+              <div className="ob-cta-head" style={{fontSize:48,marginTop:48,marginBottom:0}}>You're <em>ready.</em></div>
             </div>
             <div style={{padding:"0 32px calc(env(safe-area-inset-bottom, 0px) + 100px)",flexShrink:0}}>
               <button className="ob-btn-primary" style={{width:"100%"}} onClick={() => onComplete({ period: periodForTheme, theme: obTheme })}>Let's Go</button>
             </div>
             <div className="ob-nav-bar">
-              <button className="ob-nav-back" onClick={() => go(6)}>←</button>
+              <button className="ob-nav-back" onClick={() => go(5)}>←</button>
               <div />
             </div>
           </div>}
@@ -741,7 +806,7 @@ function Onboarding({ theme, onComplete }) {
       </div>
 
       <div className="ob-ext-nav">
-        {["Splash","Intro","Science","How It Works","Philosophy","Mood","Safety & Disclaimer","Begin"].map((l, i) => (
+        {["Splash","Perspective+Foundation","Method+Ethics","Appearance","Calibration","Safety & Disclaimer","Begin"].map((l, i) => (
           <button key={l} className="ob-en-btn" onClick={() => go(i)}>{l}</button>
         ))}
         <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={onComplete}>→ Launch App</button>
@@ -758,7 +823,7 @@ function Onboarding({ theme, onComplete }) {
 const DAILY_SECTIONS = [
   {
     label: "Warm-up & Mobility", tag: "01",
-    purpose: "Prepare the spine and joints for load. These movements are not a formality — they set the neurological tone for everything that follows. Move slowly and with full attention.",
+    purpose: "Prepare the spine and joints for load. These movements are not a formality. They set the neurological tone for everything that follows. Move slowly and with full attention.",
     exercises: [
       { id: 1, name: "Cat–Cow", start: "On all fours — hands under shoulders, knees under hips.", sub: "Segmental Spinal Flexion/Extension", type: "flow", seconds: 45, steps: [
         { pos: "A", label: "Neutral Tabletop", focus: "SPINE", cue: "Hands under shoulders, knees under hips. Spine flat and parallel to floor. Neck long." },
@@ -782,7 +847,7 @@ const DAILY_SECTIONS = [
   },
   {
     label: "Core & Posterior Chain", tag: "02",
-    purpose: "Build the deep stability that protects the spine under load. Quality over quantity — slow, controlled reps with full awareness of position do more than fast repetitions ever will.",
+    purpose: "Build the deep stability that protects the spine under load. Quality over quantity. Slow, controlled reps with full awareness of position do more than fast repetitions ever will.",
     exercises: [
       { id: 5, name: "Pelvic Tilts", start: "Lying on your back, knees bent, feet flat on the floor.", sub: "Supine Posterior/Anterior Tilt", reps: "10–12 reps", type: "reps", steps: [
         { pos: "A", label: "Supine Neutral", focus: "SETUP", cue: "Lie on back. Knees bent, feet flat. Small natural arch in lower back. Arms at sides." },
@@ -841,7 +906,7 @@ const DAILY_SECTIONS = [
   },
   {
     label: "Lower Body & Rotation", tag: "04",
-    purpose: "Release tension accumulated in the hips, hamstrings, and lumbar spine. Let gravity and breath do the work. These are passive holds — there is nothing to push through.",
+    purpose: "Release tension accumulated in the hips, hamstrings, and lumbar spine. Let gravity and breath do the work. These are passive holds. There is nothing to push through.",
     exercises: [
       { id: 15, name: "Supine Hamstring Stretch", start: "Lying on your back, both legs extended.", sub: "Straight-Leg Raise", type: "flow", seconds: 45, steps: [
         { pos: "A", label: "Supine Start", focus: "SETUP", cue: "Lie on back. Both legs extended flat. Lower back in neutral. Arms at sides." },
@@ -864,7 +929,7 @@ const DAILY_SECTIONS = [
   },
   {
     label: "Finish", tag: "05",
-    purpose: "Signal to the nervous system that the work is done. These are decompression movements — not stretches to force, but positions to rest in. Take your time. There is no next thing.",
+    purpose: "Signal to the nervous system that the work is done. These are decompression movements: not stretches to force, but positions to rest in. Take your time. There is no next thing.",
     exercises: [
       { id: 19, name: "Seated Forward Fold", start: "Seated on the floor, legs extended in front of you.", sub: "Relaxed Spine", type: "flow", seconds: 45, steps: [
         { pos: "A", label: "Seated Tall", focus: "SETUP", cue: "Sit with legs extended or slightly bent. Spine long. Hands on thighs. Breathe in." },
@@ -886,7 +951,7 @@ const DAILY_SECTIONS = [
 const RESTORATIVE_SECTIONS = [
   {
     label: "Full Reset", tag: "RM",
-    purpose: "Warm-up, circulation, and mobility. Each movement is 1 minute. This should feel easy — not tiring. Let the body move, not the mind.",
+    purpose: "Warm-up, circulation, and mobility. Each movement is 1 minute. This should feel easy, not tiring. Let the body move, not the mind.",
     exercises: [
       { id: 101, name: "Lymph Hops", start: "Standing, feet hip-width apart, knees soft.", sub: "Gentle rebounding to stimulate circulation", reps: "1 minute", type: "time", seconds: 60, steps: [
         { pos: "A", label: "Soft Stand", focus: "SETUP", cue: "Feet hip-width. Knees soft, never locked. Arms relaxed at sides. Jaw loose. Breathe naturally." },
@@ -1722,12 +1787,12 @@ const css = `
     --glass-shadow-lg: 0 20px 60px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.4);
     --tab-bg: rgba(8,12,18,0.85);
     --hdr-bg: rgba(10,14,26,0.72);
-    --text-primary: rgba(255,255,255,0.92);
+    --text-primary: #f6f7f8;
     --text-secondary: rgba(255,255,255,0.75);
     --text-tertiary: rgba(255,255,255,0.50);
     --text-dim: rgba(255,255,255,0.42);
     --text-dimmer: rgba(255,255,255,0.32);
-    --text-white: #ffffff;
+    --text-white: #f6f7f8;
     --accent: #FFBF65;
     --accent-dim: rgba(255,191,101,0.18);
     --accent-glow: rgba(255,191,101,0.30);
@@ -1759,12 +1824,12 @@ const css = `
     --glass-shadow-lg: 0 10px 32px rgba(20,50,90,0.13), 0 2px 10px rgba(20,50,90,0.07);
     --tab-bg: rgba(255,255,255,0.62);
     --hdr-bg: rgba(235,243,250,0.75);
-    --text-primary: #0f1e2e;
+    --text-primary: #252525;
     --text-secondary: rgba(15,30,46,0.82);
     --text-tertiary: rgba(15,30,46,0.72);
     --text-dim: rgba(15,30,46,0.65);
     --text-dimmer: rgba(15,30,46,0.52);
-    --text-white: #0f1e2e;
+    --text-white: #252525;
     --accent: #2a5f8f;
     --accent-dim: rgba(42,95,143,0.12);
     --accent-glow: rgba(42,95,143,0.22);
@@ -1823,6 +1888,10 @@ const css = `
   [data-theme="light"] .timer-breathe-guide-ring circle {
     stroke: rgba(15,30,46,0.28);
     stroke-width: 2px;
+  }
+  [data-theme="light"] .timer-interval-ring circle:first-of-type {
+    stroke: rgba(15,30,46,0.35);
+    stroke-width: 3px;
   }
   [data-theme="light"] .timer-breathe-expand-ring {
     border-color: rgba(42,95,143,0.45) !important;
@@ -2436,7 +2505,7 @@ const css = `
   .home-brand-icon { display:none; }
   .home-tagline {
     font-size:20px; color:var(--text-white); font-weight:400; font-style:normal;
-    padding:10px 0 24px; letter-spacing:-0.01em; max-width:100%; display:block;
+    padding:18px 0 24px; letter-spacing:-0.01em; max-width:100%; display:block;
     line-height:1.3; text-align:left; margin:0;
   }
   /* End-of-list marker */
@@ -2464,8 +2533,8 @@ const css = `
   .eol-marker.show-tag .eol-tag { opacity:1; }
 
   /* ── TRACK GROUPS ── */
-  .track-cards-outer { padding:0 0 0; }
-  .track-group { padding:0 24px; max-width:100%; }
+  .track-cards-outer { padding:0 24px 0; }
+  .track-group { padding:0; max-width:100%; }
   .track-group + .track-group { margin-top:20px; }
   .track-group-label {
     font-size:14px; font-weight:700; letter-spacing:0.28em; text-transform:uppercase;
@@ -2746,7 +2815,7 @@ function TabBar({ view, setView, hasActiveSession, theme }) {
   return (
 <div className="tab-bar">
       <div style={{position:"absolute",top:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,rgba(255,255,255,0.18) 50%,transparent)",pointerEvents:"none"}} />
-      <button className={`tab-btn ${view==="home"?"active":""}`} onClick={()=>setView("home")} aria-label="Home" aria-current={view==="home"?"page":undefined}><HomeIcon/>Home</button>
+      <button className={`tab-btn ${view==="home"?"active":""}`} onClick={()=>setView("home")} aria-label="Today" aria-current={view==="home"?"page":undefined}><HomeIcon/>Today</button>
       <button className={`tab-btn ${view==="session"?"active":""}`} onClick={()=>setView("session")} style={{position:"relative"}} aria-label="Session" aria-current={view==="session"?"page":undefined}>
         {hasActiveSession && view!=="session" && <div className="tab-live-dot" aria-hidden/>}
         <SessionIcon/>Session
@@ -2940,7 +3009,7 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
   const W  = isNight ? "#FF3B30"              : (ct.textPrimary || (isDark ? "#ffffff" : "#0f1020"));
   const S  = isNight ? "rgba(255,59,48,0.70)" : (isDark ? "rgba(232,228,223,0.60)" : (ct.textPrimary ? ct.textPrimary + "cc" : "rgba(15,30,46,0.75)"));
   const D  = isNight ? "rgba(255,59,48,0.40)" : (isDark ? "rgba(232,228,223,0.35)" : (ct.textPrimary ? ct.textPrimary + "88" : "rgba(15,30,46,0.50)"));
-  const BG = isNight ? "#000000" : (isDark ? "radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%)" : ct.bg);
+  const BG = isNight ? "#000000" : MAIN_APP_BG[isDark ? "dark" : "light"];
 
   // derive card/button colors from the theme background
   const CARD_BG   = isNight ? "#000000"                    : (isDark ? "rgba(255,255,255,0.07)"  : "rgba(255,255,255,0.50)");
@@ -2971,17 +3040,17 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
               : "linear-gradient(135deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.58) 100%)");
   const GLASS_BDR  = isNight ? "1px solid rgba(255,59,48,0.20)"
     : (isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(200,220,240,0.65)");
-  const GLASS_SHAD = isNight ? "0 8px 32px rgba(0,0,0,0.80)"
-    : (isDark ? "inset 0 1px 0 rgba(255,255,255,0.10), 0 8px 32px rgba(0,0,0,0.25)"
-              : "inset 0 1px 0 rgba(255,255,255,0.85), 0 8px 24px rgba(20,50,90,0.06), 0 2px 8px rgba(20,50,90,0.04)");
+  const GLASS_SHAD = isNight ? "0 4px 20px rgba(0,0,0,0.4)"
+    : (isDark ? "inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(0,0,0,0.12)"
+              : "inset 0 1px 0 rgba(255,255,255,0.7), 0 2px 12px rgba(20,50,90,0.06)");
   const BAR_BG     = isNight ? "#000000"
     : (isDark ? "linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 100%)"
               : "linear-gradient(135deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.62) 100%)");
   const BAR_BDR    = isNight ? "1px solid rgba(255,59,48,0.22)"
     : (isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(200,220,240,0.70)");
-  const BAR_SHAD   = isNight ? "0 8px 40px rgba(0,0,0,0.90)"
-    : (isDark ? "inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 40px rgba(0,0,0,0.35)"
-              : "inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 28px rgba(20,50,90,0.06), 0 2px 10px rgba(20,50,90,0.04)");
+  const BAR_SHAD   = isNight ? "0 4px 24px rgba(0,0,0,0.5)"
+    : (isDark ? "inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 20px rgba(0,0,0,0.15)"
+              : "inset 0 1px 0 rgba(255,255,255,0.75), 0 2px 14px rgba(20,50,90,0.05)");
   const DIVIDER    = isNight ? "1px solid rgba(255,59,48,0.15)"
     : (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)");
   const ROW_DIV    = isNight ? "1px solid rgba(255,59,48,0.12)"
@@ -2989,7 +3058,7 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
   const SESS_BG    = isNight ? "#000000"
     : (isDark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.65)");
   const BACK_DIM   = isNight ? "rgba(255,59,48,0.25)" : (isDark ? "rgba(255,255,255,0.22)" : "rgba(15,30,46,0.22)");
-  const NAME_SHAD  = isDark ? "0 2px 24px rgba(0,0,0,0.5)" : "0 2px 20px rgba(20,50,90,0.12)";
+  const NAME_SHAD  = "none";
 
   // Snapshot activeAll on mount so fi stays stable regardless of external skips
   const listRef = useRef(activeAllProp);
@@ -3108,7 +3177,7 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
   };
 
   return (
-    <div data-theme={theme} style={{
+    <div data-theme={theme} data-night={isNight ? "true" : "false"} style={{
       position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:99999,
       background:BG, display:"flex", flexDirection:"column",
       fontFamily:"'Barlow',sans-serif", color:W, WebkitFontSmoothing:"antialiased",
@@ -3116,28 +3185,13 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
     }}>
       <style>{css}</style>
 
-      {/* Animated orbs — full period system */}
-      <div style={{position:"absolute",inset:0,pointerEvents:"none",zIndex:0,
-        background:`${ct.orb1}, ${ct.orb2}, ${ct.orb3}`,
+      {/* Same orb layer as main app — uses CSS vars + .app-orbs::after sheen */}
+      <div className="app-orbs" style={{
+        position:"absolute", inset:0, pointerEvents:"none", zIndex:0,
+        background:"var(--orb1), var(--orb2), var(--orb3)",
         animation:"orbFloat 24s cubic-bezier(0.37,0,0.63,1) infinite alternate",
+        transition:"background 2s ease",
       }} />
-
-      {/* Edge vignette — 50% softer in light mode */}
-      <div style={{position:"absolute",inset:0,pointerEvents:"none",zIndex:0,
-        background: isDark
-          ? "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 45%, rgba(0,0,0,0.45) 100%)"
-          : "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 50%, rgba(0,0,0,0.18) 100%)",
-      }} />
-
-      {/* Spotlight: dim edges so center pops (not on intro or closing) */}
-      {phase !== "intro" && phase !== "closing" && (
-        <div style={{
-          position:"absolute", inset:0, pointerEvents:"none", zIndex:1,
-          background: isDark
-            ? "radial-gradient(ellipse 75% 65% at 50% 38%, transparent 42%, rgba(0,0,0,0.55) 100%)"
-            : "radial-gradient(ellipse 75% 65% at 50% 38%, transparent 45%, rgba(0,0,0,0.25) 100%)",
-        }} />
-      )}
 
       {/* ── TOP BAR: Exit + Progress ring ── */}
       <div style={{
@@ -3227,7 +3281,7 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
             background:A, border:"none", color: ct.accentBtnText || "#0a0e1a",
             fontFamily:"'Barlow',sans-serif", fontSize:12, fontWeight:700,
             letterSpacing:"0.22em", textTransform:"uppercase",
-            boxShadow:`0 0 40px ${ct.accentGlow}, 0 4px 20px rgba(0,0,0,0.3)`,
+            boxShadow: isDark ? `0 0 24px ${ct.accentGlow}, 0 2px 12px rgba(0,0,0,0.2)` : `0 0 20px ${ct.accentGlow}, 0 2px 8px rgba(20,50,90,0.08)`,
           }}>Let's Go</button>
           <button onClick={onExit} style={{
             marginTop:20, background:"none", border:"none", cursor:"pointer",
@@ -3267,7 +3321,7 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
                 backdropFilter:"blur(24px) saturate(1.4)",
                 WebkitBackdropFilter:"blur(24px) saturate(1.4)",
                 border: GLASS_BDR,
-                boxShadow: GLASS_SHAD,
+                boxShadow: `${GLASS_SHAD}, 0 0 0 1px ${isNight ? "rgba(255,59,48,0.15)" : ct.accent + "22"}`,
                 overflow:"hidden", flexShrink:0, marginBottom:20,
               }}>
                 {ex.start && (
@@ -3326,8 +3380,7 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
           {/* Get ready countdown */}
           {phase === "getready" && (
             <div style={{flexShrink:0, marginBottom:12, display:"flex", alignItems:"baseline", gap:6}}>
-              <div style={{fontSize:72, fontWeight:700, letterSpacing:"-0.04em", color:W, lineHeight:1,
-                textShadow:`0 0 30px ${ct.accentGlow}`}}>{readyLeft}</div>
+              <div style={{fontSize:72, fontWeight:700, letterSpacing:"-0.04em", color:W, lineHeight:1}}>{readyLeft}</div>
               <div style={{fontSize:12, letterSpacing:"0.18em", textTransform:"uppercase", color:D}}>sec</div>
             </div>
           )}
@@ -3628,7 +3681,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
         {/* ── INTERVAL MODE ── */}
         {mode === "interval" && (<>
           <div style={{position:"relative",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:40,width:"100%"}}>
-            <svg width="260" height="260" style={{transform:"rotate(-90deg)",display:"block",margin:"0 auto"}}>
+            <svg width="260" height="260" className="timer-interval-ring" style={{transform:"rotate(-90deg)",display:"block",margin:"0 auto"}}>
               <circle cx="130" cy="130" r="110" fill="none" stroke="var(--glass-border)" strokeWidth="3"/>
               {iPhase !== "idle" && iPhase !== "done" && (
                 <circle cx="130" cy="130" r="110" fill="none"
@@ -3908,7 +3961,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       <div className="app-orbs" style={{background:"var(--orb1), var(--orb2), var(--orb3)",animation:"orbFloat 24s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate", transition:"background 2s ease"}} />
       <div className="app-body">
       <div style={{padding:"calc(env(safe-area-inset-top, 0px) + 72px) 24px 0", width:"100%", boxSizing:"border-box"}}>
-        <div style={{fontSize:"13px",letterSpacing:"0.26em",textTransform:"uppercase",color:"var(--text-tertiary)",marginBottom:8}}>AXIS</div>
+        <div style={{fontSize:24,fontWeight:600,letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-secondary)",marginBottom:20}}>AXIS</div>
         <div style={{fontSize:"30px",fontWeight:500,letterSpacing:"-0.02em",color:"var(--text-white)",marginBottom:36}}>Settings</div>
         <div style={{borderTop:"1px solid var(--border)",paddingTop:24,marginBottom:32}}>
           <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)",marginBottom:20}}>Session Bar</div>
@@ -3996,10 +4049,24 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         <div className="app-orbs" style={{background:"var(--orb1), var(--orb2), var(--orb3)",animation:"orbFloat 24s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate", transition:"background 2s ease"}} />
         <div className="app-body">
           <div style={{padding:"calc(env(safe-area-inset-top, 0px) + 72px) 24px 0", width:"100%", boxSizing:"border-box"}}>
-            <div style={{fontSize:"13px",letterSpacing:"0.26em",textTransform:"uppercase",color:"var(--text-tertiary)",marginBottom:8}}>AXIS</div>
+            <div style={{fontSize:24,fontWeight:600,letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-secondary)",marginBottom:20}}>AXIS</div>
             <div style={{fontSize:"30px",fontWeight:500,letterSpacing:"-0.02em",color:"var(--text-white)",marginBottom:6}}>Mood</div>
-            <div style={{fontSize:"14px",color:"var(--text-secondary)",marginBottom:32,lineHeight:1.6}}>
-              Set the feeling of the app. Auto follows the time of day — or lock it to whatever matches how you feel right now.
+            <div style={{fontSize:"14px",color:"var(--text-secondary)",marginBottom:24,lineHeight:1.6}}>
+              Set the feeling of the app. Auto follows the time of day, or lock it to whatever matches how you feel right now.
+            </div>
+
+            <div style={{fontSize:12,letterSpacing:"0.20em",textTransform:"uppercase",color:"var(--text-dimmer)",marginBottom:10,fontWeight:500}}>Appearance</div>
+            <div style={{display:"flex",gap:10,marginBottom:20}}>
+              {[{val:"dark",label:"Dark"},{val:"light",label:"Light"}].map(({val,label}) => (
+                <button key={val} onClick={toggleTheme} style={{
+                  flex:1, padding:"11px 0", borderRadius:12, cursor:"pointer",
+                  fontFamily:"'Barlow',sans-serif", fontSize:12, fontWeight:600, letterSpacing:"0.14em", textTransform:"uppercase",
+                  border: theme===val ? "1.5px solid var(--accent)" : "1px solid var(--glass-border)",
+                  background: theme===val ? "var(--accent-dim)" : "var(--glass-bg)",
+                  color: theme===val ? "var(--accent)" : "var(--text-secondary)",
+                  transition:"all 0.18s",
+                }}>{label}</button>
+              ))}
             </div>
 
             {/* Auto toggle */}
@@ -4052,25 +4119,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
               })}
             </div>
 
-            {/* Dark / Light */}
-            <div style={{borderTop:"1px solid var(--border)",paddingTop:24,marginBottom:24}}>
-              <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)",marginBottom:16}}>Appearance</div>
-              <div style={{display:"flex",gap:10}}>
-                {[{val:"dark",label:"Dark"},{val:"light",label:"Light"}].map(({val,label}) => (
-                  <button key={val} onClick={toggleTheme} style={{
-                    flex:1, padding:"13px 0", borderRadius:12, cursor:"pointer",
-                    fontFamily:"'Barlow',sans-serif", fontSize:"13px", fontWeight:600, letterSpacing:"0.14em", textTransform:"uppercase",
-                    border: theme===val ? "1.5px solid var(--accent)" : "1px solid var(--glass-border)",
-                    background: theme===val ? "var(--accent-dim)" : "var(--glass-bg)",
-                    color: theme===val ? "var(--accent)" : "var(--text-secondary)",
-                    backdropFilter:"blur(10px)", WebkitBackdropFilter:"blur(10px)",
-                    transition:"all 0.18s",
-                  }}>{label}</button>
-                ))}
-              </div>
-            </div>
-
-            {/* Night mode */}
+            {/* Night mode — at bottom as advanced option */}
             <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:24,marginBottom:32}}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:500,color:"var(--text-white)",marginBottom:4}}>Night mode</div>
@@ -4088,10 +4137,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     );
   }
 
-  // HOME
+  // TODAY (formerly Home)
   if (view === "home") {
-    const lastSession = history[0];
-    const iconColor = theme === "dark" ? "#ffffff" : "#111111";
+    const nowPeriod = getCircadianPeriod();
+    const TODAY_SUGGESTIONS = {
+      dawn:   { trackId: "morning",  label: "Morning Routine",   suggestion: "An 8‑minute reset might fit now." },
+      midday: { trackId: "desk",     label: "Desk Routine",       suggestion: "A 5‑minute desk break might fit now." },
+      prime:  { trackId: "anxiety",  label: "Calm Circuit",       suggestion: "A 12‑minute reset might fit now." },
+      rest:   { trackId: "prime",    label: "Better Sleep Stretch", suggestion: "A 12‑minute wind-down might fit now." },
+    };
+    const periodLabels = { dawn: "Dawn", midday: "Midday", prime: "Prime", rest: "Rest" };
+    const todaySug = TODAY_SUGGESTIONS[nowPeriod];
+    const todayTrack = TRACKS[todaySug.trackId];
     const groups = [
       { label: "Foundation",  ids: ["daily", "restorative"] },
       { label: "Time of Day", ids: ["morning", "prime"] },
@@ -4113,27 +4170,16 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             <div className="home-tagline">Listen to your body. Select your focus.</div>
           </div>
           <div className="track-cards-outer">
-            {history.length === 0 && (() => {
-              const startTrack = TRACKS.daily;
-              return (
-                <div className="track-group start-here-group" role="region" aria-label="Suggested first session">
-                  <div className="track-group-label start-here-label">Start here</div>
-                  <div className="track-cards">
-                    <div className="track-card start-here-card" onClick={() => beginTrack(startTrack.id)} role="button" tabIndex={0} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); beginTrack(startTrack.id); } }} aria-label={`Start ${startTrack.label}, ${startTrack.duration}`}>
-                      <div className="track-card-left">
-                        <div className="track-card-name">{startTrack.label}</div>
-                        <div className="track-card-sub">{startTrack.subtitle}</div>
-                        <div className="track-card-purpose">{startTrack.purpose}</div>
-                      </div>
-                      <div className="track-card-right">
-                        <div className="track-card-dur">{startTrack.duration}</div>
-                        <button className="begin-btn" onClick={e => { e.stopPropagation(); beginTrack(startTrack.id); }} aria-label={`Begin ${startTrack.label} session`}>Begin</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
+            {/* Today block: time-of-day + suggestion + primary CTA */}
+            <div className="track-group start-here-group" style={{marginBottom:28}} role="region" aria-label="Today's suggestion">
+              <div style={{fontSize:11,letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--accent)",marginBottom:8,fontWeight:600}}>Today</div>
+              <div style={{fontSize:20,fontWeight:500,color:"var(--text-white)",marginBottom:6}}>{periodLabels[nowPeriod]}</div>
+              <div style={{fontSize:14,color:"var(--text-secondary)",marginBottom:16,lineHeight:1.5}}>{todaySug.suggestion}</div>
+              <button className="begin-btn" onClick={() => beginTrack(todayTrack.id)} style={{width:"100%",padding:"14px 24px",fontSize:15}} aria-label={`Start ${todayTrack.label}, ${todayTrack.duration}`}>
+                {todayTrack.label} — {todayTrack.duration}
+              </button>
+            </div>
+            <div style={{fontSize:11,letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--accent)",marginBottom:8,fontWeight:600}}>Browse</div>
             {groups.map(g => (
               <div className="track-group" key={g.label}>
                 <div className="track-group-label">{g.label}</div>
@@ -4169,15 +4215,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     return (
       <div className="app" data-theme={theme} data-night={nightMode ? "true" : "false"}>
         <style>{css}</style>
-        <div className="app-body" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"40px 32px 120px",textAlign:"center",minHeight:"calc(100vh - 72px)"}}>
-        <div style={{marginBottom:20,opacity:0.35}}>
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--text-white)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
+        <div className="app-body" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"60px 32px 120px",textAlign:"center",minHeight:"calc(100vh - 72px)"}}>
+        <div style={{marginBottom:16,opacity:0.25}}>
+            <img src={theme === "dark" ? AXIS_LOGO_DARK : AXIS_LOGO_LIGHT} alt="AXIS" style={{ height: 72, width: "auto", objectFit: "contain" }} />
           </div>
-          <div style={{fontSize:"18px",fontWeight:400,color:"var(--text-white)",letterSpacing:"-0.02em",marginBottom:10}}>Ready for movement.</div>
-          <div style={{fontSize:"12px",color:"var(--eol-color)",letterSpacing:"0.22em",textTransform:"uppercase",marginBottom:32,fontWeight:300}}>X MOVE X MEND X MAINTAIN X</div>
+          <div style={{fontSize:"12px",color:"var(--eol-color)",letterSpacing:"0.22em",textTransform:"uppercase",marginBottom:24,fontWeight:300}}>X&nbsp;MOVE&nbsp;X&nbsp;MEND&nbsp;X&nbsp;MAINTAIN&nbsp;X</div>
+          <div style={{fontSize:"18px",fontWeight:400,color:"var(--text-white)",letterSpacing:"-0.02em",marginBottom:20}}>Ready for movement.</div>
           <button onClick={()=>setView("home")} style={{padding:"12px 28px",background:"var(--accent-dim)",border:"1px solid var(--accent)",color:"var(--accent)",fontFamily:"'Barlow',sans-serif",fontSize:"13px",fontWeight:600,letterSpacing:"0.18em",textTransform:"uppercase",cursor:"pointer",borderRadius:24,transition:"all 0.2s"}} aria-label="Browse all tracks">
             Browse all tracks
           </button>
