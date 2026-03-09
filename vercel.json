@@ -1,5 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{"source": "/((?!apple-touch-icon\\.svg$).*)", "destination": "/index.html"}]
+  "rewrites": [{"source": "/((?!apple-touch-icon\\.(svg|png)$).*)", "destination": "/index.html"}]
 }
