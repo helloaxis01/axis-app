@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const babel = require('@babel/core');
-const sharp = require('sharp');
+const { Resvg } = require('@resvg/resvg-js');
 
 const root = __dirname;
 const dist = path.join(root, 'dist');
@@ -58,23 +58,21 @@ copyRecursive(path.join(root, 'Logo - Vector'), path.join(dist, 'Logo - Vector')
 const iconSvg = path.join(root, 'apple-touch-icon.svg');
 if (fs.existsSync(iconSvg)) {
   fs.copyFileSync(iconSvg, path.join(dist, 'apple-touch-icon.svg'));
-  const svgBuf = fs.readFileSync(iconSvg);
-  sharp(svgBuf)
-    .resize(180, 180)
-    .png()
-    .toFile(path.join(dist, 'apple-touch-icon.png'))
-    .then(() => {
-      builtHtml = builtHtml.replace(/apple-touch-icon\.svg/g, 'apple-touch-icon.png');
-      fs.writeFileSync(path.join(dist, 'index.html'), builtHtml, 'utf8');
-      finish();
-    })
-    .catch((e) => {
-      console.warn('Could not generate PNG icon:', e.message);
-      finish();
+  try {
+    const svgBuf = fs.readFileSync(iconSvg);
+    const resvg = new Resvg(svgBuf, {
+      fitTo: { mode: 'width', value: 180 },
     });
-} else {
-  finish();
+    const pngData = resvg.render();
+    const pngBuffer = pngData.asPng();
+    fs.writeFileSync(path.join(dist, 'apple-touch-icon.png'), pngBuffer);
+    builtHtml = builtHtml.replace(/apple-touch-icon\.svg/g, 'apple-touch-icon.png');
+    fs.writeFileSync(path.join(dist, 'index.html'), builtHtml, 'utf8');
+  } catch (e) {
+    console.warn('Could not generate PNG icon:', e.message);
+  }
 }
+finish();
 
 function finish() {
   const vercel = path.join(root, 'vercel.json');
