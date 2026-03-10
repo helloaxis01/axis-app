@@ -4385,13 +4385,24 @@ function App() {
   const [onboarded, setOnboarded] = useState(() => storageGet("axis_onboarded", false));
   const [theme, setTheme] = useState(() => storageGet("axis_theme", "dark"));
   const [nightMode, setNightMode] = useState(() => storageGet("axis_night", false));
+  const [justActivated, setJustActivated] = useState(false); // true immediately after finishing onboarding
+
   const toggleNight = () => setNightMode(n => { const v = !n; storageSet("axis_night", v); return v; });
   const toggleTheme = () => setTheme(t => { const n = t === "dark" ? "light" : "dark"; storageSet("axis_theme", n); return n; });
   const complete = (payload) => {
-      if (payload?.theme != null) setTheme(payload.theme);
-      storageSet("axis_onboarded", true);
-      setOnboarded(true);
-    };
+    if (payload?.theme != null) setTheme(payload.theme);
+    storageSet("axis_onboarded", true);
+    // Mark onboarding complete and trigger a one-time blur+fade reveal into the main app
+    setOnboarded(true);
+    setJustActivated(true);
+  };
+
+  // After onboarding finishes, ease from blurred/transparent → sharp/opaque once per session
+  useEffect(() => {
+    if (!justActivated) return;
+    const t = setTimeout(() => setJustActivated(false), 650);
+    return () => clearTimeout(t);
+  }, [justActivated]);
 
   // Flow overlay state lives here — outside WorkoutApp/.app — so position:fixed is never trapped
   const SunIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>;
@@ -4405,7 +4416,29 @@ function App() {
     );
   }
 
-  return <WorkoutApp theme={theme} toggleTheme={toggleTheme} nightMode={nightMode} toggleNight={toggleNight} onFlowOpen={() => {}} />;
+  // Main app: when coming directly from onboarding in this session, start slightly blurred/faded
+  // and ease into full clarity for a subtle "step into the app" reveal.
+  return (
+    <div style={{ position: "relative", minHeight: "100dvh", overflow: "hidden" }}>
+      <div
+        style={{
+          filter: justActivated ? "blur(16px)" : "blur(0px)",
+          opacity: justActivated ? 0 : 1,
+          transform: justActivated ? "scale(0.96)" : "scale(1)",
+          transition: "filter 600ms ease, opacity 600ms ease, transform 600ms ease",
+          willChange: "filter, opacity, transform",
+        }}
+      >
+        <WorkoutApp
+          theme={theme}
+          toggleTheme={toggleTheme}
+          nightMode={nightMode}
+          toggleNight={toggleNight}
+          onFlowOpen={() => {}}
+        />
+      </div>
+    </div>
+  );
 }
 
 // ─────────────────────────────────────────────────────────────
