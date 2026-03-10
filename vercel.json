@@ -3,7 +3,7 @@
   "outputDirectory": "dist",
   "headers": [
     {
-      "source": "/",
+      "source": "/((?!.*\\.(js|mjs|png|ico|svg|css|woff2?|json)$|Logo).*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
@@ -11,7 +11,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!app\\.js$|axis-icon\\.png$|Logo).*)",
+      "source": "/((?!.*\\.(js|mjs|png|ico|svg|css|woff2?|json)$|Logo).*)",
       "destination": "/index.html"
     }
   ]

@@ -380,7 +380,7 @@ function applyCircadianTheme(isDark, period) {
 
 function Onboarding({ theme, onComplete }) {
   const [cur, setCur] = useState(0);
-  const total = 7;
+  const total = 6;
   const [disclaimerName, setDisclaimerName] = useState("");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
   const [disclaimerWarning, setDisclaimerWarning] = useState(false);
@@ -465,7 +465,7 @@ function Onboarding({ theme, onComplete }) {
           }}
         />
       )}
-      <div className="ob-shell" onClick={e => { if (cur === 6) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
+      <div className="ob-shell" onClick={e => { if (cur === 5) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
         {cur === 0 && (
           <div className="ob-screen ob-s0">
             <div className="ob-s0-top">
@@ -481,12 +481,12 @@ function Onboarding({ theme, onComplete }) {
           {cur === 1 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">Alpha Build</div>
-              <div className="ob-heading" style={{fontSize:32, fontWeight:700, color:"var(--ob-text-head)"}}>You're using AXIS Alpha</div>
+              <div className="ob-heading" style={{fontSize:32, fontWeight:700, color:"var(--ob-text-head)"}}>Welcome to AXIS (Alpha)!</div>
               <div className="ob-body" style={{marginBottom:20}}>
-                Still a web prototype — a few rough edges, but ready to try.
+                Still a web prototype but ready to try! Report any rough edges you come across.
               </div>
               <div className="ob-body" style={{marginBottom:24}}>
-                Thanks for helping us shape the final app!
+                Any and all feedback on the exercises, the design, the functionality, ANYTHING AT ALL really helps. Thanks for helping shape the final app!
               </div>
             </div>
             <div className="ob-nav-bar">
@@ -525,7 +525,7 @@ function Onboarding({ theme, onComplete }) {
           {cur === 3 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">The Science</div>
-              <div className="ob-heading">Movement is needed for your body to <em>repair.</em></div>
+              <div className="ob-heading">Motion is needed for your body to <em>repair.</em></div>
               <div className="ob-body" style={{marginBottom:20, fontSize:14, color:"var(--ob-text-sec)"}}>
                 Exercise therapy beats pills and passive fixes for chronic pain.
               </div>
@@ -536,6 +536,11 @@ function Onboarding({ theme, onComplete }) {
               </div>
               <div className="ob-sci-blocks">
                 <div className="ob-sci"><div className="ob-sci-text" style={{fontStyle:"italic", opacity:0.9}}>Show up and move. Your body does the rest.</div></div>
+              </div>
+              <div className="ob-eyebrow" style={{marginTop:28}}>The Ethics</div>
+              <div className="ob-heading">Your data is your <em>data.</em></div>
+              <div className="ob-body" style={{marginBottom:16, fontSize:14, color:"var(--ob-text-sec)"}}>
+                No account. No tracking. No BS. Your data stays on your device.
               </div>
             </div>
             <div className="ob-nav-bar">
@@ -551,7 +556,7 @@ function Onboarding({ theme, onComplete }) {
               <div className="ob-eyebrow">Appearance</div>
               <div className="ob-heading" style={{fontSize:36}}>Set your <em>mood.</em></div>
               <div className="ob-body" style={{marginBottom:28, fontSize:14}}>
-                Pick a mood; you can change it anytime in the app.
+                Pick a theme; you can change it anytime in the app.
               </div>
 
               {/* Dark / Light toggle */}
@@ -646,69 +651,8 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 5: ETHICS + CALIBRATION */}
+          {/* 5: THE SAFETY + MEDICAL DISCLAIMER */}
           {cur === 5 && <div className="ob-screen ob-cta-screen">
-            <div className="ob-pad" style={{paddingBottom:"calc(env(safe-area-inset-bottom, 0px) + 80px)"}}>
-              <div className="ob-eyebrow" style={{marginBottom:8}}>The Ethics</div>
-              <div className="ob-body" style={{marginBottom:24}}>
-                No account. No tracking. Your data stays on your device.
-              </div>
-
-              <div className="ob-eyebrow" style={{marginBottom:6}}>The Calibration</div>
-              <div className="ob-body" style={{marginBottom:16, fontSize:15}}>Let's get you feeling better.</div>
-
-              <div className="ob-cal-glass">
-                <div className="ob-body" style={{marginBottom:10, fontSize:13}}>What are you feeling?</div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:18}}>
-                  {[{ val: "tightness", label: "I'm tight" }, { val: "stress", label: "I'm stressed" }, { val: "routine", label: "I'm pretty good" }].map(({ val, label }) => (
-                    <button key={val} onClick={() => setObReason(val)} style={{
-                      padding: "10px 16px", borderRadius: 12, cursor: "pointer", fontFamily: "'Barlow',sans-serif", fontSize: 13, fontWeight: 500,
-                      border: obReason === val ? "1.5px solid var(--ob-accent)" : "1px solid var(--ob-box-border)",
-                      background: obReason === val ? "var(--ob-accent-dim)" : "var(--ob-box-bg)",
-                      color: obReason === val ? "var(--ob-accent)" : "var(--ob-text-sec)",
-                      transition: "all 0.18s",
-                    }}>{label}</button>
-                  ))}
-                </div>
-                <div className="ob-body" style={{marginBottom:10, fontSize:13}}>Where do you feel it?</div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:18}}>
-                  {[
-                    { val: "back", label: "Back" }, { val: "neck", label: "Neck" }, { val: "shoulders", label: "Shoulders" }, { val: "hips", label: "Hips" },
-                    { val: "knees", label: "Knees" }, { val: "feet", label: "Feet" }, { val: "general", label: "Head" },
-                  ].map(({ val, label }) => (
-                    <button key={val} onClick={() => setObArea(val)} style={{
-                      padding: "10px 16px", borderRadius: 12, cursor: "pointer", fontFamily: "'Barlow',sans-serif", fontSize: 13, fontWeight: 500,
-                      border: obArea === val ? "1.5px solid var(--ob-accent)" : "1px solid var(--ob-box-border)",
-                      background: obArea === val ? "var(--ob-accent-dim)" : "var(--ob-box-bg)",
-                      color: obArea === val ? "var(--ob-accent)" : "var(--ob-text-sec)",
-                      transition: "all 0.18s", width: "calc(25% - 6px)", minWidth: 72, boxSizing: "border-box",
-                    }}>{label}</button>
-                  ))}
-                </div>
-                <div className="ob-body" style={{marginBottom:10, fontSize:13}}>How much time do you have?</div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:16}}>
-                  {[{ val: 5, label: "5 min." }, { val: 10, label: "10 min." }, { val: 15, label: "15 min." }, { val: 20, label: "20 min." }].map(({ val, label }) => (
-                    <button key={val} onClick={() => setObTime(val)} style={{
-                      padding: "10px 16px", borderRadius: 12, cursor: "pointer", fontFamily: "'Barlow',sans-serif", fontSize: 13, fontWeight: 500,
-                      border: obTime === val ? "1.5px solid var(--ob-accent)" : "1px solid var(--ob-box-border)",
-                      background: obTime === val ? "var(--ob-accent-dim)" : "var(--ob-box-bg)",
-                      color: obTime === val ? "var(--ob-accent)" : "var(--ob-text-sec)",
-                      transition: "all 0.18s",
-                    }}>{label}</button>
-                  ))}
-                </div>
-                <div className="ob-body" style={{marginBottom:0, fontSize:13, color:"var(--ob-text-sec)"}}>We'll suggest a session that fits.</div>
-              </div>
-            </div>
-            <div className="ob-nav-bar">
-              <button className="ob-nav-back" onClick={() => go(4)}>←</button>
-              {dots(5)}
-              <button className="ob-nav-next" onClick={() => go(6)}>Next</button>
-            </div>
-          </div>}
-
-          {/* 6: THE SAFETY + MEDICAL DISCLAIMER */}
-          {cur === 6 && <div className="ob-screen ob-cta-screen">
             <div className="ob-pad" style={{paddingBottom:"calc(env(safe-area-inset-bottom, 0px) + 120px)"}}>
               <div className="ob-eyebrow" style={{marginBottom:8}}>The Safety</div>
               <div className="ob-heading" style={{ fontSize: 36, marginBottom: 12 }}>A note on your <em>safety.</em></div>
@@ -817,23 +761,20 @@ function Onboarding({ theme, onComplete }) {
                   try { localStorage.setItem("axis_disclaimer", JSON.stringify(record)); } catch(e) {}
                   storageSet("axis_period", obAutoTime ? null : periodForTheme);
                   storageSet("axis_theme", obTheme);
-                  storageSet("axis_calibration_reason", obReason || "routine");
-                  storageSet("axis_calibration_time", obTime != null ? obTime : 10);
-                  if (obArea != null) storageSet("axis_calibration_area", obArea);
                   onComplete({ period: periodForTheme, theme: obTheme });
                 }}
               >Let's Go</button>
             </div>
             <div className="ob-nav-bar">
-              <button className="ob-nav-back" onClick={() => go(5)}>←</button>
-              {dots(6)}
+              <button className="ob-nav-back" onClick={() => go(4)}>←</button>
+              {dots(5)}
             </div>
           </div>}
 
       </div>
 
       <div className="ob-ext-nav">
-        {["Splash","Alpha","Perspective+Found","Science+Method","Appearance","Ethics+Cal","Safety+Disclaimer"].map((l, i) => (
+        {["Splash","Alpha","Perspective","Science+Ethics","Appearance","Safety+Disclaimer"].map((l, i) => (
           <button key={l} className="ob-en-btn" onClick={() => go(i)}>{l}</button>
         ))}
         <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={onComplete}>→ Launch App</button>
@@ -1552,7 +1493,7 @@ const ANXIETY_SECTIONS = [
     label: "Immediate Nervous System Reset", tag: "01",
     purpose: "Anxiety floods the system with adrenaline and cortisol, shifting the nervous system into sympathetic overdrive. These first four techniques work fast — each one has a direct, measurable effect on heart rate, vagal tone, or the threat-detection centers of the brain. Use them as soon as you feel the activation rising.",
     exercises: [
-      { id: 2001, name: "Cold Shock (Dive Reflex)", start: "Standing or seated near a sink or bowl of cold water.", sub: "Rapid parasympathetic activation via the mammalian dive reflex", type: "time", seconds: 60, steps: [
+      { id: 2001, name: "Cold Shock (Dive Reflex)", start: "Standing or seated near a sink or bowl of cold water.", sub: "Rapid parasympathetic activation via the mammalian dive reflex", type: "time", seconds: 30, steps: [
         { pos: "A", label: "Prepare Cold Water", focus: "SETUP", cue: "Fill a sink or bowl with cold water — as cold as possible, ideally with ice. The mammalian dive reflex is one of the fastest known parasympathetic pathways: cold water on the face instantly slows the heart via the vagus nerve. Athletes and therapists use this for acute anxiety." },
         { pos: "B", label: "Submerge Face or Wrists", focus: "ACTIVATE", cue: "Submerge your face for 15–30 seconds (hold breath), or hold both wrists under cold running water. If face submersion isn't possible, press a cold wet cloth firmly to the forehead and cheeks. The trigeminal nerve responds immediately." },
         { pos: "C", label: "Surface and Breathe", focus: "INTEGRATE", cue: "Come up slowly and take a long, slow exhale. You will notice a distinct drop in heart rate and a shift in mental clarity — the hallmark of the dive reflex activating. Repeat 1–2 times if needed. This technique is a first-line DBT skill for acute emotional dysregulation." },
@@ -2992,40 +2933,6 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
         <div style={{height:2, borderRadius:2, background:BAR_FILL,
           width:`${pct*100}%`, transition:"width 1s linear"}} />
       </div>
-      {/* Exercise counter */}
-      {total > 0 && (
-        <div style={{fontSize:13, color:TC, letterSpacing:"0.06em", marginBottom:14}}>
-          <span style={{color:TCB, fontWeight:600}}>{fi + 1}</span>
-          <span style={{margin:"0 4px"}}>of</span>
-          <span style={{color:TCB, fontWeight:600}}>{total}</span>
-          <span style={{marginLeft:4, fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", opacity:0.7}}>exercises</span>
-        </div>
-      )}
-      {/* Dot progress */}
-      {total > 0 && (
-        <div style={{display:"flex", alignItems:"center", width:"100%"}}>
-          {list.map((ex, i) => {
-            const isDone = i < fi;
-            const isCur = i === fi;
-            const size = Math.max(5, Math.min(12, Math.floor(300 / total) - 4));
-            return (
-              <React.Fragment key={ex.id}>
-                <div style={{
-                  width: size, height: size, borderRadius:"50%", flexShrink:0,
-                  background: isDone ? DOT_DONE : isCur ? DOT_CURR : DOT_REST,
-                  transition:"all 0.35s",
-                }} />
-                {i < total - 1 && (
-                  <div style={{flex:1, height:1,
-                    background: isDone ? LINE_DONE : LINE_REST,
-                    transition:"background 0.35s",
-                  }} />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }
@@ -3118,7 +3025,6 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
   const [readyLeft, setReadyLeft] = useState(12);
   const [paused, setPaused] = useState(false);
   const [milestoneMessage, setMilestoneMessage] = useState("");
-  const [showJustDone, setShowJustDone] = useState(false);
   const restRef = useRef(null);
   const readyRef = useRef(null);
   const milestoneRef = useRef(null);
@@ -3177,8 +3083,6 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
   const completeCurrent = () => {
     beep(660, 0.4);
     onToggle(cur.id);
-    setShowJustDone(true);
-    setTimeout(() => setShowJustDone(false), 450);
     const nextTotal = totalDone + 1;
     if (nextTotal >= listTotal) {
       setPhase("closing");
@@ -3217,6 +3121,11 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
     if (fi < list.length - 1) { setFi(i => i + 1); setPhase("exercise"); }
   };
 
+  const handleNext = () => {
+    beep(440, 0.2);
+    if (fi < list.length - 1) { setFi(i => i + 1); setPhase("exercise"); }
+  };
+
   const handlePrev = () => {
     if (fi > 0) { setFi(i => i - 1); setPhase("exercise"); clearInterval(restRef.current); }
   };
@@ -3250,18 +3159,18 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
           opacity: phase === "intro" ? 1 : 0.85,
         }}>✕ <span>Exit</span></button>
         {phase !== "intro" && phase !== "closing" && listTotal > 0 && (() => {
-          const r = 14; const C = 2 * Math.PI * r;
-          const filled = (totalDone / listTotal) * C;
+          const size = 46; const r = 19; const C = 2 * Math.PI * r;
+          const filled = ((fi + 1) / listTotal) * C;
           const offset = C - filled;
           return (
-            <div style={{ position:"relative", width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <svg width={36} height={36} style={{ transform:"rotate(-90deg)" }}>
-                <circle cx="18" cy="18" r={r} fill="none" stroke={isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)"} strokeWidth="3" />
-                <circle cx="18" cy="18" r={r} fill="none" stroke={A} strokeWidth="3" strokeLinecap="round"
+            <div style={{ position:"relative", width:size, height:size, display:"flex", alignItems:"center", justifyContent:"center" }}>
+              <svg width={size} height={size} style={{ transform:"rotate(-90deg)" }}>
+                <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)"} strokeWidth="3" />
+                <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={A} strokeWidth="3" strokeLinecap="round"
                   strokeDasharray={C} strokeDashoffset={offset}
                   style={{ transition:"stroke-dashoffset 0.4s ease-out" }} />
               </svg>
-              <span style={{ position:"absolute", fontSize:10, fontWeight:700, color:W }}>{totalDone}/{listTotal}</span>
+              <span style={{ position:"absolute", fontSize:12, fontWeight:700, color:W }}>{fi + 1}/{listTotal}</span>
             </div>
           );
         })()}
@@ -3431,23 +3340,11 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
             </div>
           )}
 
-          {/* Just-done micro animation */}
-          {showJustDone && (
-            <div style={{
-              position:"absolute", left:"50%", top:"40%", transform:"translate(-50%,-50%)",
-              width:56, height:56, borderRadius:"50%", border:`3px solid ${A}`,
-              display:"flex", alignItems:"center", justifyContent:"center",
-              background: `${A}22`, animation:"flowDonePop 0.45s ease-out forwards",
-              zIndex:5,
-            }}>
-              <span style={{ fontSize:24, color:A }}>✓</span>
-            </div>
-          )}
         </div>
       )}
 
-      {/* ── LIQUID GLASS PILL BAR (hidden during exercise: only cue + timer + Exit) ── */}
-      {phase !== "closing" && phase !== "milestone" && phase !== "exercise" && (
+      {/* ── LIQUID GLASS PILL BAR (Exit, Pause/Done, Next, Skip, etc.) ── */}
+      {phase !== "closing" && phase !== "milestone" && (
       <div style={{
         margin:"0 16px", marginBottom:`max(28px, env(safe-area-inset-bottom, 28px))`,
         borderRadius:24, overflow:"hidden", flexShrink:0, position:"relative", zIndex:2,
@@ -3458,16 +3355,7 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
         boxShadow: BAR_SHAD,
         display:"flex", alignItems:"stretch", height:56,
       }}>
-        {/* ← Back */}
-        <button disabled={fi===0} onClick={handlePrev} style={{
-          width:56, flexShrink:0, background:"transparent", border:"none",
-          borderRight: DIVIDER,
-          color: fi===0 ? BACK_DIM : W,
-          fontFamily:"'Barlow',sans-serif", fontSize:18, cursor: fi===0?"not-allowed":"pointer",
-          display:"flex", alignItems:"center", justifyContent:"center",
-        }}>←</button>
-
-        {/* EXERCISE: Pause */}
+        {/* EXERCISE: Pause only (no Done — let timer run; Next/Skip are the way out) */}
         {phase === "exercise" && (cur?.type === "time" || cur?.type === "flow") && (
           <button onClick={() => setPaused(p => !p)} style={{
             flex:1, background: paused ? `${A}22` : "transparent", border:"none",
@@ -3477,28 +3365,6 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
             letterSpacing:"0.16em", textTransform:"uppercase", cursor:"pointer",
             transition:"all 0.2s",
           }}>{paused ? "Resume" : "Pause"}</button>
-        )}
-
-        {/* EXERCISE: Done */}
-        {phase === "exercise" && (cur?.type === "time" || cur?.type === "flow") && (
-          <button onClick={handleMarkDone} style={{
-            width:68, background: done[cur?.id] ? `${A}22` : "transparent", border:"none",
-            borderRight: DIVIDER,
-            color: done[cur?.id] ? A : S,
-            fontFamily:"'Barlow',sans-serif", fontSize:11, fontWeight:600,
-            letterSpacing:"0.14em", textTransform:"uppercase", cursor:"pointer",
-          }}>{done[cur?.id] ? "✓" : "Done"}</button>
-        )}
-
-        {/* EXERCISE reps: Mark Done */}
-        {phase === "exercise" && cur?.type === "reps" && (
-          <button onClick={handleMarkDone} style={{
-            flex:1, background: done[cur?.id] ? `${A}22` : "transparent", border:"none",
-            borderRight: DIVIDER,
-            color: done[cur?.id] ? A : W,
-            fontFamily:"'Barlow',sans-serif", fontSize:11, fontWeight:700,
-            letterSpacing:"0.16em", textTransform:"uppercase", cursor:"pointer",
-          }}>{done[cur?.id] ? "✓ Done" : "Mark Done"}</button>
         )}
 
         {/* GET READY: Start Now */}
@@ -3529,13 +3395,24 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
         {/* INTRO spacer */}
         {phase === "intro" && <div style={{flex:1}} />}
 
-        {/* Skip (exercise only) */}
+        {/* Next + Skip (exercise only) — own pills */}
         {phase === "exercise" && (
-          <button onClick={handleSkip} style={{
-            width:60, background:"transparent", border:"none",
-            color:S, fontFamily:"'Barlow',sans-serif", fontSize:11, fontWeight:600,
-            letterSpacing:"0.14em", textTransform:"uppercase", cursor:"pointer",
-          }}>Skip</button>
+          <>
+            <div style={{flex:1}} />
+            <button onClick={handleNext} style={{
+              padding:"0 24px", height:40, alignSelf:"center", borderRadius:20,
+              background:"var(--glass-bg)", border:`1px solid ${A}44`,
+              color:W, fontFamily:"'Barlow',sans-serif", fontSize:11, fontWeight:700,
+              letterSpacing:"0.14em", textTransform:"uppercase", cursor:"pointer",
+              marginRight:8,
+            }}>Next</button>
+            <button onClick={handleSkip} style={{
+              padding:"0 24px", height:40, alignSelf:"center", borderRadius:20,
+              background:"transparent", border:"1px solid var(--glass-border)",
+              color:S, fontFamily:"'Barlow',sans-serif", fontSize:11, fontWeight:600,
+              letterSpacing:"0.14em", textTransform:"uppercase", cursor:"pointer",
+            }}>Skip</button>
+          </>
         )}
 
         {/* Get ready / rest / intro right spacer */}
@@ -3704,8 +3581,10 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
       <div className="app-orbs" style={{background:"var(--orb1), var(--orb2), var(--orb3)",animation:"orbFloat 24s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate",transition:"background 2s ease"}} />
       <div className="app-body" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:"calc(100vh - 84px)",padding:"0 24px 84px",boxSizing:"border-box",width:"100%"}}>
 
+        {/* Timer block — centered, static layout so circle/start don't shift between modes */}
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center",width:"100%",maxWidth:360}}>
         {/* Mode toggle */}
-        <div style={{display:"flex",gap:0,marginBottom:44,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",borderRadius:24,padding:4}}>
+        <div style={{flexShrink:0,display:"flex",gap:0,marginBottom:28,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",borderRadius:24,padding:4}}>
           {["interval","breathe"].map(m => (
             <button key={m} onClick={()=>switchMode(m)} style={{
               padding:"9px 28px", borderRadius:20, border:"none", cursor:"pointer",
@@ -3720,7 +3599,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
 
         {/* ── INTERVAL MODE ── */}
         {mode === "interval" && (<>
-          <div style={{position:"relative",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:40,width:"100%"}}>
+          <div style={{flexShrink:0,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",width:"100%",height:260,marginBottom:0}}>
             <svg width="260" height="260" className="timer-interval-ring" style={{transform:"rotate(-90deg)",display:"block",margin:"0 auto"}}>
               <circle cx="130" cy="130" r="110" fill="none" stroke="var(--glass-border)" strokeWidth="3"/>
               {iPhase !== "idle" && iPhase !== "done" && (
@@ -3740,8 +3619,9 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
             </div>
           </div>
 
+          <div style={{flexShrink:0,minHeight:160,width:"100%",marginBottom:0}}>
           {iPhase === "idle" && (
-            <div style={{display:"flex",marginBottom:40,borderRadius:20,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",width:"100%",boxSizing:"border-box",overflow:"hidden"}}>
+            <div style={{display:"flex",marginBottom:0,borderRadius:20,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",width:"100%",boxSizing:"border-box",overflow:"hidden"}}>
               {[
                 {label:"Work",   val:work,   set:setWork,   min:5, max:300, step:5,  isRound:false},
                 {label:"Rest",   val:rest,   set:setRest,   min:0, max:120, step:5,  isRound:false},
@@ -3758,8 +3638,9 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
               ))}
             </div>
           )}
+          </div>
 
-          <div style={{display:"flex",gap:12}}>
+          <div style={{flexShrink:0,display:"flex",gap:12,marginTop:40}}>
             {iPhase === "idle"   && <button onClick={()=>{primeAudio();iStart();}} style={BTN}>Start</button>}
             {(iPhase==="work"||iPhase==="rest") && <>
               <button onClick={()=>setIRunning(r=>!r)} style={{...BTN,padding:"18px 40px"}}>{iRunning?"Pause":"Resume"}</button>
@@ -3771,10 +3652,35 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
 
         {/* ── BREATHE MODE ── */}
         {mode === "breathe" && (<>
-          {/* Pattern selector + Minimal toggle */}
+          {/* Breathing circle — fixed height slot */}
+          <div className="timer-breathe-ring-wrap" style={{flexShrink:0,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",width:260,height:260,marginLeft:"auto",marginRight:"auto",marginBottom:0}}>
+            <svg width="260" height="260" style={{position:"absolute",top:0,left:0}} className="timer-breathe-guide-ring">
+              <circle cx="130" cy="130" r="110" fill="none" stroke="var(--glass-border)" strokeWidth="1.5"/>
+            </svg>
+            <div className={`timer-breathe-expand-ring ${!(bRunning && bExpand) ? "breathe-idle" : ""}`} style={{
+              position:"absolute", width:220, height:220, borderRadius:"50%",
+              background:`radial-gradient(circle, var(--accent-glow) 0%, var(--accent-dim) 55%, transparent 100%)`,
+              border:"1.5px solid var(--accent)",
+              opacity: bRunning && bExpand ? 0.85 : 0.08,
+              transform: bRunning && bExpand ? "scale(1)" : "scale(0.45)",
+              transition: bRunning ? `opacity ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1), transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "opacity 0.6s ease, transform 0.6s ease",
+              boxShadow: bRunning && bExpand ? "0 0 50px var(--accent-glow)" : "none",
+            }}/>
+            <div style={{position:"absolute",textAlign:"center",pointerEvents:"none"}}>
+              {!bRunning && !bDone && <div style={{fontSize:"13px",letterSpacing:"0.12em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Ready</div>}
+              {bRunning && <>
+                {!breatheMinimal && <div style={{fontSize:"42px",fontWeight:700,color:curBreathPhase.color,fontFamily:"'Barlow',sans-serif",lineHeight:1,transition:"color 0.5s"}}>{bTime}</div>}
+                <div style={{fontSize: breatheMinimal ? "18px" : "13px", letterSpacing:"0.18em",textTransform:"uppercase",color:breatheMinimal ? curBreathPhase.color : "var(--text-dimmer)", marginTop: breatheMinimal ? 0 : 6, transition:"all 0.5s"}}>{curBreathPhase.label}</div>
+                {!breatheMinimal && <div style={{fontSize:"13px",color:"var(--text-dimmer)",marginTop:4}}>{bCycle} / {breathCycles}</div>}
+              </>}
+              {bDone && <div style={{fontSize:"36px",fontWeight:700,color:"var(--accent)",fontFamily:"'Barlow',sans-serif",lineHeight:1}}>✓</div>}
+            </div>
+          </div>
+          {/* Options — same minHeight as Interval (160) so circle + Start stay fixed when switching mode */}
+          <div style={{flexShrink:0,minHeight:160,width:"100%",marginBottom:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start"}}>
           {!bRunning && !bDone && (
             <>
-              <div style={{display:"flex",gap:8,marginBottom:20}}>
+              <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:20,justifyContent:"center"}}>
                 {Object.keys(BREATH_PATTERNS).map(p => (
                   <button key={p} onClick={()=>setBreathPattern(p)} style={{
                     fontFamily:"'Barlow',sans-serif",fontSize:"13px",fontWeight:600,
@@ -3786,7 +3692,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                   }}>{p === "4-7-8" ? "4-7-8" : p === "Box" ? "Box" : "Physio Sigh"}</button>
                 ))}
               </div>
-              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:24}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:24}}>
                 <span style={{fontSize:12,letterSpacing:"0.16em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Minimal</span>
                 <button type="button" role="switch" aria-checked={breatheMinimal} onClick={()=>setBreatheMinimal(v=>!v)} style={{
                   width:40,height:22,border:"1px solid",borderColor:breatheMinimal?"var(--accent)":"var(--glass-border)",
@@ -3796,53 +3702,19 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                 </button>
                 <span style={{fontSize:11,color:"var(--text-dimmer)"}}>Ring + phase only</span>
               </div>
+              {!breatheMinimal && (
+                <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:16,marginBottom:0}}>
+                  <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Cycles</div>
+                  <button onClick={()=>setBreathCycles(v=>Math.max(1,v-1))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button>
+                  <div style={{fontSize:"22px",fontWeight:700,color:"var(--text-white)",minWidth:20,textAlign:"center",fontFamily:"'Barlow',sans-serif"}}>{breathCycles}</div>
+                  <button onClick={()=>setBreathCycles(v=>Math.min(12,v+1))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
+                </div>
+              )}
             </>
           )}
-
-          {/* Breathing circle */}
-          <div className="timer-breathe-ring-wrap" style={{position:"relative",display:"flex",alignItems:"center",justifyContent:"center",width:260,height:260,marginLeft:"auto",marginRight:"auto",marginBottom:36}}>
-            {/* Outer guide ring — always visible */}
-            <svg width="260" height="260" style={{position:"absolute",top:0,left:0}} className="timer-breathe-guide-ring">
-              <circle cx="130" cy="130" r="110" fill="none" stroke="var(--glass-border)" strokeWidth="1.5"/>
-            </svg>
-            {/* Large circle — fades/scales in on inhale/hold, out on exhale */}
-            <div className={`timer-breathe-expand-ring ${!(bRunning && bExpand) ? "breathe-idle" : ""}`} style={{
-              position:"absolute",
-              width:220, height:220,
-              borderRadius:"50%",
-              background:`radial-gradient(circle, var(--accent-glow) 0%, var(--accent-dim) 55%, transparent 100%)`,
-              border:"1.5px solid var(--accent)",
-              opacity: bRunning && bExpand ? 0.85 : 0.08,
-              transform: bRunning && bExpand ? "scale(1)" : "scale(0.45)",
-              transition: bRunning
-                ? `opacity ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1), transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)`
-                : "opacity 0.6s ease, transform 0.6s ease",
-              boxShadow: bRunning && bExpand ? "0 0 50px var(--accent-glow)" : "none",
-            }}/>
-            {/* Center text */}
-            <div style={{position:"absolute",textAlign:"center",pointerEvents:"none"}}>
-              {!bRunning && !bDone && <div style={{fontSize:"13px",letterSpacing:"0.12em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Ready</div>}
-              {bRunning && <>
-                {!breatheMinimal && <div style={{fontSize:"42px",fontWeight:700,color:curBreathPhase.color,fontFamily:"'Barlow',sans-serif",lineHeight:1,transition:"color 0.5s"}}>{bTime}</div>}
-                <div style={{fontSize: breatheMinimal ? "18px" : "13px", letterSpacing:"0.18em",textTransform:"uppercase",color:breatheMinimal ? curBreathPhase.color : "var(--text-dimmer)", marginTop: breatheMinimal ? 0 : 6, transition:"all 0.5s"}}>{curBreathPhase.label}</div>
-                {!breatheMinimal && <div style={{fontSize:"13px",color:"var(--text-dimmer)",marginTop:4}}>{bCycle} / {breathCycles}</div>}
-              </>}
-              {bDone && <div style={{fontSize:"36px",fontWeight:700,color:"var(--accent)",fontFamily:"'Barlow',sans-serif",lineHeight:1}}>✓</div>}
-            </div>
           </div>
 
-          {/* Cycles picker — only idle, hidden in minimal */}
-          {!bRunning && !bDone && !breatheMinimal && (
-            <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:40}}>
-              <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Cycles</div>
-              <button onClick={()=>setBreathCycles(v=>Math.max(1,v-1))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button>
-              <div style={{fontSize:"22px",fontWeight:700,color:"var(--text-white)",minWidth:20,textAlign:"center",fontFamily:"'Barlow',sans-serif"}}>{breathCycles}</div>
-              <button onClick={()=>setBreathCycles(v=>Math.min(12,v+1))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
-            </div>
-          )}
-          {bRunning && <div style={{height:76}}/>}
-
-          <div style={{display:"flex",gap:12}}>
+          <div style={{flexShrink:0,display:"flex",gap:12,marginTop:40}}>
             {!bRunning && !bDone && <button onClick={bStart} style={BTN}>Start</button>}
             {bRunning && <>
               <button onClick={()=>setBRunning(r=>!r)} style={{...BTN,padding:"18px 40px"}}>Pause</button>
@@ -3852,6 +3724,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
           </div>
         </>)}
 
+        </div>
       </div>
       <TabBar view={view} setView={setView} hasActiveSession={hasActiveSession} theme={theme} />
     </div>
@@ -4194,10 +4067,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   if (view === "home") {
     const nowPeriod = getCircadianPeriod();
     const TODAY_SUGGESTIONS = {
-      dawn:   { trackId: "morning",  label: "Morning Routine",   suggestion: "A reset might fit now." },
-      midday: { trackId: "desk",     label: "Desk Routine",       suggestion: "A desk break might fit now." },
-      prime:  { trackId: "anxiety",  label: "Calm Circuit",       suggestion: "A reset might fit now." },
-      rest:   { trackId: "prime",    label: "Better Sleep Stretch", suggestion: "A wind-down might fit now." },
+      dawn:   { trackId: "morning", suggestion: "Good morning! Ready for a stretch?" },
+      midday: { trackId: "desk",    suggestion: "Take a break and undo an hour of sitting." },
+      prime:  { trackId: "stress",  suggestion: "Undo the day's stressors." },
+      rest:   { trackId: "prime",    suggestion: "Relax your body with a quick wind down." },
     };
     const periodLabels = { dawn: "Dawn", midday: "Midday", prime: "Prime", rest: "Rest" };
     const todaySug = TODAY_SUGGESTIONS[nowPeriod];
@@ -4510,7 +4383,11 @@ function App() {
   const [nightMode, setNightMode] = useState(() => storageGet("axis_night", false));
   const toggleNight = () => setNightMode(n => { const v = !n; storageSet("axis_night", v); return v; });
   const toggleTheme = () => setTheme(t => { const n = t === "dark" ? "light" : "dark"; storageSet("axis_theme", n); return n; });
-  const complete = () => { storageSet("axis_onboarded", true); setOnboarded(true); };
+  const complete = (payload) => {
+      if (payload?.theme != null) setTheme(payload.theme);
+      storageSet("axis_onboarded", true);
+      setOnboarded(true);
+    };
 
   // Flow overlay state lives here — outside WorkoutApp/.app — so position:fixed is never trapped
   const SunIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>;

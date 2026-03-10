@@ -34,9 +34,9 @@ if (!result || !result.code) {
   process.exit(1);
 }
 
-fs.writeFileSync(path.join(dist, 'app.js'), result.code, 'utf8');
-
-const newScript = '<script src="/app.js"></script>';
+// Inline the compiled script so we don't depend on /app.js (avoids rewrite/CORS issues on mobile)
+const safeCode = result.code.replace(/<\/script/gi, '<\\/script');
+const newScript = '<script>' + safeCode + '</script>';
 let builtHtml = html.slice(0, startIdx) + newScript + html.slice(contentEnd + closeTag.length);
 builtHtml = builtHtml.replace(/<script src="[^"]*babel[^"]*"[^>]*><\/script>\n?/i, '');
 fs.writeFileSync(path.join(dist, 'index.html'), builtHtml, 'utf8');
@@ -71,5 +71,5 @@ finish();
 function finish() {
   const vercel = path.join(root, 'vercel.json');
   if (fs.existsSync(vercel)) fs.copyFileSync(vercel, path.join(dist, 'vercel.json'));
-  console.log('Build done: dist/ with index.html, app.js, and assets');
+  console.log('Build done: dist/ with index.html (inline app script) and assets');
 }
