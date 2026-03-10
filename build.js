@@ -55,8 +55,8 @@ function copyRecursive(src, dest) {
 }
 
 copyRecursive(path.join(root, 'Logo - Vector'), path.join(dist, 'Logo - Vector'));
-// Single app icon only: your PNG → axis-icon.png (no old filenames, no SVG fallback)
-const iconPngRoot = path.join(root, 'apple-touch-icon.png');
+// Single app icon only: navy PNG → axis-icon.png (no old filenames, no SVG fallback)
+const iconPngRoot = path.join(root, 'assets', 'AXIS_Branding_Navy-9822171e-ccb8-4b9c-b1e2-6ad101e1a56b.png');
 const iconPngDist = path.join(dist, 'axis-icon.png');
 if (fs.existsSync(iconPngRoot)) {
   fs.copyFileSync(iconPngRoot, iconPngDist);
