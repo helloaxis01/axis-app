@@ -56,7 +56,14 @@ function copyRecursive(src, dest) {
 
 copyRecursive(path.join(root, 'Logo - Vector'), path.join(dist, 'Logo - Vector'));
 const iconSvg = path.join(root, 'apple-touch-icon.svg');
-if (fs.existsSync(iconSvg)) {
+const iconPngRoot = path.join(root, 'apple-touch-icon.png');
+const iconPngDist = path.join(dist, 'apple-touch-icon.png');
+const iconVersion = 'v=3'; // bump to force iOS to re-fetch icon
+if (fs.existsSync(iconPngRoot)) {
+  fs.copyFileSync(iconPngRoot, iconPngDist);
+  builtHtml = builtHtml.replace(/apple-touch-icon\.svg/g, 'apple-touch-icon.png?' + iconVersion);
+  fs.writeFileSync(path.join(dist, 'index.html'), builtHtml, 'utf8');
+} else if (fs.existsSync(iconSvg)) {
   fs.copyFileSync(iconSvg, path.join(dist, 'apple-touch-icon.svg'));
   try {
     const svgBuf = fs.readFileSync(iconSvg);
@@ -65,8 +72,8 @@ if (fs.existsSync(iconSvg)) {
     });
     const pngData = resvg.render();
     const pngBuffer = pngData.asPng();
-    fs.writeFileSync(path.join(dist, 'apple-touch-icon.png'), pngBuffer);
-    builtHtml = builtHtml.replace(/apple-touch-icon\.svg/g, 'apple-touch-icon.png');
+    fs.writeFileSync(iconPngDist, pngBuffer);
+    builtHtml = builtHtml.replace(/apple-touch-icon\.svg/g, 'apple-touch-icon.png?' + iconVersion);
     fs.writeFileSync(path.join(dist, 'index.html'), builtHtml, 'utf8');
   } catch (e) {
     console.warn('Could not generate PNG icon:', e.message);
