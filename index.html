@@ -3336,9 +3336,9 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
           <div style={{flex:1}} />
 
           {/* ── TIMER — floating, no container ── */}
-          {phase === "exercise" && (cur.type === "time" || cur.type === "flow") && (
+          {phase === "exercise" && cur && (
             <div style={{flexShrink:0, marginBottom:8}}>
-              <OverlayTimer key={cur.id + "-" + fi} seconds={cur.seconds} onDone={handleTimerDone}
+              <OverlayTimer key={cur.id + "-" + fi} seconds={cur.type === "time" || cur.type === "flow" ? cur.seconds : 45} onDone={handleTimerDone}
                 autoStart={true} paused={paused} fi={fi} list={list} theme={theme} activePeriod={activePeriod} nightMode={nightMode} />
             </div>
           )}
