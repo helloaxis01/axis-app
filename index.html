@@ -2883,7 +2883,7 @@ function beep(freq = 880, duration = 0.3) {
   } catch(e) {}
 }
 
-function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onReset, fi = 0, list = [], theme = "dark", activePeriod = null, nightMode = false }) {
+function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onReset, fi = 0, list = [], theme = "dark", activePeriod = null, nightMode = false, large = false }) {
   const [left, setLeft] = useState(seconds);
   const [running, setRunning] = useState(autoStart);
   const ref = useRef(null);
@@ -2941,16 +2941,21 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
   const NEXT_C    = nightMode ? "rgba(255,59,48,0.45)"  : (isTimerDark ? "rgba(232,228,223,0.40)" : "rgba(15,30,46,0.50)");
   const NEXT_NAME = nightMode ? "#FF3B30"               : (isTimerDark ? "rgba(232,228,223,0.70)" : "#0f1e2e");
 
+  const numSize = large ? 120 : 72;
+  const unitSize = large ? 14 : 12;
+  const barH = large ? 4 : 2;
+  const gap = large ? 10 : 0;
+  const marginTop = large ? 0 : 16;
+  const marginBottom = large ? 14 : 10;
+
   return (
-    <div style={{display:"flex", flexDirection:"column", gap:0, marginTop:16}}>
-      {/* Big number */}
-      <div style={{display:"flex", alignItems:"baseline", gap:6, marginBottom:10}}>
-        <div style={{fontSize:72, fontWeight:600, letterSpacing:"-0.04em", color:TN, lineHeight:1}}>{display}</div>
-        <div style={{fontSize:12, letterSpacing:"0.16em", textTransform:"uppercase", color:TU, fontWeight:500, marginBottom:4}}>{mins > 0 ? "min" : "sec"}</div>
+    <div style={{display:"flex", flexDirection:"column", gap:gap, marginTop, alignItems: large ? "center" : "flex-start"}}>
+      <div style={{display:"flex", alignItems:"baseline", gap: large ? 10 : 6, marginBottom: marginBottom}}>
+        <div style={{fontSize: numSize, fontWeight:600, letterSpacing:"-0.04em", color:TN, lineHeight:1}}>{display}</div>
+        <div style={{fontSize: unitSize, letterSpacing:"0.16em", textTransform:"uppercase", color:TU, fontWeight:500, marginBottom: large ? 6 : 4}}>{mins > 0 ? "min" : "sec"}</div>
       </div>
-      {/* Timer progress bar — track transparent, only fill shows */}
-      <div style={{height:2, background:"transparent", borderRadius:2, overflow:"hidden", marginBottom:16}}>
-        <div style={{height:2, borderRadius:2, background:BAR_FILL,
+      <div style={{height: barH, width: large ? "100%" : "auto", maxWidth: large ? 280 : "none", background:"transparent", borderRadius: barH, overflow:"hidden"}}>
+        <div style={{height: barH, borderRadius: barH, background:BAR_FILL,
           width:`${pct*100}%`, transition:"width 1s linear"}} />
       </div>
     </div>
@@ -3303,10 +3308,11 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
         </div>
       )}
 
-      {/* ── GET READY / REST / EXERCISE — scrollable so timer + pill bar stay in view ── */}
+      {/* ── GET READY / REST / EXERCISE — top: copy (scrollable); bottom half: large timer in liquid glass ── */}
       {phase !== "intro" && phase !== "closing" && phase !== "milestone" && (
         <div style={{flex:1, display:"flex", flexDirection:"column", position:"relative", zIndex:2, minHeight:0, overflow:"hidden"}}>
-          <div style={{flex:1, minHeight:0, overflowY:"auto", overflowX:"hidden", padding:"6px 16px 12px", WebkitOverflowScrolling:"touch"}}>
+          {/* Top: instructional copy only, scrollable so it never overlaps timer */}
+          <div style={{flex: "0 1 42%", minHeight:0, overflowY:"auto", overflowX:"hidden", padding:"6px 16px 12px", WebkitOverflowScrolling:"touch"}}>
           {/* Phase label */}
           <div style={{fontSize:10, letterSpacing:"0.24em", textTransform:"uppercase", color:A, marginBottom:6, flexShrink:0}}>
             {phase === "getready" ? "First Up" : phase === "rest" ? "Up Next" : ""}
@@ -3380,17 +3386,38 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
           )}
 
           </div>
-          {/* ── TIMER / GET READY — fixed at bottom above pill bar ── */}
+          {/* Bottom half: timer as feature — centered in liquid glass card */}
           {phase === "exercise" && cur && (
-            <div style={{flexShrink:0, padding:"12px 16px 8px", display:"flex", justifyContent:"center", alignItems:"center"}}>
-              <OverlayTimer key={cur.id + "-" + fi} seconds={cur.type === "time" || cur.type === "flow" ? cur.seconds : 45} onDone={handleTimerDone}
-                autoStart={true} paused={paused} fi={fi} list={list} theme={theme} activePeriod={activePeriod} nightMode={nightMode} />
+            <div style={{flex:1, minHeight:0, display:"flex", alignItems:"center", justifyContent:"center", padding:"16px 20px 12px"}}>
+              <div style={{
+                borderRadius:24,
+                background: GLASS_BG,
+                backdropFilter: "blur(32px) saturate(1.5)",
+                WebkitBackdropFilter: "blur(32px) saturate(1.5)",
+                border: GLASS_BDR,
+                boxShadow: `${GLASS_SHAD}, 0 0 0 1px ${isNight ? "rgba(255,59,48,0.12)" : ct.accent + "18"}`,
+                padding: "32px 44px 28px",
+                minWidth: 200,
+              }}>
+                <OverlayTimer key={cur.id + "-" + fi} seconds={cur.type === "time" || cur.type === "flow" ? cur.seconds : 45} onDone={handleTimerDone}
+                  autoStart={true} paused={paused} fi={fi} list={list} theme={theme} activePeriod={activePeriod} nightMode={nightMode} large={true} />
+              </div>
             </div>
           )}
           {phase === "getready" && (
-            <div style={{flexShrink:0, padding:"12px 16px 8px", display:"flex", justifyContent:"center", alignItems:"center", gap:6}}>
-              <span style={{fontSize:56, fontWeight:700, letterSpacing:"-0.04em", color:W, lineHeight:1}}>{readyLeft}</span>
-              <span style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:D}}>sec</span>
+            <div style={{flex:1, minHeight:0, display:"flex", alignItems:"center", justifyContent:"center", gap:8}}>
+              <div style={{
+                borderRadius:24,
+                background: GLASS_BG,
+                backdropFilter: "blur(32px) saturate(1.5)",
+                WebkitBackdropFilter: "blur(32px) saturate(1.5)",
+                border: GLASS_BDR,
+                boxShadow: `${GLASS_SHAD}, 0 0 0 1px ${isNight ? "rgba(255,59,48,0.12)" : ct.accent + "18"}`,
+                padding: "28px 40px 24px",
+              }}>
+                <span style={{fontSize:64, fontWeight:700, letterSpacing:"-0.04em", color:W, lineHeight:1}}>{readyLeft}</span>
+                <span style={{fontSize:12, letterSpacing:"0.18em", textTransform:"uppercase", color:D, marginLeft:8}}>sec</span>
+              </div>
             </div>
           )}
         </div>
