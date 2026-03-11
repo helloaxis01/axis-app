@@ -105,9 +105,9 @@ const obCss = `
   .ob-splash-name { font-size:48px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--ob-text-head); line-height:1; margin-top:44px; }
   .ob-splash-tag { margin-top:24px; font-size:13px; letter-spacing:0.28em; text-transform:uppercase; color:var(--ob-text-sec); }
   .ob-eyebrow { font-size:13px; font-weight:500; letter-spacing:0.26em; text-transform:uppercase; color:var(--ob-accent); margin-bottom:16px; }
-  .ob-heading { font-size:42px; font-weight:600; letter-spacing:-0.03em; line-height:1.05; color:var(--ob-text-head); margin-bottom:20px; }
+  .ob-heading { font-size:42px; font-weight:600; letter-spacing:-0.03em; line-height:1.1; color:var(--ob-text-head); margin-bottom:20px; }
   .ob-heading em { font-style:italic; font-weight:300; color:var(--ob-accent); }
-  .ob-body { font-size:15px; line-height:1.78; color:var(--ob-text-body); font-weight:400; }
+  .ob-body { font-size:15px; line-height:1.52; color:var(--ob-text-body); font-weight:400; }
   :root { --ob-box-bg: rgba(255,255,255,0.08); --ob-box-border: rgba(255,255,255,0.13); }
   .ob-sci-blocks { display:flex; flex-direction:column; gap:10px; margin-top:20px; }
   .ob-sci {
@@ -117,7 +117,7 @@ const obCss = `
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .ob-sci-label { font-size:13px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--ob-text-sec); margin-bottom:6px; }
-  .ob-sci-text { font-size:15px; line-height:1.75; color:var(--ob-text-body); font-weight:400; }
+  .ob-sci-text { font-size:15px; line-height:1.5; color:var(--ob-text-body); font-weight:400; }
   .ob-sci-text strong { color:var(--ob-text-head); font-weight:500; }
   .ob-benefits { display:flex; flex-direction:column; gap:10px; margin-top:20px; }
   .ob-benefit {
@@ -127,7 +127,7 @@ const obCss = `
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .ob-bi { flex-shrink:0; opacity:0.9; display:flex; align-items:center; padding-top:1px; }
-  .ob-bt { font-size:15px; color:var(--ob-text-body); line-height:1.68; font-weight:300; }
+  .ob-bt { font-size:15px; color:var(--ob-text-body); line-height:1.48; font-weight:300; }
   .ob-bt strong { color:var(--ob-text-head); font-weight:500; }
   .ob-disc { margin-top:20px; }
   .ob-disc-box {
@@ -137,7 +137,7 @@ const obCss = `
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .ob-disc-label { font-size:13px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--ob-text-sec); margin-bottom:8px; }
-  .ob-disc-text { font-size:15px; line-height:1.78; color:var(--ob-text-body); font-weight:400; }
+  .ob-disc-text { font-size:15px; line-height:1.52; color:var(--ob-text-body); font-weight:400; }
   .ob-disc-text strong { color:var(--ob-text-head); font-weight:500; }
   .ob-cal-glass {
     padding:20px 20px 24px; border-radius:20px; margin:16px 0 24px;
@@ -153,9 +153,9 @@ const obCss = `
     display:flex; align-items:center; justify-content:center;
     box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.12);
   }
-  .ob-cta-head { font-size:42px; font-weight:600; letter-spacing:-0.03em; line-height:1.05; color:var(--ob-text-head); margin-bottom:16px; }
+  .ob-cta-head { font-size:42px; font-weight:600; letter-spacing:-0.03em; line-height:1.1; color:var(--ob-text-head); margin-bottom:16px; }
   .ob-cta-head em { font-style:italic; font-weight:300; color:var(--ob-accent); }
-  .ob-cta-sub { font-size:15px; color:var(--ob-text-body); line-height:1.78; margin-bottom:40px; font-weight:400; }
+  .ob-cta-sub { font-size:15px; color:var(--ob-text-body); line-height:1.52; margin-bottom:40px; font-weight:400; }
   .ob-btn-primary {
     width:100%; padding:16px; border-radius:14px; border:none; cursor:pointer;
     background:var(--ob-accent); color:var(--ob-accent-btn-text, #ffffff);
@@ -672,7 +672,7 @@ function Onboarding({ theme, onComplete }) {
 
               <div className="ob-eyebrow" style={{marginTop:48,marginBottom:8}}>Medical Disclaimer</div>
               <div style={{
-                fontSize:13, lineHeight:1.72, color:"var(--ob-text-body)", fontWeight:300,
+                fontSize:13, lineHeight:1.48, color:"var(--ob-text-body)", fontWeight:300,
                 marginBottom:24, padding:"16px", borderRadius:14,
                 background:"var(--ob-box-bg)", border:"1px solid var(--ob-box-border)",
               }}>
@@ -726,7 +726,7 @@ function Onboarding({ theme, onComplete }) {
                     <path d="M1 5L4.5 8.5L11 1.5" stroke="#0a0e1a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>}
                 </div>
-                <div style={{fontSize:13, lineHeight:1.65, color:"var(--ob-text-body)", fontWeight:300}}>
+                <div style={{fontSize:13, lineHeight:1.45, color:"var(--ob-text-body)", fontWeight:300}}>
                   I have read and understand the disclaimer above. I confirm I am using this app at my own risk and will consult a healthcare professional if I have any concerns.
                 </div>
               </div>
@@ -1950,6 +1950,9 @@ const css = `
   [data-night="true"] .er,
   [data-night="true"] .panel,
   [data-night="true"] .sg { background: #000000 !important; border-color: rgba(255,59,48,0.12) !important; }
+  [data-night="true"] .track-card::before,
+  [data-night="true"] .glass-card::before { background: rgba(255,59,48,0.12) !important; }
+  [data-night="true"] .tab-bar .tab-bar-top-line { background: linear-gradient(90deg, transparent, rgba(255,59,48,0.15) 50%, transparent) !important; }
   [data-night="true"] .tab-btn.active { color: #FF3B30 !important; }
   [data-night="true"] .tab-btn { color: rgba(255,59,48,0.45) !important; }
   [data-night="true"] .prog-fill { background: #FF3B30 !important; box-shadow: 0 0 10px rgba(255,59,48,0.5) !important; }
@@ -2039,7 +2042,7 @@ const css = `
   .hdr-left { flex:1; display:flex; flex-direction:column; gap:4px; align-items:flex-start; }
   .back-btn { background:none; border:none; font-family:'Barlow',sans-serif; font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-secondary); cursor:pointer; padding:14px 0 6px; transition:color 0.15s; display:block; }
   .back-btn:hover { color:var(--text-primary); }
-  .hdr-title { font-size:24px; font-weight:500; letter-spacing:-0.02em; line-height:1.15; color:var(--text-white); }
+  .hdr-title { font-size:24px; font-weight:500; letter-spacing:-0.02em; line-height:1.2; color:var(--text-white); }
   .hdr-meta { display:flex; gap:14px; margin-top:3px; align-items:center; }
   .hdr-subtitle { font-size:14px; color:var(--text-secondary); font-style:italic; }
   .hdr-dur {
@@ -2094,7 +2097,7 @@ const css = `
   }
   .tab-desc-line {
     font-size:14px; color:var(--text-secondary);
-    letter-spacing:0.03em; line-height:1.45;
+    letter-spacing:0.03em; line-height:1.35;
     padding-bottom: 8px;
   }
   .tab-prog-row {
@@ -2124,7 +2127,7 @@ const css = `
     border-top:1px solid var(--border); border-bottom:1px solid var(--border);
   }
   .purpose-label { font-size:13px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-secondary); margin-bottom:4px; font-weight:500; }
-  .purpose-text { font-size:16px; font-style:italic; line-height:1.7; color:var(--text-secondary); }
+  .purpose-text { font-size:16px; font-style:italic; line-height:1.5; color:var(--text-secondary); }
 
   /* ── EXERCISE ROW ── */
   .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; border-bottom:1px solid var(--border); cursor:pointer; transition:all 0.2s; position:relative; border-radius:0; }
@@ -2206,7 +2209,7 @@ const css = `
     background:linear-gradient(90deg, transparent, var(--glass-specular) 30%, rgba(255,255,255,0.22) 50%, var(--glass-specular) 70%, transparent);
   }
   .fc-idx { position:absolute; top:14px; right:16px; font-size:13px; color:var(--text-dimmer); letter-spacing:0.12em; }
-  .fc-name { font-size:28px; font-weight:500; letter-spacing:-0.03em; line-height:1.1; margin:4px 0 6px; color:var(--text-white); }
+  .fc-name { font-size:28px; font-weight:500; letter-spacing:-0.03em; line-height:1.15; margin:4px 0 6px; color:var(--text-white); }
   .fc-sub { font-size:14px; color:var(--text-secondary); font-style:italic; margin-bottom:20px; }
   .fc-steps { display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); padding-top:18px; margin-bottom:18px; }
   .fc-step { display:flex; gap:0; position:relative; }
@@ -2225,7 +2228,7 @@ const css = `
     color:var(--accent-secondary); background:var(--accent-dim); border:1px solid rgba(255,191,101,0.18);
     padding:1px 9px; margin-bottom:6px;
   }
-  .fc-pcue { font-size:18px; color:var(--text-primary); line-height:1.65; font-weight:300; }
+  .fc-pcue { font-size:18px; color:var(--text-primary); line-height:1.45; font-weight:300; }
   .fc-timer { border-top:1px solid var(--border); padding-top:16px; margin-bottom:14px; }
   .fc-reps { border-top:1px solid var(--border); padding-top:14px; margin-bottom:14px; }
   /* flow fullscreen overlay */
@@ -2253,8 +2256,8 @@ const css = `
     background:var(--glass-bg); border:1px solid var(--glass-border);
     box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-specular);
   }
-  .fv-name { font-size:40px; font-weight:500; letter-spacing:-0.03em; line-height:1.05; color:var(--text-white); margin-bottom:16px; }
-  .fv-cue { font-size:18px; color:var(--text-secondary); font-style:italic; line-height:1.65; }
+  .fv-name { font-size:40px; font-weight:500; letter-spacing:-0.03em; line-height:1.1; color:var(--text-white); margin-bottom:16px; }
+  .fv-cue { font-size:18px; color:var(--text-secondary); font-style:italic; line-height:1.45; }
   .fv-bottom { display:flex; flex-direction:column; gap:12px; }
   .fv-next { font-size:14px; color:var(--text-dim); letter-spacing:0.10em; text-transform:uppercase; }
   .fv-next span { color:var(--text-secondary); font-style:italic; letter-spacing:0; text-transform:none; }
@@ -2287,7 +2290,7 @@ const css = `
   .fv-prev:disabled { opacity:0.2; cursor:not-allowed; }
 
   /* ── EXERCISE SUBTITLE ── */
-  .es { font-size:14px; color:var(--text-secondary); margin-top:4px; font-style:italic; line-height:1.55; }
+  .es { font-size:14px; color:var(--text-secondary); margin-top:4px; font-style:italic; line-height:1.4; }
 
   /* ── STEPS (A/B/C cues) ── */
   .steps { display:flex; flex-direction:column; gap:0; margin-top:8px; }
@@ -2305,7 +2308,7 @@ const css = `
   .step-right { flex:1; }
   .step-label { font-size:17px; font-weight:500; color:var(--text-white); line-height:1.3; }
   .step-focus { font-size:14px; color:var(--accent-secondary); letter-spacing:0.08em; margin-top:5px; font-weight:600; text-transform:uppercase; }
-  .step-cue { font-size:19px; color:var(--text-secondary); margin-top:12px; line-height:1.65; }
+  .step-cue { font-size:19px; color:var(--text-secondary); margin-top:12px; line-height:1.45; }
   .fc-steps .step { padding:12px 0; }
 
   /* ── TIMER ── */
@@ -2359,7 +2362,7 @@ const css = `
     line-height:1;
   }
   .reps-str {
-    font-size:24px; font-weight:500; color:var(--text-white); letter-spacing:-0.01em; line-height:1.3;
+    font-size:24px; font-weight:500; color:var(--text-white); letter-spacing:-0.01em; line-height:1.25;
   }
   .reps-unit {
     font-size:14px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
@@ -2420,7 +2423,7 @@ const css = `
   .momentum-cell { flex:1; aspect-ratio:1; border-radius:6px; transition:all 0.2s; }
   .momentum-labels { display:flex; justify-content:space-between; margin-bottom:8px; }
   .momentum-label { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dimmer); }
-  .momentum-disclaimer { font-size:11px; color:var(--text-dimmer); letter-spacing:0.06em; line-height:1.5; }
+  .momentum-disclaimer { font-size:11px; color:var(--text-dimmer); letter-spacing:0.06em; line-height:1.4; }
 
   /* ── DONE BANNER ── */
   .done-banner {
@@ -2453,7 +2456,7 @@ const css = `
     width:100%; padding:10px 14px; font-family:'Barlow',sans-serif; font-size:13px; border-radius:12px;
     background:var(--glass-bg); border:1px solid var(--glass-border); color:var(--text-primary);
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-    resize:none; line-height:1.6; outline:none; transition:all 0.2s;
+    resize:none; line-height:1.45; outline:none; transition:all 0.2s;
   }
   .notes-input:focus { border-color:var(--glass-border-strong); background:var(--glass-bg-hover); }
   .notes-input::placeholder { color:var(--text-dim); }
@@ -2517,7 +2520,7 @@ const css = `
   .home-tagline {
     font-size:20px; color:var(--text-white); font-weight:400; font-style:normal;
     padding:18px 0 24px; letter-spacing:-0.01em; max-width:100%; display:block;
-    line-height:1.3; text-align:left; margin:0;
+    line-height:1.25; text-align:left; margin:0;
   }
   /* End-of-list marker */
   .eol-marker {
@@ -2576,8 +2579,8 @@ const css = `
   .track-card:active { transform:scale(0.98); }
   .track-card-left { flex:1; min-width:0; width:100%; }
   .track-card-name { font-size:22px; font-weight:600; color:var(--text-white); margin-bottom:6px; letter-spacing:-0.02em; }
-  .track-card-sub { font-size:14px; color:var(--accent-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; line-height:1.5; }
-  .track-card-purpose { font-size:15px; color:var(--text-secondary); font-style:italic; line-height:1.65; margin-top:10px; }
+  .track-card-sub { font-size:14px; color:var(--accent-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; line-height:1.4; }
+  .track-card-purpose { font-size:15px; color:var(--text-secondary); font-style:italic; line-height:1.45; margin-top:10px; }
   .track-card-right { display:flex; align-items:center; justify-content:space-between; width:100%; }
   .track-card-dur { font-size:14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-dim); font-weight:500; }
   .begin-btn {
@@ -2745,7 +2748,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
             startPill={ex.start ? (
               <div style={{display:"flex",alignItems:"flex-start",gap:8,padding:"8px 12px",borderRadius:10,background:"var(--accent-dim)",border:"1px solid var(--accent-glow)"}}>
                 <div style={{fontSize:9,letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--accent-secondary)",fontWeight:700,flexShrink:0,marginTop:2}}>Start</div>
-                <div style={{fontSize:13,color:"var(--text-secondary)",lineHeight:1.5}}>{ex.start}</div>
+                <div style={{fontSize:13,color:"var(--text-secondary)",lineHeight:1.4}}>{ex.start}</div>
               </div>
             ) : null}
           />
@@ -2828,7 +2831,7 @@ function TabBar({ view, setView, hasActiveSession, theme, nightMode = false }) {
 
   const bar = (
     <div className="tab-bar" data-theme={theme} data-night={nightMode ? "true" : "false"}>
-      <div style={{position:"absolute",top:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,rgba(255,255,255,0.18) 50%,transparent)",pointerEvents:"none"}} />
+      <div className="tab-bar-top-line" style={{position:"absolute",top:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,var(--glass-border) 50%,transparent)",pointerEvents:"none"}} />
       <button className={`tab-btn ${view==="home"?"active":""}`} onClick={()=>setView("home")} aria-label="Today" aria-current={view==="home"?"page":undefined}><HomeIcon/>Today</button>
       <button className={`tab-btn ${view==="session"?"active":""}`} onClick={()=>setView("session")} style={{position:"relative"}} aria-label="Session" aria-current={view==="session"?"page":undefined}>
         {hasActiveSession && view!=="session" && <div className="tab-live-dot" aria-hidden/>}
@@ -3381,19 +3384,19 @@ function FlowOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, don
                 {ex.start && (
                   <div style={{ padding: "12px 14px 10px", borderBottom: (ex.steps?.[0] || ex.steps?.[1]) ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "left" }}>
                     <div style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 6 }}>START</div>
-                    <div style={{ fontSize: 14, color: W, lineHeight: 1.45, fontWeight: 300, letterSpacing: "-0.01em" }}>{ex.start}</div>
+                    <div style={{ fontSize: 14, color: W, lineHeight: 1.35, fontWeight: 300, letterSpacing: "-0.01em" }}>{ex.start}</div>
                   </div>
                 )}
                 {ex.steps?.[0] && (
                   <div style={{ padding: "12px 14px 10px", borderBottom: ex.steps[1] ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "left" }}>
                     <div style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 6 }}>SETUP</div>
-                    <div style={{ fontSize: 14, color: W, lineHeight: 1.45, fontWeight: 300, letterSpacing: "-0.01em" }}>{ex.steps[0].cue}</div>
+                    <div style={{ fontSize: 14, color: W, lineHeight: 1.35, fontWeight: 300, letterSpacing: "-0.01em" }}>{ex.steps[0].cue}</div>
                   </div>
                 )}
                 {ex.steps[1] && (
                   <div style={{ padding: "10px 14px 12px", textAlign: "left" }}>
                     <div style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 6 }}>MOVE</div>
-                    <div style={{ fontSize: 14, color: W, lineHeight: 1.45, fontWeight: 300, letterSpacing: "-0.01em" }}>{ex.steps[1].cue}</div>
+                    <div style={{ fontSize: 14, color: W, lineHeight: 1.35, fontWeight: 300, letterSpacing: "-0.01em" }}>{ex.steps[1].cue}</div>
                   </div>
                 )}
                 {!ex.steps?.[1] && ex.type === "reps" && ex.reps && (
@@ -3684,17 +3687,18 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
   // Circle as large as possible within column; static slot so INTERVAL/BREATHE don’t shift
   const ringSize = 360;
   const TIMER_RING_WRAP = { flexShrink:0, position:"relative", display:"flex", alignItems:"center", justifyContent:"center", width: ringSize, height: ringSize, minWidth: ringSize, minHeight: ringSize, marginLeft:"auto", marginRight:"auto", marginTop:0, marginBottom:0 };
-  const TIMER_MID_MIN_IDLE = 156; // Work/Rest/Rounds row stack vs pattern/cycles below circle
+  const TIMER_MID_MIN_IDLE = 156; // min height for content
+  const TIMER_MID_IDLE_HEIGHT = 176; // fixed height when idle so INTERVAL and BREATHE START align
   const TIMER_PHASE_BAND = 52;    // matches BREATHE phase label block height so Pause/Reset align when running
   // Toggle: spacer above so INTERVAL/BREATHE sit halfway between top edge and top of circle (toggle ~60px + margin 28 → midpoint = 28px above toggle)
-  const TIMER_TOGGLE_SPACER_TOP = 28;
-  const TIMER_TOGGLE_WRAP = { flexShrink:0, display:"flex", gap:10, marginBottom:28, padding:6, minHeight:48, alignItems:"center", boxSizing:"border-box" };
+  const TIMER_TOGGLE_SPACER_TOP = 12;
+  const TIMER_TOGGLE_WRAP = { flexShrink:0, display:"flex", gap:10, marginBottom:14, padding:6, minHeight:48, alignItems:"center", boxSizing:"border-box" };
   // Button row: equal spacers when Pause/Reset/Again — when START only, shrink spacer above so START sits same height as Pause/RESET
   const TIMER_BTN_SPACER_ABOVE = { flex:1, minHeight:0, width:"100%" };
   const TIMER_BTN_SPACER_BELOW = { flex:1, minHeight:0, width:"100%" };
   // Idle: START halfway between Work/Rest/Rounds (or patterns) and tab bar — balanced flex + no pull-up
-  const TIMER_BTN_SPACER_ABOVE_IDLE = { flex:1, minHeight:0, width:"100%" };
-  const TIMER_BTN_SPACER_BELOW_IDLE = { flex:1, minHeight:0, width:"100%" };
+  const TIMER_BTN_SPACER_ABOVE_IDLE = { flex:0.35, minHeight:0, width:"100%" };
+  const TIMER_BTN_SPACER_BELOW_IDLE = { flex:1.65, minHeight:0, width:"100%" };
   const TIMER_BTN_ROW = { flexShrink:0, display:"flex", gap:8, width:"100%", justifyContent:"center", boxSizing:"border-box", paddingTop:6, paddingBottom:6 };
   const TIMER_BTN_ROW_IDLE = { ...TIMER_BTN_ROW, marginTop:0 };
 
@@ -3891,26 +3895,18 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                   display:"flex",alignItems:"center",justifyContent:"center",gap:6,
                 }}>
                   {iPhase === "idle" && (
-                    <>
-                      <span style={timerNumSmall}>1</span>
-                      <span style={{fontSize:13,letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-dimmer)",fontFamily:"'Barlow',sans-serif"}}>/</span>
-                      <span style={timerNumSmall}>{rounds}</span>
-                    </>
+                    <span style={{...timerNumSmall,fontSize:12,letterSpacing:"0.06em"}}>1 of {rounds}</span>
                   )}
                   {(iPhase === "work" || iPhase === "rest") && (
-                    <>
-                      <span style={timerNumSmall}>{iRound}</span>
-                      <span style={{fontSize:13,letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-dimmer)",fontFamily:"'Barlow',sans-serif"}}>/</span>
-                      <span style={timerNumSmall}>{rounds}</span>
-                    </>
+                    <span style={{...timerNumSmall,fontSize:12,letterSpacing:"0.06em"}}>{iRound} of {rounds}</span>
                   )}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Mid zone: Work/Rest/Rounds below circle when idle */}
-          <div style={{flexShrink:0,minHeight:iPhase==="idle"?TIMER_MID_MIN_IDLE:0,width:"100%",marginTop:24,marginBottom:20}}>
+          {/* Mid zone: Work/Rest/Rounds below circle when idle; fixed height so START matches BREATHE */}
+          <div style={{flexShrink:0,height:iPhase==="idle"?TIMER_MID_IDLE_HEIGHT:undefined,minHeight:iPhase==="idle"?TIMER_MID_IDLE_HEIGHT:0,width:"100%",marginTop:12,marginBottom:12,boxSizing:"border-box"}}>
           {iPhase === "idle" && (
             <div className="timer-glass-panel timer-interval-rows" style={{marginBottom:0,width:"100%",boxSizing:"border-box",overflow:"hidden",borderRadius:16}}>
               {[
@@ -4014,8 +4010,8 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
           {bDone && (
             <div style={{flexShrink:0,width:"100%",minHeight:TIMER_PHASE_BAND,boxSizing:"border-box"}} aria-hidden />
           )}
-          {/* Options — 4-7-8 / Box / Physio Sigh + Cycles below circle when idle */}
-          <div style={{flexShrink:0,minHeight:(!bRunning && !bDone)?TIMER_MID_MIN_IDLE:0,width:"100%",marginTop:24,marginBottom:20,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start"}}>
+          {/* Options — 4-7-8 / Box / Physio Sigh + Cycles below circle when idle; same fixed height as INTERVAL so START aligns */}
+          <div style={{flexShrink:0,height:(!bRunning && !bDone)?TIMER_MID_IDLE_HEIGHT:undefined,minHeight:(!bRunning && !bDone)?TIMER_MID_IDLE_HEIGHT:0,width:"100%",marginTop:12,marginBottom:12,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",boxSizing:"border-box"}}>
           {!bRunning && !bDone && (
             <>
               <div className="timer-pattern-row">
@@ -4039,7 +4035,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
 
           <div style={(!bRunning && !bDone)?TIMER_BTN_SPACER_ABOVE_IDLE:TIMER_BTN_SPACER_ABOVE} aria-hidden />
           <div style={(!bRunning && !bDone)?TIMER_BTN_ROW_IDLE:TIMER_BTN_ROW}>
-            {!bRunning && !bDone && <button type="button" onClick={bStart} className="timer-glass-btn-pri" style={BTN}>Start</button>}
+            {!bRunning && !bDone && <button type="button" onClick={()=>{primeAudio();bStart();}} className="timer-glass-btn-pri" style={BTN}>Start</button>}
             {bRunning && <>
               <button type="button" onClick={()=>setBRunning(r=>!r)} className="timer-glass-btn-pri" style={{...BTN,padding:"12px 28px"}}>Pause</button>
               <button type="button" onClick={bReset} className="timer-glass-btn-ghost" style={BTN_GHOST}>Reset</button>
@@ -4221,7 +4217,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             <div key={label} style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:24,marginBottom:24}}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:500,color:"var(--text-white)",marginBottom:4}}>{label}</div>
-                <div style={{fontSize:"12px",color:"var(--text-secondary)",lineHeight:1.6,maxWidth:280}}>{desc}</div>
+                <div style={{fontSize:"12px",color:"var(--text-secondary)",lineHeight:1.45,maxWidth:280}}>{desc}</div>
               </div>
               <button onClick={() => set(s => !s)} style={{flexShrink:0,marginTop:2,width:44,height:26,border:"1px solid",borderColor:val?"var(--accent)":"var(--glass-border-strong)",borderRadius:13,background:val?"var(--accent)":"var(--glass-bg)",cursor:"pointer",position:"relative",transition:"all 0.2s"}}>
                 <div style={{position:"absolute",top:3,left:val?22:3,width:18,height:18,borderRadius:"50%",background: nightMode ? "#000000" : "rgba(255,255,255,0.95)",transition:"left 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.3)"}}/>
@@ -4301,7 +4297,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           <div className="app-page-header">
             <div className="app-label" style={{fontSize:24,fontWeight:600,textTransform:"uppercase",color:"var(--text-secondary)",marginBottom:20}}>AXIS</div>
             <div style={{fontSize:"30px",fontWeight:500,letterSpacing:"-0.02em",color:"var(--text-white)",marginBottom:6}}>Mood</div>
-            <div style={{fontSize:"14px",color:"var(--text-secondary)",marginBottom:24,lineHeight:1.6}}>
+            <div style={{fontSize:"14px",color:"var(--text-secondary)",marginBottom:24,lineHeight:1.45}}>
               Set the feeling of the app. Auto follows the time of day, or lock it to whatever matches how you feel right now.
             </div>
 
@@ -4374,7 +4370,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:24,marginBottom:32}}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:500,color:"var(--text-white)",marginBottom:4}}>Night mode</div>
-                <div style={{fontSize:"12px",color:"var(--text-secondary)",lineHeight:1.6,maxWidth:280}}>Pure black with vibrant red — like Apple Watch Ultra. For low-light use.</div>
+                <div style={{fontSize:"12px",color:"var(--text-secondary)",lineHeight:1.45,maxWidth:280}}>Pure black with vibrant red — like Apple Watch Ultra. For low-light use.</div>
               </div>
               <button onClick={toggleNight} style={{flexShrink:0,marginTop:2,width:44,height:26,border:"1px solid",borderColor:nightMode?"var(--accent)":"var(--glass-border-strong)",borderRadius:13,background:nightMode?"var(--accent)":"var(--glass-bg)",cursor:"pointer",position:"relative",transition:"all 0.2s"}}>
                 <div style={{position:"absolute",top:3,left:nightMode?22:3,width:18,height:18,borderRadius:"50%",background:nightMode?"#000":"rgba(255,255,255,0.95)",transition:"left 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.3)"}}/>
@@ -4430,7 +4426,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             }}>
               <div style={{fontSize:11,letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--accent)",marginBottom:8,fontWeight:600}}>Today</div>
               <div style={{fontSize:20,fontWeight:500,color:"var(--text-white)",marginBottom:6}}>{periodLabels[nowPeriod]}</div>
-              <div style={{fontSize:14,color:"var(--text-secondary)",marginBottom:6,lineHeight:1.5}}>{todaySug.suggestion}</div>
+              <div style={{fontSize:14,color:"var(--text-secondary)",marginBottom:6,lineHeight:1.4}}>{todaySug.suggestion}</div>
               <div style={{fontSize:13,color:"var(--text-dim)",letterSpacing:"0.06em",marginBottom:18}}>{todayTrack.duration}</div>
               <button className="begin-btn" onClick={() => beginTrack(todayTrack.id)} style={{width:"100%",padding:"14px 24px",fontSize:15}} aria-label={`Start ${todayTrack.label}, ${todayTrack.duration}`}>
                 {todayTrack.label}
@@ -4726,7 +4722,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             {(track === "anxiety" || track === "stress") && totalDone > 0 && (
               <div style={{marginTop:28,padding:"18px",borderRadius:16,border:"1px solid var(--glass-border)",background:"var(--glass-bg)"}}>
                 <div style={{fontSize:11,letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--accent)",marginBottom:8}}>Continue the Reset</div>
-                <div style={{fontSize:13,color:"var(--text-secondary)",marginBottom:14,lineHeight:1.6}}>
+                <div style={{fontSize:13,color:"var(--text-secondary)",marginBottom:14,lineHeight:1.45}}>
                   {track === "anxiety" ? "Finish with 2 minutes of Box Breathing to ground the nervous system." : "Calm the heart with a Physiological Sigh."}
                 </div>
                 <button onClick={() => { setView("timer"); }} style={{
