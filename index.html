@@ -3673,19 +3673,51 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
   const iPct = iPhase === "work" ? ((work-iTime)/work)*100 : iPhase === "rest" ? ((rest-iTime)/rest)*100 : 0;
   const iRingColor = iPhase === "rest" ? "var(--text-secondary)" : "var(--accent)";
   const iCircumference = 2 * Math.PI * 140;
+  // Plain seconds only — no 0: prefix (e.g. 30 not 0:30)
+  const formatSecondsOnly = s => String(s);
+  // DSEG7 — shared digital style (same numerals as center 30); sizes vary by context
+  const DSEG_BASE = {
+    fontFamily: "'DSEG7', 'Share Tech Mono', 'Courier New', monospace",
+    fontVariantNumeric: "tabular-nums",
+    fontWeight: 400,
+    letterSpacing: "0.02em",
+    textShadow: "0 0 0.4px currentColor, 0 0 20px rgba(255,255,255,0.2)",
+  };
+  const intervalDigitStyle = {
+    ...DSEG_BASE,
+    minWidth: 100,
+    textAlign: "center",
+    fontSize: 80,
+    color: "#fff",
+    lineHeight: 1,
+  };
+  const dsegMedium = { ...DSEG_BASE, fontSize: 22, color: "var(--text-white)", lineHeight: 1, minWidth: 40, textAlign: "center" };
+  const dsegSmall = { ...DSEG_BASE, fontSize: 13, color: "var(--text-dimmer)", lineHeight: 1.2 };
   const BTN       = { padding:"18px 56px", borderRadius:36, cursor:"pointer", fontFamily:"'Barlow',sans-serif", fontSize:"12px", fontWeight:700, letterSpacing:"0.20em", textTransform:"uppercase", background:"var(--accent)", color:"var(--accent-btn-text, #fff)", border:"none", boxShadow:"0 0 28px var(--accent-glow)", transition:"all 0.2s" };
   const BTN_GHOST = { padding:"18px 28px", borderRadius:36, cursor:"pointer", fontFamily:"'Barlow',sans-serif", fontSize:"12px", fontWeight:600, letterSpacing:"0.14em", textTransform:"uppercase", background:"var(--glass-bg)", color:"var(--text-secondary)", border:"1px solid var(--glass-border)", transition:"all 0.2s" };
+  // Lock INTERVAL + BREATHE layout: same ring slot, same mid slot, same button row (BREATHE as reference — no extra ring offset)
+  const TIMER_RING_WRAP = { flexShrink:0, position:"relative", display:"flex", alignItems:"center", justifyContent:"center", width:320, height:320, marginLeft:"auto", marginRight:"auto", marginTop:0, marginBottom:0 };
+  const TIMER_MID_MIN_IDLE = 120; // Work/Rest/Rounds vs pattern/cycles
+  const TIMER_PHASE_BAND = 52;    // matches BREATHE phase label block height so Pause/Reset align when running
+  // Toggle + primary actions: fixed spacing; button row pinned so START/PAUSE stay same vertical slot
+  const TIMER_TOGGLE_WRAP = { flexShrink:0, display:"flex", gap:0, marginBottom:28, background:"var(--glass-bg)", border:"1px solid var(--glass-border)", borderRadius:24, padding:4, minHeight:48, alignItems:"center", boxSizing:"border-box" };
+  const TIMER_BTN_ROW = { flexShrink:0, display:"flex", gap:12, marginTop:"auto", paddingTop:20, paddingBottom:8, width:"100%", justifyContent:"center", boxSizing:"border-box" };
 
   return (
-    <div className="app" data-theme={theme} data-night={nightMode ? "true" : "false"}>
+    <div className="app" data-theme={theme} data-night={nightMode ? "true" : "false"} style={{minHeight:"100dvh",display:"flex",flexDirection:"column"}}>
       <style>{css}</style>
       <div className="app-orbs" style={{background:"var(--orb1), var(--orb2), var(--orb3)", transition:"background 0.4s ease"}} />
-      <div className="app-body" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:"calc(100vh - 84px)",padding:"0 24px 84px",boxSizing:"border-box",width:"100%"}}>
-
-        {/* Timer block — centered, static layout so circle/start don't shift between modes */}
-        <div style={{display:"flex",flexDirection:"column",alignItems:"center",width:"100%",maxWidth:360}}>
-        {/* Mode toggle */}
-        <div style={{flexShrink:0,display:"flex",gap:0,marginBottom:28,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",borderRadius:24,padding:4}}>
+      {/* Anchor from top like first paint — no vertical centering so circle/toggle don’t jump when mode/state changes */}
+      <div className="app-body timer-view-body" style={{
+        display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",
+        flex:1,minHeight:0,width:"100%",
+        padding:"calc(env(safe-area-inset-top, 0px) + 16px) 24px calc(84px + env(safe-area-inset-bottom, 0px))",
+        boxSizing:"border-box",width:"100%",
+      }}>
+        {/* Single column: toggle → ring (locked slot) → mid → flex spacer → buttons (locked to bottom band) */}
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center",width:"100%",maxWidth:360,flex:1,minHeight:0}}>
+        {/* Mode toggle — same height as main timer screen */}
+        <div style={TIMER_TOGGLE_WRAP}>
           {["interval","breathe"].map(m => (
             <button key={m} onClick={()=>switchMode(m)} style={{
               padding:"9px 28px", borderRadius:20, border:"none", cursor:"pointer",
@@ -3698,9 +3730,10 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
           ))}
         </div>
 
-        {/* ── INTERVAL MODE ── */}
-        {mode === "interval" && (<>
-          <div style={{flexShrink:0,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",width:320,height:320,marginLeft:"auto",marginRight:"auto",marginBottom:0}}>
+        {/* ── INTERVAL MODE ── (ring locked; column flex so START/PAUSE pin to same band) */}
+        {mode === "interval" && (
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center",width:"100%",flex:1,minHeight:0}}>
+          <div className="timer-ring-slot" style={TIMER_RING_WRAP}>
             <svg width="320" height="320" className="timer-interval-ring" style={{transform:"rotate(-90deg)",display:"block",margin:"0 auto"}}>
               <circle cx="160" cy="160" r="140" fill="none" stroke="var(--glass-border)" strokeWidth="3"/>
               {iPhase !== "idle" && iPhase !== "done" && (
@@ -3712,24 +3745,46 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                 />
               )}
             </svg>
-            <div style={{position:"absolute",textAlign:"center"}}>
-              {iPhase === "idle" && (
-                <>
-                  <div style={{fontSize:"96px",fontWeight:700,letterSpacing:"-0.04em",color:"var(--text-white)",fontFamily:"'Barlow',sans-serif",lineHeight:1}}>{work}</div>
-                  <div style={{fontSize:"13px",letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-dimmer)",marginTop:8}}>1 / {rounds}</div>
-                </>
+            {/* Overlay: big seconds centered in circle; rounds row in bottom 1/4 (80px) */}
+            <div style={{position:"absolute",left:0,top:0,width:320,height:320,pointerEvents:"none"}}>
+              {/* Large countdown — centered in full circle */}
+              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                {iPhase === "idle" && (
+                  <div style={intervalDigitStyle}>{formatSecondsOnly(work)}</div>
+                )}
+                {(iPhase === "work" || iPhase === "rest") && (
+                  <div style={{...intervalDigitStyle, transition:"color 0.4s"}}>{formatSecondsOnly(iTime)}</div>
+                )}
+                {iPhase === "done" && (
+                  <div style={{fontSize:"48px",fontWeight:700,color:"var(--accent)",fontFamily:"'Barlow',sans-serif",lineHeight:1}}>✓</div>
+                )}
+              </div>
+              {/* Rounds counter — bottom quarter band, shifted up 1/4 of band (20px) toward countdown */}
+              {(iPhase === "idle" || iPhase === "work" || iPhase === "rest") && (
+                <div style={{
+                  position:"absolute",left:0,right:0,bottom:20,height:80,
+                  display:"flex",alignItems:"center",justifyContent:"center",gap:6,
+                }}>
+                  {iPhase === "idle" && (
+                    <>
+                      <span style={dsegSmall}>1</span>
+                      <span style={{fontSize:13,letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-dimmer)",fontFamily:"'Barlow',sans-serif"}}>/</span>
+                      <span style={dsegSmall}>{rounds}</span>
+                    </>
+                  )}
+                  {(iPhase === "work" || iPhase === "rest") && (
+                    <>
+                      <span style={dsegSmall}>{iRound}</span>
+                      <span style={{fontSize:13,letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-dimmer)",fontFamily:"'Barlow',sans-serif"}}>/</span>
+                      <span style={dsegSmall}>{rounds}</span>
+                    </>
+                  )}
+                </div>
               )}
-              {(iPhase === "work" || iPhase === "rest") && (
-                <>
-                  <div style={{fontSize:"96px",fontWeight:700,letterSpacing:"-0.04em",color:"#fff",fontFamily:"'Barlow',sans-serif",lineHeight:1,transition:"color 0.4s"}}>{iTime}</div>
-                  <div style={{fontSize:"13px",letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-dimmer)",marginTop:8}}>{iRound} / {rounds}</div>
-                </>
-              )}
-              {iPhase === "done" && <div style={{fontSize:"48px",fontWeight:700,color:"var(--accent)",fontFamily:"'Barlow',sans-serif",lineHeight:1}}>✓</div>}
             </div>
           </div>
 
-          <div style={{flexShrink:0,minHeight:120,width:"100%",marginBottom:0}}>
+          <div style={{flexShrink:0,minHeight:iPhase==="idle"?TIMER_MID_MIN_IDLE:0,width:"100%",marginBottom:0}}>
           {iPhase === "idle" && (
             <div style={{display:"flex",marginBottom:0,borderRadius:20,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",width:"100%",boxSizing:"border-box",overflow:"hidden"}}>
               {[
@@ -3741,7 +3796,10 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                   <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>{label}</div>
                   <div style={{display:"flex",alignItems:"center",gap:8}}>
                     <button onClick={()=>set(v=>Math.max(min,v-step))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button>
-                    <div style={{fontSize:"22px",fontWeight:700,color:"var(--text-white)",minWidth:32,textAlign:"center",fontFamily:"'Barlow',sans-serif",letterSpacing:"-0.02em"}}>{val}{!isRound&&<span style={{fontSize:"13px",color:"var(--text-dimmer)",marginLeft:1}}>s</span>}</div>
+                    <div style={{display:"flex",alignItems:"baseline",justifyContent:"center",gap:2}}>
+                      <span style={dsegMedium}>{val}</span>
+                      {!isRound && <span style={{fontSize:"13px",color:"var(--text-dimmer)",fontFamily:"'Barlow',sans-serif"}}>s</span>}
+                    </div>
                     <button onClick={()=>set(v=>Math.min(max,v+step))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
                   </div>
                 </div>
@@ -3749,8 +3807,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
             </div>
           )}
           </div>
+          {/* Spacer when running/done so Pause/Again align with BREATHE Pause/Again (same vertical slot) */}
+          {(iPhase === "work" || iPhase === "rest" || iPhase === "done") && (
+            <div style={{flexShrink:0,width:"100%",minHeight:TIMER_PHASE_BAND,boxSizing:"border-box"}} aria-hidden />
+          )}
 
-          <div style={{flexShrink:0,display:"flex",gap:12,marginTop:20}}>
+          <div style={TIMER_BTN_ROW}>
             {iPhase === "idle"   && <button onClick={()=>{primeAudio();iStart();}} style={BTN}>Start</button>}
             {(iPhase==="work"||iPhase==="rest") && <>
               <button onClick={()=>setIRunning(r=>!r)} style={{...BTN,padding:"18px 40px"}}>{iRunning?"Pause":"Resume"}</button>
@@ -3758,12 +3820,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
             </>}
             {iPhase === "done"   && <button onClick={iReset} style={BTN}>Again</button>}
           </div>
-        </>)}
+        </div>)}
 
-        {/* ── BREATHE MODE ── */}
-        {mode === "breathe" && (<>
-          {/* Breathing circle — enlarged READY circle + ring */}
-          <div className="timer-breathe-ring-wrap" style={{flexShrink:0,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",width:320,height:320,marginLeft:"auto",marginRight:"auto",marginBottom:0}}>
+        {/* ── BREATHE MODE ── (same ring slot + button band as INTERVAL) */}
+        {mode === "breathe" && (
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center",width:"100%",flex:1,minHeight:0}}>
+          <div className="timer-breathe-ring-wrap timer-ring-slot" style={TIMER_RING_WRAP}>
             <svg width="320" height="320" style={{position:"absolute",top:0,left:0}} className="timer-breathe-guide-ring">
               <circle cx="160" cy="160" r="140" fill="none" stroke="var(--glass-border)" strokeWidth="1.5"/>
             </svg>
@@ -3776,18 +3838,53 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
               transition: bRunning ? `opacity ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1), transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "opacity 0.6s ease, transform 0.6s ease",
               boxShadow: bRunning && bExpand ? "0 0 50px var(--accent-glow)" : "none",
             }}/>
-            <div style={{position:"absolute",textAlign:"center",pointerEvents:"none"}}>
-              {!bRunning && !bDone && <div style={{fontSize:"20px",letterSpacing:"0.12em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Ready</div>}
-              {bRunning && <>
-                <div style={{fontSize:"48px",fontWeight:700,color:curBreathPhase.color,fontFamily:"'Barlow',sans-serif",lineHeight:1,transition:"color 0.5s"}}>{bTime}</div>
-                <div style={{fontSize:"14px", letterSpacing:"0.18em",textTransform:"uppercase",color:"var(--text-dimmer)", marginTop: 6, transition:"all 0.5s"}}>{curBreathPhase.label}</div>
-                <div style={{fontSize:"13px",color:"var(--text-dimmer)",marginTop:4}}>{bCycle} / {breathCycles}</div>
-              </>}
-              {bDone && <div style={{fontSize:"42px",fontWeight:700,color:"var(--accent)",fontFamily:"'Barlow',sans-serif",lineHeight:1}}>✓</div>}
+            {/* Same layout as INTERVAL: countdown centered; cycle line in bottom band (bottom 20, height 80) */}
+            <div style={{position:"absolute",left:0,top:0,width:320,height:320,pointerEvents:"none"}}>
+              {!bRunning && !bDone && (
+                <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <div style={{fontSize:"20px",letterSpacing:"0.12em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Ready</div>
+                </div>
+              )}
+              {bRunning && (
+                <>
+                  {/* Countdown only in circle — phase label moved below circle */}
+                  <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <div style={{...intervalDigitStyle, color: curBreathPhase.color, transition:"color 0.5s"}}>{formatSecondsOnly(bTime)}</div>
+                  </div>
+                  <div style={{
+                    position:"absolute",left:0,right:0,bottom:20,height:80,
+                    display:"flex",alignItems:"center",justifyContent:"center",gap:6,
+                  }}>
+                    <span style={dsegSmall}>{bCycle}</span>
+                    <span style={{fontSize:13,color:"var(--text-dimmer)",fontFamily:"'Barlow',sans-serif"}}>/</span>
+                    <span style={dsegSmall}>{breathCycles}</span>
+                  </div>
+                </>
+              )}
+              {bDone && (
+                <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <div style={{fontSize:"42px",fontWeight:700,color:"var(--accent)",fontFamily:"'Barlow',sans-serif",lineHeight:1}}>✓</div>
+                </div>
+              )}
             </div>
           </div>
-          {/* Options — pattern buttons + cycles, tighter spacing toward Start */}
-          <div style={{flexShrink:0,minHeight:120,width:"100%",marginBottom:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start"}}>
+          {/* Phase label — between circle and Pause/Reset; height locked to TIMER_PHASE_BAND for INTERVAL alignment */}
+          {bRunning && (
+            <div style={{flexShrink:0,width:"100%",textAlign:"center",padding:"9px 20px 10px",marginTop:-5,boxSizing:"border-box",minHeight:TIMER_PHASE_BAND,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <div style={{
+                fontSize:26,
+                fontWeight:700,
+                letterSpacing:"0.22em",
+                textTransform:"uppercase",
+                color:curBreathPhase.color,
+                fontFamily:"'Barlow',sans-serif",
+                transition:"color 0.5s",
+                lineHeight:1.2,
+              }}>{curBreathPhase.label}</div>
+            </div>
+          )}
+          {/* Options — pattern + cycles (same minHeight as INTERVAL idle controls) */}
+          <div style={{flexShrink:0,minHeight:(!bRunning && !bDone)?TIMER_MID_MIN_IDLE:0,width:"100%",marginBottom:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start"}}>
           {!bRunning && !bDone && (
             <>
               <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:12,justifyContent:"center"}}>
@@ -3805,14 +3902,18 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
               <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:16,marginBottom:8}}>
                 <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)"}}>Cycles</div>
                 <button onClick={()=>setBreathCycles(v=>Math.max(1,v-1))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button>
-                <div style={{fontSize:"22px",fontWeight:700,color:"var(--text-white)",minWidth:20,textAlign:"center",fontFamily:"'Barlow',sans-serif"}}>{breathCycles}</div>
+                <span style={dsegMedium}>{breathCycles}</span>
                 <button onClick={()=>setBreathCycles(v=>Math.min(12,v+1))} style={{width:28,height:28,borderRadius:"50%",border:"1px solid var(--glass-border)",background:"transparent",color:"var(--text-secondary)",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
               </div>
             </>
           )}
           </div>
+          {/* Spacer when done so Again aligns with INTERVAL Again */}
+          {bDone && (
+            <div style={{flexShrink:0,width:"100%",minHeight:TIMER_PHASE_BAND,boxSizing:"border-box"}} aria-hidden />
+          )}
 
-          <div style={{flexShrink:0,display:"flex",gap:12,marginTop:20}}>
+          <div style={TIMER_BTN_ROW}>
             {!bRunning && !bDone && <button onClick={bStart} style={BTN}>Start</button>}
             {bRunning && <>
               <button onClick={()=>setBRunning(r=>!r)} style={{...BTN,padding:"18px 40px"}}>Pause</button>
@@ -3820,7 +3921,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
             </>}
             {bDone && <button onClick={bReset} style={BTN}>Again</button>}
           </div>
-        </>)}
+        </div>)}
 
         </div>
       </div>
