@@ -3098,13 +3098,13 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
     const barWidth = 249;
     return (
       <div style={{display: "flex", flexDirection: "column", alignItems: "center", marginTop}}>
-        {/* Number on top — white, digital style (matches GET READY countdown) */}
+        {/* Number on top — uses main theme accent on ACTIVE BEGIN */}
         <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
           <div style={{
             minWidth: 134, textAlign: "left", fontVariantNumeric: "tabular-nums",
             fontFamily: "'Barlow', sans-serif",
             fontSize: numSize, fontWeight: 600, letterSpacing: "-0.02em",
-            color: "#fff", lineHeight: 1,
+            color: timerAccent, lineHeight: 1,
           }}>{display}</div>
         </div>
         {/* Progress bar: matches GET READY (249×8, 2x margin below) */}
@@ -3222,9 +3222,16 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const launchRef = useRef(null);
   const milestoneRef = useRef(null);
   const wakeLockRef = useRef(null);
-
   const cur = list.length > 0 ? list[Math.min(fi, list.length - 1)] : null;
   const next = list[fi + 1] || null;
+
+  // GUIDED phase flags
+  const isExercisePhase = phase === "exercise";
+
+  // BEGIN (exercise) uses a flat, rich theme background and higher-contrast surfaces
+  const GUIDED_BG = (!isNight && isExercisePhase)
+    ? (ct.bg || MAIN_APP_BG[isDark ? "dark" : "light"])
+    : BG;
 
   // Disable body overflow so position:fixed is never trapped
   useEffect(() => {
@@ -3368,18 +3375,20 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   return (
     <div data-theme={theme} data-night={isNight ? "true" : "false"} style={{
       position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:99999,
-      background:BG, display:"flex", flexDirection:"column",
+      background: GUIDED_BG, display:"flex", flexDirection:"column",
       fontFamily:"'Barlow',sans-serif", color:W, WebkitFontSmoothing:"antialiased",
       overflow:"hidden",
     }}>
       <style>{css}</style>
 
-      {/* Orb layer — static */}
-      <div className="app-orbs" style={{
-        position:"absolute", inset:0,
-        background:"var(--orb1), var(--orb2), var(--orb3)",
-        transition:"background 0.4s ease",
-      }} />
+      {/* Orb layer — static (hidden on BEGIN to emphasize flat background) */}
+      {(!isExercisePhase || isNight) && (
+        <div className="app-orbs" style={{
+          position:"absolute", inset:0,
+          background:"var(--orb1), var(--orb2), var(--orb3)",
+          transition:"background 0.4s ease",
+        }} />
+      )}
 
       {/* ── TOP BAR: Exit + Progress ring ── */}
       <div style={{
@@ -3493,15 +3502,28 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           </div>
 
           {/* Primary title: large, bold — white, centered */}
-          <div style={{
-            fontSize: (phase === "getready" || phase === "launch" || phase === "exercise") ? 38 : 30,
-            fontWeight: 700, letterSpacing: "0.02em", lineHeight: 1.08, textTransform: "uppercase",
-            color: W,
-            marginBottom: 16, flexShrink: 0, fontFamily: "'Barlow', sans-serif",
-            textShadow: NAME_SHAD,
-            textAlign: (phase === "getready" || phase === "launch" || phase === "exercise") ? "center" : "left",
-          }}>
-            {cur?.name}
+          <div style={{display:"flex",flexDirection:"column",alignItems:(phase === "getready" || phase === "launch" || phase === "exercise") ? "center" : "flex-start"}}>
+            {phase === "exercise" && (
+              <div style={{
+                fontSize:10,
+                letterSpacing:"0.24em",
+                textTransform:"uppercase",
+                color:A,
+                marginBottom:6,
+              }}>
+                ACTIVE
+              </div>
+            )}
+            <div style={{
+              fontSize: (phase === "getready" || phase === "launch" || phase === "exercise") ? 38 : 30,
+              fontWeight: 700, letterSpacing: "0.02em", lineHeight: 1.08, textTransform: "uppercase",
+              color: W,
+              marginBottom: 16, flexShrink: 0, fontFamily: "'Barlow', sans-serif",
+              textShadow: NAME_SHAD,
+              textAlign: (phase === "getready" || phase === "launch" || phase === "exercise") ? "center" : "left",
+            }}>
+              {cur?.name}
+            </div>
           </div>
 
           {/* ── GLASS CUE CARD ── */}
@@ -3511,11 +3533,17 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
             return (
               <div style={{
                 borderRadius: 20,
-                background: isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)",
-                backdropFilter: "blur(24px) saturate(1.4)",
-                WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-                border: `1px solid ${isNight ? "rgba(255,59,48,0.12)" : (isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)")}`,
-                boxShadow: isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)",
+                background: isExercisePhase && !isNight
+                  ? (isDark ? "rgba(6,14,32,0.96)" : "rgba(252,252,255,0.98)")
+                  : (isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)"),
+                backdropFilter: isExercisePhase && !isNight ? "none" : "blur(24px) saturate(1.4)",
+                WebkitBackdropFilter: isExercisePhase && !isNight ? "none" : "blur(24px) saturate(1.4)",
+                border: isExercisePhase && !isNight
+                  ? (isDark ? "1px solid rgba(255,255,255,0.22)" : "1px solid rgba(10,18,36,0.08)")
+                  : `1px solid ${isNight ? "rgba(255,59,48,0.12)" : (isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)")}`,
+                boxShadow: isExercisePhase && !isNight
+                  ? (isDark ? "0 8px 26px rgba(0,0,0,0.55)" : "0 10px 32px rgba(12,24,48,0.26)")
+                  : (isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)"),
                 overflow: "hidden", flexShrink: 0, marginBottom: 16,
               }}>
                 {ex.start && (
@@ -3547,7 +3575,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
                 minWidth: 134, textAlign: "left", fontVariantNumeric: "tabular-nums",
                 fontFamily: "'Barlow', sans-serif",
                 fontSize: 80, fontWeight: 600, letterSpacing: "-0.02em",
-                color: "#fff", lineHeight: 1,
+                color: "rgba(255,255,255,0.5)", lineHeight: 1,
               }}>
                 {`0:${readyLeft.toString().padStart(2, "0")}`}
               </div>
@@ -3725,6 +3753,28 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
 
   const pattern = BREATH_PATTERNS[breathPattern];
   const curBreathPhase = pattern[bPhaseIdx];
+  const phaseLabel = curBreathPhase?.label || "";
+  const isInhalePhase = phaseLabel === "Inhale" || phaseLabel === "Sniff";
+  const isHoldPhase   = phaseLabel === "Hold";
+  const isExhalePhase = phaseLabel.includes("Exhale");
+
+  // Smooth phase envelope for orbs — same orbs, different opacity/scale over phase duration
+  const phaseDur = curBreathPhase?.dur || 1;
+  const clampedTime = Math.max(0, Math.min(phaseDur, bTime));
+  let orbOpacity = 0;
+  let orbScale = 0.7;
+  if (isInhalePhase) {
+    const frac = 1 - clampedTime / phaseDur; // 0 → 1 over inhale
+    orbOpacity = 0.2 + 0.6 * frac;          // 0.2 → 0.8
+    orbScale = 0.7 + 0.4 * frac;            // 0.7 → 1.1
+  } else if (isHoldPhase) {
+    orbOpacity = 0.8;
+    orbScale = 1.05;
+  } else if (isExhalePhase) {
+    const frac = clampedTime / phaseDur;    // 1 → 0 over exhale
+    orbOpacity = 0.8 * frac;                // 0.8 → 0 by end of exhale
+    orbScale = 0.7 + 0.4 * frac;            // 1.1 → 0.7
+  }
 
   function bReset() {
     clearInterval(bRef.current);
@@ -3874,6 +3924,33 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
     background: var(--accent-dim);
     border-color: var(--accent);
     color: var(--accent);
+  }
+  .timer-view-body .timer-breathe-orb {
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+    background: radial-gradient(circle at 40% 30%, var(--accent) 0%, transparent 80%);
+    mix-blend-mode: screen;
+    filter: blur(10px);
+    animation: timer-breathe-orb-loop 16s ease-in-out infinite;
+  }
+  .timer-view-body .timer-breathe-orb-soft {
+    background: radial-gradient(circle at 40% 40%, var(--accent-glow, var(--accent-dim)) 0%, transparent 85%);
+    animation-duration: 18s;
+  }
+  @keyframes timer-breathe-orb-loop {
+    0% {
+      opacity: 0.45;
+      transform: scale(0.9);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 0.45;
+      transform: scale(0.9);
+    }
   }
   .timer-view-body .timer-glass-stepper {
     background: transparent;
@@ -4078,6 +4155,31 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
               transform: bRunning && bExpand ? "scale(1)" : "scale(0.45)",
               transition: bRunning ? `opacity ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1), transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "opacity 0.6s ease, transform 0.6s ease",
             }}/>
+            {bRunning && !nightMode && (
+              <div style={{
+                position:"absolute",left:27,top:27,width:306,height:306,borderRadius:"50%",overflow:"hidden",pointerEvents:"none",
+              }}>
+                <div style={{
+                  position:"absolute",inset:0,display:"block",
+                  opacity:orbOpacity,
+                  transform:`scale(${orbScale})`,
+                  transition:"opacity 0.9s ease, transform 0.9s ease",
+                }}>
+                  {[0,1,2,3,4,5].map(i => {
+                    const base = [
+                      { width:260, height:260, left:23,  top:23 },
+                      { width:280, height:280, right:13, top:18 },
+                      { width:270, height:270, left:20,  bottom:20 },
+                      { width:290, height:290, left:10,  top:10 },
+                      { width:300, height:300, right:6,  bottom:8 },
+                      { width:250, height:250, left:28,  top:30 },
+                    ][i];
+                    const cls = `timer-breathe-orb${i % 2 ? " timer-breathe-orb-soft" : ""}`;
+                    return <div key={i} className={cls} style={base} />;
+                  })}
+                </div>
+              </div>
+            )}
             {/* Same layout as INTERVAL: countdown centered; cycle line in bottom band (bottom 20, height 80) */}
             <div style={{position:"absolute",left:0,top:0,width:ringSize,height:ringSize,pointerEvents:"none"}}>
               {!bRunning && !bDone && (
@@ -4763,6 +4865,25 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           )}
         </div>
 
+        {/* Guided CTA — sits above Favorites/Skipped/Reset when GUIDED tab is active */}
+        {tab === "guided" && (
+          <div style={{padding:"14px 0 6px"}}>
+            <button
+              className="fv-cta"
+              disabled={filteredAll.length === 0}
+              onClick={() => { if (filteredAll.length > 0) { primeAudio(); setGuidedActive(true); } }}
+            >
+              <div style={{display:"flex", alignItems:"center", justifyContent:"center", gap:10}}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                <span>Start Guided</span>
+              </div>
+              <div style={{fontSize:11, fontWeight:400, letterSpacing:"0.12em", opacity:0.65, marginTop:4}}>
+                {filteredAll.length} exercises · auto-timed
+              </div>
+            </button>
+          </div>
+        )}
+
         {/* Pill controls */}
         <div className="fav-filter">
           <button className={`fav-toggle ${showFavOnly ? "on" : ""}`} onClick={() => { setShowFavOnly(f => !f); setShowSkipOnly(false); }}>★ Favorites</button>
@@ -4838,21 +4959,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
                 })}
               </div>
             ))}
-            <div style={{padding:"16px 0 16px"}}>
-              <button
-                className="fv-cta"
-                disabled={filteredAll.length === 0}
-                onClick={() => { if (filteredAll.length > 0) { primeAudio(); setGuidedActive(true); } }}
-              >
-                <div style={{display:"flex", alignItems:"center", justifyContent:"center", gap:10}}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-                  <span>Start Guided</span>
-                </div>
-                <div style={{fontSize:11, fontWeight:400, letterSpacing:"0.12em", opacity:0.65, marginTop:4}}>
-                  {filteredAll.length} exercises · auto-timed
-                </div>
-              </button>
-            </div>
           </>
         )}
 
