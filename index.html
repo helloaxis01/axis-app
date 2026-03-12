@@ -659,7 +659,7 @@ function Onboarding({ theme, onComplete }) {
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:10,opacity:obAutoTime ? 0.85 : 1,marginBottom:32}}>
                 {[
-                  { p:"dawn",    label:"Dawn",    time:"5–11am",   desc:"Warm amber",
+                  { p:"dawn",    label:"Rise",    time:"5–11am",   desc:"Warm amber",
                     icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 16 A 8 8 0 0 1 20 16"/><line x1="0" y1="16" x2="24" y2="16"/></svg> },
                   { p:"midday",  label:"Midday",  time:"11am–5pm", desc:"Cool mint",
                     icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg> },
@@ -2787,7 +2787,7 @@ function Steps({ steps, small, start: startText }) {
   );
 }
 
-function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onFav, note, onNote, nextName, hideTimer = false, hideDone = false }) {
+function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onFav, note, onNote, nextName, hideTimer = false, hideDone = false, exerciseDurationSeconds }) {
   const rowRef = useRef(null);
   const markDoneAndCollapse = () => {
     onToggle();
@@ -2809,7 +2809,11 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
         <div className="ei">
           <div className={`en ${done && !skipped ? "done" : ""} ${skipped ? "skipped" : ""}`}>{ex.name}</div>
           <div className="es">{ex.sub}</div>
-          {ex.reps && !skipped && !hideDone && <div className="ereps">{ex.reps}</div>}
+          {!skipped && !hideDone && (() => {
+            const isTimed = (ex.type === "time" || ex.type === "flow") && exerciseDurationSeconds != null;
+            const displayReps = isTimed ? (exerciseDurationSeconds === 60 ? "1 min" : `${exerciseDurationSeconds} sec`) : ex.reps;
+            return displayReps ? <div className="ereps">{displayReps}</div> : null;
+          })()}
         </div>
         <div className="row-actions" onClick={e => e.stopPropagation()}>
           {!skipped && <button className={`ra-btn ${faved ? "fav-on" : ""}`} onClick={onFav}>★</button>}
@@ -2832,7 +2836,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
           {!skipped && (
             <>
               {(ex.type === "time" || ex.type === "flow") && !hideTimer
-                ? <Timer key={ex.id} seconds={ex.seconds} onDone={markDoneAndCollapse} nextName={nextName} />
+                ? <Timer key={ex.id} seconds={exerciseDurationSeconds != null ? exerciseDurationSeconds : ex.seconds} onDone={markDoneAndCollapse} nextName={nextName} />
                 : ex.reps && !hideDone && ex.id !== 5 && ex.id !== 702
                   ? <div style={{marginTop:20, paddingTop:16, borderTop:"1px solid var(--border)"}}>
                       <div style={{fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--accent-secondary)", fontWeight:700, marginBottom:8}}>Target</div>
@@ -4208,8 +4212,17 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [showStreak, setShowStreak] = useState(() => storageGet("axis_show_streak", true));
   const [showTimer, setShowTimer] = useState(() => storageGet("axis_show_timer", true));
   const [showPct, setShowPct] = useState(() => storageGet("axis_show_pct", true));
+  const [defaultSessionTab, setDefaultSessionTab] = useState(() => storageGet("axis_default_session_tab", "list"));
+  const [exerciseDuration, setExerciseDuration] = useState(() => {
+    const v = storageGet("axis_exercise_duration", 45);
+    return [30, 45, 60].includes(Number(v)) ? Number(v) : 45;
+  });
   const [track, setTrack] = useState("daily");
-  const [tab, setTab] = useState("list");
+  const [tab, setTab] = useState(() => {
+    const d = storageGet("axis_default_session_tab", "list");
+    return d === "last" ? storageGet("axis_last_session_tab", "list") : d;
+  });
+  const prevViewRef = useRef(null);
   const [fi, setFi] = useState(0);
   const [openId, setOpenId] = useState(null);
   const [showFavOnly, setShowFavOnly] = useState(false);
@@ -4254,6 +4267,20 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => { storageSet("axis_show_streak", showStreak); }, [showStreak]);
   useEffect(() => { storageSet("axis_show_timer", showTimer); }, [showTimer]);
   useEffect(() => { storageSet("axis_show_pct", showPct); }, [showPct]);
+  useEffect(() => { storageSet("axis_default_session_tab", defaultSessionTab); }, [defaultSessionTab]);
+  useEffect(() => { storageSet("axis_exercise_duration", exerciseDuration); }, [exerciseDuration]);
+  useEffect(() => {
+    if (view === "session") {
+      const d = storageGet("axis_default_session_tab", "list");
+      const want = d === "last" ? storageGet("axis_last_session_tab", "list") : d;
+      setTab(want);
+    }
+    prevViewRef.current = view;
+  }, [view]);
+  useEffect(() => {
+    if (view === "session" && storageGet("axis_default_session_tab") === "last")
+      storageSet("axis_last_session_tab", tab);
+  }, [tab, view]);
   useEffect(() => { storageSet("axis_done", done); }, [done]);
   useEffect(() => { storageSet("axis_skipped", skipped); }, [skipped]);
   useEffect(() => { storageSet("axis_favs", favs); }, [favs]);
@@ -4293,7 +4320,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const toggleSkip = id => setSkipped(s => ({ ...s, [id]: !s[id] }));
   const toggleFav = id => setFavs(f => ({ ...f, [id]: !f[id] }));
   const setNote = (id, val) => setNotes(n => ({ ...n, [id]: val }));
-  const switchTrack = t => { setTrack(t); setFi(0); setOpenId(null); setTab("list"); };
+  const switchTrack = t => { setTrack(t); setFi(0); setOpenId(null); };
   const beginTrack = t => { switchTrack(t); setHasActiveSession(true); setView("session"); };
   const goHome = () => { setView("home"); setTab("list"); };
   const playBeep = (freq = 880) => beep(freq);
@@ -4337,6 +4364,31 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
               </button>
             </div>
           ))}
+        </div>
+        <div style={{borderTop:"1px solid var(--border)",paddingTop:24,marginBottom:32}}>
+          <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)",marginBottom:16}}>Session</div>
+          <div style={{marginBottom:24}}>
+            <div style={{fontSize:"14px",fontWeight:500,color:"var(--text-white)",marginBottom:8}}>Default tab</div>
+            <div style={{fontSize:"12px",color:"var(--text-secondary)",lineHeight:1.45,marginBottom:12,maxWidth:280}}>Which tab opens when you start a session.</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+              {["list", "guided", "last"].map(opt => (
+                <button key={opt} onClick={() => setDefaultSessionTab(opt)} style={{fontFamily:"'Barlow',sans-serif",fontSize:12,letterSpacing:"0.06em",textTransform:"uppercase",padding:"8px 14px",borderRadius:8,border:"1px solid",borderColor:defaultSessionTab === opt ? "var(--accent)" : "var(--glass-border)",background:defaultSessionTab === opt ? "var(--accent)" : "var(--glass-bg)",color:defaultSessionTab === opt ? (nightMode ? "#000" : "#fff") : "var(--text-secondary)",cursor:"pointer",fontWeight:600}}>
+                  {opt === "list" ? "List" : opt === "guided" ? "Guided" : "Last used"}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div style={{fontSize:"14px",fontWeight:500,color:"var(--text-white)",marginBottom:8}}>Exercise duration (LIST)</div>
+            <div style={{fontSize:"12px",color:"var(--text-secondary)",lineHeight:1.45,marginBottom:12,maxWidth:280}}>Timer length for each exercise in LIST view.</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+              {[30, 45, 60].map(sec => (
+                <button key={sec} onClick={() => setExerciseDuration(sec)} style={{fontFamily:"'Barlow',sans-serif",fontSize:12,letterSpacing:"0.06em",textTransform:"uppercase",padding:"8px 14px",borderRadius:8,border:"1px solid",borderColor:exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)",background:exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)",color:exerciseDuration === sec ? (nightMode ? "#000" : "#fff") : "var(--text-secondary)",cursor:"pointer",fontWeight:600}}>
+                  {sec === 60 ? "1 min" : `${sec} sec`}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
         <div style={{borderTop:"1px solid var(--border)",paddingTop:24,marginBottom:0}}>
           <div style={{fontSize:"13px",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--text-dimmer)",marginBottom:16}}>Data Management</div>
@@ -4392,7 +4444,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // MOOD
   if (view === "mood") {
     const MOOD_PERIODS = [
-      { p:"dawn",    label:"Dawn",    time:"5–11am",   desc:"Warm amber. Morning energy.",
+      { p:"dawn",    label:"Rise",    time:"5–11am",   desc:"Warm amber. Morning energy.",
         icon:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 16 A 8 8 0 0 1 20 16"/><line x1="0" y1="16" x2="24" y2="16"/></svg> },
       { p:"midday",  label:"Midday",  time:"11am–5pm", desc:"Cool mint. Crisp and focused.",
         icon:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg> },
@@ -4506,7 +4558,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       prime:  { trackId: "stress",  suggestion: "Undo the day's stressors." },
       rest:   { trackId: "prime",    suggestion: "Relax your body with a quick wind down." },
     };
-    const periodLabels = { dawn: "Dawn", midday: "Midday", prime: "Prime", rest: "Rest" };
+    const periodLabels = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
     const todaySug = TODAY_SUGGESTIONS[nowPeriod];
     const todayTrack = TRACKS[todaySug.trackId];
     const groups = [
@@ -4591,7 +4643,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             justifyContent: "space-between",
             minHeight: "100vh",
             minHeight: "100dvh",
-            padding: "48px 32px 80px",
+            padding: "calc(25vh + 48px) 32px 80px 48px",
             textAlign: "center",
             background: "#0B121C",
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
@@ -4620,7 +4672,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             <img
               src={theme === "dark" ? AXIS_LOGO_DARK : AXIS_LOGO_LIGHT}
               alt="AXIS"
-              style={{ height: 72, width: "auto", objectFit: "contain", opacity: 0.4, marginBottom: 48 }}
+              style={{ height: 72, width: "auto", objectFit: "contain", opacity: 0.3, marginBottom: 48 }}
             />
             <div
               style={{
@@ -4629,7 +4681,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
                 letterSpacing: "0.28em",
                 textTransform: "uppercase",
                 fontWeight: 300,
-                color: "rgba(255, 255, 255, 0.4)",
+                color: "rgba(255, 255, 255, 0.3)",
               }}
             >
               X MOVE X MEND X MAINTAIN X
@@ -4746,6 +4798,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
                     faved={!!favs[ex.id]} onFav={() => toggleFav(ex.id)}
                     note={notes[ex.id]} onNote={val => setNote(ex.id, val)}
                     nextName={nextEx ? nextEx.name : null}
+                    exerciseDurationSeconds={exerciseDuration}
                   />
                     );
                   })}
