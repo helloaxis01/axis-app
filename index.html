@@ -4433,6 +4433,17 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
     transform-origin: center center;
     will-change: stroke-dashoffset, transform;
   }
+  /* subtle hold pulse: animate glow opacity and blur (respects reduced motion) */
+  @media (prefers-reduced-motion: no-preference) {
+    .timer-breathe-hold .timer-breathe-glow {
+      animation: breathe-hold-glow 1.2s ease-in-out infinite;
+      will-change: filter, opacity;
+    }
+  }
+  @keyframes breathe-hold-glow {
+    from { opacity: 0.32; filter: blur(6px); }
+    to   { opacity: 0.42; filter: blur(8px); }
+  }
   .timer-view-body .timer-glass-stepper {
     background: transparent;
     border: 1px solid var(--border);
@@ -4626,7 +4637,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
               <circle cx="160" cy="160" r="140" fill="none" stroke="var(--border)" strokeWidth="1.5"/>
             </svg>
             {bRunning && !nightMode && (
-              <div style={{
+              <div className={isHoldPhase ? "timer-breathe-hold" : ""} style={{
                 position:"absolute", left:breatheInset, top:breatheInset, width:306, height:306, borderRadius:"50%", overflow:"visible", pointerEvents:"none",
                 transform: bRunning && bExpand ? "scale(1)" : "scale(0.45)",
                 transformOrigin:"center center",
