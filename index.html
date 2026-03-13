@@ -2081,6 +2081,8 @@ const TRACKS = {
   running:     { id: "running",     label: "Running Reset",          subtitle: "Impact · Hips · Recovery",             purpose: "Prime tendons and hips before impact, then restore structure and circulation post-run.",                       sections: RUNNING_SECTIONS,  duration: "8–12 min" },
   golf:        { id: "golf",        label: "Golf Reset",             subtitle: "Dynamic · Rotational · Recovery",      purpose: "Prepare rotation, wrists, and hips before the first tee, then decompress after the final putt.",               sections: GOLF_SECTIONS,     duration: "8–10 min" },
   tennis:      { id: "tennis",      label: "Racquet Sports Reset",   subtitle: "Court · Shoulder · Hips",              purpose: "Ready the lateral base and shoulders for court work, then release forearms, hips, and side body after play.",  sections: TENNIS_SECTIONS,   duration: "8–10 min" },
+  thoracic:    { id: "thoracic",    label: "Thoracic Chest Reset Flow", subtitle: "Thoracic mobility · Upper back · Chest", purpose: "A guided 7–10 minute flow to restore thoracic mobility, reduce upper back tension, and relieve chest/arm symptoms.", sections: THORACIC_SECTIONS, duration: "8–10 min" },
+  wrist:       { id: "wrist",       label: "Wrist & Hand Reset Flow", subtitle: "Glides · Stretches · Nerve glides", purpose: "Short PT-style routine for wrist and hand mobility — perfect for keyboard users.", sections: WRIST_SECTIONS, duration: "5–7 min" },
 };
 
 
@@ -2172,6 +2174,76 @@ const FIGURES = {
   <circle cx="68" cy="138" r="3.5" fill="rgba(232,228,223,0.4)"/>
 </svg>`,
 };
+
+// New Tracks: Thoracic Chest Reset Flow + Wrist & Hand Reset Flow
+const THORACIC_SECTIONS = [
+  {
+    label: "Thoracic Flow",
+    tag: "TC",
+    purpose: "A short guided sequence to restore thoracic mobility, reduce upper back tension, and relieve chest/arm referral. Works well before/after sitting or anxious states.",
+    exercises: [
+      { id: 2000, name: "Thoracic Extension (foam roller)", start: "Seated or supine with foam roller/rolled towel under the upper back (shoulder blade level).", sub: "Extension options", type: "time", seconds: 45, steps: [
+        { pos: "A", label: "Setup", focus: "SETUP", cue: "Place foam roller or rolled towel under upper back. Keep knees bent and feet on the floor if lying." },
+        { pos: "B", label: "Extend", focus: "EXTEND", cue: "Support your head with hands and gently arch back over the roller. Pause and breathe for 3-5 breaths." },
+        { pos: "C", label: "Alternative", focus: "VARIATION", cue: "If no roller, use a chair back, wall, or puppy-pose quadruped variation to find comfortable extension." },
+      ]},
+      { id: 2001, name: "Cat–Cow", start: "On all fours, neutral spine.", sub: "Segmental flexion/extension", type: "reps", reps: "10 reps", steps: [
+        { pos: "A", label: "Neutral Tabletop", focus: "SETUP", cue: "Hands under shoulders, knees under hips. Neutral spine, neck long." },
+        { pos: "B", label: "Cow — Inhale", focus: "EXTEND", cue: "Inhale, drop the belly, lift the chest and tailbone." },
+        { pos: "C", label: "Cat — Exhale", focus: "FLEX", cue: "Exhale, round through the spine segment by segment. Move slowly for 10 cycles." },
+      ]},
+      { id: 2002, name: "Thoracic Rotation", start: "Seated or kneeling with arms crossed.", sub: "Rotation, 5–10 per side", type: "reps", reps: "5–10 per side", steps: [
+        { pos: "A", label: "Seated Setup", focus: "SETUP", cue: "Sit tall with hands across chest or arms hugging shoulders." },
+        { pos: "B", label: "Rotate", focus: "ROTATE", cue: "Rotate upper body gently to one side, keeping hips facing forward. Return and repeat other side." },
+      ]},
+      { id: 2003, name: "Wall Angels", start: "Standing with back against a wall.", sub: "Scapular retraction & mobility", type: "reps", reps: "5–10 reps", steps: [
+        { pos: "A", label: "Wall Contact", focus: "SETUP", cue: "Head, upper back and glutes touch the wall. Arms in a W at shoulder height." },
+        { pos: "B", label: "Slide to Y", focus: "ACTIVATE", cue: "Slide arms up overhead into a Y keeping contact with the wall. Return slowly." },
+      ]},
+      { id: 2004, name: "Chin Tucks", start: "Seated or standing tall.", sub: "Cervical retraction", type: "reps", reps: "10 reps", steps: [
+        { pos: "A", label: "Setup", focus: "SETUP", cue: "Sit or stand tall, eyes forward." },
+        { pos: "B", label: "Tuck", focus: "NECK", cue: "Draw chin straight back (not down), hold gently for 3–5 seconds then release." },
+      ]},
+      { id: 2005, name: "Thread the Needle", start: "All fours — hands under shoulders, knees under hips.", sub: "Thoracic rotation & shoulder release", type: "time", seconds: 25, steps: [
+        { pos: "A", label: "Setup", focus: "SETUP", cue: "From tabletop, reach one arm under the body and rest shoulder on the floor." },
+        { pos: "B", label: "Hold", focus: "RELEASE", cue: "Breathe here 20–30 seconds per side and feel rotation through the upper back." },
+      ]},
+      { id: 2006, name: "Child's Pose", start: "Kneel and reach arms forward.", sub: "Gentle spine flexion & reset", type: "time", seconds: 25, steps: [
+        { pos: "A", label: "Kneel & Fold", focus: "SETUP", cue: "Sit back toward heels and fold forward with arms extended. Relax the chest toward the floor." },
+      ]},
+    ],
+  },
+];
+
+const WRIST_SECTIONS = [
+  {
+    label: "Wrist & Hand Reset",
+    tag: "WH",
+    purpose: "Short PT-style routine: glides, stretches and nerve glides for wrist and hand health — great for keyboard users.",
+    exercises: [
+      { id: 2010, name: "Wrist Flexor Stretch", start: "Seated or standing, arm extended.", sub: "Stretch the palm-side forearm", type: "time", seconds: 30, steps: [
+        { pos: "A", label: "Setup", focus: "SETUP", cue: "Extend the arm with palm facing up." },
+        { pos: "B", label: "Stretch", focus: "STRETCH", cue: "Use the other hand to gently pull fingers back toward you. Hold 30s per side." },
+      ]},
+      { id: 2011, name: "Wrist Extensor Stretch", start: "Arm extended palm down.", sub: "Stretch the top forearm", type: "time", seconds: 30, steps: [
+        { pos: "A", label: "Setup", focus: "SETUP", cue: "Extend the arm with palm facing down." },
+        { pos: "B", label: "Stretch", focus: "STRETCH", cue: "Use the other hand to press the fingers toward the forearm. Hold 30s per side." },
+      ]},
+      { id: 2012, name: "Median Nerve Glide", start: "Seated, arm supported.", sub: "Nerve mobility", type: "reps", reps: "10 reps", steps: [
+        { pos: "A", label: "Setup", focus: "SETUP", cue: "Start with a neutral wrist and fingers." },
+        { pos: "B", label: "Glide", focus: "GLIDE", cue: "Make a fist, then straighten fingers and thumb across the palm. Repeat smoothly for 10 reps." },
+      ]},
+      { id: 2013, name: "Prayer Stretch", start: "Standing or seated at chest height.", sub: "Gentle wrist flexion", type: "time", seconds: 20, steps: [
+        { pos: "A", label: "Prayer Setup", focus: "SETUP", cue: "Bring palms together at chest, fingers pointing up." },
+        { pos: "B", label: "Lower", focus: "STRETCH", cue: "Slowly lower hands while keeping palms together to stretch the wrists. Hold 20s." },
+      ]},
+      { id: 2014, name: "Shakeout & Fist Pumps", start: "Standing or seated.", sub: "Loosen the hands and forearms", type: "time", seconds: 30, steps: [
+        { pos: "A", label: "Shake", focus: "RELEASE", cue: "Shake both hands loose for 15 seconds." },
+        { pos: "B", label: "Fist Pumps", focus: "ACTIVATE", cue: "Alternate making a fist and opening the hand with punch-like pumps for 15 seconds." },
+      ]},
+    ],
+  },
+];
 
 function getSections(trackId) { return TRACKS[trackId].sections; }
 function getAll(trackId) { return getSections(trackId).flatMap(s => s.exercises.map(e => ({ ...e, sectionLabel: s.label }))); }
