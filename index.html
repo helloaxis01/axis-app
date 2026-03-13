@@ -4437,12 +4437,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
   @media (prefers-reduced-motion: no-preference) {
     .timer-breathe-hold .timer-breathe-glow {
       animation: breathe-hold-glow 1.2s ease-in-out infinite;
-      will-change: filter, opacity;
+      will-change: filter;
     }
   }
   @keyframes breathe-hold-glow {
-    from { opacity: 0.32; filter: blur(6px); }
-    to   { opacity: 0.42; filter: blur(8px); }
+    from { filter: blur(6px); }
+    to   { filter: blur(8px); }
   }
   .timer-view-body .timer-glass-stepper {
     background: transparent;
@@ -4644,7 +4644,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                 transition: bRunning ? `transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "transform 0.6s ease",
               }}>
                 {/* Glow behind the ring (SVG slightly larger to avoid blur clipping) */}
-                <svg className="timer-breathe-glow" width="320" height="320" viewBox="0 0 320 320" style={{position:"absolute", left:-7, top:-7}}>
+                <svg className="timer-breathe-glow" width="320" height="320" viewBox="0 0 320 320" style={{position:"absolute", left:-7, top:-7, opacity: Math.max(orbOpacity ?? 0, 0.18)}}>
                   <defs>
                     <radialGradient id="breatheGlow" cx="50%" cy="50%" r="50%">
                       <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.32" />
