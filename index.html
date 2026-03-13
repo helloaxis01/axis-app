@@ -4725,7 +4725,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
           </div>
 
           <div style={{height:12}} aria-hidden />
-          <div style={TIMER_BTN_ROW}>
+          <div style={{...TIMER_BTN_ROW, marginTop: -40}}>
             {!bRunning && !bDone && <button type="button" onClick={()=>{primeAudio();bStart();}} className="timer-glass-btn-pri" style={BTN}>Start</button>}
             {bRunning && <>
               <button type="button" onClick={()=>setBRunning(r=>!r)} className="timer-glass-btn-pri" style={{...BTN,padding:"12px 28px"}}>Pause</button>
