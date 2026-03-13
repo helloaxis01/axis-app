@@ -426,7 +426,7 @@ function Onboarding({ theme, onComplete }) {
   const [obTime, setObTime] = useState(null); // 5 | 10 | 15 | 20 (minutes) for calibration
   const [hasChosenMood, setHasChosenMood] = useState(false); // Grey until user picks a mood on Appearance
   const [colorRevealed, setColorRevealed] = useState(false); // true after fade-in completes so we switch theme
-  const iconColor = obTheme === "dark" ? "#ffffff" : "#111111";
+  const iconColor = obTheme === "dark" ? "#f6f7f8" : "#252525";
   const periodForTheme = obPeriod ?? getCircadianPeriod();
   const ct = CIRCADIAN_THEMES[periodForTheme][obTheme === "dark" ? "dark" : "light"];
   const useGrey = cur < 5 || (cur === 5 && !colorRevealed); // Dark navy until Appearance (step 5); then illuminates with Mood
@@ -517,13 +517,13 @@ function Onboarding({ theme, onComplete }) {
           {/* 1: ALPHA BUILD */}
           {cur === 1 && <div className="ob-screen">
             <div className="ob-pad">
-              <div className="ob-eyebrow">ALPHA BUILD</div>
+              <div className="ob-eyebrow" style={{letterSpacing:"0.5em", fontSize:12}}>ALPHA BUILD</div>
               <div className="ob-heading" style={{fontSize:32, fontWeight:700, color:"var(--ob-text-head)"}}>Welcome to AXIS.</div>
-              <div className="ob-body" style={{marginBottom:24}}>
-                You are accessing an early access prototype. While we polish the final experience, the core science is fully functional. Your usage and feedback directly shape the future of AXIS.
+              <div className="ob-body" style={{marginBottom:24, fontSize:16, opacity:0.6}}>
+                You’re accessing an early prototype. While we refine the final experience, the core science is fully active. Your usage and feedback help shape the future of AXIS.
               </div>
               <div className="ob-body" style={{marginTop:16, fontSize:14, color:"var(--ob-text-sec)"}}>
-                When you're done using the app, please quit it so your app receives updates.
+                When you’re done using the app, please quit it so you receive the latest updates automatically.
               </div>
             </div>
             <div className="ob-nav-bar">
@@ -540,12 +540,32 @@ function Onboarding({ theme, onComplete }) {
               <div className="ob-eyebrow">THE PERSPECTIVE & FOUNDATION</div>
               <div className="ob-heading">Modern life is an <em>endurance sport.</em></div>
             <div className="ob-body" style={{marginBottom:20}}>
-              Screens and desks create a physical tax, and AXIS is your manual reset. We use biomechanically sequenced moves to reboot your nervous system and restore natural alignment.
+              Screens and desks create a physical tax, and AXIS is your manual reset. We use biomechanically sequenced movements to reboot your nervous system and restore natural alignment.
             </div>
-            <div className="ob-sci-blocks">
-              <div className="ob-sci"><div className="ob-sci-text">80% of adults face chronic back pain.</div></div>
-              <div className="ob-sci"><div className="ob-sci-text">70% of desk workers fight neck tension.</div></div>
-              <div className="ob-sci"><div className="ob-sci-text">100% feel better moving with intent.</div></div>
+              <div style={{marginTop:18, display:"grid", gap:12}}>
+              <div style={{display:"flex", alignItems:"center", gap:16, padding:"8px 0", borderBottom:"1px dashed var(--ob-box-border)"}}>
+                <div style={{fontSize:40, fontWeight:800, lineHeight:1, color:"var(--ob-text-head)", width:96, textAlign:"right"}}>80%</div>
+                <div>
+                  <div style={{fontSize:16, fontWeight:800, color:"var(--ob-text-head)"}}>of adults experience chronic back pain.</div>
+                  <div style={{marginTop:6, fontSize:13, color:"var(--ob-text-body)"}}>A widespread issue that daily resets aim to reduce through consistent mobility work.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", alignItems:"center", gap:16, padding:"8px 0", borderBottom:"1px dashed var(--ob-box-border)"}}>
+                <div style={{fontSize:40, fontWeight:800, lineHeight:1, color:"var(--ob-text-head)", width:96, textAlign:"right"}}>70%</div>
+                <div>
+                  <div style={{fontSize:16, fontWeight:800, color:"var(--ob-text-head)"}}>of desk workers fight neck tension.</div>
+                  <div style={{marginTop:6, fontSize:13, color:"var(--ob-text-body)"}}>Postural strain from screens accumulates — targeted movement helps reverse it.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", alignItems:"center", gap:16, padding:"8px 0"}}>
+                <div style={{fontSize:40, fontWeight:800, lineHeight:1, color:"var(--ob-text-head)", width:96, textAlign:"right"}}>100%</div>
+                <div>
+                  <div style={{fontSize:16, fontWeight:800, color:"var(--ob-text-head)"}}>feel better moving with intent.</div>
+                  <div style={{marginTop:6, fontSize:13, color:"var(--ob-text-body)"}}>Simple, focused sessions produce immediate improvements in tension and mood.</div>
+                </div>
+              </div>
             </div>
             </div>
             <div className="ob-nav-bar">
@@ -563,13 +583,40 @@ function Onboarding({ theme, onComplete }) {
               <div className="ob-eyebrow">THE BENEFITS</div>
               <div className="ob-heading">Movement as <em>Medicine.</em></div>
             <div className="ob-body" style={{marginBottom:18}}>
-              Smart movement isn't just a workout, it is a physiological shift.
+              Smart movement isn’t just a workout — it’s a physiological shift.
             </div>
-            <div className="ob-sci-blocks">
-              <div className="ob-sci"><div className="ob-sci-text">Targeted mobility work cuts chronic pain by 30% in 8 weeks.</div></div>
-              <div className="ob-sci"><div className="ob-sci-text">Daily resets reduce tension by 50% for desk workers.</div></div>
-              <div className="ob-sci"><div className="ob-sci-text">Inner core work boosts stability by 40% to prevent pain recurrence.</div></div>
-              <div className="ob-sci"><div className="ob-sci-text">One 8-minute session optimizes mood and energy all day.</div></div>
+            <div style={{marginTop:18, display:"grid", gap:14}}>
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontSize:16, fontWeight:700, color:"var(--ob-text-head)"}}>Targeted mobility can cut chronic pain by up to 30% in 8 weeks.</div>
+                  <div style={{marginTop:6,fontSize:13,color:"var(--ob-text-body)"}}>Consistent practice improves tissue tolerance and reduces nociceptive drivers over time.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontSize:16, fontWeight:700, color:"var(--ob-text-head)"}}>Daily micro-resets reduce tension by 50% for desk workers.</div>
+                  <div style={{marginTop:6,fontSize:13,color:"var(--ob-text-body)"}}>Short, regular breaks interrupt the accumulation of stiffness and improve comfort.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontSize:16, fontWeight:700, color:"var(--ob-text-head)"}}>Core and spine work improves stability by 40%, preventing recurrence.</div>
+                  <div style={{marginTop:6,fontSize:13,color:"var(--ob-text-body)"}}>Targeted activation builds resilience so you can return to meaningful movement safely.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontSize:16, fontWeight:700, color:"var(--ob-text-head)"}}>One 8‑minute session boosts mood and energy all day.</div>
+                  <div style={{marginTop:6,fontSize:13,color:"var(--ob-text-body)"}}>A brief, focused practice can shift autonomic state and kickstart momentum for the day.</div>
+                </div>
+              </div>
             </div>
             </div>
             <div className="ob-nav-bar">
@@ -585,24 +632,43 @@ function Onboarding({ theme, onComplete }) {
           {cur === 4 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">THE METHOD & TOOLS</div>
-              <div className="ob-heading">Three ways to <em>reset.</em></div>
-              <div className="ob-body" style={{marginBottom:24}}>
-                Choose the path that fits your current energy or time, and you can customize or switch at any moment.
+              <div className="ob-heading" style={{marginBottom:8}}>Three ways to <em>reset</em>.</div>
+              <div className="ob-body" style={{marginBottom:18}}>
+                Choose what fits your energy or time — you can customize or switch anytime.
               </div>
-              <div style={{display:"flex", flexDirection:"column"}}>
-                <div className="ob-method-feature">
-                  <div className="ob-method-feature-title">LIST</div>
-                  <div className="ob-method-feature-body">Self paced control. Browse the library and check off moves at your own speed.</div>
+
+              <div style={{display:"flex", flexDirection:"column", gap:10, marginTop:6}}>
+                <div style={{borderTop:"1px solid var(--ob-box-border)", paddingTop:10, paddingBottom:10, display:"flex", gap:12, alignItems:"flex-start"}}>
+                  <div style={{width:28,height:28,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke={iconColor} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div>
+                    <div style={{fontSize:16,fontWeight:800,letterSpacing:"0.06em",textTransform:"uppercase"}}>GUIDED</div>
+                    <div style={{marginTop:4,fontSize:13,color:"var(--ob-text-body)",lineHeight:1.25}}>Immersive flow. Follow timed sequences with built‑in pacing, rest, and cues that keep you moving with focus and ease.</div>
+                  </div>
                 </div>
-                <div className="ob-method-feature">
-                  <div className="ob-method-feature-title">GUIDED</div>
-                  <div className="ob-method-feature-body">An immersive flow. Follow step by step prompts and countdowns.</div>
+
+                <div style={{borderTop:"1px solid var(--ob-box-border)", paddingTop:10, paddingBottom:10, display:"flex", gap:12, alignItems:"flex-start"}}>
+                  <div style={{width:28,height:28,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h4M10 7h10M4 12h4M10 12h10M4 17h4M10 17h10" stroke={iconColor} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div>
+                    <div style={{fontSize:16,fontWeight:800,letterSpacing:"0.06em",textTransform:"uppercase"}}>LIST</div>
+                    <div style={{marginTop:4,fontSize:13,color:"var(--ob-text-body)",lineHeight:1.25}}>Self-paced control. Browse the movement library, check off exercises, and move freely at your own rhythm and tempo.</div>
+                  </div>
                 </div>
-                <div className="ob-method-feature">
-                  <div className="ob-method-feature-title">BREATH & FOCUS</div>
-                  <div className="ob-method-feature-body">System regulation. Access science backed breathing protocols and custom interval timers to regulate your nervous system.</div>
+
+                <div style={{borderTop:"1px solid var(--ob-box-border)", paddingTop:10, paddingBottom:10, display:"flex", gap:12, alignItems:"flex-start", borderBottom:"1px solid var(--ob-box-border)"}}>
+                  <div style={{width:28,height:28,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke={iconColor} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div>
+                    <div style={{fontSize:16,fontWeight:800,letterSpacing:"0.06em",textTransform:"uppercase"}}>BREATH & FOCUS</div>
+                    <div style={{marginTop:4,fontSize:13,color:"var(--ob-text-body)",lineHeight:1.25}}>System regulation. Use science-based breathing patterns and interval timers to calm, refocus, and boost performance.</div>
+                  </div>
                 </div>
               </div>
+
             </div>
             <div className="ob-nav-bar">
               <div className="ob-nav-inner">
@@ -618,8 +684,8 @@ function Onboarding({ theme, onComplete }) {
             <div className="ob-pad">
               <div className="ob-eyebrow">APPEARANCE</div>
               <div className="ob-heading" style={{fontSize:36}}>Personalize your <em>space.</em></div>
-              <div className="ob-body" style={{marginBottom:28, fontSize:14}}>
-                Choose a theme that matches your environment or your session's intent.
+              <div className="ob-body" style={{marginBottom:28, fontSize:16}}>
+                Choose a theme that fits your environment or intent. Select from light or dark mode, or color themes — amber, teal, blue, or purple. Set Auto and AXIS adapts to the time of day.
               </div>
               <div style={{display:"flex",gap:10,marginBottom:24}}>
                 {[{val:"dark",label:"Dark"},{val:"light",label:"Light"}].map(({val,label}) => (
@@ -643,8 +709,8 @@ function Onboarding({ theme, onComplete }) {
                   transition:"all 0.2s",
                 }}>
                   <div>
-                    <div style={{fontSize:15,color:obAutoTime?"var(--ob-accent)":"var(--ob-text-head)",fontWeight:600,marginBottom:2}}>Auto</div>
-                    <div style={{fontSize:12,color:"var(--ob-text-sec)"}}>Colors follow the time of day, just choose light or dark above.</div>
+                  <div style={{fontSize:15,color:obAutoTime?"var(--ob-accent)":"var(--ob-text-head)",fontWeight:600,marginBottom:2}}>Auto</div>
+                    <div style={{fontSize:12,color:"var(--ob-text-sec)"}}>Set Auto and AXIS adapts to the time of day.</div>
                   </div>
                   <button type="button" role="switch" aria-checked={obAutoTime} onClick={()=>{ setObAutoTime(v=>!v); if (!obAutoTime) setHasChosenMood(true); }} style={{
                     width:48,height:28,border:"1px solid",borderColor:obAutoTime?"var(--ob-accent)":"var(--ob-box-border)",
@@ -714,9 +780,9 @@ function Onboarding({ theme, onComplete }) {
           {cur === 6 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">THE ETHICS & SAFETY</div>
-              <div className="ob-heading" style={{fontSize:36}}>Your body, your <em>data.</em></div>
+              <div className="ob-heading" style={{fontSize:36}}>Your body. Your <em>data.</em></div>
             <div className="ob-body" style={{marginBottom:24}}>
-              No accounts, no tracking, and your data never leaves this device. AXIS is about mending, not breaking, so always listen to your body. If a movement causes pain, skip it.
+              No accounts, no tracking, and your data never leaves this device. AXIS is about mending, not pushing, so always listen to your body. If a movement causes pain, skip it.
             </div>
             </div>
             <div className="ob-nav-bar">
@@ -734,15 +800,15 @@ function Onboarding({ theme, onComplete }) {
               <div className="ob-eyebrow" style={{marginBottom:8}}>MEDICAL DISCLAIMER</div>
               <div className="ob-heading" style={{fontSize:24, marginBottom:16}}>The Fine Print.</div>
               <div className="ob-disclaimer-scroll">
-                AXIS provides movement guidance for general wellness purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. The exercises and routines in this app are not designed to treat any medical condition.
+                AXIS provides movement and breath guidance for general wellness. It is not a substitute for professional medical advice, diagnosis, or treatment.
                 <br/><br/>
-                If you have any injury, chronic pain, cardiovascular condition, or other health concern, consult a qualified healthcare professional before beginning any exercise program. Stop immediately and seek medical attention if you experience pain, dizziness, shortness of breath, or discomfort during any movement.
+                If you have any medical condition, injury, or concern, consult a qualified healthcare professional before starting. Stop immediately and seek attention if you experience pain, dizziness, shortness of breath, or discomfort.
                 <br/><br/>
-                By continuing, you acknowledge that you are participating voluntarily and assume full responsibility for your use of this app.
+                By continuing, you confirm that you are participating voluntarily and assume full responsibility for your use of this app.
               </div>
 
               <div style={{width:"100%", marginBottom:20}}>
-                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--ob-text-sec)", marginBottom:8, fontWeight:500}}>Your Name</div>
+                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--ob-text-sec)", marginBottom:8, fontWeight:500}}>Name:</div>
                 <input
                   type="text"
                   placeholder="Full name"
@@ -759,13 +825,13 @@ function Onboarding({ theme, onComplete }) {
               </div>
 
               <div style={{width:"100%", marginBottom:24}}>
-                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--ob-text-sec)", marginBottom:8, fontWeight:500}}>Date</div>
+                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--ob-text-sec)", marginBottom:8, fontWeight:500}}>Date:</div>
                 <div style={{
                   padding:"12px 16px", borderRadius:12, fontSize:15,
                   fontFamily:"'Barlow',sans-serif", fontWeight:400,
                   background:"var(--ob-box-bg)", border:"1px solid var(--ob-box-border)",
                   color:"var(--ob-text-sec)",
-                }}>{todayStr}</div>
+                }}>March 13, 2026</div>
               </div>
 
               <div
@@ -785,7 +851,9 @@ function Onboarding({ theme, onComplete }) {
                   </svg>}
                 </div>
                 <div style={{fontSize:13, lineHeight:1.45, color:"var(--ob-text-body)", fontWeight:300}}>
-                  I have read and understand the disclaimer above. I confirm I am using this app at my own risk and will consult a healthcare professional if I have any concerns.
+                  ☑ I have read and understand the disclaimer above.
+                  <br/>
+                  I confirm I am using this app at my own risk and will consult a healthcare professional if I have concerns.
                 </div>
               </div>
 
@@ -826,7 +894,7 @@ function Onboarding({ theme, onComplete }) {
                   storageSet("axis_theme", obTheme);
                   onComplete({ period: periodForTheme, theme: obTheme });
                 }}
-              >Let's Move</button>
+              >LET'S MOVE</button>
               <div className="ob-pad-after-cta" aria-hidden />
             </div>
             <div className="ob-nav-bar">
@@ -2060,7 +2128,8 @@ const RUNNING_SECTIONS = [
   },
 ];
 
-// New Tracks: Thoracic Chest Reset Flow + Wrist & Hand Reset Flow
+ 
+
 const THORACIC_SECTIONS = [
   {
     label: "Thoracic Flow",
@@ -2246,74 +2315,7 @@ const FIGURES = {
 };
 
 // New Tracks: Thoracic Chest Reset Flow + Wrist & Hand Reset Flow
-const THORACIC_SECTIONS = [
-  {
-    label: "Thoracic Flow",
-    tag: "TC",
-    purpose: "A short guided sequence to restore thoracic mobility, reduce upper back tension, and relieve chest/arm referral. Works well before/after sitting or anxious states.",
-    exercises: [
-      { id: 2000, name: "Thoracic Extension (foam roller)", start: "Seated or supine with foam roller/rolled towel under the upper back (shoulder blade level).", sub: "Extension options", type: "time", seconds: 45, steps: [
-        { pos: "A", label: "Setup", focus: "SETUP", cue: "Place foam roller or rolled towel under upper back. Keep knees bent and feet on the floor if lying." },
-        { pos: "B", label: "Extend", focus: "EXTEND", cue: "Support your head with hands and gently arch back over the roller. Pause and breathe for 3-5 breaths." },
-        { pos: "C", label: "Alternative", focus: "VARIATION", cue: "If no roller, use a chair back, wall, or puppy-pose quadruped variation to find comfortable extension." },
-      ]},
-      { id: 2001, name: "Cat–Cow", start: "On all fours, neutral spine.", sub: "Segmental flexion/extension", type: "reps", reps: "10 reps", steps: [
-        { pos: "A", label: "Neutral Tabletop", focus: "SETUP", cue: "Hands under shoulders, knees under hips. Neutral spine, neck long." },
-        { pos: "B", label: "Cow — Inhale", focus: "EXTEND", cue: "Inhale, drop the belly, lift the chest and tailbone." },
-        { pos: "C", label: "Cat — Exhale", focus: "FLEX", cue: "Exhale, round through the spine segment by segment. Move slowly for 10 cycles." },
-      ]},
-      { id: 2002, name: "Thoracic Rotation", start: "Seated or kneeling with arms crossed.", sub: "Rotation, 5–10 per side", type: "reps", reps: "5–10 per side", steps: [
-        { pos: "A", label: "Seated Setup", focus: "SETUP", cue: "Sit tall with hands across chest or arms hugging shoulders." },
-        { pos: "B", label: "Rotate", focus: "ROTATE", cue: "Rotate upper body gently to one side, keeping hips facing forward. Return and repeat other side." },
-      ]},
-      { id: 2003, name: "Wall Angels", start: "Standing with back against a wall.", sub: "Scapular retraction & mobility", type: "reps", reps: "5–10 reps", steps: [
-        { pos: "A", label: "Wall Contact", focus: "SETUP", cue: "Head, upper back and glutes touch the wall. Arms in a W at shoulder height." },
-        { pos: "B", label: "Slide to Y", focus: "ACTIVATE", cue: "Slide arms up overhead into a Y keeping contact with the wall. Return slowly." },
-      ]},
-      { id: 2004, name: "Chin Tucks", start: "Seated or standing tall.", sub: "Cervical retraction", type: "reps", reps: "10 reps", steps: [
-        { pos: "A", label: "Setup", focus: "SETUP", cue: "Sit or stand tall, eyes forward." },
-        { pos: "B", label: "Tuck", focus: "NECK", cue: "Draw chin straight back (not down), hold gently for 3–5 seconds then release." },
-      ]},
-      { id: 2005, name: "Thread the Needle", start: "All fours — hands under shoulders, knees under hips.", sub: "Thoracic rotation & shoulder release", type: "time", seconds: 25, steps: [
-        { pos: "A", label: "Setup", focus: "SETUP", cue: "From tabletop, reach one arm under the body and rest shoulder on the floor." },
-        { pos: "B", label: "Hold", focus: "RELEASE", cue: "Breathe here 20–30 seconds per side and feel rotation through the upper back." },
-      ]},
-      { id: 2006, name: "Child's Pose", start: "Kneel and reach arms forward.", sub: "Gentle spine flexion & reset", type: "time", seconds: 25, steps: [
-        { pos: "A", label: "Kneel & Fold", focus: "SETUP", cue: "Sit back toward heels and fold forward with arms extended. Relax the chest toward the floor." },
-      ]},
-    ],
-  },
-];
 
-const WRIST_SECTIONS = [
-  {
-    label: "Wrist & Hand Reset",
-    tag: "WH",
-    purpose: "Short PT-style routine: glides, stretches and nerve glides for wrist and hand health — great for keyboard users.",
-    exercises: [
-      { id: 2010, name: "Wrist Flexor Stretch", start: "Seated or standing, arm extended.", sub: "Stretch the palm-side forearm", type: "time", seconds: 30, steps: [
-        { pos: "A", label: "Setup", focus: "SETUP", cue: "Extend the arm with palm facing up." },
-        { pos: "B", label: "Stretch", focus: "STRETCH", cue: "Use the other hand to gently pull fingers back toward you. Hold 30s per side." },
-      ]},
-      { id: 2011, name: "Wrist Extensor Stretch", start: "Arm extended palm down.", sub: "Stretch the top forearm", type: "time", seconds: 30, steps: [
-        { pos: "A", label: "Setup", focus: "SETUP", cue: "Extend the arm with palm facing down." },
-        { pos: "B", label: "Stretch", focus: "STRETCH", cue: "Use the other hand to press the fingers toward the forearm. Hold 30s per side." },
-      ]},
-      { id: 2012, name: "Median Nerve Glide", start: "Seated, arm supported.", sub: "Nerve mobility", type: "reps", reps: "10 reps", steps: [
-        { pos: "A", label: "Setup", focus: "SETUP", cue: "Start with a neutral wrist and fingers." },
-        { pos: "B", label: "Glide", focus: "GLIDE", cue: "Make a fist, then straighten fingers and thumb across the palm. Repeat smoothly for 10 reps." },
-      ]},
-      { id: 2013, name: "Prayer Stretch", start: "Standing or seated at chest height.", sub: "Gentle wrist flexion", type: "time", seconds: 20, steps: [
-        { pos: "A", label: "Prayer Setup", focus: "SETUP", cue: "Bring palms together at chest, fingers pointing up." },
-        { pos: "B", label: "Lower", focus: "STRETCH", cue: "Slowly lower hands while keeping palms together to stretch the wrists. Hold 20s." },
-      ]},
-      { id: 2014, name: "Shakeout & Fist Pumps", start: "Standing or seated.", sub: "Loosen the hands and forearms", type: "time", seconds: 30, steps: [
-        { pos: "A", label: "Shake", focus: "RELEASE", cue: "Shake both hands loose for 15 seconds." },
-        { pos: "B", label: "Fist Pumps", focus: "ACTIVATE", cue: "Alternate making a fist and opening the hand with punch-like pumps for 15 seconds." },
-      ]},
-    ],
-  },
-];
 
 function getSections(trackId) { return TRACKS[trackId].sections; }
 function getAll(trackId) { return getSections(trackId).flatMap(s => s.exercises.map(e => ({ ...e, sectionLabel: s.label }))); }
@@ -5330,8 +5332,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const groups = [
       { label: "Foundation",  ids: ["daily", "restorative"] },
       { label: "Time of Day", ids: ["morning", "prime"] },
-      { label: "Targeted",    ids: ["desk", "screen", "hip", "back"] },
-      { label: "Body Maintenance", ids: ["steady", "freely", "feet", "knee"] },
+      { label: "Targeted",    ids: ["desk", "screen", "hip", "back", "thoracic"] },
+      { label: "Body Maintenance", ids: ["steady", "freely", "feet", "knee", "wrist"] },
       { label: "Mental Wellness", ids: ["anxiety", "stress"] },
       { label: "Travel", ids: ["transit", "travel"] },
       { label: "Sports", ids: ["walking", "running", "golf", "tennis"] },
