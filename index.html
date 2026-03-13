@@ -4664,16 +4664,6 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                   <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
                     <div style={{...intervalDigitStyle, fontSize:72, minWidth:72, color:"#ffffff", opacity:countdownLabelOpacity, transition: "none"}}>{formatSecondsOnly(bTime)}</div>
                   </div>
-                  <div style={{
-                    position:"absolute",left:0,right:0,bottom:20,height:80,
-                    display:"flex",alignItems:"center",justifyContent:"center",gap:6,
-                  }}>
-                    <div style={{position:"relative", zIndex:3, display:"inline-flex", alignItems:"center", justifyContent:"center", padding:"6px 10px", borderRadius:12, background:"var(--glass-bg)", border:"1px solid var(--glass-border)", boxSizing:"border-box"}}>
-                      <span style={{...timerNumSmall,fontSize:12,letterSpacing:"0.06em", color:"var(--text-secondary)"}}>
-                        {bCycle} of {breathCycles}
-                      </span>
-                    </div>
-                  </div>
                 </>
               )}
               {bDone && (
@@ -4712,9 +4702,14 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                   <button key={p} type="button" onClick={()=>setBreathPattern(p)} className={"timer-glass-pattern-btn" + (breathPattern===p ? " active" : "")} style={{fontFamily:"'Barlow',sans-serif",fontSize:"13px",fontWeight:600,letterSpacing:"0.14em",textTransform:"uppercase",padding:"9px 20px",cursor:"pointer",color: breathPattern===p ? "var(--accent)" : "var(--text-secondary)"}}>{p === "4-7-8" ? "4-7-8" : p === "Box" ? "Box" : "Physio Sigh"}</button>
                 ))}
               </div>
+              {/* Cycles pill centered under pattern pills, above pause/reset */}
+              <div style={{width:"100%",maxWidth:360,marginTop:8,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <div style={{display:"inline-flex",alignItems:"center",justifyContent:"center",padding:"6px 12px",borderRadius:12,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",boxSizing:"border-box"}}>
+                  <span style={{...timerNumSmall,fontSize:12,letterSpacing:"0.06em",color:"var(--text-secondary)"}}>{bCycle} of {breathCycles}</span>
+                </div>
+              </div>
               <div style={{width:"100%",maxWidth:360,marginTop:6,display:"flex",alignItems:"center",justifyContent:"center"}}>
                 <div style={{display:"flex",alignItems:"center",gap:12}}>
-                  <div style={{fontSize:11,letterSpacing:"0.14em",textTransform:"uppercase",color:"var(--text-dimmer)",fontFamily:"'Barlow',sans-serif"}}>Cycles</div>
                   <div style={{display:"flex",alignItems:"center",gap:6}}>
                     <button type="button" aria-label="Cycles decrease" onClick={()=>setBreathCycles(v=>Math.max(1,v-1))} className="timer-glass-stepper timer-interval-stepper" style={{color:"var(--text-secondary)",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",border:"none"}}>−</button>
                     <div style={{minWidth:34,textAlign:"center",fontVariantNumeric:"tabular-nums"}}><span style={{...timerNumMedium,fontSize:18}}>{breathCycles}</span></div>
