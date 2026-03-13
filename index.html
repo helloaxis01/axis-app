@@ -2350,6 +2350,52 @@ function storageSet(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
 }
 
+// Error capture helper — records errors and promise rejections to localStorage.
+// Useful for opaque "Script error" on iOS/Safari; reproduce the issue and then
+// check localStorage.getItem('axis_errors') in Safari Web Inspector.
+(function installAxisErrorCapture(){
+  try {
+    function saveRecord(rec) {
+      try {
+        const existing = JSON.parse(localStorage.getItem('axis_errors') || '[]');
+        existing.push(rec);
+        // keep last 30
+        localStorage.setItem('axis_errors', JSON.stringify(existing.slice(-30)));
+        // also expose the last error for quick inspection
+        window.__axis_last_error = rec;
+      } catch(e) { /* swallow */ }
+    }
+
+    window.addEventListener('error', function(ev){
+      try {
+        const rec = {
+          type: 'error',
+          message: ev.message || String(ev.error || ev),
+          filename: ev.filename || null,
+          lineno: ev.lineno || null,
+          colno: ev.colno || null,
+          stack: ev.error && ev.error.stack ? ev.error.stack : (ev.error && ev.error.toString ? ev.error.toString() : null),
+          time: new Date().toISOString()
+        };
+        saveRecord(rec);
+      } catch(e){}
+    }, {passive:true});
+
+    window.addEventListener('unhandledrejection', function(ev){
+      try {
+        const reason = ev.reason;
+        const rec = {
+          type: 'unhandledrejection',
+          message: reason && reason.message ? reason.message : String(reason),
+          stack: reason && reason.stack ? reason.stack : null,
+          time: new Date().toISOString()
+        };
+        saveRecord(rec);
+      } catch(e){}
+    }, {passive:true});
+  } catch(e){}
+})();
+
 // ─────────────────────────────────────────────────────────────
 //  CSS
 // ─────────────────────────────────────────────────────────────
@@ -4284,6 +4330,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 // ─────────────────────────────────────────────────────────────
 function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = false, activePeriod = null }) {
   const [mode, setMode] = useState("interval"); // "interval" | "breathe"
+  // derive dark flag early so all uses below are safe
+  const isDark = (typeof nightMode === "boolean" && nightMode) || theme === "dark";
 
   // ── INTERVAL state ──
   const [work,   setWork]   = useState(30);
