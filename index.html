@@ -4665,7 +4665,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                     <div style={{...intervalDigitStyle, fontSize:72, minWidth:72, color:"#ffffff", opacity:countdownLabelOpacity, transition: "none"}}>{formatSecondsOnly(bTime)}</div>
                   </div>
                   {/* Cycles pill centered under INHALE/EXHALE, above pause/reset */}
-                  <div style={{position:"absolute",left:0,right:0,bottom:110,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none"}}>
+                  <div style={{position:"absolute",left:0,right:0,bottom:70,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none"}}>
                     <div style={{display:"inline-flex",alignItems:"center",justifyContent:"center",padding:"6px 12px",borderRadius:12,background:"var(--glass-bg)",border:"1px solid var(--glass-border)",boxSizing:"border-box",pointerEvents:"auto"}}>
                       <span style={{...timerNumSmall,fontSize:12,letterSpacing:"0.06em",color:"var(--text-secondary)"}}>{bCycle} of {breathCycles}</span>
                     </div>
