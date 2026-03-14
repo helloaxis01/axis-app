@@ -519,10 +519,10 @@ function Onboarding({ theme, onComplete }) {
             <div className="ob-pad">
               <div className="ob-eyebrow" style={{letterSpacing:"0.5em", fontSize:12}}>ALPHA BUILD</div>
               <div className="ob-heading" style={{fontSize:32, fontWeight:700, color:"var(--ob-text-head)", lineHeight:0.96, letterSpacing:"-0.01em"}}>Welcome to AXIS.</div>
-              <div className="ob-body" style={{marginBottom:24, fontSize:16, opacity:0.6}}>
+              <div className="ob-body" style={{marginBottom:24, fontSize:16, opacity:0.6, lineHeight:1.28}}>
                 You’re accessing an early prototype. While we refine the final experience, the core science is fully active. Your usage and feedback help shape the future of AXIS.
               </div>
-              <div className="ob-body" style={{marginTop:16, fontSize:14, color:"var(--ob-text-sec)"}}>
+              <div className="ob-body" style={{marginTop:16, fontSize:14, color:"var(--ob-text-sec)", lineHeight:1.28}}>
                 When you’re done using the app, please quit it so you receive the latest updates automatically.
               </div>
             </div>
@@ -577,13 +577,13 @@ function Onboarding({ theme, onComplete }) {
                 </div>
 
                 {/* Right: visual explanation / benefits summary */}
-                <div style={{flex:1, minWidth:280, display:"flex", flexDirection:"column", gap:12, justifyContent:"center"}}>
+                <div style={{flex:1, minWidth:280, display:"flex", flexDirection:"column", gap:6, justifyContent:"center"}}>
                   <div style={{fontSize:18,fontWeight:800,color:"var(--ob-text-head)"}}>Why it matters</div>
                   <div style={{fontSize:14,color:"var(--ob-text-body)",lineHeight:1.28}}>
                     Daily micro-resets interrupt the accumulation of tension, restore movement patterns, and rebuild resilience. Short, focused sessions are designed to produce measurable improvements without disrupting your day.
                   </div>
-                  <div style={{marginTop:8, fontSize:13, fontWeight:700, color:"var(--ob-text-head)"}}>
-                    Quick wins. Evidence-backed. Daily friendly.
+                  <div style={{marginTop:8, fontSize:13, fontWeight:700, color:"var(--ob-text-head)", textTransform:"uppercase"}}>
+                    QUICK WINS. EVIDENCE-BACKED. DAILY FRIENDLY.
                   </div>
                 </div>
               </div>
