@@ -2370,6 +2370,13 @@ function storageSet(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
 }
 
+function computeSessionSeconds(totalCount, fullSecondsFromLabel, activeCount) {
+  if (totalCount > 0 && fullSecondsFromLabel > 0) {
+    return Math.round((fullSecondsFromLabel * activeCount) / totalCount);
+  }
+  return 0;
+}
+
 // Error capture helper — records errors and promise rejections to localStorage.
 // Useful for opaque "Script error" on iOS/Safari; reproduce the issue and then
 // check localStorage.getItem('axis_errors') in Safari Web Inspector.
@@ -2436,6 +2443,9 @@ const css = `
     --app-white: #f6f7f8;
     --app-black: #252525;
   }
+  /* App-shell scrolling: single scroll container for native iOS feel */
+  .app { height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+  .app-body, .app-shell, .app-content { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .app-page-header { padding: var(--safe-top) var(--page-padding) 0; width: 100%; max-width: 100%; box-sizing: border-box; }
   .app-page-bottom-pad { padding-bottom: var(--safe-bottom); }
   .app-label { letter-spacing: var(--label-spacing); }
@@ -5122,9 +5132,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const defaultDurationStr = TRACKS[track].duration || "";
   const defaultMinutes = Number((defaultDurationStr.match(/\d+/) || ["0"])[0]) || 0;
   const fullSecondsFromLabel = defaultMinutes * 60;
-  const sessionSeconds = totalCount > 0 && fullSecondsFromLabel > 0
-    ? Math.round((fullSecondsFromLabel * activeCount) / totalCount)
-    : 0;
+  const sessionSeconds = computeSessionSeconds(totalCount, fullSecondsFromLabel, activeCount);
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
   const defaultDurationLabel = TRACKS[track].duration || `${sessionMinutes} min`;
   const sessionDurationLabel =
