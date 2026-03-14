@@ -518,7 +518,7 @@ function Onboarding({ theme, onComplete }) {
           {cur === 1 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow" style={{letterSpacing:"0.5em", fontSize:12}}>ALPHA BUILD</div>
-              <div className="ob-heading" style={{fontSize:32, fontWeight:700, color:"var(--ob-text-head)"}}>Welcome to AXIS.</div>
+              <div className="ob-heading" style={{fontSize:32, fontWeight:700, color:"var(--ob-text-head)", lineHeight:1.08}}>Welcome to AXIS.</div>
               <div className="ob-body" style={{marginBottom:24, fontSize:16, opacity:0.6}}>
                 You’re accessing an early prototype. While we refine the final experience, the core science is fully active. Your usage and feedback help shape the future of AXIS.
               </div>
@@ -538,15 +538,15 @@ function Onboarding({ theme, onComplete }) {
           {cur === 2 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">THE PERSPECTIVE & FOUNDATION</div>
-              <div className="ob-heading">Modern life is an <em>endurance sport.</em></div>
-            <div className="ob-body" style={{marginBottom:20}}>
+              <div className="ob-heading" style={{lineHeight:1.08}}>Modern life is an <em>endurance sport.</em></div>
+              <div className="ob-body" style={{marginBottom:20, lineHeight:1.28}}>
               Screens and desks create a physical tax, and AXIS is your manual reset. We use biomechanically sequenced movements to reboot your nervous system and restore natural alignment.
             </div>
               <div style={{marginTop:18, display:"flex", gap:24, alignItems:"stretch", flexWrap:"wrap"}}>
                 {/* Left: stacked numeric callouts */}
                 <div style={{width:420, display:"flex", flexDirection:"column", gap:20, alignItems:"stretch"}}>
                   <div style={{display:"flex", alignItems:"center", gap:20}}>
-                    <div style={{width:150,height:80,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid var(--ob-box-border)"}}>
+                    <div style={{width:112,height:80,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid var(--ob-box-border)"}}>
                       <div style={{fontSize:40,fontWeight:900,color:"var(--ob-text-head)",lineHeight:1}}>80%</div>
                     </div>
                     <div style={{flex:1}}>
@@ -556,7 +556,7 @@ function Onboarding({ theme, onComplete }) {
                   </div>
 
                   <div style={{display:"flex", alignItems:"center", gap:20}}>
-                    <div style={{width:150,height:80,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid var(--ob-box-border)"}}>
+                    <div style={{width:112,height:80,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid var(--ob-box-border)"}}>
                       <div style={{fontSize:40,fontWeight:900,color:"var(--ob-text-head)",lineHeight:1}}>70%</div>
                     </div>
                     <div style={{flex:1}}>
@@ -566,7 +566,7 @@ function Onboarding({ theme, onComplete }) {
                   </div>
 
                   <div style={{display:"flex", alignItems:"center", gap:20}}>
-                    <div style={{width:150,height:80,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid var(--ob-box-border)"}}>
+                    <div style={{width:112,height:80,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid var(--ob-box-border)"}}>
                       <div style={{fontSize:40,fontWeight:900,color:"var(--ob-text-head)",lineHeight:1}}>100%</div>
                     </div>
                     <div style={{flex:1}}>
@@ -601,8 +601,8 @@ function Onboarding({ theme, onComplete }) {
           {cur === 3 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">THE BENEFITS</div>
-              <div className="ob-heading">Movement as <em>Medicine.</em></div>
-            <div className="ob-body" style={{marginBottom:18}}>
+              <div className="ob-heading" style={{lineHeight:1.08}}>Movement as <em>Medicine.</em></div>
+            <div className="ob-body" style={{marginBottom:18, lineHeight:1.28}}>
               Smart movement isn’t just a workout — it’s a physiological shift.
             </div>
             <div style={{marginTop:18, display:"grid", gap:14}}>
@@ -653,7 +653,7 @@ function Onboarding({ theme, onComplete }) {
             <div className="ob-pad">
               <div className="ob-eyebrow">THE METHOD & TOOLS</div>
               <div className="ob-heading" style={{marginBottom:8}}>Three ways to <em>reset</em>.</div>
-              <div className="ob-body" style={{marginBottom:18}}>
+              <div className="ob-body" style={{marginBottom:18, lineHeight:1.28}}>
                 Choose what fits your energy or time — you can customize or switch anytime.
               </div>
 
@@ -703,8 +703,8 @@ function Onboarding({ theme, onComplete }) {
           {cur === 5 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">APPEARANCE</div>
-              <div className="ob-heading" style={{fontSize:36}}>Personalize your <em>space.</em></div>
-              <div className="ob-body" style={{marginBottom:28, fontSize:16}}>
+              <div className="ob-heading" style={{fontSize:36, lineHeight:1.08}}>Personalize your <em>space.</em></div>
+              <div className="ob-body" style={{marginBottom:28, fontSize:16, lineHeight:1.28}}>
                 Choose a theme that fits your environment or intent. Select from light or dark mode, or color themes — amber, teal, blue, or purple. Set Auto and AXIS adapts to the time of day.
               </div>
               <div style={{display:"flex",gap:10,marginBottom:24}}>
@@ -800,8 +800,8 @@ function Onboarding({ theme, onComplete }) {
           {cur === 6 && <div className="ob-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow">THE ETHICS & SAFETY</div>
-              <div className="ob-heading" style={{fontSize:36}}>Your body. Your <em>data.</em></div>
-            <div className="ob-body" style={{marginBottom:24}}>
+              <div className="ob-heading" style={{fontSize:36, lineHeight:1.08}}>Your body. Your <em>data.</em></div>
+            <div className="ob-body" style={{marginBottom:24, lineHeight:1.28}}>
               No accounts, no tracking, and your data never leaves this device. AXIS is about mending, not pushing, so always listen to your body. If a movement causes pain, skip it.
             </div>
             </div>
@@ -818,8 +818,8 @@ function Onboarding({ theme, onComplete }) {
           {cur === 7 && <div className="ob-screen ob-cta-screen">
             <div className="ob-pad">
               <div className="ob-eyebrow" style={{marginBottom:8}}>MEDICAL DISCLAIMER</div>
-              <div className="ob-heading" style={{fontSize:24, marginBottom:16}}>The Fine Print.</div>
-              <div className="ob-disclaimer-scroll">
+              <div className="ob-heading" style={{fontSize:24, marginBottom:16, lineHeight:1.08}}>The Fine Print.</div>
+              <div className="ob-disclaimer-scroll" style={{lineHeight:1.28}}>
                 AXIS provides movement and breath guidance for general wellness. It is not a substitute for professional medical advice, diagnosis, or treatment.
                 <br/><br/>
                 If you have any medical condition, injury, or concern, consult a qualified healthcare professional before starting. Stop immediately and seek attention if you experience pain, dizziness, shortness of breath, or discomfort.
