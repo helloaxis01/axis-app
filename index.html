@@ -4444,31 +4444,54 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
   const isHoldPhase   = phaseLabel === "Hold";
   const isExhalePhase = phaseLabel.includes("Exhale");
 
-  // Breathe intensity (4s inhale, 7s hold, 8s exhale): one formula per phase, no div-by-zero
+  // Deterministic orb timing mapped to normalized phase progress.
   const phaseDur = Math.max(1, curBreathPhase?.dur ?? 1);
-  const progress = 1 - bTime / phaseDur; // 0 at phase start (e.g. 4), 1 at phase end (0)
-  let breatheIntensity = 1;
+  // normalized progress helpers (0..1)
+  const normInhale = isInhalePhase ? (phaseDur - bTime) / phaseDur : 0; // 0->1 over inhale
+  const normHold = isHoldPhase ? 1 : 0;
+  const normExhale = isExhalePhase ? bTime / phaseDur : 0; // 1->0 over exhale (we'll invert when using)
+
+  // easing functions
+  const easeInQuad = t => t * t;
+  const easeOutQuad = t => t * (2 - t);
+  const easeInOutCubic = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  // detect reduced motion
+  const prefersReduced = (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  // compute intensity (0..1) per phase using easing for smooth transitions
+  let intensity = 1;
   if (isInhalePhase) {
-    const lastSecondProgress = 1 - 1 / phaseDur; // e.g. 0.75 for 4s — full intensity once we're at 1
-    breatheIntensity = progress >= lastSecondProgress ? 1 : progress / lastSecondProgress; // 0 at 4 (off), quickly grow to 1 by "1"
+    intensity = easeOutQuad(Math.min(Math.max(normInhale, 0), 1));
   } else if (isHoldPhase) {
-    breatheIntensity = 1;
+    intensity = 1;
   } else if (isExhalePhase) {
-    const isLastRound = bCycle >= breathCycles;
-    breatheIntensity = isLastRound && bTime <= 1 ? 0 : 0.25 + 0.75 * (1 - progress); // 1 at 8 → 0.25; only in 4th round at 1: fade out completely
+    // normExhale goes 1->0; invert to 0->1 for easing then map back to 1->0
+    const inv = 1 - Math.min(Math.max(normExhale, 0), 1); // 0->1 over exhale
+    intensity = 1 - easeInQuad(inv); // ease to fade out smoothly
+    // on final cycle, ensure full fade out when bTime <= 1
+    if (bCycle >= breathCycles && bTime <= 1) intensity = 0;
   }
-  const orbOpacity = breatheIntensity;
-  const countdownLabelOpacity = isInhalePhase ? 1 : breatheIntensity;
-  const breatheOpacityTransition = isInhalePhase ? `${Math.max(2.5, phaseDur * 0.85)}s ease` : "0.6s ease";
+
+  // map intensity to visual parameters
+  const orbMinScale = 0.6;
+  const orbMaxScale = 1.05;
+  const orbScale = prefersReduced ? 1 : (orbMinScale + (orbMaxScale - orbMinScale) * intensity);
+  const orbMinOpacity = 0.12;
+  const orbMaxOpacity = 0.95;
+  const orbOpacity = prefersReduced ? 0.5 : (orbMinOpacity + (orbMaxOpacity - orbMinOpacity) * intensity);
+
+  const countdownLabelOpacity = isInhalePhase ? 1 : orbOpacity;
+  const breatheOpacityTransition = prefersReduced ? "0s" : (isInhalePhase ? `${Math.max(0.8, phaseDur * 0.45)}s ease` : "0.45s ease");
 
   // compute ring progress (0..1) per phase for SVG stroke
   let breatheProgress = 1;
   if (isInhalePhase) {
-    breatheProgress = (phaseDur - bTime) / phaseDur; // 0 -> 1 over inhale
+    breatheProgress = Math.min(Math.max((phaseDur - bTime) / phaseDur, 0), 1); // 0 -> 1 over inhale
   } else if (isHoldPhase) {
     breatheProgress = 1;
   } else if (isExhalePhase) {
-    breatheProgress = bTime / phaseDur; // 1 -> 0 over exhale
+    breatheProgress = Math.min(Math.max(bTime / phaseDur, 0), 1); // 1 -> 0 over exhale
   }
   const r = 120;
   const circumference = Math.round(2 * Math.PI * r);
@@ -4877,12 +4900,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
             {bRunning && !nightMode && (
               <div className={isHoldPhase ? "timer-breathe-hold" : ""} style={{
                 position:"absolute", left:breatheInset, top:breatheInset, width:306, height:306, borderRadius:"50%", overflow:"visible", pointerEvents:"none",
-                transform: bRunning && bExpand ? "scale(1)" : "scale(0.45)",
+                transform: `scale(${orbScale})`,
                 transformOrigin:"center center",
-                transition: bRunning ? `transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "transform 0.6s ease",
+                transition: prefersReduced ? "none" : `transform ${Math.max(0.35, Math.min(curBreathPhase?.dur || 4, 4))}s cubic-bezier(0.4,0,0.2,1)`,
               }}>
                 {/* Glow behind the ring (SVG slightly larger to avoid blur clipping) */}
-                <svg className="timer-breathe-glow" width="320" height="320" viewBox="0 0 320 320" style={{position:"absolute", left:-7, top:-7, opacity: Math.max(orbOpacity ?? 0, 0.18), ['--breathe-fade']: `${breatheFadeDuration}s`}}>
+                <svg className="timer-breathe-glow" width="320" height="320" viewBox="0 0 320 320" style={{position:"absolute", left:-7, top:-7, opacity: orbOpacity, ['--breathe-fade']: `${breatheFadeDuration}s`, transform: `scale(${orbScale})`, transition: prefersReduced ? "none" : `opacity ${breatheFadeDuration}s ease, transform ${breatheFadeDuration}s ease`}}>
                   <defs>
                     <radialGradient id="breatheGlow" cx="50%" cy="50%" r="50%">
                       <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.32" />
