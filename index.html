@@ -4888,9 +4888,10 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
               <circle cx="160" cy="160" r="140" fill="none" stroke="var(--border)" strokeWidth="1.5"/>
             </svg>
             {bRunning && !nightMode && (
-              <div className={isHoldPhase ? "timer-breathe-hold" : ""} style={{
+                <div className={isHoldPhase ? "timer-breathe-hold" : ""} style={{
                 position:"absolute", left:breatheInset, top:breatheInset, width:306, height:306, borderRadius:"50%", overflow:"visible", pointerEvents:"none",
-                transform: bRunning && bExpand ? "scale(1)" : "scale(0.45)",
+                // slightly overscale when expanded so the inner stroke visually meets the outer ring
+                transform: bRunning && bExpand ? "scale(1.03)" : "scale(0.45)",
                 transformOrigin:"center center",
                 transition: bRunning ? `transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "transform 0.6s ease",
               }}>
