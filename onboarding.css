@@ -119,6 +119,48 @@ html,body,#root{width:100%;margin:0;padding:0;}
   backdrop-filter:blur(40px) saturate(1.8); -webkit-backdrop-filter:blur(40px) saturate(1.8);
   border-top:1px solid rgba(255,255,255,0.14);
 }
+.ob-nav-inner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:8px 0;
+}
+
+/* Additional fallback styling to ensure nav buttons look cohesive with app theme */
+.ob-nav-back {
+  background: transparent;
+  border: none;
+  color: var(--text-dimmer, #9aa6b0);
+  font-size: 15px;
+  padding: 8px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.ob-nav-back svg { width:18px; height:18px; stroke: var(--text-dimmer, #9aa6b0); }
+.ob-nav-next {
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--accent, #D85F4E);
+  color: var(--accent-btn-text, #fff);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  box-shadow: 0 6px 20px var(--accent-glow, rgba(216,95,78,0.18));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.ob-nav-next:active { transform: translateY(1px); }
+.ob-nav-next[disabled] { opacity: 0.45; cursor: not-allowed; }
+.ob-ndots { display:flex; gap:8px; align-items:center; justify-content:center; }
+.ob-nd { width:8px; height:8px; border-radius:50%; background:var(--ob-dot-bg, rgba(255,255,255,0.18)); transition:all 220ms ease; }
+.ob-nd.a { background:var(--accent, #D85F4E); transform:scale(1.25); box-shadow:0 6px 18px var(--accent-glow, rgba(216,95,78,0.18)); }
 /* inner nav layout */
 .ob-nav-inner {
   display:flex;
