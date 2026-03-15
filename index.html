@@ -1602,7 +1602,7 @@ const TRANSIT_SECTIONS = [
         { pos: "B", label: "Squeeze & Hold", focus: "ACTIVATE", cue: "Squeeze both glutes firmly together. Hold for 5 seconds. Breathe normally — do not hold your breath or brace the upper body." },
         { pos: "C", label: "Release & Repeat", focus: "RESET", cue: "Release completely for 5 seconds. 10 repetitions. Prolonged pressure switches off the glutes over time — this keeps the tissue and motor signal alive." },
       ]},
-      { id: 1102, name: "Seated Cat-Cow", start: "Seated upright in your seat, hands on knees.", sub: "Lubricates intervertebral discs compressed under cabin pressure", type: "flow", seconds: 60, steps: [
+      { id: 1102, name: "Seated Cat-Cow", start: "Seated upright in your seat, hands on knees.", sub: "Lubricates intervertebral discs compressed under cabin pressure", type: "flow", seconds: 60, demoVideo: "/assets/videos/cat_cow.mp4", steps: [
         { pos: "A", label: "Hands on Knees", focus: "SETUP", cue: "Sit at the front third of your seat. Hands resting on knees. Spine neutral. Take one breath here." },
         { pos: "B", label: "Arch — Inhale", focus: "EXT", cue: "Inhale as you arch the low back, lift the chest, and gently look upward. Let the spine extend segmentally from tailbone to neck." },
         { pos: "C", label: "Round — Exhale", focus: "FLEX", cue: "Exhale fully as you round the spine, tuck the chin, and pull the navel in. Feel each vertebra flex. 8–10 slow cycles." },
@@ -4282,6 +4282,20 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
                   : (isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)"),
                 overflow: "hidden", flexShrink: 0, marginBottom: 16,
               }}>
+                {ex.demoVideo && (
+                  <div style={{ padding: "10px 16px 8px", borderBottom: ex.steps?.length ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "center" }}>
+                    <video
+                      src={ex.demoVideo}
+                      playsInline
+                      muted
+                      loop
+                      preload="metadata"
+                      controls
+                      style={{ width: "100%", borderRadius: 10, display: "block" }}
+                      aria-label={ex && ex.name ? `Demo: ${ex.name}` : "Exercise demo"}
+                    />
+                  </div>
+                )}
                 {ex.start && (
                   <div style={{ padding: "10px 16px 8px", borderBottom: ex.steps?.length ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "left" }}>
                     <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 4 }}>START</div>
