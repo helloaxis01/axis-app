@@ -4653,7 +4653,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
     pointer-events: none;
     background: radial-gradient(circle at 50% 50%, var(--accent) 0%, transparent 80%);
     mix-blend-mode: screen;
-    filter: blur(10px);
+    filter: blur(6px);
     animation: timer-breathe-orb-loop 16s ease-in-out infinite;
   }
   .timer-view-body .timer-breathe-orb-soft {
@@ -4890,8 +4890,8 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
             {bRunning && !nightMode && (
                 <div className={isHoldPhase ? "timer-breathe-hold" : ""} style={{
                 position:"absolute", left:breatheInset, top:breatheInset, width:306, height:306, borderRadius:"50%", overflow:"visible", pointerEvents:"none",
-                // slightly overscale when expanded so the inner stroke visually meets the outer ring
-                transform: bRunning && bExpand ? "scale(1.03)" : "scale(0.45)",
+                // scale so the inner stroke visually meets the outer ring (outer r 140 / inner r 120 ≈ 1.1667)
+                transform: bRunning && bExpand ? "scale(1.167)" : "scale(0.45)",
                 transformOrigin:"center center",
                 transition: bRunning ? `transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "transform 0.6s ease",
               }}>
@@ -4915,7 +4915,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
                     r="120"
                     fill="none"
                     stroke="var(--accent)"
-                    strokeWidth="3"
+                    strokeWidth="4"
                     strokeLinecap="round"
                     style={{ transition: "stroke 0.3s ease" }}
                   />
