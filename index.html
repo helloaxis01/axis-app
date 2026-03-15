@@ -2514,6 +2514,29 @@ const css = `
   /* ── LIQUID GLASS (one card, one bar; same blur/saturation) ── */
   .glass-card { background: var(--glass-bg); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
   .glass-bar { background: var(--tab-bg); backdrop-filter: blur(28px) saturate(1.4); -webkit-backdrop-filter: blur(28px) saturate(1.4); border: 1px solid var(--border); }
+  /* ── GLASS LABEL (compact pill for three-word descriptors) ── */
+  .glass-label {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(8px) saturate(1.05);
+    -webkit-backdrop-filter: blur(8px) saturate(1.05);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    vertical-align: middle;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .glass-label { transition: none !important; }
+  }
+  [data-theme="light"] .glass-label {
+    background: rgba(255,255,255,0.72);
+    border-color: rgba(160,195,225,0.6);
+    color: var(--text-primary);
+  }
   /* ── LIQUID GLASS VARIABLES ── */
   [data-theme="dark"] {
     /* Match MAIN_APP_BG.dark: deep navy shell; orbs control most color */
@@ -5519,7 +5542,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
                     <div className="track-card" key={t.id} onClick={() => beginTrack(t.id)} role="button" tabIndex={0} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); beginTrack(t.id); } }} aria-label={`${t.label}, ${cardDur}. Begin session`}>
                       <div className="track-card-left">
                         <div className="track-card-name">{t.label}</div>
-                        <div className="track-card-sub">{t.subtitle}</div>
+                        <div className="track-card-sub"><span className="glass-label">{t.subtitle}</span></div>
                         <div className="track-card-purpose">{t.purpose}</div>
                       </div>
                       <div className="track-card-right">
@@ -5641,7 +5664,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             <div className="hdr-left">
               <div className="hdr-title">{TRACKS[track].label}</div>
               <div className="hdr-meta">
-                <div className="hdr-subtitle">{TRACKS[track].subtitle}</div>
+                <div className="hdr-subtitle"><span className="glass-label">{TRACKS[track].subtitle}</span></div>
                 <div className="hdr-dur">{sessionDurationLabel}</div>
               </div>
               <div style={{fontSize:11,color:"var(--text-dimmer)",marginTop:8}}>
