@@ -3451,7 +3451,7 @@ function RestTimer({ onDone }) {
 const FOCUS_SPELL = { EXT: "Extension", FLEX: "Flexion", SETUP: "Setup", SPINE: "Spine", STRETCH: "Stretch", CORE: "Core", RELEASE: "Release", GLUTES: "Glutes", STABILITY: "Stability", CONTROL: "Control", HOLD: "Hold", ECCENTRIC: "Eccentric", PUSH: "Push", ISO: "Isometric", PULL: "Pull", RAISE: "Raise", LOWER: "Lower", ROTATE: "Rotation", TWIST: "Twist", CERVICAL: "Cervical", LATERAL: "Lateral", CIRCULATE: "Circulate", FLOW: "Flow", MOBILIZE: "Mobilize", MOMENTUM: "Momentum", ISOLATE: "Isolate", DECOMPRESS: "Decompress", FORWARD: "Forward", BACKWARD: "Backward", GROUND: "Ground", "END-RANGE": "End Range", TARGET: "Target", EXHALE: "Exhale", INHALE: "Inhale", FLEX: "Flexion" };
 function spellFocus(f) { return (f && FOCUS_SPELL[f.toUpperCase()]) ? FOCUS_SPELL[f.toUpperCase()] : (f || ""); }
 
-function Steps({ steps, small, start: startText }) {
+function Steps({ steps, small, start: startText, demoVideo }) {
   return (
     <div className={small ? "steps" : "fc-steps"}>
       {small && (steps?.length > 0 || startText) && (
@@ -3462,6 +3462,21 @@ function Steps({ steps, small, start: startText }) {
         </div>
       )}
 
+      {/* Demo video for small (list) view */}
+      {small && demoVideo && (
+        <div style={{ padding: "10px 16px 8px", textAlign: "center", borderBottom: steps?.length ? "1px solid var(--border)" : "none", marginBottom: 6 }}>
+          <video
+            src={demoVideo}
+            playsInline
+            muted
+            loop
+            preload="metadata"
+            controls
+            style={{ width: "100%", borderRadius: 8, display: "block" }}
+            aria-label="Exercise demo"
+          />
+        </div>
+      )}
       {/* START row — no badge, matches Guided \"START\" block */}
       {startText && (small ? (
         <div className="step">
@@ -3555,6 +3570,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
             steps={ex.steps}
             small
             start={ex.start || undefined}
+            demoVideo={ex.demoVideo}
           />
           {!skipped && (
             <>
