@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -21,6 +24,12 @@
   </style>
 </head>
 <body>
+  <!-- BUILD BANNER: visible until you confirm refresh on iPhone; helps detect cached builds -->
+  <div id="build-banner" style="position:fixed;left:0;right:0;top:0;z-index:2147483647;background:rgba(0,0,0,0.85);color:#fff;padding:8px 12px;font-weight:700;text-align:center;font-family:Arial,Helvetica,sans-serif;box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+    BUILD LOADED — please hard-refresh (tap Refresh / long-press) — <span id="build-ts">loading...</span>
+  </div>
+  <div style="height:44px" aria-hidden="true"></div>
+  <script>try{document.getElementById('build-ts').textContent=new Date().toISOString();}catch(e){};</script>
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
