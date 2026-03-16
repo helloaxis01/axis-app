@@ -109,6 +109,46 @@ html,body,#root{width:100%;margin:0;padding:0;}
 .ob-disc-label { font-size:13px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--ob-text-sec); margin-bottom:8px; }
 .ob-disc-text { font-size:15px; line-height:1.52; color:var(--ob-text-body); font-weight:400; }
 .ob-disc-text strong { color:var(--ob-text-head); font-weight:500; }
+/* ============================================================
+   Emergency overrides (highest priority) to ensure onboarding
+   text colors and debug UI are hidden in all environments.
+   These rules are placed at the end so they win.
+   ============================================================ */
+/* Hide debugging / nav pills that were injected at runtime */
+#axis-debug-overlay, .axis-debug-overlay, .ob-ext-nav, .ob-en-btn, .ob-label {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Force onboarding theme colors (dark/light) using onboarding vars */
+.ob-wrap * {
+  color: var(--ob-text-body) !important;
+  background: transparent !important;
+}
+.ob-wrap .ob-heading,
+.ob-wrap .ob-eyebrow,
+.ob-wrap .ob-title,
+.ob-wrap .ob-cta-head,
+.ob-wrap .ob-splash-name,
+.ob-wrap .ob-method-feature-title {
+  color: var(--ob-text-head) !important;
+}
+.ob-wrap .ob-body,
+.ob-wrap .ob-method-card-body,
+.ob-wrap .ob-method-feature-body,
+.ob-wrap .ob-sci-text,
+.ob-wrap .ob-disc-text {
+  color: var(--ob-text-body) !important;
+}
+
+/* Ensure numeric callouts inherit heading color unless overridden */
+.ob-callout-number { color: var(--ob-text-head) !important; }
+
+/* Prevent decorative overlays from intercepting touches/clicks */
+.ob-orbs-layer, .ob-color-reveal, .ob-pad-after-cta { pointer-events: none !important; }
+
 .ob-cal-glass {
   padding:20px 20px 24px; border-radius:20px; margin:16px 0 24px;
   background:var(--ob-box-bg); border:1px solid var(--ob-box-border);
