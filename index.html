@@ -90,6 +90,14 @@ if (window.AXIS_DEV) {
 
 const { useState, useEffect, useLayoutEffect, useRef } = React;
 
+// Ensure a global fallback 'highlight' exists for any older references or cached builds.
+try {
+  if (typeof window !== 'undefined' && !window.highlight) {
+    const cssAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '';
+    window.highlight = (cssAccent || '').trim() || '#FF9F43';
+  }
+} catch (e) {}
+
 // ─────────────────────────────────────────────────────────────
 //  AXIS — COMPLETE APP (Onboarding → Home → Sessions)
 // ─────────────────────────────────────────────────────────────
@@ -708,10 +716,10 @@ function Onboarding({ theme, onComplete }) {
 
           {/* 7: MEDICAL DISCLAIMER */}
           {cur === 7 && <div className="ob-screen ob-cta-screen">
-            <div className="ob-pad">
+            <div className="ob-pad" style={{ color: nightMode ? '#ffffff' : undefined }}>
               <div className="ob-eyebrow" style={{marginBottom:8}}>MEDICAL DISCLAIMER</div>
-              <div className="ob-heading" style={{marginBottom:16, lineHeight:0.96, letterSpacing:"-0.01em"}}><span style={{fontWeight:800,color:"var(--ob-text-head)"}}>The</span> <em>Fine Print.</em></div>
-              <div className="ob-disclaimer-scroll" style={{lineHeight:1.28}}>
+              <div className="ob-heading" style={{marginBottom:16, lineHeight:0.96, letterSpacing:"-0.01em", color: nightMode ? '#ffffff' : 'var(--ob-text-head)'}}><span style={{fontWeight:800,color: nightMode ? '#ffffff' : 'var(--ob-text-head)'}}>The</span> <em>Fine Print.</em></div>
+              <div className="ob-disclaimer-scroll" style={{lineHeight:1.28, color: '#ffffff'}}>
                 AXIS provides movement and breath guidance for general wellness. It is not a substitute for professional medical advice, diagnosis, or treatment.
                 <br/><br/>
                 If you have any medical condition, injury, or concern, consult a qualified healthcare professional before starting. Stop immediately and seek attention if you experience pain, dizziness, shortness of breath, or discomfort.
@@ -720,7 +728,7 @@ function Onboarding({ theme, onComplete }) {
               </div>
 
               <div style={{width:"100%", marginTop:16, marginBottom:20}}>
-                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--ob-text-sec)", marginBottom:8, fontWeight:500}}>Name:</div>
+                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color: nightMode ? '#ffffff' : 'var(--ob-text-sec)', marginBottom:8, fontWeight:500}}>Name:</div>
                 <input
                   type="text"
                   placeholder="Full name"
@@ -730,7 +738,7 @@ function Onboarding({ theme, onComplete }) {
                     width:"100%", padding:"12px 16px", borderRadius:12, fontSize:15,
                     fontFamily:"'Barlow',sans-serif", fontWeight:400,
                     background:"var(--ob-box-bg)", border: disclaimerWarning && !disclaimerName ? "1.5px solid rgba(255,100,100,0.7)" : "1px solid var(--ob-box-border)",
-                    color:"var(--ob-text-head)", outline:"none", boxSizing:"border-box",
+                    color: nightMode ? '#ffffff' : 'var(--ob-text-head)', outline:"none", boxSizing:"border-box",
                     WebkitAppearance:"none",
                   }}
                 />
@@ -2476,7 +2484,7 @@ const css = `
     --text-dim: rgba(15,30,46,0.65);
     --text-dimmer: rgba(15,30,46,0.52);
     --text-white: #252525;
-    --accent: #2a5f8f;
+    --accent: var(--accent);
     --accent-secondary: rgba(42,95,143,0.58);
     --accent-dim: rgba(42,95,143,0.12);
     --accent-glow: rgba(42,95,143,0.22);
@@ -2484,7 +2492,7 @@ const css = `
     --cue-bar-label: rgba(42,95,143,0.85);
     --border: rgba(160,195,225,0.30);
     --border-card: rgba(160,195,225,0.40);
-    --text-teal: #2a5f8f;
+    --text-teal: var(--accent);
     --text-done: rgba(15,30,46,0.30);
     --dot-bg: rgba(15,30,46,0.12);
     --dot-done: rgba(15,30,46,0.38);
@@ -3356,12 +3364,29 @@ function VideoDemo({ src, poster, style, ariaLabel }) {
     el.addEventListener("contextmenu", onContext);
     return () => el.removeEventListener("contextmenu", onContext);
   }, [src]);
-  return <video ref={ref} src={src} poster={poster} style={style} aria-label={ariaLabel} />;
+  return <video
+    ref={ref}
+    src={src}
+    poster={poster}
+    style={style}
+    aria-label={ariaLabel}
+    onError={e => { try { const c = e.target.closest && e.target.closest('div'); if (c) c.style.display = 'none'; } catch (err) {} }}
+    onLoadedMetadata={e => { try { e.target.style.display = 'block'; } catch (err) {} }}
+  />;
 }
 
 function Steps({ steps, small, start: startText, demoVideo }) {
+  const [collapsed, setCollapsed] = useState(false);
   return (
     <div className={small ? "steps" : "fc-steps"}>
+      {!small && (
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", borderBottom: "1px solid var(--border)" }}>
+          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.06em" }}>Instructions</div>
+          <button onClick={() => setCollapsed(c => !c)} style={{ background: "transparent", border: "none", color: "inherit", cursor: "pointer", fontWeight: 700 }}>
+            {collapsed ? "Show" : "Hide"}
+          </button>
+        </div>
+      )}
       {small && (steps?.length > 0 || startText) && (
         <div style={{fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase",
           color:"var(--text-dimmer)", fontWeight:600, paddingBottom:8,
@@ -3371,7 +3396,7 @@ function Steps({ steps, small, start: startText, demoVideo }) {
       )}
 
       {/* Demo video for small (list) view */}
-      {small && demoVideo && (
+      {(!collapsed) && small && demoVideo && (
         <div style={{ padding: "10px 16px 8px", textAlign: "center", borderBottom: steps?.length ? "1px solid var(--border)" : "none", marginBottom: 6 }}>
           <VideoDemo
             src={demoVideo}
@@ -3381,7 +3406,7 @@ function Steps({ steps, small, start: startText, demoVideo }) {
         </div>
       )}
       {/* START row — no badge, matches Guided \"START\" block */}
-      {startText && (small ? (
+      {(!collapsed) && startText && (small ? (
         <div className="step">
           <div className="step-right">
             <div className="step-focus" style={{marginBottom:4}}>Start</div>
@@ -3766,10 +3791,11 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
     );
   }
 
+  const displayColor = isTimerDark ? "#ffffff" : "#1a1048";
   return (
     <div style={{display:"flex", flexDirection:"column", gap:gap, marginTop, alignItems:"flex-start"}}>
       <div style={{display:"flex", alignItems:"baseline", gap: 6, marginBottom: marginBottom}}>
-        <div style={{minWidth: 100, textAlign: "left", fontVariantNumeric: "tabular-nums", fontFamily: "'Barlow', sans-serif", fontSize: numSize, fontWeight:600, letterSpacing:"-0.04em", color:TN, lineHeight:1}}>{display}</div>
+        <div style={{minWidth: 100, textAlign: "left", fontVariantNumeric: "tabular-nums", fontFamily: "'Barlow', sans-serif", fontSize: numSize, fontWeight:600, letterSpacing:"-0.04em", color:displayColor, lineHeight:1}}>{display}</div>
       </div>
       <div style={{height: barH, width: "auto", background:"transparent", borderRadius: barH, overflow:"hidden"}}>
         <div style={{height: barH, borderRadius: barH, background:BAR_FILL,
@@ -3860,6 +3886,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const list = listRef.current;
   const listTotal = list.length;
   const filteredCount = listTotal;
+  const [instrCollapsed, setInstrCollapsed] = useState(false);
+  // per-exercise instruction collapse state (Guided cards)
+  const [collapsedById, setCollapsedById] = useState(() => ({}));
+  const toggleCollapseFor = (id) => setCollapsedById(m => ({ ...(m || {}), [id]: !m[id] }));
 
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
@@ -3876,6 +3906,48 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const titleRef = useRef(null);
   const cur = list.length > 0 ? list[Math.min(fi, list.length - 1)] : null;
   const next = list[fi + 1] || null;
+  // Display string for large countdown area (falls back to exercise duration if no running timer)
+  const guidedExerciseSeconds = cur?.seconds || cur?.duration || 0;
+  const guidedDefaultDisplay = guidedExerciseSeconds ? `${Math.floor(guidedExerciseSeconds / 60)}:${(guidedExerciseSeconds % 60).toString().padStart(2, "0")}` : "";
+  // Guided large countdown state (per-exercise running timer)
+  const [gLeft, setGLeft] = useState(null);
+  const gRef = useRef(null);
+  const [gRunning, setGRunning] = useState(false);
+
+  // Start/stop guided countdown when phase changes or current exercise changes or paused toggles
+  useEffect(() => {
+    // clear any existing
+    clearInterval(gRef.current);
+    if (phase === "exercise" && cur) {
+      const secs = cur.seconds || cur.duration || 0;
+      setGLeft(secs);
+      // auto-start unless paused
+      setGRunning(!paused);
+      if (!paused && secs > 0) {
+        gRef.current = setInterval(() => {
+          setGLeft(l => {
+            if (l <= 1 || l == null) {
+              clearInterval(gRef.current);
+              setGRunning(false);
+              // call handler to complete current exercise
+              handleTimerDone();
+              return 0;
+            }
+            return l - 1;
+          });
+        }, 1000);
+      }
+    } else {
+      setGLeft(null);
+      setGRunning(false);
+    }
+    return () => clearInterval(gRef.current);
+  }, [phase, fi, cur && cur.id, paused]);
+
+  // helper display and pct for guided large timer
+  const gTotal = (cur && (cur.seconds || cur.duration)) || 0;
+  const gPct = gTotal > 0 && gLeft != null ? ((gTotal - gLeft) / gTotal) : (phase === "launch" ? ((3 - launchCount) / 3) : 0);
+  const gDisplay = gLeft != null ? `${Math.floor(gLeft / 60)}:${(gLeft % 60).toString().padStart(2, "0")}` : guidedDefaultDisplay;
 
   // GUIDED phase flags
   const isExercisePhase = phase === "exercise";
@@ -4133,10 +4205,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         }}>
           <div style={{flex:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
             <div style={{letterSpacing:"0.3em", textTransform:"uppercase", color:S, marginBottom:24}}>GUIDED SESSION</div>
-            <div style={{fontWeight:600, letterSpacing:"-0.03em", lineHeight:1.1, color:W, marginBottom:16, textShadow: NAME_SHAD}}>
+            <div style={{fontWeight:700, fontSize: 34, letterSpacing:"-0.03em", lineHeight:1.02, color:W, marginBottom:16, textShadow: NAME_SHAD}}>
               {trackLabel}
             </div>
-            <div style={{fontSize: 13, color: S, marginBottom: 24}}>{filteredCount} exercises • {trackDuration}</div>
+            <div style={{fontSize: 20, color: S, marginBottom: 24, opacity: 0.9}}>{filteredCount} exercises • {trackDuration}</div>
           </div>
           <div style={{display:"flex", flexDirection:"column", alignItems:"center", paddingBottom:8}}>
             <div style={{fontSize: 12, color: S, opacity: 0.85, maxWidth: 320, lineHeight: 1.4, marginBottom: 28, textAlign: "center"}}>No equipment? You can modify — use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion.</div>
@@ -4166,20 +4238,75 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           </div>
 
           {/* Primary title: large, bold — white, centered (stays locked across phases) */}
+          {/* Phase label and large countdown at top */}
+          {(phase === "getready" || phase === "launch" || phase === "exercise") && (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 8 }}>
+              <div style={{
+                fontSize: 14,
+                fontWeight: 800,
+                letterSpacing: "-0.02em",
+                color: W,
+                textTransform: "uppercase",
+                marginBottom: 8,
+                padding: "6px 12px",
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.06)",
+                display: "inline-block"
+              }}>
+                {phase === "getready" ? "REST & GET READY" : phase === "launch" ? "GET SET" : "BEGIN"}
+              </div>
+            </div>
+          )}
+
+          {/* Primary title: large, bold — white, centered (stays locked across phases) */}
           <div style={{display:"flex",flexDirection:"column",alignItems:(phase === "getready" || phase === "launch" || phase === "exercise") ? "center" : "flex-start"}}>
             <div
               ref={titleRef}
               style={{
-              fontSize: (phase === "getready" || phase === "launch" || phase === "exercise") ? 38 : 30,
+              fontSize: (phase === "getready" || phase === "launch" || phase === "exercise") ? 34 : 30,
               fontWeight: 700, letterSpacing: "0.02em", lineHeight: 1.08, textTransform: "uppercase",
               color: W,
-              marginBottom: 16, flexShrink: 0, fontFamily: "'Barlow', sans-serif",
+              marginBottom: 8, flexShrink: 0, fontFamily: "'Barlow', sans-serif",
               textShadow: NAME_SHAD,
               textAlign: (phase === "getready" || phase === "launch" || phase === "exercise") ? "center" : "left",
             }}>
               {cur?.name}
             </div>
           </div>
+
+          {/* Countdown + progress bar: locked position for getready, launch, and exercise (placed under title) */}
+          {(phase === "getready" || phase === "launch" || phase === "exercise") && (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 6, marginBottom: 12, flexShrink: 0 }}>
+              {phase === "getready" && (
+                <>
+                  <div style={{ minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "'Barlow', sans-serif", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: isDark ? "rgba(255,255,255,0.5)" : W, lineHeight: 1 }}>
+                    {`0:${readyLeft.toString().padStart(2, "0")}`}
+                  </div>
+                  <div style={{ width: 240, height: 10, borderRadius: 10, background: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 8 }}>
+                    <div style={{ height: 10, borderRadius: 10, background: `linear-gradient(90deg,${A},${ct.accentDim || A + "99"})`, width: `${((GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS) * 100}%`, transition: "width 1s linear" }} />
+                  </div>
+                </>
+              )}
+              {phase === "launch" && (
+                <>
+                  <div style={{ minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "'Barlow', sans-serif", fontSize: 60, fontWeight: 700, letterSpacing: "-0.02em", color: W, lineHeight: 1 }}>
+                    {launchCount > 0 ? launchCount : ""}
+                  </div>
+                  <div style={{ width: 240, height: 10, borderRadius: 10, background: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 8 }}>
+                    <div style={{ height: 10, borderRadius: 10, background: `linear-gradient(90deg, ${A}, ${A})`, width: `${((3 - launchCount) / 3) * 100}%` }} />
+                  </div>
+                </>
+              )}
+              {phase === "exercise" && cur && (
+                <>
+                  <div style={{ minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "'Barlow', sans-serif", fontSize: 60, fontWeight: 700, letterSpacing: "-0.02em", color: W, lineHeight: 1 }}>{gDisplay}</div>
+                  <div style={{ width: 240, height: 10, borderRadius: 10, background: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 8 }}>
+                    <div style={{ height: 10, borderRadius: 10, background: `linear-gradient(90deg, ${A}, ${A})`, width: `${gPct * 100}%` }} />
+                  </div>
+                </>
+              )}
+            </div>
+          )}
 
           {/* ── GLASS CUE CARD ── */}
           {(() => {
@@ -4201,109 +4328,68 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
                   : (isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)"),
                 overflow: "hidden", flexShrink: 0, marginBottom: 16,
               }}>
-                {ex.demoVideo && (
-                  <div style={{ padding: "10px 16px 8px", borderBottom: ex.steps?.length ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "center" }}>
-                    <VideoDemo
-                      src={ex.demoVideo}
-                      style={{ width: "100%", borderRadius: 10, display: "block" }}
-                      ariaLabel={ex && ex.name ? `Demo: ${ex.name}` : "Exercise demo"}
-                    />
-                  </div>
-                )}
-                {ex.start && (
-                  <div style={{ padding: "10px 16px 8px", borderBottom: ex.steps?.length ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "left" }}>
-                    <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 4 }}>START</div>
-                    <div style={{ fontSize: 15, color: W, lineHeight: 1.4, fontWeight: 400, letterSpacing: "-0.01em" }}>{ex.start}</div>
-                  </div>
-                )}
-                {ex.steps?.map((step, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      padding: idx === 0 ? "14px 16px 12px" : "12px 16px 14px",
-                      borderBottom: (idx < ex.steps.length - 1) || (ex.type === "reps" && ex.reps)
-                        ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)")
-                        : "none",
-                      textAlign: "left",
-                    }}
+                {/* Card header with collapse control */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid rgba(0,0,0,0)" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", color: W }}>Instructions</div>
+                  <button
+                    onClick={() => toggleCollapseFor(ex.id)}
+                    style={{ background: "transparent", border: "none", color: W, cursor: "pointer", fontWeight: 700, fontSize: 13 }}
+                    aria-expanded={!collapsedById[ex.id]}
+                    aria-controls={`instr-${ex.id}`}
                   >
-                    <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 8 }}>
-                      {step.focus || (idx === 0 ? "SETUP" : "MOVE")}
-                    </div>
-                    <div style={{
-                      fontSize: 15,
-                      color: W,
-                      lineHeight: 1.4,
-                      fontWeight: 400,
-                      letterSpacing: "-0.01em",
-                    }}>
-                      {step.cue}
-                    </div>
-                  </div>
-                ))}
+                    {collapsedById[ex.id] ? "Show" : "Hide"}
+                  </button>
+                </div>
+
+                {!collapsedById[ex.id] && (
+                  <>
+                    {ex.demoVideo && (
+                      <div style={{ padding: "10px 16px 8px", borderBottom: ex.steps?.length ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "center" }}>
+                        <VideoDemo
+                          src={ex.demoVideo}
+                          style={{ width: "100%", borderRadius: 10, display: "block" }}
+                          ariaLabel={ex && ex.name ? `Demo: ${ex.name}` : "Exercise demo"}
+                        />
+                      </div>
+                    )}
+                    {ex.start && (
+                      <div id={`instr-${ex.id}`} style={{ padding: "10px 16px 8px", borderBottom: ex.steps?.length ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)") : "none", textAlign: "left" }}>
+                        <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 4 }}>START</div>
+                        <div style={{ fontSize: 15, color: W, lineHeight: 1.4, fontWeight: 400, letterSpacing: "-0.01em" }}>{ex.start}</div>
+                      </div>
+                    )}
+                    {ex.steps?.map((step, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          padding: idx === 0 ? "14px 16px 12px" : "12px 16px 14px",
+                          borderBottom: (idx < ex.steps.length - 1) || (ex.type === "reps" && ex.reps)
+                            ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)")
+                            : "none",
+                          textAlign: "left",
+                        }}
+                      >
+                        <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 8 }}>
+                          {step.focus || (idx === 0 ? "SETUP" : "MOVE")}
+                        </div>
+                        <div style={{
+                          fontSize: 15,
+                          color: W,
+                          lineHeight: 1.4,
+                          fontWeight: 400,
+                          letterSpacing: "-0.01em",
+                        }}>
+                          {step.cue}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             );
           })()}
 
-          {/* Countdown + progress bar: locked position for getready, launch, and exercise */}
-          {(phase === "getready" || phase === "launch" || phase === "exercise") && (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "auto", marginBottom: 10, flexShrink: 0, paddingTop: 18 }}>
-              {(phase === "getready" || phase === "launch" || phase === "exercise") && (
-                <div style={{ width:"100%", display:"flex", justifyContent:"center", marginBottom:10 }}>
-                  <div style={{
-                    padding: "4px 12px",
-                    borderRadius: 999,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 10,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    fontFamily: "'Barlow', sans-serif",
-                    background: isDark ? "rgba(255,255,255,0.10)" : A,
-                    color: isDark ? A : "#ffffff",
-                    textAlign: "center",
-                    transform: "translateX(0.5px)",
-                  }}>
-                    <span>{phase === "getready" ? "REST & GET READY" : phase === "launch" ? "GET SET" : "BEGIN"}</span>
-                  </div>
-                </div>
-              )}
-              {phase === "getready" && (
-                <>
-                  <div style={{
-                    minWidth: 134, textAlign: "left", fontVariantNumeric: "tabular-nums",
-                    fontFamily: "'Barlow', sans-serif",
-                    fontSize: 80, fontWeight: 600, letterSpacing: "-0.02em",
-                    color: isDark ? "rgba(255,255,255,0.5)" : W, lineHeight: 1,
-                  }}>
-                    {`0:${readyLeft.toString().padStart(2, "0")}`}
-                  </div>
-                  <div style={{ width: 249, height: 8, borderRadius: 8, background: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 14 }}>
-                    <div style={{ height: 8, borderRadius: 8, background: `linear-gradient(90deg,${A},${ct.accentDim || A + "99"})`, width: `${((GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS) * 100}%`, transition: "width 1s linear" }} />
-                  </div>
-                </>
-              )}
-              {phase === "launch" && (
-                <>
-                  <div style={{
-                    minWidth: 134, textAlign: "center", fontVariantNumeric: "tabular-nums",
-                    fontFamily: "'Barlow', sans-serif",
-                    fontSize: 80, fontWeight: 600, letterSpacing: "-0.02em",
-                    color: W, lineHeight: 1,
-                    textShadow: NAME_SHAD,
-                  }}>
-                    {launchCount > 0 ? launchCount : ""}
-                  </div>
-                  <div style={{ width: 249, height: 8, borderRadius: 8, background: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 14 }} />
-                </>
-              )}
-              {phase === "exercise" && cur && (
-                <OverlayTimer key={cur.id + "-" + fi} seconds={cur.type === "time" || cur.type === "flow" ? cur.seconds : 45} onDone={handleTimerDone}
-                  autoStart={true} paused={paused} fi={fi} list={list} theme={theme} activePeriod={activePeriod} nightMode={nightMode} large={true} compactBarGap={true} />
-              )}
-            </div>
-          )}
+          
 
           </div>
         </div>
@@ -5317,6 +5403,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         icon:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z"/></svg> },
     ];
     const nowPeriod = getCircadianPeriod();
+    // derive highlight color from circadian theme for Today's suggestion card (home)
+    const highlightCt = CIRCADIAN_THEMES[nowPeriod][theme === "dark" ? "dark" : "light"];
+    const highlight = highlightCt && highlightCt.accent ? highlightCt.accent : "var(--accent)";
     return (
       <div className="app" data-theme={theme} data-night={nightMode ? "true" : "false"}>
         <style>{css}</style>
@@ -5415,6 +5504,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // TODAY (formerly Home)
   if (view === "home") {
     const nowPeriod = getCircadianPeriod();
+    const usedPeriod = activePeriod || nowPeriod;
+    const homeCt = CIRCADIAN_THEMES[usedPeriod][theme === "dark" ? "dark" : "light"];
+    const homeHighlight = homeCt && homeCt.accent ? homeCt.accent : "var(--accent)";
     const perMove = exerciseDuration || 45;
     const getTrackDisplayDuration = (trackId) => {
       const sections = getSections(trackId);
@@ -5454,7 +5546,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         <div className="home">
           <div className="home-hdr app-page-header">
             <div className="home-brand">
-              <div className="home-wordmark">AXIS</div>
+              <div className="app-label" style={{fontSize:24,fontWeight:600,textTransform:"uppercase",color:"var(--text-secondary)",marginBottom:20}}>AXIS</div>
             </div>
             <div className="home-tagline">Listen to your body. Select your focus.</div>
           </div>
@@ -5462,15 +5554,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             {/* Today block: time-of-day + suggestion + primary CTA */}
             <div className="track-group start-here-group" role="region" aria-label="Today's suggestion" style={{
               marginBottom:28, padding:"20px 20px 22px", borderRadius:24,
-              background:"var(--glass-bg)", border:"1px solid var(--glass-border)",
-              backdropFilter:"blur(24px) saturate(1.2)", WebkitBackdropFilter:"blur(24px) saturate(1.2)",
-              boxShadow:"0 24px 48px rgba(0,0,0,0.06), var(--glass-shadow), inset 0 1px 0 var(--glass-specular)",
+              background: homeHighlight, border:`2px solid ${homeHighlight}`,
+              backdropFilter:"blur(8px) saturate(1.05)", WebkitBackdropFilter:"blur(8px) saturate(1.05)",
+              boxShadow:`0 12px 32px ${homeHighlight}33, inset 0 1px 0 rgba(255,255,255,0.05)`,
             }}>
-              <div style={{letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--accent)",marginBottom:8,fontWeight:600}}>Today</div>
-              <div style={{fontWeight:500,color:"var(--text-white)",marginBottom:6}}>{periodLabels[nowPeriod]}</div>
-              <div style={{color:"var(--text-secondary)",marginBottom:6,lineHeight:1.4}}>{todaySug.suggestion}</div>
-              <div style={{color:"var(--text-dim)",letterSpacing:"0.06em",marginBottom:18}}>{getTrackDisplayDuration(todayTrack.id)}</div>
-              <button className="begin-btn" onClick={() => beginTrack(todayTrack.id)} style={{width:"100%",padding:"14px 24px",fontSize:15}} aria-label={`Start ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}`}>
+              <div style={{letterSpacing:"0.22em",textTransform:"uppercase",color:"rgba(255,255,255,0.92)",marginBottom:8,fontWeight:600}}>Today</div>
+              <div style={{fontWeight:600,color:"rgba(255,255,255,0.98)",marginBottom:6}}>{periodLabels[nowPeriod]}</div>
+              <div style={{color:"rgba(255,255,255,0.92)",marginBottom:6,lineHeight:1.4}}>{todaySug.suggestion}</div>
+              <div style={{color:"rgba(255,255,255,0.86)",letterSpacing:"0.06em",marginBottom:18}}>{getTrackDisplayDuration(todayTrack.id)}</div>
+              <button className="begin-btn" onClick={() => beginTrack(todayTrack.id)} style={{width:"100%",padding:"14px 24px",fontSize:15, background:"#ffffff", color: homeHighlight, border:"none", fontWeight:700}} aria-label={`Start ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}`}>
                 {todayTrack.label}
               </button>
             </div>

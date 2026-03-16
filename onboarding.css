@@ -126,6 +126,15 @@ html,body,#root{width:100%;margin:0;padding:0;}
   width:100%;
   padding:8px 0;
 }
+/* Ensure Fine Print text is readable in dark mode */
+[data-night="true"] .ob-disclaimer-scroll,
+[data-night="true"] .ob-disclaimer-scroll *,
+.app[data-night="true"] .ob-disclaimer-scroll,
+.app[data-night="true"] .ob-disclaimer-scroll * ,
+.app[data-theme="dark"] .ob-disclaimer-scroll,
+.app[data-theme="dark"] .ob-disclaimer-scroll * {
+  color: #ffffff !important;
+}
 
 /* Additional fallback styling to ensure nav buttons look cohesive with app theme */
 .ob-nav-back {
