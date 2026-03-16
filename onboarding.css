@@ -6,6 +6,45 @@ html,body,#root{width:100%;margin:0;padding:0;}
   background:var(--ob-page-bg); font-family:'Barlow',sans-serif; font-weight:300;
   box-sizing:border-box;
 }
+/* ===== Scoped onboarding font + color safety layer (feature branch) =====
+   This block forces onboarding to use the onboarding CSS variables and a locally-hosted font.
+   It is intentionally scoped to .ob-wrap so the main app is unaffected.
+*/
+@font-face {
+  font-family: "Barlow-Onb";
+  src: url("/assets/fonts/barlow-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+.ob-wrap, .ob-wrap * {
+  font-family: "Barlow-Onb", "Barlow", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  color: var(--ob-text-body) !important; /* default body color from onboarding vars */
+}
+.ob-wrap .ob-heading,
+.ob-wrap .ob-eyebrow,
+.ob-wrap .ob-title,
+.ob-wrap .ob-cta-head,
+.ob-wrap .ob-splash-name {
+  color: var(--ob-text-head) !important;
+}
+.ob-wrap .ob-body,
+.ob-wrap .ob-bt,
+.ob-wrap .ob-disc-text,
+.ob-wrap .ob-sci-text,
+.ob-wrap .ob-method-card-body,
+.ob-wrap .ob-method-feature-body {
+  color: var(--ob-text-body) !important;
+}
+.ob-wrap .ob-text-dimmer,
+.ob-wrap .ob-text-sec {
+  color: var(--ob-text-sec) !important;
+}
+.ob-callout { background: transparent !important; border-radius: 10px !important; border: 1px solid var(--ob-callout-border, rgba(255,255,255,0.9)) !important; }
+.ob-callout-number { color: var(--ob-callout-text, var(--ob-text-head)) !important; }
+
 /* orbs — static layer + sheen when in color mode */
 .ob-orbs-layer { position:fixed; inset:0; z-index:0; pointer-events:none; }
 .ob-orbs-layer::after { content:''; position:absolute; inset:0; pointer-events:none; background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.02) 60%, transparent 100%); }
