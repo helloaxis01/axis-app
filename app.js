@@ -315,29 +315,54 @@ const CIRCADIAN_THEMES = {
 
 function applyCircadianTheme(isDark, period) {
   const p = period || getCircadianPeriod();
-  const t = CIRCADIAN_THEMES[p][isDark ? "dark" : "light"];
+  // Defensive: ensure we always have a valid theme object
+  const themeEntry = CIRCADIAN_THEMES[p] || CIRCADIAN_THEMES["rest"] || Object.values(CIRCADIAN_THEMES)[0];
+  const t = (themeEntry && themeEntry[isDark ? "dark" : "light"]) || themeEntry?.dark || CIRCADIAN_THEMES.rest.dark;
   let el = document.getElementById("circadian-style");
-  if (!el) {el = document.createElement("style");el.id = "circadian-style";document.head.appendChild(el);}
-  // Derive cue-bar, tab-bg, and accent-secondary from accent so they always match
-  const accentSec = t.accent && t.accent.match(/^#[0-9a-fA-F]{6}$/) ? t.accent + "99" : t.accentSecondary || t.accent;
-  el.textContent = `
-    [data-theme]:not([data-night="true"]) {
-      --orb1: ${t.orb1} !important;
-      --orb2: ${t.orb2} !important;
-      --orb3: ${t.orb3} !important;
-      --accent: ${t.accent} !important;
-      --accent-secondary: ${accentSec} !important;
-      --accent-dim: ${t.accentDim} !important;
-      --accent-glow: ${t.accentGlow} !important;
-      --cue-bar: ${t.accentDim.replace(/[\d.]+\)$/, "0.7)")} !important;
-      --cue-bar-label: ${t.accentDim.replace(/[\d.]+\)$/, "0.9)")} !important;
-      ${t.textPrimary ? `--text-white: ${t.textPrimary} !important;` : ""}
-      ${t.accentBtnText ? `--accent-btn-text: ${t.accentBtnText} !important;` : ""}
-      ${t.tabBg ? `--tab-bg: ${t.tabBg} !important;` : ""}
-    }
-    .app-orbs { transition: background 2s ease !important; }
-  `;
-  return { bg: t.bg };
+  if (!el) { el = document.createElement("style"); el.id = "circadian-style"; document.head.appendChild(el); }
+  // Safely derive values with fallbacks
+  try {
+    const safe = (v, fallback) => (typeof v !== "undefined" && v !== null ? v : fallback);
+    const accent = safe(t.accent, "#FFBF65");
+    const accentDim = safe(t.accentDim, "rgba(255,191,101,0.18)");
+    const accentGlow = safe(t.accentGlow, "rgba(255,191,101,0.30)");
+    const orb1 = safe(t.orb1, "none");
+    const orb2 = safe(t.orb2, "none");
+    const orb3 = safe(t.orb3, "none");
+    const tabBg = safe(t.tabBg, "rgba(8,12,18,0.85)");
+    const textPrimary = safe(t.textPrimary, (isDark ? "#f6f7f8" : "#252525"));
+    const accentBtnText = safe(t.accentBtnText, "#0a0e1a");
+    const accentSecondary = (typeof accent === "string" && /^#[0-9a-fA-F]{6}$/.test(accent)) ? accent + "99" : (t.accentSecondary || accent);
+    // guard accentDim replace usage
+    const cueBar = typeof accentDim === "string" ? accentDim.replace(/[\d.]+\)$/, "0.7)") : accentDim;
+    const cueBarLabel = typeof accentDim === "string" ? accentDim.replace(/[\d.]+\)$/, "0.9)") : accentDim;
+
+    el.textContent = `
+      [data-theme]:not([data-night="true"]) {
+        --orb1: ${orb1} !important;
+        --orb2: ${orb2} !important;
+        --orb3: ${orb3} !important;
+        --accent: ${accent} !important;
+        --accent-secondary: ${accentSecondary} !important;
+        --accent-dim: ${accentDim} !important;
+        --accent-glow: ${accentGlow} !important;
+        --cue-bar: ${cueBar} !important;
+        --cue-bar-label: ${cueBarLabel} !important;
+        --text-white: ${textPrimary} !important;
+        --accent-btn-text: ${accentBtnText} !important;
+        --tab-bg: ${tabBg} !important;
+      }
+      .app-orbs { transition: background 2s ease !important; }
+    `;
+  } catch (err) {
+    // fallback minimal style to avoid breaking the script/runtime
+    el.textContent = `
+      :root { --accent: #FFBF65; --accent-dim: rgba(255,191,101,0.18); --tab-bg: rgba(8,12,18,0.85); --text-white: #f6f7f8; }
+      .app-orbs { transition: background 2s ease !important; }
+    `;
+    console.error("applyCircadianTheme fallback:", err);
+  }
+  return { bg: t.bg || MAIN_APP_BG.dark };
 }
 
 function Onboarding({ theme, onComplete }) {
