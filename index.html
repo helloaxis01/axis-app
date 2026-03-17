@@ -75,28 +75,41 @@
   <!-- inline Babel removed during debug -->
 
   <script>
-    // Mount point: render onboarding factory if present, otherwise show fallback.
+    // Mount point: attempt immediate mount; if not ready, poll briefly and listen for events.
     (function(){
-      try {
-        if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
-          console.warn('React or ReactDOM not available for mount');
-          return;
+      function tryMount(){
+        try {
+          if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') return false;
+          const rootEl = document.getElementById('root');
+          if (!rootEl) return false;
+          const root = ReactDOM.createRoot(rootEl);
+          if (window && window.AXIS_Onboarding) {
+            root.render(React.createElement(window.AXIS_Onboarding, {}));
+            console.log('Mounted window.AXIS_Onboarding into #root');
+            return true;
+          } else if (window && window.App) {
+            root.render(React.createElement(window.App));
+            console.log('Mounted window.App into #root');
+            return true;
+          }
+          return false;
+        } catch (e) {
+          console.error('Mount failed', e);
+          return false;
         }
-        const rootEl = document.getElementById('root');
-        if (!rootEl) { console.warn('#root not found'); return; }
-        const root = ReactDOM.createRoot(rootEl);
-        if (window && window.AXIS_Onboarding) {
-          root.render(React.createElement(window.AXIS_Onboarding, {}));
-          console.log('Mounted window.AXIS_Onboarding into #root');
-        } else if (window && window.App) {
-          root.render(React.createElement(window.App));
-          console.log('Mounted window.App into #root');
-        } else {
-          // visible fallback
-          rootEl.innerHTML = '<div style=\"color:#fff;padding:24px\">No app mounted</div>';
-        }
-      } catch (e) {
-        console.error('Mount failed', e);
+      }
+
+      // Immediate attempt
+      if (!tryMount()) {
+        // Poll briefly in case scripts load shortly after
+        let tries = 0;
+        const id = setInterval(() => {
+          tries++;
+          if (tryMount() || tries > 40) clearInterval(id);
+        }, 200);
+        // Also try on DOMContentLoaded and load
+        window.addEventListener('DOMContentLoaded', tryMount);
+        window.addEventListener('load', tryMount);
       }
     })();
   </script>
