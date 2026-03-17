@@ -13,8 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css" />
-  <link rel="stylesheet" href="/src/components/onboarding/onboarding.css" />
+  <link rel="stylesheet" href="/assets/onboarding/onboarding.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { height: 100%; height: 100dvh; min-height: 100dvh; width: 100%; max-width: 100vw; overflow-x: hidden; overflow-y: hidden; background: #0a0a0f; -webkit-text-size-adjust: 100%; touch-action: manipulation; }
@@ -39,10 +38,15 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
-  <script src="/src/components/onboarding/slide0.js"></script>
-  <script src="/src/components/onboarding/slide1.js"></script>
-  <script src="/src/components/onboarding/slide2.js"></script>
-  <script src="/src/components/onboarding/onboarding.js"></script>
+  <script src="/assets/onboarding/slide0.js"></script>
+  <script src="/assets/onboarding/slide1.js"></script>
+  <script src="/assets/onboarding/slide2.js"></script>
+  <script src="/assets/onboarding/slide3.js"></script>
+  <script src="/assets/onboarding/slide4.js"></script>
+  <script src="/assets/onboarding/slide5.js"></script>
+  <script src="/assets/onboarding/slide6.js"></script>
+  <script src="/assets/onboarding/slide7.js"></script>
+  <script src="/assets/onboarding/onboarding.js"></script>
   <!-- Babel standalone removed for production builds; app is precompiled in dist/ -->
   <script>
     // Try to synchronously load axis_data.json so the inline app can initialize from it.
@@ -134,8 +138,6 @@ function AxisIcon({ size = 72, color = "#F0EEEB" }) {
     </svg>
   );
 }
-
-/* END ONBOARDING_ORIG */
 
 // ── ONBOARDING
 /* onboarding CSS moved to onboarding.css */
@@ -319,7 +321,6 @@ function applyCircadianTheme(isDark, period) {
   return { bg: t.bg };
 }
 
-/* ONBOARDING_ORIG REMOVED - moved to src/components/onboarding/OnboardingFull.js */
 function Onboarding_orig({ theme, onComplete }) {
   const [cur, setCur] = useState(0);
   const total = 8; // Splash, Alpha, Perspective+Foundation, Benefits, Method+Tools, Appearance, Ethics+Safety, Disclaimer
@@ -508,6 +509,332 @@ function Onboarding_orig({ theme, onComplete }) {
             </div>
           </div>}
 
+          {/* 3: THE BENEFITS */}
+          {cur === 3 && <div className="ob-screen">
+            <div className="ob-pad">
+              <div className="ob-eyebrow">THE BENEFITS</div>
+              <div className="ob-heading" style={{lineHeight:0.96, letterSpacing:"-0.01em"}}>Movement as <em>Medicine.</em></div>
+            <div className="ob-body" style={{marginBottom:18, lineHeight:1.28}}>
+              Smart movement isn’t just a workout — it’s a physiological shift.
+            </div>
+            <div style={{marginTop:18, display:"grid", gap:14}}>
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontWeight:700, color:"var(--ob-text-head)"}}>Targeted mobility can cut chronic pain by up to 30% in 8 weeks.</div>
+                  <div style={{marginTop:6,color:"var(--ob-text-body)"}}>Consistent practice improves tissue tolerance and reduces nociceptive drivers over time.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontWeight:700, color:"var(--ob-text-head)"}}>Daily micro-resets reduce tension by 50% for desk workers.</div>
+                  <div style={{marginTop:6,color:"var(--ob-text-body)"}}>Short, regular breaks interrupt the accumulation of stiffness and improve comfort.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontWeight:700, color:"var(--ob-text-head)"}}>Core and spine work improves stability by 40%, preventing recurrence.</div>
+                  <div style={{marginTop:6,color:"var(--ob-text-body)"}}>Targeted activation builds resilience so you can return to meaningful movement safely.</div>
+                </div>
+              </div>
+
+              <div style={{display:"flex", gap:12, alignItems:"flex-start"}}>
+                <div style={{width:8,height:8,marginTop:6, borderRadius:8, background:"var(--ob-box-border)"}} />
+                <div>
+                  <div style={{fontWeight:700, color:"var(--ob-text-head)"}}>One 8‑minute session boosts mood and energy all day.</div>
+                  <div style={{marginTop:6,color:"var(--ob-text-body)"}}>A brief, focused practice can shift autonomic state and kickstart momentum for the day.</div>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div className="ob-nav-bar">
+              <div className="ob-nav-inner">
+                <button className="ob-nav-back" onClick={() => go(2)}>←</button>
+                {dots(3)}
+                <button className="ob-nav-next" onClick={() => go(4)}>Next</button>
+              </div>
+            </div>
+          </div>}
+
+          {/* 4: THE METHOD & TOOLS */}
+          {cur === 4 && <div className="ob-screen">
+            <div className="ob-pad">
+              <div className="ob-eyebrow">THE METHOD & TOOLS</div>
+              <div className="ob-heading" style={{marginBottom:8, lineHeight:0.96, letterSpacing:"-0.01em"}}>Three ways to <em>reset.</em></div>
+              <div className="ob-body" style={{marginBottom:18, lineHeight:1.28}}>
+                Choose what fits your energy or time — you can customize or switch anytime.
+              </div>
+
+              <div style={{display:"flex", flexDirection:"column", gap:10, marginTop:6}}>
+                <div style={{borderTop:"1px solid var(--ob-box-border)", paddingTop:10, paddingBottom:10, display:"flex", gap:12, alignItems:"flex-start"}}>
+                  <div style={{width:28,height:28,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke={iconColor} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div>
+                    <div style={{fontWeight:800,letterSpacing:"0.06em",textTransform:"uppercase", color: obTheme === "dark" ? "#f6f7f8" : "#252525"}}>GUIDED</div>
+                    <div style={{marginTop:4,color:"var(--ob-text-body)",lineHeight:1.25}}>Immersive flow. Follow timed sequences with built‑in pacing, rest, and cues that keep you moving with focus and ease.</div>
+                  </div>
+                </div>
+
+                <div style={{borderTop:"1px solid var(--ob-box-border)", paddingTop:10, paddingBottom:10, display:"flex", gap:12, alignItems:"flex-start"}}>
+                  <div style={{width:28,height:28,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h4M10 7h10M4 12h4M10 12h10M4 17h4M10 17h10" stroke={iconColor} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div>
+                    <div style={{fontWeight:800,letterSpacing:"0.06em",textTransform:"uppercase", color: obTheme === "dark" ? "#f6f7f8" : "#252525"}}>LIST</div>
+                    <div style={{marginTop:4,color:"var(--ob-text-body)",lineHeight:1.25}}>Self-paced control. Browse the movement library, check off exercises, and move freely at your own rhythm and tempo.</div>
+                  </div>
+                </div>
+
+                <div style={{borderTop:"1px solid var(--ob-box-border)", paddingTop:10, paddingBottom:10, display:"flex", gap:12, alignItems:"flex-start", borderBottom:"1px solid var(--ob-box-border)"}}>
+                  <div style={{width:28,height:28,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke={iconColor} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div>
+                    <div style={{fontWeight:800,letterSpacing:"0.06em",textTransform:"uppercase", color: obTheme === "dark" ? "#f6f7f8" : "#252525"}}>BREATH & FOCUS</div>
+                    <div style={{marginTop:4,color:"var(--ob-text-body)",lineHeight:1.25}}>System regulation. Use science-based breathing patterns and interval timers to calm, refocus, and boost performance.</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div className="ob-nav-bar">
+              <div className="ob-nav-inner">
+                <button className="ob-nav-back" onClick={() => go(3)}>←</button>
+                {dots(4)}
+                <button className="ob-nav-next" onClick={() => go(5)}>Next</button>
+              </div>
+            </div>
+          </div>}
+
+          {/* 5: APPEARANCE */}
+          {cur === 5 && <div className="ob-screen">
+            <div className="ob-pad">
+              <div className="ob-eyebrow">APPEARANCE</div>
+              <div className="ob-heading" style={{lineHeight:0.96, letterSpacing:"-0.01em"}}>Personalize your <em>space.</em></div>
+              <div className="ob-body" style={{marginBottom:28, lineHeight:1.28}}>
+                Choose a theme that fits your environment or intent. Select from light or dark mode, or color themes — amber, teal, blue, or purple. Set Auto and AXIS adapts to the time of day.
+              </div>
+              <div style={{display:"flex",gap:10,marginBottom:24}}>
+                {[{val:"dark",label:"Dark"},{val:"light",label:"Light"}].map(({val,label}) => (
+                  <button key={val} onClick={()=>{ setObTheme(val); setHasChosenMood(true); }} style={{
+                    flex:1, padding:"11px 0", borderRadius:12, cursor:"pointer",
+                    fontFamily:"'Barlow',sans-serif", fontWeight:600,
+                    letterSpacing:"0.14em", textTransform:"uppercase",
+                    border: obTheme===val ? "1.5px solid var(--ob-accent)" : "1px solid var(--ob-box-border)",
+                    background: obTheme===val ? "var(--ob-accent-dim)" : "var(--ob-box-bg)",
+                    color: obTheme===val ? "var(--ob-accent)" : "var(--ob-text-sec)",
+                    transition:"all 0.18s",
+                  }}>{label}</button>
+                ))}
+              </div>
+              <div style={{marginBottom:20}}>
+                <div style={{
+                  display:"flex",alignItems:"center",justifyContent:"space-between",
+                  padding:"16px 18px",borderRadius:14,
+                  background: obAutoTime ? "var(--ob-accent-dim)" : "var(--ob-box-bg)",
+                  border: obAutoTime ? "1.5px solid var(--ob-accent)" : "1px solid var(--ob-box-border)",
+                  transition:"all 0.2s",
+                }}>
+                  <div>
+                  <div style={{color:obAutoTime?"var(--ob-accent)":"var(--ob-text-head)",fontWeight:600,marginBottom:2}}>Auto</div>
+                    <div style={{color:"var(--ob-text-sec)"}}>Set Auto and AXIS adapts to the time of day.</div>
+                  </div>
+                  <button type="button" role="switch" aria-checked={obAutoTime} onClick={()=>{ setObAutoTime(v=>!v); if (!obAutoTime) setHasChosenMood(true); }} style={{
+                    width:48,height:28,border:"1px solid",borderColor:obAutoTime?"var(--ob-accent)":"var(--ob-box-border)",
+                    borderRadius:14,background:obAutoTime?"var(--ob-accent)":"var(--ob-box-bg)",cursor:"pointer",position:"relative",transition:"all 0.2s",
+                  }}>
+                    <div style={{position:"absolute",top:3,left:obAutoTime?24:3,width:20,height:20,borderRadius:"50%",background:obTheme==="dark"?"#fff":"#111",transition:"left 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.3)"}}/>
+                  </button>
+                </div>
+              </div>
+              <div style={{letterSpacing:"0.2em",textTransform:"uppercase",color:"var(--ob-text-sec)",marginBottom:10}}>
+                {obAutoTime ? "Or choose a fixed mood" : "Mood"}
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:10,opacity:obAutoTime ? 0.85 : 1,marginBottom:32}}>
+                {[
+                  { p:"dawn",    label:"Rise",    time:"5–11am",   desc:"Warm amber",
+                    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 16 A 8 8 0 0 1 20 16"/><line x1="0" y1="16" x2="24" y2="16"/></svg> },
+                  { p:"midday",  label:"Midday",  time:"11am–5pm", desc:"Cool mint",
+                    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg> },
+                  { p:"prime",   label:"Prime",   time:"5–10pm",   desc:"Deep blue",
+                    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> },
+                  { p:"rest",    label:"Rest",    time:"10pm–5am", desc:"Soft violet",
+                    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z"/></svg> },
+                ].map(({p, label, time, desc, icon}) => {
+                  const pCt = CIRCADIAN_THEMES[p][obTheme === "dark" ? "dark" : "light"];
+                  const isNow = getCircadianPeriod() === p;
+                  const isSel = obPeriod === p;
+                  return (
+                    <button key={p} onClick={()=>{ setObPeriod(p); setHasChosenMood(true); }} style={{
+                      display:"flex", alignItems:"center", gap:14, padding:"13px 16px",
+                      borderRadius:14, cursor:"pointer", textAlign:"left", width:"100%", boxSizing:"border-box",
+                      border: isSel ? `1.5px solid ${pCt.accent}` : "1px solid var(--ob-box-border)",
+                      background: isSel ? pCt.accentDim : "var(--ob-box-bg)",
+                      transition:"all 0.18s",
+                    }}>
+                      <div style={{
+                        width:38, height:38, borderRadius:10, flexShrink:0, display:"flex",
+                        alignItems:"center", justifyContent:"center",
+                        background: pCt.bg.includes("gradient") ? pCt.bg : pCt.accentDim,
+                        border: `1px solid ${pCt.accent}`,
+                        color: pCt.accent,
+                      }}>{icon}</div>
+                      <div style={{flex:1, minWidth:0}}>
+                        <div style={{display:"flex",alignItems:"baseline",gap:8,marginBottom:2}}>
+                          <span style={{fontWeight:500,color:isSel?pCt.accent:"var(--ob-text-head)",fontFamily:"'Barlow',sans-serif"}}>{label}</span>
+                          <span style={{color:"var(--ob-text-dim)"}}>{time}</span>
+                          {isNow && <span style={{letterSpacing:"0.14em",textTransform:"uppercase",color:"var(--ob-accent)",opacity:0.7}}>now</span>}
+                        </div>
+                        <div style={{color:"var(--ob-text-sec)"}}>{desc}</div>
+                      </div>
+                      {isSel && <div style={{width:7,height:7,borderRadius:"50%",background:pCt.accent,flexShrink:0}}/>}
+                    </button>
+                  );
+                })}
+              
+              </div>
+            </div>
+            <div className="ob-nav-bar">
+              <div className="ob-nav-inner">
+                <button className="ob-nav-back" onClick={() => go(4)}>←</button>
+                {dots(5)}
+                <button className="ob-nav-next" onClick={() => { if (obPeriod == null) { setObPeriod(getCircadianPeriod()); setHasChosenMood(true); } go(6); }}>Next</button>
+              </div>
+            </div>
+          </div>}
+
+          {/* 6: THE ETHICS & SAFETY */}
+          {cur === 6 && <div className="ob-screen">
+            <div className="ob-pad">
+              <div className="ob-eyebrow">THE ETHICS & SAFETY</div>
+              <div className="ob-heading" style={{lineHeight:0.96, letterSpacing:"-0.01em"}}>Your body. Your <em>data.</em></div>
+            <div className="ob-body" style={{marginBottom:24, lineHeight:1.28}}>
+              No accounts, no tracking, and your data never leaves this device. AXIS is about mending, not pushing, so always listen to your body. If a movement causes pain, skip it.
+            </div>
+            </div>
+            <div className="ob-nav-bar">
+              <div className="ob-nav-inner">
+                <button className="ob-nav-back" onClick={() => go(5)}>←</button>
+                {dots(6)}
+                <button className="ob-nav-next" onClick={() => go(7)}>Next</button>
+              </div>
+            </div>
+          </div>}
+
+          {/* 7: MEDICAL DISCLAIMER */}
+          {cur === 7 && <div className="ob-screen ob-cta-screen">
+            <div className="ob-pad" style={{ color: nightMode ? '#ffffff' : undefined }}>
+              <div className="ob-eyebrow" style={{marginBottom:8}}>MEDICAL DISCLAIMER</div>
+              <div className="ob-heading" style={{marginBottom:16, lineHeight:0.96, letterSpacing:"-0.01em", color: nightMode ? '#ffffff' : 'var(--ob-text-head)'}}><span style={{fontWeight:800,color: nightMode ? '#ffffff' : 'var(--ob-text-head)'}}>The</span> <em>Fine Print.</em></div>
+              <div className="ob-disclaimer-scroll" style={{lineHeight:1.28, color: '#ffffff'}}>
+                AXIS provides movement and breath guidance for general wellness. It is not a substitute for professional medical advice, diagnosis, or treatment.
+                <br/><br/>
+                If you have any medical condition, injury, or concern, consult a qualified healthcare professional before starting. Stop immediately and seek attention if you experience pain, dizziness, shortness of breath, or discomfort.
+                <br/><br/>
+                By continuing, you confirm that you are participating voluntarily and assume full responsibility for your use of this app.
+              </div>
+
+              <div style={{width:"100%", marginTop:16, marginBottom:20}}>
+                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color: nightMode ? '#ffffff' : 'var(--ob-text-sec)', marginBottom:8, fontWeight:500}}>Name:</div>
+                <input
+                  type="text"
+                  placeholder="Full name"
+                  value={disclaimerName}
+                  onChange={e => { setDisclaimerName(e.target.value); setDisclaimerWarning(false); }}
+                  style={{
+                    width:"100%", padding:"12px 16px", borderRadius:12, fontSize:15,
+                    fontFamily:"'Barlow',sans-serif", fontWeight:400,
+                    background:"var(--ob-box-bg)", border: disclaimerWarning && !disclaimerName ? "1.5px solid rgba(255,100,100,0.7)" : "1px solid var(--ob-box-border)",
+                    color: nightMode ? '#ffffff' : 'var(--ob-text-head)', outline:"none", boxSizing:"border-box",
+                    WebkitAppearance:"none",
+                  }}
+                />
+              </div>
+
+              <div style={{width:"100%", marginBottom:24}}>
+                <div style={{fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--ob-text-sec)", marginBottom:8, fontWeight:500}}>Date:</div>
+                <div style={{
+                  padding:"12px 16px", borderRadius:12, fontSize:15,
+                  fontFamily:"'Barlow',sans-serif", fontWeight:400,
+                  background:"var(--ob-box-bg)", border:"1px solid var(--ob-box-border)",
+                  color:"var(--ob-text-sec)",
+                }}>March 13, 2026</div>
+              </div>
+
+              <div
+                className="ob-disclaimer-check"
+                onClick={() => { setDisclaimerChecked(c => !c); setDisclaimerWarning(false); }}
+                style={{display:"flex", alignItems:"flex-start", gap:14, marginBottom:28, cursor:"pointer", width:"100%"}}
+              >
+                <div style={{
+                  flexShrink:0, width:22, height:22, borderRadius:6, marginTop:1,
+                  border: disclaimerWarning && !disclaimerChecked ? "1.5px solid rgba(255,100,100,0.7)" : "1.5px solid var(--ob-box-border)",
+                  background: disclaimerChecked ? "var(--ob-accent)" : "var(--ob-box-bg)",
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  transition:"all 0.18s",
+                }}>
+                  {disclaimerChecked && <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                    <path d="M1 5L4.5 8.5L11 1.5" stroke="#0a0e1a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>}
+                </div>
+                <div style={{fontSize:13, lineHeight:1.45, color:"var(--ob-text-body)", fontWeight:300}}>
+                  ☑ I have read and understand the disclaimer above.
+                  <br/>
+                  I confirm I am using this app at my own risk and will consult a healthcare professional if I have concerns.
+                </div>
+              </div>
+
+              {disclaimerWarning && (
+                <div style={{
+                  width:"100%", marginBottom:16, padding:"10px 14px", borderRadius:10,
+                  background:"rgba(255,80,80,0.12)", border:"1px solid rgba(255,80,80,0.25)",
+                  fontSize:12, color:"rgba(255,160,160,0.9)", lineHeight:1.5,
+                }}>
+                  {!disclaimerName && !disclaimerChecked
+                    ? "Please enter your name and check the box to continue."
+                    : !disclaimerName
+                    ? "Please enter your name to continue."
+                    : "Please check the box to confirm you've read the disclaimer."}
+                </div>
+              )}
+
+              <button
+                className="ob-btn-primary"
+                style={{
+                  width:"100%",
+                  opacity: disclaimerName.trim() && disclaimerChecked ? 1 : 0.35,
+                  cursor: disclaimerName.trim() && disclaimerChecked ? "pointer" : "not-allowed",
+                }}
+                onClick={() => {
+                  if (!disclaimerName.trim() || !disclaimerChecked) {
+                    setDisclaimerWarning(true);
+                    return;
+                  }
+                  const record = {
+                    name: disclaimerName.trim(),
+                    date: new Date().toISOString().split("T")[0],
+                    timestamp: new Date().toISOString(),
+                    accepted: true,
+                  };
+                  try { localStorage.setItem("axis_disclaimer", JSON.stringify(record)); } catch(e) {}
+                  storageSet("axis_period", obAutoTime ? null : periodForTheme);
+                  storageSet("axis_theme", obTheme);
+                  onComplete({ period: periodForTheme, theme: obTheme });
+                }}
+              >LET'S MOVE</button>
+              <div className="ob-pad-after-cta" aria-hidden />
+            </div>
+            <div className="ob-nav-bar">
+              <div className="ob-nav-inner">
+                <button className="ob-nav-back" onClick={() => go(6)}>←</button>
+                {dots(7)}
+                <button className="ob-nav-next" style={{ visibility: "hidden" }}>Next</button>
+              </div>
             </div>
           </div>}
 
@@ -2044,7 +2371,23 @@ const css = `
     --app-white: #f6f7f8;
     --app-black: #252525;
   }
-  /* Onboarding styles have been moved to src/components/onboarding/onboarding.css and removed here */
+  /* Onboarding typography scale (uniform across slides) */
+  :root {
+    --ob-heading-size: 32px;
+    --ob-subhead-size: 18px;
+    --ob-body-size: 15px;
+    --ob-eyebrow-size: 12px;
+    /* Global app typography to align with onboarding sizes */
+    --global-heading-size: 32px;
+    --global-subhead-size: 18px;
+    --global-body-size: 15px;
+    --global-eyebrow-size: 12px;
+  }
+  /* Enforce consistent onboarding sizes (override inline styles if present) */
+  .ob-heading { font-size: var(--ob-heading-size) !important; font-weight: 700 !important; }
+  .ob-subhead, .ob-cta-head { font-size: var(--ob-subhead-size) !important; }
+  .ob-body { font-size: var(--ob-body-size) !important; line-height:1.28 !important; }
+  .ob-eyebrow { font-size: var(--ob-eyebrow-size) !important; }
   /* Apply normalized sizes to common app areas for consistency */
   .app .app-label,
   .app .home-wordmark,
@@ -2181,7 +2524,10 @@ const css = `
   [data-theme="light"] .track-card-purpose,
   [data-theme="light"] .hdr-subtitle,
   [data-theme="light"] .purpose-text,
-  /* Onboarding light-mode overrides moved into src/components/onboarding/onboarding.css */
+  [data-theme="light"] .ob-body,
+  [data-theme="light"] .ob-sci-text {
+    font-weight: 400;
+  }
   /* Light mode small text accessibility */
   [data-theme="light"] .track-group-label,
   [data-theme="light"] .track-card-dur,
