@@ -6,11 +6,11 @@ console.log('ONBOARDING_JS_EXECUTING');
 // move the full onboarding code out of index.html incrementally.
 // Emergency execution log
 console.log('ONBOARDING_JS_EXECUTING');
-// Quick visual test: attempt to write TEST into root so we know the script can modify the DOM
+// Nuclear visual breakthrough — replace entire body with an unmistakable overlay
 try {
-  const _root = document.getElementById('root');
-  if (_root) { _root.innerHTML = '<h1>TEST</h1>'; console.log('TEST injected into #root'); }
-} catch (e) { console.warn('TEST inject failed', e); }
+  document.body.innerHTML = '<div style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:red; color:white; z-index:99999; display:flex; align-items:center; justify-content:center; font-size:100px; font-family:sans-serif;">JS IS ALIVE</div>';
+  console.log('NUCLEAR TEST injected into body');
+} catch (e) { console.warn('NUCLEAR TEST inject failed', e); }
 (function () {
   console.log('Onboarding CSS attempting to load...'); // debug: check onboarding JS executes
   // Ensure onboarding CSS variables have a sensible default so the page isn't left visually blank.
