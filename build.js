@@ -68,6 +68,16 @@ if (fs.existsSync(iconPngRoot)) {
   builtHtml = builtHtml.replace(/(<meta name="apple-mobile-web-app-status-bar-style"[^>]*>\s*)/i, '$1\n  ' + iconLink + '\n  ');
   fs.writeFileSync(path.join(dist, 'index.html'), builtHtml, 'utf8');
 }
+// Ensure compiled app.js is included in dist so the browser can load it
+const appSrc = path.join(root, 'app.js');
+const appDest = path.join(dist, 'app.js');
+if (fs.existsSync(appSrc)) {
+  try {
+    fs.copyFileSync(appSrc, appDest);
+  } catch (e) {
+    console.error('Failed to copy app.js to dist:', e);
+  }
+}
 // onboarding assets are now served from /public/onboarding/ (Vercel serves public/ automatically)
 // previous copy step removed in favor of placing files in /public/onboarding/
 finish();

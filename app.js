@@ -1,3 +1,4 @@
+alert("SCRIPT EXECUTING");
 console.log("APP.JS IS RUNNING");
 const { useState, useEffect, useRef } = React;
 
