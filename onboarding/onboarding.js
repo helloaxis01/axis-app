@@ -9,7 +9,21 @@ console.log('ONBOARDING_JS_EXECUTING');
   // Ensure onboarding CSS variables have a sensible default so the page isn't left visually blank.
   try {
     const root = document.documentElement;
-    const cur = getComputedStyle(root).getPropertyValue('--ob-page-bg') || '';
+    // Prefer page background from axis_data.json TRACKS if present
+    let cur = '';
+    try {
+      if (window.AXIS_JSON && window.AXIS_JSON.TRACKS) {
+        // look for background keys on tracks
+        for (const k of Object.keys(window.AXIS_JSON.TRACKS)) {
+          const t = window.AXIS_JSON.TRACKS[k];
+          if (t && (t.pageBg || t.bg || t.background)) {
+            cur = t.pageBg || t.bg || t.background;
+            break;
+          }
+        }
+      }
+    } catch (e) {}
+    cur = cur || getComputedStyle(root).getPropertyValue('--ob-page-bg') || '';
     if (!cur || !cur.trim()) {
       // Fallback to a dark background so the onboarding doesn't appear white/blank if vars are missing.
       root.style.setProperty('--ob-page-bg', '#0a0a0f');
@@ -17,6 +31,8 @@ console.log('ONBOARDING_JS_EXECUTING');
       root.style.setProperty('--ob-text-head', '#ffffff');
       root.style.setProperty('--ob-text-body', 'rgba(255,255,255,0.9)');
       console.log('AXIS: applied onboarding CSS fallbacks');
+    } else {
+      root.style.setProperty('--ob-page-bg', cur);
     }
   } catch (e) { /* ignore */ }
   // Wait until React is available (index.html loads React before inline app).
