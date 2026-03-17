@@ -28,7 +28,8 @@ console.log('ONBOARDING_JS_EXECUTING');
     // Prefer composed slides if they exist (we extract slides into separate files)
     window.AXIS_Onboarding = function OnboardingExternal(props) {
       const { theme, onComplete } = props || {};
-      const [cur, setCur] = React.useState(0);
+      const initialCur = (typeof window.AXIS_FORCE_ONBOARDING_INDEX === 'number') ? window.AXIS_FORCE_ONBOARDING_INDEX : 0;
+      const [cur, setCur] = React.useState(() => initialCur);
       const total = 8;
       const go = (n) => setCur(Math.max(0, Math.min(total - 1, n)));
 
@@ -68,9 +69,18 @@ console.log('ONBOARDING_JS_EXECUTING');
       );
     };
   }
+  // If axis JSON already loaded, set force index to 0 to ensure first slide is shown
+  try {
+    if (typeof window !== 'undefined' && window.AXIS_JSON) {
+      window.AXIS_FORCE_ONBOARDING_INDEX = 0;
+      console.log('AXIS_JSON detected — forcing onboarding initial index 0');
+    }
+  } catch (e) {}
   // Ensure DOM exists before mounting; some local previews load scripts early.
   function onReady() {
     try {
+      // Make root visible in case inline styles set opacity:0
+      try { const r = document.getElementById('root'); if (r) r.style.opacity = '1'; } catch (e) {}
       mountWhenReady();
     } catch (e) {
       console.error('Onboarding mount failed:', e);
