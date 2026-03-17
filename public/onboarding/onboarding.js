@@ -1,9 +1,24 @@
+// Emergency execution log — helps detect if the onboarding script is being loaded
+console.log('ONBOARDING_JS_EXECUTING');
 // Lightweight external onboarding component for incremental extraction.
 // This registers a global factory `window.AXIS_Onboarding` so the main
 // inline app can optionally delegate to this implementation while we
 // move the full onboarding code out of index.html incrementally.
 (function () {
   console.log('Onboarding CSS attempting to load...'); // debug: check onboarding JS executes
+  // Ensure onboarding CSS variables have a sensible default so the page isn't left visually blank.
+  try {
+    const root = document.documentElement;
+    const cur = getComputedStyle(root).getPropertyValue('--ob-page-bg') || '';
+    if (!cur || !cur.trim()) {
+      // Fallback to a dark background so the onboarding doesn't appear white/blank if vars are missing.
+      root.style.setProperty('--ob-page-bg', '#0a0a0f');
+      // Also set basic text color vars so content is visible
+      root.style.setProperty('--ob-text-head', '#ffffff');
+      root.style.setProperty('--ob-text-body', 'rgba(255,255,255,0.9)');
+      console.log('AXIS: applied onboarding CSS fallbacks');
+    }
+  } catch (e) { /* ignore */ }
   // Wait until React is available (index.html loads React before inline app).
   function mountWhenReady() {
     if (typeof React === "undefined") {
@@ -53,6 +68,18 @@
       );
     };
   }
-  mountWhenReady();
+  // Ensure DOM exists before mounting; some local previews load scripts early.
+  function onReady() {
+    try {
+      mountWhenReady();
+    } catch (e) {
+      console.error('Onboarding mount failed:', e);
+    }
+  }
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', onReady);
+  } else {
+    onReady();
+  }
 })();
 

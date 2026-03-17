@@ -1,3 +1,5 @@
+// Emergency execution log — helps detect if the onboarding script is being loaded
+console.log('ONBOARDING_JS_EXECUTING');
 // Lightweight external onboarding component for incremental extraction.
 // This registers a global factory `window.AXIS_Onboarding` so the main
 // inline app can optionally delegate to this implementation while we
