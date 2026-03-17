@@ -4491,26 +4491,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 //  ROOT — orchestrates onboarding → app
 // ─────────────────────────────────────────────────────────────
 function App() {
-  const [onboarded, setOnboarded] = useState(() => storageGet("axis_onboarded", false));
-  const [theme, setTheme] = useState(() => storageGet("axis_theme", "dark"));
-  const [nightMode, setNightMode] = useState(() => storageGet("axis_night", false));
-  const toggleNight = () => setNightMode((n) => {const v = !n;storageSet("axis_night", v);return v;});
-  const toggleTheme = () => setTheme((t) => {const n = t === "dark" ? "light" : "dark";storageSet("axis_theme", n);return n;});
-  const complete = () => {storageSet("axis_onboarded", true);setOnboarded(true);};
-
-  // Flow overlay state lives here — outside WorkoutApp/.app — so position:fixed is never trapped
-  const SunIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "2", x2: "12", y2: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "20", x2: "12", y2: "22" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }), /*#__PURE__*/React.createElement("line", { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }), /*#__PURE__*/React.createElement("line", { x1: "2", y1: "12", x2: "4", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "20", y1: "12", x2: "22", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }), /*#__PURE__*/React.createElement("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" }));
-  const MoonIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }));
-
-  if (!onboarded) {
-    return (/*#__PURE__*/
-      React.createElement("div", { style: { position: "relative" } }, /*#__PURE__*/
-      React.createElement(Onboarding, { theme: theme, onComplete: complete })
-      ));
-
-  }
-
-  return /*#__PURE__*/React.createElement(WorkoutApp, { theme: theme, toggleTheme: toggleTheme, nightMode: nightMode, toggleNight: toggleNight, onFlowOpen: () => {} });
+  // Temporary mount test: render a minimal component to verify React mounting.
+  return /*#__PURE__*/React.createElement("div", { style: { color: "#fff", padding: 24, fontFamily: "'Barlow', sans-serif", fontSize: 18 } }, "Hello from React");
 }
 
 // ─────────────────────────────────────────────────────────────
