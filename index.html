@@ -77,5 +77,32 @@
   </script>
   <!-- inline Babel removed during debug -->
 
+  <script>
+    // Mount point: render onboarding factory if present, otherwise show fallback.
+    (function(){
+      try {
+        if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+          console.warn('React or ReactDOM not available for mount');
+          return;
+        }
+        const rootEl = document.getElementById('root');
+        if (!rootEl) { console.warn('#root not found'); return; }
+        const root = ReactDOM.createRoot(rootEl);
+        if (window && window.AXIS_Onboarding) {
+          root.render(React.createElement(window.AXIS_Onboarding, {}));
+          console.log('Mounted window.AXIS_Onboarding into #root');
+        } else if (window && window.App) {
+          root.render(React.createElement(window.App));
+          console.log('Mounted window.App into #root');
+        } else {
+          // visible fallback
+          rootEl.innerHTML = '<div style=\"color:#fff;padding:24px\">No app mounted</div>';
+        }
+      } catch (e) {
+        console.error('Mount failed', e);
+      }
+    })();
+  </script>
+
 </body>
 </html>
