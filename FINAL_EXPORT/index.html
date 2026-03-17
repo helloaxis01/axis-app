@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="./axis-icon.png" sizes="180x180" />
+  <title>AXIS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { height: 100%; height: 100dvh; min-height: 100dvh; width: 100%; max-width: 100vw; overflow-x: hidden; overflow-y: hidden; background: #0a0a0f; -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body { height: 100%; height: 100dvh; min-height: 100dvh; width: 100%; max-width: 100vw; margin: 0; padding: 0; overflow-x: hidden; overflow-y: hidden; background: #0a0a0f; touch-action: manipulation; }
+  #root { height: 100vh; width: 100vw; display: block; background: #111; overflow-x: hidden; overflow-y: auto; }
+    #load-err { display:none; position:fixed; inset:0; background:#0a0a0f; color:#ff6b6b;
+      font-family:sans-serif; font-size:14px; padding:40px; white-space:pre-wrap; }
+  </style>
+  <!-- debug root border removed -->
+</head>
+<body>
+  <div id="root"></div>
+  <div id="load-err"></div>
+  <h1 style="color: white; position: absolute; top: 20px; left: 20px; z-index: 9999;">AXIS V1.0</h1>
+  <script>
+    function showLoadErr(msg) {
+      var el = document.getElementById('load-err');
+      if (el) { el.style.display = 'block'; el.textContent = msg; }
+    }
+    window.onerror = function(msg, src, line, col, err) {
+      showLoadErr('Error: ' + msg + (err && err.stack ? '\n' + err.stack : ''));
+      return true;
+    };
+  </script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
+  <script src="onboarding/slide0.js"></script>
+  <script src="onboarding/slide1.js"></script>
+  <script src="onboarding/slide2.js"></script>
+  <script src="onboarding/slide3.js"></script>
+  <script src="onboarding/slide4.js"></script>
+  <script src="onboarding/slide5.js"></script>
+  <script src="onboarding/slide6.js"></script>
+  <script src="onboarding/slide7.js"></script>
+  <script src="onboarding/onboarding.js"></script>
+  <script src="app.js" charset="UTF-8"></script>
+  <!-- Babel standalone removed for production builds; app is precompiled in dist/ -->
+  <script>
+    // Try to synchronously load axis_data.json so the inline app can initialize from it.
+    // Synchronous XHR is used here intentionally to ensure compatibility with the existing inline script initialization.
+    (function(){
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', './axis_data.json', false); // synchronous
+        xhr.send(null);
+        if (xhr.status === 200) {
+          try {
+            window.AXIS_JSON = JSON.parse(xhr.responseText);
+            console.log('AXIS: loaded axis_data.json');
+          } catch(e) { console.error('AXIS: parse axis_data.json failed', e); }
+        } else {
+          // not found — no-op, app will fall back to inline data
+          // console.log('AXIS: axis_data.json not present (status ' + xhr.status + ')');
+        }
+      } catch(e) {
+        // network errors or cross-origin — silently ignore and fallback to inline data
+        console.error('AXIS: axis_data.json fetch failed', e);
+      }
+    })();
+  </script>
+  <!-- inline Babel removed during debug -->
+
+  <script>
+    // Mount point: attempt immediate mount; if not ready, poll briefly and listen for events.
+    (function(){
+      function tryMount(){
+        try {
+          if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') return false;
+          const rootEl = document.getElementById('root');
+          if (!rootEl) return false;
+          const root = ReactDOM.createRoot(rootEl);
+          if (window && window.AXIS_Onboarding) {
+            root.render(React.createElement(window.AXIS_Onboarding, {}));
+            console.log('Mounted window.AXIS_Onboarding into #root');
+            return true;
+          } else if (window && window.App) {
+            root.render(React.createElement(window.App));
+            console.log('Mounted window.App into #root');
+            return true;
+          }
+          return false;
+        } catch (e) {
+          console.error('Mount failed', e);
+          return false;
+        }
+      }
+
+      // Immediate attempt
+      if (!tryMount()) {
+        // Poll briefly in case scripts load shortly after
+        let tries = 0;
+        const id = setInterval(() => {
+          tries++;
+          if (tryMount() || tries > 40) clearInterval(id);
+        }, 200);
+        // Also try on DOMContentLoaded and load
+        window.addEventListener('DOMContentLoaded', tryMount);
+        window.addEventListener('load', tryMount);
+      }
+    })();
+  </script>
+
+</body>
+</html>
