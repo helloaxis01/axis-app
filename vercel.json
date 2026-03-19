@@ -2,15 +2,15 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/031726 REBUILD/AXIS_031926_911am_MAIN.html"
+      "destination": "/031726%20REBUILD/AXIS_031926_911am_MAIN.html"
     },
     {
       "source": "/onboarding",
-      "destination": "/031726 REBUILD/AXIS_031926_123pm_ONBOARDING.html"
+      "destination": "/031726%20REBUILD/AXIS_031926_123pm_ONBOARDING.html"
     },
     {
       "source": "/onboarding-911am",
-      "destination": "/031726 REBUILD/AXIS_031926_911am_ONBOARDING.html"
+      "destination": "/031726%20REBUILD/AXIS_031926_911am_ONBOARDING.html"
     }
   ],
   "headers": [
