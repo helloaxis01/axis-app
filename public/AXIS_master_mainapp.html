@@ -5382,9 +5382,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           flexDirection: "column",
           alignItems: "center",
           flexShrink: 0,
-          paddingTop: "max(48px, calc(env(safe-area-inset-top, 0px) + 40px))"
+          paddingTop: "clamp(72px, calc(env(safe-area-inset-top, 0px) + min(30vh, 240px)), 280px)"
         } }, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: 14, fontWeight: 300, color: sessionHeadline, marginBottom: 40, textAlign: "center", maxWidth: "min(100%, 360px)" } }, "Ready for movement."
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 300, color: sessionHeadline, marginBottom: 28, textAlign: "center", maxWidth: "min(100%, 360px)" } }, "Ready for movement."
 
       ), /*#__PURE__*/
       React.createElement("button", {
@@ -5402,15 +5402,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
       )
       ), /*#__PURE__*/
-      React.createElement("div", { style: { flex: "1 1 auto", minHeight: "min(28vh, 240px)", width: "100%" }, "aria-hidden": true }), /*#__PURE__*/
       React.createElement("div", { style: {
           width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "flex-end",
           flexShrink: 0,
-          paddingBottom: "clamp(32px, 8vh, 96px)"
+          marginTop: "auto",
+          paddingBottom: "clamp(20px, 5vh, 56px)"
         } }, /*#__PURE__*/
       React.createElement("img", {
         src: sessionLogo,
