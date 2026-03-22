@@ -313,6 +313,17 @@ const CIRCADIAN_THEMES = {
   }
 };
 
+/** sRGB relative luminance → readable ink on solid circadian accent fills */
+function inkForAccentHex(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || "").trim());
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  const rs = (n >> 16) / 255, gs = ((n >> 8) & 255) / 255, bs = (n & 255) / 255;
+  const lin = (v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  const L = 0.2126 * lin(rs) + 0.7152 * lin(gs) + 0.0722 * lin(bs);
+  return L < 0.43 ? "#f6f7f8" : "#252525";
+}
+
 function applyCircadianTheme(isDark, period) {
   const p = period || getCircadianPeriod();
   const t = CIRCADIAN_THEMES[p][isDark ? "dark" : "light"];
@@ -2891,6 +2902,7 @@ const css = `
   }
   .start-here-group { margin-bottom:4px; }
   .start-here-label { color:var(--accent-secondary); letter-spacing:0.22em; }
+  /* TODAY hero: body + button colors come from inline styles (accent fill varies) */
   .track-cards { display:flex; flex-direction:column; gap:8px; }
 
   /* ── TRACK CARD ── */
@@ -5157,6 +5169,17 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const periodLabels = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
     const todaySug = TODAY_SUGGESTIONS[nowPeriod];
     const todayTrack = TRACKS[todaySug.trackId];
+    const todayInk = nightMode ? "#FF0000" : theme === "dark"
+      ? "#252525"
+      : (() => {
+          const fromHex = /^#/.test(homeHighlight) ? inkForAccentHex(homeHighlight) : null;
+          return fromHex != null ? fromHex : "#252525";
+        })();
+    const todayBtn = nightMode
+      ? { background: "#000000", color: "#FF0000", border: "1px solid #FF0000" }
+      : theme === "dark"
+        ? { background: "#252525", color: "#f6f7f8", border: "none" }
+        : { background: "#ffffff", color: "#252525", border: "none" };
     const groups = [
     { label: "Foundation", ids: ["daily", "restorative"] },
     { label: "Time of Day", ids: ["morning", "prime"] },
@@ -5186,10 +5209,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           backdropFilter: "blur(8px) saturate(1.05)", WebkitBackdropFilter: "blur(8px) saturate(1.05)",
           boxShadow: `0 12px 32px ${homeHighlight}33, inset 0 1px 0 rgba(255,255,255,0.05)`
         } }, /*#__PURE__*/
-      React.createElement("div", { style: { letterSpacing: "0.22em", textTransform: "uppercase", color: nightMode ? "#FF0000" : "#252525", marginBottom: 8, fontWeight: 600 } }, "Today"), /*#__PURE__*/
-      React.createElement("div", { style: { fontWeight: 600, color: nightMode ? "#FF0000" : "#252525", marginBottom: 6 } }, periodLabels[nowPeriod]), /*#__PURE__*/
-      React.createElement("div", { style: { color: nightMode ? "#FF0000" : "#252525", marginBottom: 6, lineHeight: 1.4 } }, todaySug.suggestion), /*#__PURE__*/
-      React.createElement("div", { style: { color: nightMode ? "#FF0000" : "#252525", letterSpacing: "0.06em", marginBottom: 18 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
+      React.createElement("div", { style: { letterSpacing: "0.22em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 600 } }, "Today"), /*#__PURE__*/
+      React.createElement("div", { style: { fontWeight: 600, color: todayInk, marginBottom: 6 } }, periodLabels[nowPeriod]), /*#__PURE__*/
+      React.createElement("div", { style: { color: todayInk, marginBottom: 6, lineHeight: 1.4 } }, todaySug.suggestion), /*#__PURE__*/
+      React.createElement("div", { style: { color: todayInk, letterSpacing: "0.06em", marginBottom: 18 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
       React.createElement("button", {
         className: "begin-btn begin-btn--today-primary",
         onClick: () => beginTrack(todayTrack.id),
@@ -5197,10 +5220,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           width: "100%",
           padding: "14px 24px",
           fontSize: 15,
-          background: nightMode ? "#000000" : "#ffffff",
-          color: nightMode ? "#FF0000" : "#252525",
-          border: nightMode ? "1px solid #FF0000" : "none",
           fontWeight: 700,
+          ...todayBtn,
           ["--axis-today-glow"]: homeHighlight
         },
         "aria-label": `Start ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}` },
