@@ -2001,7 +2001,8 @@ const css = `
     --glass-specular: rgba(255,255,255,0.88);
     --glass-shadow: 0 2px 12px rgba(20,50,90,0.11), 0 1px 4px rgba(20,50,90,0.06);
     --glass-shadow-lg: 0 10px 32px rgba(20,50,90,0.13), 0 2px 10px rgba(20,50,90,0.07);
-    --tab-bg: rgba(255,255,255,0.62);
+    /* Tab bar: opaque enough to separate from lavender gradient (Safari/iOS frosted read) */
+    --tab-bg: rgba(252, 253, 255, 0.94);
     --hdr-bg: rgba(235,243,250,0.75);
     --text-primary: #252525;
     --text-secondary: rgba(15,30,46,0.82);
@@ -2811,6 +2812,29 @@ const css = `
   .tab-bar-spacer--session {
     height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 12px);
     min-height: 0;
+  }
+
+  /* Light mode: tab bar must read as a distinct strip (not “white on white”); icons use dark ink */
+  .tab-bar[data-theme="light"] {
+    background: var(--tab-bg);
+    border-top: 1px solid rgba(100, 130, 175, 0.38);
+    box-shadow: 0 -6px 28px rgba(15, 35, 70, 0.1), 0 -1px 0 rgba(255, 255, 255, 0.85) inset;
+    backdrop-filter: blur(20px) saturate(1.12);
+    -webkit-backdrop-filter: blur(20px) saturate(1.12);
+  }
+  .tab-bar[data-theme="light"] .tab-btn {
+    color: rgba(15, 30, 46, 0.42);
+  }
+  .tab-bar[data-theme="light"] .tab-btn:hover {
+    color: rgba(15, 30, 46, 0.62);
+  }
+  .tab-bar[data-theme="light"] .tab-btn.active {
+    color: var(--accent);
+  }
+  .tab-bar[data-theme="light"] .tab-btn.active .tab-icon-shell::before {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    opacity: 0.95;
   }
 
   /* ── HOME ── */
