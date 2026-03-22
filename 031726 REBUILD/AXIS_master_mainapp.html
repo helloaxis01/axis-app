@@ -681,8 +681,11 @@ const css = `
     -webkit-backdrop-filter: blur(8px) saturate(1.05);
     border: 1px solid rgba(255,255,255,0.06);
     color: var(--text-secondary);
+    font-family: var(--font-display);
     font-size: var(--text-sm);
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     line-height: 1;
     vertical-align: middle;
   }
@@ -1237,14 +1240,42 @@ const css = `
     backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
     box-shadow:0 4px 20px rgba(60,80,150,0.10), inset 0 -1px 0 var(--glass-specular);
   }
+  /* Unified Liquid Glass — major cards (Home + Protocol) */
+  .session-card.track-card {
+    transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)), var(--glass-bg);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 48px rgba(0,0,0,0.06), var(--glass-shadow);
+  }
+  .session-card.track-card::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14) 35%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.14) 65%, transparent);
+  }
+  .session-card.track-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)), var(--glass-bg-hover);
+  }
+  .protocol-panel.panel {
+    transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)), var(--glass-bg);
+    box-shadow: 0 4px 20px rgba(60,80,150,0.10), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .today-card {
+    transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow), backdrop-filter var(--motion-slow);
+  }
   .panel:focus { outline: none; }
   .panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   [data-theme="dark"] .panel {
-    background:rgba(0,0,0,0.32);
-    box-shadow:0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)), rgba(0,0,0,0.32);
+    box-shadow:0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.12);
   }
   [data-theme="light"] .panel {
-    background:rgba(0,0,0,0.06);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)), rgba(0,0,0,0.06);
     box-shadow:0 4px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5);
   }
   .reps-row { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:8px; border-top:1px solid var(--border); padding-top:14px; flex-wrap:nowrap; }
@@ -1311,8 +1342,11 @@ const css = `
   .fc-step:not(:last-child)::after { content:''; position:absolute; left:21px; top:42px; bottom:0; width:1px; background:var(--step-connector); }
   .fc-badge {
     width:42px; height:42px; flex-shrink:0; border-radius:12px;
-    background:var(--glass-bg); border:1px solid var(--glass-border);
-    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)), var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px) saturate(1.25);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 6px color-mix(in srgb, var(--mood-accent) 18%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.14);
     display:flex; align-items:center; justify-content:center;
   }
   .fc-pos { font-size: var(--text-base); font-weight:600; color:var(--accent-secondary); }
@@ -1406,7 +1440,11 @@ const css = `
   }
   .step-badge-inner {
     width:20px; height:20px; border-radius:50%;
-    background:transparent; border:1px solid var(--accent-secondary);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px) saturate(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--mood-accent) 28%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.14);
     display:flex; align-items:center; justify-content:center; line-height:1; flex-shrink:0;
   }
   .step-pos { font-size: var(--text-sm); font-weight:700; letter-spacing:0; color:var(--accent-secondary); }
@@ -2006,7 +2044,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: { marginLeft: 4 } }, "\u25BE")
     ),
     open && /*#__PURE__*/
-    React.createElement("div", { ref: sessionDetailPanelRef, className: "panel", tabIndex: -1, role: "region", "aria-label": `${ex.name} — exercise details`, style: skipped ? { opacity: 0.45 } : {} }, /*#__PURE__*/
+    React.createElement("div", { ref: sessionDetailPanelRef, className: "panel protocol-panel", tabIndex: -1, role: "region", "aria-label": `${ex.name} — exercise details`, style: skipped ? { opacity: 0.45 } : {} }, /*#__PURE__*/
     React.createElement(Steps, {
       steps: ex.steps,
       small: true,
@@ -4278,11 +4316,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "track-cards-outer" }, /*#__PURE__*/
 
-      React.createElement("div", { className: "track-group start-here-group", role: "region", "aria-label": "Today's suggestion", style: {
+      React.createElement("div", { className: "track-group start-here-group today-card", role: "region", "aria-label": "Today's suggestion", style: {
           marginBottom: 28, padding: "20px 20px 22px", borderRadius: 24,
-          background: homeHighlight, border: `2px solid ${homeHighlight}`,
-          backdropFilter: nightMode ? "none" : "blur(8px) saturate(1.05)", WebkitBackdropFilter: nightMode ? "none" : "blur(8px) saturate(1.05)",
-          boxShadow: nightMode ? "none" : `0 12px 32px ${homeHighlight}33, inset 0 1px 0 rgba(255,255,255,0.05)`
+          background: homeHighlight, border: `2px solid ${homeHighlight}`, borderTop: "1px solid rgba(255,255,255,0.12)",
+          backdropFilter: nightMode ? "none" : "blur(24px) saturate(1.4)", WebkitBackdropFilter: nightMode ? "none" : "blur(24px) saturate(1.4)",
+          boxShadow: nightMode ? "none" : `0 12px 32px ${homeHighlight}33, inset 0 1px 0 rgba(255,255,255,0.12), inset 0 1px 0 rgba(255,255,255,0.05)`
         } }, /*#__PURE__*/
       React.createElement("div", { style: { letterSpacing: "0.22em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 600 } }, "Today"), /*#__PURE__*/
       React.createElement("div", { style: { fontWeight: 600, color: todayInk, marginBottom: 6 } }, periodLabels[nowPeriod]), /*#__PURE__*/
@@ -4309,7 +4347,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-group-label" }, g.label), /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
       g.ids.map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);return (/*#__PURE__*/
-          React.createElement("div", { className: "track-card", key: t.id, onClick: () => beginTrack(t.id), role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
+          React.createElement("div", { className: "track-card session-card", key: t.id, onClick: () => beginTrack(t.id), role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
           React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
           React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
           React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
