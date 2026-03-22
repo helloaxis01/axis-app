@@ -1688,9 +1688,9 @@ const css = `
     pointer-events: none;
   }
 
-  /* One rhythm for Rest→Night and breathing room above tab (no extra row margin) */
+  /* Mood list: full clearance above fixed tab bar + home indicator (do not subtract — -20px clipped Night mode on iPhone) */
   .app--nav-gap-tight .app-body--list-pad {
-    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) - 20px);
+    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px));
   }
 
   /* ── HOME ── */
