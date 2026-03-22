@@ -4329,6 +4329,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       : theme === "dark"
         ? { background: "var(--axis-black)", color: "var(--axis-white)", border: "none" }
         : { background: "var(--axis-white)", color: "var(--axis-black)", border: "none" };
+    const todayGlassBg = nightMode ? homeHighlight : theme === "dark" ? `linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)), rgba(0, 0, 0, 0.1)` : `linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)), rgba(255, 255, 255, 0.02)`;
+    const todayGlassBorder = nightMode ? `2px solid ${homeHighlight}` : `1px solid rgba(255,255,255,0.1)`;
     const groups = [
     { label: "Foundation", ids: ["daily", "restorative"] },
     { label: "Time of Day", ids: ["morning", "prime"] },
@@ -4354,9 +4356,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
       React.createElement("div", { className: "track-group start-here-group today-card", role: "region", "aria-label": "Today's suggestion", style: {
           marginBottom: 28, padding: "20px 20px 22px", borderRadius: 24,
-          background: homeHighlight, border: `2px solid ${homeHighlight}`, borderTop: "1px solid rgba(255,255,255,0.12)",
+          background: todayGlassBg, border: todayGlassBorder, borderTop: "1px solid rgba(255,255,255,0.22)",
           backdropFilter: nightMode ? "none" : "blur(24px) saturate(1.4)", WebkitBackdropFilter: nightMode ? "none" : "blur(24px) saturate(1.4)",
-          boxShadow: nightMode ? "none" : `0 12px 32px ${homeHighlight}33, inset 0 1px 0 rgba(255,255,255,0.12), inset 0 1px 0 rgba(255,255,255,0.05)`
+          boxShadow: nightMode ? "none" : `0 10px 36px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.35)`
         } }, /*#__PURE__*/
       React.createElement("div", { style: { letterSpacing: "0.22em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 600 } }, "Today"), /*#__PURE__*/
       React.createElement("div", { style: { fontWeight: 600, color: todayInk, marginBottom: 6 } }, periodLabels[nowPeriod]), /*#__PURE__*/
