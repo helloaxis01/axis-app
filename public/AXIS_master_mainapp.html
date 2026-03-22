@@ -5217,7 +5217,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const sessionEmptyDark = theme === "dark";
     const sessionBg = sessionEmptyDark ? "#0B121C" : MAIN_APP_BG.light;
     const sessionHeadline = nightMode && sessionEmptyDark ? "#FF0000" : sessionEmptyDark ? "#ffffff" : "rgba(15,30,46,0.92)";
-    const sessionTagline = sessionEmptyDark ? "rgba(255,255,255,0.42)" : "rgba(15,30,46,0.48)";
+    // Tagline tints match each Session logo asset (AXIS_LOGO_LIGHT ≈ axis-white ink; AXIS_LOGO_DARK ≈ navy wordmark)
+    const sessionTagline = sessionEmptyDark
+      ? "rgba(246, 247, 248, 0.52)"
+      : "rgba(15, 30, 46, 0.56)";
     const sessionLogo = sessionEmptyDark ? AXIS_LOGO_LIGHT : AXIS_LOGO_DARK;
     return (/*#__PURE__*/
       React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
@@ -5260,7 +5263,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }, /*#__PURE__*/
       React.createElement("img", {
         src: sessionLogo,
-        alt: "AXIS Logo",
+        alt: "AXIS",
         style: { width: 72, height: "auto", objectFit: "contain", opacity: 1, marginBottom: 48 } }
       ), /*#__PURE__*/
       React.createElement("div", {

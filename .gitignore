@@ -5,3 +5,6 @@ dist/
 *.bak
 .env
 .env.*
+# Standalone deploy repo (own git remote) — do not commit into axis-app
+axis-web/
+axis-rebuild-standalone/
