@@ -1292,6 +1292,7 @@ function Onboarding({ theme, onComplete }) {
             <button
               type="button"
               className="ob-nav-back ob-nav-glass-btn ob-footer-nav-cell--back"
+              aria-label="Go Back"
               onClick={() => go(5)}
               style={{
                 background: obTheme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
@@ -1306,6 +1307,7 @@ function Onboarding({ theme, onComplete }) {
             <button
               type="button"
               className="ob-nav-letsgo ob-footer-nav-cell--next"
+              aria-label="Continue"
               onClick={doLaunch}
               style={{
                 pointerEvents: 'auto',
@@ -1325,6 +1327,7 @@ function Onboarding({ theme, onComplete }) {
             <button
               type="button"
               className="ob-nav-back ob-nav-glass-btn ob-footer-nav-cell--back"
+              aria-label="Go Back"
               onClick={() => go(Math.max(0, cur - 1))}
               style={{
                 background: obTheme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
@@ -1355,6 +1358,7 @@ function Onboarding({ theme, onComplete }) {
             <button
               type="button"
               className="ob-nav-next ob-nav-glass-btn ob-footer-nav-cell--next"
+              aria-label="Continue"
               onClick={() => {
                 if (cur === 4) { doSafetyNext(); return; }
                 if (cur === 5) { if (obPeriod == null) { setObPeriod(getCircadianPeriod()); setHasChosenMood(true); } go(6); return; }
