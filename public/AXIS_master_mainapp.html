@@ -5362,6 +5362,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "flex-start",
+          flex: 1,
+          alignSelf: "stretch",
+          width: "100%",
           minHeight: "100vh",
           minHeight: "100dvh",
           paddingLeft: "max(32px, env(safe-area-inset-left, 0px))",
@@ -5403,13 +5406,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       ), /*#__PURE__*/
       React.createElement("div", { style: {
+          flex: "1 1 0",
+          minHeight: 0,
           width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          flexShrink: 0,
-          marginTop: "auto",
-          paddingBottom: "clamp(20px, 5vh, 56px)"
+          justifyContent: "flex-end",
+          paddingBottom: "clamp(8px, 2vh, 28px)"
         } }, /*#__PURE__*/
       React.createElement("img", {
         src: sessionLogo,
