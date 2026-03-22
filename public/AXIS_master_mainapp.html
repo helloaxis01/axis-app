@@ -1907,6 +1907,12 @@ const css = `
 
   /* Ensure app icons use currentColor */
   .app svg { stroke: currentColor !important; fill: none !important; }
+  /* Filled icons (play ▶ on START GUIDED): global fill:none hides polygon fills; WebKit often shows nothing */
+  .app .fv-cta svg,
+  .app .fv-cta svg * {
+    fill: currentColor !important;
+    stroke: none !important;
+  }
   /* Enforce consistent onboarding sizes (override inline styles if present) */
   .ob-heading { font-size: var(--ob-heading-size) !important; font-weight: 700 !important; }
   .ob-subhead, .ob-cta-head { font-size: var(--ob-subhead-size) !important; }
