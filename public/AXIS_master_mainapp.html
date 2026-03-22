@@ -5364,8 +5364,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           justifyContent: "space-between",
           minHeight: "100vh",
           minHeight: "100dvh",
-          padding: "calc(25vh + 48px) 32px 80px 48px",
+          padding: "calc(25vh + 48px) max(32px, env(safe-area-inset-left, 0px)) 80px max(32px, env(safe-area-inset-right, 0px))",
           textAlign: "center",
+          boxSizing: "border-box",
           background: sessionBg,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
         } }, /*#__PURE__*/
