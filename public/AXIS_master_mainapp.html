@@ -37,9 +37,26 @@
       font-family: var(--font-ui), sans-serif; font-size: var(--text-sm); padding:40px; white-space:pre-wrap; }
     /* Ensure onboarding screens are centered if the onboarding CSS isn't loaded */
     .ob-screen { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100dvh; box-sizing:border-box; }
+
+    /* ── AUDIT (2026-03): stacking / hit-testing — remove .axis-debug-* after verification ──
+       Likely click-blockers (fixed/sticky, high z-index): #load-err (full viewport when shown);
+       .tab-bar z-index:300 (bottom nav); .hdr-wrap sticky z-index:200; GuidedOverlay portal z-index:99999;
+       AXIS dev chip z-index:99999 (small, bottom-right). .app-orbs z-index:1 + pointer-events:none (does NOT steal clicks).
+       Session CTAs sit in .content z-index:1 — nothing in CSS should sit above them except modals/overlays.
+       Event model: buttons use React onClick (synthetic); grep shows no code assigning element.onclick to these CTAs after mount. */
+    button.axis-debug-start-guided-hitbox { border: 5px solid red !important; box-sizing: border-box !important; }
+    .guided-interaction-footer.axis-debug-footer-hitbox { border: 5px solid red !important; box-sizing: border-box !important; }
   </style>
 </head>
 <body>
+  <script>
+    /* Remove after audit: proves which file URL + load time the browser is running */
+    (function () {
+      try {
+        alert("AXIS load check\n" + window.location.href + "\n" + new Date().toISOString());
+      } catch (e) {}
+    })();
+  </script>
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
@@ -3375,7 +3392,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
     ),
     (phase === "getready" || phase === "launch" || phase === "exercise") && /*#__PURE__*/
-    React.createElement("div", { className: "fav-filter guided-interaction-footer", style: { marginBottom: `max(20px, env(safe-area-inset-bottom, 20px))` } }, /*#__PURE__*/
+    React.createElement("div", { className: "fav-filter guided-interaction-footer axis-debug-footer-hitbox", style: { marginBottom: `max(20px, env(safe-area-inset-bottom, 20px))` } }, /*#__PURE__*/
     React.createElement("button", { type: "button", className: `fav-toggle ${showFavOnly ? "on" : ""}`, onClick: onToggleFavOnly }, "\u2605 Favorites"), /*#__PURE__*/
     React.createElement("button", { type: "button", className: `fav-toggle ${showSkipOnly ? "on" : ""}`, onClick: onToggleSkipOnly }, "\u2014 Skipped"), /*#__PURE__*/
     React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: onResetSession }, "\u21BA Reset Session")
@@ -4939,7 +4956,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "session-cta-pad", style: { paddingTop: "14px" } }, /*#__PURE__*/
     React.createElement("button", {
       type: "button",
-      className: "fv-cta axis-cta-core",
+      className: "fv-cta axis-cta-core axis-debug-start-guided-hitbox",
       onClick: openGuidedOverlay }, /*#__PURE__*/
 
     React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 10 } }, /*#__PURE__*/
@@ -5030,7 +5047,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "session-cta-pad", style: { marginTop: 24, paddingTop: "4px" } }, /*#__PURE__*/
     React.createElement("button", {
       type: "button",
-      className: "axis-cta-core",
+      className: "axis-cta-core axis-debug-start-guided-hitbox",
       onClick: openGuidedFromList,
       style: {
         width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #FF0000" : "none",
