@@ -2829,8 +2829,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
   // Guided uses the same exercise list as Session LIST/Guided tab: activeAllProp = filteredAll from getAll(track).
   // Instructions (cur.start, cur.steps[].cue, step.focus) are the single source of truth from TRACKS[track].sections.
-  const listRef = useRef(activeAllProp);
-  const list = listRef.current;
+  const list = Array.isArray(activeAllProp) ? activeAllProp : [];
   const listTotal = list.length;
   const filteredCount = listTotal;
   // Own fi and resting state — self-contained continuous flow
