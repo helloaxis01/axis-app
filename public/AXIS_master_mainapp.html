@@ -614,7 +614,7 @@ const css = `
   .fc-pcue, .fv-cue, .step-cue, .purpose-text, .fc-sub {
     font-family: var(--font-ui);
     font-size: var(--text-base);
-    line-height: 1.5;
+    line-height: 1.3 !important;
   }
 
   /* Map app text/colors to canonical axis colors */
@@ -1225,7 +1225,7 @@ const css = `
     border-top:1px solid var(--border); border-bottom:1px solid var(--border);
   }
   .purpose-label { font-size: var(--text-sm); letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-secondary); margin-bottom:4px; font-weight: 600; }
-  .purpose-text { font-size: var(--text-base); font-style:italic; line-height:1.5; color:var(--text-secondary); }
+  .purpose-text { font-size: var(--text-base); font-style:italic; line-height:1.3 !important; color:var(--text-secondary); }
 
   /* ── EXERCISE ROW ── */
   .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; border-bottom:1px solid var(--border); cursor:pointer; transition:all 0.2s; position:relative; border-radius:0; }
@@ -1455,7 +1455,7 @@ const css = `
   .step-right { flex:1; }
   .step-label { font-size: var(--text-lg); font-weight: 600; color:var(--text-white); line-height:1.3; }
   .step-focus { font-size: var(--text-sm); color:var(--accent-secondary); letter-spacing:0.08em; margin-top:5px; font-weight:600; text-transform:uppercase; }
-  .step-cue { font-size: var(--text-lg); color:var(--text-secondary); margin-top:12px; line-height:1.25 !important; }
+  .step-cue { font-size: var(--text-lg); color:var(--text-secondary); margin-top:12px; line-height:1.3 !important; }
   .fc-steps .step { padding:12px 0; }
 
   /* ── TIMER ── */
@@ -1585,7 +1585,11 @@ const css = `
   .reset-lnk:hover { color:var(--text-secondary); }
 
   /* ── FAV FILTER ── */
-  .fav-filter { display:flex; align-items:center; gap:8px; padding:14px 0 6px; flex-wrap:wrap; }
+  .fav-filter { display:flex; align-items:center; gap:8px; padding:14px 0 6px; flex-wrap:wrap; position:relative; overflow:hidden; }
+  .fav-filter::before {
+    content:""; position:absolute; top:0; left:0; right:0; height:1px; pointer-events:none;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35) 50%, transparent);
+  }
   .fav-toggle {
     min-height:44px; padding:10px 16px; border-radius:20px; font-family:var(--font-display);
     font-size: var(--text-xs); font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
@@ -1622,7 +1626,7 @@ const css = `
     z-index:300;
   }
   .tab-btn {
-    display:flex; flex-direction: column; align-items:center; justify-content:center;
+    display:flex; flex-direction: column; align-items:center; justify-content:center; gap:0;
     min-width:44px; min-height:44px; width:44px; height:44px;
     padding:0; border:none; cursor:pointer; border-radius:999px;
     background:transparent; color: rgba(225,236,252,0.68);
@@ -4575,13 +4579,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "tabs" },
-    ["list", "guided", "summary"].map((t) => /*#__PURE__*/
+    ["list", "guided"].map((t) => /*#__PURE__*/
     React.createElement("button", {
       key: t,
       className: `tab ${tab === t ? "on" : ""}`,
       onClick: () => setTab(t) },
 
-    t === "guided" ? "Guided" : t.charAt(0).toUpperCase() + t.slice(1)
+    t === "guided" ? "Guided" : "List"
     )
     )
     )
@@ -4597,10 +4601,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "tab-subbar" }, /*#__PURE__*/
     React.createElement("div", { className: "tab-desc-line" },
     tab === "list" && "Your pace. Tap to expand, mark done when ready.",
-    tab === "guided" && "Hands-free. Auto-timed; audio cues coming soon.",
-    tab === "summary" && "Your progress over time."
+    tab === "guided" && "Hands-free. Auto-timed; audio cues coming soon."
     ),
-    tab !== "summary" && /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
     React.createElement("span", { style: { fontSize: "var(--text-xs)", color: "var(--text-dim)", letterSpacing: "0.04em" } }, /*#__PURE__*/
@@ -4811,54 +4813,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )
     )
     ),
-
-
-
-    tab === "summary" && /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { className: "summary", style: { marginTop: 24 } }, /*#__PURE__*/
-    React.createElement("div", { className: "summary-title" }, "This Week"), /*#__PURE__*/
-    React.createElement("div", { className: "summary-grid" }, /*#__PURE__*/
-    React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, weekSessions.length), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Sessions")), /*#__PURE__*/
-    React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, streak), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Day Streak")), /*#__PURE__*/
-    React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, weekMinutes, /*#__PURE__*/React.createElement("span", { style: { fontSize: "var(--text-sm)" } }, "m")), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Minutes"))
-    )
-    ), /*#__PURE__*/
-    React.createElement(MomentumMap, { history: history, nightMode: nightMode }),
-    history.length > 0 && /*#__PURE__*/
-    React.createElement("div", { className: "history", style: { marginTop: 24 } }, /*#__PURE__*/
-    React.createElement("div", { className: "summary-title", style: { marginBottom: 8 } }, "Recent Sessions"),
-    history.slice(0, 10).map((e, i) => /*#__PURE__*/
-    React.createElement("div", { className: "history-row", key: i }, /*#__PURE__*/
-    React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "history-date" }, e.date), /*#__PURE__*/React.createElement("div", { className: "history-track" }, e.track)), /*#__PURE__*/
-    React.createElement("div", { className: "history-detail" }, e.duration, "m")
-    )
-    )
-    ),
-
-    history.length === 0 && /*#__PURE__*/
-    React.createElement("div", { style: { textAlign: "center", padding: "48px 0", color: "var(--text-dim)", fontSize: "var(--text-xs)", letterSpacing: "0.12em", textTransform: "uppercase" } }, "Complete a session to see your history"
-
-    ),
-
-
-    (track === "anxiety" || track === "stress") && totalDone > 0 && /*#__PURE__*/
-    React.createElement("div", { style: { marginTop: 28, padding: "18px", borderRadius: 16, border: "1px solid var(--glass-border)", background: "var(--glass-bg)" } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 8 } }, "Continue the Reset"), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", color: "var(--text-secondary)", marginBottom: 14, lineHeight: 1.45 } },
-    track === "anxiety" ? "Finish with 2 minutes of Box Breathing to ground the nervous system." : "Calm the heart with a Physiological Sigh."
-    ), /*#__PURE__*/
-    React.createElement("button", { onClick: () => {setView("timer");}, style: {
-        background: "var(--accent-dim)", border: "1px solid var(--accent)",
-        fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.14em",
-        textTransform: "uppercase", color: "var(--accent)", cursor: "pointer",
-        padding: "10px 18px", borderRadius: 10, transition: "all 0.18s"
-      } },
-    track === "anxiety" ? "→ Box Breathing" : "→ Physiological Sigh"
-    )
-    )
-
-    ), /*#__PURE__*/
 
 
 
