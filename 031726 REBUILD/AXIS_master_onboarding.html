@@ -977,6 +977,7 @@ function Onboarding({ theme, onComplete }) {
       <div ref={obShellRef} className="ob-shell" onClick={e => { if (cur === 4 || cur === 5 || cur === 6) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
         {cur === 0 && (
           <div className="ob-screen ob-s0" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
+            <div style={{ position: "absolute", top: "calc(env(safe-area-inset-top, 0px) + 14px)", right: 18, fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ob-text-sec)", opacity: 0.72 }}>V2.0</div>
             <img src={obTheme === "dark" ? "./AXIS_Branding_DarkMode_Outlined.svg" : "./AXIS_Branding_LightMode_Outlined.svg"} alt="AXIS Logo" style={{ marginTop: "calc(90px + 5vh)", width: 165 }} />
             <div className="ob-screen-body">
               <div className="ob-pad" style={{ textAlign: "center" }}>
