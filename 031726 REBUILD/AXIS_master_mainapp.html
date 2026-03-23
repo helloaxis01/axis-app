@@ -95,7 +95,7 @@ if (window.AXIS_DEV) {
   } catch (e) {}
 }
 
-const { useState, useEffect, useLayoutEffect, useRef, useId } = React;
+const { useState, useEffect, useLayoutEffect, useRef, useId, useMemo } = React;
 
 // Ensure a global fallback 'highlight' exists for any older references or cached builds.
 try {
@@ -1580,6 +1580,116 @@ const css = `
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
     background: rgba(0, 0, 0, 0.12);
   }
+
+  /* V1.3.2 — Guided cinematic HUD (linear progress + floating cues) */
+  .guided-overlay .hud-progress-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 40;
+    pointer-events: none;
+    background: transparent;
+  }
+  .guided-overlay .hud-progress-bar {
+    height: 2px;
+    width: 0%;
+    max-width: 100%;
+    background: var(--mood-accent, var(--accent));
+    box-shadow: 0 0 8px var(--mood-accent, var(--accent));
+    transition: width 0.35s ease-out;
+  }
+  .guided-hud-instr {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 8px 12px;
+    flex-shrink: 0;
+  }
+  .guided-hud-video {
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .guided-hud-video .video-demo-wrap,
+  .guided-hud-video video {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+  .hud-cue-wrap {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
+  }
+  .hud-cue-wrap--exit {
+    transform: translateY(-18px);
+    opacity: 0;
+  }
+  .hud-cue-inner {
+    animation: hudCueRise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes hudCueRise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hud-cue-wrap { transition: none; animation: none !important; }
+    .hud-cue-inner { animation: none !important; opacity: 1; transform: none; }
+    .hud-cue-wrap--exit { transform: none; opacity: 0.35; }
+  }
+  .hud-cue-label {
+    font-size: var(--text-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mood-accent, var(--accent));
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .hud-cue-text {
+    font-size: var(--text-xl);
+    line-height: 1.6;
+    color: inherit;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-align: center;
+  }
+  .hud-step-pips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .hud-step-pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  [data-theme="light"] .hud-step-pip {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+  .hud-step-pip--active {
+    background: color-mix(in srgb, var(--mood-accent, var(--accent)) 55%, rgba(255, 255, 255, 0.2));
+    border-color: color-mix(in srgb, var(--mood-accent, var(--accent)) 55%, transparent);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--mood-accent, var(--accent)) 55%, transparent);
+    transform: scale(1.15);
+  }
+  [data-night="true"] .hud-step-pip {
+    background: rgba(255, 0, 0, 0.15);
+    border-color: rgba(255, 0, 0, 0.45);
+  }
+  [data-night="true"] .hud-step-pip--active {
+    background: #FF0000;
+    border-color: #FF0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.55);
+  }
   .timer-view-body .timer-glass-btn-pri.axis-cta-core { border: none; }
   .momentum-strip { display:flex; gap:6px; margin-bottom:10px; }
   .momentum-cell { flex:1; aspect-ratio:1; border-radius:6px; transition:all 0.2s; }
@@ -2536,11 +2646,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const list = listRef.current;
   const listTotal = list.length;
   const filteredCount = listTotal;
-  const [instrCollapsed, setInstrCollapsed] = useState(false);
-  // per-exercise instruction collapse state (Guided cards)
-  const [collapsedById, setCollapsedById] = useState(() => ({}));
-  const toggleCollapseFor = (id) => setCollapsedById((m) => ({ ...(m || {}), [id]: !m[id] }));
-
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
   const [phase, setPhase] = useState("intro"); // "intro" | "getready" | "launch" | "exercise" | "milestone" | "closing"
@@ -2628,17 +2733,54 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const gPct = gTotal > 0 && gLeft != null ? (gTotal - gLeft) / gTotal : phase === "launch" ? (3 - launchCount) / 3 : 0;
   const gDisplay = gLeft != null ? `${Math.floor(gLeft / 60)}:${(gLeft % 60).toString().padStart(2, "0")}` : guidedDefaultDisplay;
 
-  let haloProgress = 0;
+  let hudProgress01 = 0;
   if (listTotal > 0) {
-    if (phase === "getready") haloProgress = (fi + (GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS) / listTotal;
-    else if (phase === "launch") haloProgress = (fi + (3 - launchCount) / 3) / listTotal;
-    else if (phase === "exercise") haloProgress = (fi + gPct) / listTotal;
-    else if (phase === "closing") haloProgress = 1;
+    if (phase === "getready") hudProgress01 = (fi + (GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS) / listTotal;
+    else if (phase === "launch") hudProgress01 = (fi + (3 - launchCount) / 3) / listTotal;
+    else if (phase === "exercise") hudProgress01 = (fi + gPct) / listTotal;
+    else if (phase === "closing") hudProgress01 = 1;
   }
-  haloProgress = Math.min(1, Math.max(0, haloProgress));
-  const haloR = 110;
-  const haloC = 2 * Math.PI * haloR;
-  const haloOffset = haloC * (1 - haloProgress);
+  hudProgress01 = Math.min(1, Math.max(0, hudProgress01));
+
+  function buildHudSlices(ex) {
+    if (!ex) return [];
+    const s = [];
+    if (ex.start) s.push({ label: "START", cue: ex.start });
+    (ex.steps || []).forEach((step, idx) => {
+      s.push({ label: step.focus || (idx === 0 ? "SETUP" : "MOVE"), cue: step.cue });
+    });
+    return s;
+  }
+
+  const hudSlices = useMemo(() => buildHudSlices(cur), [cur?.id, cur?.start, cur?.steps]);
+  const hudSliceCount = hudSlices.length;
+  const hudTargetIdx = useMemo(() => {
+    if (phase !== "exercise" || hudSliceCount === 0) return 0;
+    return Math.min(hudSliceCount - 1, Math.floor(gPct * hudSliceCount + 1e-9));
+  }, [phase, hudSliceCount, gPct]);
+
+  const [hudCueDisplayIdx, setHudCueDisplayIdx] = useState(0);
+  const [hudCueExiting, setHudCueExiting] = useState(false);
+
+  useEffect(() => {
+    setHudCueDisplayIdx(0);
+    setHudCueExiting(false);
+  }, [fi]);
+
+  useEffect(() => {
+    if (phase !== "exercise") {
+      setHudCueDisplayIdx(0);
+      setHudCueExiting(false);
+      return;
+    }
+    if (hudTargetIdx === hudCueDisplayIdx) return;
+    setHudCueExiting(true);
+    const t = setTimeout(() => {
+      setHudCueDisplayIdx(hudTargetIdx);
+      setHudCueExiting(false);
+    }, 280);
+    return () => clearTimeout(t);
+  }, [phase, hudTargetIdx, hudCueDisplayIdx]);
 
   // GUIDED phase flags
   const isExercisePhase = phase === "exercise";
@@ -2804,9 +2946,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 99999,
         background: GUIDED_BG, display: "flex", flexDirection: "column",
         fontFamily: "var(--font-display)", color: W, WebkitFontSmoothing: "antialiased",
-        overflow: "hidden"
+        overflow: "hidden",
+        ["--mood-accent"]: A
       } }, /*#__PURE__*/
-    React.createElement("style", null, css),
+    React.createElement("style", null, css), /*#__PURE__*/
+    React.createElement("div", { className: "hud-progress-track", "aria-hidden": true }, /*#__PURE__*/
+    React.createElement("div", { className: "hud-progress-bar", style: { width: `${hudProgress01 * 100}%` } })
+    ),
 
 
     (!isExercisePhase || isNight) && /*#__PURE__*/
@@ -2917,11 +3063,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
     (phase === "getready" || phase === "launch" || phase === "exercise") && /*#__PURE__*/
-    React.createElement("div", { style: { position: "relative", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12, minHeight: 200 } }, /*#__PURE__*/
-    React.createElement("svg", { className: "guided-progress-halo", width: 260, height: 260, style: { position: "absolute", left: "50%", top: "42%", transform: "translate(-50%, -50%)", pointerEvents: "none", zIndex: 0 }, "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("circle", { cx: 130, cy: 130, r: haloR, fill: "none", stroke: isNight ? "rgba(255,0,0,0.2)" : isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.07)", strokeWidth: 1.5 }), /*#__PURE__*/
-    React.createElement("circle", { cx: 130, cy: 130, r: haloR, fill: "none", stroke: A, strokeWidth: 1.5, strokeLinecap: "butt", strokeDasharray: haloC, strokeDashoffset: haloOffset, transform: "rotate(-90 130 130)", style: { transition: "stroke-dashoffset 0.35s ease-out" } })
-    ), /*#__PURE__*/
+    React.createElement("div", { style: { position: "relative", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12, minHeight: 120 } }, /*#__PURE__*/
     React.createElement("div", { style: { position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", width: "100%" } }, /*#__PURE__*/
     React.createElement("div", { style: {
         fontSize: "var(--text-sm)",
@@ -2968,6 +3110,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { width: 240, height: 10, borderRadius: 10, background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 8 } }, /*#__PURE__*/
     React.createElement("div", { style: { height: 10, borderRadius: 10, background: `linear-gradient(90deg, ${A}, ${A})`, width: `${(3 - launchCount) / 3 * 100}%` } })
     )
+    )
     ),
 
     phase === "exercise" && cur && /*#__PURE__*/
@@ -2977,94 +3120,38 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { height: 10, borderRadius: 10, background: `linear-gradient(90deg, ${A}, ${A})`, width: `${gPct * 100}%` } })
     )
     )
-    )
 
-    )
-    )
     )
     ),
 
 
 
-    (() => {
-      const ex = cur;
-      if (!ex?.steps?.length && !ex?.start) return null;
-      return (/*#__PURE__*/
-        React.createElement("div", { style: {
-            borderRadius: 20,
-            background: isExercisePhase && !isNight ?
-            isDark ? "rgba(6,14,32,0.96)" : "rgba(252,252,255,0.98)" :
-            isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)",
-            backdropFilter: isExercisePhase && !isNight ? "none" : "blur(24px) saturate(1.4)",
-            WebkitBackdropFilter: isExercisePhase && !isNight ? "none" : "blur(24px) saturate(1.4)",
-            border: isExercisePhase && !isNight ?
-            isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.22)" : "1px solid rgba(10,18,36,0.08)" :
-            `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"}`,
-            boxShadow: isExercisePhase && !isNight ?
-            isDark ? "0 8px 26px rgba(0,0,0,0.55)" : "0 10px 32px rgba(12,24,48,0.26)" :
-            isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)",
-            overflow: "hidden", flexShrink: 0, marginBottom: 16
-          } }, /*#__PURE__*/
-
-        React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid rgba(0,0,0,0)" } }, /*#__PURE__*/
-        React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 700, letterSpacing: "0.06em", color: W } }, "Instructions"), /*#__PURE__*/
-        React.createElement("button", {
-          onClick: () => toggleCollapseFor(ex.id),
-          style: { background: "transparent", border: nightMode ? "1px solid #FF0000" : "none", color: W, cursor: "pointer", fontWeight: 700, fontSize: "var(--text-sm)" },
-          "aria-expanded": !collapsedById[ex.id],
-          "aria-controls": `instr-${ex.id}` },
-
-        collapsedById[ex.id] ? "Show" : "Hide"
-        )
-        ),
-
-        !collapsedById[ex.id] && /*#__PURE__*/
-        React.createElement(React.Fragment, null,
-        ex.demoVideo && /*#__PURE__*/
-        React.createElement("div", { style: { padding: "10px 16px 8px", borderBottom: ex.steps?.length ? isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)" : "none", textAlign: "center" } }, /*#__PURE__*/
-        React.createElement(VideoDemo, {
-          src: ex.demoVideo,
-          style: { width: "100%", borderRadius: 10, display: "block" },
-          ariaLabel: ex && ex.name ? `Demo: ${ex.name}` : "Exercise demo" }
-        )
-        ),
-
-        ex.start && /*#__PURE__*/
-        React.createElement("div", { id: `instr-${ex.id}`, style: { padding: "10px 16px 8px", borderBottom: ex.steps?.length ? isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)" : "none", textAlign: "left" } }, /*#__PURE__*/
-        React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 4 } }, "START"), /*#__PURE__*/
-        React.createElement("div", { style: { fontSize: "var(--text-base)", color: W, lineHeight: 1.4, fontWeight: 400, letterSpacing: "-0.01em" } }, ex.start)
-        ),
-
-        ex.steps?.map((step, idx) => /*#__PURE__*/
-        React.createElement("div", {
-          key: idx,
-          style: {
-            padding: idx === 0 ? "14px 16px 12px" : "12px 16px 14px",
-            borderBottom: idx < ex.steps.length - 1 || ex.type === "reps" && ex.reps ?
-            isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)" :
-            "none",
-            textAlign: "left"
-          } }, /*#__PURE__*/
-
-        React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 8 } },
-        step.focus || (idx === 0 ? "SETUP" : "MOVE")
-        ), /*#__PURE__*/
-        React.createElement("div", { style: {
-            fontSize: "var(--text-base)",
-            color: W,
-            lineHeight: 1.4,
-            fontWeight: 400,
-            letterSpacing: "-0.01em"
-          } },
-        step.cue
-        )
-        )
-        )
-        )
-
-        ));
-
-    })()
+    phase === "exercise" && cur && hudSliceCount > 0 && /*#__PURE__*/
+    React.createElement("div", { className: "guided-hud-instr" },
+    cur.demoVideo && /*#__PURE__*/
+    React.createElement("div", { className: "guided-hud-video" }, /*#__PURE__*/
+    React.createElement(VideoDemo, {
+      src: cur.demoVideo,
+      style: { width: "100%", borderRadius: 12, display: "block" },
+      ariaLabel: cur && cur.name ? `Demo: ${cur.name}` : "Exercise demo" }
+    )
+    ),
+    React.createElement("div", { className: "hud-cue-wrap" + (hudCueExiting ? " hud-cue-wrap--exit" : ""), role: "region", "aria-live": "polite" }, /*#__PURE__*/
+    React.createElement("div", { key: `${fi}-${hudCueDisplayIdx}-${hudCueExiting}`, className: "hud-cue-inner" }, /*#__PURE__*/
+    React.createElement("div", { className: "hud-cue-label" }, (hudSlices[hudCueDisplayIdx] || hudSlices[0]).label), /*#__PURE__*/
+    React.createElement("div", { className: "hud-cue-text" }, (hudSlices[hudCueDisplayIdx] || hudSlices[0]).cue)
+    )
+    ),
+    React.createElement("div", { className: "hud-step-pips", role: "list", "aria-label": "Instruction steps" },
+    Array.from({ length: hudSliceCount }, (_, i) => /*#__PURE__*/
+    React.createElement("span", {
+      key: i,
+      role: "listitem",
+      className: "hud-step-pip" + (i === hudCueDisplayIdx ? " hud-step-pip--active" : ""),
+      "aria-current": i === hudCueDisplayIdx ? "step" : undefined
+    })
+    ))
+    )
 
 
 
@@ -3122,7 +3209,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { flex: 1, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: S, fontSize: "var(--text-xs)", letterSpacing: "0.12em" } }, "STARTING...")
 
     )
-
     ));
 
 }
@@ -4867,10 +4953,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
 
 
-    React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--session" })
-    )
-    ), /*#__PURE__*/
+    React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--session" }),
+    /*#__PURE__*/
     React.createElement(TabBar, { view: view, setView: setView, hasActiveSession: hasActiveSession, theme: theme, nightMode: nightMode })
+    )
     )
     ));
 
