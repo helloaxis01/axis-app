@@ -2525,14 +2525,12 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
-  const [phase, setPhase] = useState("intro"); // "intro" | "getready" | "launch" | "exercise" | "milestone" | "closing"
+  const [phase, setPhase] = useState("intro"); // "intro" | "getready" | "exercise" | "milestone" | "closing"
   const GETREADY_SECONDS = 15;
   const [readyLeft, setReadyLeft] = useState(GETREADY_SECONDS);
   const [paused, setPaused] = useState(false);
-  const [launchCount, setLaunchCount] = useState(3); // 3, 2, 1 before exercise start
   const [milestoneMessage, setMilestoneMessage] = useState("");
   const readyRef = useRef(null);
-  const launchRef = useRef(null);
   const milestoneRef = useRef(null);
   const wakeLockRef = useRef(null);
   const titleRef = useRef(null);
@@ -2607,7 +2605,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
   // helper display and pct for guided large timer
   const gTotal = cur && (cur.seconds || cur.duration) || 0;
-  const gPct = gTotal > 0 && gLeft != null ? (gTotal - gLeft) / gTotal : phase === "launch" ? (3 - launchCount) / 3 : 0;
+  const gPct = gTotal > 0 && gLeft != null ? (gTotal - gLeft) / gTotal : 0;
   const gDisplay = gLeft != null ? `${Math.floor(gLeft / 60)}:${(gLeft % 60).toString().padStart(2, "0")}` : guidedDefaultDisplay;
 
   // GUIDED phase flags
@@ -2643,7 +2641,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   }, [phase]);
   useEffect(() => () => {try {wakeLockRef.current?.release();wakeLockRef.current = null;} catch (e) {}}, []);
 
-  // Get-ready countdown (15s) — at 0 go to 3-2-1 launch
+  // Get-ready countdown (15s) — at 0 go directly into exercise.
   useEffect(() => {
     if (phase !== "getready") return;
     readyRef.current = setInterval(() => {
@@ -2651,8 +2649,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         if (l <= 1) {
           clearInterval(readyRef.current);
           primeAudio();
-          setLaunchCount(3);
-          setPhase("launch");
+          beep(880, 0.2);
+          setPhase("exercise");
           return GETREADY_SECONDS;
         }
         return l - 1;
@@ -2671,15 +2669,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       el.style.transform = "translateY(0)";
     });
   }, [fi]);
-
-  // 3-2-1 launch countdown with beeps then start exercise (primeAudio/beep on user context helps iOS)
-  useEffect(() => {
-    if (phase !== "launch") return;
-    const t1 = setTimeout(() => {primeAudio();setLaunchCount(2);beep(440, 0.1);}, 1000);
-    const t2 = setTimeout(() => {setLaunchCount(1);beep(440, 0.1);}, 2000);
-    const t3 = setTimeout(() => {setLaunchCount(0);beep(880, 0.3);setPhase("exercise");}, 3000);
-    return () => {clearTimeout(t1);clearTimeout(t2);clearTimeout(t3);};
-  }, [phase]);
 
   const completeCurrent = () => {
     beep(660, 0.4);
@@ -2898,12 +2887,12 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { flex: "1 1 58%", minHeight: 0, overflowY: "auto", overflowX: "hidden", padding: "6px 16px 12px", WebkitOverflowScrolling: "touch", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
 
     React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.28em", textTransform: "uppercase", color: S, marginBottom: 8, flexShrink: 0, textAlign: "left" } },
-    phase !== "getready" && phase !== "launch" && phase !== "exercise" ? phase === "milestone" ? "MILESTONE" : "" : ""
+    phase !== "getready" && phase !== "exercise" ? phase === "milestone" ? "MILESTONE" : "" : ""
     ),
 
 
 
-    (phase === "getready" || phase === "launch" || phase === "exercise") && /*#__PURE__*/
+    (phase === "getready" || phase === "exercise") && /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 8 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         fontSize: "var(--text-xs)",
@@ -2918,30 +2907,30 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.28)",
         display: "inline-block"
       } },
-    phase === "getready" ? "REST & GET READY" : phase === "launch" ? "GET SET" : "BEGIN"
+    phase === "getready" ? "REST & GET READY" : "BEGIN"
     )
     ), /*#__PURE__*/
 
 
 
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: phase === "getready" || phase === "launch" || phase === "exercise" ? "center" : "flex-start" } }, /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: phase === "getready" || phase === "exercise" ? "center" : "flex-start" } }, /*#__PURE__*/
     React.createElement("div", {
       ref: titleRef,
       style: {
-        fontSize: phase === "getready" || phase === "launch" || phase === "exercise" ? 34 : 30,
+        fontSize: phase === "getready" || phase === "exercise" ? 34 : 30,
         fontWeight: 700, letterSpacing: "0.02em", lineHeight: 1.08, textTransform: "uppercase",
         color: W,
-        marginBottom: 20, flexShrink: 0, fontFamily: "var(--font-display)",
+        marginBottom: 40, flexShrink: 0, fontFamily: "var(--font-display)",
         textShadow: NAME_SHAD,
-        textAlign: phase === "getready" || phase === "launch" || phase === "exercise" ? "center" : "left"
+        textAlign: phase === "getready" || phase === "exercise" ? "center" : "left"
       } },
     cur?.name
     )
     ),
 
 
-    (phase === "getready" || phase === "launch" || phase === "exercise") && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginTop: 18, marginBottom: 24, flexShrink: 0 } },
+    (phase === "getready" || phase === "exercise") && /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginTop: 0, marginBottom: 32, flexShrink: 0 } },
     phase === "getready" && /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: "#f6f7f8", lineHeight: 1 } },
@@ -2949,16 +2938,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     ), /*#__PURE__*/
     React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "#140000" : isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)", overflow: "hidden", marginTop: 14 } }, /*#__PURE__*/
     React.createElement("div", { style: { height: 4, borderRadius: 999, background: A, width: `${(GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS * 100}%`, transition: "width 1s linear" } })
-    )
-    ),
-
-    phase === "launch" && /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 60, fontWeight: 700, letterSpacing: "-0.02em", color: "#f6f7f8", lineHeight: 1 } },
-    launchCount > 0 ? launchCount : ""
-    ), /*#__PURE__*/
-    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "#140000" : isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)", overflow: "hidden", marginTop: 14 } }, /*#__PURE__*/
-    React.createElement("div", { style: { height: 4, borderRadius: 999, background: A, width: `${(3 - launchCount) / 3 * 100}%` } })
     )
     ),
 
@@ -3084,7 +3063,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
     phase === "getready" && /*#__PURE__*/
-    React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {clearInterval(readyRef.current);primeAudio();setLaunchCount(3);setPhase("launch");}, style: {
+    React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {clearInterval(readyRef.current);primeAudio();beep(880, 0.2);setPhase("exercise");}, style: {
         flex: 1, width: "100%", minWidth: 0, background: A, border: nightMode ? "1px solid #FF0000" : "none",
         color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
@@ -3094,9 +3073,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       } }, "START NOW"),
 
 
-
-    phase === "launch" && /*#__PURE__*/
-    React.createElement("div", { style: { flex: 1, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: S, fontSize: "var(--text-xs)", letterSpacing: "0.12em" } }, "STARTING...")
 
     )
 
