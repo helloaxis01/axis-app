@@ -3278,7 +3278,8 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
     setBRunning(true);
     // defer setting expand so CSS transition animates from small -> full
     setTimeout(() => {
-      setBExpand(bPatternRef.current[0].expand);
+      const first = bPatternRef.current[0];
+      setBExpand(first.expand || first.label === "Hold");
     }, 60);
     beep(528, 0.2);
   }
@@ -3305,7 +3306,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
           bCycleRef.current = nextCycle;
           setBPhaseIdx(nextIdx);
           setBCycle(nextCycle);
-          setBExpand(pat[nextIdx].expand);
+          setBExpand(pat[nextIdx].expand || pat[nextIdx].label === "Hold");
           beep(pat[nextIdx].label === "Inhale" ? 528 : 440, 0.15);
           return pat[nextIdx].dur;
         }
@@ -3463,7 +3464,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
     will-change: opacity, transform;
     filter: blur(3px);
     clip-path: circle(48% at 50% 50%);
-    transition: opacity var(--breathe-fade, 0.85s) ease, filter 1.2s ease;
+    transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1), opacity 3s linear, filter 1.2s ease;
   }
   .timer-view-body .timer-breathe-ring {
     position: absolute;
@@ -3483,12 +3484,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
       animation: breathe-hold-glow 1.2s ease-in-out infinite;
       will-change: filter;
     }
-    .timer-view-body .timer-breathe-ring-wrap[data-breathe-glow="inhale"] .timer-breathe-ring {
+    .timer-view-body .timer-breathe-ring-wrap[data-breathe-glow="peak"] .timer-breathe-ring {
       animation: pulse-glow 3s ease-in-out infinite;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .timer-view-body .timer-breathe-ring-wrap[data-breathe-glow="inhale"] .timer-breathe-ring {
+    .timer-view-body .timer-breathe-ring-wrap[data-breathe-glow="peak"] .timer-breathe-ring {
       animation: none;
       filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 50%, transparent)) drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 28%, transparent));
     }
@@ -3766,7 +3767,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
 
     mode === "breathe" && /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", flex: 1, minHeight: 0 } }, /*#__PURE__*/
-    React.createElement("div", { className: "timer-glass-orb timer-breathe-ring-wrap timer-ring-slot", style: TIMER_RING_WRAP, "data-breathe-glow": bRunning ? (isInhalePhase ? "inhale" : "soft") : undefined }, /*#__PURE__*/
+    React.createElement("div", { className: "timer-glass-orb timer-breathe-ring-wrap timer-ring-slot", style: TIMER_RING_WRAP, "data-breathe-glow": bRunning ? (isInhalePhase || isHoldPhase ? "peak" : "soft") : undefined }, /*#__PURE__*/
     React.createElement("svg", { width: ringSize, height: ringSize, viewBox: "0 0 320 320", style: { position: "absolute", top: 0, left: 0 }, className: "timer-breathe-guide-ring" }, /*#__PURE__*/
     React.createElement("circle", { cx: "160", cy: "160", r: "140", fill: "none", stroke: "var(--border)", strokeWidth: "1.5" })
     ),
@@ -3777,12 +3778,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
         // outer rendered radius = (ringSize / 320) * 140; outer stroke half = (ringSize / 320) * (1.5/2)
         // inner rendered radius = 120; inner stroke half = 4/2
         // computed scale ≈ 1.298
-        transform: bRunning && bExpand ? "scale(1.298)" : "scale(0.45)",
+        transform: bRunning && (bExpand || isHoldPhase) ? "scale(1.298)" : "scale(0.45)",
         transformOrigin: "center center",
-        transition: bRunning ? `transform ${curBreathPhase?.dur || 4}s cubic-bezier(0.4,0,0.2,1)` : "transform 0.6s ease"
+        transition: bRunning ? "transform 3s cubic-bezier(0.4, 0, 0.2, 1)" : "transform 0.6s ease"
       } }, /*#__PURE__*/
 
-    React.createElement("svg", { className: "timer-breathe-glow", width: "306", height: "306", viewBox: "0 0 320 320", style: { position: "absolute", left: 0, top: 0, opacity: Math.max(orbOpacity ?? 0, 0.18), ['--breathe-fade']: `${breatheFadeDuration}s` } }, /*#__PURE__*/
+    React.createElement("svg", { className: "timer-breathe-glow", width: "306", height: "306", viewBox: "0 0 320 320", style: { position: "absolute", left: 0, top: 0, transform: bRunning && (isInhalePhase || isHoldPhase) ? "scale(1)" : "scale(0.9)", opacity: Math.max(orbOpacity ?? 0, 0.18), ['--breathe-fade']: `${breatheFadeDuration}s` } }, /*#__PURE__*/
     React.createElement("defs", null, /*#__PURE__*/
     React.createElement("radialGradient", { id: "breatheGlow", cx: "50%", cy: "50%", r: "50%" }, /*#__PURE__*/
     React.createElement("stop", { offset: "0%", stopColor: "var(--accent)", stopOpacity: "0.32" }), /*#__PURE__*/
