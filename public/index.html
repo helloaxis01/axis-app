@@ -885,13 +885,32 @@ const css = `
   [data-night="true"] .hdr-wrap,
   [data-night="true"] .tab-subbar,
   [data-night="true"] .tab-bar-spacer { background: #000000 !important; border-color: #FF0000 !important; }
-  [data-night="true"] .tab-bar {
+  [data-night="true"] .tab-bar,
+  .tab-bar[data-night="true"] {
     background: #000000 !important;
     border-top: none !important;
+    border: none !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
+  /* Night mode: all text elements explicitly red, no grey */
+  [data-night="true"] .hdr-dur { color: #FF0000 !important; }
+  [data-night="true"] .sh-tag { color: #FF0000 !important; }
+  [data-night="true"] .track-card-sub,
+  [data-night="true"] .track-card-sub * { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
+  [data-night="true"] .track-card-name { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
+  [data-night="true"] .session-title,
+  [data-night="true"] .hdr-title,
+  [data-night="true"] .hdr-subtitle { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
+  [data-night="true"] * { border-color: #FF0000 !important; }
+  [data-night="true"] .app-body,
+  [data-night="true"] .app,
+  [data-night="true"] .content { background: #000000 !important; }
+  /* Override the broad border rule for elements that must stay borderless */
+  [data-night="true"] .app-orbs,
+  [data-night="true"] .app-body::before,
+  [data-night="true"] img { border: none !important; }
   .tab-bar[data-night="true"] .tab-bar-top-line { display: none !important; }
   [data-night="true"] .tab-subbar { box-shadow: none !important; border-top: 1px solid #FF0000 !important; }
   [data-night="true"] .track-card,
@@ -972,11 +991,12 @@ const css = `
   }
   /* All night pills (track cards + session header): base uses rgba white border — invisible on #000 in Chromium */
   .app[data-night="true"] .glass-label {
-    background: #000000 !important;
-    border: 1px solid #FF0000 !important;
+    background: transparent !important;
+    border: none !important;
     color: #FF0000 !important;
     -webkit-text-fill-color: #FF0000 !important;
     box-shadow: none !important;
+    padding: 0 !important;
   }
   .app[data-night="true"] .tab.on {
     background: transparent !important;
@@ -3042,7 +3062,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { position: "relative", width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         position: "absolute", inset: 0, borderRadius: "50%",
-        border: isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
+        border: isNight ? "1px dashed #FF0000" : isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
         animation: "breatheCircle 4s ease-in-out infinite"
       } }),
     phase === "getready"
@@ -3052,7 +3072,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         gDisplay)
     ),
 
-    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
+    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "rgba(255,0,0,0.18)" : isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         height: 4, borderRadius: 999, background: A,
         width: phase === "getready"
