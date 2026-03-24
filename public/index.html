@@ -4707,40 +4707,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
 
 
-    (tab === "list" || tab === "guided") && filteredAll.length > 0 && /*#__PURE__*/
-    React.createElement("div", {
-      style: {
-        margin: "8px 0 0",
-        padding: "10px 12px",
-        borderRadius: 16,
-        background: "var(--glass-bg)",
-        border: "1px solid var(--glass-border)",
-        fontSize: "var(--text-xs)",
-        color: "var(--text-secondary)",
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        boxSizing: "border-box"
-      } }, /*#__PURE__*/
-    React.createElement("div", {
-      style: {
-        fontSize: "var(--text-xs)",
-        letterSpacing: "0.18em",
-        textTransform: "uppercase",
-        color: "var(--text-dimmer)",
-        marginBottom: 4
-      } },
-    "THIS SESSION"
-    ), /*#__PURE__*/
-    React.createElement("div", {
-      style: {
-        fontSize: "var(--text-sm)",
-        fontWeight: 600,
-        color: "var(--text-secondary)"
-      } },
-    filteredAll.length, " moves \xB7 ", perMoveSeconds, " seconds each"
-    )
-    ),
     (tab === "list" || tab === "guided") && /*#__PURE__*/
     React.createElement("div", { className: "fav-filter" }, /*#__PURE__*/
     React.createElement("button", { className: `fav-toggle ${showFavOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowFavOnly((f) => !f);setShowSkipOnly(false);} }, React.createElement("span", null, "\u2605"), " Favorites"), /*#__PURE__*/
