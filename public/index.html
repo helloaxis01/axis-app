@@ -2884,10 +2884,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 4, zIndex: 4, background: "rgba(255,255,255,0.07)" } }, /*#__PURE__*/
     React.createElement("div", { style: {
         height: 4,
-        background: "#00D1FF",
+        background: A,
         width: `${((fi + (phase === "exercise" ? gPct : 0)) / listTotal) * 100}%`,
         transition: "width 1s linear",
-        boxShadow: "0 0 8px rgba(0,209,255,0.5)"
+        boxShadow: `0 0 8px ${ct.accentGlow}`
       } })
     ),
 
