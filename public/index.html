@@ -846,72 +846,72 @@ const css = `
     border-color: rgba(42,95,143,0.5) !important;
   }
 
-  /* ── AXIS Ultra — OLED #000000 + #FF3B30; secondary copy uses rgba(255,59,48,0.5) ── */
+  /* ── AXIS Ultra — OLED #000000 + #FF0000; secondary copy uses rgba(255,0,0,0.5) ── */
   .app[data-night="true"] {
     --bg-gradient: #000000;
     --bg-app: #000000;
     --orb1: none; --orb2: none; --orb3: none;
     --glass-bg: #000000;
     --glass-bg-hover: #000000;
-    --glass-border: #FF3B30;
-    --glass-border-strong: #FF3B30;
+    --glass-border: #FF0000;
+    --glass-border-strong: #FF0000;
     --glass-specular: #000000;
     --glass-shadow: none;
     --glass-shadow-lg: none;
     --tab-bg: #000000;
     --hdr-bg: #000000;
-    --text-primary: #FF3B30;
-    --text-secondary: rgba(255, 59, 48, 0.5);
-    --text-tertiary: rgba(255, 59, 48, 0.5);
-    --text-dim: rgba(255, 59, 48, 0.5);
-    --text-dimmer: rgba(255, 59, 48, 0.5);
-    --text-white: #FF3B30;
-    --accent: #FF3B30;
-    --accent-secondary: #FF3B30;
+    --text-primary: #FF0000;
+    --text-secondary: rgba(255, 0, 0, 0.5);
+    --text-tertiary: rgba(255, 0, 0, 0.5);
+    --text-dim: rgba(255, 0, 0, 0.5);
+    --text-dimmer: rgba(255, 0, 0, 0.5);
+    --text-white: #FF0000;
+    --accent: #FF0000;
+    --accent-secondary: #FF0000;
     --accent-dim: #000000;
     --accent-glow: #000000;
-    --cue-bar: #FF3B30;
-    --cue-bar-label: #FF3B30;
-    --border: #FF3B30;
-    --border-card: #FF3B30;
-    --text-done: #FF3B30;
+    --cue-bar: #FF0000;
+    --cue-bar-label: #FF0000;
+    --border: #FF0000;
+    --border-card: #FF0000;
+    --text-done: #FF0000;
     --dot-bg: #000000;
-    --dot-done: #FF3B30;
-    --step-connector: #FF3B30;
+    --dot-done: #FF0000;
+    --step-connector: #FF0000;
     --accent-btn-text: var(--axis-black);
     --bg-hover: #000000;
     --summary-grid-bg: #000000;
-    --text-teal: #FF3B30;
-    --eol-color: #FF3B30;
+    --text-teal: #FF0000;
+    --eol-color: #FF0000;
   }
   [data-night="true"] .app { background: #000000 !important; }
   [data-night="true"] .app-orbs { background: none !important; display: none !important; }
   [data-night="true"] .app-body { background: #000000 !important; }
   [data-night="true"] .hdr-wrap,
   [data-night="true"] .tab-subbar,
-  [data-night="true"] .tab-bar-spacer { background: #000000 !important; border-color: #FF3B30 !important; }
+  [data-night="true"] .tab-bar-spacer { background: #000000 !important; border-color: #FF0000 !important; }
   [data-night="true"] .tab-bar,
   .tab-bar[data-night="true"] {
     background: #000000 !important;
-    border-top: none !important;
     border: none !important;
+    border-top: 1px solid #FF0000 !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  /* AXIS Ultra: primary #FF3B30; secondary copy dim red — no gray */
-  [data-night="true"] .hdr-dur { color: #FF3B30 !important; }
-  [data-night="true"] .sh-tag { color: #FF3B30 !important; }
-  [data-night="true"] .track-group-label { color: #FF3B30 !important; -webkit-text-fill-color: #FF3B30 !important; }
-  [data-night="true"] .track-card-dur { color: #FF3B30 !important; -webkit-text-fill-color: #FF3B30 !important; }
+  /* AXIS Ultra: primary #FF0000; secondary copy dim red — no gray */
+  [data-night="true"] .hdr-dur { color: #FF0000 !important; }
+  [data-night="true"] .sh-tag { color: #FF0000 !important; }
+  [data-night="true"] .track-group-label { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
+  [data-night="true"] .track-card-dur { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
   [data-night="true"] .track-card-sub,
-  [data-night="true"] .track-card-sub * { color: rgba(255, 59, 48, 0.5) !important; -webkit-text-fill-color: rgba(255, 59, 48, 0.5) !important; }
-  [data-night="true"] .track-card-name { color: #FF3B30 !important; -webkit-text-fill-color: #FF3B30 !important; }
+  [data-night="true"] .track-card-sub * { color: rgba(255, 0, 0, 0.5) !important; -webkit-text-fill-color: rgba(255, 0, 0, 0.5) !important; }
+  [data-night="true"] .track-card-name { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
   [data-night="true"] .session-title,
-  [data-night="true"] .hdr-title { color: #FF3B30 !important; -webkit-text-fill-color: #FF3B30 !important; }
+  [data-night="true"] .hdr-title { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
   [data-night="true"] .hdr-subtitle,
-  [data-night="true"] .hdr-subtitle * { color: rgba(255, 59, 48, 0.5) !important; -webkit-text-fill-color: rgba(255, 59, 48, 0.5) !important; }
-  [data-night="true"] * { border-color: #FF3B30 !important; }
+  [data-night="true"] .hdr-subtitle * { color: rgba(255, 0, 0, 0.5) !important; -webkit-text-fill-color: rgba(255, 0, 0, 0.5) !important; }
+  [data-night="true"] * { border-color: #FF0000 !important; }
   [data-night="true"] .app-body,
   [data-night="true"] .app,
   [data-night="true"] .content { background: #000000 !important; }
@@ -923,33 +923,33 @@ const css = `
   [data-night="true"] .tab-subbar {
     box-shadow: none !important;
     border: none !important;
-    border-top: 1px solid #FF3B30 !important;
-    border-bottom: 1px solid #FF3B30 !important;
+    border-top: 1px solid #FF0000 !important;
+    border-bottom: 1px solid #FF0000 !important;
   }
   [data-night="true"] .track-card,
   [data-night="true"] .panel,
-  [data-night="true"] .sg { background: #000000 !important; border-color: #FF3B30 !important; }
+  [data-night="true"] .sg { background: #000000 !important; border-color: #FF0000 !important; }
   /* Night: exercise rows — no box border, just a red bottom hairline */
   [data-night="true"] .er {
     background: #000000 !important;
     border: none !important;
-    border-bottom: 1px solid #FF3B30 !important;
+    border-bottom: 1px solid #FF0000 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
   }
   [data-night="true"] .track-card::before,
-  [data-night="true"] .glass-card::before { background: #FF3B30 !important; }
+  [data-night="true"] .glass-card::before { background: #FF0000 !important; }
   [data-night="true"] .tab-bar .tab-bar-top-line { background: #000000 !important; }
-  .tab-bar[data-night="true"] .tab-btn.active { color: #FF3B30 !important; --tab-active-fill: #FF3B30; }
-  .tab-bar[data-night="true"] .tab-btn { color: rgba(255, 59, 48, 0.28) !important; }
-  .tab-bar[data-night="true"] .tab-btn:hover { color: rgba(255, 59, 48, 0.28) !important; }
-  .tab-bar[data-night="true"] .tab-btn.active:hover { color: #FF3B30 !important; }
-  [data-night="true"] .prog-fill { background: #FF3B30 !important; box-shadow: none !important; }
-  [data-night="true"] .prog-bar { background: #000000 !important; border: 1px solid #FF3B30 !important; }
+  .tab-bar[data-night="true"] .tab-btn.active { color: #FF0000 !important; --tab-active-fill: #FF0000; }
+  .tab-bar[data-night="true"] .tab-btn { color: rgba(255, 0, 0, 0.28) !important; }
+  .tab-bar[data-night="true"] .tab-btn:hover { color: rgba(255, 0, 0, 0.28) !important; }
+  .tab-bar[data-night="true"] .tab-btn.active:hover { color: #FF0000 !important; }
+  [data-night="true"] .prog-fill { background: #FF0000 !important; box-shadow: none !important; }
+  [data-night="true"] .prog-bar { background: #000000 !important; border: 1px solid #FF0000 !important; }
   [data-night="true"] .fav-toggle {
     background: #000000 !important;
-    border-color: #FF3B30 !important;
-    color: #FF3B30 !important;
+    border-color: #FF0000 !important;
+    color: #FF0000 !important;
     font-family: 'Barlow', sans-serif !important;
     font-size: 12px !important;
     font-weight: 700 !important;
@@ -957,14 +957,14 @@ const css = `
     text-transform: uppercase !important;
     padding: 6px 14px !important;
   }
-  [data-night="true"] .fav-toggle.on { background: #000000 !important; border-color: #FF3B30 !important; color: #FF3B30 !important; }
-  [data-night="true"] .chk { background: #000000 !important; border-color: #FF3B30 !important; }
-  [data-night="true"] .chk.on { background: #FF3B30 !important; border-color: #FF3B30 !important; }
-  [data-night="true"] .hdr-dur { background: #000000 !important; border-color: #FF3B30 !important; }
-  [data-night="true"] .tab { color: #FF3B30 !important; border-bottom-color: transparent !important; }
-  [data-night="true"] .tab.on { color: #FF3B30 !important; border-bottom-color: #FF3B30 !important; }
-  [data-night="true"] .tab.on::after { background: #FF3B30 !important; }
-  [data-night="true"] .purpose-note { background: #000000 !important; border-color: #FF3B30 !important; }
+  [data-night="true"] .fav-toggle.on { background: #000000 !important; border-color: #FF0000 !important; color: #FF0000 !important; }
+  [data-night="true"] .chk { background: #000000 !important; border-color: #FF0000 !important; }
+  [data-night="true"] .chk.on { background: #FF0000 !important; border-color: #FF0000 !important; }
+  [data-night="true"] .hdr-dur { background: #000000 !important; border-color: #FF0000 !important; }
+  [data-night="true"] .tab { color: #FF0000 !important; border-bottom-color: transparent !important; }
+  [data-night="true"] .tab.on { color: #FF0000 !important; border-bottom-color: #FF0000 !important; }
+  [data-night="true"] .tab.on::after { background: #FF0000 !important; }
+  [data-night="true"] .purpose-note { background: #000000 !important; border-color: #FF0000 !important; }
 
   /* TODAY hero (night): .app color is red — force black copy on red card; CTA = black pill + red label (Safari/WebKit) */
   .app[data-night="true"] .start-here-group > div {
@@ -973,9 +973,9 @@ const css = `
   }
   .app[data-night="true"] .start-here-group .begin-btn--today-primary {
     background: #000000 !important;
-    color: #FF3B30 !important;
-    -webkit-text-fill-color: #FF3B30 !important;
-    border: 1px solid #FF3B30 !important;
+    color: #FF0000 !important;
+    -webkit-text-fill-color: #FF0000 !important;
+    border: 1px solid #FF0000 !important;
     box-shadow: none !important;
   }
   /* Red accent fill + red text = invisible in WebKit — black ink on red; home uses black pill + red ink below */
@@ -984,34 +984,34 @@ const css = `
     -webkit-text-fill-color: #000000 !important;
   }
   .app[data-night="true"] .home .track-card .begin-btn:not(.begin-btn--today-primary) {
-    color: #FF3B30 !important;
-    -webkit-text-fill-color: #FF3B30 !important;
+    color: #FF0000 !important;
+    -webkit-text-fill-color: #FF0000 !important;
     background: #000000 !important;
-    border: 1px solid #FF3B30 !important;
+    border: 1px solid #FF0000 !important;
     box-shadow: none !important;
   }
   /* TODAY hero: explicit red card (public .track-group { transparent } must not win over this) */
   .app[data-night="true"] .home .track-group.start-here-group {
-    background: #FF3B30 !important;
-    border: 2px solid #FF3B30 !important;
+    background: #FF0000 !important;
+    border: 2px solid #FF0000 !important;
     box-shadow: none !important;
   }
   .app[data-night="true"] .hdr-title {
-    color: #FF3B30 !important;
-    -webkit-text-fill-color: #FF3B30 !important;
+    color: #FF0000 !important;
+    -webkit-text-fill-color: #FF0000 !important;
   }
   .app[data-night="true"] .hdr-subtitle,
   .app[data-night="true"] .hdr-subtitle *,
   .app[data-night="true"] .tab-desc-line {
-    color: rgba(255, 59, 48, 0.5) !important;
-    -webkit-text-fill-color: rgba(255, 59, 48, 0.5) !important;
+    color: rgba(255, 0, 0, 0.5) !important;
+    -webkit-text-fill-color: rgba(255, 0, 0, 0.5) !important;
   }
   /* All night pills (track cards + session header): base uses rgba white border — invisible on #000 in Chromium */
   .app[data-night="true"] .glass-label {
     background: transparent !important;
     border: none !important;
-    color: rgba(255, 59, 48, 0.5) !important;
-    -webkit-text-fill-color: rgba(255, 59, 48, 0.5) !important;
+    color: rgba(255, 0, 0, 0.5) !important;
+    -webkit-text-fill-color: rgba(255, 0, 0, 0.5) !important;
     box-shadow: none !important;
     padding: 0 !important;
   }
@@ -1021,7 +1021,7 @@ const css = `
   }
   .app[data-night="true"] .content--session .er:not(.open) {
     border: none !important;
-    border-bottom: 1px solid #FF3B30 !important;
+    border-bottom: 1px solid #FF0000 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
   }
@@ -1031,7 +1031,7 @@ const css = `
     padding: 13px 0 !important;
     background: transparent !important;
     border: none !important;
-    border-bottom: 1px solid #FF3B30 !important;
+    border-bottom: 1px solid #FF0000 !important;
   }
 
   /* AXIS Ultra: no glows/shadows */
@@ -1039,7 +1039,7 @@ const css = `
   [data-night="true"] .fv-cta, [data-night="true"] .fv-cta:hover, [data-night="true"] .fv-cta:active,
   [data-night="true"] .fv-skip, [data-night="true"] .fv-prev { box-shadow: none !important; }
   [data-night="true"] .tab-live-dot { box-shadow: none !important; }
-  /* Night accent-fill CTAs: black ink on #FF3B30 (Safari/WebKit; beats any broad * { color: red !important }) */
+  /* Night accent-fill CTAs: black ink on #FF0000 (Safari/WebKit; beats any broad * { color: red !important }) */
   .app[data-night="true"] .content .fv-cta:not(.done),
   .app[data-night="true"] .content .fv-cta:not(.done) *,
   .app[data-night="true"] .content .tb {
@@ -1047,11 +1047,11 @@ const css = `
     -webkit-text-fill-color: #000000 !important;
   }
   .app[data-night="true"] .content .fv-cta:not(.done) {
-    background: #FF3B30 !important;
+    background: #FF0000 !important;
     border: none !important;
   }
   .app[data-night="true"] .content .tb {
-    background: #FF3B30 !important;
+    background: #FF0000 !important;
     border: none !important;
   }
   [data-night="true"].guided-overlay .guided-cta-fill {
@@ -1059,7 +1059,7 @@ const css = `
     -webkit-text-fill-color: #000000 !important;
   }
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
-    background: #FF3B30 !important;
+    background: #FF0000 !important;
     border: none !important;
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
@@ -2106,7 +2106,7 @@ function Steps({ steps, small, start: startText, demoVideo }) {
     !small && /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", borderBottom: "1px solid var(--border)" } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "inherit" } }, "INSTRUCTIONS"), /*#__PURE__*/
-    React.createElement("button", { onClick: () => setCollapsed((c) => !c), style: { background: "transparent", border: nightMode ? "1px solid #FF3B30" : "none", color: "inherit", cursor: "pointer", fontWeight: 700 } },
+    React.createElement("button", { onClick: () => setCollapsed((c) => !c), style: { background: "transparent", border: nightMode ? "1px solid #FF0000" : "none", color: "inherit", cursor: "pointer", fontWeight: 700 } },
     collapsed ? "Show" : "Hide"
     )
     ),
@@ -2279,9 +2279,9 @@ function MomentumMap({ history, nightMode = false }) {
     days.map((dateStr, i) => {
       const count = sessionCounts[dateStr] || 0;
       const styleNight = {
-        background: count > 0 ? "#FF3B30" : "#000000",
+        background: count > 0 ? "#FF0000" : "#000000",
         boxShadow: "none",
-        border: "1px solid #FF3B30"
+        border: "1px solid #FF0000"
       };
       const styleDay = count > 0 ? {
         background: "var(--accent)",
@@ -2509,23 +2509,23 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
   const isTimerDark = nightMode || theme === "dark";
   const timerPeriod = activePeriod || getCircadianPeriod();
   const timerCt = nightMode ?
-  { accent: "#FF3B30", accentDim: "rgba(255, 59, 48, 0.5)" } :
+  { accent: "#FF0000", accentDim: "rgba(255, 0, 0, 0.5)" } :
   CIRCADIAN_THEMES[timerPeriod][isTimerDark ? "dark" : "light"];
   const timerAccent = timerCt.accent;
   const timerAccentDim = timerCt.accentDim;
-  const TN = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#1a1048";
-  const TU = nightMode ? "rgba(255, 59, 48, 0.5)" : isTimerDark ? "rgba(232,228,223,0.45)" : "rgba(26,16,72,0.55)";
-  const TC = nightMode ? "rgba(255, 59, 48, 0.5)" : isTimerDark ? "rgba(232,228,223,0.50)" : "rgba(26,16,72,0.55)";
-  const TCB = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#1a1048";
-  const BAR_TRACK = nightMode ? "rgba(255, 59, 48, 0.22)" : isTimerDark ? "rgba(255,255,255,0.10)" : "rgba(15,30,46,0.10)";
+  const TN = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#1a1048";
+  const TU = nightMode ? "rgba(255, 0, 0, 0.5)" : isTimerDark ? "rgba(232,228,223,0.45)" : "rgba(26,16,72,0.55)";
+  const TC = nightMode ? "rgba(255, 0, 0, 0.5)" : isTimerDark ? "rgba(232,228,223,0.50)" : "rgba(26,16,72,0.55)";
+  const TCB = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#1a1048";
+  const BAR_TRACK = nightMode ? "rgba(255, 0, 0, 0.22)" : isTimerDark ? "rgba(255,255,255,0.10)" : "rgba(15,30,46,0.10)";
   const BAR_FILL = `linear-gradient(90deg,${timerAccent},${timerAccentDim})`;
-  const DOT_CURR = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#0f1e2e";
+  const DOT_CURR = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#0f1e2e";
   const DOT_DONE = timerAccent;
-  const DOT_REST = nightMode ? "rgba(255, 59, 48, 0.35)" : isTimerDark ? "rgba(255,255,255,0.18)" : "rgba(15,30,46,0.15)";
+  const DOT_REST = nightMode ? "rgba(255, 0, 0, 0.35)" : isTimerDark ? "rgba(255,255,255,0.18)" : "rgba(15,30,46,0.15)";
   const LINE_DONE = `${timerAccent}44`;
-  const LINE_REST = nightMode ? "rgba(255, 59, 48, 0.25)" : isTimerDark ? "rgba(255,255,255,0.08)" : "rgba(15,30,46,0.10)";
-  const NEXT_C = nightMode ? "rgba(255, 59, 48, 0.5)" : isTimerDark ? "rgba(232,228,223,0.40)" : "rgba(15,30,46,0.50)";
-  const NEXT_NAME = nightMode ? "#FF3B30" : isTimerDark ? "rgba(232,228,223,0.70)" : "#0f1e2e";
+  const LINE_REST = nightMode ? "rgba(255, 0, 0, 0.25)" : isTimerDark ? "rgba(255,255,255,0.08)" : "rgba(15,30,46,0.10)";
+  const NEXT_C = nightMode ? "rgba(255, 0, 0, 0.5)" : isTimerDark ? "rgba(232,228,223,0.40)" : "rgba(15,30,46,0.50)";
+  const NEXT_NAME = nightMode ? "#FF0000" : isTimerDark ? "rgba(232,228,223,0.70)" : "#0f1e2e";
 
   const numSize = large ? 80 : 72;
   const unitSize = large ? 14 : 12;
@@ -2565,7 +2565,7 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
 
   }
 
-  const displayColor = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#1a1048";
+  const displayColor = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#1a1048";
   return (/*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: gap, marginTop, alignItems: "flex-start" } }, /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 6, marginBottom: marginBottom } }, /*#__PURE__*/
@@ -2586,30 +2586,30 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const isDark = isNight || theme === "dark";
   const period = activePeriod || getCircadianPeriod();
 
-  // AXIS Ultra: pure black + #FF3B30, no circadian bleed
+  // AXIS Ultra: pure black + #FF0000, no circadian bleed
   const ct = isNight ?
   {
     bg: "#000000",
-    accent: "#FF3B30",
-    accentDim: "rgba(255,59,48,0.5)",
-    accentGlow: "rgba(255,59,48,0.35)",
-    textPrimary: "#FF3B30",
+    accent: "#FF0000",
+    accentDim: "rgba(255,0,0,0.5)",
+    accentGlow: "rgba(255,0,0,0.35)",
+    textPrimary: "#FF0000",
     orb1: "none", orb2: "none", orb3: "none"
   } :
   CIRCADIAN_THEMES[period][isDark ? "dark" : "light"];
 
   const A = ct.accent;
   // AXIS Ultra: primary vs dim red — no white
-  const W = isNight ? "#FF3B30" : ct.textPrimary || (isDark ? "var(--axis-white)" : "#0f1020");
-  const S = isNight ? "rgba(255, 59, 48, 0.5)" : isDark ? "rgba(232,228,223,0.60)" : ct.textPrimary ? ct.textPrimary + "cc" : "rgba(15,30,46,0.75)";
-  const D = isNight ? "rgba(255, 59, 48, 0.5)" : isDark ? "rgba(232,228,223,0.35)" : ct.textPrimary ? ct.textPrimary + "88" : "rgba(15,30,46,0.50)";
+  const W = isNight ? "#FF0000" : ct.textPrimary || (isDark ? "var(--axis-white)" : "#0f1020");
+  const S = isNight ? "rgba(255, 0, 0, 0.5)" : isDark ? "rgba(232,228,223,0.60)" : ct.textPrimary ? ct.textPrimary + "cc" : "rgba(15,30,46,0.75)";
+  const D = isNight ? "rgba(255, 0, 0, 0.5)" : isDark ? "rgba(232,228,223,0.35)" : ct.textPrimary ? ct.textPrimary + "88" : "rgba(15,30,46,0.50)";
   const BG = isNight ? "#000000" : MAIN_APP_BG[isDark ? "dark" : "light"];
 
   // derive card/button colors from the theme background
   const CARD_BG = isNight ? "#000000" : isDark ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.50)";
-  const CARD_BDR = isNight ? "#FF3B30" : isDark ? `${ct.accent}33` : `${ct.accent}44`;
+  const CARD_BDR = isNight ? "#FF0000" : isDark ? `${ct.accent}33` : `${ct.accent}44`;
   const BTN_BG = isNight ? "#000000" : isDark ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.65)";
-  const BTN_BDR = isNight ? "#FF3B30" : isDark ? `${ct.accent}55` : `${ct.accent}66`;
+  const BTN_BDR = isNight ? "#FF0000" : isDark ? `${ct.accent}55` : `${ct.accent}66`;
 
   // fade colors — AXIS Ultra uses pure black
   const periodFadeMap = {
@@ -2626,13 +2626,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const BAR_BOT = fadeSolid;
   const CUE_COLOR = W;
   const NAME_DIM = D;
-  const HAIRLINE = isNight ? "#FF3B30" : isDark ? "rgba(255,255,255,0.07)" : `${ct.accent}22`;
+  const HAIRLINE = isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.07)" : `${ct.accent}22`;
 
   // Glass card & control bar — light mode: crisp, soft tinted shadows (no muddy black)
   const GLASS_BG = isNight ? "#000000" :
   isDark ? "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%)" :
   "linear-gradient(135deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.58) 100%)";
-  const GLASS_BDR = isNight ? "1px solid #FF3B30" :
+  const GLASS_BDR = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(200,220,240,0.65)";
   const GLASS_SHAD = isNight ? "0 4px 20px rgba(0,0,0,0.4)" :
   isDark ? "inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(0,0,0,0.12)" :
@@ -2640,18 +2640,18 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const BAR_BG = isNight ? "#000000" :
   isDark ? "linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 100%)" :
   "linear-gradient(135deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.62) 100%)";
-  const BAR_BDR = isNight ? "1px solid #FF3B30" :
+  const BAR_BDR = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(200,220,240,0.70)";
   const BAR_SHAD = isNight ? "0 4px 24px rgba(0,0,0,0.5)" :
   isDark ? "inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 20px rgba(0,0,0,0.15)" :
   "inset 0 1px 0 rgba(255,255,255,0.75), 0 2px 14px rgba(20,50,90,0.05)";
-  const DIVIDER = isNight ? "1px solid #FF3B30" :
+  const DIVIDER = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)";
-  const ROW_DIV = isNight ? "1px solid #FF3B30" :
+  const ROW_DIV = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.06)";
   const SESS_BG = isNight ? "#000000" :
   isDark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.65)";
-  const BACK_DIM = isNight ? "#FF3B30" : isDark ? "rgba(255,255,255,0.22)" : "rgba(15,30,46,0.22)";
+  const BACK_DIM = isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.22)" : "rgba(15,30,46,0.22)";
   const NAME_SHAD = "none";
 
   // Guided uses the same exercise list as Session LIST/Guided tab: activeAllProp = filteredAll from getAll(track).
@@ -2920,7 +2920,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       React.createElement("div", { style: { fontSize: "var(--text-sm)", color: S, marginBottom: 24 } }, "Add exercises or clear filters and try again."), /*#__PURE__*/
       React.createElement("button", { ref: guidedCloseBtnRef, type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
           padding: "14px 40px", borderRadius: 28, cursor: "pointer",
-          background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : "var(--axis-white)",
+          background: A, border: nightMode ? "1px solid #FF0000" : "none", color: isNight ? "#000000" : "var(--axis-white)",
           WebkitTextFillColor: isNight ? "#000000" : undefined,
           fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 700,
           letterSpacing: "0.18em", textTransform: "uppercase"
@@ -2950,7 +2950,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("button", { ref: guidedCloseBtnRef, type: "button", onClick: onExit, "aria-label": "Back", style: {
         display: "flex", alignItems: "center", justifyContent: "center",
         width: 40, height: 40, borderRadius: "50%",
-        border: `1px solid ${isNight ? "#FF3B30" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
+        border: `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
         background: "transparent", cursor: "pointer", color: W, flexShrink: 0,
         WebkitTapHighlightColor: "transparent"
       } }, /*#__PURE__*/
@@ -2960,7 +2960,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase !== "intro" && phase !== "closing" && listTotal > 0
     ? React.createElement("div", { style: {
         width: 40, height: 40, borderRadius: "50%",
-        border: `1px solid ${isNight ? "#FF3B30" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
+        border: `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         flexShrink: 0, gap: 1
       } },
@@ -3000,7 +3000,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     ), /*#__PURE__*/
     React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
         padding: "16px 48px", borderRadius: 28, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : "var(--axis-white)",
+        background: A, border: nightMode ? "1px solid #FF0000" : "none", color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 700,
         letterSpacing: "0.18em", textTransform: "uppercase",
@@ -3027,7 +3027,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, opacity: 0.85, maxWidth: 320, lineHeight: 1.4, marginBottom: 28, textAlign: "center" } }, "No equipment? You can modify \u2014 use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion."), /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.3);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}, style: {
         padding: "14px 48px", borderRadius: 999, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : "var(--axis-white)",
+        background: A, border: nightMode ? "1px solid #FF0000" : "none", color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
         letterSpacing: "0.24em", textTransform: "uppercase",
@@ -3113,7 +3113,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { position: "relative", width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         position: "absolute", inset: 0, borderRadius: "50%",
-        border: isNight ? "1px dashed #FF3B30" : isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
+        border: isNight ? "1px dashed #FF0000" : isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
         animation: "breatheCircle 4s ease-in-out infinite"
       } }),
     phase === "getready"
@@ -3123,7 +3123,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         gDisplay)
     ),
 
-    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "rgba(255, 59, 48, 0.18)" : isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
+    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "rgba(255, 0, 0, 0.18)" : isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         height: 4, borderRadius: 999, background: A,
         width: phase === "getready"
@@ -3149,7 +3149,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           overflow: "hidden",
           padding: "18px 16px 16px",
           borderTop: "none",
-          border: idx === carouselActiveIdx ? `2px solid ${A}` : isNight ? "1px solid #FF3B30" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
+          border: idx === carouselActiveIdx ? `2px solid ${A}` : isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
           background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)",
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
@@ -3229,20 +3229,20 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: {
         margin: "10px 16px 14px", padding: "16px 16px",
         background: isNight ? "#000000" : isDark ? "transparent" : "#F5F5F7",
-        border: isNight ? "1px solid #FF3B30" : isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid #E5E5E7",
+        border: isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid #E5E5E7",
         borderRadius: 12, flexShrink: 0, position: "relative", zIndex: 2,
         display: "flex", alignItems: "center", justifyContent: "center", gap: 6, textAlign: "center"
       } }, /*#__PURE__*/
     React.createElement("span", { style: {
         fontSize: 12, fontWeight: 500, letterSpacing: "0.1em",
         textTransform: "uppercase",
-        color: isNight ? "#FF3B30" : isDark ? "rgba(255,255,255,0.45)" : "#1D1D1F",
+        color: isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.45)" : "#1D1D1F",
         fontFamily: "var(--font-display)", flexShrink: 0
       } }, "UP NEXT:"),
     React.createElement("span", { style: {
         fontSize: 12, fontWeight: 500, letterSpacing: "0.06em",
         textTransform: "uppercase",
-        color: isNight ? "#FF3B30" : isDark ? "rgba(255,255,255,0.85)" : "var(--accent)",
+        color: isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.85)" : "var(--accent)",
         fontFamily: "var(--font-display)",
         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
       } }, (next.name || "").replace(/-/g, " "))
@@ -3270,7 +3270,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       } }, paused ? "RESUME" : "PAUSE"), /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: handleNext, style: {
         flex: 1, minWidth: 0, borderRadius: 999,
-        background: A, border: nightMode ? "1px solid #FF3B30" : "none",
+        background: A, border: nightMode ? "1px solid #FF0000" : "none",
         color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
@@ -3283,7 +3283,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
     phase === "getready" && /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {clearInterval(readyRef.current);primeAudio();beep(880, 0.2);setPhase("exercise");}, style: {
-        flex: 1, width: "100%", minWidth: 0, background: A, border: nightMode ? "1px solid #FF3B30" : "none",
+        flex: 1, width: "100%", minWidth: 0, background: A, border: nightMode ? "1px solid #FF0000" : "none",
         color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
@@ -4584,7 +4584,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const nowPeriod = getCircadianPeriod();
     const usedPeriod = activePeriod || nowPeriod;
     const homeCt = CIRCADIAN_THEMES[usedPeriod][theme === "dark" ? "dark" : "light"];
-    const homeHighlight = nightMode ? "#FF3B30" : homeCt && homeCt.accent ? homeCt.accent : "var(--accent)";
+    const homeHighlight = nightMode ? "#FF0000" : homeCt && homeCt.accent ? homeCt.accent : "var(--accent)";
     const perMove = exerciseDuration || 45;
     const getTrackDisplayDuration = (trackId) => {
       const sections = getSections(trackId);
@@ -4607,10 +4607,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const periodLabels = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
     const todaySug = TODAY_SUGGESTIONS[nowPeriod];
     const todayTrack = TRACKS[todaySug.trackId];
-    const todayInk = nightMode ? "#FF3B30" : theme === "light" ? "#252525" : "#f6f7f8";
-    const todayInkSecondary = nightMode ? "rgba(255, 59, 48, 0.5)" : todayInk;
+    const todayInk = nightMode ? "#FF0000" : theme === "light" ? "#252525" : "#f6f7f8";
+    const todayInkSecondary = nightMode ? "rgba(255, 0, 0, 0.5)" : todayInk;
     const todayBtn = nightMode
-      ? { background: "#000000", color: "#FF3B30", border: "1px solid #FF3B30" }
+      ? { background: "#000000", color: "#FF0000", border: "1px solid #FF0000" }
       : { background: "var(--accent)", color: "var(--accent-btn-text)", border: "none" };
     const todayGlassBg = nightMode ? homeHighlight : theme === "dark" ? `linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)), rgba(0, 0, 0, 0.1)` : `linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)), rgba(255, 255, 255, 0.02)`;
     const todayGlassBorder = nightMode ? `2px solid ${homeHighlight}` : `1px solid rgba(255,255,255,0.1)`;
@@ -4697,7 +4697,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   if (view === "session" && !hasActiveSession) {
     const sessionEmptyDark = theme === "dark";
     const sessionBg = sessionEmptyDark ? "#0B121C" : MAIN_APP_BG.light;
-    const sessionHeadline = nightMode && sessionEmptyDark ? "#FF3B30" : sessionEmptyDark ? "var(--axis-white)" : "rgba(15,30,46,0.92)";
+    const sessionHeadline = nightMode && sessionEmptyDark ? "#FF0000" : sessionEmptyDark ? "var(--axis-white)" : "rgba(15,30,46,0.92)";
     const sessionTagline = "#7d7d7d";
     const sessionLogo = AXIS_BRANDING_SESSION;
     return (/*#__PURE__*/
@@ -4955,7 +4955,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       onClick: () => {if (filteredAll.length > 0) {primeAudio();setTab("guided");setGuidedActive(true);}},
       disabled: filteredAll.length === 0,
       style: {
-        width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #FF3B30" : "none",
+        width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #FF0000" : "none",
         background: "var(--accent)", color: nightMode ? "var(--axis-black)" : "var(--axis-white)",
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
         letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
