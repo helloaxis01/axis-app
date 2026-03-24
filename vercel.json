@@ -1,9 +1,21 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/AXIS_031926_238pm_MAIN.html" },
-    { "source": "/onboarding", "destination": "/AXIS_031926_238pm_ONBOARDING.html" },
-    { "source": "/onboarding-123pm", "destination": "/AXIS_031926_123pm_ONBOARDING.html" },
-    { "source": "/onboarding-911am", "destination": "/AXIS_031926_911am_ONBOARDING.html" }
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/onboarding",
+      "destination": "/031726 REBUILD/onboarding.html"
+    },
+    {
+      "source": "/onboarding-123pm",
+      "destination": "/031726 REBUILD/onboarding.html"
+    },
+    {
+      "source": "/onboarding-911am",
+      "destination": "/031726 REBUILD/onboarding.html"
+    }
   ],
   "headers": [
     {
