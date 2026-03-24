@@ -1615,13 +1615,15 @@ const css = `
 
   /* ── FAV FILTER (iPhone: single row, tight pills) ── */
   .fav-filter {
-    display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; gap:8px;
-    padding:14px 0 6px; position:relative;
+    display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; gap:12px;
+    padding:18px 0 6px; position:relative;
     overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
     scrollbar-width:none; -ms-overflow-style:none;
   }
   .fav-filter::-webkit-scrollbar { display:none; }
   .fav-filter.fav-filter--after-guided-cta { margin-top:12px !important; padding-top:0; }
+  .fav-filter > * { margin-right: 12px; }
+  .fav-filter > *:last-child { margin-right: 0; }
   .fav-filter::before {
     content:""; position:absolute; top:0; left:0; right:0; height:1px; pointer-events:none;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35) 50%, transparent);
