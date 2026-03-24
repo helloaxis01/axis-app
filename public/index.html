@@ -2696,9 +2696,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const isExercisePhase = phase === "exercise";
 
   // BEGIN (exercise) uses a flat, rich theme background and higher-contrast surfaces
-  const GUIDED_BG = !isNight && isExercisePhase ?
-  ct.bg || MAIN_APP_BG[isDark ? "dark" : "light"] :
-  BG;
+  const GUIDED_BG = BG;
 
   // Disable body overflow so position:fixed is never trapped
   useEffect(() => {
@@ -2853,8 +2851,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   return (/*#__PURE__*/
     React.createElement("div", { ref: guidedDialogRef, className: "guided-overlay", "data-theme": theme, "data-night": isNight ? "true" : "false", "data-phase": phase, role: "dialog", "aria-modal": "true", "aria-label": "Guided session", style: {
         position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 99999,
-        background: phase === "getready" && !isNight ? "#f6f7f8" : GUIDED_BG, display: "flex", flexDirection: "column",
-        fontFamily: "var(--font-display)", color: phase === "getready" && !isNight ? "#252525" : W, WebkitFontSmoothing: "antialiased",
+        background: GUIDED_BG, display: "flex", flexDirection: "column",
+        fontFamily: "var(--font-display)", color: W, WebkitFontSmoothing: "antialiased",
         overflow: "hidden"
       } }, /*#__PURE__*/
     React.createElement("style", null, css),
@@ -2884,7 +2882,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("button", { ref: guidedCloseBtnRef, type: "button", onClick: onExit, style: {
         display: "flex", alignItems: "center", justifyContent: "center", width: 32, height: 32,
         background: "transparent", border: "none", borderRadius: 999, cursor: "pointer",
-        color: phase === "getready" && !isNight ? "#252525" : S,
+        color: S,
         opacity: phase === "intro" ? 1 : 0.9
       }, "aria-label": "Close" }, /*#__PURE__*/
     React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M18 6L6 18M6 6l12 12" }))
@@ -2985,7 +2983,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       style: {
         fontSize: phase === "getready" || phase === "exercise" ? 34 : 30,
         fontWeight: 700, letterSpacing: "0.02em", lineHeight: 1.08, textTransform: "uppercase",
-        color: phase === "getready" && !isNight ? "#252525" : W,
+        color: W,
         height: 80,
         maxWidth: Math.min(420, carouselCardW + 80),
         display: "flex",
@@ -3007,7 +3005,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginTop: 14, marginBottom: 32, flexShrink: 0 } },
     phase === "getready" && /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: phase === "getready" && !isNight ? "#252525" : "#f6f7f8", lineHeight: 1 } },
+    React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: "#f6f7f8", lineHeight: 1 } },
     `0:${readyLeft.toString().padStart(2, "0")}`
     ), /*#__PURE__*/
     React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "#140000" : isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)", overflow: "hidden", marginTop: 14 } }, /*#__PURE__*/
@@ -3017,7 +3015,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
     phase === "exercise" && cur && /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: phase === "getready" && !isNight ? "#252525" : "#f6f7f8", lineHeight: 1 } }, gDisplay), /*#__PURE__*/
+    React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: "#f6f7f8", lineHeight: 1 } }, gDisplay), /*#__PURE__*/
     React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "#140000" : isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)", overflow: "hidden", marginTop: 14 } }, /*#__PURE__*/
     React.createElement("div", { style: { height: 4, borderRadius: 999, background: A, width: `${gPct * 100}%`, transition: "width 1s linear", willChange: "width" } })
     )
