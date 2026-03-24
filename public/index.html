@@ -4391,9 +4391,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const todayInk = nightMode ? "#FF0000" : theme === "light" ? "#252525" : "#f6f7f8";
     const todayBtn = nightMode
       ? { background: "#000000", color: "#FF0000", border: "1px solid #FF0000" }
-      : theme === "dark"
-        ? { background: "var(--axis-black)", color: "var(--axis-white)", border: "none" }
-        : { background: "var(--axis-white)", color: "var(--axis-black)", border: "none" };
+      : { background: homeHighlight, color: "var(--axis-black)", border: "none" };
     const todayGlassBg = nightMode ? homeHighlight : theme === "dark" ? `linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)), rgba(0, 0, 0, 0.1)` : `linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)), rgba(255, 255, 255, 0.02)`;
     const todayGlassBorder = nightMode ? `2px solid ${homeHighlight}` : `1px solid rgba(255,255,255,0.1)`;
     const groups = [
