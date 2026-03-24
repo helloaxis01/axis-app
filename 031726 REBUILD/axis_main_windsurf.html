@@ -4701,51 +4701,42 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
 
 
-    tab === "list" && /*#__PURE__*/
-    React.createElement(React.Fragment, null,
-    (() => {
-      const flat = filteredAll;
-      if (!flat.length) return null;
-      return (/*#__PURE__*/
-        React.createElement("div", {
-          style: {
-            margin: "8px 0 10px",
-            padding: "10px 12px",
-            borderRadius: 16,
-            background: "var(--glass-bg)",
-            border: "1px solid var(--glass-border)",
-            fontSize: "var(--text-xs)",
-            color: "var(--text-secondary)",
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            boxSizing: "border-box"
-          } }, /*#__PURE__*/
-
-        React.createElement("div", {
-          style: {
-            fontSize: "var(--text-xs)",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "var(--text-dimmer)",
-            marginBottom: 4
-          } },
-        "THIS SESSION"
-
-        ), /*#__PURE__*/
-        React.createElement("div", {
-          style: {
-            fontSize: "var(--text-sm)",
-            fontWeight: 600,
-            color: "var(--text-secondary)"
-          } },
-
-        flat.length, " moves \xB7 ", perMoveSeconds, " seconds each"
-        )
-        ));
-
-    })(),
-    React.createElement("div", { className: "fav-filter fav-filter--after-guided-cta" }, /*#__PURE__*/
+    (tab === "list" || tab === "guided") && filteredAll.length > 0 && /*#__PURE__*/
+    React.createElement("div", {
+      style: {
+        margin: "8px 0 10px",
+        padding: "10px 12px",
+        borderRadius: 16,
+        background: "var(--glass-bg)",
+        border: "1px solid var(--glass-border)",
+        fontSize: "var(--text-xs)",
+        color: "var(--text-secondary)",
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        boxSizing: "border-box"
+      } }, /*#__PURE__*/
+    React.createElement("div", {
+      style: {
+        fontSize: "var(--text-xs)",
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        color: "var(--text-dimmer)",
+        marginBottom: 4
+      } },
+    "THIS SESSION"
+    ), /*#__PURE__*/
+    React.createElement("div", {
+      style: {
+        fontSize: "var(--text-sm)",
+        fontWeight: 600,
+        color: "var(--text-secondary)"
+      } },
+    filteredAll.length, " moves \xB7 ", perMoveSeconds, " seconds each"
+    )
+    ),
+    (tab === "list" || tab === "guided") && /*#__PURE__*/
+    React.createElement("div", { className: "fav-filter" }, /*#__PURE__*/
     React.createElement("button", { className: `fav-toggle ${showFavOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowFavOnly((f) => !f);setShowSkipOnly(false);} }, "\u2605 Favorites"), /*#__PURE__*/
     React.createElement("button", { className: `fav-toggle ${showSkipOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowSkipOnly((f) => !f);setShowFavOnly(false);} }, "\u2014 Skipped"), /*#__PURE__*/
     React.createElement("button", { className: "fav-toggle reset-pill", onClick: () => {
@@ -4755,6 +4746,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         setShowFavOnly(false);setShowSkipOnly(false);
       } }, "\u21BA Reset Session")
     ),
+    tab === "list" && /*#__PURE__*/
+    React.createElement(React.Fragment, null,
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg", key: sec.label }, /*#__PURE__*/
     React.createElement("div", { className: "sh" }, /*#__PURE__*/
@@ -4797,57 +4790,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         opacity: filteredAll.length === 0 ? 0.45 : 1, transition: "opacity 0.18s, transform 0.18s"
       } },
     "Start GUIDED with these steps"
-
     )
     )
     ),
-
-
     tab === "guided" && /*#__PURE__*/
     React.createElement(React.Fragment, null,
-    (() => {
-      const flat = filteredAll;
-      if (!flat.length) return null;
-      const perMoveSeconds = exerciseDuration || 45;
-      return (/*#__PURE__*/
-        React.createElement("div", {
-          style: {
-            margin: "8px 0 10px",
-            padding: "10px 12px",
-            borderRadius: 16,
-            background: "var(--glass-bg)",
-            border: "1px solid var(--glass-border)",
-            fontSize: "var(--text-xs)",
-            color: "var(--text-secondary)",
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            boxSizing: "border-box"
-          } }, /*#__PURE__*/
-
-        React.createElement("div", {
-          style: {
-            fontSize: "var(--text-xs)",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "var(--text-dimmer)",
-            marginBottom: 4
-          } },
-        "THIS SESSION"
-
-        ), /*#__PURE__*/
-        React.createElement("div", {
-          style: {
-            fontSize: "var(--text-sm)",
-            fontWeight: 600,
-            color: "var(--text-secondary)"
-          } },
-
-        flat.length, " moves \xB7 ", perMoveSeconds, " seconds each"
-        )
-        ));
-
-    })(),
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg", key: sec.label }, /*#__PURE__*/
     React.createElement("div", { className: "sh" }, /*#__PURE__*/
