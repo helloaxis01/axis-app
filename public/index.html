@@ -1618,8 +1618,11 @@ const css = `
     display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; justify-content:center; gap:8px;
     margin-top:16px;
     padding:10px 0 10px; position:relative;
-    overflow-x:hidden; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    overflow: visible; -webkit-overflow-scrolling:touch;
     scrollbar-width:none; -ms-overflow-style:none;
+    visibility: visible;
+    opacity: 1;
+    min-height: 22px;
   }
   .fav-filter::-webkit-scrollbar { display:none; }
   .fav-filter.fav-filter--after-guided-cta { margin-top:16px !important; padding-top:10px; }

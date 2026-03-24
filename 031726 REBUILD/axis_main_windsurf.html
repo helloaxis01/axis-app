@@ -1618,16 +1618,18 @@ const css = `
     display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; justify-content:center; gap:8px;
     margin-top:16px;
     padding:10px 0 10px; position:relative;
-    overflow-x:hidden; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    overflow: visible; -webkit-overflow-scrolling:touch;
     scrollbar-width:none; -ms-overflow-style:none;
+    visibility: visible;
+    opacity: 1;
+    min-height: 22px;
   }
   .fav-filter::-webkit-scrollbar { display:none; }
   .fav-filter.fav-filter--after-guided-cta { margin-top:16px !important; padding-top:10px; }
   .fav-filter > * { margin-right: 8px; }
   .fav-filter > *:last-child { margin-right: 0; }
   .fav-filter::before {
-    content:""; position:absolute; top:0; left:0; right:0; height:1px; pointer-events:none;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35) 50%, transparent);
+    display:none;
   }
   .fav-toggle {
     flex:0 0 auto; min-height:0; padding:2px 8px !important; border-radius:20px;
