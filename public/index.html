@@ -176,7 +176,7 @@ const obLightVars = `
 const MAIN_APP_BG = {
   // Dark: original navy gradient — orbs handle most of the color; bg stays consistent
   dark: "radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%)",
-  light: "#FFFFFF"
+  light: "linear-gradient(145deg, #dce6f0 0%, #e4ebf4 35%, #eaf0f7 70%, #f0f5fa 100%)"
 };
 
 // Brand logo PNGs: 02 = black on light (light theme), 05 = white on dark (dark theme)
@@ -741,7 +741,7 @@ const css = `
     --bg-app: var(--bg-gradient);
   }
   [data-theme="light"] {
-    --bg-gradient: #FFFFFF;
+    --bg-gradient: linear-gradient(145deg, #dce6f0 0%, #e4ebf4 35%, #eaf0f7 70%, #f0f5fa 100%);
     --orb1: radial-gradient(ellipse 65% 55% at 10% 15%, rgba(80,140,200,0.12) 0%, transparent 65%);
     --orb2: radial-gradient(ellipse 55% 65% at 90% 75%, rgba(100,160,210,0.09) 0%, transparent 65%);
     --orb3: radial-gradient(ellipse 50% 45% at 55% 5%,  rgba(140,180,220,0.07) 0%, transparent 65%);
@@ -784,11 +784,6 @@ const css = `
     --bg-app: var(--bg-gradient);
   }
 
-  /* Clinical Light Mode: deep charcoal text inside cards */
-  [data-theme="light"] .track-card-name { color: #1D1D1F !important; }
-  [data-theme="light"] .track-card-sub { color: rgba(29,29,31,0.6) !important; }
-  [data-theme="light"] .track-card-purpose { color: rgba(29,29,31,0.55) !important; }
-
   /* ── LIGHT MODE TEXT WEIGHT BOOST ── */
   [data-theme="light"] .es,
   [data-theme="light"] .step-cue,
@@ -812,20 +807,6 @@ const css = `
   [data-theme="light"] .track-card-sub {
     font-weight: 600;
   }
-  /* Clinical Light Mode: pure white cards with mood-colour border, no blur muddiness */
-  [data-theme="light"] .track-card {
-    background: #FFFFFF !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent) !important;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.05) !important;
-  }
-  [data-theme="light"] .track-card:hover {
-    background: #FAFAFA !important;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
-  }
-  /* Suppress the specular shimmer stripe — not needed on flat white */
-  [data-theme="light"] .track-card::before { content: none !important; }
   [data-theme="light"] .begin-btn {
     box-shadow: 0 2px 12px var(--accent-glow), 0 4px 20px rgba(42,95,143,0.18);
   }
@@ -1137,8 +1118,10 @@ const css = `
     content:''; position:absolute; inset:0; pointer-events:none;
     background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.02) 60%, transparent 100%);
   }
-  /* Clinical Light Mode: pure white — no colour orbs needed */
-  [data-theme="light"] .app-orbs { display: none !important; }
+  /* Light Mode: subtle white wash to keep the gradient clean */
+  [data-theme="light"] .app-orbs::after {
+    background: rgba(255,255,255,0.85) !important;
+  }
   /* Portrait lock: hide app in landscape */
   @media screen and (orientation: landscape) {
     body > * { display: none !important; }
@@ -1709,19 +1692,7 @@ const css = `
   }
   /* Hairline borders for interaction pills */
   [data-theme="dark"] .fav-toggle { border-color: rgba(255, 255, 255, 0.2); }
-  [data-theme="light"] .fav-toggle {
-    border-color: color-mix(in srgb, var(--accent) 30%, transparent) !important;
-    color: var(--accent) !important;
-  }
-  [data-theme="light"] .fav-toggle.on {
-    border-color: var(--accent) !important;
-    background: color-mix(in srgb, var(--accent) 10%, transparent) !important;
-    color: var(--accent) !important;
-  }
-  [data-theme="light"] .fav-toggle.reset-pill {
-    border-color: rgba(29,29,31,0.18) !important;
-    color: rgba(29,29,31,0.5) !important;
-  }
+  [data-theme="light"] .fav-toggle { border-color: rgba(0, 0, 0, 0.1); }
   /* Keep single-line pills on iPhone widths by reducing tracking instead of wrapping */
   @media (max-width: 420px) {
     .fav-toggle { letter-spacing: 0.10em; }
@@ -1789,14 +1760,14 @@ const css = `
     margin:4px 0 0;
     align-self: center;
     background: var(--mood-accent);
-    box-shadow: 0 0 8px var(--mood-accent);
+    box-shadow: 0 0 5px var(--mood-accent);
     opacity: 0;
     transition: opacity 0.15s ease;
   }
   .tab-btn.active .nav-glow-dot { opacity: 1; }
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active .nav-glow-dot {
     background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
+    box-shadow: 0 0 5px var(--accent);
     opacity: 1;
   }
   @keyframes tabPulse {
