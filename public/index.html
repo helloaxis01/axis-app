@@ -1851,9 +1851,9 @@ const css = `
   /* End-of-list marker */
   .eol-marker {
     display:flex; align-items:center; justify-content:center;
-    min-height:72px;
-    padding-top:36px;
-    padding-bottom:calc(36px + env(safe-area-inset-bottom, 0px));
+    min-height:92px;
+    padding-top:40px;
+    padding-bottom:calc(56px + env(safe-area-inset-bottom, 0px));
     margin-bottom:0;
     user-select:none; -webkit-user-select:none;
     position:relative; cursor:default; width:100%;
@@ -1884,6 +1884,10 @@ const css = `
 
   /* ── TRACK GROUPS ── */
   .track-cards-outer { padding:0 24px 24px; margin-bottom: var(--axis-safe-bottom); }
+  /* Ensure final list marker clears fixed tab bar on iPhone */
+  .content.content--session.content--session-list .track-cards-outer {
+    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 44px);
+  }
   .track-group { padding:0; max-width:100%; }
   .track-group + .track-group { margin-top:20px; }
   .track-group-label {
