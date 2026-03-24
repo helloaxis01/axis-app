@@ -1851,9 +1851,10 @@ const css = `
   /* End-of-list marker */
   .eol-marker {
     display:flex; align-items:center; justify-content:center;
-    min-height:calc(96px + env(safe-area-inset-bottom, 0px));
-    padding-bottom:32px;
-    margin-bottom:8px;
+    min-height:72px;
+    padding-top:36px;
+    padding-bottom:calc(36px + env(safe-area-inset-bottom, 0px));
+    margin-bottom:0;
     user-select:none; -webkit-user-select:none;
     position:relative; cursor:default; width:100%;
     max-width:100%; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
@@ -3720,20 +3721,18 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
     border-radius: 50%;
     box-sizing: border-box;
     flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1);
-    transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+    border: none;
+    background: rgba(255, 255, 255, 0.18);
+    transition: background 0.3s ease, transform 0.3s ease;
   }
   .timer-view-body .timer-round-pip.is-done {
-    background: color-mix(in srgb, var(--mood-accent) 70%, transparent);
-    border-color: var(--mood-accent);
-    box-shadow: 0 0 6px color-mix(in srgb, var(--mood-accent) 45%, transparent);
+    background: var(--mood-accent);
+    box-shadow: none;
   }
   .timer-view-body .timer-round-pip.is-active {
     background: var(--mood-accent);
-    border-color: transparent;
-    box-shadow: 0 0 10px color-mix(in srgb, var(--mood-accent) 65%, transparent), 0 0 4px color-mix(in srgb, var(--mood-accent) 40%, transparent);
-    transform: scale(1.05);
+    box-shadow: none;
+    transform: scale(1.15);
   }
   .timer-view-body .timer-breathe-cycle-chip {
     display: inline-flex;
@@ -3822,8 +3821,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
     box-shadow: none;
   }
   [data-theme="light"] .timer-view-body .timer-round-pip {
-    border: 1px solid rgba(0,0,0,0.15);
-    background: rgba(0,0,0,0.06);
+    border: none;
+    background: rgba(0,0,0,0.12);
+  }
+  [data-theme="light"] .timer-view-body .timer-round-pip.is-done,
+  [data-theme="light"] .timer-view-body .timer-round-pip.is-active {
+    background: var(--mood-accent);
   }
   [data-theme="light"] .timer-view-body .timer-breathe-ring-wrap[data-breathe-glow="soft"] .timer-breathe-ring,
   [data-theme="light"] .timer-view-body .timer-breathe-ring-wrap[data-breathe-glow="peak"] .timer-breathe-ring {
