@@ -2657,14 +2657,12 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const gRef = useRef(null);
   const [gRunning, setGRunning] = useState(false);
 
-  // Start/stop guided countdown when phase changes or current exercise changes or paused toggles
+  // Initialize timer when exercise changes (does NOT run on pause toggle)
   useEffect(() => {
-    // clear any existing
     clearInterval(gRef.current);
     if (phase === "exercise" && cur) {
       const secs = cur.seconds || cur.duration || 0;
       setGLeft(secs);
-      // auto-start unless paused
       setGRunning(!paused);
       if (!paused && secs > 0) {
         gRef.current = setInterval(() => {
@@ -2672,7 +2670,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
             if (l <= 1 || l == null) {
               clearInterval(gRef.current);
               setGRunning(false);
-              // call handler to complete current exercise
               handleTimerDone();
               return 0;
             }
@@ -2685,7 +2682,30 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       setGRunning(false);
     }
     return () => clearInterval(gRef.current);
-  }, [phase, fi, cur && cur.id, paused]);
+  }, [phase, fi, cur && cur.id]); // paused intentionally excluded — handled below
+
+  // Pause/resume: start or stop the interval without resetting gLeft
+  useEffect(() => {
+    if (phase !== "exercise" || !cur) return;
+    clearInterval(gRef.current);
+    if (!paused) {
+      setGRunning(true);
+      gRef.current = setInterval(() => {
+        setGLeft((l) => {
+          if (l <= 1 || l == null) {
+            clearInterval(gRef.current);
+            setGRunning(false);
+            handleTimerDone();
+            return 0;
+          }
+          return l - 1;
+        });
+      }, 1000);
+    } else {
+      setGRunning(false);
+    }
+    return () => clearInterval(gRef.current);
+  }, [paused]); // phase/fi excluded — initialization effect handles those
 
   // helper display and pct for guided large timer
   const gTotal = cur && (cur.seconds || cur.duration) || 0;
