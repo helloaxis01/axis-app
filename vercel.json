@@ -2,27 +2,27 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/AXIS_master_mainapp.html",
+      "destination": "/index.html",
       "permanent": false
     },
     {
       "source": "/index.html",
-      "destination": "/AXIS_master_mainapp.html",
+      "destination": "/index.html",
       "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/onboarding",
-      "destination": "/AXIS_master_onboarding.html"
+      "destination": "/onboarding.html"
     },
     {
       "source": "/onboarding-123pm",
-      "destination": "/AXIS_master_onboarding.html"
+      "destination": "/onboarding.html"
     },
     {
       "source": "/onboarding-911am",
-      "destination": "/AXIS_master_onboarding.html"
+      "destination": "/onboarding.html"
     }
   ],
   "headers": [
