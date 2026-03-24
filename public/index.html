@@ -807,6 +807,15 @@ const css = `
   [data-theme="light"] .track-card-sub {
     font-weight: 600;
   }
+  /* Clinical Light Mode: high-contrast white 'data hits' with technical frame */
+  [data-theme="light"] .track-card {
+    background: rgba(255,255,255,0.95) !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+  }
+  [data-theme="light"] .track-card:hover {
+    background: rgba(255,255,255,1) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+  }
   [data-theme="light"] .begin-btn {
     box-shadow: 0 2px 12px var(--accent-glow), 0 4px 20px rgba(42,95,143,0.18);
   }
@@ -1253,10 +1262,10 @@ const css = `
   }
   /* sub-bar: tab-desc + progress live here, bleeds to edges, floats above content */
   .tab-subbar {
-    position:sticky; top: var(--hdr-height, 120px); z-index:190;
+    position:sticky; top: 0; z-index:190;
     background: var(--hdr-bg);
-    backdrop-filter: blur(40px) saturate(2.0);
-    -webkit-backdrop-filter: blur(40px) saturate(2.0);
+    backdrop-filter: blur(10px) saturate(1.8);
+    -webkit-backdrop-filter: blur(10px) saturate(1.8);
     box-shadow: 0 4px 20px rgba(0,0,0,0.18), 0 1px 0 var(--glass-border);
     margin: 0 -20px;
     padding: 10px 20px 12px;
@@ -1273,7 +1282,12 @@ const css = `
 
   /* ── CONTENT ── */
   .content { padding:0 20px 24px; max-width:100%; position:relative; z-index:1; }
-  .content.content--session { padding-bottom: 12px; }
+  .content.content--session {
+    padding-bottom: 12px;
+    flex: 1; min-height: 0;
+    overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
   .content.content--session.content--session-list { padding-bottom: 100px; }
   /* LIST + GUIDED: breathing room above tab bar for primary CTAs */
   .session-cta-pad { margin-bottom: var(--axis-safe-bottom); padding-bottom: 12px; }
