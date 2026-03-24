@@ -2661,38 +2661,20 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const gRef = useRef(null);
   const [gRunning, setGRunning] = useState(false);
 
-  // Initialize timer when exercise changes (does NOT run on pause toggle)
+  // Effect 1: reset gLeft when exercise changes — never runs on pause toggle
   useEffect(() => {
-    clearInterval(gRef.current);
     if (phase === "exercise" && cur) {
-      const secs = cur.seconds || cur.duration || 0;
-      setGLeft(secs);
-      setGRunning(!paused);
-      if (!paused && secs > 0) {
-        gRef.current = setInterval(() => {
-          setGLeft((l) => {
-            if (l <= 1 || l == null) {
-              clearInterval(gRef.current);
-              setGRunning(false);
-              handleTimerDone();
-              return 0;
-            }
-            return l - 1;
-          });
-        }, 1000);
-      }
+      setGLeft(cur.seconds || cur.duration || 0);
     } else {
       setGLeft(null);
-      setGRunning(false);
     }
-    return () => clearInterval(gRef.current);
-  }, [phase, fi, cur && cur.id]); // paused intentionally excluded — handled below
+  }, [phase, fi, cur?.id]);
 
-  // Pause/resume: start or stop the interval without resetting gLeft
+  // Effect 2: manage the interval — runs on exercise change OR pause toggle, never resets gLeft
   useEffect(() => {
-    if (phase !== "exercise" || !cur) return;
     clearInterval(gRef.current);
-    if (!paused) {
+    gRef.current = null;
+    if (phase === "exercise" && cur && !paused) {
       setGRunning(true);
       gRef.current = setInterval(() => {
         setGLeft((l) => {
@@ -2709,7 +2691,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       setGRunning(false);
     }
     return () => clearInterval(gRef.current);
-  }, [paused]); // phase/fi excluded — initialization effect handles those
+  }, [phase, fi, cur?.id, paused]);
 
   // helper display and pct for guided large timer
   const gTotal = cur && (cur.seconds || cur.duration) || 0;
@@ -2880,16 +2862,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       } }, /*#__PURE__*/
     React.createElement("style", null, css),
 
-    phase !== "intro" && phase !== "closing" && listTotal > 0 && /*#__PURE__*/
-    React.createElement("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 4, zIndex: 4, background: isDark ? "rgba(255,255,255,0.07)" : "#EEEEEE" } }, /*#__PURE__*/
-    React.createElement("div", { style: {
-        height: 4,
-        background: A,
-        width: `${((fi + (phase === "exercise" ? gPct : 0)) / listTotal) * 100}%`,
-        transition: "width 1s linear",
-        boxShadow: isDark ? `0 0 8px ${ct.accentGlow}` : "none"
-      } })
-    ),
 
 
 
@@ -2902,7 +2874,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("button", { ref: guidedCloseBtnRef, type: "button", onClick: onExit, "aria-label": "Back", style: {
         display: "flex", alignItems: "center", justifyContent: "center",
         width: 40, height: 40, borderRadius: "50%",
-        border: `1px solid ${isNight ? "#FF0000" : "rgba(255,255,255,0.28)"}`,
+        border: `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
         background: "transparent", cursor: "pointer", color: W, flexShrink: 0,
         WebkitTapHighlightColor: "transparent"
       } }, /*#__PURE__*/
@@ -2912,7 +2884,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase !== "intro" && phase !== "closing" && listTotal > 0
     ? React.createElement("div", { style: {
         width: 40, height: 40, borderRadius: "50%",
-        border: `1px solid ${isNight ? "#FF0000" : "rgba(255,255,255,0.28)"}`,
+        border: `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         flexShrink: 0, gap: 1
       } },
@@ -3009,7 +2981,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { display: "flex", justifyContent: "center", marginBottom: 14, flexShrink: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
-        color: W, border: `1px solid ${isNight ? "#FF0000" : "rgba(255,255,255,0.35)"}`,
+        color: W, border: `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.2)"}`,
         borderRadius: 999, padding: "5px 16px", fontFamily: "var(--font-display)"
       } }, phase === "getready" ? "REST & GET READY" : "BEGIN")
     ), /*#__PURE__*/
