@@ -1095,6 +1095,10 @@ const css = `
     from { opacity:0; transform:scale(0.92); }
     to   { opacity:1; transform:scale(1); }
   }
+  @keyframes breatheCircle {
+    0%, 100% { transform: scale(1);   opacity: 0.55; }
+    50%       { transform: scale(1.1); opacity: 0.9; }
+  }
   @keyframes flowDonePop {
     0%   { opacity:0; transform:translate(-50%,-50%) scale(0.5); }
     50%  { opacity:1; transform:translate(-50%,-50%) scale(1.1); }
@@ -2715,8 +2719,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   // GUIDED phase flags
   const isExercisePhase = phase === "exercise";
 
-  // BEGIN (exercise) uses a flat, rich theme background and higher-contrast surfaces
-  const GUIDED_BG = BG;
+  const GUIDED_BG = "#000000";
 
   // Disable body overflow so position:fixed is never trapped
   useEffect(() => {
@@ -2877,12 +2880,18 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       } }, /*#__PURE__*/
     React.createElement("style", null, css),
 
+    phase !== "intro" && phase !== "closing" && listTotal > 0 && /*#__PURE__*/
+    React.createElement("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 4, zIndex: 4, background: "rgba(255,255,255,0.07)" } }, /*#__PURE__*/
+    React.createElement("div", { style: {
+        height: 4,
+        background: "#00D1FF",
+        width: `${((fi + (phase === "exercise" ? gPct : 0)) / listTotal) * 100}%`,
+        transition: "width 1s linear",
+        boxShadow: "0 0 8px rgba(0,209,255,0.5)"
+      } })
+    ),
 
-    React.createElement("div", { className: "app-orbs", style: {
-        position: "absolute", inset: 0,
-        background: "var(--orb1), var(--orb2), var(--orb3)",
-        transition: "background 0.4s ease"
-      } }), /*#__PURE__*/
+
 
 
 
@@ -3012,7 +3021,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       ref: titleRef,
       style: {
         fontSize: phase === "getready" || phase === "exercise" ? 34 : 30,
-        fontWeight: 700, letterSpacing: "0.02em", lineHeight: 1.08, textTransform: "uppercase",
+        fontWeight: 500, letterSpacing: "0.04em", lineHeight: 1.08, textTransform: "uppercase",
         color: W,
         height: 80,
         maxWidth: Math.min(420, carouselCardW + 80),
@@ -3032,23 +3041,29 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
     (phase === "getready" || phase === "exercise") && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginTop: 14, marginBottom: 32, flexShrink: 0 } },
-    phase === "getready" && /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: "#f6f7f8", lineHeight: 1 } },
-    `0:${readyLeft.toString().padStart(2, "0")}`
-    ), /*#__PURE__*/
-    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "#140000" : isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)", overflow: "hidden", marginTop: 14 } }, /*#__PURE__*/
-    React.createElement("div", { style: { height: 4, borderRadius: 999, background: A, width: `${(GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS * 100}%`, transition: "width 1s linear" } })
-    )
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginTop: 14, marginBottom: 24, flexShrink: 0 } },
+
+    React.createElement("div", { style: { position: "relative", width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, /*#__PURE__*/
+    React.createElement("div", { style: {
+        position: "absolute", inset: 0, borderRadius: "50%",
+        border: "1px dashed rgba(255,255,255,0.12)",
+        animation: "breatheCircle 4s ease-in-out infinite"
+      } }),
+    phase === "getready"
+    ? React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: "#007AFF", lineHeight: 1, textShadow: "0 0 32px rgba(0,122,255,0.65), 0 0 64px rgba(0,122,255,0.3)", position: "relative", zIndex: 1 } },
+        `0:${readyLeft.toString().padStart(2, "0")}`)
+    : React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: "#007AFF", lineHeight: 1, textShadow: "0 0 32px rgba(0,122,255,0.65), 0 0 64px rgba(0,122,255,0.3)", position: "relative", zIndex: 1 } },
+        gDisplay)
     ),
 
-    phase === "exercise" && cur && /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 64, fontWeight: 700, letterSpacing: "-0.02em", color: "#f6f7f8", lineHeight: 1 } }, gDisplay), /*#__PURE__*/
-    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "#140000" : isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)", overflow: "hidden", marginTop: 14 } }, /*#__PURE__*/
-    React.createElement("div", { style: { height: 4, borderRadius: 999, background: A, width: `${gPct * 100}%`, transition: "width 1s linear", willChange: "width" } })
-    )
+    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: "rgba(255,255,255,0.08)", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
+    React.createElement("div", { style: {
+        height: 4, borderRadius: 999, background: A,
+        width: phase === "getready"
+          ? `${(GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS * 100}%`
+          : `${gPct * 100}%`,
+        transition: "width 1s linear", willChange: "width"
+      } })
     )
 
     ),
@@ -3132,6 +3147,19 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     ),
 
 
+
+    phase === "exercise" && next && /*#__PURE__*/
+    React.createElement("div", { style: {
+        margin: "0 16px 12px", padding: "11px 16px",
+        border: "1px solid rgba(255,255,255,0.2)", borderRadius: 12,
+        flexShrink: 0, position: "relative", zIndex: 2
+      } }, /*#__PURE__*/
+    React.createElement("div", { style: {
+        fontSize: 12, fontWeight: 700, letterSpacing: "0.1em",
+        textTransform: "uppercase", color: "rgba(255,255,255,0.55)",
+        fontFamily: "var(--font-display)"
+      } }, `UP NEXT: ${(next.name || "").replace(/-/g, " ")}`)
+    ),
 
     phase !== "closing" && phase !== "milestone" && phase !== "intro" && /*#__PURE__*/
     React.createElement("div", { style: {
