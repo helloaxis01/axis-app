@@ -4699,16 +4699,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
 
 
-    React.createElement("div", { className: "fav-filter" + (tab === "guided" ? " fav-filter--after-guided-cta" : "") }, /*#__PURE__*/
-    React.createElement("button", { className: `fav-toggle ${showFavOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowFavOnly((f) => !f);setShowSkipOnly(false);} }, "\u2605 Favorites"), /*#__PURE__*/
-    React.createElement("button", { className: `fav-toggle ${showSkipOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowSkipOnly((f) => !f);setShowFavOnly(false);} }, "\u2014 Skipped"), /*#__PURE__*/
-    React.createElement("button", { className: "fav-toggle reset-pill", onClick: () => {
-        axisHapticTick();
-        setDone({});setSkipped({});setOpenId(null);setFi(0);setResting(false);
-        storageSet("axis_done", {});storageSet("axis_skipped", {});
-        setShowFavOnly(false);setShowSkipOnly(false);
-      } }, "\u21BA Reset Session")
-    ),
     tab === "list" && /*#__PURE__*/
     React.createElement(React.Fragment, null,
     (() => {
@@ -4753,6 +4743,16 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         ));
 
     })(),
+    React.createElement("div", { className: "fav-filter fav-filter--after-guided-cta" }, /*#__PURE__*/
+    React.createElement("button", { className: `fav-toggle ${showFavOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowFavOnly((f) => !f);setShowSkipOnly(false);} }, "\u2605 Favorites"), /*#__PURE__*/
+    React.createElement("button", { className: `fav-toggle ${showSkipOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowSkipOnly((f) => !f);setShowFavOnly(false);} }, "\u2014 Skipped"), /*#__PURE__*/
+    React.createElement("button", { className: "fav-toggle reset-pill", onClick: () => {
+        axisHapticTick();
+        setDone({});setSkipped({});setOpenId(null);setFi(0);setResting(false);
+        storageSet("axis_done", {});storageSet("axis_skipped", {});
+        setShowFavOnly(false);setShowSkipOnly(false);
+      } }, "\u21BA Reset Session")
+    ),
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg", key: sec.label }, /*#__PURE__*/
     React.createElement("div", { className: "sh" }, /*#__PURE__*/
