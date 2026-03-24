@@ -2719,7 +2719,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   // GUIDED phase flags
   const isExercisePhase = phase === "exercise";
 
-  const GUIDED_BG = "#000000";
+  const GUIDED_BG = isDark ? "#000000" : "#FFFFFF";
 
   // Disable body overflow so position:fixed is never trapped
   useEffect(() => {
@@ -2881,13 +2881,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("style", null, css),
 
     phase !== "intro" && phase !== "closing" && listTotal > 0 && /*#__PURE__*/
-    React.createElement("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 4, zIndex: 4, background: "rgba(255,255,255,0.07)" } }, /*#__PURE__*/
+    React.createElement("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 4, zIndex: 4, background: isDark ? "rgba(255,255,255,0.07)" : "#EEEEEE" } }, /*#__PURE__*/
     React.createElement("div", { style: {
         height: 4,
         background: A,
         width: `${((fi + (phase === "exercise" ? gPct : 0)) / listTotal) * 100}%`,
         transition: "width 1s linear",
-        boxShadow: `0 0 8px ${ct.accentGlow}`
+        boxShadow: isDark ? `0 0 8px ${ct.accentGlow}` : "none"
       } })
     ),
 
@@ -3046,17 +3046,17 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { position: "relative", width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         position: "absolute", inset: 0, borderRadius: "50%",
-        border: "1px dashed rgba(255,255,255,0.12)",
+        border: isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
         animation: "breatheCircle 4s ease-in-out infinite"
       } }),
     phase === "getready"
-    ? React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: A, lineHeight: 1, textShadow: `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}`, position: "relative", zIndex: 1 } },
+    ? React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: isDark ? A : "#1D1D1F", lineHeight: 1, textShadow: isDark ? `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}` : "none", position: "relative", zIndex: 1 } },
         `0:${readyLeft.toString().padStart(2, "0")}`)
-    : React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: A, lineHeight: 1, textShadow: `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}`, position: "relative", zIndex: 1 } },
+    : React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: isDark ? A : "#1D1D1F", lineHeight: 1, textShadow: isDark ? `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}` : "none", position: "relative", zIndex: 1 } },
         gDisplay)
     ),
 
-    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: "rgba(255,255,255,0.08)", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
+    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         height: 4, borderRadius: 999, background: A,
         width: phase === "getready"
@@ -3151,12 +3151,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase === "exercise" && next && /*#__PURE__*/
     React.createElement("div", { style: {
         margin: "0 16px 12px", padding: "11px 16px",
-        border: "1px solid rgba(255,255,255,0.2)", borderRadius: 12,
-        flexShrink: 0, position: "relative", zIndex: 2
+        background: isDark ? "transparent" : "rgba(0,0,0,0.03)",
+        border: isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.05)",
+        borderRadius: 12, flexShrink: 0, position: "relative", zIndex: 2
       } }, /*#__PURE__*/
     React.createElement("div", { style: {
         fontSize: 12, fontWeight: 700, letterSpacing: "0.1em",
-        textTransform: "uppercase", color: "rgba(255,255,255,0.55)",
+        textTransform: "uppercase",
+        color: isDark ? "rgba(255,255,255,0.55)" : "#1D1D1F",
         fontFamily: "var(--font-display)"
       } }, `UP NEXT: ${(next.name || "").replace(/-/g, " ")}`)
     ),
