@@ -3016,31 +3016,15 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginTop: 14, marginBottom: 24, flexShrink: 0 } },
 
     React.createElement("div", { style: { position: "relative", width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, /*#__PURE__*/
-    React.createElement("svg", { width: 200, height: 200, viewBox: "0 0 200 200", style: { position: "absolute", inset: 0, animation: "breatheCircle 4s ease-in-out infinite", transformOrigin: "100px 100px" }, "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("defs", null,
-      React.createElement("radialGradient", { id: "breatheGrad", cx: "50%", cy: "50%", r: "50%" },
-        React.createElement("stop", { offset: "0%", stopColor: "rgba(0,122,255,0.03)" }),
-        React.createElement("stop", { offset: "70%", stopColor: "rgba(255,255,255,0)" })
-      )
-    ),
-    !isDark && React.createElement("circle", { cx: 100, cy: 100, r: 96, fill: "url(#breatheGrad)" }),
-    React.createElement("circle", { cx: 100, cy: 100, r: 96, fill: "none",
-      stroke: isDark ? "rgba(255,255,255,0.12)" : "#EEEEEE",
-      strokeWidth: isDark ? 1 : 1.5,
-      strokeDasharray: isDark ? "4 6" : "none"
-    }),
-    React.createElement("circle", { cx: 100, cy: 100, r: 96, fill: "none",
-      stroke: isDark ? A : "#007AFF",
-      strokeWidth: 3,
-      strokeDasharray: "60 542",
-      strokeLinecap: "round",
-      opacity: isDark ? 0.5 : 0.9
-    })
-    ),
+    React.createElement("div", { style: {
+        position: "absolute", inset: 0, borderRadius: "50%",
+        border: isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
+        animation: "breatheCircle 4s ease-in-out infinite"
+      } }),
     phase === "getready"
-    ? React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 123, fontWeight: 500, letterSpacing: "-0.03em", color: isDark ? A : "#1D1D1F", lineHeight: 1, textShadow: isDark ? `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}` : "0 2px 0 rgba(0,0,0,0.05)", position: "relative", zIndex: 1 } },
+    ? React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: isDark ? A : "#1D1D1F", lineHeight: 1, textShadow: isDark ? `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}` : "none", position: "relative", zIndex: 1 } },
         `0:${readyLeft.toString().padStart(2, "0")}`)
-    : React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 123, fontWeight: 500, letterSpacing: "-0.03em", color: isDark ? A : "#1D1D1F", lineHeight: 1, textShadow: isDark ? `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}` : "0 2px 0 rgba(0,0,0,0.05)", position: "relative", zIndex: 1 } },
+    : React.createElement("div", { style: { minWidth: 140, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 88, fontWeight: 500, letterSpacing: "-0.03em", color: isDark ? A : "#1D1D1F", lineHeight: 1, textShadow: isDark ? `0 0 32px ${ct.accentGlow}, 0 0 64px ${ct.accentGlow}` : "none", position: "relative", zIndex: 1 } },
         gDisplay)
     ),
 
