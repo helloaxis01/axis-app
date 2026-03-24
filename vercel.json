@@ -1,4 +1,6 @@
 {
+  "buildCommand": null,
+  "outputDirectory": "public",
   "rewrites": [
     {
       "source": "/",
@@ -6,23 +8,15 @@
     },
     {
       "source": "/onboarding",
-      "destination": "/031726 REBUILD/onboarding.html"
-    },
-    {
-      "source": "/onboarding-123pm",
-      "destination": "/031726 REBUILD/onboarding.html"
-    },
-    {
-      "source": "/onboarding-911am",
-      "destination": "/031726 REBUILD/onboarding.html"
+      "destination": "/onboarding.html"
     }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" }
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
       ]
     }
   ]
