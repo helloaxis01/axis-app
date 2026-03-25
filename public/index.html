@@ -853,43 +853,43 @@ const css = `
     --orb1: none; --orb2: none; --orb3: none;
     --glass-bg: #000000;
     --glass-bg-hover: #000000;
-    --glass-border: #D32F2F;
-    --glass-border-strong: #D32F2F;
+    --glass-border: #FF0000;
+    --glass-border-strong: #FF0000;
     --glass-specular: #000000;
     --glass-shadow: none;
     --glass-shadow-lg: none;
     --tab-bg: #000000;
     --hdr-bg: #000000;
-    --text-primary: #D32F2F;
-    --text-secondary: #D32F2F;
-    --text-tertiary: #D32F2F;
-    --text-dim: #D32F2F;
-    --text-dimmer: #D32F2F;
-    --text-white: #D32F2F;
-    --accent: #D32F2F;
-    --accent-secondary: #D32F2F;
+    --text-primary: #FF0000;
+    --text-secondary: #FF0000;
+    --text-tertiary: #FF0000;
+    --text-dim: #FF0000;
+    --text-dimmer: #FF0000;
+    --text-white: #FF0000;
+    --accent: #FF0000;
+    --accent-secondary: #FF0000;
     --accent-dim: #000000;
     --accent-glow: #000000;
-    --cue-bar: #D32F2F;
-    --cue-bar-label: #D32F2F;
-    --border: #D32F2F;
-    --border-card: #D32F2F;
-    --text-done: #D32F2F;
+    --cue-bar: #FF0000;
+    --cue-bar-label: #FF0000;
+    --border: #FF0000;
+    --border-card: #FF0000;
+    --text-done: #FF0000;
     --dot-bg: #000000;
-    --dot-done: #D32F2F;
-    --step-connector: #D32F2F;
+    --dot-done: #FF0000;
+    --step-connector: #FF0000;
     --accent-btn-text: var(--axis-black);
     --bg-hover: #000000;
     --summary-grid-bg: #000000;
-    --text-teal: #D32F2F;
-    --eol-color: #D32F2F;
+    --text-teal: #FF0000;
+    --eol-color: #FF0000;
   }
   [data-night="true"] .app { background: #000000 !important; }
   [data-night="true"] .app-orbs { background: none !important; display: none !important; }
   [data-night="true"] .app-body { background: #000000 !important; }
   [data-night="true"] .hdr-wrap,
   [data-night="true"] .tab-subbar,
-  [data-night="true"] .tab-bar-spacer { background: #000000 !important; border-color: #D32F2F !important; }
+  [data-night="true"] .tab-bar-spacer { background: #000000 !important; border-color: #FF0000 !important; }
   [data-night="true"] .tab-bar,
   .tab-bar[data-night="true"] {
     background: #000000 !important;
@@ -900,17 +900,17 @@ const css = `
     -webkit-backdrop-filter: none !important;
   }
   /* Night mode: all text elements explicitly red, no grey */
-  [data-night="true"] .hdr-dur { color: #D32F2F !important; }
-  [data-night="true"] .sh-tag { color: #D32F2F !important; }
-  [data-night="true"] .track-group-label { color: #D32F2F !important; -webkit-text-fill-color: #D32F2F !important; }
-  [data-night="true"] .track-card-dur { color: #D32F2F !important; -webkit-text-fill-color: #D32F2F !important; }
+  [data-night="true"] .hdr-dur { color: #FF0000 !important; }
+  [data-night="true"] .sh-tag { color: #FF0000 !important; }
+  [data-night="true"] .track-group-label { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
+  [data-night="true"] .track-card-dur { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
   [data-night="true"] .track-card-sub,
-  [data-night="true"] .track-card-sub * { color: #D32F2F !important; -webkit-text-fill-color: #D32F2F !important; }
-  [data-night="true"] .track-card-name { color: #D32F2F !important; -webkit-text-fill-color: #D32F2F !important; }
+  [data-night="true"] .track-card-sub * { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
+  [data-night="true"] .track-card-name { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
   [data-night="true"] .session-title,
   [data-night="true"] .hdr-title,
-  [data-night="true"] .hdr-subtitle { color: #D32F2F !important; -webkit-text-fill-color: #D32F2F !important; }
-  [data-night="true"] * { border-color: #D32F2F !important; }
+  [data-night="true"] .hdr-subtitle { color: #FF0000 !important; -webkit-text-fill-color: #FF0000 !important; }
+  [data-night="true"] * { border-color: #FF0000 !important; }
   [data-night="true"] .app-body,
   [data-night="true"] .app,
   [data-night="true"] .content { background: #000000 !important; }
@@ -922,12 +922,12 @@ const css = `
   [data-night="true"] .tab-subbar { box-shadow: none !important; border-top: none !important; }
   [data-night="true"] .track-card,
   [data-night="true"] .panel,
-  [data-night="true"] .sg { background: #000000 !important; border-color: #D32F2F !important; }
+  [data-night="true"] .sg { background: #000000 !important; border-color: #FF0000 !important; }
   /* Ultra: TODAY browse cards must never flip to the default white hover */
   [data-night="true"] .track-card:hover,
   [data-night="true"] .session-card.track-card:hover {
     background: #000000 !important;
-    border-color: #D32F2F !important;
+    border-color: #FF0000 !important;
     box-shadow: none !important;
     transform: none !important;
     backdrop-filter: none !important;
@@ -937,23 +937,23 @@ const css = `
   [data-night="true"] .er {
     background: #000000 !important;
     border: none !important;
-    border-bottom: 1px solid #D32F2F !important;
+    border-bottom: 1px solid #FF0000 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
   }
   [data-night="true"] .track-card::before,
-  [data-night="true"] .glass-card::before { background: #D32F2F !important; }
+  [data-night="true"] .glass-card::before { background: #FF0000 !important; }
   [data-night="true"] .tab-bar .tab-bar-top-line { background: #000000 !important; }
-  .tab-bar[data-night="true"] .tab-btn.active { color: #D32F2F !important; --tab-active-fill: #D32F2F; }
-  .tab-bar[data-night="true"] .tab-btn { color: #000000 !important; }
-  .tab-bar[data-night="true"] .tab-btn:hover { color: #000000 !important; }
-  .tab-bar[data-night="true"] .tab-btn.active:hover { color: #D32F2F !important; }
-  [data-night="true"] .prog-fill { background: #D32F2F !important; box-shadow: none !important; }
-  [data-night="true"] .prog-bar { background: #000000 !important; border: 1px solid #D32F2F !important; }
+  .tab-bar[data-night="true"] .tab-btn.active { color: #FF0000 !important; --tab-active-fill: #FF0000; }
+  .tab-bar[data-night="true"] .tab-btn { color: rgba(255, 0, 0, 0.25) !important; }
+  .tab-bar[data-night="true"] .tab-btn:hover { color: rgba(255, 0, 0, 0.25) !important; }
+  .tab-bar[data-night="true"] .tab-btn.active:hover { color: #FF0000 !important; }
+  [data-night="true"] .prog-fill { background: #FF0000 !important; box-shadow: none !important; }
+  [data-night="true"] .prog-bar { background: #000000 !important; border: 1px solid #FF0000 !important; }
   [data-night="true"] .fav-toggle {
     background: #000000 !important;
-    border-color: #D32F2F !important;
-    color: #D32F2F !important;
+    border-color: #FF0000 !important;
+    color: #FF0000 !important;
     font-family: 'Barlow', sans-serif !important;
     font-size: 12px !important;
     font-weight: 700 !important;
@@ -961,25 +961,36 @@ const css = `
     text-transform: uppercase !important;
     padding: 6px 14px !important;
   }
-  [data-night="true"] .fav-toggle.on { background: #000000 !important; border-color: #D32F2F !important; color: #D32F2F !important; }
-  [data-night="true"] .chk { background: #000000 !important; border-color: #D32F2F !important; }
-  [data-night="true"] .chk.on { background: #D32F2F !important; border-color: #D32F2F !important; }
-  [data-night="true"] .hdr-dur { background: #000000 !important; border-color: #D32F2F !important; }
-  [data-night="true"] .tab { color: #D32F2F !important;  }
-  [data-night="true"] .tab.on { color: #D32F2F !important; }
-  [data-night="true"] .tab.on::after { background: #D32F2F !important; }
-  [data-night="true"] .purpose-note { background: #000000 !important; border-color: #D32F2F !important; }
+  [data-night="true"] .fav-toggle.on { background: #000000 !important; border-color: #FF0000 !important; color: #FF0000 !important; }
+  [data-night="true"] .chk { background: #000000 !important; border-color: #FF0000 !important; }
+  [data-night="true"] .chk.on { background: #FF0000 !important; border-color: #FF0000 !important; }
+  [data-night="true"] .hdr-dur { background: #000000 !important; border-color: #FF0000 !important; }
+  [data-night="true"] .tab { color: #FF0000 !important; border-bottom-color: transparent !important; }
+  [data-night="true"] .tab.on { color: #FF0000 !important; border-bottom-color: #FF0000 !important; }
+  [data-night="true"] .tab.on::after { background: #FF0000 !important; }
+  [data-night="true"] .purpose-note { background: #000000 !important; border-color: #FF0000 !important; }
 
   /* TODAY hero (night): .app color is red — force black copy on red card; CTA = black pill + red label (Safari/WebKit) */
   .app[data-night="true"] .start-here-group > div {
     color: #000000 !important;
     -webkit-text-fill-color: #000000;
   }
+  [data-night="true"] .timer-view-body .timer-glass-panel {
+    background: #000000 !important;
+    border: 1px solid #FF0000 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  [data-night="true"] .timer-view-body .timer-interval-row { border-bottom-color: #FF0000 !important; }
+  [data-night="true"] .timer-view-body .timer-interval-row-label { color: #FF0000 !important; }
+  [data-night="true"] .timer-view-body .timer-instrument-val { color: #FF0000 !important; text-shadow: none !important; }
+  [data-night="true"] .timer-view-body .timer-interval-row-value span:last-child { color: rgba(255, 0, 0, 0.78) !important; }
   .app[data-night="true"] .start-here-group .begin-btn--today-primary {
     background: #000000 !important;
-    color: #D32F2F !important;
-    -webkit-text-fill-color: #D32F2F !important;
-    border: 1px solid #D32F2F !important;
+    color: #FF0000 !important;
+    -webkit-text-fill-color: #FF0000 !important;
+    border: 1px solid #FF0000 !important;
     box-shadow: none !important;
   }
   /* Red accent fill + red text = invisible in WebKit — black ink on red; home uses black pill + red ink below */
@@ -988,30 +999,30 @@ const css = `
     -webkit-text-fill-color: #000000 !important;
   }
   .app[data-night="true"] .home .track-card .begin-btn:not(.begin-btn--today-primary) {
-    color: #D32F2F !important;
-    -webkit-text-fill-color: #D32F2F !important;
+    color: #FF0000 !important;
+    -webkit-text-fill-color: #FF0000 !important;
     background: #000000 !important;
-    border: 1px solid #D32F2F !important;
+    border: 1px solid #FF0000 !important;
     box-shadow: none !important;
   }
   /* TODAY hero: explicit red card (public .track-group { transparent } must not win over this) */
   .app[data-night="true"] .home .track-group.start-here-group {
-    background: #D32F2F !important;
-    border: 2px solid #D32F2F !important;
+    background: #FF0000 !important;
+    border: 2px solid #FF0000 !important;
     box-shadow: none !important;
   }
   .app[data-night="true"] .hdr-title,
   .app[data-night="true"] .hdr-subtitle,
   .app[data-night="true"] .tab-desc-line {
-    color: #D32F2F !important;
-    -webkit-text-fill-color: #D32F2F !important;
+    color: #FF0000 !important;
+    -webkit-text-fill-color: #FF0000 !important;
   }
   /* All night pills (track cards + session header): base uses rgba white border — invisible on #000 in Chromium */
   .app[data-night="true"] .glass-label {
     background: transparent !important;
     border: none !important;
-    color: #D32F2F !important;
-    -webkit-text-fill-color: #D32F2F !important;
+    color: #FF0000 !important;
+    -webkit-text-fill-color: #FF0000 !important;
     box-shadow: none !important;
     padding: 0 !important;
   }
@@ -1021,7 +1032,7 @@ const css = `
   }
   .app[data-night="true"] .content--session .er:not(.open) {
     border: none !important;
-    border-bottom: 1px solid #D32F2F !important;
+    border-bottom: 1px solid #FF0000 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
   }
@@ -1031,7 +1042,7 @@ const css = `
     padding: 13px 0 !important;
     background: transparent !important;
     border: none !important;
-    border-bottom: 1px solid #D32F2F !important;
+    border-bottom: 1px solid #FF0000 !important;
   }
 
   /* Keep Night Mode simple: no glows/shadows */
@@ -1039,7 +1050,7 @@ const css = `
   [data-night="true"] .fv-cta, [data-night="true"] .fv-cta:hover, [data-night="true"] .fv-cta:active,
   [data-night="true"] .fv-skip, [data-night="true"] .fv-prev { box-shadow: none !important; }
   [data-night="true"] .tab-live-dot { box-shadow: none !important; }
-  /* Night accent-fill CTAs: black ink on #D32F2F (Safari/WebKit; beats any broad * { color: red !important }) */
+  /* Night accent-fill CTAs: black ink on #FF0000 (Safari/WebKit; beats any broad * { color: red !important }) */
   .app[data-night="true"] .content .fv-cta:not(.done),
   .app[data-night="true"] .content .fv-cta:not(.done) *,
   .app[data-night="true"] .content .tb {
@@ -1047,11 +1058,11 @@ const css = `
     -webkit-text-fill-color: #000000 !important;
   }
   .app[data-night="true"] .content .fv-cta:not(.done) {
-    background: #D32F2F !important;
+    background: #FF0000 !important;
     border: none !important;
   }
   .app[data-night="true"] .content .tb {
-    background: #D32F2F !important;
+    background: #FF0000 !important;
     border: none !important;
   }
   [data-night="true"].guided-overlay .guided-cta-fill {
@@ -1059,7 +1070,7 @@ const css = `
     -webkit-text-fill-color: #000000 !important;
   }
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
-    background: #D32F2F !important;
+    background: #FF0000 !important;
     border: none !important;
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
@@ -2109,7 +2120,7 @@ function Steps({ steps, small, start: startText, demoVideo }) {
     !small && /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", borderBottom: "1px solid var(--border)" } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "inherit" } }, "INSTRUCTIONS"), /*#__PURE__*/
-    React.createElement("button", { onClick: () => setCollapsed((c) => !c), style: { background: "transparent", border: nightMode ? "1px solid #D32F2F" : "none", color: "inherit", cursor: "pointer", fontWeight: 700 } },
+    React.createElement("button", { onClick: () => setCollapsed((c) => !c), style: { background: "transparent", border: nightMode ? "1px solid #FF0000" : "none", color: "inherit", cursor: "pointer", fontWeight: 700 } },
     collapsed ? "Show" : "Hide"
     )
     ),
@@ -2282,9 +2293,9 @@ function MomentumMap({ history, nightMode = false }) {
     days.map((dateStr, i) => {
       const count = sessionCounts[dateStr] || 0;
       const styleNight = {
-        background: count > 0 ? "#D32F2F" : "#000000",
+        background: count > 0 ? "#FF0000" : "#000000",
         boxShadow: "none",
-        border: "1px solid #D32F2F"
+        border: "1px solid #FF0000"
       };
       const styleDay = count > 0 ? {
         background: "var(--accent)",
@@ -2349,7 +2360,7 @@ function TabBar({ view, setView, hasActiveSession, theme, nightMode = false }) {
     "aria-label": "Sessions",
     "aria-current": view === "session" ? "page" : undefined },
 
-  
+  hasActiveSession && view !== "session" && /*#__PURE__*/React.createElement("div", { className: "tab-live-dot", "aria-hidden": true }), /*#__PURE__*/
   React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SessionIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
 
   ), /*#__PURE__*/
@@ -2512,23 +2523,23 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
   const isTimerDark = nightMode || theme === "dark";
   const timerPeriod = activePeriod || getCircadianPeriod();
   const timerCt = nightMode ?
-  { accent: "#D32F2F", accentDim: "#D32F2F" } :
+  { accent: "#FF0000", accentDim: "#FF0000" } :
   CIRCADIAN_THEMES[timerPeriod][isTimerDark ? "dark" : "light"];
   const timerAccent = timerCt.accent;
   const timerAccentDim = timerCt.accentDim;
-  const TN = nightMode ? "#D32F2F" : isTimerDark ? "var(--axis-white)" : "#1a1048";
-  const TU = nightMode ? "#D32F2F" : isTimerDark ? "rgba(232,228,223,0.45)" : "rgba(26,16,72,0.55)";
-  const TC = nightMode ? "#D32F2F" : isTimerDark ? "rgba(232,228,223,0.50)" : "rgba(26,16,72,0.55)";
-  const TCB = nightMode ? "#D32F2F" : isTimerDark ? "var(--axis-white)" : "#1a1048";
-  const BAR_TRACK = nightMode ? "#D32F2F" : isTimerDark ? "rgba(255,255,255,0.10)" : "rgba(15,30,46,0.10)";
+  const TN = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#1a1048";
+  const TU = nightMode ? "#FF0000" : isTimerDark ? "rgba(232,228,223,0.45)" : "rgba(26,16,72,0.55)";
+  const TC = nightMode ? "#FF0000" : isTimerDark ? "rgba(232,228,223,0.50)" : "rgba(26,16,72,0.55)";
+  const TCB = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#1a1048";
+  const BAR_TRACK = nightMode ? "#FF0000" : isTimerDark ? "rgba(255,255,255,0.10)" : "rgba(15,30,46,0.10)";
   const BAR_FILL = `linear-gradient(90deg,${timerAccent},${timerAccentDim})`;
-  const DOT_CURR = nightMode ? "#D32F2F" : isTimerDark ? "var(--axis-white)" : "#0f1e2e";
+  const DOT_CURR = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#0f1e2e";
   const DOT_DONE = timerAccent;
-  const DOT_REST = nightMode ? "#D32F2F" : isTimerDark ? "rgba(255,255,255,0.18)" : "rgba(15,30,46,0.15)";
+  const DOT_REST = nightMode ? "#FF0000" : isTimerDark ? "rgba(255,255,255,0.18)" : "rgba(15,30,46,0.15)";
   const LINE_DONE = `${timerAccent}44`;
-  const LINE_REST = nightMode ? "#D32F2F" : isTimerDark ? "rgba(255,255,255,0.08)" : "rgba(15,30,46,0.10)";
-  const NEXT_C = nightMode ? "#D32F2F" : isTimerDark ? "rgba(232,228,223,0.40)" : "rgba(15,30,46,0.50)";
-  const NEXT_NAME = nightMode ? "#D32F2F" : isTimerDark ? "rgba(232,228,223,0.70)" : "#0f1e2e";
+  const LINE_REST = nightMode ? "#FF0000" : isTimerDark ? "rgba(255,255,255,0.08)" : "rgba(15,30,46,0.10)";
+  const NEXT_C = nightMode ? "#FF0000" : isTimerDark ? "rgba(232,228,223,0.40)" : "rgba(15,30,46,0.50)";
+  const NEXT_NAME = nightMode ? "#FF0000" : isTimerDark ? "rgba(232,228,223,0.70)" : "#0f1e2e";
 
   const numSize = large ? 80 : 72;
   const unitSize = large ? 14 : 12;
@@ -2568,7 +2579,7 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
 
   }
 
-  const displayColor = nightMode ? "#D32F2F" : isTimerDark ? "var(--axis-white)" : "#1a1048";
+  const displayColor = nightMode ? "#FF0000" : isTimerDark ? "var(--axis-white)" : "#1a1048";
   return (/*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: gap, marginTop, alignItems: "flex-start" } }, /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 6, marginBottom: marginBottom } }, /*#__PURE__*/
@@ -2593,26 +2604,26 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const ct = isNight ?
   {
     bg: "#000000",
-    accent: "#D32F2F",
-    accentDim: "rgba(211,47,47,0.18)",
-    accentGlow: "rgba(211,47,47,0.35)",
-    textPrimary: "#D32F2F",
+    accent: "#FF0000",
+    accentDim: "rgba(255,59,48,0.18)",
+    accentGlow: "rgba(255,59,48,0.35)",
+    textPrimary: "#FF0000",
     orb1: "none", orb2: "none", orb3: "none"
   } :
   CIRCADIAN_THEMES[period][isDark ? "dark" : "light"];
 
   const A = ct.accent;
   // Night Mode: all text is red at varying opacities — no white at all
-  const W = isNight ? "#D32F2F" : ct.textPrimary || (isDark ? "var(--axis-white)" : "#0f1020");
-  const S = isNight ? "#D32F2F" : isDark ? "rgba(232,228,223,0.60)" : ct.textPrimary ? ct.textPrimary + "cc" : "rgba(15,30,46,0.75)";
-  const D = isNight ? "#D32F2F" : isDark ? "rgba(232,228,223,0.35)" : ct.textPrimary ? ct.textPrimary + "88" : "rgba(15,30,46,0.50)";
+  const W = isNight ? "#FF0000" : ct.textPrimary || (isDark ? "var(--axis-white)" : "#0f1020");
+  const S = isNight ? "#FF0000" : isDark ? "rgba(232,228,223,0.60)" : ct.textPrimary ? ct.textPrimary + "cc" : "rgba(15,30,46,0.75)";
+  const D = isNight ? "#FF0000" : isDark ? "rgba(232,228,223,0.35)" : ct.textPrimary ? ct.textPrimary + "88" : "rgba(15,30,46,0.50)";
   const BG = isNight ? "#000000" : MAIN_APP_BG[isDark ? "dark" : "light"];
 
   // derive card/button colors from the theme background
   const CARD_BG = isNight ? "#000000" : isDark ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.50)";
-  const CARD_BDR = isNight ? "#D32F2F" : isDark ? `${ct.accent}33` : `${ct.accent}44`;
+  const CARD_BDR = isNight ? "#FF0000" : isDark ? `${ct.accent}33` : `${ct.accent}44`;
   const BTN_BG = isNight ? "#000000" : isDark ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.65)";
-  const BTN_BDR = isNight ? "#D32F2F" : isDark ? `${ct.accent}55` : `${ct.accent}66`;
+  const BTN_BDR = isNight ? "#FF0000" : isDark ? `${ct.accent}55` : `${ct.accent}66`;
 
   // fade colors — Night Mode uses pure black
   const periodFadeMap = {
@@ -2629,13 +2640,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const BAR_BOT = fadeSolid;
   const CUE_COLOR = W;
   const NAME_DIM = D;
-  const HAIRLINE = isNight ? "#D32F2F" : isDark ? "rgba(255,255,255,0.07)" : `${ct.accent}22`;
+  const HAIRLINE = isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.07)" : `${ct.accent}22`;
 
   // Glass card & control bar — light mode: crisp, soft tinted shadows (no muddy black)
   const GLASS_BG = isNight ? "#000000" :
   isDark ? "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%)" :
   "linear-gradient(135deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.58) 100%)";
-  const GLASS_BDR = isNight ? "1px solid #D32F2F" :
+  const GLASS_BDR = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(200,220,240,0.65)";
   const GLASS_SHAD = isNight ? "0 4px 20px rgba(0,0,0,0.4)" :
   isDark ? "inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(0,0,0,0.12)" :
@@ -2643,18 +2654,18 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const BAR_BG = isNight ? "#000000" :
   isDark ? "linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 100%)" :
   "linear-gradient(135deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.62) 100%)";
-  const BAR_BDR = isNight ? "1px solid #D32F2F" :
+  const BAR_BDR = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(200,220,240,0.70)";
   const BAR_SHAD = isNight ? "0 4px 24px rgba(0,0,0,0.5)" :
   isDark ? "inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 20px rgba(0,0,0,0.15)" :
   "inset 0 1px 0 rgba(255,255,255,0.75), 0 2px 14px rgba(20,50,90,0.05)";
-  const DIVIDER = isNight ? "1px solid #D32F2F" :
+  const DIVIDER = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)";
-  const ROW_DIV = isNight ? "1px solid #D32F2F" :
+  const ROW_DIV = isNight ? "1px solid #FF0000" :
   isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.06)";
   const SESS_BG = isNight ? "#000000" :
   isDark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.65)";
-  const BACK_DIM = isNight ? "#D32F2F" : isDark ? "rgba(255,255,255,0.22)" : "rgba(15,30,46,0.22)";
+  const BACK_DIM = isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.22)" : "rgba(15,30,46,0.22)";
   const NAME_SHAD = "none";
 
   // Guided uses the same exercise list as Session LIST/Guided tab: activeAllProp = filteredAll from getAll(track).
@@ -2923,7 +2934,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       React.createElement("div", { style: { fontSize: "var(--text-sm)", color: S, marginBottom: 24 } }, "Add exercises or clear filters and try again."), /*#__PURE__*/
       React.createElement("button", { ref: guidedCloseBtnRef, type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
           padding: "14px 40px", borderRadius: 28, cursor: "pointer",
-          background: A, border: nightMode ? "1px solid #D32F2F" : "none", color: isNight ? "#000000" : "var(--axis-white)",
+          background: A, border: nightMode ? "1px solid #FF0000" : "none", color: isNight ? "#000000" : "var(--axis-white)",
           WebkitTextFillColor: isNight ? "#000000" : undefined,
           fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 700,
           letterSpacing: "0.18em", textTransform: "uppercase"
@@ -2953,7 +2964,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("button", { ref: guidedCloseBtnRef, type: "button", onClick: onExit, "aria-label": "Back", style: {
         display: "flex", alignItems: "center", justifyContent: "center",
         width: 40, height: 40, borderRadius: "50%",
-        border: `1px solid ${isNight ? "#D32F2F" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
+        border: `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
         background: "transparent", cursor: "pointer", color: W, flexShrink: 0,
         WebkitTapHighlightColor: "transparent"
       } }, /*#__PURE__*/
@@ -2963,7 +2974,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase !== "intro" && phase !== "closing" && listTotal > 0
     ? React.createElement("div", { style: {
         width: 40, height: 40, borderRadius: "50%",
-        border: `1px solid ${isNight ? "#D32F2F" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
+        border: `1px solid ${isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         flexShrink: 0, gap: 1
       } },
@@ -3003,7 +3014,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     ), /*#__PURE__*/
     React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
         padding: "16px 48px", borderRadius: 28, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #D32F2F" : "none", color: isNight ? "#000000" : "var(--axis-white)",
+        background: A, border: nightMode ? "1px solid #FF0000" : "none", color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 700,
         letterSpacing: "0.18em", textTransform: "uppercase",
@@ -3030,7 +3041,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, opacity: 0.85, maxWidth: 320, lineHeight: 1.4, marginBottom: 28, textAlign: "center" } }, "No equipment? You can modify \u2014 use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion."), /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.3);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}, style: {
         padding: "14px 48px", borderRadius: 999, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #D32F2F" : "none", color: isNight ? "#000000" : "var(--axis-white)",
+        background: A, border: nightMode ? "1px solid #FF0000" : "none", color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
         letterSpacing: "0.24em", textTransform: "uppercase",
@@ -3116,7 +3127,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { position: "relative", width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         position: "absolute", inset: 0, borderRadius: "50%",
-        border: isNight ? "1px dashed #D32F2F" : isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
+        border: isNight ? "1px dashed #FF0000" : isDark ? "1px dashed rgba(255,255,255,0.12)" : "1px dashed rgba(0,0,0,0.1)",
         animation: "breatheCircle 4s ease-in-out infinite"
       } }),
     phase === "getready"
@@ -3126,7 +3137,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         gDisplay)
     ),
 
-    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "rgba(211,47,47,0.18)" : isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
+    React.createElement("div", { style: { width: carouselCardW, height: 4, borderRadius: 999, background: isNight ? "rgba(255,0,0,0.18)" : isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 16 } }, /*#__PURE__*/
     React.createElement("div", { style: {
         height: 4, borderRadius: 999, background: A,
         width: phase === "getready"
@@ -3152,7 +3163,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           overflow: "hidden",
           padding: "18px 16px 16px",
           borderTop: "none",
-          border: idx === carouselActiveIdx ? `2px solid ${A}` : isNight ? "1px solid #D32F2F" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
+          border: idx === carouselActiveIdx ? `2px solid ${A}` : isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
           background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)",
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
@@ -3232,20 +3243,20 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: {
         margin: "10px 16px 14px", padding: "16px 16px",
         background: isNight ? "#000000" : isDark ? "transparent" : "#F5F5F7",
-        border: isNight ? "1px solid #D32F2F" : isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid #E5E5E7",
+        border: isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid #E5E5E7",
         borderRadius: 12, flexShrink: 0, position: "relative", zIndex: 2,
         display: "flex", alignItems: "center", justifyContent: "center", gap: 6, textAlign: "center"
       } }, /*#__PURE__*/
     React.createElement("span", { style: {
         fontSize: 12, fontWeight: 500, letterSpacing: "0.1em",
         textTransform: "uppercase",
-        color: isNight ? "#D32F2F" : isDark ? "rgba(255,255,255,0.45)" : "#1D1D1F",
+        color: isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.45)" : "#1D1D1F",
         fontFamily: "var(--font-display)", flexShrink: 0
       } }, "UP NEXT:"),
     React.createElement("span", { style: {
         fontSize: 12, fontWeight: 500, letterSpacing: "0.06em",
         textTransform: "uppercase",
-        color: isNight ? "#D32F2F" : isDark ? "rgba(255,255,255,0.85)" : "var(--accent)",
+        color: isNight ? "#FF0000" : isDark ? "rgba(255,255,255,0.85)" : "var(--accent)",
         fontFamily: "var(--font-display)",
         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
       } }, (next.name || "").replace(/-/g, " "))
@@ -3273,7 +3284,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       } }, paused ? "RESUME" : "PAUSE"), /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: handleNext, style: {
         flex: 1, minWidth: 0, borderRadius: 999,
-        background: A, border: nightMode ? "1px solid #D32F2F" : "none",
+        background: A, border: nightMode ? "1px solid #FF0000" : "none",
         color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
@@ -3286,7 +3297,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
     phase === "getready" && /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {clearInterval(readyRef.current);primeAudio();beep(880, 0.2);setPhase("exercise");}, style: {
-        flex: 1, width: "100%", minWidth: 0, background: A, border: nightMode ? "1px solid #D32F2F" : "none",
+        flex: 1, width: "100%", minWidth: 0, background: A, border: nightMode ? "1px solid #FF0000" : "none",
         color: isNight ? "#000000" : "var(--axis-white)",
         WebkitTextFillColor: isNight ? "#000000" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
@@ -4553,7 +4564,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
       React.createElement("div", { style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, marginBottom: 0 } }, /*#__PURE__*/
       React.createElement("div", null, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, "Night mode"), /*#__PURE__*/
+      React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, "Ultra mode"), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, maxWidth: 280 } }, "Pure black OLED background with AXIS red accents. Optimized for low light.")
       ), /*#__PURE__*/
       React.createElement("button", { onClick: toggleNight, style: { flexShrink: 0, marginTop: 2, width: 44, height: 26, border: "1px solid", borderColor: nightMode ? "var(--accent)" : "var(--glass-border-strong)", borderRadius: 13, background: nightMode ? "var(--accent)" : "var(--glass-bg)", cursor: "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
@@ -4573,7 +4584,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const nowPeriod = getCircadianPeriod();
     const usedPeriod = activePeriod || nowPeriod;
     const homeCt = CIRCADIAN_THEMES[usedPeriod][theme === "dark" ? "dark" : "light"];
-    const homeHighlight = nightMode ? "#D32F2F" : homeCt && homeCt.accent ? homeCt.accent : "var(--accent)";
+    const homeHighlight = nightMode ? "#FF0000" : homeCt && homeCt.accent ? homeCt.accent : "var(--accent)";
     const perMove = exerciseDuration || 45;
     const getTrackDisplayDuration = (trackId) => {
       const sections = getSections(trackId);
@@ -4593,7 +4604,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const todayTrack = TRACKS[todaySug.trackId];
     const isTodayLight = theme === "light" && !nightMode;
     const todayInk = isTodayLight ? "#f6f7f8" : "#252525";
-    const todayInkSecondary = isTodayLight ? "#f6f7f8" : todayInk;
+    const todayInkSecondary = isTodayLight ? "#1f2a2a" : todayInk;
     const todayBtn = isTodayLight ? { background: "#f6f7f8", color: "#252525", border: "none" } : { background: "#252525", color: "#f6f7f8", border: "none" };
     const todayGlassBg = homeHighlight;
     const todayGlassBorder = "1px solid rgba(255,255,255,0.18)";
@@ -4679,9 +4690,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // SESSION — empty state: dark #0B121C + dark-UI mark, or light gradient + light-UI mark
   if (view === "session" && !hasActiveSession) {
     const sessionEmptyDark = theme === "dark";
-    const sessionBg = sessionEmptyDark ? "#0B121C" : MAIN_APP_BG.light;
-    const sessionHeadline = nightMode && sessionEmptyDark ? "#D32F2F" : sessionEmptyDark ? "var(--axis-white)" : "rgba(15,30,46,0.92)";
-    const sessionTagline = "#7d7d7d";
+    const sessionBg = nightMode ? "#000000" : sessionEmptyDark ? "#0B121C" : MAIN_APP_BG.light;
+    const sessionHeadline = nightMode ? "#FF0000" : sessionEmptyDark ? "var(--axis-white)" : "rgba(15,30,46,0.92)";
+    const sessionTagline = nightMode ? "#FF0000" : "#7d7d7d";
+    const sessionLogoFill = nightMode ? "#FF0000" : "#7d7d7d";
     const sessionLogo = AXIS_BRANDING_SESSION;
     return (/*#__PURE__*/
       React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
@@ -4755,10 +4767,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           transform: "translateY(20vh)"
         } }, /*#__PURE__*/
       React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 292.9 357.3", style: { width: 72, height: "auto", display: "block", marginBottom: 36 }, "aria-label": "AXIS" },
-        React.createElement("path", { fill: "#7d7d7d", d: "M63.6,35.6c-.4-1-1.1-1.4-2.3-1.3l-28.2,4c-1.1.2-1.9.8-2.3,1.9L2.8,133.4c-.4,1.6.1,2.2,1.7,2l22.7-3.2c1.2-.2,2-.9,2.3-2.1l2.9-10.8c.2-.4.4-.6.7-.6l28.2-4c.3,0,.5.1.7.4l2.9,10c.3,1.1,1,1.6,2.3,1.4l22.7-3.2c1.2-.2,1.9-.8,1.9-1.7s0-.6-.1-.8l-28.1-85.3h0ZM55.5,96.5l-16.6,2.3c-.5,0-.6-.2-.5-.7l8.4-31c0-.3.2-.4.4-.5s.3,0,.4.3l8.5,28.6c.2.5,0,.8-.5.9h0Z" }),
-        React.createElement("path", { fill: "#7d7d7d", d: "M290.9,4.3c.3-.5.4-.9.4-1.2s-.2-.6-.5-.8c-.3-.2-.7-.2-1.3-.2l-22.9,3.2c-1.1.2-1.9.8-2.4,1.8l-13,27c-.3.4-.5.4-.8.1l-13-23.3c-.4-.9-1.2-1.3-2.4-1.1l-23,3.2c-.5,0-.9.2-1.3.5-.3.3-.5.6-.5.9s.1.7.4,1.1l24.2,40.3c.2.2.2.5,0,.8l-24.2,47.2c-.3.4-.4.8-.4,1.2s.1.6.5.8c.3.2.7.2,1.3.2l22.9-3.2c1.1-.2,1.9-.8,2.4-1.8l13.2-26.8c.3-.5.5-.5.8-.1l13.2,23.2c.5.9,1.3,1.3,2.4,1.1l22.7-3.2c.5,0,1-.2,1.3-.5.3-.3.5-.6.5-.9s-.1-.8-.4-1.1l-24.1-40.4c0-.2,0-.5,0-.8l24.1-47.1h0Z" }),
-        React.createElement("path", { fill: "#7d7d7d", d: "M55.1,258.7l-21,3c-.6,0-1.1.3-1.5.7-.4.4-.5.9-.5,1.5v89.1c0,.6.2,1.1.5,1.4.3.3.8.4,1.5.3l21-3c.6,0,1.1-.3,1.5-.7.3-.4.5-.9.5-1.5v-89.1c0-.6-.2-1.1-.5-1.4-.4-.3-.8-.4-1.5-.3Z" }),
-        React.createElement("path", { fill: "#7d7d7d", d: "M268.1,269.3c-5.5-.9-8.7-1.4-9.4-1.5-5.1-.9-9-1.6-11.4-2.3-2.5-.7-4.3-1.5-5.5-2.4-1.2-.9-1.8-2.2-1.8-3.8s.8-3.8,2.5-5.1,3.9-2.3,6.7-2.7c4.1-.6,7.3,0,9.7,1.9,2.4,1.8,3.6,4.1,3.6,6.7h0c0,.8.2,1.2.5,1.5.4.3.8.4,1.5.3l20.6-2.9c.6,0,1.1-.3,1.5-.7.4-.4.5-.9.5-1.5v-1.2c0-6-1.6-11.2-4.9-15.4-3.2-4.2-7.7-7.2-13.3-9-5.6-1.8-11.9-2.2-18.8-1.2-6.6.9-12.5,2.9-17.8,5.9-5.3,3.1-9.4,6.9-12.4,11.7-3,4.7-4.5,9.9-4.5,15.5,0,8.4,3,14.4,8.9,18s13.3,6.1,22.1,7.5l3.9.5c4.7.8,7.9,1.5,9.7,2.2,1.8.7,2.7,2.1,2.7,4s-.7,3.3-2.1,4.9c-1.4,1.6-3.8,2.6-7.1,3-4.4.6-7.8.1-10.4-1.4-2.6-1.5-3.9-3.5-3.9-6v-.8c0-.6-.2-1.1-.5-1.4-.4-.3-.8-.4-1.5-.3l-20.6,2.9c-.6,0-1.1.3-1.5.7-.4.4-.5.9-.5,1.5v1.9c0,5.9,1.5,11,4.6,15s7.4,7,13,8.6c5.6,1.7,12.1,2,19.6.9,7.2-1,13.5-3,18.9-6.1,5.4-3.1,9.6-7,12.6-11.7s4.5-10.1,4.5-16-1.9-11.1-5.6-14.8c-3.7-3.8-8.4-6.1-13.9-7h0Z" })
+        React.createElement("path", { fill: sessionLogoFill, d: "M63.6,35.6c-.4-1-1.1-1.4-2.3-1.3l-28.2,4c-1.1.2-1.9.8-2.3,1.9L2.8,133.4c-.4,1.6.1,2.2,1.7,2l22.7-3.2c1.2-.2,2-.9,2.3-2.1l2.9-10.8c.2-.4.4-.6.7-.6l28.2-4c.3,0,.5.1.7.4l2.9,10c.3,1.1,1,1.6,2.3,1.4l22.7-3.2c1.2-.2,1.9-.8,1.9-1.7s0-.6-.1-.8l-28.1-85.3h0ZM55.5,96.5l-16.6,2.3c-.5,0-.6-.2-.5-.7l8.4-31c0-.3.2-.4.4-.5s.3,0,.4.3l8.5,28.6c.2.5,0,.8-.5.9h0Z" }),
+        React.createElement("path", { fill: sessionLogoFill, d: "M290.9,4.3c.3-.5.4-.9.4-1.2s-.2-.6-.5-.8c-.3-.2-.7-.2-1.3-.2l-22.9,3.2c-1.1.2-1.9.8-2.4,1.8l-13,27c-.3.4-.5.4-.8.1l-13-23.3c-.4-.9-1.2-1.3-2.4-1.1l-23,3.2c-.5,0-.9.2-1.3.5-.3.3-.5.6-.5.9s.1.7.4,1.1l24.2,40.3c.2.2.2.5,0,.8l-24.2,47.2c-.3.4-.4.8-.4,1.2s.1.6.5.8c.3.2.7.2,1.3.2l22.9-3.2c1.1-.2,1.9-.8,2.4-1.8l13.2-26.8c.3-.5.5-.5.8-.1l13.2,23.2c.5.9,1.3,1.3,2.4,1.1l22.7-3.2c.5,0,1-.2,1.3-.5.3-.3.5-.6.5-.9s-.1-.8-.4-1.1l-24.1-40.4c0-.2,0-.5,0-.8l24.1-47.1h0Z" }),
+        React.createElement("path", { fill: sessionLogoFill, d: "M55.1,258.7l-21,3c-.6,0-1.1.3-1.5.7-.4.4-.5.9-.5,1.5v89.1c0,.6.2,1.1.5,1.4.3.3.8.4,1.5.3l21-3c.6,0,1.1-.3,1.5-.7.3-.4.5-.9.5-1.5v-89.1c0-.6-.2-1.1-.5-1.4-.4-.3-.8-.4-1.5-.3Z" }),
+        React.createElement("path", { fill: sessionLogoFill, d: "M268.1,269.3c-5.5-.9-8.7-1.4-9.4-1.5-5.1-.9-9-1.6-11.4-2.3-2.5-.7-4.3-1.5-5.5-2.4-1.2-.9-1.8-2.2-1.8-3.8s.8-3.8,2.5-5.1,3.9-2.3,6.7-2.7c4.1-.6,7.3,0,9.7,1.9,2.4,1.8,3.6,4.1,3.6,6.7h0c0,.8.2,1.2.5,1.5.4.3.8.4,1.5.3l20.6-2.9c.6,0,1.1-.3,1.5-.7.4-.4.5-.9.5-1.5v-1.2c0-6-1.6-11.2-4.9-15.4-3.2-4.2-7.7-7.2-13.3-9-5.6-1.8-11.9-2.2-18.8-1.2-6.6.9-12.5,2.9-17.8,5.9-5.3,3.1-9.4,6.9-12.4,11.7-3,4.7-4.5,9.9-4.5,15.5,0,8.4,3,14.4,8.9,18s13.3,6.1,22.1,7.5l3.9.5c4.7.8,7.9,1.5,9.7,2.2,1.8.7,2.7,2.1,2.7,4s-.7,3.3-2.1,4.9c-1.4,1.6-3.8,2.6-7.1,3-4.4.6-7.8.1-10.4-1.4-2.6-1.5-3.9-3.5-3.9-6v-.8c0-.6-.2-1.1-.5-1.4-.4-.3-.8-.4-1.5-.3l-20.6,2.9c-.6,0-1.1.3-1.5.7-.4.4-.5.9-.5,1.5v1.9c0,5.9,1.5,11,4.6,15s7.4,7,13,8.6c5.6,1.7,12.1,2,19.6.9,7.2-1,13.5-3,18.9-6.1,5.4-3.1,9.6-7,12.6-11.7s4.5-10.1,4.5-16-1.9-11.1-5.6-14.8c-3.7-3.8-8.4-6.1-13.9-7h0Z" })
       ), /*#__PURE__*/
       React.createElement("div", {
         style: {
@@ -4795,8 +4807,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const sessionBackDark = sessionBackNight || theme === "dark";
   const sessionBackPeriod = activePeriod || getCircadianPeriod();
   const sessionBackCt = sessionBackNight ? null : CIRCADIAN_THEMES[sessionBackPeriod][sessionBackDark ? "dark" : "light"];
-  const sessionBackIconColor = sessionBackNight ? "#D32F2F" : sessionBackCt && sessionBackCt.textPrimary || (sessionBackDark ? "var(--axis-white)" : "#0f1020");
-  const sessionBackBorderColor = sessionBackNight ? "#D32F2F" : sessionBackDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)";
+  const sessionBackIconColor = sessionBackNight ? "#FF3B30" : sessionBackCt && sessionBackCt.textPrimary || (sessionBackDark ? "var(--axis-white)" : "#0f1020");
+  const sessionBackBorderColor = sessionBackNight ? "#FF3B30" : sessionBackDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)";
 
   // SESSION — render Guided overlay via portal to document.body so position:fixed is viewport-relative (parent has transform)
   const guidedOverlayEl = guidedActive ? /*#__PURE__*/
@@ -4950,7 +4962,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       onClick: () => {if (filteredAll.length > 0) {primeAudio();setTab("guided");setGuidedActive(true);}},
       disabled: filteredAll.length === 0,
       style: {
-        width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #D32F2F" : "none",
+        width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #FF0000" : "none",
         background: "var(--accent)", color: nightMode ? "var(--axis-black)" : "var(--axis-white)",
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
         letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
