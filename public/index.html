@@ -3045,14 +3045,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   CIRCADIAN_THEMES[period][isDark ? "dark" : "light"];
 
   const A = ct.accent;
-  /** Light guided UI: mockup-aligned iOS blue + header grays (non-night, light background). */
-  const gA = !isNight && !isDark ? "#007AFF" : A;
-  const gUpNextMuted = !isNight && !isDark ? "#8E8E93" : D;
-  const gUpNextStrong = !isNight && !isDark ? "#3A3A3C" : S;
   // AXIS Ultra: primary vs dim red — no white
   const W = isNight ? "#D32F2F" : ct.textPrimary || (isDark ? "var(--axis-white)" : "#0f1020");
   const S = isNight ? "rgba(211, 47, 47, 0.82)" : isDark ? "rgba(232,228,223,0.60)" : ct.textPrimary ? ct.textPrimary + "cc" : "rgba(15,30,46,0.75)";
   const D = isNight ? "rgba(211, 47, 47, 0.62)" : isDark ? "rgba(232,228,223,0.35)" : ct.textPrimary ? ct.textPrimary + "88" : "rgba(15,30,46,0.50)";
+  /** Guided Flow UI should inherit chosen mood accent (all non-night modes). */
+  const gA = A;
+  const gUpNextMuted = D;
+  const gUpNextStrong = S;
   const BG = isNight ? "#000000" : MAIN_APP_BG[isDark ? "dark" : "light"];
 
   // derive card/button colors from the theme background
