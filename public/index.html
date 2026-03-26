@@ -3552,27 +3552,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-base)", color: W, lineHeight: 1.2, fontWeight: 400, letterSpacing: "-0.01em" } }, card.cue)));
 
-      const catCowHalfStyle = (clip) => ({
-        width: "100%",
-        maxWidth: "100%",
-        margin: 0,
-        padding: 0,
-        boxSizing: "border-box",
-        clipPath: clip,
-        WebkitClipPath: clip,
-        color: catCowInstructionColor(theme, isNight)
-      });
-      const slideSnapStyle = {
-        flex: "0 0 calc(100% - 40px)",
-        width: "calc(100% - 40px)",
-        minWidth: "calc(100% - 40px)",
-        maxWidth: "calc(100% - 40px)",
-        flexShrink: 0,
-        scrollSnapAlign: "start",
-        scrollSnapStop: "always",
-        boxSizing: "border-box",
-        padding: 0
-      };
+      /* Cat-Cow.svg / ExerciseFigure temporarily disabled — placeholder rectangles for layout isolation */
       const guidedPagerDot = (active) => ({
         width: 6,
         height: 6,
@@ -3598,8 +3578,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         ref: catCowCarouselRef,
         onScroll: (e) => {
           const el = e.currentTarget;
-          const slide = el.querySelector(".guided-catcow-slide");
-          const w = slide && slide.offsetWidth ? slide.offsetWidth : Math.max(1, el.clientWidth - 40);
+          const slide = el.querySelector(".guided-catcow-placeholder-slide");
+          const w = slide && slide.offsetWidth ? slide.offsetWidth : Math.max(1, el.clientWidth - 48);
           const idx = Math.round((el.scrollLeft || 0) / w);
           const b = Math.max(0, Math.min(1, idx));
           if (b !== catCowSlideIdx) setCatCowSlideIdx(b);
@@ -3608,28 +3588,34 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           display: "flex",
           flexDirection: "row",
           flexWrap: "nowrap",
-          width: "100%",
           overflowX: "auto",
-          overflowY: "hidden",
-          scrollSnapType: "x mandatory",
-          WebkitOverflowScrolling: "touch",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          gap: 0,
-          padding: 0,
-          scrollPaddingLeft: 0,
-          scrollPaddingRight: 0,
-          boxSizing: "border-box"
+          width: "100%"
         },
-        "aria-label": "Cat and Cow pose diagram",
-        className: "guided-catcow-scroll"
+        "aria-label": "Cat and Cow pose diagram (placeholder rectangles)",
+        className: "guided-catcow-placeholder-scroll"
       },
-      /*#__PURE__*/React.createElement("div", { className: "guided-catcow-slide", style: slideSnapStyle }, /*#__PURE__*/
-      React.createElement("div", { className: "exercise-figure--catcow", style: catCowHalfStyle("inset(0 0 50% 0)"), "aria-hidden": true }, /*#__PURE__*/
-      React.createElement(ExerciseFigure, { id: CATCOW_FIGURE_ASSET_ID, aspect: 1, fillContainer: true }))),
-      /*#__PURE__*/React.createElement("div", { className: "guided-catcow-slide", style: slideSnapStyle }, /*#__PURE__*/
-      React.createElement("div", { className: "exercise-figure--catcow", style: catCowHalfStyle("inset(50% 0 0 0)"), "aria-hidden": true }, /*#__PURE__*/
-      React.createElement(ExerciseFigure, { id: CATCOW_FIGURE_ASSET_ID, aspect: 1, fillContainer: true })))), /*#__PURE__*/
+      /*#__PURE__*/React.createElement("div", {
+        className: "guided-catcow-placeholder-slide",
+        style: {
+          flexShrink: 0,
+          width: "calc(100% - 48px)",
+          height: 250,
+          background: "#e0e0e0",
+          border: "2px solid blue",
+          boxSizing: "border-box"
+        }
+      }),
+      /*#__PURE__*/React.createElement("div", {
+        className: "guided-catcow-placeholder-slide",
+        style: {
+          flexShrink: 0,
+          width: "calc(100% - 48px)",
+          height: 250,
+          background: "#d0d0d0",
+          border: "2px solid red",
+          boxSizing: "border-box"
+        }
+      })), /*#__PURE__*/
       React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 10 } },
       [0, 1].map((i) => /*#__PURE__*/React.createElement("span", { key: `cc-dot-${i}`, "aria-hidden": true, style: guidedPagerDot(i === catCowSlideIdx) }))), /*#__PURE__*/
       React.createElement("div", {
