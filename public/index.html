@@ -1269,25 +1269,29 @@ const css = `
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
   }
-  .guided-overlay .guided-catcow-scroll svg text {
+  .guided-overlay .gdc-diag-track svg text {
     opacity: 0;
   }
-  .guided-overlay .guided-instr-scroll {
+  .guided-overlay .gdc-instr-track,
+  .guided-overlay .gdc-diag-track {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: stretch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
-  .guided-overlay .guided-instr-scroll > * {
-    flex-shrink: 0 !important;
+  .guided-overlay .gdc-instr-track::-webkit-scrollbar,
+  .guided-overlay .gdc-diag-track::-webkit-scrollbar {
+    display: none !important;
   }
-  .guided-overlay .guided-catcow-scroll {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: stretch !important;
+  .guided-overlay .gdc-instr-slide {
+    flex: 0 0 calc(100% - 48px) !important;
+    min-width: calc(100% - 48px) !important;
+    max-width: calc(100% - 48px) !important;
+    box-sizing: border-box !important;
   }
-  .guided-overlay .guided-catcow-slide {
+  .guided-overlay .gdc-diag-slide {
     flex: 0 0 calc(100% - 48px) !important;
     min-width: calc(100% - 48px) !important;
     max-width: calc(100% - 48px) !important;
@@ -1300,7 +1304,7 @@ const css = `
     align-items: center !important;
     justify-content: center !important;
   }
-  .guided-overlay .guided-catcow-slide .exercise-figure--catcow {
+  .guided-overlay .gdc-diag-slide .exercise-figure--catcow {
     width: 100% !important;
     height: 100% !important;
     max-height: 160px !important;
@@ -1310,7 +1314,7 @@ const css = `
     justify-content: center !important;
     overflow: hidden !important;
   }
-  .guided-overlay .guided-catcow-slide .exercise-figure--catcow svg {
+  .guided-overlay .gdc-diag-slide .exercise-figure--catcow svg {
     display: block !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -3046,8 +3050,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const carouselGap = 12;
   const carouselTrackRef = useRef(null);
   const [carouselActiveIdx, setCarouselActiveIdx] = useState(0);
-  const catCowCarouselRef = useRef(null);
-  const [catCowSlideIdx, setCatCowSlideIdx] = useState(0);
+  const diagramCarouselRef = useRef(null);
+  const [diagramSlideIdx, setDiagramSlideIdx] = useState(0);
 
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
@@ -3213,16 +3217,16 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   useEffect(() => {
     // Reset carousel position and active dot when exercise changes.
     setCarouselActiveIdx(0);
-    setCatCowSlideIdx(0);
+    setDiagramSlideIdx(0);
     const track = carouselTrackRef.current;
     if (track && typeof track.scrollTo === "function") {
       try {track.scrollTo({ left: 0, behavior: "auto" });} catch (e) {}
     }
-    const cc = catCowCarouselRef.current;
-    if (cc && typeof cc.scrollTo === "function") {
-      try {cc.scrollTo({ left: 0, behavior: "auto" });} catch (e) {}
+    const diag = diagramCarouselRef.current;
+    if (diag && typeof diag.scrollTo === "function") {
+      try {diag.scrollTo({ left: 0, behavior: "auto" });} catch (e) {}
     }
-  }, [fi, phase, cur && cur.id, carouselCardW]);
+  }, [fi, phase, cur && cur.id]);
 
   // Cat/Cow carousel is user-driven (no auto-swap).
 
@@ -3290,6 +3294,26 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const handlePrev = () => {
     if (fi > 0) {setFi((i) => i - 1);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}
   };
+
+  const catCowCaptionAt = (slideIdx) => {
+    const catLine = guidedStepCards.find((c) => /\bcat\b/i.test(String(c.cue || "")) && !/\bcow\b/i.test(String(c.cue || "")));
+    const cowLine = guidedStepCards.find((c) => /\bcow\b/i.test(String(c.cue || "")));
+    if (slideIdx === 0) {
+      if (catLine) return `${catLine.label} - ${catLine.cue}`.replace(/\s+/g, " ").trim();
+      return "MOVE 2 - CAT (EXHALE)";
+    }
+    if (cowLine) return `${cowLine.label} - ${cowLine.cue}`.replace(/\s+/g, " ").trim();
+    return "MOVE 3 - COW (INHALE)";
+  };
+
+  const guidedPagerDot = (active) => ({
+    width: 6,
+    height: 6,
+    borderRadius: "50%",
+    background: active ? (isNight ? A : "var(--mood-accent)") : isNight ? "rgba(211, 47, 47, 0.48)" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)",
+    boxShadow: active ? (isNight ? `0 0 8px ${A}` : "0 0 8px var(--mood-accent)") : "none",
+    opacity: active ? 1 : 0.7
+  });
 
   // No exercises: show message and exit (avoids cur.id / cur.name access on undefined)
   if (listTotal === 0 || !cur) {
@@ -3465,13 +3489,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase !== "intro" && phase !== "closing" && phase !== "milestone" && /*#__PURE__*/
     React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", position: "relative", zIndex: 2, minHeight: 0, overflow: "hidden" } }, /*#__PURE__*/
 
-    React.createElement("div", { style: { flex: "1 1 0%", minHeight: 0, overflowY: "auto", overflowX: "hidden", padding: "2px 16px 16px", WebkitOverflowScrolling: "touch", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
-
-    phase === "milestone" && /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.28em", textTransform: "uppercase", color: S, marginBottom: 8, flexShrink: 0, textAlign: "left" } }, "MILESTONE"
-    ),
-
-
+    React.createElement("div", { style: { flex: "1 1 0%", minHeight: 0, overflow: "hidden", padding: "2px 16px 0", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
 
     (phase === "getready" || phase === "exercise") && /*#__PURE__*/
     React.createElement("div", { style: {
@@ -3552,148 +3570,45 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
 
-    (() => {
-      if (!guidedStepTotal) return null;
-      const stepCardEls = guidedStepCards.map((card, idx) => /*#__PURE__*/React.createElement("div", {
-        key: idx,
-        style: {
-          width: carouselCardW,
-          flexShrink: 0,
-          scrollSnapAlign: "center",
-          borderRadius: 12,
-          overflow: "hidden",
-          padding: "10px 12px 14px",
-          borderTop: "none",
-          border: idx === carouselActiveIdx ? `2px solid ${A}` : isNight ? "1px solid #D32F2F" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
-          background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)",
-          backdropFilter: "blur(24px) saturate(1.4)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-          boxShadow: isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)",
-          opacity: idx === carouselActiveIdx ? 1 : 0.78,
-          transform: idx === carouselActiveIdx ? "scale(1)" : "scale(0.98)",
-          transition: "opacity 0.25s ease-out, transform 0.25s ease-out"
-        }
-      }, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "calc(var(--text-xs) + 2px)", letterSpacing: "0.22em", textTransform: "uppercase", color: isNight ? "#FF3B30" : A, marginBottom: 8 } }, card.label),
-      /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-base)", color: W, lineHeight: 1.2, fontWeight: 400, letterSpacing: "-0.01em" } }, card.cue)));
-
-      const guidedPagerDot = (active) => ({
-        width: 6,
-        height: 6,
-        borderRadius: "50%",
-        background: active ? (isNight ? A : "var(--mood-accent)") : isNight ? "rgba(211, 47, 47, 0.48)" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)",
-        boxShadow: active ? (isNight ? `0 0 8px ${A}` : "0 0 8px var(--mood-accent)") : "none",
-        opacity: active ? 1 : 0.7
-      });
-      const catCowCaptionAt = (slideIdx) => {
-        const catLine = guidedStepCards.find((c) => /\bcat\b/i.test(String(c.cue || "")) && !/\bcow\b/i.test(String(c.cue || "")));
-        const cowLine = guidedStepCards.find((c) => /\bcow\b/i.test(String(c.cue || "")));
-        if (slideIdx === 0) {
-          if (catLine) return `${catLine.label} - ${catLine.cue}`.replace(/\s+/g, " ").trim();
-          return "MOVE 2 - CAT (EXHALE)";
-        }
-        if (cowLine) return `${cowLine.label} - ${cowLine.cue}`.replace(/\s+/g, " ").trim();
-        return "MOVE 3 - COW (INHALE)";
-      };
-
-      const catCowDiagramMax = 160;
-      const catCowBlock = exerciseShowsCatCowFigure(cur.id, cur.name) ? /*#__PURE__*/
-      React.createElement("div", { style: { width: "100%", maxHeight: catCowDiagramMax, boxSizing: "border-box", overflow: "hidden" } }, /*#__PURE__*/
-      React.createElement("div", {
-        ref: catCowCarouselRef,
-        onScroll: (e) => {
-          const el = e.currentTarget;
-          const slide = el.querySelector(".guided-catcow-slide");
-          const w = slide && slide.offsetWidth ? slide.offsetWidth : Math.max(1, el.clientWidth - 48);
-          const idx = Math.round((el.scrollLeft || 0) / w);
-          const b = Math.max(0, Math.min(1, idx));
-          if (b !== catCowSlideIdx) setCatCowSlideIdx(b);
-        },
-        style: {
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "nowrap",
-          overflowX: "auto",
-          overflowY: "hidden",
-          width: "100%",
-          maxHeight: catCowDiagramMax,
-          WebkitOverflowScrolling: "touch",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          boxSizing: "border-box"
-        },
-        "aria-label": "Cat and Cow pose diagram",
-        className: "guided-catcow-scroll"
-      },
-      /*#__PURE__*/React.createElement("div", {
-        className: "guided-catcow-slide guided-catcow-slide--left",
-        style: { position: "relative" }
-      }, /*#__PURE__*/
-      React.createElement(ExerciseFigure, {
-        id: CATCOW_FIGURE_ASSET_ID,
-        viewBox: "0 0 512 1024",
-        fillContainer: true,
-        className: "exercise-figure--catcow",
-        style: { color: catCowInstructionColor(theme, isNight) }
-      })),
-      /*#__PURE__*/React.createElement("div", {
-        className: "guided-catcow-slide guided-catcow-slide--right",
-        style: { position: "relative" }
-      }, /*#__PURE__*/
-      React.createElement(ExerciseFigure, {
-        id: CATCOW_FIGURE_ASSET_ID,
-        viewBox: "512 0 512 1024",
-        fillContainer: true,
-        className: "exercise-figure--catcow",
-        style: { color: catCowInstructionColor(theme, isNight) }
-      }))), /*#__PURE__*/
-      React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 4, marginLeft: "auto", marginRight: "auto", flexShrink: 0 } },
-      [0, 1].map((i) => /*#__PURE__*/React.createElement("span", { key: `cc-dot-${i}`, "aria-hidden": true, style: guidedPagerDot(i === catCowSlideIdx) }))), /*#__PURE__*/
-      React.createElement("div", {
-        key: `cc-cap-${catCowSlideIdx}`,
-        "aria-live": "polite",
-        "aria-atomic": "true",
-        style: {
-          width: "100%",
-          padding: "0 8px",
-          boxSizing: "border-box",
-          textAlign: "center",
-          marginTop: 4,
-          marginBottom: 0,
-          fontSize: "var(--text-xs)",
-          fontWeight: 500,
-          letterSpacing: "0.06em",
-          textTransform: "uppercase",
-          color: S,
-          lineHeight: 1.35,
-          fontFamily: "var(--font-display)"
-        }
-      }, catCowCaptionAt(catCowSlideIdx))
-      ) : null;
-
-      const stepInstrBlock = /*#__PURE__*/
-      React.createElement("div", { id: `instr-${cur.id}`, style: { marginBottom: 0, marginTop: 0, width: "100%", boxSizing: "border-box" } }, /*#__PURE__*/
-      React.createElement("div", { ref: carouselTrackRef, onScroll: (e) => {
+    (phase === "getready" || phase === "exercise") && guidedStepTotal > 0 && cur && /*#__PURE__*/React.createElement("div", {
+      className: "gdc-root",
+      style: {
+        flex: 1,
+        minHeight: 0,
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        marginTop: 0,
+        boxSizing: "border-box"
+      }
+    }, /*#__PURE__*/
+    React.createElement("div", {
+      className: "gdc-section gdc-section--instr",
+      style: { flexShrink: 0, width: "100%", boxSizing: "border-box" }
+    }, /*#__PURE__*/
+    React.createElement("div", { id: `instr-${cur.id}`, style: { width: "100%", boxSizing: "border-box" } }, /*#__PURE__*/
+    React.createElement("div", {
+      ref: carouselTrackRef,
+      className: "gdc-instr-track",
+      onScroll: (e) => {
         const el = e.currentTarget;
-        const stride = carouselCardW + carouselGap;
+        const slide = el.querySelector(".gdc-instr-slide");
+        const stride = (slide?.offsetWidth || 0) + carouselGap;
         const maxScroll = Math.max(0, (el.scrollWidth || 0) - (el.clientWidth || 0));
         let idx;
         if (maxScroll > 0) {
           if ((el.scrollLeft || 0) >= maxScroll - 2) {
             idx = guidedStepTotal - 1;
           } else {
-            idx = Math.round(((el.scrollLeft || 0) / maxScroll) * (guidedStepTotal - 1));
+            idx = stride > 0 ? Math.round((el.scrollLeft || 0) / stride) : 0;
           }
         } else {
-          idx = Math.round((el.scrollLeft || 0) / stride);
+          idx = stride > 0 ? Math.round((el.scrollLeft || 0) / stride) : 0;
         }
         const bounded = Math.max(0, Math.min(guidedStepTotal - 1, idx));
         if (bounded !== carouselActiveIdx) setCarouselActiveIdx(bounded);
-      }, style: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "nowrap",
+      },
+      style: {
         gap: carouselGap,
         overflowX: "auto",
         overflowY: "hidden",
@@ -3703,49 +3618,110 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         scrollPaddingLeft: carouselSidePad,
         scrollPaddingRight: carouselSidePad,
         boxSizing: "border-box"
-      }, className: "guided-instr-scroll" }, stepCardEls), /*#__PURE__*/
-      React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 4, marginLeft: "auto", marginRight: "auto", boxSizing: "border-box", flexShrink: 0 } },
-      guidedStepCards.map((_, idx) => /*#__PURE__*/React.createElement("span", {
-        key: `dot-${idx}`,
-        "aria-hidden": true,
-        style: guidedPagerDot(idx === carouselActiveIdx)
-      }))
-      ), /*#__PURE__*/
-      cur.demoVideo && /*#__PURE__*/React.createElement("div", { style: { padding: "4px 16px 8px", textAlign: "center" } }, /*#__PURE__*/
-      React.createElement(VideoDemo, {
-        src: cur.demoVideo,
-        style: { width: "100%", borderRadius: 10, display: "block" },
-        ariaLabel: cur && cur.name ? `Demo: ${cur.name}` : "Exercise demo" }
-      )));
-
-      return /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "stretch",
-          width: "100%",
-          marginTop: 0,
-          boxSizing: "border-box"
+      }
+    }, guidedStepCards.map((card, idx) => /*#__PURE__*/React.createElement("div", {
+      key: idx,
+      className: "gdc-instr-slide",
+      style: {
+        scrollSnapAlign: "center",
+        borderRadius: 12,
+        overflow: "hidden",
+        padding: "10px 12px 14px",
+        borderTop: "none",
+        border: idx === carouselActiveIdx ? `2px solid ${A}` : isNight ? "1px solid #D32F2F" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
+        background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)",
+        backdropFilter: "blur(24px) saturate(1.4)",
+        WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+        boxShadow: isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)",
+        opacity: idx === carouselActiveIdx ? 1 : 0.78,
+        transform: idx === carouselActiveIdx ? "scale(1)" : "scale(0.98)",
+        transition: "opacity 0.25s ease-out, transform 0.25s ease-out"
+      }
+    }, /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "calc(var(--text-xs) + 2px)", letterSpacing: "0.22em", textTransform: "uppercase", color: isNight ? "#FF3B30" : A, marginBottom: 8 } }, card.label),
+    /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-base)", color: W, lineHeight: 1.2, fontWeight: 400, letterSpacing: "-0.01em" } }, card.cue)))))), /*#__PURE__*/
+    React.createElement("div", { className: "gdc-instr-dots", style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 4, boxSizing: "border-box", flexShrink: 0 } },
+    guidedStepCards.map((_, idx) => /*#__PURE__*/React.createElement("span", {
+      key: `gdc-dot-${idx}`,
+      "aria-hidden": true,
+      style: guidedPagerDot(idx === carouselActiveIdx)
+    }))), /*#__PURE__*/
+    exerciseShowsCatCowFigure(cur.id, cur.name) ? /*#__PURE__*/React.createElement("div", {
+      className: "gdc-section gdc-section--diagram",
+      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", marginTop: 8 }
+    }, /*#__PURE__*/
+    React.createElement("div", {
+      ref: diagramCarouselRef,
+      className: "gdc-diag-track",
+      onScroll: (e) => {
+        const el = e.currentTarget;
+        const slide = el.querySelector(".gdc-diag-slide");
+        const stride = (slide?.offsetWidth || 0) + carouselGap;
+        const maxScroll = Math.max(0, (el.scrollWidth || 0) - (el.clientWidth || 0));
+        let idx;
+        if (maxScroll > 0 && (el.scrollLeft || 0) >= maxScroll - 2) {
+          idx = 1;
+        } else {
+          idx = stride > 0 ? Math.round((el.scrollLeft || 0) / stride) : 0;
         }
+        const b = Math.max(0, Math.min(1, idx));
+        if (b !== diagramSlideIdx) setDiagramSlideIdx(b);
       },
-      /*#__PURE__*/React.createElement("div", {
-        className: "guided-section-instructions",
-        style: {
-          padding: "0 0 4px",
-          width: "100%",
-          boxSizing: "border-box"
-        }
-      }, stepInstrBlock),
-      catCowBlock ? /*#__PURE__*/React.createElement("div", {
-        className: "guided-section-visuals",
-        style: {
-          padding: "4px 0 0",
-          width: "100%",
-          boxSizing: "border-box"
-        }
-      }, catCowBlock) : null);
-
-    })()
+      style: {
+        gap: carouselGap,
+        overflowX: "auto",
+        overflowY: "hidden",
+        width: "100%",
+        maxHeight: 160,
+        WebkitOverflowScrolling: "touch",
+        padding: `0 ${carouselSidePad}px`,
+        scrollPaddingLeft: carouselSidePad,
+        scrollPaddingRight: carouselSidePad,
+        boxSizing: "border-box"
+      },
+      "aria-label": "Cat and Cow pose diagram"
+    }, /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
+      id: CATCOW_FIGURE_ASSET_ID,
+      viewBox: "0 0 512 1024",
+      fillContainer: true,
+      className: "exercise-figure--catcow",
+      style: { color: catCowInstructionColor(theme, isNight) }
+    })), /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
+      id: CATCOW_FIGURE_ASSET_ID,
+      viewBox: "512 0 512 1024",
+      fillContainer: true,
+      className: "exercise-figure--catcow",
+      style: { color: catCowInstructionColor(theme, isNight) }
+    }))), /*#__PURE__*/
+    React.createElement("div", { className: "gdc-diag-dots", style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 4, flexShrink: 0 } },
+    [0, 1].map((i) => /*#__PURE__*/React.createElement("span", { key: `gdc-ddot-${i}`, "aria-hidden": true, style: guidedPagerDot(i === diagramSlideIdx) }))), /*#__PURE__*/
+    React.createElement("div", {
+      key: `gdc-cap-${diagramSlideIdx}`,
+      "aria-live": "polite",
+      "aria-atomic": "true",
+      style: {
+        width: "100%",
+        padding: "0 8px",
+        boxSizing: "border-box",
+        textAlign: "center",
+        marginTop: 4,
+        marginBottom: 0,
+        fontSize: "var(--text-xs)",
+        fontWeight: 500,
+        letterSpacing: "0.06em",
+        textTransform: "uppercase",
+        color: S,
+        lineHeight: 1.35,
+        fontFamily: "var(--font-display)"
+      }
+    }, catCowCaptionAt(diagramSlideIdx))) : null, /*#__PURE__*/
+    cur.demoVideo && /*#__PURE__*/React.createElement("div", { className: "gdc-section gdc-section--video", style: { flexShrink: 0, width: "100%", padding: "2px 0 0", textAlign: "center", boxSizing: "border-box" } }, /*#__PURE__*/React.createElement(VideoDemo, {
+      src: cur.demoVideo,
+      style: { width: "100%", borderRadius: 10, display: "block" },
+      ariaLabel: cur && cur.name ? `Demo: ${cur.name}` : "Exercise demo"
+    })), /*#__PURE__*/
+    React.createElement("div", { className: "gdc-air", style: { flex: "1 1 0%", minHeight: 0, width: "100%" } })),
 
 
 
