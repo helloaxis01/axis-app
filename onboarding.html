@@ -894,8 +894,18 @@ function applyCircadianTheme(isDark, period) {
 }
 
 function Onboarding({ theme, onComplete }) {
+  const APP_ICON_OPTIONS = [
+    { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
+    { id: "light", label: "Light", src: "./app-icons/icon-light.png" },
+    { id: "dark", label: "Dark", src: "./app-icons/icon-dark.png" },
+    { id: "ultra", label: "Ultra", src: "./app-icons/icon-ultra.png" },
+    { id: "rise", label: "Rise", src: "./app-icons/icon-rise.png" },
+    { id: "midday", label: "Midday", src: "./app-icons/icon-midday.png" },
+    { id: "prime", label: "Prime", src: "./app-icons/icon-prime.png" },
+    { id: "rest", label: "Rest", src: "./app-icons/icon-rest.png" }
+  ];
   const [cur, setCur] = useState(0);
-  const total = 9; // Splash, Alpha, Perspective, Science+Ethics, Safety, Appearance, Ultra Mode, Navigation Map, Launch
+  const total = 10; // Splash, Alpha, Perspective, Science+Ethics, Safety, Appearance, Ultra Mode, App Icon Selection, Navigation Map, Launch
   const [disclaimerName, setDisclaimerName] = useState("");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
   const [disclaimerWarning, setDisclaimerWarning] = useState(false);
@@ -911,6 +921,8 @@ function Onboarding({ theme, onComplete }) {
   const [obTime, setObTime] = useState(null); // 5 | 10 | 15 | 20 (minutes) for calibration
   const [hasChosenMood, setHasChosenMood] = useState(false); // Grey until user picks a mood on Appearance
   const [colorRevealed, setColorRevealed] = useState(false); // true after fade-in completes so we switch theme
+  const [selectedAppIcon, setSelectedAppIcon] = useState(() => storageGet("axis_app_icon", "./app-icons/icon-classic.png"));
+  const manifestBlobUrlRef = useRef(null);
   const iconColor = obTheme === "dark" ? "var(--axis-white)" : "var(--axis-black)";
   const periodForTheme = obPeriod ?? getCircadianPeriod();
   const ct = CIRCADIAN_THEMES[periodForTheme][obTheme === "dark" ? "dark" : "light"];
@@ -957,6 +969,53 @@ function Onboarding({ theme, onComplete }) {
   );
 
   const obShellRef = useRef(null);
+  const applySelectedAppIcon = async (iconHref) => {
+    if (typeof document === "undefined" || !iconHref) return;
+    const upsertLink = (selector, rel, href, type) => {
+      let link = document.querySelector(selector);
+      if (!link) {
+        link = document.createElement("link");
+        link.setAttribute("rel", rel);
+        document.head.appendChild(link);
+      }
+      if (type) link.setAttribute("type", type);
+      link.setAttribute("href", href);
+    };
+    upsertLink("link[rel='apple-touch-icon']", "apple-touch-icon", iconHref);
+    upsertLink("link[rel='icon']", "icon", iconHref, "image/png");
+
+    const manifestLink = document.querySelector("link[rel='manifest']");
+    if (!manifestLink) return;
+    const manifestHref = manifestLink.getAttribute("href");
+    if (!manifestHref) return;
+    try {
+      const manifestUrl = new URL(manifestHref, window.location.href).href;
+      const res = await fetch(manifestUrl, { cache: "no-store" });
+      if (!res.ok) return;
+      const json = await res.json();
+      const next = { ...json };
+      if (Array.isArray(next.icons) && next.icons.length > 0) {
+        next.icons = next.icons.map((icon) => ({ ...icon, src: iconHref }));
+      } else {
+        next.icons = [{ src: iconHref, sizes: "192x192", type: "image/png" }, { src: iconHref, sizes: "512x512", type: "image/png" }];
+      }
+      const blob = new Blob([JSON.stringify(next)], { type: "application/json" });
+      const blobUrl = URL.createObjectURL(blob);
+      if (manifestBlobUrlRef.current) URL.revokeObjectURL(manifestBlobUrlRef.current);
+      manifestBlobUrlRef.current = blobUrl;
+      manifestLink.setAttribute("href", blobUrl);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    storageSet("axis_app_icon", selectedAppIcon);
+    void applySelectedAppIcon(selectedAppIcon);
+  }, [selectedAppIcon]);
+
+  useEffect(() => () => {
+    if (manifestBlobUrlRef.current) URL.revokeObjectURL(manifestBlobUrlRef.current);
+  }, []);
+
   useLayoutEffect(() => {
     const reset = () => {
       if (obShellRef.current) obShellRef.current.scrollTop = 0;
@@ -1313,7 +1372,7 @@ function Onboarding({ theme, onComplete }) {
                 <div style={{
                   border:"1px solid #FF3B30",
                   borderRadius:14,
-                  padding:"14px 16px",
+                  padding:"16px",
                   background:"#000000",
                   color:"#FF3B30",
                   lineHeight:1.45,
@@ -1324,12 +1383,34 @@ function Onboarding({ theme, onComplete }) {
                 <div style={{ marginTop:12, fontSize:14, lineHeight:1.45, color:"#FF3B30" }}>
                   Enable this option in the Mood tab.
                 </div>
+                <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M1.5 12s3.8-6 10.5-6 10.5 6 10.5 6-3.8 6-10.5 6S1.5 12 1.5 12z" />
+                    <circle cx="12" cy="12" r="2.5" />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>}
 
-          {/* 7: NAVIGATION MAP */}
+          {/* 7: APP ICON SELECTION */}
           {cur === 7 && <div className="ob-screen ob-content-only">
+            <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
+              <div className="ob-pad">
+                <div className="ob-eyebrow">App Icon</div>
+                <div className="ob-heading" style={{ fontSize:36 }}>Make it <em>yours</em></div>
+                <div className="ob-body" style={{ marginBottom: 10, fontSize: 14, maxWidth: 420 }}>
+                  You can customize your app icon at any time in SETTINGS.
+                </div>
+                <div className="ob-body" style={{ fontSize: 14, maxWidth: 420 }}>
+                  To get the full experience, use the Share menu now to save this app to your Home Screen. It's optimized for full-screen use and works best as a standalone app.
+                </div>
+              </div>
+            </div>
+          </div>}
+
+          {/* 8: NAVIGATION MAP */}
+          {cur === 8 && <div className="ob-screen ob-content-only">
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
                 <div className="ob-eyebrow">Navigation Map</div>
@@ -1340,7 +1421,7 @@ function Onboarding({ theme, onComplete }) {
                 <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
                   {[
                     ["HOME", "Browse the library or start the time of day recommendation.", <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 22V9L12 2l9 7v13h-6v-10H9v10H3z"/></svg>],
-                    ["SESSIONS", "Choose between a self-paced LIST mode or a timed GUIDED flow.", <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7 4h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/><path d="M8.5 9.5h7"/><path d="M8.5 12.5h7"/><path d="M8.5 15.5h5"/></svg>],
+                    ["SESSIONS", "Choose between a self-paced LIST mode or a timed GUIDED flow.", <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>],
                     ["TIMER", "Standalone interval and breathe timers to destress, reduce anxiety, or focus.", <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="8"/><line x1="12" y1="12" x2="16.5" y2="12"/></svg>],
                     ["MOOD", "Set your circadian color or keep Auto enabled. Try Ultra for late-night sessions.", <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5"/></svg>],
                     ["SETTINGS", "Manage your theme, haptics, and default exercise durations (30, 45, 60 seconds).", <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>]
@@ -1378,8 +1459,8 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 8: LAUNCH — same logo + tagline as Splash */}
-          {cur === 8 && (
+          {/* 9: LAUNCH — same logo + tagline as Splash */}
+          {cur === 9 && (
             <div className="ob-screen ob-cta-screen ob-launch-screen" style={{ color: "var(--ob-text-head)", transition: "color 0.6s ease", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
               <img src={obTheme === "dark" ? "./AXIS_Branding_DarkMode_Outlined.svg" : "./AXIS_Branding_LightMode_Outlined.svg"} alt="AXIS Logo" style={{ marginTop: "calc(90px + 5vh)", width: 165 }} />
               <div className="ob-screen-body">
@@ -1393,10 +1474,10 @@ function Onboarding({ theme, onComplete }) {
       </div>
 
       <div className="ob-ext-nav">
-        {["Splash","Alpha","Perspective","Science+Ethics","Safety","Appearance","Ultra Mode","Navigation Map","Launch"].map((l, i) => (
+        {["Splash","Alpha","Perspective","Science+Ethics","Safety","Appearance","Ultra Mode","App Icon Selection","Navigation Map","Launch"].map((l, i) => (
           <button key={l} className="ob-en-btn" onClick={() => go(i)}>{l}</button>
         ))}
-        <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={() => go(8)}>→ Launch Screen</button>
+        <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={() => go(9)}>→ Launch Screen</button>
       </div>
       <div className="ob-label">Tap screen or use controls · Begin buttons launch the app</div>
       {/* Fixed footer — pointer-events: none; buttons have pointer-events: auto */}
@@ -1414,13 +1495,13 @@ function Onboarding({ theme, onComplete }) {
           transition: 'background 0.6s ease',
         }}
       >
-        {cur === 8 ? (
+        {cur === 9 ? (
           <div className="ob-footer-nav-locked">
             <button
               type="button"
               className="ob-nav-back ob-nav-glass-btn ob-footer-nav-cell--back"
               aria-label="Go Back"
-              onClick={() => go(7)}
+              onClick={() => go(8)}
               style={{
                 background: obTheme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
                 border: obTheme === 'dark' ? 'none' : '1px solid rgba(15,23,42,0.35)',
@@ -1468,7 +1549,7 @@ function Onboarding({ theme, onComplete }) {
               }}
             >{"<"}</button>
             <div className="ob-footer-dots ob-footer-nav-cell--dots">
-              {Array.from({ length: 9 }).map((_, i) => {
+              {Array.from({ length: 10 }).map((_, i) => {
                 const active = i === cur;
                 return (
                   <div key={i} className="ob-footer-dot-slot" aria-hidden>
