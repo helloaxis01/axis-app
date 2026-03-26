@@ -1,0 +1,1403 @@
+AXIS — Exercise instructions (unique by id)
+Generated: 2026-03-25T01:21:39.416Z
+Exercises: 159
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1 — Cat–Cow
+Subtitle: Segmental Spinal Flexion/Extension
+Start / setup: On all fours — hands under shoulders, knees under hips.
+Step 1: [A] Neutral Tabletop (SPINE) Hands under shoulders, knees under hips. Spine flat and parallel to floor. Neck long.
+Step 2: [B] Cat — Exhale (FLEX) Round spine toward ceiling. Tuck chin to chest, tuck pelvis under. Breathe out fully.
+Step 3: [C] Cow — Inhale (EXT) Let belly drop toward floor. Lift gaze and tailbone gently. Do not compress the lower back.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2 — Sphinx Pose
+Subtitle: Low Prone Back Extension
+Start / setup: Lying face down on the floor.
+Step 1: [A] Prone Start (SETUP) Lie face down. Legs long, tops of feet flat. Elbows directly under shoulders.
+Step 2: [B] Lift (EXT) Press forearms into floor. Lift chest and head. Shoulders away from ears. Hold 5–10s.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3 — Child's Pose
+Subtitle: Rest & lengthen spine
+Start / setup: Kneeling on the floor, sitting back toward your heels.
+Step 1: [A] Kneel Upright (SETUP) Kneel with big toes together, knees hip-width apart. Sit back toward heels.
+Step 2: [B] Fold Forward (STRETCH) Walk hands forward, forehead to floor. Arms extended or alongside body. Breathe into the back.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 4 — Arm Circles
+Subtitle: Fwd & Bwd · Small to Large
+Start / setup: Standing, feet hip-width apart.
+Step 1: [A] Stand Tall (SETUP) Feet hip-width. Arms extended at sides at shoulder height. Thumbs up, palms face forward.
+Step 2: [B] Forward Circles (FORWARD) Start small — wrist-sized circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down and relaxed. 10 reps.
+Step 3: [C] Backward Circles (BACKWARD) Reverse direction. Same progression — small to large. Squeeze shoulder blades slightly on the back swing. 10 reps.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 5 — Pelvic Tilts
+Subtitle: Supine Posterior/Anterior Tilt
+Start / setup: Lying on your back, knees bent, feet flat on the floor.
+Step 1: [A] Supine Neutral (SETUP) Small natural arch in lower back. Arms at sides.
+Step 2: [B] Posterior Tilt (CORE) Gently press lower back into floor. Engage deep abdominals. Hold 2s. Do not hold breath.
+Step 3: [C] Anterior Tilt (RELEASE) Let the lower back arch slightly away from the floor as the pelvis tips forward. Then gently press the lower back into the floor again. Move slowly back and forth between the small arch and the gentle press.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 6 — Glute Bridge
+Subtitle: Bodyweight
+Start / setup: Lying on your back, knees bent, feet flat on the floor.
+Step 1: [A] Supine Setup (SETUP) Feet flat, hip-width, heels 6 inches from glutes. Arms flat at sides.
+Step 2: [B] Bridge Up (GLUTES) Drive through heels. Lift hips until shoulders, hips, knees form a straight line. Squeeze glutes at top.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 7 — Marching Bridge
+Subtitle: Keep hips level
+Start / setup: Lying on your back with hips lifted in a glute bridge.
+Step 1: [A] Hold Bridge (SETUP) Perform a full Glute Bridge and hold at the top. Engage core. Do not let hips drop.
+Step 2: [B] Lift One Foot (STABILITY) Slowly lift one foot off floor, knee to 90°. Hips stay perfectly level. Hold 2s.
+Step 3: [C] Alternate (CONTROL) Lower foot, repeat other side. Think of balancing a glass of water on each hip.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 8 — Dead Bug
+Subtitle: Contralateral Arm/Leg
+Start / setup: Lying on your back, arms reaching toward the ceiling.
+Step 1: [A] Supine Tabletop (SETUP) Arms reach to ceiling. Hips and knees at 90°. Press lower back firmly into floor.
+Step 2: [B] Extend Opposite Limbs (CORE) Slowly lower right arm overhead and extend left leg toward floor. Keep back flat. Exhale throughout.
+Step 3: [C] Return & Switch (CONTROL) Return to tabletop position. Repeat with left arm and right leg. Move in 4-second counts each way.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 9 — Bird Dog
+Subtitle: Paused Extension
+Start / setup: On all fours — hands under shoulders, knees under hips.
+Step 1: [A] Neutral Tabletop (SETUP) Hands under shoulders, knees under hips. Spine neutral. Brace core lightly before moving.
+Step 2: [B] Extend & Pause (STABILITY) Reach right arm forward, left leg back. Both parallel to floor. Pause 2–3s. Do not rotate hips.
+Step 3: [C] Return Controlled (CONTROL) Draw elbow to knee beneath the body (optional crunch). Reset to neutral. Switch sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 10 — High Plank
+Subtitle: Core tight, body straight
+Start / setup: Facing down, hands flat on the floor, body in a straight line.
+Step 1: [A] Hand Position (SETUP) Hands flat, shoulder-width. Fingers spread. Wrists stacked under shoulders.
+Step 2: [B] Full Plank (HOLD) Body forms one straight line: head to heels. Squeeze glutes. Pull navel toward spine. Breathe.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 11 — Wall Push-Ups
+Subtitle: Controlled tempo
+Start / setup: Standing an arm's length from a wall.
+Step 1: [A] Wall Setup (SETUP) Stand arm's length from wall. Hands flat at shoulder height and width. Body straight.
+Step 2: [B] Lower (ECCENTRIC) Bend elbows, lower chest toward wall. Take 2–3 seconds. Keep body rigid, no sagging hips.
+Step 3: [C] Press Back (PUSH) Push through palms to return to start. Fully extend arms. 1-second pause at top.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 12 — Isometric Wall Push Hold
+Subtitle: Halfway down position
+Start / setup: Standing an arm's length from a wall.
+Step 1: [A] Wall Setup (SETUP) Same as Wall Push-Up starting position. Body straight, hands at shoulder height.
+Step 2: [B] Halfway Hold (ISO) Lower to the midpoint — elbows at roughly 90°. Hold completely still. Do not let arms drift further.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 13 — Resistance Band Row
+Subtitle: Elbows pull back, chest relaxed
+Start / setup: Standing, band anchored at chest height in front of you.
+Step 1: [A] Band Setup (SETUP) Anchor band at chest height. Stand tall, holding one end in each hand. Slight tension at arm's length.
+Step 2: [B] Row Back (PULL) Drive elbows straight back, hugging ribs. Shoulder blades squeeze together. Pause 1s at chest.
+Step 3: [C] Controlled Return (RELEASE) Extend arms slowly — 2–3 seconds. Do not let shoulders roll forward at full extension.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 14 — Wall Angels
+Subtitle: Or Floor Angels
+Start / setup: Standing with your back flat against a wall.
+Step 1: [A] Wall Contact (SETUP) Stand with back, head, and glutes against wall. Arms bent at 90°, backs of hands touching wall.
+Step 2: [B] Slide Up (RAISE) Slowly slide arms upward, maintaining contact with wall at all times. Go only as far as contact allows.
+Step 3: [C] Slide Down (LOWER) Return to start position in 3s. If wall contact is lost, reduce range. Quality over range.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 15 — Supine Hamstring Stretch
+Subtitle: Straight-Leg Raise
+Start / setup: Lying on your back, both legs extended. You'll do one leg at a time (e.g. right first, then left).
+Step 1: [A] Supine Start (SETUP) Lie on your back. Both legs extended, lower back neutral. Arms relaxed at your sides.
+Step 2: [B] Raise One Leg (STRETCH) Lift one leg (e.g. right first) keeping the knee straight. Use both hands to hold behind the thigh or calf. Feel the stretch in the hamstring, not the knee. Switch to the other leg when cued.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 16 — Figure Four Stretch
+Subtitle: Supine Piriformis Stretch
+Start / setup: Lying on your back, knees bent, feet flat. Cross one ankle over the opposite knee (e.g. right ankle over left knee); you'll do both sides.
+Step 1: [A] Cross Leg Over Knee (SETUP) Lie on your back, knees bent, feet flat. Cross one leg over the other by placing that ankle on the opposite knee (e.g. right ankle on left knee). Flex the foot of the crossed leg.
+Step 2: [B] Draw In (STRETCH) Clasp hands behind the supporting thigh (the one with the foot on the floor) and gently draw both legs toward your chest. Feel the stretch in the outer hip of the crossed leg. Repeat on the other side when cued.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 17 — Windshield Wipers
+Subtitle: Supine Hip Rotation
+Start / setup: Lying on your back, knees bent, arms out in a T. Rotate knees side to side.
+Step 1: [A] Supine, Feet Flat (SETUP) Lie on your back. Knees bent, feet flat and hip-width. Arms out in a T, palms down for stability.
+Step 2: [B] Lower Knees Right (ROTATE) Let both knees fall slowly to the right toward the floor. Keep shoulders flat. Breathe out.
+Step 3: [C] Lower Knees Left (ROTATE) Sweep knees back through center and lower to the left. Move at a slow, windshield-wiper pace. Continue alternating as needed.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 18 — Reclined Spinal Twist
+Subtitle: Arms in T position
+Start / setup: Lying on your back, one knee drawn to your chest. Do one side (e.g. right) then the other.
+Step 1: [A] Supine Start (SETUP) Lie on your back. Draw one knee to your chest (e.g. right first). Arms out in a T, shoulders heavy on the floor.
+Step 2: [B] Cross & Hold (TWIST) Guide that knee across your body with the opposite hand (e.g. right knee to the left with left hand). Turn gaze the other way if comfortable. Hold 20–30s. Repeat on the other side when cued.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 19 — Seated Forward Fold
+Subtitle: Relaxed Spine
+Start / setup: Seated on the floor, legs extended in front of you.
+Step 1: [A] Seated Tall (SETUP) Sit with legs extended or slightly bent. Spine long. Hands on thighs. Breathe in.
+Step 2: [B] Fold Forward (RELEASE) Hinge at hips, walk hands toward feet. Let spine round naturally. Head heavy. Hold 30–60s.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 20 — Chin Tucks
+Subtitle: Cervical Retractions
+Start / setup: Seated or standing upright, eyes level with the horizon.
+Step 1: [A] Neutral Head (SETUP) Sit or stand tall. Eyes level with horizon. Shoulders relaxed. No tension in jaw.
+Step 2: [B] Retract (CERVICAL) Draw chin straight back — not down. Create a slight double chin. Hold 2s. Feel a gentle stretch at base of skull.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 21 — Neck Half-Circles
+Subtitle: Controlled Tilts
+Start / setup: Seated upright, shoulders relaxed, eyes forward.
+Step 1: [A] Neutral Start (SETUP) Sit tall, shoulders relaxed. Eyes forward. Do not perform full circles — avoid rolling the head back.
+Step 2: [B] Right Tilt (LATERAL) Drop right ear toward right shoulder. Keep left shoulder down. Hold 3s. Return through center.
+Step 3: [C] Left Tilt (LATERAL) Drop left ear toward left shoulder. Smooth arc only from ear to ear through chin. Never through the back.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 101 — Lymph Hops
+Subtitle: Gentle rebounding to stimulate circulation
+Start / setup: Standing, feet hip-width apart, knees soft.
+Step 1: [A] Soft Stand (SETUP) Feet hip-width. Knees soft, never locked. Arms relaxed at sides. Jaw loose. Breathe naturally.
+Step 2: [B] Micro Bounce (CIRCULATE) Rise gently onto the balls of your feet and let your heels drop back down. Barely leave the ground. Think: soft vibration, not jumps.
+Step 3: [C] Rhythm (FLOW) Find a relaxed 1–2 beat. Let arms dangle and bounce passively. Face and shoulders stay completely soft. This should feel effortless.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 102 — Body Waves
+Subtitle: Spinal undulation, head to tailbone
+Start / setup: Standing, feet hip-width, knees slightly bent.
+Step 1: [A] Stand Loose (SETUP) Feet hip-width, knees slightly bent. Arms at sides. Imagine your spine is a string of loose beads.
+Step 2: [B] Initiate Wave (MOBILIZE) Begin the wave at the top: let your head nod gently forward, then ripple the movement down through neck, chest, belly.
+Step 3: [C] Full Undulation (FLOW) As the wave reaches the pelvis, let it curl forward then rise back up. Continuous, fluid figure-8. No forcing — gravity does the work.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 103 — Arm Swings
+Subtitle: Pendulum swings, shoulders passive
+Start / setup: Standing, feet slightly wider than hips, arms relaxed.
+Step 1: [A] Loose Stance (SETUP) Feet slightly wider than hips. Knees soft. Let arms hang completely relaxed from the shoulders.
+Step 2: [B] Initiate Swing (MOMENTUM) Turn torso gently left — arms swing right passively, carried by momentum. Do not muscle the arms. They follow the body.
+Step 3: [C] Continuous Turn (FLOW) Turn right — arms swing left. Find a pendulum rhythm. Arms may tap your sides lightly. Increase range gradually as you warm up.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 104 — Trunk Twists
+Subtitle: Rotational swing, arms passive
+Start / setup: Standing, feet shoulder-width apart, arms loose at sides.
+Step 1: [A] Loose Stance (SETUP) Feet shoulder-width, knees soft. Arms hang at sides. Spine tall but not stiff.
+Step 2: [B] Twist Right (ROTATE) Rotate torso to the right. Arms swing passively — left arm wraps across the front, right swings behind. Pivot on left ball of foot.
+Step 3: [C] Twist Left (ROTATE) Swing back through center and rotate left. Right arm wraps front, left swings behind. Find a loose, rhythmic pendulum pace.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 105 — Ballet Squats
+Subtitle: Wide stance pliés, toes turned out
+Start / setup: Standing, feet wide, toes turned outward.
+Step 1: [A] Wide Stance (SETUP) Feet wider than hips, toes turned out to roughly 10 and 2 o'clock. Arms out at sides or hands at heart center.
+Step 2: [B] Plié Down (LOWER) Bend knees, tracking them over toes. Lower slowly — 3 seconds down. Keep torso upright, tailbone dropping straight down.
+Step 3: [C] Rise Up (LIFT) Press through the full foot to return to standing — 2 seconds up. Gently squeeze inner thighs at the top. Do not lock knees.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 106 — Tip Toe Arm Swings
+Subtitle: Rising onto toes with overhead reach
+Start / setup: Standing, feet hip-width apart.
+Step 1: [A] Flat Foot (SETUP) Feet hip-width. Arms relaxed at sides. Soft knees. This is the low point of the movement.
+Step 2: [B] Rise & Reach (LIFT) Rise onto tiptoes as arms sweep upward and forward to shoulder height or overhead. Inhale on the rise.
+Step 3: [C] Lower & Swing (DRAIN) Lower heels as arms swing back down and behind. Exhale. The arm swing is passive — gravity-assisted. Continuous and flowing.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 107 — Doorway Pec Stretch
+Subtitle: Chest opening, shoulder mobility
+Start / setup: Standing in a doorway, arms at 90° on the frame.
+Step 1: [A] Doorway Position (SETUP) Stand in a doorway. Place both forearms on the frame at 90° — elbows at shoulder height, upper arms parallel to floor.
+Step 2: [B] Step Through (STRETCH) Step one foot forward through the doorway. Let your body lean gently into the opening. Feel the chest and front shoulders open.
+Step 3: [C] Hold & Breathe (RELEASE) Hold without forcing. Take 3 slow, deep breaths — each exhale, let the chest open a little more. Do not shrug shoulders.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 108 — Forward / Backward Arm Circles
+Subtitle: Full shoulder rotation, both directions
+Start / setup: Standing, feet hip-width apart.
+Step 1: [A] Stand Tall (SETUP) Feet hip-width. Arms at sides. Shoulders relaxed down. Begin with small circles and gradually increase the range.
+Step 2: [B] Forward Circles (MOBILIZE) Both arms circle forward simultaneously — 15 slow rotations. Feel the shoulder joint moving through its full range.
+Step 3: [C] Backward Circles (MOBILIZE) Reverse direction — 15 slow rotations backward. Backward circles open the chest and counteract forward shoulder posture.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 109 — Dead Arms
+Subtitle: Passive shoulder release
+Start / setup: Standing, hinged slightly forward at the hips.
+Step 1: [A] Slight Forward Lean (SETUP) Hinge slightly at the hips. Let both arms hang completely dead — no muscle engagement. Jaw loose.
+Step 2: [B] Gentle Sway (RELEASE) Let the arms sway passively as you shift your weight side to side. Do not initiate any movement with the shoulder muscles. Gravity only.
+Step 3: [C] Small Circles (DECOMPRESS) Let the arms trace small passive circles — clockwise, then counter-clockwise. This gently tractions the shoulder joints.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 110 — Bent Over Back Shakes
+Subtitle: Spinal decompression, gravity assist
+Start / setup: Standing, bent forward at the hips, upper body hanging down.
+Step 1: [A] Hinge Forward (SETUP) Hinge at the hips, knees soft. Let the upper body hang forward — arms dangling, head heavy. Let gravity decompress the spine.
+Step 2: [B] Gentle Shake (RELEASE) Softly shake the upper body — small, effortless oscillations. Let the spine wobble freely. This releases the erectors and multifidus.
+Step 3: [C] Side Sway (MOBILIZE) Add a gentle side-to-side sway. Let the arms swing. Stay loose. This is pure release — nothing to engage.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 111 — Golf Swings
+Subtitle: Full rotation with follow-through
+Start / setup: Standing, feet shoulder-width, slight forward hinge at hips.
+Step 1: [A] Address Position (SETUP) Feet shoulder-width. Slight hip hinge. Arms hang loose. Imagine holding a club — but keep the grip soft.
+Step 2: [B] Backswing (ROTATE) Rotate through the hips and torso to the right, letting the arms follow passively. Left heel can lift slightly. No forcing.
+Step 3: [C] Through Swing (RELEASE) Swing through to the left in one fluid motion. Arms follow the torso — do not lead with the arms. Alternate sides for 1 minute.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 112 — Twist the Waist
+Subtitle: Isolated hip rotation, upper body still
+Start / setup: Standing, feet hip-width, hands on hips.
+Step 1: [A] Stand Tall (SETUP) Feet hip-width. Hands on hips. Eyes forward. Upper body completely still throughout — only the hips move.
+Step 2: [B] Hip Rotation (ISOLATE) Rotate the pelvis to the right, then sweep left in a continuous figure-8 or side-to-side motion. Upper body stays square.
+Step 3: [C] Find Rhythm (MOBILIZE) Increase the range gradually. Feel the lumbar spine rotating freely. This is the movement that desk work robs you of most.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 113 — March Taps
+Subtitle: Alternating knee lifts, arms opposite
+Start / setup: Standing upright, shoulders relaxed.
+Step 1: [A] Upright Stance (SETUP) Stand tall. Shoulders relaxed. This is a gentle march — not a high-knee drill. Pace is easy and rhythmic.
+Step 2: [B] Lift & Tap (CIRCULATE) Lift right knee to comfortable height, tap with left hand. Lower. Lift left knee, tap with right hand. Alternate continuously.
+Step 3: [C] Add Arm Swing (FLOW) Let the opposite arm swing naturally with each step — just like walking. This cross-body pattern activates lymphatic flow bilaterally.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 114 — Wide Arm Step Backs
+Subtitle: Lateral step with full arm opening
+Start / setup: Standing, feet together, arms at sides.
+Step 1: [A] Neutral Start (SETUP) Feet together, arms at sides. Soft knees. This movement is slow and deliberate — not aerobic.
+Step 2: [B] Step & Open (EXPAND) Step right foot back and wide as both arms sweep out to the sides and overhead — like opening a large book. Inhale.
+Step 3: [C] Return & Close (FLOW) Step feet back together, arms return to sides. Exhale. Alternate sides. The arm sweep opens the chest and axillary lymph nodes.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 115 — Wall Pushups
+Subtitle: Upper body close, standing
+Start / setup: Standing an arm's length from a wall.
+Step 1: [A] Hands on Wall (SETUP) Stand an arm's length from the wall. Place hands at shoulder height, slightly wider than shoulder-width. Body in a straight line.
+Step 2: [B] Lower In (PUSH) Bend elbows and lean chest toward the wall. Keep the body rigid — no sagging hips. Elbows track at roughly 45° from the torso.
+Step 3: [C] Press Out (EXTEND) Push back to start. Exhale on the push. Move slowly and with control. This is not about speed — it's about reactivating the chest and shoulders.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 201 — Supine Knee Hugs
+Subtitle: Gentle lumbar decompression
+Start / setup: Lying on your back, legs extended.
+Step 1: [A] Flat on Back (SETUP) Lie on your back. Let the body be completely heavy. Take two slow breaths before moving.
+Step 2: [B] Hug Both Knees (DECOMPRESS) Draw both knees to chest. Wrap arms around shins. Rock gently side to side 5–8 times. Release lower back.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 202 — Supine Twist
+Subtitle: Both sides, 30s each
+Start / setup: Lying on your back, knees bent and together.
+Step 1: [A] Knees to Chest (SETUP) Lie on back, knees bent and together. Arms out in a T. Shoulders heavy.
+Step 2: [B] Drop Right (ROTATE) Let both knees fall to the right. Turn gaze left if comfortable. Breathe and let gravity do the work for 30 seconds.
+Step 3: [C] Drop Left (ROTATE) Return knees through center, drop left. Hold another 30 seconds. No forcing — just releasing.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 203 — Cat–Cow
+Subtitle: Segmental spinal warm-up
+Start / setup: On all fours — hands under shoulders, knees under hips.
+Step 1: [A] Neutral Tabletop (SETUP) Hands under shoulders, knees under hips. Spine flat. Take one breath here before moving.
+Step 2: [B] Cat (FLEX) Round spine to ceiling, tuck pelvis and chin. Full exhale.
+Step 3: [C] Cow (EXT) Let belly drop, lift gaze and tailbone gently. Full inhale. 8–10 slow cycles.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 204 — Standing Hip Circles
+Subtitle: Hands on hips, full rotation
+Start / setup: Standing, feet hip-width, hands on hips.
+Step 1: [A] Stand Tall (SETUP) Feet hip-width. Hands on hips. Soft knees. Eyes forward or closed.
+Step 2: [B] Circle Right (MOBILIZE) Make slow, large circles with the pelvis — forward, right, back, left. 6 circles clockwise.
+Step 3: [C] Circle Left (MOBILIZE) Reverse direction. 6 circles counter-clockwise. Let the hips move freely without rushing.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 205 — Shoulder Rolls
+Subtitle: Forward then backward, slow
+Start / setup: Standing or seated upright, arms relaxed at sides.
+Step 1: [A] Arms at Sides (SETUP) Stand or sit tall. Arms completely relaxed. Jaw soft.
+Step 2: [B] Roll Forward (ANTERIOR) Shrug shoulders up toward ears, then roll them forward and down. 6 slow rolls.
+Step 3: [C] Roll Back (POSTERIOR) Reverse — shrug up, roll back and down. 6 rolls. Feel the shoulder blades move and the chest open.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 206 — Sun Breath
+Subtitle: Arms overhead with breath, 6 cycles
+Start / setup: Standing, feet hip-width, arms at sides.
+Step 1: [A] Stand Grounded (SETUP) Feet hip-width. Arms at sides. Close the eyes. Feel the weight of the body through the soles of the feet.
+Step 2: [B] Inhale & Rise (EXPAND) Breathe in slowly for 4 counts as arms sweep out to the sides and overhead. Palms meet or stay wide.
+Step 3: [C] Exhale & Lower (GROUND) Breathe out for 6 counts as arms float back down. Feel the chest and ribcage expand on the inhale. 6 full cycles.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 301 — Legs Up the Wall
+Subtitle: Passive inversion, 2–3 minutes
+Start / setup: Lying on your back, scooted close to a wall.
+Step 1: [A] Setup (SETUP) Sit sideways against the wall, then swing legs up. Hips as close to the wall as comfortable. Arms out at sides, palms up.
+Step 2: [B] Hold & Breathe (RESTORE) Let gravity drain the legs. Close the eyes. Breathe naturally. This posture reverses venous pooling and calms the nervous system.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 302 — Reclined Butterfly
+Subtitle: Supine bound angle, hips open
+Start / setup: Lying on your back, soles of feet together.
+Step 1: [A] Soles Together (SETUP) Lie on back. Bring the soles of your feet together and let knees fall wide. Place hands on belly or out at sides.
+Step 2: [B] Gravity Hold (RELEASE) Let the inner thighs and groin soften completely. Do not push. Hold 60–90s.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 303 — Knees to Chest Rock
+Subtitle: Gentle lumbar massage
+Start / setup: Lying on your back, knees hugged to chest.
+Step 1: [A] Hug Knees (SETUP) Lie on back. Hug both knees to chest. Interlock fingers over shins.
+Step 2: [B] Rock Side to Side (MASSAGE) Rock gently left and right. Let the lower back release against the floor. 10–15 slow rocks.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 304 — Supine Twist
+Subtitle: Extended hold, both sides
+Start / setup: Lying on your back, one knee drawn to chest.
+Step 1: [A] Setup (SETUP) Lie on back. Draw right knee to chest. Arms in a T, shoulders grounded.
+Step 2: [B] Cross Right (TWIST) Guide right knee across to the left with left hand. Turn gaze right. Hold for 45–60s.
+Step 3: [C] Cross Left (TWIST) Return through center. Draw left knee across right. Gaze left. Hold another 45–60s.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 305 — 4-7-8 Breath
+Subtitle: Parasympathetic activation
+Start / setup: Seated comfortably or lying down.
+Step 1: [A] Comfortable Position (SETUP) Lie flat or sit upright. Eyes closed. Place one hand on the chest, one on the belly.
+Step 2: [B] Inhale 4 (INHALE) Breathe in through the nose for 4 slow counts. Feel the belly rise before the chest.
+Step 3: [C] Hold 7, Exhale 8 (EXHALE) Hold for 7 counts. Exhale completely through the mouth for 8 counts. Repeat 4–6 cycles.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 401 — Standing Chest Opener
+Subtitle: Hands clasped behind back
+Start / setup: Standing upright.
+Step 1: [A] Stand Tall (SETUP) Stand away from your chair. Feet hip-width. Interlace fingers behind your back.
+Step 2: [B] Open & Lift (STRETCH) Straighten arms, draw shoulder blades together, lift hands slightly. Open chest toward ceiling. Hold 20–30s.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 402 — Chin Tucks
+Subtitle: Cervical retractions
+Start / setup: Seated upright in a chair, eyes level.
+Step 1: [A] Neutral Head (SETUP) Sit or stand tall. Eyes level. Shoulders relaxed.
+Step 2: [B] Retract (CERVICAL) Draw chin straight back — not down. Create a slight double chin. Hold 2s. 10 reps.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 403 — Thoracic Rotations
+Subtitle: Seated, hands behind head
+Start / setup: Seated in a chair, hands behind your head.
+Step 1: [A] Sit Tall (SETUP) Sit at edge of chair. Feet flat. Interlace hands behind head. Elbows wide. Spine long.
+Step 2: [B] Rotate Right (THORACIC) Rotate upper body to the right — elbows leading. Keep hips square. Hold 2s at end range.
+Step 3: [C] Rotate Left (THORACIC) Return through center, rotate left. Equal range each side. The rotation comes from the mid-back, not the neck.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 404 — Standing Hip Flexor Stretch
+Subtitle: Kneeling lunge, 30s each side
+Start / setup: Standing, about to step into a lunge.
+Step 1: [A] Half Kneel (SETUP) Kneel on right knee, left foot forward. Hips square. Hands on left thigh for support.
+Step 2: [B] Shift Forward (STRETCH) Gently shift weight forward until you feel a stretch in the right hip flexor. Keep torso upright. Hold 30s each side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 405 — Wrist & Forearm Release
+Subtitle: Both directions, 30s each
+Start / setup: Standing or seated, one arm extended in front of you.
+Step 1: [A] Extend Arm (SETUP) Extend one arm forward, palm facing down. Use other hand to gently pull fingers back toward you.
+Step 2: [B] Flex Stretch (FOREARM) Hold 15–20s. Feel the forearm extensors lengthen. Reverse — palm up, pull fingers down. Hold 15–20s. Switch arms.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 406 — Neck Side Tilts
+Subtitle: Gravity only, 20s each side
+Start / setup: Seated or standing upright, shoulders relaxed.
+Step 1: [A] Sit Tall (SETUP) Sit at edge of chair. Spine long. Shoulders down and relaxed.
+Step 2: [B] Drop Right (STRETCH) Let right ear fall toward right shoulder. Gravity only — no forcing. Left shoulder stays grounded. 20s.
+Step 3: [C] Drop Left (STRETCH) Return through center. Drop left ear. 20s. Return slowly.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 501 — Chin Tucks
+Subtitle: Cervical retraction, 10 reps
+Start / setup: Seated upright, eyes level with the horizon.
+Step 1: [A] Sit or Stand Tall (SETUP) Eyes level with horizon. Shoulders relaxed down. Jaw soft. This is the single most important correction for forward head posture.
+Step 2: [B] Retract (CERVICAL) Draw chin straight back — not down. Create a slight double chin. Hold 2s. Feel a stretch at the base of the skull. Release slowly. 10 reps.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 502 — Neck Side Tilt
+Subtitle: Gravity only, 30s each side
+Start / setup: Seated upright, shoulders relaxed and level.
+Step 1: [A] Sit Tall (SETUP) Sit or stand. Spine long. Shoulders relaxed down away from ears. Eyes forward.
+Step 2: [B] Right Ear Down (STRETCH) Let the right ear fall toward the right shoulder. Do not force — use gravity only. Hold 30s. Left shoulder stays down.
+Step 3: [C] Left Ear Down (STRETCH) Return through center, drop left ear. Hold 30s. For deeper release, rest hand lightly on top of head — do not pull.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 503 — Levator Scapulae Stretch
+Subtitle: Corner neck stretch, 30s each
+Start / setup: Seated, one hand anchoring the shoulder down.
+Step 1: [A] Turn & Tilt (SETUP) Turn head 45° to the right and tilt chin toward the right armpit. Feel the stretch from the base of the skull toward the left shoulder blade.
+Step 2: [B] Add Weight (DEEPEN) Rest the right hand gently on the back of the head — do not pull. Hold 30s. Switch sides. This targets the levator scapulae, the most screen-tension muscle.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 504 — Upper Trap Release
+Subtitle: Seated hand hold, 30s each
+Start / setup: Seated, one hand holding the seat edge for traction.
+Step 1: [A] Anchor Shoulder (SETUP) Sit on right hand to anchor the right shoulder down. Sit tall. This prevents the shoulder from shrugging up and reduces the stretch.
+Step 2: [B] Lean Left (STRETCH) With right shoulder anchored, slowly tilt the head to the left and slightly forward. Feel the right upper trap lengthen. Hold 30s. Switch.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 505 — Thread the Needle
+Subtitle: Thoracic rotation from tabletop
+Start / setup: On all fours — hands under shoulders, knees under hips.
+Step 1: [A] Tabletop (SETUP) Hands under shoulders, knees under hips. Spine neutral. Take a breath before moving.
+Step 2: [B] Thread Right (ROTATE) Slide right arm along the floor under the left arm. Right shoulder and ear rest on floor. Hold 30s. Feel the mid-back open.
+Step 3: [C] Thread Left (ROTATE) Return to tabletop. Left arm threads under right. Hold 30s each side. This releases the thoracic spine that screen time locks up.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 506 — Eagle Arms
+Subtitle: Shoulder blade separation, 30s each
+Start / setup: Seated or standing upright, arms at your sides.
+Step 1: [A] Cross Arms (SETUP) Sit or stand tall. Cross right arm over left at the elbows. Wrap forearms and try to bring palms together.
+Step 2: [B] Lift & Hold (STRETCH) Lift elbows to shoulder height. Feel the space between the shoulder blades open. Hold 30s. Switch arm cross. Targets the rhomboids.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 507 — Chest Opener with Clasp
+Subtitle: Behind-back retraction, 30s
+Start / setup: Standing upright, hands clasped behind your back.
+Step 1: [A] Clasp Behind (SETUP) Stand tall. Interlace fingers behind the back. Straighten arms. Draw shoulder blades together gently.
+Step 2: [B] Lift & Open (EXPAND) Lift clasped hands slightly away from the body. Open the chest. Chin slightly up. Hold 30s. This directly counters the forward curl of screen posture.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 601 — 90/90 Hip Stretch
+Subtitle: Both sides, 60s each
+Start / setup: Seated on the floor, both knees bent at 90°.
+Step 1: [A] Sit to Floor (SETUP) Sit on the floor. Right leg bent in front at 90°, knee and ankle on the ground. Left leg bent behind at 90°. Both shins parallel.
+Step 2: [B] Sit Tall Over Front Leg (INTERNAL) Sit upright over the front (right) shin. Feel the external rotation of the right hip. Press the right knee gently toward the floor. Hold 60s.
+Step 3: [C] Hinge Forward (DEEPEN) Hinge at the hips and walk hands forward over the front shin. Keep spine long — do not round. Hold 30s additional. Switch sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 602 — Kneeling Hip Flexor Stretch
+Subtitle: Low lunge, 60s each side
+Start / setup: In a half-kneeling lunge, one knee on the floor.
+Step 1: [A] Half Kneel (SETUP) Kneel on right knee, left foot forward. Hips square. Stack left knee over left ankle. Place hands on left thigh.
+Step 2: [B] Shift & Tuck (STRETCH) Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under — do not arch the lower back.
+Step 3: [C] Arm Reach (DEEPEN) Reach right arm overhead and lean slightly left. This lengthens the hip flexor through the full chain to the ribcage. Hold 60s. Switch sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 603 — Pigeon Pose
+Subtitle: Supported, 90s each side
+Start / setup: On the floor, front shin angled across the body.
+Step 1: [A] Setup (SETUP) From tabletop, slide right knee forward behind right wrist. Extend left leg straight back. Right ankle moves toward left hip — the sharper the angle, the more intense. Important: the stretch should always be felt in the outer hip, never in the knee. If you feel any sensation in the knee joint, back the ankle closer to your body.
+Step 2: [B] Square Hips (ALIGN) Place a folded blanket or block under the right glute if the hip doesn't reach the floor. Hips stay as square as possible — do not let the pelvis tilt to one side.
+Step 3: [C] Fold Forward (RELEASE) Walk hands forward and lower chest toward the floor. Rest on forearms or forehead. Let the right hip surrender completely. Breathe into the outer right hip. Hold 90s.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 604 — Supine Figure Four
+Subtitle: Piriformis release, 60s each
+Start / setup: Lying on your back, knees bent, feet flat.
+Step 1: [A] Setup (SETUP) Lie on back, knees bent, feet flat. Cross right ankle over left knee. Flex the right foot to protect the knee joint.
+Step 2: [B] Draw In (STRETCH) Clasp hands behind left thigh and draw both legs toward chest. Feel the stretch deep in the right outer hip and glute. This targets the piriformis — the primary sciatic nerve compressor.
+Step 3: [C] Rock Gently (RELEASE) Rock slowly left and right to find the deepest point of tension. Hold 60s. Switch sides. Do not pull aggressively — let the muscle release on its own timeline.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 605 — Butterfly Stretch
+Subtitle: Soles together, gravity hold
+Start / setup: Seated on the floor, soles of feet together.
+Step 1: [A] Sit Tall (SETUP) Sit on the floor. Bring soles of feet together, letting knees fall wide. Hold feet with both hands. Sit on a folded blanket if the lower back rounds.
+Step 2: [B] Let Knees Drop (ADDUCTORS) Do not press the knees down. Let gravity do the work. The inner thighs and groin will release over time — not through force. Hold 60s.
+Step 3: [C] Hinge Forward (DEEPEN) Hinge forward at the hips — spine long, not rounded. Walk hands forward. Feel the inner groin deepen. Hold 30s. Return upright slowly.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 606 — Lateral Hip Opener
+Subtitle: Side-lying stretch, 45s each
+Start / setup: Lying on your side, legs stacked.
+Step 1: [A] Side Lie (SETUP) Lie on your right side. Right arm extended, right ear resting on it. Stack hips and shoulders. Both knees bent at 90°.
+Step 2: [B] Open Top Knee (ABDUCTOR) Keeping feet together, lift the left knee toward the ceiling like a clamshell opening. Do not let the pelvis roll back. Hold at the top 2s.
+Step 3: [C] Hip Circle (MOBILIZE) From open, draw a slow circle with the left knee — forward, down, back, up. 5 circles each direction. Feel the femoral head moving freely in the socket. Switch sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 607 — Standing Hip Circles
+Subtitle: Full rotation, both directions
+Start / setup: Standing, feet hip-width, hands on hips.
+Step 1: [A] Stand Tall (SETUP) Feet hip-width. Hands on hips. Soft knees. Eyes forward or closed. This is the integration movement — done last to bring range into a standing pattern.
+Step 2: [B] Slow Circles (MOBILIZE) Make large, slow circles with the pelvis — forward, right, back, left. Exaggerate the range in each direction. 8 circles clockwise.
+Step 3: [C] Reverse (MOBILIZE) 8 circles counter-clockwise. Move deliberately through any stiff points rather than skipping past them. The goal is a smooth, continuous arc.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 701 — Knee Hugs
+Subtitle: Lumbar decompression, 60s
+Start / setup: Lying on your back.
+Step 1: [A] Flat on Back (SETUP) Lie on your back. Let the whole body be heavy. Take two slow breaths before moving — this releases baseline tension before you begin.
+Step 2: [B] Hug Both Knees (DECOMPRESS) Draw both knees to chest. Wrap arms around shins. Rock gently side to side. Feel the lower back lengthen and release against the floor.
+Step 3: [C] Hold Still (RELEASE) Find the position of most ease and hold completely still. Breathe into the lower back. Feel the lumbar vertebrae gently separate with each inhale. 60s total.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 702 — Supine Pelvic Tilts
+Subtitle: Supine posterior/anterior tilt
+Start / setup: Lying on your back, knees bent, feet flat.
+Step 1: [A] Lie on Back (SETUP) Small natural arch in lower back — this is neutral. Arms flat at sides. Do not flatten the back before you begin.
+Step 2: [B] Posterior Tilt (CORE) Gently press the lower back into the floor by engaging the deep abdominals. Hold 2s. The movement is subtle — this is not a crunch.
+Step 3: [C] Return to Neutral (RELEASE) Let the arch return. Move slowly and smoothly between positions. This re-educates the muscles that stabilise the lumbar spine.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 703 — Cat–Cow
+Subtitle: Slow and segmental, 10 cycles
+Start / setup: On all fours — hands under shoulders, knees under hips.
+Step 1: [A] Neutral Tabletop (SETUP) Spine neutral. Take one full breath here before moving. This is the most therapeutic movement for the lumbar spine.
+Step 2: [B] Cat — Exhale (FLEX) Round the spine segment by segment toward the ceiling. Tuck chin and pelvis. Exhale fully. Move slowly — feel each vertebra.
+Step 3: [C] Cow — Inhale (EXT) Let the belly drop, lift gaze and tailbone gently. Do not compress — open. Inhale fully. 10 slow cycles. Increase the range gradually as the back warms.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 704 — Child's Pose
+Subtitle: Extended hold, 90s
+Start / setup: Kneeling, about to sit back toward your heels.
+Step 1: [A] Kneel Back (SETUP) From tabletop, sit hips back toward heels. Knees hip-width or wider. Toes together. Arms extend forward or rest alongside the body.
+Step 2: [B] Forehead Down (DECOMPRESS) Rest forehead on floor or hands. Let the whole spine lengthen. Breathe into the back body — feel the ribcage expand outward with each inhale.
+Step 3: [C] Side Reach (LATERAL) Walk both hands to the right. Feel the left side of the body lengthen. Hold 30s. Return through center. Walk hands left. Hold 30s. Return.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 705 — Windshield Wipers
+Subtitle: Slow rotation, 10 reps each
+Start / setup: Lying on your back, knees bent, arms in a T.
+Step 1: [A] Supine Setup (SETUP) Knees bent, feet flat and hip-width. Arms in a T, palms down. Shoulders stay grounded throughout.
+Step 2: [B] Lower Right (ROTATE) Let both knees fall slowly to the right — only as far as comfortable. Breathe out. Feel the lumbar spine rotate and release. Shoulders do not lift.
+Step 3: [C] Lower Left (ROTATE) Sweep knees back through center and lower to the left. Slow, windshield-wiper pace. This is traction for the lumbar vertebrae — gravity does the work.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 706 — Reclined Spinal Twist
+Subtitle: Extended hold, 60s each side
+Start / setup: Lying on your back.
+Step 1: [A] Setup (SETUP) Lie on back. Draw right knee to chest. Arms in a T, shoulders heavy. This passively rotates the lumbar spine and releases the QL — the deepest lower back muscle.
+Step 2: [B] Cross Right (TWIST) Guide right knee across to the left with left hand. Right arm extends, turn gaze right. Let gravity take the knee toward the floor — do not force it. Hold 60s.
+Step 3: [C] Cross Left (TWIST) Return through center slowly. Draw left knee across to the right. Gaze left. Hold 60s. Equal time each side. The release often comes in the final 20 seconds.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 707 — Legs Up the Wall
+Subtitle: Passive inversion, 2 minutes
+Start / setup: Lying on your back, scooted close to a wall.
+Step 1: [A] Setup (SETUP) Sit sideways against a wall, then swing legs up. Hips as close to the wall as comfortable — it is fine to have a slight bend in the knees.
+Step 2: [B] Settle & Breathe (RESTORE) Let the lower back release toward the floor. Arms out at sides, palms up. Eyes closed. This drains venous pooling from the legs and decompresses the lumbar spine passively.
+Step 3: [C] Stay (RELEASE) Simply remain here. Breathe slowly. Each exhale, let the body get heavier. This is the most restorative position for a fatigued lower back. Two full minutes.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 801 — Weight Shifts
+Subtitle: Ankle strategy training, standing
+Start / setup: Standing, feet hip-width, near a wall for safety.
+Step 1: [A] Neutral Stance (SETUP) Stand feet hip-width. Arms relaxed at sides. Soft knees — never locked. Eyes on a fixed point at eye level.
+Step 2: [B] Side-to-Side Shifts (ANKLE) Slowly shift your weight to the right until the left foot is nearly unloaded. Pause 2 seconds. Shift left. Use your ankles, not your hips — think of yourself as a pendulum, not a seesaw.
+Step 3: [C] Forward & Back (PROPRIOCEPTION) Shift weight forward toward the balls of your feet, then back toward the heels. Stay within a comfortable range. Feel the floor through your feet — this is your sensory feedback loop.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 802 — Single-Leg Stance
+Subtitle: Vestibular & glute med activation
+Start / setup: Standing near a wall, balanced on one foot.
+Step 1: [A] Stand Tall (SETUP) Stand near a wall or sturdy chair within arm's reach — use it for safety, not support. Find a fixed point at eye level to focus on — this is your visual anchor. Arms at sides or lightly touching the wall.
+Step 2: [B] Lift One Foot (BALANCE) Lift one foot a few inches off the floor. Keep the stance leg slightly bent — never lock the knee. The hip of the lifted leg should drop slightly, which means the standing glute med is working. Hold 20–30 seconds each side.
+Step 3: [C] Eyes Closed Progression (VESTIBULAR) Once stable with eyes open, close them. This removes visual compensation and forces the vestibular and somatosensory systems to do the work. Even 5–10 seconds eyes-closed is a meaningful challenge.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 803 — Tandem Walking
+Subtitle: Heel-to-toe, narrow base of support
+Start / setup: Standing at one end of a clear path.
+Step 1: [A] Starting Position (SETUP) Stand tall. Heel of one foot touching the toes of the other. Find a line on the floor or imagine a tightrope. Arms out at sides for balance assist if needed.
+Step 2: [B] Walk Forward (BALANCE) Step forward, placing the heel of the leading foot directly against the toes of the back foot. Take 10 slow, deliberate steps forward. Eyes forward — not down at your feet.
+Step 3: [C] Walk Backward (VESTIBULAR) Reverse direction — 10 steps back, toe touching heel. Walking backward is a separate vestibular challenge. Move slowly. This is a clinical tool used in fall prevention programs.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 804 — Grapevine Walk
+Subtitle: Lateral crossover steps, hip coordination
+Start / setup: Standing with space to move laterally.
+Step 1: [A] Side Start (SETUP) Stand tall, feet together. You will move laterally. Clear enough space for 8–10 sideways steps. Arms out slightly for balance.
+Step 2: [B] Cross & Step (COORDINATE) Step right with the right foot. Cross the left foot in front of the right. Step right again. Cross left foot behind the right. Repeat continuously. The alternating front/back crossover is the key pattern — it requires the brain to sequence hip abductor and adductor firing.
+Step 3: [C] Reverse Direction (BILATERAL) Lead with the left foot back across the same path. Each direction uses a different motor pattern. Aim for smooth, continuous movement — choppy steps mean the brain is still learning the sequence.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 805 — Lateral Step-Downs
+Subtitle: Eccentric quad loading, 4-inch step
+Start / setup: Standing on a low step or curb, one foot at the edge.
+Step 1: [A] Find Your Step (SETUP) Stand on the edge of a bottom stair, curb, or low stool (4–6 inches high). Stand sideways so one foot is on the edge. The other foot hangs free over the side. Hold a wall lightly for safety — not for support.
+Step 2: [B] Slow Descent (ECCENTRIC) Bend the standing leg to slowly lower the hanging foot toward the floor. Take 3–4 full seconds to descend. The standing knee should track directly over the second toe — not collapsing inward. This slow lowering is the entire point: you are training the quad to control deceleration.
+Step 3: [C] Return to Top (CONTROL) Before the hanging foot touches the floor, reverse direction and press back to standing. Do not push off the lower foot — all the work comes from the standing leg. Switch sides after all reps.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 901 — Thoracic Extension
+Subtitle: Over chair back — mid-spine mobilization
+Start / setup: Seated in a chair, hands behind your head.
+Step 1: [A] Chair Setup (SETUP) Sit at the edge of a firm chair. Place both hands behind your head, fingers interlaced, supporting the weight of your head. Identify the middle of your back — the thoracic spine, roughly between your shoulder blades. This is the target.
+Step 2: [B] Arch Back (EXTEND) Lean back so the top edge of the chair back contacts your mid-spine. Let the upper back gently arch over the support. Do not extend the lower back or neck — this is a thoracic-only movement. Breathe out as you arch. Feel the front of the chest opening.
+Step 3: [C] Segment & Breathe (MOBILIZE) Hold for 2–3 breaths at each level. Then shift slightly up or down the chair back to target adjacent segments. 3–5 positions across the thoracic spine. Never force — the weight of your head is sufficient traction.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 902 — Neck CARs
+Subtitle: Controlled Articular Rotation — cervical spine
+Start / setup: Seated or standing upright, spine long.
+Step 1: [A] Setup & Brace (SETUP) Sit or stand tall. Pack the shoulders down away from ears. Engage the muscles of the neck lightly — imagine you are trying to make a double chin. This pre-tension is what makes CARs different from a regular neck stretch: the joint moves, the surrounding tissues stay engaged.
+Step 2: [B] The Half-Arc (CARS) Begin by drawing your chin toward your chest. Slowly arc the head to the right — ear toward right shoulder, continuing the arc until the ear moves toward the left shoulder, then chin returns to chest. One full half-arc takes 8–10 seconds. Move as if carving through resistance. Never tilt the head back — the arc travels chin to chest only, never through the back of the neck.
+Step 3: [C] Reverse & Repeat (END-RANGE) At any point where you feel stiffness or reduced range, slow down further and breathe into that position. Do not push through pain or any sharp sensation. Reverse direction for one full arc. 2–3 rotations each direction is sufficient. If you feel dizziness at any point, stop immediately and rest.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 903 — Shoulder CARs
+Subtitle: Controlled Articular Rotation — glenohumeral joint
+Start / setup: Standing, one arm at your side.
+Step 1: [A] Setup & Lock Down (SETUP) Stand tall. Work one arm at a time. Before moving, engage the lat on the working side — imagine trying to crush a walnut in your armpit. This stabilizes the scapula so the ball-and-socket joint does the work, not the whole shoulder blade.
+Step 2: [B] Full Arc Forward (CARS) Keeping the arm straight and under tension, lift it forward and up overhead in a large circle. As it passes overhead, rotate the palm to face behind you, then continue the circle down behind your back as far as your range allows. Move through thick resistance. The entire arc should take 10–12 seconds.
+Step 3: [C] Reverse Arc (END-RANGE) At the limit of your range behind the body, pause and breathe. Reverse the circle — same path, same resistance, same slow pace. Switch arms after 2 full rotations. The shoulder that feels stuck is the one that needs this most.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 904 — Wrist CARs
+Subtitle: Controlled Articular Rotation — radiocarpal joint
+Start / setup: Seated or standing, forearms resting or extended.
+Step 1: [A] Setup (SETUP) Sit or stand. Extend both arms in front at shoulder height. Make loose fists. Engage the forearm muscles lightly — you should feel mild tension in the forearm, not the fingers. This active tension is what makes this therapeutic rather than passive.
+Step 2: [B] Full Rotation (CARS) Slowly rotate both wrists simultaneously through their full available range: flex down, rotate toward the little finger side, extend back, rotate toward the thumb side. One full circle takes 6–8 seconds. Move as if drawing large circles in the air with your knuckles.
+Step 3: [C] Reverse & Isolate (END-RANGE) Reverse direction for equal rotations. If one wrist has less range in a particular direction, slow down there — that is where the synovial fluid is most restricted. 4–5 rotations each direction is a complete set.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 905 — Hip CARs
+Subtitle: Controlled Articular Rotation — hip joint
+Start / setup: Standing, one hand lightly on a wall for balance.
+Step 1: [A] Setup & Stabilize (SETUP) Stand on one leg. Hold a wall lightly with one hand for safety only — not for balance support. Engage the standing glute to keep the pelvis completely still. The entire point of Hip CARs is that the pelvis does not move — only the femur in the hip socket. Squeeze the core before lifting the leg.
+Step 2: [B] Full Circumduction (CARS) Lift the free knee and begin rotating the hip: knee lifts forward, swings out to the side, extends behind the body, sweeps back to center. One full rotation takes 8–10 seconds. Keep the circle as large as your range allows while the pelvis stays completely still. If the hip hikes or the lower back twists, you have exceeded your available range — make the circle smaller.
+Step 3: [C] Reverse & Switch (END-RANGE) Reverse direction for the same number of rotations. At any restricted point in the arc, slow further and breathe. 2–3 rotations each direction, each side. The hip that feels grinding or clicking is the one that needs the most consistent attention.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 906 — Ankle CARs
+Subtitle: Controlled Articular Rotation — talocrural joint
+Start / setup: Seated or standing, one foot lifted off the floor.
+Step 1: [A] Seated Setup (SETUP) Sit in a chair. Cross one ankle over the opposite knee so the foot is free in the air. Hold the lower leg just above the ankle to stabilize the shin — you want the foot to move, not the whole leg. Engage the muscles of the lower leg lightly.
+Step 2: [B] Full Rotation (CARS) Draw the largest circle possible with your big toe. Move clockwise: point the foot forward, rotate out, flex back, rotate in. Take 5–6 seconds per full rotation. Most people discover significant restriction when moving into dorsiflexion (toes pulled back) — this is the direction that matters most for walking and balance.
+Step 3: [C] Reverse & Switch (END-RANGE) Reverse direction. 4–5 rotations each way per foot. If the ankle feels stiff or crunchy, this is synovial fluid restriction — not a reason to stop, but a reason to go slower and breathe through the range.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 907 — Adductor Rock-Back
+Subtitle: Posterior hip capsule & inner thigh release
+Start / setup: On all fours, one knee wide to the side.
+Step 1: [A] Quadruped Setup (SETUP) Begin on hands and knees. Hands under shoulders, knees under hips. Spine neutral. Extend one leg directly out to the side — keep it straight, toes pointing forward or slightly down. The extended leg forms a 90-degree angle with your body.
+Step 2: [B] Rock Back (STRETCH) Slowly shift your hips back toward your heels, keeping the extended leg in place. You will feel a deep stretch along the inner thigh and the back of the hip on the extended side. Take 3–4 seconds to rock back. Breathe out during the descent. Do not round the lower back.
+Step 3: [C] Rock Forward & Repeat (RELEASE) Rock forward to the starting position. Pause briefly, then rock back again. 8–10 slow repetitions, then switch sides. This movement targets the posterior hip capsule and adductors — two structures that chronic sitting locks into permanent shortening.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1001 — Plantar Fascia Stretch
+Subtitle: Seated toe extension hold
+Start / setup: Seated in a chair, one foot crossed over the opposite knee.
+Step 1: [A] Seated Setup (SETUP) Sit in a chair. Cross one foot over the opposite knee so the sole faces you. Hold the base of the toes with one hand. This is the windlass mechanism — the same tissue that loads with every walking step.
+Step 2: [B] Extend the Toes (STRETCH) Gently pull all toes back toward the shin until you feel a firm stretch along the arch. You should feel the plantar fascia tighten into a cord-like band. Hold this position — do not bounce. 30 seconds minimum. Research shows this specific stretch reduces morning pain more effectively than calf stretching alone.
+Step 3: [C] Massage the Arch (RELEASE) While holding the toe extension with one hand, use the thumb of the other hand to apply firm, slow strokes along the arch from heel to ball of foot. 5–6 strokes per set. Switch feet.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1002 — Seated Foot Roll
+Subtitle: Plantar fascia myofascial release
+Start / setup: Seated in a chair, a ball or bottle under one foot.
+Step 1: [A] Find Your Tool (SETUP) A frozen water bottle is ideal — the cold provides additional anti-inflammatory benefit. A tennis ball or smooth water bottle at room temperature also works. Place it on the floor in front of your chair.
+Step 2: [B] Roll the Arch (RELEASE) Place the arch of one foot on the bottle. Apply moderate downward pressure — enough to feel it, not enough to cause sharp pain. Slowly roll from the heel to the ball of the foot and back. 30 seconds per foot. Pause on any tender spots for 5–10 seconds rather than rolling through them.
+Step 3: [C] Target the Heel (FASCIAL) Shift pressure toward the heel — specifically the medial tubercle of the calcaneus, where the fascia attaches. This is typically the most sensitive spot. Use lighter pressure here. Slow, sustained pressure is more effective than rolling speed.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1003 — Gastroc Stretch
+Subtitle: Standing calf stretch, straight knee
+Start / setup: Standing, hands on a wall, one foot stepped back.
+Step 1: [A] Wall Setup (SETUP) Stand facing a wall, hands flat at shoulder height for support. Step one foot back about 18–24 inches, keeping both feet pointing straight forward. The back knee stays completely straight throughout — this targets the gastrocnemius, the larger calf muscle that crosses the knee.
+Step 2: [B] Lunge Forward (STRETCH) Bend the front knee and shift your weight forward until you feel a deep stretch in the calf of the back leg. Keep the back heel firmly on the floor — if it lifts, step the foot closer. Hold for 30–45 seconds. The gastroc is directly connected to the Achilles tendon, which loads the plantar fascia.
+Step 3: [C] Switch & Repeat (BILATERAL) Switch sides. If one side is significantly tighter, spend an extra round there. Tight calves are among the most common contributing factors to plantar fasciitis — they increase load on the fascia with every step.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1004 — Soleus Stretch
+Subtitle: Bent-knee calf stretch — deeper target
+Start / setup: Standing at a wall, back knee bent, rear heel down.
+Step 1: [A] Wall Setup (SETUP) Same starting position as the Gastroc Stretch — one foot stepped back, hands on wall. But this time, bend the back knee slightly. This small change completely shifts the stretch from the gastrocnemius to the soleus — the deeper, shorter calf muscle that attaches below the knee.
+Step 2: [B] Sink Into It (STRETCH) With the back knee bent, shift weight gently forward. The stretch will feel lower and deeper than the gastroc stretch — closer to the Achilles and heel. Keep the back heel on the floor. Hold 30–45 seconds. The soleus is often the tighter of the two calf muscles and the more overlooked.
+Step 3: [C] Switch Sides (BILATERAL) Repeat on the other side. If you have one-sided plantar fasciitis, pay particular attention to the soleus on that side. This stretch is often prescribed alone for cases where standard calf stretching hasn't helped.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1005 — Toe Splay
+Subtitle: Intrinsic foot muscle activation
+Start / setup: Seated or standing barefoot on a firm surface.
+Step 1: [A] Seated or Standing (SETUP) Sit or stand barefoot on a firm surface. Place both feet flat on the floor, parallel, hip-width apart. Relax everything from the ankle down — no gripping or curling of toes. Feel the full footprint on the floor.
+Step 2: [B] Spread All Toes (ACTIVATE) Actively spread all five toes as wide apart as possible without lifting the foot. Hold for 2 seconds. Most people discover they cannot independently move their toes much at all — this is normal and is exactly why this exercise exists. The abductor hallucis and the interossei are the target muscles.
+Step 3: [C] Release & Repeat (CONTROL) Slowly release the spread. Pause 1 second. Repeat. If only some toes move, that is useful information — work with what you have. Over days and weeks, the range and independence improves noticeably.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1006 — Arch Doming
+Subtitle: Short foot exercise — intrinsic arch activation
+Start / setup: Seated, one foot flat on the floor.
+Step 1: [A] Setup (SETUP) Sit with one foot flat on the floor. The goal is to shorten the foot from heel to ball — creating a dome shape in the arch — without curling the toes. This is called the short foot exercise. It directly activates the flexor digitorum brevis and abductor hallucis, the primary arch-supporting muscles.
+Step 2: [B] Draw Heel to Ball (ACTIVATE) Without lifting the heel or curling the toes, try to drag the ball of the foot toward the heel. The arch should visibly rise. Hold for 3 seconds. This movement is subtle and mentally demanding. If the toes curl, relax them — the arch lift must come from the intrinsic muscles, not the long toe flexors.
+Step 3: [C] Release & Build (PROGRESS) Slowly release the arch. 10 reps per foot. As this becomes easier, progress to performing it standing, then standing on one leg. The short foot exercise is the single most prescribed intrinsic foot strengthening movement in sports PT and orthopedic rehabilitation.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1007 — Big Toe Extension
+Subtitle: Windlass mechanism mobilization
+Start / setup: Seated, foot flat on the floor.
+Step 1: [A] Seated Setup (SETUP) Sit with foot flat on the floor. Place two fingers lightly under the big toe. The big toe is the most mechanically important digit in walking — its extension during push-off is what tightens the plantar fascia like a winch (the windlass mechanism). Restricted big toe extension is a direct cause of arch strain.
+Step 2: [B] Lift Only the Big Toe (ISOLATE) Lift only the big toe as high as possible, keeping the other four toes on the floor. Hold for 2 seconds. Then reverse — press the big toe down and lift the other four. This isolation trains the extensor hallucis and establishes independent toe control.
+Step 3: [C] Assisted Extension (MOBILIZE) Using your fingers, gently assist the big toe into full extension — past where it goes on its own. Hold for 5 seconds. This passively mobilizes the first metatarsophalangeal joint and stretches the intrinsic flexors. Restricted range here correlates directly with plantar fasciitis severity.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1008 — Eccentric Heel Drops
+Subtitle: Alfredson protocol — straight knee
+Start / setup: Standing on the edge of a step, heels hanging off the back.
+Step 1: [A] Step Edge Setup (SETUP) Stand on the edge of a step or curb with both feet, heels hanging off the back. Rise up onto both forefeet to the top position. This is the Alfredson protocol — the most evidence-backed exercise for plantar fasciitis and Achilles tendinopathy. Keep the working knee straight throughout.
+Step 2: [B] Single-Leg Lower (ECCENTRIC) Shift weight to one foot. Slowly lower the heel below the step level — taking a full 3 seconds to descend. You are loading the calf eccentrically: it is contracting while lengthening. This is the specific stimulus that promotes tendon and fascial remodeling. Do not rush.
+Step 3: [C] Two-Leg Return (RESET) Use both feet to rise back to the top position. Switch the working leg. 15 reps each side. If this is painless, add load over time — a backpack with a book is sufficient. Mild discomfort during the movement is acceptable; sharp pain is not.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1009 — Eccentric Soleus Drops
+Subtitle: Bent-knee heel drops — deeper calf loading
+Start / setup: Standing on the edge of a step, heels hanging off the back.
+Step 1: [A] Step Edge, Knee Bent (SETUP) Same starting position as Eccentric Heel Drops — on a step edge, heels hanging. But this time, bend the working knee to approximately 30–40 degrees. This simple change shifts the load from the gastrocnemius to the soleus. The soleus attaches below the knee and is the primary load-bearing muscle of the calf during walking.
+Step 2: [B] Slow Descent (ECCENTRIC) Lower the heel slowly on the bent-knee leg — 3 full seconds down. Maintain the same knee angle throughout the descent. Do not let the knee straighten during the lowering phase or you shift back to the gastrocnemius. Feel the load deep in the lower calf, just above the heel.
+Step 3: [C] Two-Leg Return (RESET) Use both feet to return to the top. Switch sides. 15 reps each side. These two eccentric exercises — straight knee and bent knee — together cover the full calf-Achilles-fascia chain. Done consistently 3 days a week, clinical improvement is typically measurable within 6–8 weeks.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1010 — Towel Scrunches
+Subtitle: Flexor digitorum brevis strengthening
+Start / setup: Seated barefoot, a small towel flat under one foot.
+Step 1: [A] Towel Setup (SETUP) Sit barefoot with a small towel flat on the floor under one foot. The towel should be thin enough that you can feel the floor texture through it. No towel? Use a sock or work on a textured surface — the goal is toe flexion against mild resistance.
+Step 2: [B] Scrunch & Hold (STRENGTHEN) Curl all five toes to scrunch the towel toward you. Use only the toes — do not slide the whole foot. Hold the scrunch for 2 seconds, then release fully. This targets the flexor digitorum brevis and the lumbricals — the small muscles that support the metatarsal arch, the often-overlooked transverse arch of the foot.
+Step 3: [C] Repeat & Switch (ENDURANCE) Continue for 20 seconds, then switch feet. 3 sets per side. As strength builds, progress to standing on one leg while performing the scrunch — this adds the balance challenge and integrates the intrinsic work into functional loading.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1100 — Ankle Pumps & Circles
+Subtitle: Circulation — prevents swelling and blood pooling
+Start / setup: Seated in your seat, feet flat on the floor.
+Step 1: [A] Seated Start (SETUP) Sit upright, feet flat on the floor. Lift both feet slightly so heels rest lightly. No need to remove shoes.
+Step 2: [B] Pump Up & Down (CIRCULATE) Flex feet up (toes toward shins) then point down — 20 slow repetitions. This activates the soleus muscle, which acts as a second heart to pump blood back from the legs.
+Step 3: [C] Slow Circles (MOBILIZE) Rotate each ankle in slow, full circles — 10 clockwise, 10 counter-clockwise per foot. Imagine drawing large, smooth circles in the air with your big toe.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1101 — Seated Glute Squeezes
+Subtitle: Prevents gluteal amnesia from prolonged pressure
+Start / setup: Seated in your seat, feet flat.
+Step 1: [A] Neutral Sit (SETUP) Sit tall, feet flat. No leaning — weight distributed evenly through both sit bones. Shoulders relaxed.
+Step 2: [B] Squeeze & Hold (ACTIVATE) Squeeze both glutes firmly together. Hold for 5 seconds. Breathe normally — do not hold your breath or brace the upper body.
+Step 3: [C] Release & Repeat (RESET) Release completely for 5 seconds. 10 repetitions. Prolonged pressure switches off the glutes over time — this keeps the tissue and motor signal alive.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1102 — Seated Cat-Cow
+Subtitle: Lubricates intervertebral discs compressed under cabin pressure
+Start / setup: Seated upright in your seat, hands on knees.
+Step 1: [A] Hands on Knees (SETUP) Sit at the front third of your seat. Hands resting on knees. Spine neutral. Take one breath here.
+Step 2: [B] Arch — Inhale (EXT) Inhale as you arch the low back, lift the chest, and gently look upward. Let the spine extend segmentally from tailbone to neck.
+Step 3: [C] Round — Exhale (FLEX) Exhale fully as you round the spine, tuck the chin, and pull the navel in. Feel each vertebra flex. 8–10 slow cycles.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1103 — Peripheral Vision Softening
+Subtitle: Down-regulates the nervous system during stress or turbulence
+Start / setup: Seated, eyes open and gaze forward.
+Step 1: [A] Soft Gaze Forward (SETUP) Let your eyes relax and unfocus slightly. Do not look at a screen or read. Allow the gaze to become wide and diffuse.
+Step 2: [B] Expand Peripheral Awareness (DOWNREGULATE) Without moving your eyes, softly notice the full width of your visual field — the edges of the cabin, movement in your periphery. This is panoramic vision, the same visual state predators use when resting.
+Step 3: [C] Hold & Breathe (CALM) Maintain this soft, wide gaze for 60–90 seconds. Breathe slowly. This activates the parasympathetic nervous system and reduces the threat-detection response that makes turbulence feel dangerous.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1104 — Standing Psoas Release
+Subtitle: Long-axis stretch for hip flexors shortened during travel
+Start / setup: Standing, about to step into a shallow lunge.
+Step 1: [A] Shallow Lunge (SETUP) Step forward into a shallow lunge — not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright.
+Step 2: [B] Pelvic Tuck & Lean (STRETCH) Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip — this is the psoas.
+Step 3: [C] Hold & Breathe (RELEASE) Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force — the psoas responds to patience, not pressure.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1105 — Wall Slides (W to Y)
+Subtitle: Activates lower trapezius to fix 'luggage shoulder'
+Start / setup: Standing with your back flat against a wall.
+Step 1: [A] Wall Contact (SETUP) Stand with head, upper back, and glutes touching the wall. Arms in a W shape — elbows bent, backs of hands against the wall. This is your baseline.
+Step 2: [B] Slide to Y (ACTIVATE) Keeping the backs of hands and elbows touching the wall, slowly slide arms upward until they form a Y overhead. If contact is lost, reduce range. The lower trapezius must fire to keep the shoulder blades down and in.
+Step 3: [C] Slow Return (CONTROL) Lower arms back to W in 3 seconds. Do not shrug or let shoulders elevate. 10 reps. This directly reverses the upper trap dominance that carrying luggage creates.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1106 — Open Book Stretch
+Subtitle: Restores thoracic rotation — the first thing to lock after travel
+Start / setup: Lying on your side, knees stacked at 90°.
+Step 1: [A] Side-Lying Setup (SETUP) Lie on your side with hips and knees bent to 90°. Stack knees together. Extend both arms forward at shoulder height. Place top hand on top knee to keep hips anchored.
+Step 2: [B] Open the Top Arm (ROTATE) Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you — like opening a book. Let the chest and thoracic spine follow the arm.
+Step 3: [C] Hold & Return (RELEASE) Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor — let gravity do it gradually. Return slowly. 5 reps each side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1107 — Physiological Sigh
+Subtitle: Rapidly offloads CO₂ and signals the brain you have arrived safely
+Start / setup: Seated or lying down — any comfortable position.
+Step 1: [A] Relax Completely (SETUP) Sit or lie comfortably. Let the body be heavy. Close the eyes. This is not just breathing — it is a signal to the nervous system that the travel phase is over.
+Step 2: [B] Double Inhale (CO2 OFFLOAD) Breathe in through the nose to about 80% capacity, then sniff in a second short inhale to fully inflate the lungs. This pops collapsed air sacs (alveoli) and maximizes surface area for CO₂ exchange.
+Step 3: [C] Long Exhale (DOWNREGULATE) Release a long, slow exhale through the mouth — twice as long as the inhale. 3–5 rounds. Each cycle measurably reduces physiological arousal. You will feel the nervous system shift.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1108 — Doorway Pec Stretch
+Subtitle: Counteracts internal shoulder rotation from carrying bags
+Start / setup: Standing in a doorway, forearms on the frame.
+Step 1: [A] Doorway Setup (SETUP) Stand in a doorway. Place both forearms on the door frame at 90° — elbows at shoulder height, upper arms parallel to floor. Step one foot forward.
+Step 2: [B] Lean Through (STRETCH) Gently shift your weight forward through the doorway. Let the chest open. You should feel a stretch across the pectorals and front of the shoulders.
+Step 3: [C] Hold & Breathe (RELEASE) Hold 30–45 seconds. On each exhale, allow the chest to open a fraction more. Do not shrug the shoulders up. Switch foot position halfway through.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 1109 — Glute Bridge
+Subtitle: Re-engages the posterior chain after hours of sitting
+Start / setup: Lying on your back, knees bent, feet flat on the floor.
+Step 1: [A] Supine Setup (SETUP) Lie on your back. Feet flat, hip-width, heels 6 inches from glutes. Arms flat at sides. This is your reset position after travel.
+Step 2: [B] Drive & Lift (ENGAGE) Press through the heels and lift the hips until shoulders, hips, and knees form a straight line. Squeeze the glutes firmly at the top. Hold 2 seconds.
+Step 3: [C] Lower Slowly (CONTROL) Lower with control — 3 seconds down. Do not let the hips crash. The slow descent builds the posterior chain that sitting disengages.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2000 — Thoracic Extension (foam roller)
+Subtitle: Extension options
+Start / setup: Seated or supine with foam roller/rolled towel under the upper back (shoulder blade level).
+Step 1: [A] Setup (SETUP) Place foam roller or rolled towel under upper back. Keep knees bent and feet on the floor if lying.
+Step 2: [B] Extend (EXTEND) Support your head with hands and gently arch back over the roller. Pause and breathe for 3-5 breaths.
+Step 3: [C] Alternative (VARIATION) If no roller, use a chair back, wall, or puppy-pose quadruped variation to find comfortable extension.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2001 — Cat–Cow
+Subtitle: Segmental flexion/extension
+Start / setup: On all fours, neutral spine.
+Step 1: [A] Neutral Tabletop (SETUP) Hands under shoulders, knees under hips. Neutral spine, neck long.
+Step 2: [B] Cow — Inhale (EXTEND) Inhale, drop the belly, lift the chest and tailbone.
+Step 3: [C] Cat — Exhale (FLEX) Exhale, round through the spine segment by segment. Move slowly for 10 cycles.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2002 — Thoracic Rotation
+Subtitle: Rotation, 5–10 per side
+Start / setup: Seated or kneeling with arms crossed.
+Step 1: [A] Seated Setup (SETUP) Sit tall with hands across chest or arms hugging shoulders.
+Step 2: [B] Rotate (ROTATE) Rotate upper body gently to one side, keeping hips facing forward. Return and repeat other side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2003 — Wall Angels
+Subtitle: Scapular retraction & mobility
+Start / setup: Standing with back against a wall.
+Step 1: [A] Wall Contact (SETUP) Head, upper back and glutes touch the wall. Arms in a W at shoulder height.
+Step 2: [B] Slide to Y (ACTIVATE) Slide arms up overhead into a Y keeping contact with the wall. Return slowly.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2004 — Chin Tucks
+Subtitle: Cervical retraction
+Start / setup: Seated or standing tall.
+Step 1: [A] Setup (SETUP) Sit or stand tall, eyes forward.
+Step 2: [B] Tuck (NECK) Draw chin straight back (not down), hold gently for 3–5 seconds then release.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2005 — Thread the Needle
+Subtitle: Thoracic rotation & shoulder release
+Start / setup: All fours — hands under shoulders, knees under hips.
+Step 1: [A] Setup (SETUP) From tabletop, reach one arm under the body and rest shoulder on the floor.
+Step 2: [B] Hold (RELEASE) Breathe here 20–30 seconds per side and feel rotation through the upper back.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2006 — Child's Pose
+Subtitle: Gentle spine flexion & reset
+Start / setup: Kneel and reach arms forward.
+Step 1: [A] Kneel & Fold (SETUP) Sit back toward heels and fold forward with arms extended. Relax the chest toward the floor.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2007 — Hand on Heart
+Subtitle: Self-compassion activation through physical self-touch
+Start / setup: Seated or lying down, in any comfortable position.
+Step 1: [A] Place Both Hands (SETUP) Place one or both hands flat on the center of the chest, over the heart. Close the eyes. Physically feel the warmth of your own hands through the fabric. This simple gesture activates the same neurological pathway as receiving care from another person — the body does not fully distinguish the source of the touch.
+Step 2: [B] Feel the Heartbeat (CONNECT) Press gently until you can feel your heartbeat — or simply feel the rise and fall of the chest with the breath. Acknowledge: this heart has been beating for your entire life without your asking it to. It does not need you to be anxious on its behalf. Let it do its work.
+Step 3: [C] Breathe Into the Hands (SOFTEN) Breathe slowly, imagining the breath flowing to and from the hands. With each exhale, consciously soften the area beneath the palms. Dr. Kristin Neff's research on self-compassion shows this gesture measurably reduces cortisol and activates the caregiving system — the same system that calms an anxious child also calms an anxious adult.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2008 — Earlobe Circles
+Subtitle: Auricular vagal branch stimulation through ear massage
+Start / setup: Seated, both hands raised to the ears.
+Step 1: [A] Find the Earlobes (SETUP) Reach up and gently take both earlobes between the thumb and index finger. The ear — specifically the concha and tragus — contains a branch of the vagus nerve called the auricular branch. Gentle stimulation here has been shown in clinical studies to increase heart rate variability, a direct marker of parasympathetic tone.
+Step 2: [B] Slow Circles and Gentle Pulls (STIMULATE) Make slow, gentle circles with the earlobes. Then gently pull the lobes downward — a slow, steady traction. Move to the outer ear rim (helix) and trace it slowly from bottom to top with the thumb. Take your time. This is not massage — it is gentle, deliberate stimulation.
+Step 3: [C] Continue and Breathe (TONE) Continue for the full minute, working both ears simultaneously. Breathe slowly — long exhales enhance the effect. You may notice a warmth in the ears, a softening of tension in the jaw, or a gentle heaviness behind the eyes. These are signs of vagal activation. This technique is used in integrative medicine for acute anxiety and insomnia.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2010 — Wrist Flexor Stretch
+Subtitle: Stretch the palm-side forearm
+Start / setup: Seated or standing, arm extended.
+Step 1: [A] Setup (SETUP) Extend the arm with palm facing up.
+Step 2: [B] Stretch (STRETCH) Use the other hand to gently pull fingers back toward you. Hold 30s per side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2011 — Wrist Extensor Stretch
+Subtitle: Stretch the top forearm
+Start / setup: Arm extended palm down.
+Step 1: [A] Setup (SETUP) Extend the arm with palm facing down.
+Step 2: [B] Stretch (STRETCH) Use the other hand to press the fingers toward the forearm. Hold 30s per side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2012 — Median Nerve Glide
+Subtitle: Nerve mobility
+Start / setup: Seated, arm supported.
+Step 1: [A] Setup (SETUP) Start with a neutral wrist and fingers.
+Step 2: [B] Glide (GLIDE) Make a fist, then straighten fingers and thumb across the palm. Repeat smoothly for 10 reps.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2013 — Prayer Stretch
+Subtitle: Gentle wrist flexion
+Start / setup: Standing or seated at chest height.
+Step 1: [A] Prayer Setup (SETUP) Bring palms together at chest, fingers pointing up.
+Step 2: [B] Lower (STRETCH) Slowly lower hands while keeping palms together to stretch the wrists. Hold 20s.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2014 — Shakeout & Fist Pumps
+Subtitle: Loosen the hands and forearms
+Start / setup: Standing or seated.
+Step 1: [A] Shake (RELEASE) Shake both hands loose for 15 seconds.
+Step 2: [B] Fist Pumps (ACTIVATE) Alternate making a fist and opening the hand with punch-like pumps for 15 seconds.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2101 — Progressive Muscle Relaxation
+Subtitle: Systematic tension-release that discharges stored muscular stress
+Start / setup: Lying on your back on the floor or a firm surface, arms at sides.
+Step 1: [A] Feet, Calves & Thighs (LOWER BODY) Starting at the feet: curl the toes and tense the feet hard for 5 seconds, then release completely. Next, contract the calves and thighs simultaneously — hold 5 seconds, then let go. The contrast between maximal tension and release is the mechanism. Stress stores muscular holding patterns below conscious awareness; PMR makes them visible and clears them.
+Step 2: [B] Core, Hands & Arms (MID BODY) Tense the glutes and core together — hold 5 seconds, release. Then make tight fists and tense the forearms, biceps, and shoulders all at once — hold 5 seconds, release fully. Let the arms go completely heavy. Notice the warmth in the released muscles — this is increased blood flow returning.
+Step 3: [C] Shoulders, Jaw & Face (UPPER BODY) Shrug the shoulders to the ears — hold 5 seconds, release. Clench the jaw and scrunch the face — hold 5 seconds, release. Finally, take a full breath, tense the entire body from feet to face simultaneously — hold 5 seconds, then release everything at once and exhale fully. One complete cycle is enough; repeat if time allows.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2102 — Rhythmic Walking
+Subtitle: Bilateral gait cycle that metabolizes cortisol and adrenaline
+Start / setup: Standing, with enough space to walk or march in place.
+Step 1: [A] March in Place (SETUP) Begin marching — knees lifting high, arms swinging in opposition (right arm forward as left knee rises). The gait cycle is the body's natural stress-metabolism mechanism. Research shows a brisk 10-minute walk reduces cortisol by 15–20%. Even 2 minutes of deliberate marching initiates this response.
+Step 2: [B] Cross-Body Pattern (BILATERAL) Exaggerate the cross-body swing: right elbow drives back as the left knee lifts, and vice versa. This bilateral, alternating pattern activates both brain hemispheres simultaneously and has a measurable organizing effect on a dysregulated nervous system — the same mechanism that makes walking after an argument feel instinctively helpful.
+Step 3: [C] Audible Exhale with Each Step (DISCHARGE) Breathe out with each step — a short, deliberate exhale through the mouth, like punctuation. Make it audible. Lift the knees higher, let the arms swing wider. After 2 minutes you will notice a shift: the quality of mental activity changes. Stress rumination is harder to sustain when the body is engaged bilaterally.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2103 — Thoracic Extension
+Subtitle: Opens the chest compressed by stress posture, restores full breathing
+Start / setup: Seated in a firm chair, hands clasped behind the head.
+Step 1: [A] Hands Behind Head (SETUP) Sit at the edge of a firm chair. Interlace the fingers behind the head, elbows wide. Chronic stress collapses the chest inward and forward — shoulders round, the thoracic spine flexes, and the breath shortens. This position is the direct reversal of that pattern.
+Step 2: [B] Extend Over the Chair Back (OPEN) Lean back gently over the top edge of the chair back — let it act as a fulcrum for the mid-thoracic spine. Allow the head to drop back, elbows flare open, chest lifts toward the ceiling. Hold 10–15 seconds. Breathe into the stretch. You may feel or hear gentle cracking — this is normal joint cavitation.
+Step 3: [C] Repeat at Different Levels (MOBILIZE) Come up slowly, shift position up slightly on the chair, and extend again at a different vertebral level. 3–4 extensions across the mid and upper thoracic. Each one opens the anterior chest, stretches the intercostals, and restores full lung volume — all of which are mechanically restricted during the stress posture.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2104 — The Shake-Out
+Subtitle: TRE — Tension/Trauma Releasing Exercises via natural tremor
+Start / setup: Standing, feet hip-width, knees soft.
+Step 1: [A] Soft Knees, Begin Bouncing (SETUP) Stand with feet hip-width, knees softly bent. Let the arms hang completely loose. Begin gentle heel-drops — heels barely lifting, dropping with gravity, letting the body bounce passively. Do not force anything. Animals in the wild tremble after a stressful encounter to discharge the activation; this is the same reflex.
+Step 2: [B] Let the Shake Travel Up (DISCHARGE) Let the tremoring move up from the feet — through the knees, hips, belly, chest, arms. If the body wants to shake more, let it. If natural tremor doesn't arrive, gentle deliberate bouncing is still effective. The goal is movement without muscular control — surrendering the body to its own discharge mechanism.
+Step 3: [C] Gradually Still, Then Rest (INTEGRATE) After 90 seconds, let the shaking slow naturally — do not stop it abruptly. Stand completely still for 20 seconds and notice the quality of the body: warmth, tingling, a sense of weight and softness. This is parasympathetic activation. Used in trauma-informed therapy worldwide (TRE, Somatic Experiencing).
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2105 — Child's Pose
+Subtitle: Vagal toning through forward fold and abdominal compression
+Start / setup: Kneeling on the floor, knees wide, big toes together.
+Step 1: [A] Kneel and Fold Forward (SETUP) Kneel with knees wide or together, big toes touching. Fold the torso forward over the thighs and rest the forehead on the floor, or on stacked hands or a folded blanket. Arms can extend forward or rest alongside the body. Let the entire torso go heavy.
+Step 2: [B] Abdomen Against Thighs (COMPRESS) The mild compression of the abdomen against the thighs in this position applies gentle pressure on the gut wall — which in turn stimulates the vagus nerve via the enteric nervous system. This is part of why forward folds feel intrinsically calming. Allow each exhale to press the belly more firmly against the thighs.
+Step 3: [C] Breathe Into the Back Body (RESTORE) Direct the breath into the back: feel the ribs widen laterally on the inhale, then settle on the exhale. Stay for the full 90 seconds. If the mind returns to the stressor, acknowledge it and redirect to the sensation of the forehead on the ground. You do not have to solve anything right now.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2106 — Chin Tucks
+Subtitle: Cervical decompression that releases the suboccipital muscles
+Start / setup: Seated upright or standing against a wall.
+Step 1: [A] Upright Posture (SETUP) Sit or stand tall. During stress, the head juts forward as the body prepares for action — this compresses the upper cervical spine, restricts blood flow to the brain, and contributes to tension headaches. The chin tuck is a direct reset of this pattern. Think: 'tall spine, double chin.'
+Step 2: [B] Draw the Chin Straight Back (RETRACT) Without tilting the head, draw the chin straight back — creating a 'double chin.' The head should feel like it's gliding back on a level track, not tucking downward. Hold the retraction gently for 3–5 seconds. You should feel a mild stretch at the base of the skull — this is the suboccipital release.
+Step 3: [C] 10 Slow Reps (DECOMPRESS) Release and repeat — 10 slow, deliberate reps. Each one creates traction in the upper cervical joints, decompresses the C1-C2 region, and releases the muscles that clamp tight under stress. Combined with slow nasal breathing throughout, this produces a rapid drop in perceived tension.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2107 — Wall Pushes
+Subtitle: Isometric exertion that completes the stress activation cycle
+Start / setup: Standing an arm's length from a solid wall.
+Step 1: [A] Hands on Wall at Shoulder Height (SETUP) Place both palms flat against the wall at shoulder height, arms nearly straight. Step the feet back slightly. The stress response contracts muscles and primes them for exertion — this exercise uses that primed energy deliberately rather than letting it sit unspent in the body.
+Step 2: [B] Push with Maximum Effort (EXERT) Press into the wall as hard as you can — as if you intend to push it over. Engage the entire kinetic chain: push through the feet, brace the core, press with the chest, shoulders, and arms simultaneously. Hold 10 seconds of maximal effort. Breathe out slowly during the push.
+Step 3: [C] Release and Exhale Fully (COMPLETE) Release suddenly and exhale completely. The abrupt shift from maximum tension to release signals the nervous system that the threat response is complete. Repeat 3–5 times. This is the physical completion of the fight-or-flight cycle — the body gets the exertion it was primed to perform, and can now down-regulate.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2108 — Butterfly Hug
+Subtitle: Bilateral stimulation (EMDR technique) that integrates the stress response
+Start / setup: Seated or standing, arms crossed over the chest.
+Step 1: [A] Cross Arms Over Chest (SETUP) Cross both arms over the chest — right hand to the left shoulder area, left hand to the right — like hugging yourself. Fingertips rest near the collarbones or upper arms. Close the eyes. This position was developed by Lucina Artigas for trauma survivors and is a core technique in EMDR (Eye Movement Desensitization and Reprocessing) therapy.
+Step 2: [B] Alternating Taps (BILATERAL) Begin alternating gentle taps — right hand taps, then left hand taps — at a slow, rhythmic pace, like a slow heartbeat. The alternating bilateral stimulation mimics REM sleep processing and activates both brain hemispheres simultaneously. This helps the nervous system integrate and file the stress experience rather than holding it.
+Step 3: [C] Continue and Breathe (INTEGRATE) Continue for the full 90 seconds. Breathe slowly and naturally. You may notice images, sensations, or memories arising — let them pass without engagement. The bilateral rhythm is doing the work. Many people find this position produces an immediate sense of comfort and safety — the same circuits activated by human contact are recruited through self-administered bilateral touch.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2201 — Wall-Press TKE (Terminal Knee Extension)
+Subtitle: Quad activation without compression
+Start / setup: Standing, facing a wall with one foot slightly behind the other. The front knee is slightly bent.
+Step 1: [A] Wall Setup (SETUP) Stand facing a wall. Place one foot slightly behind the other. The front knee is slightly bent. Keep the front heel grounded.
+Step 2: [B] Press & Lock Out (ACTIVATE) Press the front heel into the floor and squeeze the quadriceps hard to 'lock out' the knee. Hold the squeeze for 2 seconds.
+Step 3: [C] Release & Repeat (CONTROL) Release and repeat 10–12 times per leg. Switch sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2202 — Straight Leg Raises
+Subtitle: Quad strength without joint load
+Start / setup: Lying on your back: one leg bent with foot flat, the other leg straight out.
+Step 1: [A] Supine Setup (SETUP) Lie on your back. One leg bent, foot flat; the other leg extended straight.
+Step 2: [B] Lift to Opposite Knee Height (STRENGTHEN) Lift the straight leg to the height of the opposite bent knee. Squeeze the quad at the top. Lower slowly.
+Step 3: [C] Controlled Lower (ECCENTRIC) Lower in 3 seconds. 10–12 reps per leg.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2203 — Isometric Wall Sits
+Subtitle: Pain-numbing isometric hold
+Start / setup: Standing: back flat against a wall, feet shoulder-width apart and 12 inches forward.
+Step 1: [A] Wall Contact (SETUP) Stand with back flat against a wall. Feet shoulder-width, about 12 inches in front.
+Step 2: [B] Slide Down (HOLD) Slide down into a partial squat. Hold. Isometric holds have a pain-numbing effect on joints.
+Step 3: [C] Breathe (RELEASE) Hold 45 seconds. Breathe normally.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2204 — Towel Heel Slides
+Subtitle: Joint oiling for arthritis stiffness
+Start / setup: Lying on your back: one heel resting on a towel or smooth surface.
+Step 1: [A] Supine, Heel on Towel (SETUP) Lie on your back. One heel on a towel or smooth floor.
+Step 2: [B] Slide Heel Toward Glutes (MOBILIZE) Slowly slide the heel toward your glutes, then back out. Joint oiling for stiffness.
+Step 3: [C] Smooth & Slow (REPEAT) Continue 45 seconds. Repeat other side if time allows.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2205 — Self-Resisted Clamshells
+Subtitle: Hip strength to prevent knee cave
+Start / setup: Lying on your side: knees bent at 90 degrees and stacked. Top hand on outside of top knee.
+Step 1: [A] Side-Lying Setup (SETUP) Lie on your side. Knees bent 90°, stacked. Top hand on outside of top knee.
+Step 2: [B] Lift Against Resistance (STRENGTHEN) Lift the top knee while pressing down with your hand. Stronger hips prevent the knee from caving inward.
+Step 3: [C] Lower & Repeat (CONTROL) Lower slowly. 10–12 reps per side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2206 — Seated Knee Extensions
+Subtitle: Thigh strength without weight-bearing
+Start / setup: Seated: sitting tall in a chair with feet dangling.
+Step 1: [A] Chair Setup (SETUP) Sit tall in a chair, feet dangling. Hands on chair or thighs.
+Step 2: [B] Straighten Leg (EXTEND) Slowly straighten one leg until horizontal. Squeeze the quad at the top. Maintains thigh muscle mass when weight-bearing is painful.
+Step 3: [C] Lower Slowly (CONTROL) Lower in 3 seconds. 10–12 reps per leg.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 2207 — Low Box Step-Ups
+Subtitle: Eccentric strength, slow descent
+Start / setup: Standing: facing a low step or the bottom stair.
+Step 1: [A] Step Setup (SETUP) Stand facing a low step or bottom stair. 4–6 inches is enough to start.
+Step 2: [B] Step Up (CONCENTRIC) Step up slowly with one foot. Bring the other foot to meet it.
+Step 3: [C] Slow Descent (ECCENTRIC) Step down slowly — 3–4 seconds to lower. Builds eccentric strength that protects the knee. 8–10 reps each leg.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3001 — Standing Club Rotations
+Subtitle: Separate upper body rotation from stable hips.
+Start / setup: Standing tall with feet shoulder-width apart.
+Step 1: (SETUP) Hold a golf club across your upper back and shoulders, gripping each end. Keep your spine straight and knees slightly bent.
+Step 2: (ROTATE) Rotate your torso to the right as far as comfortable while keeping your hips and feet facing forward.
+Step 3: (SWITCH) Slowly rotate to the left, feeling the separation between your upper and lower body.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3002 — Leg Swings
+Subtitle: Lubricate the hip joint in front, back, and lateral planes.
+Start / setup: Standing near a wall or golf cart for balance.
+Step 1: (SETUP) Stand on one leg, engage your core, and rest a hand lightly on the wall or cart for balance.
+Step 2: (SWING) Swing the opposite leg forward and backward in a controlled motion, gradually increasing the range as the hip warms up.
+Step 3: (LATERAL) Switch to side-to-side swings in front of your body to open the hip socket in the lateral plane.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3003 — Active Wrist Circles
+Subtitle: Warm wrists and forearms for gripping the club.
+Start / setup: Arms extended in front of you at chest height.
+Step 1: (SETUP) Make light fists with both hands with arms extended at shoulder height.
+Step 2: (CIRCLE) Rotate your wrists in slow, controlled clockwise circles, using the full available range.
+Step 3: (REVERSE) Change direction to counter-clockwise, releasing tension through the forearms.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3004 — Open Books
+Subtitle: Restore thoracic rotation after repetitive swings.
+Start / setup: Lying on your side, knees stacked and bent at 90 degrees.
+Step 1: (SPINE) Extend both arms straight out in front of you with palms touching and knees stacked.
+Step 2: (OPEN) Lift the top arm and rotate it slowly across your body toward the floor behind you while keeping your knees pinned together.
+Step 3: (RESET) Breathe deeply into the stretch, then slowly return to the starting position and repeat.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3005 — Kneeling Hip Flexor Stretch
+Subtitle: Lengthen the front of the hip after walking and swinging.
+Start / setup: In a half-kneeling position with one knee on the floor.
+Step 1: (SETUP) Keep your front foot flat, torso upright, and ribs stacked over the pelvis.
+Step 2: (TUCK) Gently tuck your pelvis under and lean forward slightly until you feel a stretch in the front of your back hip.
+Step 3: (REACH) Reach the arm on the same side as your back knee toward the ceiling to deepen the release.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3006 — Thread the Needle
+Subtitle: Release tension between the shoulder blades.
+Start / setup: On all fours with hands under shoulders and knees under hips.
+Step 1: (SETUP) Slide one arm underneath the other, palm up, reaching as far as comfortable.
+Step 2: (ROTATE) Lower your shoulder and ear toward the floor, letting the upper back rotate.
+Step 3: (BREATH) Hold and breathe into the space between your shoulder blades before switching sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3011 — Lateral Lunges with Reach
+Subtitle: Groove lateral load and balance for wide court coverage.
+Start / setup: Standing with feet wide apart.
+Step 1: (SETUP) Shift your weight to the right, bending the right knee while keeping the left leg straight.
+Step 2: (REACH) Reach your arms forward to balance your weight and keep the chest lifted.
+Step 3: (SWITCH) Push off the right foot to return to center, then repeat on the left side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3012 — Shoulder Y & T Raises
+Subtitle: Activate lower traps and posterior shoulder for overhead work.
+Start / setup: Standing with a slight hinge at the hips.
+Step 1: (SETUP) Let your arms hang down with thumbs pointing out and spine long.
+Step 2: (Y-RAISE) Raise your arms up to form a Y shape, squeezing the shoulder blades together.
+Step 3: (T-RAISE) Lower your arms, then raise them straight out to the sides to form a T, maintaining control.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3013 — Ankle Hops
+Subtitle: Prime calf and Achilles for quick first steps.
+Start / setup: Standing tall with feet close together.
+Step 1: (SETUP) Stay light on the balls of your feet with knees slightly soft.
+Step 2: (HOP) Perform small, quick vertical hops, focusing on a fast bounce off the ground.
+Step 3: (STABILITY) Keep your core tight and land softly each time without letting the heels slam down.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3014 — Forearm Extensor Release
+Subtitle: Unload the outer elbow and backhand tissues.
+Start / setup: Arm extended straight in front of you.
+Step 1: (SETUP) Point your fingers toward the floor with the palm facing you.
+Step 2: (STRETCH) Use the opposite hand to gently pull the back of your hand toward your body until you feel a stretch.
+Step 3: (RELEASE) Hold for several breaths, then ease off and switch sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3015 — Figure-4 Glute Stretch
+Subtitle: Open the hips after repeated lunges and changes of direction.
+Start / setup: Lying on your back with knees bent.
+Step 1: (SETUP) Cross your right ankle over your left knee to create a figure-4 shape.
+Step 2: (PULL) Reach through and grab your left thigh, gently pulling it toward your chest.
+Step 3: (SWITCH) Hold for several breaths, then repeat on the opposite side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3016 — Child's Pose with Side Reach
+Subtitle: Lengthen lats and side body after serving and overheads.
+Start / setup: Kneeling on the floor, sitting back on your heels.
+Step 1: (SETUP) Fold forward and rest your forehead on the floor with arms extended in front of you.
+Step 2: (REACH) Walk both hands to the right until you feel a stretch along your left side and lat.
+Step 3: (SWITCH) Walk hands back to center, then over to the left side and repeat.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3021 — Ankle Circles
+Subtitle: Mobilize the ankles before the miles.
+Start / setup: Standing tall, using a wall for balance if needed.
+Step 1: (SETUP) Lift one foot off the ground while lightly supporting yourself on the wall if needed.
+Step 2: (CIRCLE) Rotate the ankle in slow, controlled clockwise circles.
+Step 3: (REVERSE) Switch to counter-clockwise circles, then repeat with the other foot.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3022 — Glute Activation Drive
+Subtitle: Fire the glutes to support the pelvis with each step.
+Start / setup: Standing with feet hip-width apart.
+Step 1: (SETUP) Shift weight to your left leg and engage your core.
+Step 2: (DRIVE) Lift the right knee toward your chest while squeezing the left glute.
+Step 3: (SWITCH) Lower the foot with control and repeat on the other side, staying tall.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3023 — Controlled Arm Swings
+Subtitle: Rehearse efficient arm swing for walking.
+Start / setup: Standing tall with shoulders relaxed.
+Step 1: (SETUP) Bend your elbows slightly and let the arms hang by your sides.
+Step 2: (SWING) Swing your arms forward and backward from the shoulder joint in a natural rhythm.
+Step 3: (RELAX) Keep your neck long and avoid shrugging the shoulders as you move.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3024 — Calf Release
+Subtitle: Lengthen the calf and Achilles after long walks.
+Start / setup: Standing facing a wall.
+Step 1: (SETUP) Place both hands on the wall and step one foot back.
+Step 2: (PRESS) Keep the back heel on the floor and lean into the wall until you feel a stretch in the calf.
+Step 3: (BEND) Slightly bend the back knee to target the lower calf and Achilles, then switch sides.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3025 — Standing Quad Stretch
+Subtitle: Open the front of the thigh after steady forward motion.
+Start / setup: Standing tall, holding a chair for balance.
+Step 1: (SETUP) Reach back and grab your right ankle or foot.
+Step 2: (ALIGN) Pull the heel toward your glute while keeping your knees together and torso upright.
+Step 3: (SWITCH) Hold the stretch, then repeat on the left side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3026 — Foot Arch Massage
+Subtitle: Reset the arches after time on your feet.
+Start / setup: Standing or seated.
+Step 1: (SETUP) Place a small ball or firm object under the arch of your foot.
+Step 2: (ROLL) Apply gentle pressure and roll the foot forward and backward over the object.
+Step 3: (FOCUS) Spend extra time on any tight or tender spots before switching feet.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3031 — Pogo Hops
+Subtitle: Wake up calf and Achilles for impact.
+Start / setup: Standing with feet hip-width apart.
+Step 1: (SETUP) Keep your knees almost straight and stand tall.
+Step 2: (BOUNCE) Jump using only your ankles and calves, staying on the balls of your feet.
+Step 3: (RHYTHM) Maintain a quick, rhythmic pace to prime the tendons.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3032 — Runner's Lunge with Reach
+Subtitle: Open hip flexors and side body before the run.
+Start / setup: Standing tall.
+Step 1: (SETUP) Step back into a lunge, keeping the back leg straight and front knee stacked over the ankle.
+Step 2: (REACH) Reach both arms toward the ceiling and tilt your torso slightly away from the back leg.
+Step 3: (SWITCH) Return to standing and switch sides with control.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3033 — Hamstring Scoops
+Subtitle: Lengthen the hamstrings and groove front-leg loading.
+Start / setup: Standing with one heel forward and toes pointed up.
+Step 1: (SETUP) Hinge at the hips while keeping the front leg straight and back knee soft.
+Step 2: (SCOOP) Reach down and scoop your hands toward the floor in front of the foot, then up overhead.
+Step 3: (SWITCH) Take a small step forward and repeat on the other leg.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3034 — Seated Figure-4
+Subtitle: Decompress the hips after repetitive strides.
+Start / setup: Seated on the floor with legs extended.
+Step 1: (SETUP) Bend your left knee and cross your right ankle over the left thigh.
+Step 2: (PRESS) Lean forward slightly or pull the left thigh toward you to feel the stretch in the right hip.
+Step 3: (SWITCH) Hold, then repeat on the opposite side.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3035 — Cobra Pose
+Subtitle: Restore extension through the front of the body.
+Start / setup: Lying face down on a mat.
+Step 1: (SETUP) Place your hands on the floor next to your shoulders with elbows close to your sides.
+Step 2: (LIFT) Gently press through your hands to lift your chest off the floor, keeping your hips grounded.
+Step 3: (EXTEND) Draw shoulders away from your ears and breathe into the front of the body.
+
+────────────────────────────────────────────────────────────────────────
+
+ID 3036 — Legs Up the Wall
+Subtitle: Assist circulation and recovery after impact.
+Start / setup: Lying on your back with your glutes as close to a wall as possible.
+Step 1: (SETUP) Extend your legs straight up against the wall with heels resting lightly.
+Step 2: (RELAX) Let your arms rest by your sides with palms up and jaw unclenched.
+Step 3: (BREATHE) Stay here for about two minutes, breathing slowly to calm the system.
+
+────────────────────────────────────────────────────────────────────────
+

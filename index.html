@@ -1420,8 +1420,8 @@ const css = `
   .fc-sub { font-size: var(--text-sm); color:var(--text-secondary); font-style:italic; margin-bottom:20px; }
   .fc-steps { display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); padding-top:18px; margin-bottom:18px; }
   .fc-step { display:flex; gap:0; position:relative; }
-  .fc-step:not(:last-child)::after { content:''; position:absolute; left:21px; top:42px; bottom:0; width:1px; background:var(--step-connector); }
-  .fc-badge {
+  .fc-step:not(:last-child)::after { content:''; position:absolute; left:21px; top:42px; bottom:0; width:1px; background:var(--step-connector); display:none; }
+  .fc-badge { display:none;
     width:42px; height:42px; flex-shrink:0; border-radius:12px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)), var(--glass-bg);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1431,14 +1431,19 @@ const css = `
     display:flex; align-items:center; justify-content:center;
   }
   .fc-pos { font-size: var(--text-base); font-weight:600; color:var(--accent-secondary); }
-  .fc-right { padding:0 0 20px 14px; flex:1; }
+  .fc-right { padding:0 0 35px 14px; flex:1; text-align:left; }
   .fc-plabel { font-size: var(--text-sm); font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:3px; }
   .fc-pfocus {
-    display:inline-block; font-size: var(--text-sm); letter-spacing:0.16em; border-radius:20px;
+    display:inline-block; font-size: calc(var(--text-sm) + 2px); letter-spacing:0.16em; border-radius:20px; text-align:left; text-transform:uppercase;
     color:var(--accent-secondary); background:var(--accent-dim); border:1px solid rgba(255,191,101,0.18);
     padding:1px 9px; margin-bottom:6px;
   }
-  .fc-pcue { font-size: var(--text-lg); color:var(--text-primary); line-height:1.45; font-weight: 400; }
+  [data-night="true"] .step-focus,
+  [data-night="true"] .fc-pfocus {
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+  }
+  .fc-pcue { font-size: var(--text-lg); color:var(--text-primary); line-height:1.45; font-weight: 400; text-align:left; }
   .fc-timer { border-top:1px solid var(--border); padding-top:16px; margin-bottom:14px; }
   .fc-reps { border-top:1px solid var(--border); padding-top:14px; margin-bottom:14px; }
   /* flow fullscreen overlay */
@@ -1514,9 +1519,9 @@ const css = `
 
   /* ── STEPS (A/B/C cues) ── */
   .steps { display:flex; flex-direction:column; gap:0; margin-top:8px; }
-  .step { display:flex; gap:10px; align-items:flex-start; padding:14px 0; border-bottom:1px solid var(--border); }
+  .step { display:flex; gap:10px; align-items:flex-start; padding:14px 0 29px; border-bottom:1px solid var(--border); }
   .step:last-child { border-bottom:none; }
-  .step-badge {
+  .step-badge { display:none;
     width:28px; flex-shrink:0; display:flex; align-items:flex-start; justify-content:flex-start; padding-top:3px;
   }
   .step-badge-inner {
@@ -1528,11 +1533,17 @@ const css = `
     box-shadow: 0 0 10px color-mix(in srgb, var(--mood-accent) 28%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.14);
     display:flex; align-items:center; justify-content:center; line-height:1; flex-shrink:0;
   }
+  /* Force-hide step number circles even if earlier rules include display:flex */
+  .fc-badge,
+  .step-badge,
+  .step-badge-inner {
+    display: none !important;
+  }
   .step-pos { font-size: var(--text-sm); font-weight:700; letter-spacing:0; color:var(--accent-secondary); }
-  .step-right { flex:1; }
+  .step-right { flex:1; text-align:left; }
   .step-label { font-size: var(--text-lg); font-weight: 600; color:var(--text-white); line-height:1.3; }
-  .step-focus { font-size: var(--text-sm); color:var(--accent-secondary); letter-spacing:0.08em; margin-top:5px; font-weight:600; text-transform:uppercase; }
-  .step-cue { font-size: var(--text-lg); color:var(--text-secondary); margin-top:12px; line-height:1.3 !important; }
+  .step-focus { font-size: calc(var(--text-sm) + 2px); color:var(--accent-secondary); letter-spacing:0.08em; margin-top:5px; font-weight:600; text-transform:uppercase; }
+  .step-cue { font-size: var(--text-lg); color:var(--text-secondary); margin-top:12px; line-height:1.3 !important; text-align:left; }
   .fc-steps .step { padding:12px 0; }
 
   /* ── TIMER ── */
@@ -2081,14 +2092,14 @@ function Steps({ steps, small, start: startText, demoVideo }) {
     !collapsed && startText && (small ? /*#__PURE__*/
     React.createElement("div", { className: "step" }, /*#__PURE__*/
     React.createElement("div", { className: "step-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "step-focus", style: { marginBottom: 4 } }, "Start"), /*#__PURE__*/
+    React.createElement("div", { className: "step-focus", style: { marginBottom: 4 } }, "POSITION"), /*#__PURE__*/
     React.createElement("div", { className: "step-cue" }, startText)
     )
     ) : /*#__PURE__*/
 
     React.createElement("div", { className: "fc-step" }, /*#__PURE__*/
     React.createElement("div", { className: "fc-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "fc-pfocus" }, "Start"), /*#__PURE__*/
+    React.createElement("div", { className: "fc-pfocus" }, "POSITION"), /*#__PURE__*/
     React.createElement("div", { className: "fc-pcue" }, startText)
     )
     )),
@@ -2103,7 +2114,7 @@ function Steps({ steps, small, start: startText, demoVideo }) {
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "step-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "step-focus" }, s.focus || (i === 0 ? "Setup" : "Move")), /*#__PURE__*/
+    React.createElement("div", { className: "step-focus" }, startText ? `MOVE ${i + 1}` : i === 0 ? "POSITION" : `MOVE ${i}`), /*#__PURE__*/
     React.createElement("div", { className: "step-cue" }, s.cue)
     )
     ) : /*#__PURE__*/
@@ -2113,7 +2124,7 @@ function Steps({ steps, small, start: startText, demoVideo }) {
     React.createElement("span", { className: "fc-pos" }, i + 1)
     ), /*#__PURE__*/
     React.createElement("div", { className: "fc-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "fc-pfocus" }, s.focus || (i === 0 ? "Setup" : "Move")), /*#__PURE__*/
+    React.createElement("div", { className: "fc-pfocus" }, startText ? `MOVE ${i + 1}` : i === 0 ? "POSITION" : `MOVE ${i}`), /*#__PURE__*/
     React.createElement("div", { className: "fc-pcue" }, s.cue)
     )
     )
@@ -2644,9 +2655,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const guidedStepCards = (() => {
     if (!cur) return [];
     const cards = [];
-    if (cur.start) cards.push({ label: "POSITION", cue: cur.start });
+    const hasStart = Boolean(cur.start);
+    if (hasStart) cards.push({ label: "POSITION", cue: cur.start });
     (cur.steps || []).forEach((step, idx) => {
-      cards.push({ label: `STEP ${idx + 1}`, cue: step.cue });
+      const label = (!hasStart && idx === 0)
+        ? "POSITION"
+        : `MOVE ${hasStart ? idx + 1 : idx}`;
+      cards.push({ label, cue: step.cue });
     });
     return cards;
   })();
@@ -3065,7 +3080,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           scrollSnapAlign: "center",
           borderRadius: 12,
           overflow: "hidden",
-          padding: "18px 16px 16px",
+          padding: "18px 16px 31px",
           borderTop: "1px solid rgba(255,255,255,0.15)",
           border: isNight ? "1px solid #FF0000" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
           background: isExercisePhase && !isNight ?
@@ -3081,7 +3096,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           transition: "opacity 0.25s ease-out, transform 0.25s ease-out"
         }
       }, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.22em", textTransform: "uppercase", color: A, marginBottom: 10 } }, card.label),
+      React.createElement("div", { style: { fontSize: "calc(var(--text-xs) + 2px)", letterSpacing: "0.22em", textTransform: "uppercase", color: isNight ? "#FF3B30" : A, marginBottom: 10 } }, card.label),
       /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-base)", color: W, lineHeight: 1.2, fontWeight: 400, letterSpacing: "-0.01em" } }, card.cue)));
 
@@ -3340,7 +3355,7 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
   void breatheAnimTick;
   const pd = Math.max(1, phaseDur);
   let breatheT = 0;
-  const INHALE_ELAPSED_SLACK_SEC = 0.12;
+  const INHALE_ELAPSED_SLACK_SEC = 0.032;
   if (bRunning) {
     if (isHoldPhase) {
       breatheT = 1;
@@ -3361,13 +3376,12 @@ function TimerView({ theme, view, setView, hasActiveSession, css, nightMode = fa
   const breatheMaxScale = 1.298;
   const breatheScale = breatheMinScale + breatheT * (breatheMaxScale - breatheMinScale);
   const BREATHE_SMOOTH_ALPHA = 0.26;
-  const isInhaleFloorPhase = isInhalePhase && breatheT <= 0.0001;
   let breatheScaleDisplay = breatheScale;
   if (bRunning) {
     const prev = breatheScaleSmoothRef.current;
     if (prev == null) {
       breatheScaleSmoothRef.current = breatheScale;
-    } else if (isHoldPhase || isInhaleFloorPhase) {
+    } else if (isHoldPhase) {
       breatheScaleSmoothRef.current = breatheScale;
     } else {
       const n = prev + (breatheScale - prev) * BREATHE_SMOOTH_ALPHA;

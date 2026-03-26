@@ -1,0 +1,259 @@
+=== The Baseline Protocol (daily) ===
+  [Warm-up & Mobility]
+    • Cat–Cow (id 1)
+    • Sphinx Pose (id 2)
+    • Child's Pose (id 3)
+    • Arm Circles (id 4)
+  [Core & Posterior Chain]
+    • Pelvic Tilts (id 5)
+    • Glute Bridge (id 6)
+    • Marching Bridge (id 7)
+    • Dead Bug (id 8)
+    • Bird Dog (id 9)
+  [Upper Body]
+    • High Plank (id 10)
+    • Wall Push-Ups (id 11)
+    • Isometric Wall Push Hold (id 12)
+    • Resistance Band Row (id 13)
+    • Wall Angels (id 14)
+  [Lower Body & Rotation]
+    • Supine Hamstring Stretch (id 15)
+    • Figure Four Stretch (id 16)
+    • Windshield Wipers (id 17)
+    • Reclined Spinal Twist (id 18)
+  [Finish]
+    • Seated Forward Fold (id 19)
+    • Chin Tucks (id 20)
+    • Neck Half-Circles (id 21)
+
+=== Lymph & Flow (restorative) ===
+  [Full Reset]
+    • Lymph Hops (id 101)
+    • Body Waves (id 102)
+    • Arm Swings (id 103)
+    • Forward / Backward Arm Circles (id 108)
+    • Dead Arms (id 109)
+    • Bent Over Back Shakes (id 110)
+    • Trunk Twists (id 104)
+    • Golf Swings (id 111)
+    • Twist the Waist (id 112)
+    • March Taps (id 113)
+    • Wide Arm Step Backs (id 114)
+    • Ballet Squats (id 105)
+    • Tip Toe Arm Swings (id 106)
+    • Doorway Pec Stretch (id 107)
+    • Wall Pushups (id 115)
+
+=== Sunrise Stretch (morning) ===
+  [Morning Refresh]
+    • Supine Knee Hugs (id 201)
+    • Supine Twist (id 202)
+    • Cat–Cow (id 203)
+    • Standing Hip Circles (id 204)
+    • Shoulder Rolls (id 205)
+    • Sun Breath (id 206)
+
+=== Night Ease (prime) ===
+  [Better Sleep Stretch]
+    • Legs Up the Wall (id 301)
+    • Reclined Butterfly (id 302)
+    • Knees to Chest Rock (id 303)
+    • Supine Twist (id 304)
+    • 4-7-8 Breath (id 305)
+
+=== Desk Undo (desk) ===
+  [The Desk Break]
+    • Standing Chest Opener (id 401)
+    • Chin Tucks (id 402)
+    • Thoracic Rotations (id 403)
+    • Standing Hip Flexor Stretch (id 404)
+    • Wrist & Forearm Release (id 405)
+    • Neck Side Tilts (id 406)
+
+=== Tech Neck Release (screen) ===
+  [Digital Detox]
+    • Chin Tucks (id 501)
+    • Neck Side Tilt (id 502)
+    • Levator Scapulae Stretch (id 503)
+    • Upper Trap Release (id 504)
+    • Thread the Needle (id 505)
+    • Eagle Arms (id 506)
+    • Chest Opener with Clasp (id 507)
+
+=== Hip Freedom (hip) ===
+  [Happy Hips]
+    • 90/90 Hip Stretch (id 601)
+    • Kneeling Hip Flexor Stretch (id 602)
+    • Pigeon Pose (id 603)
+    • Supine Figure Four (id 604)
+    • Butterfly Stretch (id 605)
+    • Lateral Hip Opener (id 606)
+    • Standing Hip Circles (id 607)
+
+=== Lumbar Relief (back) ===
+  [Lower Back Soother]
+    • Knee Hugs (id 701)
+    • Supine Pelvic Tilts (id 702)
+    • Cat–Cow (id 703)
+    • Child's Pose (id 704)
+    • Windshield Wipers (id 705)
+    • Reclined Spinal Twist (id 706)
+    • Legs Up the Wall (id 707)
+
+=== Stay Steady (steady) ===
+  [Foundation]
+    • Weight Shifts (id 801)
+    • Single-Leg Stance (id 802)
+  [Dynamic Balance]
+    • Tandem Walking (id 803)
+    • Grapevine Walk (id 804)
+  [Strength & Control]
+    • Lateral Step-Downs (id 805)
+
+=== Joint Glide (freely) ===
+  [Spine]
+    • Thoracic Extension (id 901)
+  [Upper Body]
+    • Neck CARs (id 902)
+    • Shoulder CARs (id 903)
+    • Wrist CARs (id 904)
+  [Lower Body]
+    • Hip CARs (id 905)
+    • Ankle CARs (id 906)
+    • Adductor Rock-Back (id 907)
+
+=== In Transit (transit) ===
+  [In-Transit]
+    • Ankle Pumps & Circles (id 1100)
+    • Seated Glute Squeezes (id 1101)
+    • Seated Cat-Cow (id 1102)
+    • Peripheral Vision Softening (id 1103)
+  [Post-Arrival]
+    • Standing Psoas Release (id 1104)
+    • Wall Slides (W to Y) (id 1105)
+    • Open Book Stretch (id 1106)
+    • Physiological Sigh (id 1107)
+    • Doorway Pec Stretch (id 1108)
+    • Glute Bridge (id 1109)
+
+=== Arrival Unwind (travel) ===
+  [In-Transit]
+    • Ankle Pumps & Circles (id 1100)
+    • Seated Glute Squeezes (id 1101)
+    • Seated Cat-Cow (id 1102)
+    • Peripheral Vision Softening (id 1103)
+  [Post-Arrival]
+    • Standing Psoas Release (id 1104)
+    • Wall Slides (W to Y) (id 1105)
+    • Open Book Stretch (id 1106)
+    • Physiological Sigh (id 1107)
+    • Doorway Pec Stretch (id 1108)
+    • Glute Bridge (id 1109)
+
+=== Walk Ease (walking) ===
+  [Pre-Walk: The Gait Prep]
+    • Ankle Circles (id 3021)
+    • Glute Activation Drive (id 3022)
+    • Controlled Arm Swings (id 3023)
+  [Post-Walk: The Decompression]
+    • Calf Release (id 3024)
+    • Standing Quad Stretch (id 3025)
+    • Foot Arch Massage (id 3026)
+
+=== Run Reboot (running) ===
+  [Pre-Run: The Impact Ready]
+    • Pogo Hops (id 3031)
+    • Runner's Lunge with Reach (id 3032)
+    • Hamstring Scoops (id 3033)
+  [Post-Run: The Structural Reset]
+    • Seated Figure-4 (id 3034)
+    • Cobra Pose (id 3035)
+    • Legs Up the Wall (id 3036)
+
+=== Swing Sync (golf) ===
+  [Pre-Game: The Dynamic Drive]
+    • Standing Club Rotations (id 3001)
+    • Leg Swings (id 3002)
+    • Active Wrist Circles (id 3003)
+  [Post-Game: The Fairway Recovery]
+    • Open Books (id 3004)
+    • Kneeling Hip Flexor Stretch (id 3005)
+    • Thread the Needle (id 3006)
+
+=== Court Prep (tennis) ===
+  [Pre-Game: The Court Readiness]
+    • Lateral Lunges with Reach (id 3011)
+    • Shoulder Y & T Raises (id 3012)
+    • Ankle Hops (id 3013)
+  [Post-Game: The Decompression]
+    • Forearm Extensor Release (id 3014)
+    • Figure-4 Glute Stretch (id 3015)
+    • Child's Pose with Side Reach (id 3016)
+
+=== Thoracic Chest Reset (thoracic) ===
+  [Thoracic Flow]
+    • Thoracic Extension (foam roller) (id 2000)
+    • Cat–Cow (id 2001)
+    • Thoracic Rotation (id 2002)
+    • Wall Angels (id 2003)
+    • Chin Tucks (id 2004)
+    • Thread the Needle (id 2005)
+    • Child's Pose (id 2006)
+
+=== Carpal Tunnel Release (wrist) ===
+  [Wrist & Hand Reset]
+    • Wrist Flexor Stretch (id 2010)
+    • Wrist Extensor Stretch (id 2011)
+    • Median Nerve Glide (id 2012)
+    • Prayer Stretch (id 2013)
+    • Shakeout & Fist Pumps (id 2014)
+
+=== Calm Circuit (anxiety) ===
+  [Immediate Nervous System Reset]
+    • Cold Shock (Dive Reflex) (id 2001)
+    • Legs Up the Wall (id 2002)
+    • Voo Sounding (id 2003)
+    • 5-4-3-2-1 Sensory Scan (id 2004)
+  [Somatic Grounding & Release]
+    • Grounding Roots (id 2005)
+    • Forward Fold (id 2006)
+    • Hand on Heart (id 2007)
+    • Earlobe Circles (id 2008)
+
+=== Tension Release (stress) ===
+  [Physical Discharge]
+    • Progressive Muscle Relaxation (id 2101)
+    • Rhythmic Walking (id 2102)
+    • Thoracic Extension (id 2103)
+    • The Shake-Out (id 2104)
+  [Release & Downshift]
+    • Child's Pose (id 2105)
+    • Chin Tucks (id 2106)
+    • Wall Pushes (id 2107)
+    • Butterfly Hug (id 2108)
+
+=== Feet First (feet) ===
+  [Release]
+    • Plantar Fascia Stretch (id 1001)
+    • Seated Foot Roll (id 1002)
+    • Gastroc Stretch (id 1003)
+    • Soleus Stretch (id 1004)
+  [Activation]
+    • Toe Splay (id 1005)
+    • Arch Doming (id 1006)
+    • Big Toe Extension (id 1007)
+  [Strengthening]
+    • Eccentric Heel Drops (id 1008)
+    • Eccentric Soleus Drops (id 1009)
+    • Towel Scrunches (id 1010)
+
+=== Knee Resilience (knee) ===
+  [Knee Resilience]
+    • Wall-Press TKE (Terminal Knee Extension) (id 2201)
+    • Straight Leg Raises (id 2202)
+    • Isometric Wall Sits (id 2203)
+    • Towel Heel Slides (id 2204)
+    • Self-Resisted Clamshells (id 2205)
+    • Seated Knee Extensions (id 2206)
+    • Low Box Step-Ups (id 2207)
+
