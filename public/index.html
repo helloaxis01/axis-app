@@ -1269,9 +1269,8 @@ const css = `
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
   }
-  .guided-overlay .guided-catcow-scroll img {
-    -webkit-user-drag: none;
-    user-select: none;
+  .guided-overlay .guided-catcow-scroll svg text {
+    opacity: 0;
   }
   .guided-overlay .guided-instr-scroll {
     display: flex !important;
@@ -1301,8 +1300,22 @@ const css = `
     align-items: center !important;
     justify-content: center !important;
   }
-  .guided-overlay .guided-catcow-slide img {
+  .guided-overlay .guided-catcow-slide .exercise-figure--catcow {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 160px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .guided-overlay .guided-catcow-slide .exercise-figure--catcow svg {
     display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 160px !important;
     box-sizing: border-box !important;
   }
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
@@ -3585,7 +3598,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       };
 
       const catCowDiagramMax = 160;
-      const catCowImgSrc = "/Cat-Cow.svg";
       const catCowBlock = exerciseShowsCatCowFigure(cur.id, cur.name) ? /*#__PURE__*/
       React.createElement("div", { style: { width: "100%", maxHeight: catCowDiagramMax, boxSizing: "border-box", overflow: "hidden" } }, /*#__PURE__*/
       React.createElement("div", {
@@ -3618,31 +3630,23 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         className: "guided-catcow-slide guided-catcow-slide--left",
         style: { position: "relative" }
       }, /*#__PURE__*/
-      React.createElement("img", {
-        src: catCowImgSrc,
-        alt: "Cat pose diagram",
-        draggable: false,
-        style: {
-          width: "100%",
-          height: "160px",
-          objectFit: "cover",
-          objectPosition: "0% 50%"
-        }
+      React.createElement(ExerciseFigure, {
+        id: CATCOW_FIGURE_ASSET_ID,
+        viewBox: "0 0 512 1024",
+        fillContainer: true,
+        className: "exercise-figure--catcow",
+        style: { color: catCowInstructionColor(theme, isNight) }
       })),
       /*#__PURE__*/React.createElement("div", {
         className: "guided-catcow-slide guided-catcow-slide--right",
         style: { position: "relative" }
       }, /*#__PURE__*/
-      React.createElement("img", {
-        src: catCowImgSrc,
-        alt: "Cow pose diagram",
-        draggable: false,
-        style: {
-          width: "100%",
-          height: "160px",
-          objectFit: "cover",
-          objectPosition: "100% 50%"
-        }
+      React.createElement(ExerciseFigure, {
+        id: CATCOW_FIGURE_ASSET_ID,
+        viewBox: "512 0 512 1024",
+        fillContainer: true,
+        className: "exercise-figure--catcow",
+        style: { color: catCowInstructionColor(theme, isNight) }
       }))), /*#__PURE__*/
       React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 4, marginLeft: "auto", marginRight: "auto", flexShrink: 0 } },
       [0, 1].map((i) => /*#__PURE__*/React.createElement("span", { key: `cc-dot-${i}`, "aria-hidden": true, style: guidedPagerDot(i === catCowSlideIdx) }))), /*#__PURE__*/
