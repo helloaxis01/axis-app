@@ -1342,6 +1342,85 @@ const css = `
     opacity: 0 !important;
     pointer-events: none !important;
   }
+  /* Cat/Cow: inline expand for full instruction list */
+  .guided-overlay .gdc-instr-expand-btn {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .guided-overlay .gdc-instr-expand-chevron {
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 12px;
+    line-height: 1;
+    transition: transform 0.28s ease-out;
+  }
+  .guided-overlay .gdc-instr-expand-anim {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s ease-out;
+  }
+  .guided-overlay .gdc-instr-expand-anim[data-expanded="true"] {
+    grid-template-rows: 1fr;
+  }
+  .guided-overlay .gdc-instr-expand-anim-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .guided-overlay .gdc-instr-expand-panel {
+    margin-top: 10px;
+    padding: 14px 14px 16px;
+    border-radius: 14px;
+    box-sizing: border-box;
+  }
+  .guided-overlay .gdc-instr-expand-row {
+    display: grid;
+    grid-template-columns: minmax(72px, 28%) 1fr;
+    gap: 10px 14px;
+    align-items: start;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  .guided-overlay .gdc-instr-expand-row:first-child {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .guided-overlay .gdc-instr-expand-label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    opacity: 0.95;
+  }
+  .guided-overlay .gdc-instr-expand-cue {
+    font-size: var(--text-sm);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guided-overlay .gdc-instr-expand-anim {
+      transition: none;
+    }
+    .guided-overlay .gdc-instr-expand-chevron {
+      transition: none;
+    }
+  }
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
     background: #D32F2F !important;
     border: none !important;
@@ -3076,6 +3155,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const [carouselActiveIdx, setCarouselActiveIdx] = useState(0);
   const diagramCarouselRef = useRef(null);
   const [diagramSlideIdx, setDiagramSlideIdx] = useState(0);
+  const [instructionsExpanded, setInstructionsExpanded] = useState(false);
 
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
@@ -3242,6 +3322,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     // Reset carousel position and active dot when exercise changes.
     setCarouselActiveIdx(0);
     setDiagramSlideIdx(0);
+    setInstructionsExpanded(false);
     const track = carouselTrackRef.current;
     if (track && typeof track.scrollTo === "function") {
       try {track.scrollTo({ left: 0, behavior: "auto" });} catch (e) {}
@@ -3608,7 +3689,38 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         boxSizing: "border-box"
       }
     }, /*#__PURE__*/
-    React.createElement("div", {
+    exerciseShowsCatCowFigure(cur.id, cur.name) ? /*#__PURE__*/React.createElement("div", {
+      className: "gdc-section gdc-section--instr-expand",
+      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", paddingTop: 4 }
+    }, /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "gdc-instr-expand-btn",
+      "aria-expanded": instructionsExpanded,
+      "aria-controls": `gdc-instr-expand-panel-${cur.id}`,
+      onClick: () => {axisHapticTick();setInstructionsExpanded((v) => !v);},
+      style: {
+        border: isNight ? "1px solid #D32F2F" : isDark ? "1px solid rgba(255,255,255,0.22)" : `1px solid ${gA}`,
+        background: isNight ? "rgba(0,0,0,0.4)" : isDark ? "rgba(255,255,255,0.06)" : "rgba(0, 122, 255, 0.08)",
+        color: isNight ? A : gA
+      }
+    }, /*#__PURE__*/React.createElement("span", { style: { textAlign: "left" } }, "Full instructions"), /*#__PURE__*/React.createElement("span", { className: "gdc-instr-expand-chevron", "aria-hidden": true, style: { transform: instructionsExpanded ? "rotate(180deg)" : "rotate(0deg)" } }, "\u25BC")), /*#__PURE__*/
+    React.createElement("div", { className: "gdc-instr-expand-anim", "data-expanded": instructionsExpanded ? "true" : "false", "aria-hidden": instructionsExpanded ? undefined : "true" }, /*#__PURE__*/React.createElement("div", { className: "gdc-instr-expand-anim-inner" }, /*#__PURE__*/React.createElement("div", {
+      id: `gdc-instr-expand-panel-${cur.id}`,
+      className: "gdc-instr-expand-panel",
+      role: "region",
+      "aria-label": "Full exercise instructions",
+      style: {
+        background: gA,
+        color: isNight ? "#FFFFFF" : "var(--axis-white)",
+        WebkitTextFillColor: isNight ? "#FFFFFF" : undefined,
+        border: isNight ? "1px solid #D32F2F" : "none",
+        boxShadow: !isNight && !isDark ? "0 4px 20px rgba(0, 122, 255, 0.22)" : isDark ? "0 4px 24px rgba(0,0,0,0.2)" : undefined
+      }
+    }, guidedStepCards.map((card, idx) => /*#__PURE__*/React.createElement("div", {
+      key: `gdc-exp-${idx}`,
+      className: "gdc-instr-expand-row"
+    }, /*#__PURE__*/React.createElement("div", { className: "gdc-instr-expand-label" }, card.label), /*#__PURE__*/React.createElement("div", { className: "gdc-instr-expand-cue" }, card.cue))))))) : /*#__PURE__*/React.createElement("div", {
       className: "gdc-section gdc-section--instr",
       style: { flexShrink: 0, width: "100%", boxSizing: "border-box", paddingTop: 4 }
     }, /*#__PURE__*/
