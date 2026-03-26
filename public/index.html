@@ -1269,8 +1269,9 @@ const css = `
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
   }
-  .guided-overlay .guided-catcow-scroll svg text {
-    opacity: 0;
+  .guided-overlay .guided-catcow-scroll img {
+    -webkit-user-drag: none;
+    user-select: none;
   }
   .guided-overlay .guided-instr-scroll {
     display: flex !important;
@@ -1292,35 +1293,17 @@ const css = `
     min-width: calc(100% - 48px) !important;
     max-width: calc(100% - 48px) !important;
     box-sizing: border-box !important;
-    height: 180px !important;
-    max-height: 180px !important;
+    height: 160px !important;
+    max-height: 160px !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
   }
-  .guided-overlay .guided-catcow-slide.guided-catcow-slide--left {
-    justify-content: flex-start !important;
-  }
-  .guided-overlay .guided-catcow-slide.guided-catcow-slide--right {
-    justify-content: flex-end !important;
-  }
-  .guided-overlay .guided-catcow-slide .exercise-figure--catcow {
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    max-height: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .guided-overlay .guided-catcow-scroll .exercise-figure--catcow svg {
+  .guided-overlay .guided-catcow-slide img {
     display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    max-height: 100% !important;
-    vertical-align: top;
+    box-sizing: border-box !important;
   }
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
     background: #D32F2F !important;
@@ -3469,7 +3452,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase !== "intro" && phase !== "closing" && phase !== "milestone" && /*#__PURE__*/
     React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", position: "relative", zIndex: 2, minHeight: 0, overflow: "hidden" } }, /*#__PURE__*/
 
-    React.createElement("div", { style: { flex: "1 1 58%", minHeight: 0, overflowY: "auto", overflowX: "hidden", padding: "4px 16px 88px", WebkitOverflowScrolling: "touch", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
+    React.createElement("div", { style: { flex: "1 1 0%", minHeight: 0, overflowY: "auto", overflowX: "hidden", padding: "2px 16px 16px", WebkitOverflowScrolling: "touch", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
 
     phase === "milestone" && /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.28em", textTransform: "uppercase", color: S, marginBottom: 8, flexShrink: 0, textAlign: "left" } }, "MILESTONE"
@@ -3532,7 +3515,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
     (phase === "getready" || phase === "exercise") && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", minHeight: 0, marginTop: 4, marginBottom: 10, flexShrink: 0 } },
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", minHeight: 0, marginTop: 2, marginBottom: 6, flexShrink: 0 } },
 
     React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: "2px 0 0" } }, /*#__PURE__*/
     phase === "getready"
@@ -3566,7 +3549,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           scrollSnapAlign: "center",
           borderRadius: 12,
           overflow: "hidden",
-          padding: "14px 14px 20px",
+          padding: "10px 12px 14px",
           borderTop: "none",
           border: idx === carouselActiveIdx ? `2px solid ${A}` : isNight ? "1px solid #D32F2F" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
           background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.45)",
@@ -3578,7 +3561,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           transition: "opacity 0.25s ease-out, transform 0.25s ease-out"
         }
       }, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "calc(var(--text-xs) + 2px)", letterSpacing: "0.22em", textTransform: "uppercase", color: isNight ? "#FF3B30" : A, marginBottom: 10 } }, card.label),
+      React.createElement("div", { style: { fontSize: "calc(var(--text-xs) + 2px)", letterSpacing: "0.22em", textTransform: "uppercase", color: isNight ? "#FF3B30" : A, marginBottom: 8 } }, card.label),
       /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-base)", color: W, lineHeight: 1.2, fontWeight: 400, letterSpacing: "-0.01em" } }, card.cue)));
 
@@ -3601,7 +3584,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         return "MOVE 3 - COW (INHALE)";
       };
 
-      const catCowDiagramMax = 180;
+      const catCowDiagramMax = 160;
+      const catCowImgSrc = "/Cat-Cow.svg";
       const catCowBlock = exerciseShowsCatCowFigure(cur.id, cur.name) ? /*#__PURE__*/
       React.createElement("div", { style: { width: "100%", maxHeight: catCowDiagramMax, boxSizing: "border-box", overflow: "hidden" } }, /*#__PURE__*/
       React.createElement("div", {
@@ -3634,25 +3618,33 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         className: "guided-catcow-slide guided-catcow-slide--left",
         style: { position: "relative" }
       }, /*#__PURE__*/
-      React.createElement(ExerciseFigure, {
-        id: CATCOW_FIGURE_ASSET_ID,
-        viewBox: "0 0 512 1024",
-        fillContainer: true,
-        className: "exercise-figure--catcow",
-        style: { color: catCowInstructionColor(theme, isNight), maxHeight: "100%" }
+      React.createElement("img", {
+        src: catCowImgSrc,
+        alt: "Cat pose diagram",
+        draggable: false,
+        style: {
+          width: "100%",
+          height: "160px",
+          objectFit: "cover",
+          objectPosition: "0% 50%"
+        }
       })),
       /*#__PURE__*/React.createElement("div", {
         className: "guided-catcow-slide guided-catcow-slide--right",
         style: { position: "relative" }
       }, /*#__PURE__*/
-      React.createElement(ExerciseFigure, {
-        id: CATCOW_FIGURE_ASSET_ID,
-        viewBox: "512 0 512 1024",
-        fillContainer: true,
-        className: "exercise-figure--catcow",
-        style: { color: catCowInstructionColor(theme, isNight), maxHeight: "100%" }
+      React.createElement("img", {
+        src: catCowImgSrc,
+        alt: "Cow pose diagram",
+        draggable: false,
+        style: {
+          width: "100%",
+          height: "160px",
+          objectFit: "cover",
+          objectPosition: "100% 50%"
+        }
       }))), /*#__PURE__*/
-      React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 6, flexShrink: 0 } },
+      React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 4, marginLeft: "auto", marginRight: "auto", flexShrink: 0 } },
       [0, 1].map((i) => /*#__PURE__*/React.createElement("span", { key: `cc-dot-${i}`, "aria-hidden": true, style: guidedPagerDot(i === catCowSlideIdx) }))), /*#__PURE__*/
       React.createElement("div", {
         key: `cc-cap-${catCowSlideIdx}`,
@@ -3708,7 +3700,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         scrollPaddingRight: carouselSidePad,
         boxSizing: "border-box"
       }, className: "guided-instr-scroll" }, stepCardEls), /*#__PURE__*/
-      React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 6, boxSizing: "border-box", flexShrink: 0 } },
+      React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 4, marginLeft: "auto", marginRight: "auto", boxSizing: "border-box", flexShrink: 0 } },
       guidedStepCards.map((_, idx) => /*#__PURE__*/React.createElement("span", {
         key: `dot-${idx}`,
         "aria-hidden": true,
@@ -3735,7 +3727,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       /*#__PURE__*/React.createElement("div", {
         className: "guided-section-instructions",
         style: {
-          padding: "8px 0",
+          padding: "0 0 4px",
           width: "100%",
           boxSizing: "border-box"
         }
@@ -3743,7 +3735,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       catCowBlock ? /*#__PURE__*/React.createElement("div", {
         className: "guided-section-visuals",
         style: {
-          padding: "8px 0",
+          padding: "4px 0 0",
           width: "100%",
           boxSizing: "border-box"
         }
@@ -3760,7 +3752,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
     phase !== "closing" && phase !== "milestone" && phase !== "intro" && /*#__PURE__*/
     React.createElement("div", { style: {
-        margin: "0 16px", marginBottom: `max(28px, env(safe-area-inset-bottom, 28px))`,
+        marginTop: "auto",
+        marginBottom: `max(28px, env(safe-area-inset-bottom, 28px))`,
+        marginLeft: 16,
+        marginRight: 16,
         flexShrink: 0, position: "relative", zIndex: 2,
         display: "flex", alignItems: "stretch", height: 56, gap: phase === "exercise" ? 12 : 0,
         ...(phase === "exercise" ? {} : { borderRadius: 24, overflow: "hidden", background: BAR_BG, backdropFilter: isDark ? "blur(40px) saturate(2)" : "blur(28px) saturate(1.4)", WebkitBackdropFilter: isDark ? "blur(40px) saturate(2)" : "blur(28px) saturate(1.4)", border: BAR_BDR, boxShadow: BAR_SHAD })
