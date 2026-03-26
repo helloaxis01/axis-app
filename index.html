@@ -775,7 +775,7 @@ const css = `
     --dot-bg: rgba(255,255,255,0.14);
     --dot-done: rgba(255,255,255,0.32);
     --step-connector: rgba(255,255,255,0.08);
-    --accent-btn-text: #0a0e1a;
+    --accent-btn-text: #252525;
     --bg-hover: rgba(255,255,255,0.05);
     --summary-grid-bg: rgba(255,255,255,0.04);
     --eol-color: rgba(255,255,255,0.30);
@@ -945,7 +945,7 @@ const css = `
     --dot-bg: #000000;
     --dot-done: #FF3B30;
     --step-connector: #FF3B30;
-    --accent-btn-text: #000000;
+    --accent-btn-text: #252525;
     --bg-hover: rgba(211, 47, 47, 0.1);
     --summary-grid-bg: #180303;
     --text-teal: #FF3B30;
@@ -1136,10 +1136,10 @@ const css = `
   [data-night="true"] .tab.on::after { background: #FF3B30 !important; }
   [data-night="true"] .purpose-note { background: #000000 !important; border-color: #FF3B30 !important; }
 
-  /* TODAY hero (night): .app color is red — force black copy on red card; CTA = black pill + red label (Safari/WebKit) */
+  /* TODAY hero (night): .app color is red — force #252525 copy on red card; CTA = black pill + red label (Safari/WebKit) */
   .app[data-night="true"] .start-here-group > div {
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000;
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525;
   }
   .app[data-night="true"] .start-here-group .begin-btn--today-primary {
     background: #000000 !important;
@@ -1148,10 +1148,10 @@ const css = `
     border: 1px solid #FF3B30 !important;
     box-shadow: none !important;
   }
-  /* Red accent fill + red text = invisible in WebKit — black ink on red; home uses black pill + red ink below */
+  /* Red accent fill + red text = invisible in WebKit — #252525 ink on red; home uses black pill + red ink below */
   .app[data-night="true"] .begin-btn.session-browse-btn {
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
   }
   .app[data-night="true"] .home .track-card .begin-btn:not(.begin-btn--today-primary) {
     color: #FF3B30 !important;
@@ -1208,12 +1208,12 @@ const css = `
   [data-night="true"] .tab-btn.active .tab-icon-shell::before { background: none !important; filter: none !important; -webkit-filter: none !important; }
   [data-night="true"] .fv-cta, [data-night="true"] .fv-cta:hover, [data-night="true"] .fv-cta:active,
   [data-night="true"] .fv-skip, [data-night="true"] .fv-prev { box-shadow: none !important; }
-  /* Night accent-fill CTAs: deep red ink on #FF3B30 (Safari/WebKit) */
+  /* Night accent-fill CTAs: #252525 on #FF3B30 (Safari/WebKit) */
   .app[data-night="true"] .content .fv-cta:not(.done),
   .app[data-night="true"] .content .fv-cta:not(.done) *,
   .app[data-night="true"] .content .tb {
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
   }
   .app[data-night="true"] .content .fv-cta:not(.done) {
     background: #FF3B30 !important;
@@ -1223,9 +1223,13 @@ const css = `
     background: #FF3B30 !important;
     border: none !important;
   }
+  .guided-overlay[data-theme="dark"] .guided-cta-fill {
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
+  }
   [data-night="true"].guided-overlay .guided-cta-fill {
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
   }
   .guided-overlay .gdc-instr-track,
   .guided-overlay .gdc-diag-track {
@@ -1410,8 +1414,8 @@ const css = `
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
     background: #FF3B30 !important;
     border: none !important;
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
   }
   /* ── BASE ── */
   .app {
@@ -1559,8 +1563,7 @@ const css = `
   .hdr-row { display:flex; justify-content:flex-start; align-items:flex-start; padding:68px 0 16px; }
   .hdr-left { flex:1; display:flex; flex-direction:column; gap:8px; align-items:flex-start; width:100%; min-width:0; }
   .back-btn {
-    /* hdr-wrap already applies env(safe-area-inset-top) as padding-top. Avoid double-counting on iPhone. */
-    position:absolute; left:16px; top: 12px; z-index:2;
+    position:absolute; left:16px; top: max(12px, env(safe-area-inset-top)); z-index:2;
     display:flex; align-items:center; justify-content:center;
     width:40px; height:40px; padding:0; margin:0; box-sizing:border-box;
     border-radius:50%; background:transparent; cursor:pointer;
@@ -1751,9 +1754,10 @@ const css = `
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     display:flex; align-items:center; justify-content:center; transition:all 0.2s;
   }
-  .chk.on { border-color:var(--accent); background:var(--accent); box-shadow:0 0 12px var(--accent-glow); }
+  .chk.on { border-color:var(--accent); background:var(--accent); box-shadow:0 0 12px var(--accent-glow); color: var(--accent-btn-text); }
   .chk svg { opacity:0; transition:opacity 0.15s; }
   .chk.on svg { opacity:1; }
+  .chk.on svg path { stroke: currentColor; }
   .ei { flex:1; min-width:0; }
   .en { font-size: var(--text-lg); font-weight:600; color:var(--text-primary); letter-spacing:-0.01em; transition:all 0.2s; }
   .er.open .en { color:var(--text-white); font-weight: 600; }
@@ -2653,7 +2657,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     React.createElement("div", { ref: rowRef, className: `er ${open ? "open" : ""} ${skipped ? "skipped" : ""}`, onClick: onExpand, style: skipped ? { opacity: 0.32 } : {} },
     !hideDone && /*#__PURE__*/React.createElement("div", { className: `chk ${done && !skipped ? "on" : ""}`, onClick: (e) => {e.stopPropagation();if (!skipped) onToggle();} }, /*#__PURE__*/
     React.createElement("svg", { width: "9", height: "7", viewBox: "0 0 9 7", fill: "none" }, /*#__PURE__*/
-    React.createElement("path", { d: "M1 3.5L3.2 5.5L8 1", stroke: "#13181B", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" })
+    React.createElement("path", { d: "M1 3.5L3.2 5.5L8 1", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" })
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "ei" }, /*#__PURE__*/
@@ -3048,7 +3052,7 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
 }
 
 function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, done, totalDone, sessionSecs,
-  onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45 }) {
+  onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45, onExerciseDurationChange }) {
 
   const isNight = nightMode;
   const isDark = isNight || theme === "dark";
@@ -3168,7 +3172,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const guidedFocusReturnRef = useRef(null);
   const cur = list.length > 0 ? list[Math.min(fi, list.length - 1)] : null;
   const next = list[fi + 1] || null;
-  const headerPoseCounterNum = (phase === "getready" || phase === "exercise") ? (next ? fi + 2 : listTotal) : fi + 1;
+  const headerPoseCounterNum = Math.min(listTotal, Math.max(1, fi + 1));
   const guidedMoveSeconds = typeof exerciseDurationSeconds === "number" && exerciseDurationSeconds > 0 ? exerciseDurationSeconds : 45;
   const guidedStepCards = (() => {
     if (!cur) return [];
@@ -3429,8 +3433,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       React.createElement("div", { style: { fontSize: "var(--text-sm)", color: S, marginBottom: 24 } }, "Add exercises or clear filters and try again."), /*#__PURE__*/
       React.createElement("button", { ref: guidedCloseBtnRef, type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
           padding: "14px 40px", borderRadius: 28, cursor: "pointer",
-          background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : "var(--axis-white)",
-          WebkitTextFillColor: isNight ? "#000000" : undefined,
+          background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isDark ? "#252525" : "var(--axis-white)",
+          WebkitTextFillColor: isDark ? "#252525" : undefined,
           fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 600,
           letterSpacing: "0.18em", textTransform: "uppercase"
         } }, "Exit")
@@ -3546,8 +3550,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     ), /*#__PURE__*/
     React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
         padding: "16px 48px", borderRadius: 28, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : "var(--axis-white)",
-        WebkitTextFillColor: isNight ? "#000000" : undefined,
+        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isDark ? "#252525" : "var(--axis-white)",
+        WebkitTextFillColor: isDark ? "#252525" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 600,
         letterSpacing: "0.18em", textTransform: "uppercase",
         boxShadow: `0 0 32px ${ct.accentGlow}`
@@ -3558,30 +3562,63 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
     phase === "intro" && /*#__PURE__*/
     React.createElement("div", { style: {
-        flex: 1, display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "space-between",
-        padding: "20px var(--page-gutter) 20px", textAlign: "center", position: "relative", zIndex: 2, minHeight: 0
+        flex: 1, display: "flex", flexDirection: "column", minHeight: 0, alignSelf: "stretch",
+        height: "calc(100vh - 56px - env(safe-area-inset-top, 0px))",
+        minHeight: "calc(100vh - 56px - env(safe-area-inset-top, 0px))",
+        maxHeight: "calc(100vh - 56px - env(safe-area-inset-top, 0px))",
+        justifyContent: "space-between", alignItems: "center",
+        padding: 24, boxSizing: "border-box", textAlign: "center",
+        position: "relative", zIndex: 2, width: "100%"
       } }, /*#__PURE__*/
-    React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontFamily: "var(--font-display)", fontWeight: 500, fontSize: "var(--text-xs)", letterSpacing: "0.3em", textTransform: "uppercase", color: S, marginBottom: 24 } }, "GUIDED SESSION"), /*#__PURE__*/
-    React.createElement("div", { style: { fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--text-xl)", letterSpacing: "-0.03em", lineHeight: 1.02, color: W, marginBottom: 16, textShadow: NAME_SHAD } },
+    React.createElement("div", { style: {
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start",
+        width: "100%", textAlign: "center", marginTop: 48, flexShrink: 0, boxSizing: "border-box"
+      } }, /*#__PURE__*/
+    React.createElement("div", { style: { fontFamily: "var(--font-display)", fontWeight: 500, fontSize: "var(--text-xs)", letterSpacing: "0.3em", textTransform: "uppercase", color: S, marginBottom: 12 } }, "GUIDED SESSION"), /*#__PURE__*/
+    React.createElement("div", { style: { fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--text-xl)", letterSpacing: "-0.03em", lineHeight: 1.08, color: W, marginBottom: 10, textShadow: NAME_SHAD, textAlign: "center" } },
     trackLabel
     ), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-lg)", color: S, marginBottom: 24, opacity: 0.9 } }, filteredCount, " exercises \u2022 ", trackDuration)
+    React.createElement("div", { style: { fontSize: "var(--text-lg)", color: S, marginBottom: 12, opacity: 0.9, textAlign: "center" } }, filteredCount, " exercises \u2022 ", trackDuration), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, opacity: 0.8, maxWidth: 340, lineHeight: 1.45, textAlign: "center", margin: "0 auto", width: "100%" } }, "No equipment? You can modify \u2014 use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion.")
     ), /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: 8 } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, opacity: 0.85, maxWidth: 320, lineHeight: 1.4, marginBottom: 28, textAlign: "center" } }, "No equipment? You can modify \u2014 use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion."), /*#__PURE__*/
+    React.createElement("div", { className: "bottom-controls-wrapper", style: {
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end",
+        width: "100%", flexShrink: 0, boxSizing: "border-box", textAlign: "center",
+        paddingBottom: "calc(16px + env(safe-area-inset-bottom, 0px))"
+      } }, /*#__PURE__*/
+    React.createElement("div", { style: { fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: D, marginBottom: 10, opacity: 0.9, textAlign: "center", width: "100%" } }, "Exercise duration"), /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 0, justifyContent: "center", alignItems: "center", width: "100%" } },
+    [30, 45, 60].map((sec) => {
+      const active = Number(exerciseDurationSeconds) === sec;
+      return /*#__PURE__*/React.createElement("button", {
+        key: sec,
+        type: "button",
+        onClick: () => { if (typeof onExerciseDurationChange === "function") onExerciseDurationChange(sec); },
+        style: {
+          fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase",
+          padding: "8px 14px", borderRadius: 8, border: "1px solid",
+          borderColor: active ? gA : BTN_BDR,
+          background: active ? gA : BTN_BG,
+          color: active ? (isDark ? "#252525" : "var(--axis-white)") : S,
+          cursor: "pointer", fontWeight: 600,
+          WebkitTextFillColor: active && isDark ? "#252525" : undefined
+        },
+        "aria-pressed": active ? "true" : "false"
+      }, sec === 60 ? "1 min" : `${sec} sec`);
+    })
+    ), /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.3);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}, style: {
-        padding: "14px 48px", borderRadius: 999, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : "var(--axis-white)",
-        WebkitTextFillColor: isNight ? "#000000" : undefined,
+        marginTop: 32, padding: "16px 32px", borderRadius: 999, cursor: "pointer",
+        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isDark ? "#252525" : "var(--axis-white)",
+        WebkitTextFillColor: isDark ? "#252525" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
         letterSpacing: "0.24em", textTransform: "uppercase",
-        boxShadow: `0 0 24px ${ct.accentGlow}`
-      } }, "REST & GET READY"), /*#__PURE__*/
+        boxShadow: `0 0 24px ${ct.accentGlow}`,
+        alignSelf: "center", textAlign: "center", width: "100%", maxWidth: 360
+      } }, "Start Session"), /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: onExit, "aria-label": "Close", style: {
-        marginTop: 14, background: "none", border: "none", cursor: "pointer",
-        fontSize: "var(--text-xs)", letterSpacing: "0.16em", textTransform: "uppercase", color: D, fontFamily: "var(--font-display)"
+        marginTop: 16, background: "none", border: "none", cursor: "pointer",
+        fontSize: "var(--text-xs)", letterSpacing: "0.16em", textTransform: "uppercase", color: D, fontFamily: "var(--font-display)", alignSelf: "center", textAlign: "center"
       } }, "Cancel")
     )
     ),
@@ -3893,8 +3930,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: handleNext, style: {
         flex: 1, minWidth: 0, borderRadius: 999,
         background: gA, border: nightMode ? "1px solid #FF3B30" : "none",
-        color: isNight ? "#000000" : "var(--axis-white)",
-        WebkitTextFillColor: isNight ? "#000000" : undefined,
+        color: isDark ? "#252525" : "var(--axis-white)",
+        WebkitTextFillColor: isDark ? "#252525" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
         letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
         boxShadow: !isNight && !isDark ? "0 0 16px rgba(0, 122, 255, 0.35)" : `0 0 16px ${ct.accentGlow}`
@@ -3906,8 +3943,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase === "getready" && /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {clearInterval(readyRef.current);primeAudio();beep(880, 0.2);setGLeft(guidedMoveSeconds);setPhase("exercise");}, style: {
         flex: 1, width: "100%", minWidth: 0, background: gA, border: nightMode ? "1px solid #FF3B30" : "none",
-        color: isNight ? "#000000" : "var(--axis-white)",
-        WebkitTextFillColor: isNight ? "#000000" : undefined,
+        color: isDark ? "#252525" : "var(--axis-white)",
+        WebkitTextFillColor: isDark ? "#252525" : undefined,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
         letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer",
         boxShadow: !isNight && !isDark ? "0 0 20px rgba(0, 122, 255, 0.38)" : `0 0 20px ${ct.accentGlow}`
@@ -4598,7 +4635,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     border: 1px solid #FF3B30 !important;
   }
   [data-night="true"] .timer-view-body .timer-glass-toggle-btn { color: rgba(255, 59, 48, 0.65) !important; }
-  [data-night="true"] .timer-view-body .timer-glass-toggle-btn.active { color: #000000 !important; background: #FF3B30 !important; }
+  [data-night="true"] .timer-view-body .timer-glass-toggle-btn.active { color: #252525 !important; background: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-interval-row { border-bottom-color: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-interval-row-label { color: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-instrument-val {
@@ -5226,7 +5263,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
     React.createElement("style", null, css), /*#__PURE__*/
     React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
-    React.createElement("div", { className: "app-body" }, /*#__PURE__*/
+    React.createElement("div", { className: "app-body", style: { paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" } }, /*#__PURE__*/
     React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
     React.createElement("div", { className: "app-label", style: { fontSize: "var(--text-xl)", fontWeight: 600, textTransform: "uppercase", color: "var(--text-secondary)", marginBottom: 20 } }, "AXIS"), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xl)", fontWeight: 600, letterSpacing: "-0.02em", color: "var(--text-white)", marginBottom: 36 } }, "Settings"), /*#__PURE__*/
@@ -5253,7 +5290,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, marginBottom: 12, maxWidth: 280 } }, "Timer length for each exercise in LIST view."), /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
     [30, 45, 60].map((sec) => /*#__PURE__*/
-    React.createElement("button", { key: sec, onClick: () => setExerciseDuration(sec), style: { fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 8, border: "1px solid", borderColor: exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)", background: exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)", color: exerciseDuration === sec ? nightMode ? "var(--axis-black)" : "var(--axis-white)" : "var(--text-secondary)", cursor: "pointer", fontWeight: 600 } },
+    React.createElement("button", { key: sec, onClick: () => setExerciseDuration(sec), style: { fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 8, border: "1px solid", borderColor: exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)", background: exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)", color: exerciseDuration === sec ? theme === "dark" || nightMode ? "#252525" : "var(--axis-white)" : "var(--text-secondary)", cursor: "pointer", fontWeight: 600 } },
     sec === 60 ? "1 min" : `${sec} sec`
     )
     )
@@ -5297,7 +5334,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           height: 18,
           borderRadius: "50%",
           background: "#FF3B30",
-          color: "#000000",
+          color: "#252525",
           fontSize: 12,
           fontWeight: 700,
           lineHeight: "18px",
@@ -5676,11 +5713,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     onSkip: toggleSkip,
     formatTime: formatTime,
     trackLabel: TRACKS[track].label,
-    trackDuration: TRACKS[track].duration,
+    trackDuration: sessionDurationLabel,
     nightMode: nightMode,
     streak: streak,
     onSessionComplete: () => setSessionComplete(true),
-    exerciseDurationSeconds: exerciseDuration || 45 }
+    exerciseDurationSeconds: exerciseDuration || 45,
+    onExerciseDurationChange: setExerciseDuration }
   ) :
   null;
 
@@ -5832,7 +5870,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       disabled: filteredAll.length === 0,
       style: {
         width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #FF3B30" : "none",
-        background: "var(--accent)", color: nightMode ? "var(--axis-black)" : "var(--axis-white)",
+        background: "var(--accent)", color: theme === "dark" || nightMode ? "#252525" : "var(--axis-white)",
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
         letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
         opacity: filteredAll.length === 0 ? 0.45 : 1, transition: "opacity 0.18s, transform 0.18s"
