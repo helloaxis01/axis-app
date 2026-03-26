@@ -1292,7 +1292,7 @@ const css = `
     box-sizing: border-box !important;
     width: 100% !important;
     border-radius: 14px !important;
-    padding: 12px 10px !important;
+    padding: 14px 12px !important;
   }
   .guided-overlay[data-night="true"] .gdc-diag-frame {
     border: 1px solid #D32F2F !important;
@@ -1336,6 +1336,11 @@ const css = `
     height: 100% !important;
     max-height: 240px !important;
     box-sizing: border-box !important;
+  }
+  /* Hide bundled MOVE 2/3 labels; UI caption replaces them (paths stay visible). */
+  .guided-overlay .gdc-diag-slide .exercise-figure--catcow svg text.st1 {
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
     background: #D32F2F !important;
@@ -3510,7 +3515,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     phase !== "intro" && phase !== "closing" && phase !== "milestone" && /*#__PURE__*/
     React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", position: "relative", zIndex: 2, minHeight: 0, overflow: "hidden" } }, /*#__PURE__*/
 
-    React.createElement("div", { style: { flex: "1 1 0%", minHeight: 0, overflow: "hidden", padding: "2px 16px 0", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
+    React.createElement("div", { style: { flex: "1 1 0%", minHeight: 0, overflow: "hidden", padding: "4px 16px 0", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
 
     (phase === "getready" || phase === "exercise") && /*#__PURE__*/
     React.createElement("div", { style: {
@@ -3567,7 +3572,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
     (phase === "getready" || phase === "exercise") && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", minHeight: 0, marginTop: 2, marginBottom: 6, flexShrink: 0 } },
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", minHeight: 0, marginTop: 4, marginBottom: 10, flexShrink: 0 } },
 
     React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: "2px 0 0" } }, /*#__PURE__*/
     phase === "getready"
@@ -3599,13 +3604,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        marginTop: 0,
+        marginTop: 6,
         boxSizing: "border-box"
       }
     }, /*#__PURE__*/
     React.createElement("div", {
       className: "gdc-section gdc-section--instr",
-      style: { flexShrink: 0, width: "100%", boxSizing: "border-box" }
+      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", paddingTop: 4 }
     }, /*#__PURE__*/
     React.createElement("div", { id: `instr-${cur.id}`, style: { width: "100%", boxSizing: "border-box" } }, /*#__PURE__*/
     React.createElement("div", {
@@ -3670,7 +3675,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     }))), /*#__PURE__*/
     exerciseShowsCatCowFigure(cur.id, cur.name) ? /*#__PURE__*/React.createElement("div", {
       className: "gdc-section gdc-section--diagram",
-      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", marginTop: 8 }
+      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", marginTop: 12 }
     }, /*#__PURE__*/
     React.createElement("div", { className: "gdc-diag-frame" }, /*#__PURE__*/React.createElement("div", {
       ref: diagramCarouselRef,
@@ -3704,13 +3709,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       "aria-label": "Cat and Cow pose diagram"
     }, /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
       id: CATCOW_FIGURE_ASSET_ID,
-      viewBox: "0 0 512 1024",
+      viewBox: "19.6 72.2 987.7 410.8",
       fillContainer: true,
       className: "exercise-figure--catcow",
       style: { color: catCowInstructionColor(theme, isNight) }
     })), /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
       id: CATCOW_FIGURE_ASSET_ID,
-      viewBox: "512 0 512 1024",
+      viewBox: "19.6 601.7 987.7 410.8",
       fillContainer: true,
       className: "exercise-figure--catcow",
       style: { color: catCowInstructionColor(theme, isNight) }
@@ -3724,7 +3729,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         padding: "0 8px",
         boxSizing: "border-box",
         textAlign: "center",
-        marginTop: 10,
+        marginTop: 12,
         marginBottom: 0,
         fontSize: "var(--text-xs)",
         fontWeight: 500,
@@ -3735,14 +3740,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         fontFamily: "var(--font-display)"
       }
     }, catCowCaptionAt(diagramSlideIdx)), /*#__PURE__*/
-    React.createElement("div", { className: "gdc-diag-dots", style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 8, flexShrink: 0 } },
+    React.createElement("div", { className: "gdc-diag-dots", style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 10, flexShrink: 0 } },
     [0, 1].map((i) => /*#__PURE__*/React.createElement("span", { key: `gdc-ddot-${i}`, "aria-hidden": true, style: guidedPagerDot(i === diagramSlideIdx) })))) : null, /*#__PURE__*/
     cur.demoVideo && /*#__PURE__*/React.createElement("div", { className: "gdc-section gdc-section--video", style: { flexShrink: 0, width: "100%", padding: "2px 0 0", textAlign: "center", boxSizing: "border-box" } }, /*#__PURE__*/React.createElement(VideoDemo, {
       src: cur.demoVideo,
       style: { width: "100%", borderRadius: 10, display: "block" },
       ariaLabel: cur && cur.name ? `Demo: ${cur.name}` : "Exercise demo"
     })), /*#__PURE__*/
-    React.createElement("div", { className: "gdc-air", style: { flex: "1 1 0%", minHeight: "max(56px, 18vh)", paddingTop: 28, width: "100%", boxSizing: "border-box" } })),
+    React.createElement("div", { className: "gdc-air", style: { flex: "1 1 0%", minHeight: "max(64px, 20vh)", paddingTop: 32, width: "100%", boxSizing: "border-box" } })),
 
 
 
