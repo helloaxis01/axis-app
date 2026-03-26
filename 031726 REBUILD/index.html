@@ -1559,7 +1559,8 @@ const css = `
   .hdr-row { display:flex; justify-content:flex-start; align-items:flex-start; padding:68px 0 16px; }
   .hdr-left { flex:1; display:flex; flex-direction:column; gap:8px; align-items:flex-start; width:100%; min-width:0; }
   .back-btn {
-    position:absolute; left:16px; top: max(12px, env(safe-area-inset-top)); z-index:2;
+    /* hdr-wrap already applies env(safe-area-inset-top) as padding-top. Avoid double-counting on iPhone. */
+    position:absolute; left:16px; top: 12px; z-index:2;
     display:flex; align-items:center; justify-content:center;
     width:40px; height:40px; padding:0; margin:0; box-sizing:border-box;
     border-radius:50%; background:transparent; cursor:pointer;
@@ -2158,6 +2159,10 @@ const css = `
   /* Keep single-line pills on iPhone widths by reducing tracking instead of wrapping */
   @media (max-width: 420px) {
     .fav-toggle { letter-spacing: 0.10em; }
+  }
+  /* Back button is absolutely positioned; reserve horizontal space so header title doesn't run underneath it on iPhone */
+  @media (max-width: 420px) {
+    .hdr-left { padding-left: 56px; }
   }
   @media (max-width: 380px) {
     .fav-toggle { letter-spacing: 0.08em; }
