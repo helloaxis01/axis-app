@@ -1294,8 +1294,14 @@ const css = `
     box-sizing: border-box !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    transform: scale(1.1) !important;
     transform-origin: center center !important;
+  }
+  /* Optical centering: artwork sits left in the 1024×512 crop; nudge in % of SVG box (tune per slide). */
+  .guided-overlay .gdc-diag-slide--cat .exercise-figure--catcow svg {
+    transform: scale(1.1) translateX(5%) !important;
+  }
+  .guided-overlay .gdc-diag-slide--cow .exercise-figure--catcow svg {
+    transform: scale(1.1) translateX(5%) !important;
   }
   /* Cat/Cow: inline expand for full instruction list */
   .guided-overlay .gdc-instr-expand-btn {
@@ -3781,14 +3787,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         boxSizing: "border-box"
       },
       "aria-label": "Cat and Cow pose diagram"
-    }, /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
+    }, /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide gdc-diag-slide--cat", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
       id: CATCOW_FIGURE_ASSET_ID,
       viewBox: "0 0 1024 512",
       preserveAspectRatio: "xMidYMid slice",
       fillContainer: true,
       className: "exercise-figure--catcow",
       style: { color: catCowInstructionColor(theme, isNight), width: "100%", height: "100%", minHeight: 0 }
-    })), /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
+    })), /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide gdc-diag-slide--cow", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
       id: CATCOW_FIGURE_ASSET_ID,
       viewBox: "1024 0 1024 512",
       preserveAspectRatio: "xMidYMid slice",
