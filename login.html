@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>AXIS — Sign in</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="./auth-bundle.js"></script>
+  <script>
+    function axisOnboarded() {
+      try {
+        var raw = localStorage.getItem("axis_onboarded");
+        if (raw === null) return false;
+        return JSON.parse(raw) === true;
+      } catch (e) {
+        return false;
+      }
+    }
+    function LoginGate() {
+      var useEffect = React.useEffect;
+      var Login = window.AXIS_Login;
+      useEffect(function () {
+        var auth = window.AXIS_auth;
+        var onAuth = window.AXIS_onAuthStateChanged;
+        if (!auth || !onAuth) return undefined;
+        var unsub = onAuth(auth, function (u) {
+          if (u && axisOnboarded()) {
+            window.location.replace("./index.html");
+          }
+        });
+        return function () {
+          try {
+            unsub();
+          } catch (e) {}
+        };
+      }, []);
+      return React.createElement(Login);
+    }
+    var root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(React.createElement(LoginGate));
+  </script>
+</body>
+</html>

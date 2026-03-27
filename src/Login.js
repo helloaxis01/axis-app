@@ -1,21 +1,11 @@
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getApps, initializeApp } from "firebase/app";
 import React, { useState } from "./react-shim.js";
+import { auth, syncUserProfile } from "./firebase.js";
 
 window.AXIS_DEBUG_KEY = 'NEW_KEY_ACTIVE';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBwWwUePj5jEUCRLUCrk26IPNxjF0WCnvc",
-  authDomain: "axis-7f474.firebaseapp.com",
-  projectId: "axis-7f474",
-};
-
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 export default function Login() {
   const [mode, setMode] = useState("signin");
@@ -37,7 +27,8 @@ export default function Login() {
     const run = async () => {
       try {
         if (mode === "signup") {
-          await createUserWithEmailAndPassword(auth, email.trim(), password);
+          const cred = await createUserWithEmailAndPassword(auth, email.trim(), password);
+          await syncUserProfile(cred.user);
           try {
             localStorage.removeItem("hasCompletedOnboarding");
             localStorage.setItem("axis_onboarded", JSON.stringify(false));
@@ -45,7 +36,8 @@ export default function Login() {
           window.location.replace("./onboarding.html");
           return;
         }
-        await signInWithEmailAndPassword(auth, email.trim(), password);
+        const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
+        await syncUserProfile(cred.user);
       } catch (err) {
         setError(err && err.message ? err.message : String(err));
       } finally {

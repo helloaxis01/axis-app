@@ -1,16 +1,7 @@
-import { getApps, initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import Login from "./Login.js";
 import React, { useEffect, useState } from "./react-shim.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBwWwUePj5jEUCRLUCrk26IPNxjF0WCnvc",
-  authDomain: "axis-7f474.firebaseapp.com",
-  projectId: "axis-7f474",
-};
-
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import { auth, syncUserProfile } from "./firebase.js";
 
 function isOnboarded() {
   try {
@@ -30,6 +21,13 @@ export default function App({ children }) {
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u || null);
       setLoading(false);
+      if (u) {
+        syncUserProfile(u).catch((err) => {
+          try {
+            console.error("AXIS: sync user profile failed", err);
+          } catch (e) {}
+        });
+      }
       if (u && !isOnboarded()) {
         window.location.replace("./onboarding.html");
       }
