@@ -1656,6 +1656,9 @@ const css = `
     overflow-y: auto; overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
+  .content.content--session.content--summary {
+    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 6px);
+  }
   .content.content--session.content--session-list { padding-bottom: 100px; }
   /* LIST + GUIDED: breathing room above tab bar for primary CTAs */
   .session-cta-pad { margin-bottom: var(--axis-safe-bottom); padding-bottom: 12px; }
@@ -2001,36 +2004,77 @@ const css = `
 
   /* ── SUMMARY ── */
   .summary {
-    border:1px solid var(--glass-border); padding:20px; margin-top:28px; border-radius:18px;
-    background:var(--glass-bg); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
-    box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-specular);
-    position:relative; overflow:hidden;
+    border:1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    padding:16px; margin-top:20px; border-radius:14px;
+    background:color-mix(in srgb, var(--glass-bg) 88%, transparent);
+    backdrop-filter:blur(14px) saturate(1.15); -webkit-backdrop-filter:blur(14px) saturate(1.15);
+    box-shadow:0 6px 18px rgba(0,0,0,0.10), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 72%, transparent);
+    position:relative; overflow:hidden; width:100%; box-sizing:border-box;
   }
   .summary::before {
     content:''; position:absolute; top:0; left:0; right:0; height:1px; pointer-events:none;
     background:linear-gradient(90deg, transparent, var(--glass-specular) 35%, rgba(255,255,255,0.2) 50%, var(--glass-specular) 65%, transparent);
   }
-  .summary-title { font-size: var(--text-sm); letter-spacing:0.18em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:14px; font-weight: 600; }
-  .summary-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .summary-title { font-size: var(--text-xs); letter-spacing:0.14em; text-transform:uppercase; color:color-mix(in srgb, var(--text-secondary) 88%, transparent); margin-bottom:10px; font-weight: 600; }
+  .summary-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; }
   .summary-cell {
-    background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:12px;
-    padding:14px 12px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-    box-shadow:inset 0 1px 0 var(--glass-specular);
+    background:color-mix(in srgb, var(--glass-bg) 92%, transparent);
+    border:1px solid color-mix(in srgb, var(--glass-border) 70%, transparent);
+    border-radius:10px; padding:11px 10px;
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    box-shadow:inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 70%, transparent);
   }
-  .summary-num { font-size: var(--text-xl); font-weight: 400; color:var(--accent-secondary); letter-spacing:-0.04em; line-height:1; margin-bottom:4px; }
-  .summary-lbl { font-size: var(--text-sm); letter-spacing:0.14em; text-transform:uppercase; color:var(--text-secondary); }
-  .history-row { display:flex; justify-content:space-between; align-items:center; padding:13px 0; border-bottom:1px solid var(--border); }
-  .history-date { font-size: var(--text-xs); color:var(--text-tertiary); }
-  .history-track { font-size: var(--text-sm); letter-spacing:0.10em; text-transform:uppercase; color:var(--text-secondary); }
-  .history-detail { font-size: var(--text-xs); color:var(--text-dim); }
+  .summary-num { font-size: calc(var(--text-lg) + 2px); font-weight: 500; color:var(--accent-secondary); letter-spacing:-0.03em; line-height:1; margin-bottom:3px; }
+  .summary-lbl { font-size: var(--text-xs); letter-spacing:0.10em; text-transform:uppercase; color:color-mix(in srgb, var(--text-secondary) 88%, transparent); }
+  .history-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid color-mix(in srgb, var(--border) 76%, transparent); }
+  .history { width:100%; box-sizing:border-box; }
+  .history-date { font-size: var(--text-xs); color:color-mix(in srgb, var(--text-tertiary) 92%, transparent); }
+  .history-track { font-size: var(--text-xs); letter-spacing:0.08em; text-transform:uppercase; color:var(--text-secondary); }
+  .history-detail { font-size: var(--text-xs); color:color-mix(in srgb, var(--text-dim) 92%, transparent); }
+  .summary-cta {
+    margin-top:16px;
+    border:1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    border-radius:14px;
+    padding:12px;
+    background:color-mix(in srgb, var(--glass-bg) 90%, transparent);
+    backdrop-filter:blur(10px) saturate(1.1);
+    -webkit-backdrop-filter:blur(10px) saturate(1.1);
+    box-shadow:0 4px 16px rgba(0,0,0,0.10), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 72%, transparent);
+  }
+  .summary-cta-copy {
+    font-size: var(--text-xs);
+    letter-spacing:0.10em;
+    text-transform:uppercase;
+    color:color-mix(in srgb, var(--text-dim) 92%, transparent);
+    text-align:center;
+    margin-bottom:10px;
+  }
+  .summary-cta-btn {
+    width:100%;
+    min-height:44px;
+    border-radius:11px;
+    border:1px solid color-mix(in srgb, var(--accent) 76%, transparent);
+    background:var(--accent);
+    color:var(--accent-btn-text);
+    font-family:var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:transform var(--motion-fast), opacity var(--motion-fast), box-shadow 0.18s;
+    box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+  .summary-cta-btn:hover { opacity:0.96; box-shadow:0 8px 20px color-mix(in srgb, var(--accent) 34%, transparent); }
+  .summary-cta-btn:active { transform:scale(0.98); opacity:0.9; }
 
   /* Momentum 7-day strip (glass card) */
-  .summary-momentum { margin-top:24px; }
-  .momentum-strip { display:flex; gap:6px; margin-bottom:10px; }
+  .summary-momentum { margin-top:14px; }
+  .momentum-strip { display:flex; gap:5px; margin-bottom:8px; }
   .momentum-cell { flex:1; aspect-ratio:1; border-radius:6px; transition:all 0.2s; }
-  .momentum-labels { display:flex; justify-content:space-between; margin-bottom:8px; }
-  .momentum-label { font-size: var(--text-xs); letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dimmer); }
-  .momentum-disclaimer { font-size: var(--text-xs); color:var(--text-dimmer); letter-spacing:0.06em; line-height:1.4; }
+  .momentum-labels { display:flex; justify-content:space-between; margin-bottom:6px; }
+  .momentum-label { font-size: var(--text-xs); letter-spacing:0.10em; text-transform:uppercase; color:var(--text-dimmer); }
+  .momentum-disclaimer { font-size: var(--text-xs); color:var(--text-dimmer); letter-spacing:0.04em; line-height:1.35; }
 
   /* ── DONE BANNER ── */
   .done-banner {
@@ -2255,6 +2299,10 @@ const css = `
   /* Active SESSION (LIST / GUIDED / SUMMARY): tight tail above tab bar — no duplicate --axis-bottom-content-inset + 56px stack */
   .tab-bar-spacer--session {
     height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 12px);
+    min-height: 0;
+  }
+  .tab-bar-spacer--summary {
+    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 4px);
     min-height: 0;
   }
 
@@ -2796,10 +2844,10 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   ), /*#__PURE__*/
   React.createElement("button", {
     type: "button",
-    className: `tab-btn ${view === "session" ? "active" : ""}`,
-    onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("session");},
-    "aria-label": "Sessions",
-    "aria-current": view === "session" ? "page" : undefined },
+    className: `tab-btn ${view === "summary" ? "active" : ""}`,
+    onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("summary");},
+    "aria-label": "Summary",
+    "aria-current": view === "summary" ? "page" : undefined },
 
   React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SessionIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
 
@@ -5160,15 +5208,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {storageSet("axis_show_pct", showPct);}, [showPct]);
   useEffect(() => {storageSet("axis_exercise_duration", exerciseDuration);}, [exerciseDuration]);
   useEffect(() => {
-    if (view === "session") {
+    if (view === "home" && hasActiveSession) {
       const last = storageGet("axis_last_session_tab", null);
       setTab(last || "guided");
     }
     prevViewRef.current = view;
-  }, [view]);
+  }, [view, hasActiveSession]);
   useEffect(() => {
-    if (view === "session") storageSet("axis_last_session_tab", tab);
-  }, [tab, view]);
+    if (view === "home" && hasActiveSession) storageSet("axis_last_session_tab", tab);
+  }, [tab, view, hasActiveSession]);
   useEffect(() => {storageSet("axis_done", done);}, [done]);
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
@@ -5224,8 +5272,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const toggleFav = (id) => setFavs((f) => ({ ...f, [id]: !f[id] }));
   const setNote = (id, val) => setNotes((n) => ({ ...n, [id]: val }));
   const switchTrack = (t) => {setTrack(t);setFi(0);setOpenId(null);};
-  const beginTrack = (t) => {switchTrack(t);setHasActiveSession(true);setView("session");};
-  const goHome = () => {setView("home");setTab("list");};
+  const beginTrack = (t) => {switchTrack(t);setHasActiveSession(true);setView("home");};
+  const goHome = () => {setHasActiveSession(false);setView("home");setTab("list");};
   const playBeep = (freq = 880) => beep(freq);
   const formatTime = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   const weekAgo = new Date(Date.now() - 7 * 86400000).toDateString();
@@ -5456,8 +5504,71 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
   }
 
+  // SUMMARY
+  if (view === "summary") {
+    return (/*#__PURE__*/
+      React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
+      React.createElement("style", null, css), /*#__PURE__*/
+      React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
+      React.createElement("div", { className: "app-body" }, /*#__PURE__*/
+      React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
+      React.createElement("div", { className: "app-label", style: { fontSize: "var(--text-xl)", fontWeight: 600, textTransform: "uppercase", color: "var(--text-secondary)", marginBottom: 20 } }, "AXIS"), /*#__PURE__*/
+      React.createElement("div", { style: { fontSize: "var(--text-xl)", fontWeight: 600, letterSpacing: "-0.02em", color: "var(--text-white)", marginBottom: 10 } }, "Summary"), /*#__PURE__*/
+      React.createElement("div", { style: { fontSize: "var(--text-sm)", color: "var(--text-secondary)", lineHeight: 1.45, marginBottom: 10 } }, "Your progress at a glance.")
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "content content--session content--summary" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary", style: { marginTop: 12 } }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-title" }, "This Week"), /*#__PURE__*/
+      React.createElement("div", { className: "summary-grid" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, weekSessions.length), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Sessions")), /*#__PURE__*/
+      React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, streak), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Day Streak")), /*#__PURE__*/
+      React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, weekMinutes, /*#__PURE__*/React.createElement("span", { style: { fontSize: 14 } }, "m")), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Minutes"))
+      )
+      ), /*#__PURE__*/
+      React.createElement(MomentumMap, { history: history, nightMode: nightMode }), /*#__PURE__*/
+      history.length > 0 && /*#__PURE__*/
+      React.createElement("div", { className: "history", style: { marginTop: 24 } }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-title", style: { marginBottom: 8 } }, "Recent Sessions"),
+      history.slice(0, 10).map((e, i) => /*#__PURE__*/
+      React.createElement("div", { className: "history-row", key: i }, /*#__PURE__*/
+      React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "history-date" }, e.date), /*#__PURE__*/React.createElement("div", { className: "history-track" }, e.track)), /*#__PURE__*/
+      React.createElement("div", { className: "history-detail" }, e.duration, "m")
+      )
+      )
+      ),
+      history.length === 0 && /*#__PURE__*/
+      React.createElement("div", { style: { textAlign: "center", padding: "48px 0", color: "var(--text-dim)", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase" } }, "Complete a session to see your history"),
+      (track === "anxiety" || track === "stress") && totalDone > 0 && /*#__PURE__*/
+      React.createElement("div", { style: { marginTop: 28, padding: "18px", borderRadius: 16, border: "1px solid var(--glass-border)", background: "var(--glass-bg)" } }, /*#__PURE__*/
+      React.createElement("div", { style: { fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 8 } }, "Continue the Reset"), /*#__PURE__*/
+      React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", marginBottom: 14, lineHeight: 1.45 } },
+      track === "anxiety" ? "Finish with 2 minutes of Box Breathing to ground the nervous system." : "Calm the heart with a Physiological Sigh."
+      ), /*#__PURE__*/
+      React.createElement("button", { onClick: () => {setView("timer");}, style: {
+          background: "var(--accent-dim)", border: "1px solid var(--accent)",
+          fontFamily: "'Barlow',sans-serif", fontSize: "12px", letterSpacing: "0.14em",
+          textTransform: "uppercase", color: "var(--accent)", cursor: "pointer",
+          padding: "10px 18px", borderRadius: 10, transition: "all 0.18s"
+        } },
+      track === "anxiety" ? "→ Box Breathing" : "→ Physiological Sigh"
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-cta" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-cta-copy" }, "Ready for another reset?"), /*#__PURE__*/
+      React.createElement("button", {
+        className: "summary-cta-btn",
+        onClick: () => {setView("home");} },
+      "Start Another Session"
+      ))
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "tab-bar-spacer", style: { height: 0, minHeight: 0 } })
+      ), /*#__PURE__*/
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      ));
+  }
+
   // TODAY (formerly Home)
-  if (view === "home") {
+  if (view === "home" && !hasActiveSession) {
     const nowPeriod = getCircadianPeriod();
     const usedPeriod = activePeriod || nowPeriod;
     const homeCt = CIRCADIAN_THEMES[usedPeriod][theme === "dark" ? "dark" : "light"];
@@ -5564,121 +5675,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
   }
 
-  // SESSION — empty state: dark #0B121C + dark-UI mark, or light gradient + light-UI mark
-  if (view === "session" && !hasActiveSession) {
-    const sessionEmptyDark = theme === "dark";
-    const sessionBg = nightMode ? "#000000" : sessionEmptyDark ? "#0B121C" : MAIN_APP_BG.light;
-    const sessionHeadline = nightMode ? "#FF3B30" : sessionEmptyDark ? "var(--axis-white)" : "rgba(15,30,46,0.92)";
-    const sessionTagline = nightMode ? "#FF3B30" : "#7d7d7d";
-    const sessionLogoFill = nightMode ? "#FF3B30" : "#7d7d7d";
-    const sessionLogo = AXIS_BRANDING_SESSION;
-    return (/*#__PURE__*/
-      React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
-      React.createElement("style", null, css), /*#__PURE__*/
-      React.createElement("style", null, `@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');`), /*#__PURE__*/
-      React.createElement("div", {
-        className: "app-body",
-        style: {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          flex: 1,
-          alignSelf: "stretch",
-          width: "100%",
-          minHeight: "100vh",
-          minHeight: "100dvh",
-          paddingLeft: "max(32px, env(safe-area-inset-left, 0px))",
-          paddingRight: "max(32px, env(safe-area-inset-right, 0px))",
-          paddingBottom: "max(24px, env(safe-area-inset-bottom, 0px))",
-          textAlign: "center",
-          boxSizing: "border-box",
-          background: sessionBg,
-          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-          overflowX: "hidden",
-          overflowY: "auto",
-          WebkitOverflowScrolling: "touch"
-        } }, /*#__PURE__*/
-
-      React.createElement("div", { style: {
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          flexShrink: 0,
-          paddingTop: "clamp(72px, calc(env(safe-area-inset-top, 0px) + min(30vh, 240px)), 280px)"
-        } }, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 400, color: sessionHeadline, marginBottom: 28, textAlign: "center", maxWidth: "min(100%, 360px)" } }, "Ready for movement."
-
-      ), /*#__PURE__*/
-      React.createElement("button", {
-        className: "begin-btn session-browse-btn",
-        onClick: () => setView("home"),
-        style: {
-          padding: "14px 48px",
-          fontFamily: "var(--font-display)",
-          fontSize: "var(--text-sm)",
-          fontWeight: 600,
-          letterSpacing: "0.18em"
-        },
-        "aria-label": "Browse all tracks" },
-      "BROWSE ALL TRACKS"
-
-      )
-      ), /*#__PURE__*/
-      React.createElement("div", { style: {
-          flex: "1 1 0",
-          minHeight: 0,
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          paddingBottom: "clamp(8px, 2vh, 28px)"
-        } }, /*#__PURE__*/
-      React.createElement("div", { style: {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-          transform: "translateY(20vh)"
-        } }, /*#__PURE__*/
-      React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 292.9 357.3", style: { width: 72, height: "auto", display: "block", marginBottom: 36 }, "aria-label": "AXIS" },
-        React.createElement("path", { fill: sessionLogoFill, d: "M63.6,35.6c-.4-1-1.1-1.4-2.3-1.3l-28.2,4c-1.1.2-1.9.8-2.3,1.9L2.8,133.4c-.4,1.6.1,2.2,1.7,2l22.7-3.2c1.2-.2,2-.9,2.3-2.1l2.9-10.8c.2-.4.4-.6.7-.6l28.2-4c.3,0,.5.1.7.4l2.9,10c.3,1.1,1,1.6,2.3,1.4l22.7-3.2c1.2-.2,1.9-.8,1.9-1.7s0-.6-.1-.8l-28.1-85.3h0ZM55.5,96.5l-16.6,2.3c-.5,0-.6-.2-.5-.7l8.4-31c0-.3.2-.4.4-.5s.3,0,.4.3l8.5,28.6c.2.5,0,.8-.5.9h0Z" }),
-        React.createElement("path", { fill: sessionLogoFill, d: "M290.9,4.3c.3-.5.4-.9.4-1.2s-.2-.6-.5-.8c-.3-.2-.7-.2-1.3-.2l-22.9,3.2c-1.1.2-1.9.8-2.4,1.8l-13,27c-.3.4-.5.4-.8.1l-13-23.3c-.4-.9-1.2-1.3-2.4-1.1l-23,3.2c-.5,0-.9.2-1.3.5-.3.3-.5.6-.5.9s.1.7.4,1.1l24.2,40.3c.2.2.2.5,0,.8l-24.2,47.2c-.3.4-.4.8-.4,1.2s.1.6.5.8c.3.2.7.2,1.3.2l22.9-3.2c1.1-.2,1.9-.8,2.4-1.8l13.2-26.8c.3-.5.5-.5.8-.1l13.2,23.2c.5.9,1.3,1.3,2.4,1.1l22.7-3.2c.5,0,1-.2,1.3-.5.3-.3.5-.6.5-.9s-.1-.8-.4-1.1l-24.1-40.4c0-.2,0-.5,0-.8l24.1-47.1h0Z" }),
-        React.createElement("path", { fill: sessionLogoFill, d: "M55.1,258.7l-21,3c-.6,0-1.1.3-1.5.7-.4.4-.5.9-.5,1.5v89.1c0,.6.2,1.1.5,1.4.3.3.8.4,1.5.3l21-3c.6,0,1.1-.3,1.5-.7.3-.4.5-.9.5-1.5v-89.1c0-.6-.2-1.1-.5-1.4-.4-.3-.8-.4-1.5-.3Z" }),
-        React.createElement("path", { fill: sessionLogoFill, d: "M268.1,269.3c-5.5-.9-8.7-1.4-9.4-1.5-5.1-.9-9-1.6-11.4-2.3-2.5-.7-4.3-1.5-5.5-2.4-1.2-.9-1.8-2.2-1.8-3.8s.8-3.8,2.5-5.1,3.9-2.3,6.7-2.7c4.1-.6,7.3,0,9.7,1.9,2.4,1.8,3.6,4.1,3.6,6.7h0c0,.8.2,1.2.5,1.5.4.3.8.4,1.5.3l20.6-2.9c.6,0,1.1-.3,1.5-.7.4-.4.5-.9.5-1.5v-1.2c0-6-1.6-11.2-4.9-15.4-3.2-4.2-7.7-7.2-13.3-9-5.6-1.8-11.9-2.2-18.8-1.2-6.6.9-12.5,2.9-17.8,5.9-5.3,3.1-9.4,6.9-12.4,11.7-3,4.7-4.5,9.9-4.5,15.5,0,8.4,3,14.4,8.9,18s13.3,6.1,22.1,7.5l3.9.5c4.7.8,7.9,1.5,9.7,2.2,1.8.7,2.7,2.1,2.7,4s-.7,3.3-2.1,4.9c-1.4,1.6-3.8,2.6-7.1,3-4.4.6-7.8.1-10.4-1.4-2.6-1.5-3.9-3.5-3.9-6v-.8c0-.6-.2-1.1-.5-1.4-.4-.3-.8-.4-1.5-.3l-20.6,2.9c-.6,0-1.1.3-1.5.7-.4.4-.5.9-.5,1.5v1.9c0,5.9,1.5,11,4.6,15s7.4,7,13,8.6c5.6,1.7,12.1,2,19.6.9,7.2-1,13.5-3,18.9-6.1,5.4-3.1,9.6-7,12.6-11.7s4.5-10.1,4.5-16-1.9-11.1-5.6-14.8c-3.7-3.8-8.4-6.1-13.9-7h0Z" })
-      ), /*#__PURE__*/
-      React.createElement("div", {
-        style: {
-          fontFamily: "var(--font-display)",
-          fontSize: "var(--text-xs)",
-          letterSpacing: "0.28em",
-          textTransform: "uppercase",
-          fontWeight: 400,
-          color: sessionTagline,
-          whiteSpace: "nowrap",
-          width: "100%",
-          maxWidth: "100%",
-          boxSizing: "border-box",
-          overflowX: "auto",
-          WebkitOverflowScrolling: "touch",
-          textAlign: "center"
-        } },
-      "X MOVE X MEND X MAINTAIN X"
-
-      )
-      )
-      )
-    , /*#__PURE__*/
-    React.createElement("div", { className: "tab-bar-spacer" })
-    ), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
-      ));
-
-  }
-
-  if (view !== "session") return null;
+  if (view !== "home" || !hasActiveSession) return null;
 
   const sessionBackNight = nightMode;
   const sessionBackDark = sessionBackNight || theme === "dark";

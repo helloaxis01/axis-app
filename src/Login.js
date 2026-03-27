@@ -1,9 +1,21 @@
 import {
   createUserWithEmailAndPassword,
+  getAuth,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "./firebase.js";
+import { getApps, initializeApp } from "firebase/app";
 import React, { useState } from "./react-shim.js";
+
+window.AXIS_DEBUG_KEY = 'NEW_KEY_ACTIVE';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBwWwUePj5jEUCRLUCrk26IPNxjF0WCnvc",
+  authDomain: "axis-7f474.firebaseapp.com",
+  projectId: "axis-7f474",
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 export default function Login() {
   const [mode, setMode] = useState("signin");

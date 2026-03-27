@@ -1,7 +1,16 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase.js";
+import { getApps, initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Login from "./Login.js";
 import React, { useEffect, useState } from "./react-shim.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBwWwUePj5jEUCRLUCrk26IPNxjF0WCnvc",
+  authDomain: "axis-7f474.firebaseapp.com",
+  projectId: "axis-7f474",
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 function isOnboarded() {
   try {
