@@ -905,7 +905,7 @@ function Onboarding({ theme, onComplete }) {
     { id: "rest", label: "Rest", src: "./app-icons/icon-rest.png" }
   ];
   const [cur, setCur] = useState(0);
-  const total = 10; // Splash, Alpha, Perspective, Science+Ethics, Safety, Appearance, Ultra Mode, App Icon Selection, Navigation Map, Launch
+  const total = 11; // Splash, Alpha, Perspective, Science+Ethics, Safety, Appearance, Ultra Mode, App Icon Selection, Choose Experience, Navigation Map, Launch
   const [disclaimerName, setDisclaimerName] = useState("");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
   const [disclaimerWarning, setDisclaimerWarning] = useState(false);
@@ -1085,7 +1085,7 @@ function Onboarding({ theme, onComplete }) {
       <div ref={obShellRef} className="ob-shell" onClick={e => { if (cur === 4 || cur === 5 || cur === 6) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
         {cur === 0 && (
           <div className="ob-screen ob-s0" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
-            <div style={{ position: "absolute", top: "calc(env(safe-area-inset-top, 0px) + 14px)", right: 18, fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ob-text-sec)", opacity: 0.72 }}>V2.0</div>
+            <div style={{ position: "absolute", top: "calc(env(safe-area-inset-top, 0px) + 14px)", right: 18, fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ob-text-sec)", opacity: 0.72 }}>ALPHA</div>
             <img src={obTheme === "dark" ? "./AXIS_Branding_DarkMode_Outlined.svg" : "./AXIS_Branding_LightMode_Outlined.svg"} alt="AXIS Logo" style={{ marginTop: "calc(90px + 5vh)", width: 165 }} />
             <div className="ob-screen-body">
               <div className="ob-pad" style={{ textAlign: "center" }}>
@@ -1364,24 +1364,13 @@ function Onboarding({ theme, onComplete }) {
           {cur === 6 && <div className="ob-screen ob-content-only" style={{ background:"#000000", color:"#FF3B30" }}>
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
-                <div className="ob-eyebrow" style={{ color:"#FF3B30" }}>Ultra Mode</div>
-                <div className="ob-heading" style={{ fontSize:36, color:"#FF3B30" }}>Protect your <em style={{ color:"#FF3B30" }}>night vision.</em></div>
-                <div className="ob-body" style={{ marginBottom:22, color:"#FF3B30", opacity:0.95 }}>
-                  Ultra Mode uses a pure black canvas with vibrant red accents so your eyes stay adapted in low light.
+                <div className="ob-eyebrow" style={{ color:"#FF3B30" }}>Technical Specification</div>
+                <div className="ob-heading" style={{ fontSize:36, color:"#FF3B30" }}>See in the <em style={{ color:"#FF3B30" }}>dark.</em></div>
+                <div className="ob-body" style={{ marginBottom:16, color:"#FF3B30", opacity:0.95 }}>
+                  <strong>AXIS Ultra mode.</strong> Night-vision optimized. Pure OLED black and Wayfinder red for tactical performance in any light.
                 </div>
-                <div style={{
-                  border:"1px solid #FF3B30",
-                  borderRadius:14,
-                  padding:"16px",
-                  background:"#000000",
-                  color:"#FF3B30",
-                  lineHeight:1.45,
-                  fontSize:13
-                }}>
-                  Best for late-night sessions when you want to minimize glare, reduce eye fatigue, and keep your surroundings visible.
-                </div>
-                <div style={{ marginTop:12, fontSize:14, lineHeight:1.45, color:"#FF3B30" }}>
-                  Enable this option in the Mood tab.
+                <div className="ob-body" style={{ marginBottom:16, color:"#FF3B30", opacity:0.95 }}>
+                  For times you don't want to both. This feature is selectable in the MOOD tab.
                 </div>
                 <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -1398,7 +1387,7 @@ function Onboarding({ theme, onComplete }) {
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
                 <div className="ob-eyebrow">App Icon</div>
-                <div className="ob-heading" style={{ fontSize:36 }}>Make it <em>yours</em></div>
+                <div className="ob-heading" style={{ fontSize:36 }}>Make it <em>yours.</em></div>
                 <div className="ob-body" style={{ marginBottom: 10, fontSize: 14, maxWidth: 420 }}>
                   You can customize your app icon at any time in SETTINGS.
                 </div>
@@ -1409,8 +1398,35 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 8: NAVIGATION MAP */}
+          {/* 8: CHOOSE YOUR EXPERIENCE */}
           {cur === 8 && <div className="ob-screen ob-content-only">
+            <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
+              <div className="ob-pad">
+                <div className="ob-eyebrow">Sessions</div>
+                <div className="ob-heading" style={{ fontSize:36 }}>Ways to <em>move.</em></div>
+                <div className="ob-body" style={{ marginBottom: 22, fontSize: 14 }}>
+                  Pick how you want to move through each session.
+                </div>
+                <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+                  <div style={{ border:"1px solid var(--ob-box-border)", borderRadius:12, padding:"12px 14px", background:"var(--ob-box-bg)" }}>
+                    <div style={{ fontSize:12, letterSpacing:"0.18em", textTransform:"uppercase", marginBottom:6, color:"var(--ob-text-sec)", fontWeight:700 }}>LIST MODE</div>
+                    <div style={{ fontSize:14, lineHeight:1.5, color:"var(--ob-text-body)" }}>
+                      <strong>For the self-paced.</strong> A high-density reference of your entire track. Best for when you want to move at your own rhythm or simply need a quick biomechanical reminder of the next move.
+                    </div>
+                  </div>
+                  <div style={{ border:"1px solid var(--ob-box-border)", borderRadius:12, padding:"12px 14px", background:"var(--ob-box-bg)" }}>
+                    <div style={{ fontSize:12, letterSpacing:"0.18em", textTransform:"uppercase", marginBottom:6, color:"var(--ob-text-sec)", fontWeight:700 }}>GUIDED FLOW</div>
+                    <div style={{ fontSize:14, lineHeight:1.5, color:"var(--ob-text-body)" }}>
+                      <strong>For the focused.</strong> A fully immersive, timed experience. Set your phone down and let AXIS lead the way with automated transitions and haptic cues. Just focus on the movement.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>}
+
+          {/* 9: NAVIGATION MAP */}
+          {cur === 9 && <div className="ob-screen ob-content-only">
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
                 <div className="ob-eyebrow">Navigation Map</div>
@@ -1459,9 +1475,10 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 9: LAUNCH — same logo + tagline as Splash */}
-          {cur === 9 && (
-            <div className="ob-screen ob-cta-screen ob-launch-screen" style={{ color: "var(--ob-text-head)", transition: "color 0.6s ease", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
+          {/* 10: LAUNCH — duplicate splash with same mood background as content pages */}
+          {cur === 10 && (
+            <div className="ob-screen ob-content-only ob-s0 ob-launch-screen" style={{ color: "var(--ob-text-head)", transition: "color 0.6s ease", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
+              <div style={{ position: "absolute", top: "calc(env(safe-area-inset-top, 0px) + 14px)", right: 18, fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ob-text-sec)", opacity: 0.72 }}>ALPHA</div>
               <img src={obTheme === "dark" ? "./AXIS_Branding_DarkMode_Outlined.svg" : "./AXIS_Branding_LightMode_Outlined.svg"} alt="AXIS Logo" style={{ marginTop: "calc(90px + 5vh)", width: 165 }} />
               <div className="ob-screen-body">
                 <div className="ob-pad" style={{ textAlign: "center" }}>
@@ -1474,10 +1491,10 @@ function Onboarding({ theme, onComplete }) {
       </div>
 
       <div className="ob-ext-nav">
-        {["Splash","Alpha","Perspective","Science+Ethics","Safety","Appearance","Ultra Mode","App Icon Selection","Navigation Map","Launch"].map((l, i) => (
+        {["Splash","Alpha","Perspective","Science+Ethics","Safety","Appearance","Ultra Mode","App Icon Selection","Choose Experience","Navigation Map","Launch"].map((l, i) => (
           <button key={l} className="ob-en-btn" onClick={() => go(i)}>{l}</button>
         ))}
-        <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={() => go(9)}>→ Launch Screen</button>
+        <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={() => go(10)}>→ Launch Screen</button>
       </div>
       <div className="ob-label">Tap screen or use controls · Begin buttons launch the app</div>
       {/* Fixed footer — pointer-events: none; buttons have pointer-events: auto */}
@@ -1495,13 +1512,13 @@ function Onboarding({ theme, onComplete }) {
           transition: 'background 0.6s ease',
         }}
       >
-        {cur === 9 ? (
+        {cur === 10 ? (
           <div className="ob-footer-nav-locked">
             <button
               type="button"
               className="ob-nav-back ob-nav-glass-btn ob-footer-nav-cell--back"
               aria-label="Go Back"
-              onClick={() => go(8)}
+              onClick={() => go(9)}
               style={{
                 background: obTheme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
                 border: obTheme === 'dark' ? 'none' : '1px solid rgba(15,23,42,0.35)',
@@ -1516,19 +1533,20 @@ function Onboarding({ theme, onComplete }) {
             <button
               type="button"
               className="ob-nav-letsgo ob-footer-nav-cell--next"
-              aria-label="Continue"
+              aria-label="Launch"
               onClick={doLaunch}
               style={{
                 pointerEvents: 'auto',
                 padding: '12px 28px', borderRadius: 999, border: 'none',
-                background: obTheme === 'dark' ? 'var(--axis-white)' : 'var(--axis-black)',
-                color: obTheme === 'dark' ? 'var(--axis-black)' : 'var(--axis-white)',
+                minWidth: 124, whiteSpace: 'nowrap',
+                background: 'var(--ob-accent)',
+                color: '#252525',
                 fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 700,
                 letterSpacing: '0.18em', textTransform: 'uppercase',
                 cursor: 'pointer', transition: 'all 0.25s ease',
               }}
             >
-              LET'S GO
+              LAUNCH
             </button>
           </div>
         ) : (
@@ -1549,7 +1567,7 @@ function Onboarding({ theme, onComplete }) {
               }}
             >{"<"}</button>
             <div className="ob-footer-dots ob-footer-nav-cell--dots">
-              {Array.from({ length: 10 }).map((_, i) => {
+              {Array.from({ length: 11 }).map((_, i) => {
                 const active = i === cur;
                 return (
                   <div key={i} className="ob-footer-dot-slot" aria-hidden>
