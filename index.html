@@ -848,7 +848,7 @@ const css = `
     --glass-shadow: 0 2px 12px rgba(20,50,90,0.11), 0 1px 4px rgba(20,50,90,0.06);
     --glass-shadow-lg: 0 10px 32px rgba(20,50,90,0.13), 0 2px 10px rgba(20,50,90,0.07);
     /* Tab bar: opaque strip vs lavender gradient (Safari/iOS) */
-    --tab-bg: rgba(252, 253, 255, 0.94);
+    --tab-bg: #f6f7f8;
     --hdr-bg: rgba(235,243,250,0.75);
     --text-primary: var(--axis-black);
     --text-secondary: color-mix(in srgb, var(--axis-black) 82%, transparent);
@@ -1636,10 +1636,27 @@ const css = `
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:10px;
-    padding:12px var(--page-gutter) 0;
+    gap:6px;
+    padding:8px var(--page-gutter) 0;
     box-sizing:border-box;
     width:100%;
+  }
+  .hdr-session-toprow {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:10px;
+    width:100%;
+    min-width:0;
+  }
+  .hdr-session-head .hdr-session-toprow .hdr-dur {
+    flex-shrink:0;
+  }
+  .hdr-session-head .hdr-title {
+    margin-top:0;
+  }
+  .hdr-session-head .tabs {
+    margin-top:2px;
   }
   .hdr-session-head .back-btn {
     position:relative !important;
@@ -1661,6 +1678,9 @@ const css = `
     justify-content:flex-start;
     width:100%;
     box-sizing:border-box;
+  }
+  .app-body--settings-pad {
+    padding-bottom: max(120px, calc(env(safe-area-inset-bottom, 0px) + 96px));
   }
   .hdr { position:relative; padding:0 var(--page-gutter); box-sizing:border-box; width:100%; }
   .hdr-row { display:flex; justify-content:flex-start; align-items:flex-start; padding:8px 0 16px; }
@@ -1839,7 +1859,24 @@ const css = `
     box-shadow: 0 8px 28px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   }
   .today-card {
+    position:relative;
+    overflow:hidden;
     transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow), backdrop-filter var(--motion-slow);
+  }
+  @keyframes axis-today-shimmer {
+    0%, 88% { transform: translateX(-130%); opacity: 0; }
+    90% { opacity: 0.55; }
+    96% { transform: translateX(130%); opacity: 0.12; }
+    100% { opacity: 0; }
+  }
+  .today-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.14) 50%, transparent 62%);
+    animation: axis-today-shimmer 5s ease-in-out infinite;
   }
   .panel:focus { outline: none; }
   .panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -2420,11 +2457,20 @@ const css = `
 
   /* Light mode: distinct tab strip + separation from page (Safari frosted read) — not in AXIS Ultra */
   .tab-bar[data-theme="light"]:not([data-night="true"]) {
-    background: var(--tab-bg);
-    border-top: 1px solid rgba(100, 130, 175, 0.38);
-    box-shadow: 0 -6px 28px rgba(15, 35, 70, 0.1), 0 -1px 0 rgba(255, 255, 255, 0.85) inset;
-    backdrop-filter: blur(20px) saturate(1.12);
-    -webkit-backdrop-filter: blur(20px) saturate(1.12);
+    background: #f6f7f8;
+    border-top: 1px solid rgba(37, 37, 37, 0.1);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Light: top dashboard strip — solid #f6f7f8; chrome uses #252525 / mood accent */
+  .app[data-theme="light"]:not([data-night="true"]) .dashboard-header {
+    background: #f6f7f8 !important;
+    border-bottom: 1px solid rgba(37, 37, 37, 0.1);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   /* MOOD: avoid stacking full tab-bar-spacer + large list padding (was ~1/4 screen gap). Spacer collapsed; padding carries clearance. */
@@ -2509,7 +2555,6 @@ const css = `
     box-sizing:border-box;
     width:100%;
     -webkit-tap-highlight-color:transparent;
-    /* Glassmorphism: match bottom tab bar (see .tab-bar — var(--tab-bg) + blur) */
     background:var(--tab-bg);
     backdrop-filter:blur(20px) saturate(1.35);
     -webkit-backdrop-filter:blur(20px) saturate(1.35);
@@ -2531,10 +2576,22 @@ const css = `
   .dashboard-header__progress-track {
     height:5px;
     border-radius:999px;
-    background:rgba(255,255,255,0.22);
+    background:#3a3a3c;
     overflow:hidden;
     width:100%;
-    max-width:min(72px, 22vw); /* cap: aligns with end of iPhone status clock */
+    max-width:min(64px, 18vw); /* cap: stays within iPhone status clock region */
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__progress-track {
+    background:#252525;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__progress-fill {
+    background:var(--mood-color);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__streak-cell--on {
+    background:var(--mood-color);
+  }
+  .app[data-night="true"] .dashboard-header__progress-track {
+    background:#2a2a2c;
   }
   .dashboard-header__progress-fill {
     height:100%;
@@ -2549,11 +2606,17 @@ const css = `
     font-weight:300;
     letter-spacing:0.42em;
     text-transform:uppercase;
-    color:rgba(255,255,255,0.45);
+    color:color-mix(in srgb, var(--text-dim) 68%, transparent);
     text-align:center;
     justify-self:center;
     padding:0 4px;
     pointer-events:none;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__brand {
+    color:#252525;
+  }
+  .app[data-night="true"] .dashboard-header__brand {
+    color:rgba(255,255,255,0.42);
   }
   .dashboard-header__right {
     display:flex;
@@ -2571,6 +2634,9 @@ const css = `
     background:color-mix(in srgb, var(--text-dim) 28%, transparent);
     flex-shrink:0;
     transition:background-color 0.45s ease, transform 0.2s ease;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__streak-cell:not(.dashboard-header__streak-cell--on) {
+    background:#252525;
   }
   .dashboard-header__streak-cell--on {
     background:var(--mood-color);
@@ -2606,7 +2672,8 @@ const css = `
   .home-browse-scroll-mask {
     position:relative;
     z-index:1;
-    padding:var(--home-section-gap) var(--page-gutter) 24px;
+    margin-top:-20px;
+    padding:calc(var(--home-section-gap) + 20px) var(--page-gutter) 24px;
     margin-bottom:var(--axis-safe-bottom);
     box-sizing:border-box;
   }
@@ -2731,9 +2798,9 @@ const css = `
     padding-inline:var(--page-gutter);
     box-sizing:border-box;
   }
-  /* Keeps Today/Browse layout from collapsing when a category has only one short group */
+  /* Browse: consistent peek below sticky bar — avoid variable min-height */
   .home-browse-results {
-    min-height:min(52dvh, 480px);
+    min-height:0;
     box-sizing:border-box;
   }
   .home-recent { margin-bottom:0; }
@@ -5477,6 +5544,15 @@ function axisSumMinutesOnLocalDay(history, todayKey) {
   return sum;
 }
 
+function axisHistoryForDailyTotals(stateHistory) {
+  const fromStorage = storageGet("axis_history", []);
+  const st = Array.isArray(stateHistory) ? stateHistory : [];
+  const fs = Array.isArray(fromStorage) ? fromStorage : [];
+  if (fs.length === 0) return st;
+  if (st.length === 0) return fs;
+  return fs.length >= st.length ? fs : st;
+}
+
 function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () => {}, onGuidedOpen }) {
   const APP_ICON_OPTIONS = [
   { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
@@ -5840,7 +5916,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const weekSessions = history.filter((e) => new Date(e.date) >= new Date(weekAgo));
   const weekMinutes = weekSessions.reduce((a, e) => a + (e.duration || 0), 0);
   const todayDateStr = new Date().toDateString();
-  const todayMinutesTotal = axisSumMinutesOnLocalDay(history, todayDateStr);
+  const todayMinutesTotal = axisSumMinutesOnLocalDay(axisHistoryForDailyTotals(history), todayDateStr);
   const goalMin = Math.max(0, Number(dailyGoalMinutes) || 0);
   const rawGoalProgressPct = goalMin > 0 ? todayMinutesTotal / goalMin * 100 : 0;
   const goalProgressPct = Math.min(100, Math.max(0, rawGoalProgressPct));
@@ -5861,7 +5937,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
     React.createElement("style", null, css), /*#__PURE__*/
     React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
-    React.createElement("div", { className: "app-body" }, /*#__PURE__*/
+    React.createElement("div", { className: "app-body app-body--settings-pad" }, /*#__PURE__*/
     dashboardHeaderEl, /*#__PURE__*/
     React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
     React.createElement("div", { className: "app-screen-title", style: { marginBottom: 24 } }, "SETTINGS"), /*#__PURE__*/
@@ -5989,6 +6065,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       icon: /*#__PURE__*/React.createElement("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z" })) }];
 
     const nowPeriod = getCircadianPeriod();
+    const AUTO_MOOD_LABELS = { dawn: "Auto: Rise", midday: "Auto: Midday", prime: "Auto: Prime", rest: "Auto: Rest" };
     // derive highlight color from circadian theme for Today's suggestion card (home)
     const highlightCt = CIRCADIAN_THEMES[nowPeriod][theme === "dark" ? "dark" : "light"];
     const highlight = highlightCt && highlightCt.accent ? highlightCt.accent : "var(--accent)";
@@ -6024,7 +6101,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", null, /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-base)", fontWeight: 600, color: activePeriod === null ? "var(--accent)" : "var(--text-white)", marginBottom: 3 } }, "Auto"), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)" } },
-      activePeriod === null ? /*#__PURE__*/React.createElement("span", null, "On \u2014 currently ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 600 } }, nowPeriod)) : "Follows time of day"
+      activePeriod === null ? /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 600 } }, AUTO_MOOD_LABELS[nowPeriod] || "Auto")) : "Follows time of day"
       )
       ), /*#__PURE__*/
       React.createElement("button", { onClick: nightMode ? undefined : () => {const n = activePeriod === null ? nowPeriod : null;setActivePeriod(n);storageSet("axis_period", n);}, style: { flexShrink: 0, width: 44, height: 26, border: "1px solid", borderColor: activePeriod === null ? "var(--accent)" : "var(--glass-border-strong)", borderRadius: 13, background: activePeriod === null ? "var(--accent)" : "var(--glass-bg)", cursor: nightMode ? "default" : "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
@@ -6364,6 +6441,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "hdr-wrap" }, /*#__PURE__*/
     React.createElement("div", { className: "hdr" }, /*#__PURE__*/
     React.createElement("div", { className: "hdr-session-head" }, /*#__PURE__*/
+    React.createElement("div", { className: "hdr-session-toprow" }, /*#__PURE__*/
     React.createElement("button", { type: "button", className: "back-btn", onClick: goHome, "aria-label": "Back",
       style: {
         border: `1px solid ${sessionBackBorderColor}`,
@@ -6373,11 +6451,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
     React.createElement("path", { d: "M19 12H5M12 5l-7 7 7 7" }))
     ), /*#__PURE__*/
+    React.createElement("div", { className: "hdr-dur", "aria-label": "Session length" }, sessionDurationLabel)
+    ), /*#__PURE__*/
     React.createElement("div", { className: "hdr-left" }, /*#__PURE__*/
-    React.createElement("div", { className: "hdr-title" }, TRACKS[track].label), /*#__PURE__*/
-    React.createElement("div", { className: "hdr-meta" }, /*#__PURE__*/
-    React.createElement("div", { className: "hdr-dur" }, sessionDurationLabel)
-    )
+    React.createElement("div", { className: "hdr-title" }, TRACKS[track].label)
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "tabs" },
