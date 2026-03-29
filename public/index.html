@@ -1822,13 +1822,30 @@ const css = `
     overflow-y: auto; overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
-  .content.content--session.content--summary {
-    flex: 0 0 auto;
-    min-height: auto;
-    overflow-y: visible;
-    overflow-x: visible;
-    -webkit-overflow-scrolling: auto;
-    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 6px);
+  .summary-main-stack {
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 8px;
+  }
+  .home-summary-lede-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .home-summary-lede {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+  .home-summary-date {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    color: var(--text-dimmer);
+    letter-spacing: 0.06em;
   }
   .content.content--session.content--session-list { padding-bottom: 100px; }
   /* LIST + GUIDED: breathing room above tab bar for primary CTAs */
@@ -1901,21 +1918,6 @@ const css = `
     position:relative;
     overflow:hidden;
     transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow), backdrop-filter var(--motion-slow);
-  }
-  @keyframes axis-today-shimmer {
-    0%, 88% { transform: translateX(-130%); opacity: 0; }
-    90% { opacity: 0.55; }
-    96% { transform: translateX(130%); opacity: 0.12; }
-    100% { opacity: 0; }
-  }
-  .today-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.14) 50%, transparent 62%);
-    animation: axis-today-shimmer 5s ease-in-out infinite;
   }
   .panel:focus { outline: none; }
   .panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -2190,10 +2192,145 @@ const css = `
   .dot.da { background:var(--accent); box-shadow:0 0 8px var(--accent-glow); transform:scale(1.2); }
   .dot.ds { background:var(--dot-bg); opacity:0.28; }
 
-  /* ── SUMMARY ── */
+  /* ── SUMMARY (Sunset layout + legacy .summary-title for section labels) ── */
+  .summary-sunset-stack {
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 4px;
+  }
+  .summary-hero {
+    padding: 0 0 20px;
+    box-sizing: border-box;
+  }
+  .summary-hero-label {
+    font-size: var(--text-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--text-dim) 92%, transparent);
+    margin-bottom: 8px;
+  }
+  .summary-hero-value {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 11vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text-white);
+  }
+  .summary-hero-unit {
+    font-size: 0.42em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-left: 4px;
+    opacity: 0.85;
+  }
+  .summary-bento {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .summary-bento-item {
+    padding: 14px 16px;
+    border-radius: 24px;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    background: color-mix(in srgb, var(--glass-bg) 90%, transparent);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 55%, transparent);
+    box-sizing: border-box;
+  }
+  .summary-bento-num {
+    font-family: var(--font-display);
+    font-size: calc(var(--text-xl) - 2px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--text-white);
+    margin-bottom: 6px;
+  }
+  .summary-bento-lbl {
+    font-size: var(--text-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--text-secondary) 90%, transparent);
+  }
+  .summary-day-card,
+  .summary-week-card {
+    margin-bottom: 22px;
+    padding: 18px 18px 16px;
+    border-radius: 24px;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    background: color-mix(in srgb, var(--glass-bg) 90%, transparent);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 55%, transparent);
+    box-sizing: border-box;
+  }
+  .summary-week-head {
+    font-size: var(--text-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--text-dim) 92%, transparent);
+    margin-bottom: 12px;
+  }
+  .summary-week-bar-track {
+    position: relative;
+    height: 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--glass-border) 55%, transparent);
+    margin-bottom: 10px;
+  }
+  .summary-week-bar-fill {
+    height: 100%;
+    border-radius: inherit;
+    width: 0%;
+    background: var(--mood-color);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--mood-color) 35%, transparent);
+    transition: width 0.45s ease;
+  }
+  [data-night="true"] .summary-week-bar-fill {
+    background: #FF3B30;
+    box-shadow: 0 0 12px rgba(255, 59, 48, 0.35);
+  }
+  .summary-week-meta {
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    color: color-mix(in srgb, var(--text-secondary) 88%, transparent);
+  }
+  .summary-panel {
+    border: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    padding: 18px;
+    margin-top: 16px;
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--glass-bg) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.10), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 72%, transparent);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .summary-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--glass-specular) 35%, rgba(255,255,255,0.2) 50%, var(--glass-specular) 65%, transparent);
+  }
   .summary {
     border:1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
-    padding:16px; margin-top:20px; border-radius:14px;
+    padding:16px; margin-top:20px; border-radius:24px;
     background:color-mix(in srgb, var(--glass-bg) 88%, transparent);
     backdrop-filter:blur(14px) saturate(1.15); -webkit-backdrop-filter:blur(14px) saturate(1.15);
     box-shadow:0 6px 18px rgba(0,0,0,0.10), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 72%, transparent);
@@ -2208,7 +2345,7 @@ const css = `
   .summary-cell {
     background:color-mix(in srgb, var(--glass-bg) 92%, transparent);
     border:1px solid color-mix(in srgb, var(--glass-border) 70%, transparent);
-    border-radius:10px; padding:11px 10px;
+    border-radius:16px; padding:11px 10px;
     backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
     box-shadow:inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 70%, transparent);
   }
@@ -2222,7 +2359,7 @@ const css = `
   .summary-cta {
     margin-top:16px;
     border:1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
-    border-radius:14px;
+    border-radius:24px;
     padding:12px;
     background:color-mix(in srgb, var(--glass-bg) 90%, transparent);
     backdrop-filter:blur(10px) saturate(1.1);
@@ -2256,13 +2393,31 @@ const css = `
   .summary-cta-btn:hover { opacity:0.96; box-shadow:0 8px 20px color-mix(in srgb, var(--accent) 34%, transparent); }
   .summary-cta-btn:active { transform:scale(0.98); opacity:0.9; }
 
-  /* Momentum 7-day strip (glass card) */
-  .summary-momentum { margin-top:14px; }
-  .momentum-strip { display:flex; gap:5px; margin-bottom:8px; }
-  .momentum-cell { flex:1; aspect-ratio:1; border-radius:6px; transition:all 0.2s; }
-  .momentum-labels { display:flex; justify-content:space-between; margin-bottom:6px; }
+  /* 7-day momentum — square strip (device-only) */
+  .summary-momentum {
+    margin: 4px 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .momentum-strip {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    justify-content: stretch;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .momentum-cell {
+    flex: 1 1 0;
+    min-width: 0;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    transition: all 0.2s;
+  }
+  .momentum-labels { display:flex; justify-content:space-between; margin-bottom:6px; padding: 0; width: 100%; box-sizing: border-box; }
   .momentum-label { font-size: var(--text-xs); letter-spacing:0.10em; text-transform:uppercase; color:var(--text-dimmer); }
-  .momentum-disclaimer { font-size: var(--text-xs); color:var(--text-dimmer); letter-spacing:0.04em; line-height:1.35; }
+  .momentum-disclaimer { font-size: var(--text-xs); color:var(--text-dimmer); letter-spacing:0.04em; line-height:1.35; text-align: center; }
 
   /* ── DONE BANNER ── */
   .done-banner {
@@ -2749,7 +2904,7 @@ const css = `
   .home-category-strip-wrap {
     position:relative;
     width:100%;
-    margin:0 0 2px;
+    margin:0 0 4px;
     z-index:1;
   }
   .home-category-strip {
@@ -2760,7 +2915,7 @@ const css = `
     -webkit-overflow-scrolling:touch;
     scroll-padding-inline:var(--page-gutter) 0;
     padding-top:0;
-    padding-bottom:10px;
+    padding-bottom:20px;
     padding-left:var(--page-gutter);
     padding-right:0;
     margin:0;
@@ -2774,7 +2929,7 @@ const css = `
     position:absolute;
     right:0;
     top:0;
-    bottom:18px;
+    bottom:36px;
     width:min(56px, 22vw);
     pointer-events:none;
     z-index:2;
@@ -2832,8 +2987,8 @@ const css = `
     top:var(--dashboard-browse-sticky-top);
     z-index:120;
     margin:0;
-    padding-top:0;
-    padding-bottom:6px;
+    padding-top:12px;
+    padding-bottom:12px;
     padding-left:0;
     padding-right:0;
     box-sizing:border-box;
@@ -2857,7 +3012,7 @@ const css = `
     letter-spacing:0.14em;
     text-transform:uppercase;
     color:color-mix(in srgb, var(--text-dim) 92%, transparent);
-    margin-bottom:4px;
+    margin-bottom:8px;
     font-weight:600;
     padding-inline:var(--page-gutter);
     box-sizing:border-box;
@@ -3270,14 +3425,16 @@ function MomentumMap({ history, nightMode = false }) {
     d.setDate(d.getDate() - (6 - i));
     return d.toDateString();
   });
-  const sessionCounts = history.reduce((acc, e) => {
-    acc[e.date] = (acc[e.date] || 0) + 1;
+  const sessionCounts = (history || []).reduce((acc, e) => {
+    const key = axisLocalDateKey(e && e.date);
+    if (!key) return acc;
+    acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {});
   return (/*#__PURE__*/
-    React.createElement("div", { className: "summary summary-momentum", style: { marginTop: 24 } }, /*#__PURE__*/
-    React.createElement("div", { className: "summary-title", style: { marginBottom: 12 } }, "Momentum"), /*#__PURE__*/
-    React.createElement("div", { className: "momentum-strip" },
+    React.createElement("div", { className: "summary-momentum" }, /*#__PURE__*/
+    React.createElement("div", { className: "summary-title", style: { marginBottom: 12 } }, "7-Day Momentum"), /*#__PURE__*/
+    React.createElement("div", { className: "momentum-strip", role: "img", "aria-label": "Seven days of session activity" },
     days.map((dateStr, i) => {
       const count = sessionCounts[dateStr] || 0;
       const styleNight = {
@@ -3286,9 +3443,9 @@ function MomentumMap({ history, nightMode = false }) {
         border: "1px solid #FF3B30"
       };
       const styleDay = count > 0 ? {
-        background: "var(--accent)",
-        border: "1px solid var(--accent)",
-        boxShadow: "inset 0 1px 0 var(--glass-specular), 0 0 12px var(--accent-glow)",
+        background: "var(--mood-color)",
+        border: "1px solid color-mix(in srgb, var(--mood-color) 70%, transparent)",
+        boxShadow: "inset 0 1px 0 var(--glass-specular), 0 0 12px color-mix(in srgb, var(--mood-color) 35%, transparent)",
         backdropFilter: "none",
         WebkitBackdropFilter: "none"
       } : {
@@ -3299,7 +3456,7 @@ function MomentumMap({ history, nightMode = false }) {
         WebkitBackdropFilter: "blur(8px)"
       };
       return (/*#__PURE__*/
-        React.createElement("div", { key: i, className: "momentum-cell", style: nightMode ? styleNight : styleDay }));
+        React.createElement("div", { key: i, className: "momentum-cell", style: nightMode ? styleNight : styleDay, "aria-label": `${dateStr}: ${count} session(s)` }));
 
     })
     ), /*#__PURE__*/
@@ -3307,8 +3464,7 @@ function MomentumMap({ history, nightMode = false }) {
     React.createElement("span", { className: "momentum-label" }, "7 days ago"), /*#__PURE__*/
     React.createElement("span", { className: "momentum-label" }, "Today")
     ), /*#__PURE__*/
-    React.createElement("div", { className: "momentum-disclaimer" }, "Activity data is stored locally on this device."
-
+    React.createElement("div", { className: "momentum-disclaimer" }, "One square per day when you logged a session. Data stays on this device."
     )
     ));
 
@@ -6199,28 +6355,69 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
   // SUMMARY
   if (view === "summary") {
+    const weeklyTargetMin = Math.max(0, goalMin * 7);
+    const weekBarPct = weeklyTargetMin > 0 ? Math.min(100, weekMinutes / weeklyTargetMin * 100) : 0;
+    const summaryDateStr = new Date().toLocaleDateString(undefined, { month: "numeric", day: "numeric", year: "numeric" });
+    const nm = welcomeName || "Adam";
+    const minsNowSummary = new Date().getHours() * 60 + new Date().getMinutes();
+    let timeGreetingSummary;
+    if (minsNowSummary >= 5 * 60 && minsNowSummary <= 11 * 60 + 59) {
+      timeGreetingSummary = "Good Morning, " + nm;
+    } else if (minsNowSummary >= 12 * 60 && minsNowSummary <= 16 * 60 + 59) {
+      timeGreetingSummary = "Good Afternoon, " + nm;
+    } else {
+      timeGreetingSummary = "Good Evening, " + nm;
+    }
     return (/*#__PURE__*/
       React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
       React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
       React.createElement("div", { className: "app-body" }, /*#__PURE__*/
       dashboardHeaderEl, /*#__PURE__*/
-      React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
-      React.createElement("div", { className: "app-screen-title" }, "SUMMARY"), /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-sm)", color: "var(--text-secondary)", lineHeight: 1.45, marginBottom: 10 } }, "Your progress at a glance.")
+      React.createElement("div", { className: "home" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-welcome", id: "axis-summary-welcome" }, timeGreetingSummary + "."), /*#__PURE__*/
+      React.createElement("div", { className: "home-summary-lede-row" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-summary-lede" }, "Your progress at a glance."), /*#__PURE__*/
+      React.createElement("div", { className: "home-summary-date" }, summaryDateStr)
       ), /*#__PURE__*/
-      React.createElement("div", { className: "content content--session content--summary" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary", style: { marginTop: 12 } }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-title" }, "This Week"), /*#__PURE__*/
-      React.createElement("div", { className: "summary-grid" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, weekSessions.length), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Sessions")), /*#__PURE__*/
-      React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, streak), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Day Streak")), /*#__PURE__*/
-      React.createElement("div", { className: "summary-cell" }, /*#__PURE__*/React.createElement("div", { className: "summary-num" }, weekMinutes, /*#__PURE__*/React.createElement("span", { style: { fontSize: 14 } }, "m")), /*#__PURE__*/React.createElement("div", { className: "summary-lbl" }, "Minutes"))
+      React.createElement("div", { className: "summary-main-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-sunset-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-label" }, "Total weekly minutes"), /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-value" }, weekMinutes, /*#__PURE__*/React.createElement("span", { className: "summary-hero-unit" }, "MIN"))
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-item" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-num" }, weekSessions.length), /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-lbl" }, "Sessions")
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-item" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-num" }, streak), /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-lbl" }, "Day streak")
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-day-card" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-head" }, "Daily goal"), /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-bar-track" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-bar-fill", style: { width: goalProgressPct + "%" } })
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-meta" },
+      goalMin > 0 ? `${todayMinutesTotal} / ${goalMin} min today · ${Math.round(goalProgressPct)}%` : "Set a daily goal in Settings to track today."
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-card" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-head" }, "Weekly goal"), /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-bar-track" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-bar-fill", style: { width: weekBarPct + "%" } })
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-week-meta" },
+      weeklyTargetMin > 0 ? `${weekMinutes} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weekMinutes} min logged this week`
       )
       ), /*#__PURE__*/
       React.createElement(MomentumMap, { history: history, nightMode: nightMode }), /*#__PURE__*/
       history.length > 0 && /*#__PURE__*/
-      React.createElement("div", { className: "history", style: { marginTop: 24 } }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-panel history", style: { marginTop: 0 } }, /*#__PURE__*/
       React.createElement("div", { className: "summary-title", style: { marginBottom: 8 } }, "Recent Sessions"),
       history.slice(0, 10).map((e, i) => /*#__PURE__*/
       React.createElement("div", { className: "history-row", key: i }, /*#__PURE__*/
@@ -6230,9 +6427,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       ),
       history.length === 0 && /*#__PURE__*/
-      React.createElement("div", { style: { textAlign: "center", padding: "48px 0", color: "var(--text-dim)", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase" } }, "Complete a session to see your history"),
+      React.createElement("div", { className: "summary-panel", style: { textAlign: "center", padding: "40px 16px", marginTop: 0 } }, /*#__PURE__*/
+      React.createElement("div", { style: { color: "var(--text-dim)", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase" } }, "Complete a session to see your history")
+      ),
       (track === "anxiety" || track === "stress") && totalDone > 0 && /*#__PURE__*/
-      React.createElement("div", { style: { marginTop: 28, padding: "18px", borderRadius: 16, border: "1px solid var(--glass-border)", background: "var(--glass-bg)" } }, /*#__PURE__*/
+      React.createElement("div", { style: { marginTop: 20, padding: "18px", borderRadius: 24, border: "1px solid var(--glass-border)", background: "var(--glass-bg)" } }, /*#__PURE__*/
       React.createElement("div", { style: { fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 8 } }, "Continue the Reset"), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", marginBottom: 14, lineHeight: 1.45 } },
       track === "anxiety" ? "Finish with 2 minutes of Box Breathing to ground the nervous system." : "Calm the heart with a Physiological Sigh."
@@ -6253,9 +6452,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         onClick: () => {setView("home");} },
       "Start Another Session"
       ))
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "tab-bar-spacer", style: { height: 0, minHeight: 0 } })
-      ), /*#__PURE__*/
+      )
+      )
+      )
+      , /*#__PURE__*/
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--summary" })
+      )
+      )
+      , /*#__PURE__*/
       React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
       ));
   }
