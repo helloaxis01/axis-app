@@ -550,6 +550,13 @@ function storageSet(key, val) {
   try {localStorage.setItem(key, JSON.stringify(val));} catch {}
 }
 
+/** Weekly goal slider: 5–500 min, snapped to step 5. */
+function axisSnapWeeklyGoalMinutes(m) {
+  const r = Math.round(Number(m) || 0);
+  const s = Math.round(r / 5) * 5;
+  return Math.min(500, Math.max(5, s));
+}
+
 function computeSessionSeconds(totalCount, fullSecondsFromLabel, activeCount) {
   if (totalCount > 0 && fullSecondsFromLabel > 0) {
     return Math.round(fullSecondsFromLabel * activeCount / totalCount);
@@ -1901,10 +1908,12 @@ const css = `
     transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow);
     backdrop-filter: blur(24px) saturate(1.4);
     -webkit-backdrop-filter: blur(24px) saturate(1.4);
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)), rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 16px 40px rgba(0,0,0,0.04), var(--glass-shadow);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-card.track-card {
+    border-color: rgba(0, 0, 0, 0.1);
   }
   .session-card.track-card::before {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14) 35%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.14) 65%, transparent);
@@ -2316,6 +2325,61 @@ const css = `
     opacity: 0.88;
     white-space: nowrap;
   }
+  .summary-hero-metric-hint {
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    color: color-mix(in srgb, var(--text-dim) 92%, transparent);
+    margin-top: 6px;
+    line-height: 1.3;
+    text-align: right;
+    width: 100%;
+  }
+  .summary-hero-metric--left .summary-hero-metric-hint {
+    text-align: left;
+  }
+  .summary-hero-metric-value-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+  .summary-hero-metric--left .summary-hero-metric-value-stack {
+    align-items: flex-start;
+  }
+  .summary-history-list-wrap {
+    overflow: hidden;
+    max-height: 200px;
+    transition: max-height 0.45s ease;
+  }
+  .summary-history-list-wrap.summary-history-list-wrap--expanded {
+    max-height: 900px;
+  }
+  .summary-history-toggle {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 0 4px;
+    background: none;
+    border: none;
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    cursor: pointer;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .summary-history-toggle:active {
+    opacity: 0.85;
+  }
+  .settings-admin-hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0 24px;
+  }
   .summary-hero-metric-divider {
     width: 1px;
     flex-shrink: 0;
@@ -2323,8 +2387,8 @@ const css = `
     min-height: 52px;
     margin: 6px 8px;
     border-radius: 1px;
-    background: color-mix(in srgb, var(--border) 55%, transparent);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--glass-border) 25%, transparent);
+    background: color-mix(in srgb, var(--border) 38%, transparent);
+    box-shadow: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .summary-hero-metric-divider {
     background: rgba(15, 30, 46, 0.14);
@@ -2418,11 +2482,20 @@ const css = `
     width: 0%;
     background: var(--mood-color);
     box-shadow: 0 0 14px color-mix(in srgb, var(--mood-color) 35%, transparent);
-    transition: width 0.45s ease;
+    transition: width 0.45s ease, filter 0.35s ease;
+  }
+  .summary-week-bar-fill.summary-week-bar-fill--overdrive {
+    filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.6));
   }
   [data-night="true"] .summary-week-bar-fill {
     background: #FF3B30;
     box-shadow: 0 0 12px rgba(255, 59, 48, 0.35);
+  }
+  [data-night="true"] .summary-week-bar-fill.summary-week-bar-fill--overdrive {
+    filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.55));
+  }
+  .app[data-night="true"] .dashboard-header__progress-fill.dashboard-header__progress-fill--overdrive {
+    filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.55)) !important;
   }
   .summary-week-meta {
     font-size: var(--text-xs);
@@ -2945,8 +3018,11 @@ const css = `
     height:100%;
     border-radius:inherit;
     background:var(--mood-color);
-    transition:width 0.45s ease, background-color 0.45s ease;
+    transition:width 0.45s ease, background-color 0.45s ease, filter 0.35s ease;
     width:0%;
+  }
+  .dashboard-header__progress-fill.dashboard-header__progress-fill--overdrive {
+    filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.6));
   }
   .dashboard-header__brand {
     font-family:var(--font-display);
@@ -3098,8 +3174,12 @@ const css = `
     background:linear-gradient(to left, rgba(255,255,255,0.12) 0%, transparent 92%);
   }
   .home-category-strip-fade--visible { opacity:1; }
-  /* No edge gradient overlay on category strip (clean on page gradient) */
-  .home-browse-sticky .home-category-strip-fade { display:none !important; }
+  /* Browse: horizontal fade via mask on scroll container (overlay fade disabled) */
+  .home-browse-sticky .home-category-strip {
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 0%, #000 90%, transparent 100%);
+  }
+  .home-browse-sticky .home-category-strip-fade { display: none !important; }
   .home-category-pill {
     flex:0 0 auto;
     display:inline-flex;
@@ -3126,17 +3206,18 @@ const css = `
     -webkit-tap-highlight-color:transparent;
   }
   .home-category-pill[aria-selected="true"] {
-    border-color:color-mix(in srgb, var(--accent) 76%, transparent);
-    background:color-mix(in srgb, var(--accent) 24%, rgba(0,0,0,0.04));
+    border-color:color-mix(in srgb, var(--accent) 82%, transparent);
+    background:color-mix(in srgb, var(--accent) 42%, rgba(0,0,0,0.06));
     color:var(--accent);
-    box-shadow:0 2px 12px color-mix(in srgb, var(--accent) 22%, transparent), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 50%, transparent);
+    box-shadow:0 2px 18px color-mix(in srgb, var(--accent) 38%, transparent), 0 0 20px color-mix(in srgb, var(--accent) 18%, transparent), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 55%, transparent);
   }
   [data-theme="light"] .home-category-pill {
     background:rgba(0,0,0,0.06);
     border-color:rgba(0,0,0,0.1);
   }
   [data-theme="light"] .home-category-pill[aria-selected="true"] {
-    background:color-mix(in srgb, var(--accent) 18%, rgba(255,255,255,0.9));
+    background:color-mix(in srgb, var(--accent) 32%, rgba(255,255,255,0.95));
+    box-shadow:0 2px 18px color-mix(in srgb, var(--accent) 28%, transparent), 0 0 16px color-mix(in srgb, var(--accent) 14%, transparent), inset 0 1px 0 rgba(255,255,255,0.85);
   }
   .home-category-pill:active { transform:scale(0.97); }
   .home-browse-sticky {
@@ -3186,10 +3267,11 @@ const css = `
     box-shadow:none !important;
   }
   .app[data-night="true"] .home-category-pill[aria-selected="true"] {
-    background:rgba(255, 59, 48, 0.16) !important;
+    background:rgba(255, 59, 48, 0.22) !important;
     border-color:#FF3B30 !important;
     color:#FF3B30 !important;
     -webkit-text-fill-color:#FF3B30 !important;
+    box-shadow:0 0 18px rgba(255, 59, 48, 0.35) !important;
   }
   .home-browse-heading {
     font-size:var(--text-xs);
@@ -3675,15 +3757,15 @@ function MomentumMap({ history, nightMode = false }) {
 // ─────────────────────────────────────────────────────────────
 //  DASHBOARD HEADER (global: progress + AXIS + streak)
 // ─────────────────────────────────────────────────────────────
-function DashboardHeader({ progressPct = 0, history = [] }) {
-  const pct = Math.max(0, Math.min(100, Number(progressPct) || 0));
+function DashboardHeader({ progressFillPct = 0, progressOverdrive = false, history = [] }) {
+  const pct = Math.max(0, Math.min(100, Number(progressFillPct) || 0));
   const { active } = axisWeekMomentumFromHistory(history);
   const activeCount = active.filter(Boolean).length;
   return /*#__PURE__*/React.createElement("header", { className: "dashboard-header", role: "banner" }, /*#__PURE__*/
   React.createElement("div", { className: "dashboard-header__row" }, /*#__PURE__*/
   React.createElement("div", { className: "dashboard-header__left" }, /*#__PURE__*/
   React.createElement("div", { className: "dashboard-header__progress-track", role: "progressbar", "aria-valuenow": Math.round(pct), "aria-valuemin": 0, "aria-valuemax": 100, "aria-label": "Daily goal progress" }, /*#__PURE__*/
-  React.createElement("div", { className: "dashboard-header__progress-fill", style: { width: pct + "%" } })
+  React.createElement("div", { className: "dashboard-header__progress-fill" + (progressOverdrive ? " dashboard-header__progress-fill--overdrive" : ""), style: { width: pct + "%" } })
   )
   ), /*#__PURE__*/
   React.createElement("div", { className: "dashboard-header__brand", "aria-label": "AXIS" }, "AXIS"), /*#__PURE__*/
@@ -5857,7 +5939,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
 }
 
-function SettingsAuthSection() {
+function SettingsAuthSection({ isFooter = false } = {}) {
   const useState = React.useState;
   const useEffect = React.useEffect;
   const [user, setUser] = useState(null);
@@ -5893,7 +5975,7 @@ function SettingsAuthSection() {
     padding: "10px 18px",
     borderRadius: 10
   };
-  return /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
+  return /*#__PURE__*/React.createElement("div", { style: { borderTop: isFooter ? "none" : "1px solid var(--border)", paddingTop: isFooter ? 0 : 24, marginBottom: 32 } }, /*#__PURE__*/
   React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 16 } }, "Account"), /*#__PURE__*/
   !ready ? null : !hasAuth ? /*#__PURE__*/React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, maxWidth: 320 } }, "Account sign-in is unavailable because the auth script did not load.") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
   React.createElement("div", { style: { fontSize: "var(--text-sm)", color: "var(--text-white)", marginBottom: 16, wordBreak: "break-all" } }, email || "Not signed in"), /*#__PURE__*/
@@ -6028,21 +6110,29 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [selectedAppIcon, setSelectedAppIcon] = useState(() => storageGet("axis_app_icon", "./app-icons/icon-classic.png"));
   const [dailyGoalMinutes, setDailyGoalMinutes] = useState(() => {
     const v = Number(storageGet("axis_daily_goal_minutes", 30));
-    return Math.min(240, Math.max(5, Number.isFinite(v) ? v : 30));
+    return Math.min(90, Math.max(1, Number.isFinite(v) ? v : 30));
+  });
+  const [weeklyFollowsDaily, setWeeklyFollowsDaily] = useState(() => {
+    const rawWeekly = storageGet("axis_weekly_goal_minutes", null);
+    const storedFollows = storageGet("axis_weekly_follows_daily", null);
+    if (storedFollows === false) return false;
+    if (storedFollows === true) return true;
+    return rawWeekly == null || rawWeekly === "";
   });
   const [weeklyGoalMinutes, setWeeklyGoalMinutes] = useState(() => {
-    const raw = storageGet("axis_weekly_goal_minutes", null);
-    const dailyStored = Number(storageGet("axis_daily_goal_minutes", 30));
-    const daily = Math.min(240, Math.max(5, Number.isFinite(dailyStored) ? dailyStored : 30));
-    if (raw != null && raw !== "") {
-      const w = Number(raw);
-      if (Number.isFinite(w)) {
-        const snapped = Math.round(w / 5) * 5;
-        return Math.min(1680, Math.max(35, snapped));
-      }
+    const v = Number(storageGet("axis_daily_goal_minutes", 30));
+    const daily = Math.min(90, Math.max(1, Number.isFinite(v) ? v : 30));
+    const rawWeekly = storageGet("axis_weekly_goal_minutes", null);
+    const storedFollows = storageGet("axis_weekly_follows_daily", null);
+    const follows = storedFollows === false ? false : storedFollows === true ? true : (rawWeekly == null || rawWeekly === "");
+    if (follows) return axisSnapWeeklyGoalMinutes(daily * 7);
+    if (rawWeekly != null && rawWeekly !== "") {
+      const w = Number(rawWeekly);
+      if (Number.isFinite(w)) return axisSnapWeeklyGoalMinutes(w);
     }
-    return daily * 7;
+    return axisSnapWeeklyGoalMinutes(daily * 7);
   });
+  const [summaryRecentExpanded, setSummaryRecentExpanded] = useState(false);
   const [welcomeName, setWelcomeName] = useState(() => {
     try {
       return typeof localStorage !== "undefined" && localStorage.getItem("axisUserName") || "Adam";
@@ -6116,6 +6206,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {
     storageSet("axis_weekly_goal_minutes", weeklyGoalMinutes);
   }, [weeklyGoalMinutes]);
+  useEffect(() => {
+    storageSet("axis_weekly_follows_daily", weeklyFollowsDaily);
+  }, [weeklyFollowsDaily]);
   useEffect(() => {
     try {
       const n = typeof localStorage !== "undefined" && localStorage.getItem("axisUserName");
@@ -6318,9 +6411,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const goHome = () => {setHasActiveSession(false);setView("home");setTab("list");};
   const playBeep = (freq = 880) => beep(freq);
   const formatTime = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
-  const weekAgo = new Date(Date.now() - 7 * 86400000).toDateString();
-  const weekSessions = history.filter((e) => new Date(e.date) >= new Date(weekAgo));
-  const weekMinutes = weekSessions.reduce((a, e) => a + (e.duration || 0), 0);
   const weekMomentumWindow = axisWeekMomentumFromHistory(history);
   const weekDateKeySet = new Set(weekMomentumWindow.dates);
   const weekWindowEntries = (history || []).filter((e) => weekDateKeySet.has(axisLocalDateKey(e.date)));
@@ -6332,10 +6422,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const todayMinutesTotal = axisSumMinutesOnLocalDay(axisHistoryForDailyTotals(history), todayDateStr);
   const goalMin = Math.max(0, Number(dailyGoalMinutes) || 0);
   const weeklyTargetMin = Math.max(0, Number(weeklyGoalMinutes) || 0);
-  const weekBarPct = weeklyTargetMin > 0 ? Math.min(100, weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
-  const rawGoalProgressPct = goalMin > 0 ? todayMinutesTotal / goalMin * 100 : 0;
-  const goalProgressPct = Math.min(100, Math.max(0, rawGoalProgressPct));
-  const dashboardHeaderEl = /*#__PURE__*/React.createElement(DashboardHeader, { progressPct: goalProgressPct, history: history });
+  const dailyGoalDisplayPct = goalMin > 0 ? Math.round(todayMinutesTotal / goalMin * 100) : 0;
+  const dailyBarFillPct = goalMin > 0 ? Math.min(100, todayMinutesTotal / goalMin * 100) : 0;
+  const dailyBarOverdrive = goalMin > 0 && todayMinutesTotal > goalMin;
+  const weeklyGoalDisplayPct = weeklyTargetMin > 0 ? Math.round(weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
+  const weeklyBarFillPct = weeklyTargetMin > 0 ? Math.min(100, weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
+  const weeklyBarOverdrive = weeklyTargetMin > 0 && weeklyGoalBarMinutesCurrent > weeklyTargetMin;
+  const dashboardHeaderEl = /*#__PURE__*/React.createElement(DashboardHeader, { progressFillPct: dailyBarFillPct, progressOverdrive: dailyBarOverdrive, history: history });
   const favCount = Object.values(favs).filter(Boolean).length;
   const skippedCount = Object.values(skipped).filter(Boolean).length;
   const visibleSections = SECTIONS.map((s) => ({ ...s, exercises: s.exercises.filter((e) => {if (showFavOnly) return favs[e.id];if (showSkipOnly) return skipped[e.id];return true;}) })).filter((s) => s.exercises.length > 0);
@@ -6356,36 +6449,43 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     dashboardHeaderEl, /*#__PURE__*/
     React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
     React.createElement("div", { className: "app-screen-title", style: { marginBottom: 24 } }, "SETTINGS"), /*#__PURE__*/
-    React.createElement(SettingsAuthSection, null), /*#__PURE__*/
-    React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12 } }, "Daily Goal"), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Set your daily goal. 5 minutes, 30 minutes, the choice is yours. Choose a number you'll stick to. You can change this at any time."), /*#__PURE__*/
+    React.createElement("div", { style: { marginBottom: 32 } }, /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12 } }, "Daily Movement Goal"), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Go at your own pace. Moving this updates your weekly target to daily × 7 until you set a custom week."), /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 } }, /*#__PURE__*/
     React.createElement("label", { htmlFor: "axis-daily-goal", style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Minutes per day"), /*#__PURE__*/
     React.createElement("input", {
       id: "axis-daily-goal",
       type: "range",
-      min: 5,
-      max: 120,
+      min: 1,
+      max: 90,
       step: 1,
       value: dailyGoalMinutes,
-      onChange: (e) => setDailyGoalMinutes(Number(e.target.value)),
+      onChange: (e) => {
+        const n = Number(e.target.value);
+        setDailyGoalMinutes(n);
+        setWeeklyFollowsDaily(true);
+        setWeeklyGoalMinutes(axisSnapWeeklyGoalMinutes(n * 7));
+      },
       style: { flex: "1 1 160px", maxWidth: 280, accentColor: "var(--accent)" }
     }), /*#__PURE__*/
-    React.createElement("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "var(--text-base)", fontWeight: 600, color: "var(--accent)", minWidth: 48 } }, dailyGoalMinutes, "m")
+    React.createElement("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "var(--text-base)", fontWeight: 600, color: "var(--accent)", minWidth: 48 } }, dailyGoalMinutes, " min")
     ), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12, marginTop: 24 } }, "Weekly Goal"), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Target total minutes for the week. The Summary weekly bar tracks progress against this goal."), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12, marginTop: 24 } }, "Weekly Movement Goal"), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Summary uses this as your weekly target. Adjust the weekly slider anytime to override the daily link; touch daily again to re-sync."), /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 } }, /*#__PURE__*/
     React.createElement("label", { htmlFor: "axis-weekly-goal", style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Minutes per week"), /*#__PURE__*/
     React.createElement("input", {
       id: "axis-weekly-goal",
       type: "range",
-      min: 35,
-      max: 1680,
+      min: 5,
+      max: 500,
       step: 5,
       value: weeklyGoalMinutes,
-      onChange: (e) => setWeeklyGoalMinutes(Number(e.target.value)),
+      onChange: (e) => {
+        setWeeklyFollowsDaily(false);
+        setWeeklyGoalMinutes(Number(e.target.value));
+      },
       style: { flex: "1 1 160px", maxWidth: 280, accentColor: "var(--accent)" }
     }), /*#__PURE__*/
     React.createElement("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "var(--text-base)", fontWeight: 600, color: "var(--accent)", minWidth: 56 } }, weeklyGoalMinutes, " min")
@@ -6476,6 +6576,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )
     )
     ), /*#__PURE__*/
+    React.createElement("hr", { className: "settings-admin-hr" }), /*#__PURE__*/
+    React.createElement(SettingsAuthSection, { isFooter: true }), /*#__PURE__*/
     React.createElement("div", { style: { height: 24, flexShrink: 0 } }), /*#__PURE__*/
     React.createElement("div", { className: "tab-bar-spacer" })
     ), /*#__PURE__*/
@@ -6602,6 +6704,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const summaryDateObj = new Date();
     const summaryDow = summaryDateObj.toLocaleDateString(undefined, { weekday: "long" });
     const summaryMonthDay = summaryDateObj.toLocaleDateString(undefined, { month: "long", day: "numeric" });
+    const summaryHeroWeeklyEmpty = weeklyGoalBarMinutesCurrent === 0;
+    const summaryHeroAvgEmpty = weekSessionCountForWindow === 0;
+    const summaryRecentLimit = summaryRecentExpanded ? 15 : 3;
+    const summaryRecentRows = history.slice(0, Math.min(history.length, summaryRecentLimit));
     return (/*#__PURE__*/
       React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
@@ -6625,9 +6731,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("span", { className: "summary-hero-metric-label-line" }, "Weekly"), /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-label-line" }, "Time")
       ), /*#__PURE__*/
+      summaryHeroWeeklyEmpty ? /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-num" }, "--")
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-metric-hint" }, "Ready to start?")
+      ) : /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-num" }, weeklyGoalBarMinutesCurrent), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-unit" }, "min")
+      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-divider", "aria-hidden": true }), /*#__PURE__*/
@@ -6637,15 +6748,17 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("span", { className: "summary-hero-metric-label-line" }, "Session"), /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-label-line" }, "Time")
       ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
+      summaryHeroAvgEmpty ? /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-num" }, "--")
+      ) : /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-num" }, avgSessionMinutesRounded), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-unit" }, "min")
+      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
       )
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-item" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-bento-num" }, weekSessions.length), /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-num" }, weekSessionCountForWindow), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-lbl" }, "Sessions")
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-item" }, /*#__PURE__*/
@@ -6656,33 +6769,41 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-day-card" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-week-head" }, "Daily goal"), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-bar-track" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-week-bar-fill", style: { width: goalProgressPct + "%" } })
+      React.createElement("div", { className: "summary-week-bar-fill" + (dailyBarOverdrive ? " summary-week-bar-fill--overdrive" : ""), style: { width: dailyBarFillPct + "%" } })
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
-      goalMin > 0 ? `${todayMinutesTotal} / ${goalMin} min today · ${Math.round(goalProgressPct)}%` : "Set a daily goal in Settings to track today."
+      goalMin > 0 ? `${todayMinutesTotal} / ${goalMin} min · ${dailyGoalDisplayPct}%` : "Set a daily movement goal in Settings to track today."
       ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-goal-footnote" }, "Daily goal can be changed in the Settings tab.")
+      React.createElement("div", { className: "summary-goal-footnote" }, "Adjust in Settings → Daily Movement Goal.")
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-card" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-week-head" }, "Weekly goal"), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-bar-track" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-week-bar-fill", style: { width: weekBarPct + "%" } })
+      React.createElement("div", { className: "summary-week-bar-fill" + (weeklyBarOverdrive ? " summary-week-bar-fill--overdrive" : ""), style: { width: weeklyBarFillPct + "%" } })
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
-      weeklyTargetMin > 0 ? `${weeklyGoalBarMinutesCurrent} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weeklyGoalBarMinutesCurrent} min this week · set a weekly goal in Settings`
+      weeklyTargetMin > 0 ? `${weeklyGoalBarMinutesCurrent} / ${weeklyTargetMin} min · ${weeklyGoalDisplayPct}%` : `${weeklyGoalBarMinutesCurrent} min this week · set a weekly movement goal in Settings`
       ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-goal-footnote" }, "Weekly goal can be changed in the Settings tab.")
+      React.createElement("div", { className: "summary-goal-footnote" }, "Adjust in Settings → Weekly Movement Goal.")
       ), /*#__PURE__*/
       React.createElement(MomentumMap, { history: history, nightMode: nightMode }), /*#__PURE__*/
       history.length > 0 && /*#__PURE__*/
       React.createElement("div", { className: "summary-panel history", style: { marginTop: 0 } }, /*#__PURE__*/
       React.createElement("div", { className: "summary-title", style: { marginBottom: 8 } }, "Recent Sessions"),
-      history.slice(0, 10).map((e, i) => /*#__PURE__*/
-      React.createElement("div", { className: "history-row", key: i }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-history-list-wrap" + (summaryRecentExpanded ? " summary-history-list-wrap--expanded" : "") },
+      summaryRecentRows.map((e, i) => /*#__PURE__*/
+      React.createElement("div", { className: "history-row", key: `${e.date}-${e.track}-${i}` }, /*#__PURE__*/
       React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "history-date" }, e.date), /*#__PURE__*/React.createElement("div", { className: "history-track" }, e.track)), /*#__PURE__*/
       React.createElement("div", { className: "history-detail" }, e.duration, "m")
       )
       )
+      ),
+      history.length > 3 && /*#__PURE__*/
+      React.createElement("button", {
+        type: "button",
+        className: "summary-history-toggle",
+        onClick: () => setSummaryRecentExpanded((x) => !x)
+      }, summaryRecentExpanded ? "Show less" : "View all")
       ),
       history.length === 0 && /*#__PURE__*/
       React.createElement("div", { className: "summary-panel", style: { textAlign: "center", padding: "40px 16px", marginTop: 0 } }, /*#__PURE__*/
