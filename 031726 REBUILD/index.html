@@ -2293,13 +2293,27 @@ const css = `
   }
   .summary-hero-metric-value {
     flex: 0 0 auto;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 0.1em;
+    line-height: 0.95;
+    color: var(--text-white);
+  }
+  .summary-hero-metric-num {
     font-family: var(--font-display);
     font-size: clamp(36px, 12vw, 58px);
     font-weight: 800;
     letter-spacing: -0.045em;
-    line-height: 0.95;
-    color: var(--text-white);
     font-variant-numeric: tabular-nums;
+  }
+  .summary-hero-metric-unit {
+    font-family: var(--font-display);
+    font-size: clamp(14px, 3.8vw, 22px);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.88;
   }
   .summary-hero-metric-divider {
     width: 1px;
@@ -6007,10 +6021,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const v = Number(storageGet("axis_daily_goal_minutes", 30));
     return Math.min(240, Math.max(5, Number.isFinite(v) ? v : 30));
   });
-  const [weeklyExerciseGoal, setWeeklyExerciseGoal] = useState(() => {
-    const v = Number(storageGet("axis_weekly_exercise_goal", 35));
-    return Math.min(200, Math.max(1, Number.isFinite(v) ? v : 35));
-  });
   const [welcomeName, setWelcomeName] = useState(() => {
     try {
       return typeof localStorage !== "undefined" && localStorage.getItem("axisUserName") || "Adam";
@@ -6081,9 +6091,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {
     storageSet("axis_daily_goal_minutes", dailyGoalMinutes);
   }, [dailyGoalMinutes]);
-  useEffect(() => {
-    storageSet("axis_weekly_exercise_goal", weeklyExerciseGoal);
-  }, [weeklyExerciseGoal]);
   useEffect(() => {
     try {
       const n = typeof localStorage !== "undefined" && localStorage.getItem("axisUserName");
@@ -6292,17 +6299,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const weekMomentumWindow = axisWeekMomentumFromHistory(history);
   const weekDateKeySet = new Set(weekMomentumWindow.dates);
   const weekWindowEntries = (history || []).filter((e) => weekDateKeySet.has(axisLocalDateKey(e.date)));
-  const weekMovementsCount = weekWindowEntries.length;
-  const weekExerciseCount = weekMovementsCount;
-  const uniqueExercisesWeek = new Set(
-    weekWindowEntries.map((e) => (e.exerciseId != null && e.exerciseId !== "") ? String(e.exerciseId) : `track:${String(e.track || "")}`)
-  ).size;
+  const weekMinutesWindow = weekWindowEntries.reduce((a, e) => a + (Number(e.duration) || 0), 0);
+  const weekSessionCountForWindow = weekWindowEntries.length;
+  const avgSessionMinutesRounded = weekSessionCountForWindow > 0 ? Math.round(weekMinutesWindow / weekSessionCountForWindow) : 0;
   const activeDays7Count = weekMomentumWindow.active.filter(Boolean).length;
-  const weeklyExerciseTarget = Math.max(0, Number(weeklyExerciseGoal) || 0);
-  const weekExerciseBarPct = weeklyExerciseTarget > 0 ? Math.min(100, weekExerciseCount / weeklyExerciseTarget * 100) : 0;
   const todayDateStr = new Date().toDateString();
   const todayMinutesTotal = axisSumMinutesOnLocalDay(axisHistoryForDailyTotals(history), todayDateStr);
   const goalMin = Math.max(0, Number(dailyGoalMinutes) || 0);
+  const weeklyTargetMin = Math.max(0, goalMin * 7);
+  const weekBarPct = weeklyTargetMin > 0 ? Math.min(100, weekMinutesWindow / weeklyTargetMin * 100) : 0;
   const rawGoalProgressPct = goalMin > 0 ? todayMinutesTotal / goalMin * 100 : 0;
   const goalProgressPct = Math.min(100, Math.max(0, rawGoalProgressPct));
   const dashboardHeaderEl = /*#__PURE__*/React.createElement(DashboardHeader, { progressPct: goalProgressPct, history: history });
@@ -6343,24 +6348,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       style: { flex: "1 1 160px", maxWidth: 280, accentColor: "var(--accent)" }
     }), /*#__PURE__*/
     React.createElement("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "var(--text-base)", fontWeight: 600, color: "var(--accent)", minWidth: 48 } }, dailyGoalMinutes, "m")
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12 } }, "Weekly exercise goal"), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Target number of completed exercises per week. The Summary weekly bar tracks progress toward this goal."), /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 } }, /*#__PURE__*/
-    React.createElement("label", { htmlFor: "axis-weekly-ex-goal", style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Exercises / week"), /*#__PURE__*/
-    React.createElement("input", {
-      id: "axis-weekly-ex-goal",
-      type: "range",
-      min: 1,
-      max: 150,
-      step: 1,
-      value: weeklyExerciseGoal,
-      onChange: (e) => setWeeklyExerciseGoal(Number(e.target.value)),
-      style: { flex: "1 1 160px", maxWidth: 280, accentColor: "var(--accent)" }
-    }), /*#__PURE__*/
-    React.createElement("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "var(--text-base)", fontWeight: 600, color: "var(--accent)", minWidth: 40 } }, weeklyExerciseGoal)
     )
     ), /*#__PURE__*/
     React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
@@ -6593,18 +6580,24 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-hero summary-hero--feature" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric summary-hero-metric--left" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-label" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Exercises"), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Completed")
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Total"), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Time")
       ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-value" }, weekMovementsCount)
+      React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-num" }, weekMinutesWindow), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
+      )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-divider", "aria-hidden": true }), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric summary-hero-metric--right" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-label" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Unique"), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Exercises")
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Avg."), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Session")
       ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-value" }, uniqueExercisesWeek)
+      React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-num" }, avgSessionMinutesRounded), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
+      )
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento" }, /*#__PURE__*/
@@ -6614,7 +6607,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-item" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-num" }, activeDays7Count, /*#__PURE__*/React.createElement("span", { style: { opacity: 0.55, fontWeight: 600 } }, "/", 7)), /*#__PURE__*/
-      React.createElement("div", { className: "summary-bento-lbl" }, "Active days")
+      React.createElement("div", { className: "summary-bento-lbl" }, "Active Days")
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-day-card" }, /*#__PURE__*/
@@ -6629,10 +6622,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-week-card" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-week-head" }, "Weekly goal"), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-bar-track" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-week-bar-fill", style: { width: weekExerciseBarPct + "%" } })
+      React.createElement("div", { className: "summary-week-bar-fill", style: { width: weekBarPct + "%" } })
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
-      weeklyExerciseTarget > 0 ? `${weekExerciseCount} / ${weeklyExerciseTarget} exercises · ${Math.round(weekExerciseBarPct)}%` : `${weekExerciseCount} exercises this week · set a weekly target in Settings`
+      weeklyTargetMin > 0 ? `${weekMinutesWindow} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weekMinutesWindow} min this week · set a daily goal in Settings for a weekly target`
       )
       ), /*#__PURE__*/
       React.createElement(MomentumMap, { history: history, nightMode: nightMode }), /*#__PURE__*/
