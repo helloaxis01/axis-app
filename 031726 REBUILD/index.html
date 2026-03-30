@@ -2562,7 +2562,15 @@ const css = `
   }
   .momentum-labels { display:flex; justify-content:space-between; margin-bottom:6px; padding: 0; width: 100%; box-sizing: border-box; }
   .momentum-label { font-size: var(--text-xs); letter-spacing:0.10em; text-transform:uppercase; color:var(--text-dimmer); }
-  .momentum-disclaimer { font-size: var(--text-xs); color:var(--text-dimmer); letter-spacing:0.04em; line-height:1.35; text-align: center; }
+  .momentum-disclaimer { font-size: var(--text-xs); color:var(--text-dimmer); letter-spacing:0.04em; line-height:1.35; text-align: left; }
+  .summary-goal-footnote {
+    font-size: var(--text-xs);
+    color: var(--text-dimmer);
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    text-align: left;
+    margin-top: 8px;
+  }
 
   /* ── DONE BANNER ── */
   .done-banner {
@@ -6617,7 +6625,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
       goalMin > 0 ? `${todayMinutesTotal} / ${goalMin} min today · ${Math.round(goalProgressPct)}%` : "Set a daily goal in Settings to track today."
-      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-goal-footnote" }, "Daily goal can be changed in the Settings tab.")
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-card" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-week-head" }, "Weekly goal"), /*#__PURE__*/
@@ -6626,7 +6635,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
       weeklyTargetMin > 0 ? `${weekMinutesWindow} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weekMinutesWindow} min this week · set a daily goal in Settings for a weekly target`
-      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-goal-footnote" }, "Weekly goal can be changed in the Settings tab.")
       ), /*#__PURE__*/
       React.createElement(MomentumMap, { history: history, nightMode: nightMode }), /*#__PURE__*/
       history.length > 0 && /*#__PURE__*/
