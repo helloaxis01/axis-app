@@ -2272,7 +2272,7 @@ const css = `
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 3px;
+    gap: 2px;
     text-align: left;
   }
   .summary-hero-metric-label-line {
@@ -2297,7 +2297,7 @@ const css = `
     flex-direction: row;
     align-items: baseline;
     justify-content: flex-end;
-    gap: 0.1em;
+    gap: 6px;
     line-height: 0.95;
     color: var(--text-white);
   }
@@ -2312,8 +2312,9 @@ const css = `
     font-family: var(--font-display);
     font-size: clamp(14px, 3.8vw, 22px);
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.02em;
     opacity: 0.88;
+    white-space: nowrap;
   }
   .summary-hero-metric-divider {
     width: 1px;
@@ -6307,15 +6308,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const weekMomentumWindow = axisWeekMomentumFromHistory(history);
   const weekDateKeySet = new Set(weekMomentumWindow.dates);
   const weekWindowEntries = (history || []).filter((e) => weekDateKeySet.has(axisLocalDateKey(e.date)));
-  const weekMinutesWindow = weekWindowEntries.reduce((a, e) => a + (Number(e.duration) || 0), 0);
+  const weeklyGoalBarMinutesCurrent = weekWindowEntries.reduce((a, e) => a + (Number(e.duration) || 0), 0);
   const weekSessionCountForWindow = weekWindowEntries.length;
-  const avgSessionMinutesRounded = weekSessionCountForWindow > 0 ? Math.round(weekMinutesWindow / weekSessionCountForWindow) : 0;
+  const avgSessionMinutesRounded = weekSessionCountForWindow > 0 ? Math.round(weeklyGoalBarMinutesCurrent / weekSessionCountForWindow) : 0;
   const activeDays7Count = weekMomentumWindow.active.filter(Boolean).length;
   const todayDateStr = new Date().toDateString();
   const todayMinutesTotal = axisSumMinutesOnLocalDay(axisHistoryForDailyTotals(history), todayDateStr);
   const goalMin = Math.max(0, Number(dailyGoalMinutes) || 0);
   const weeklyTargetMin = Math.max(0, goalMin * 7);
-  const weekBarPct = weeklyTargetMin > 0 ? Math.min(100, weekMinutesWindow / weeklyTargetMin * 100) : 0;
+  const weekBarPct = weeklyTargetMin > 0 ? Math.min(100, weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
   const rawGoalProgressPct = goalMin > 0 ? todayMinutesTotal / goalMin * 100 : 0;
   const goalProgressPct = Math.min(100, Math.max(0, rawGoalProgressPct));
   const dashboardHeaderEl = /*#__PURE__*/React.createElement(DashboardHeader, { progressPct: goalProgressPct, history: history });
@@ -6589,22 +6590,24 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-hero-metric summary-hero-metric--left" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-label" }, /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-label-line" }, "Total"), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Weekly"), /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-label-line" }, "Time")
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-num" }, weekMinutesWindow), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
+      React.createElement("span", { className: "summary-hero-metric-num" }, weeklyGoalBarMinutesCurrent), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-unit" }, "min")
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-divider", "aria-hidden": true }), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric summary-hero-metric--right" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-label" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Avg."), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Session")
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Average"), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Session"), /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Time")
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-num" }, avgSessionMinutesRounded), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
+      React.createElement("span", { className: "summary-hero-metric-unit" }, "min")
       )
       )
       ), /*#__PURE__*/
@@ -6634,7 +6637,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-week-bar-fill", style: { width: weekBarPct + "%" } })
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
-      weeklyTargetMin > 0 ? `${weekMinutesWindow} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weekMinutesWindow} min this week · set a daily goal in Settings for a weekly target`
+      weeklyTargetMin > 0 ? `${weeklyGoalBarMinutesCurrent} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weeklyGoalBarMinutesCurrent} min this week · set a daily goal in Settings for a weekly target`
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-goal-footnote" }, "Weekly goal can be changed in the Settings tab.")
       ), /*#__PURE__*/
