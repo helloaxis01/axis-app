@@ -6030,6 +6030,19 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const v = Number(storageGet("axis_daily_goal_minutes", 30));
     return Math.min(240, Math.max(5, Number.isFinite(v) ? v : 30));
   });
+  const [weeklyGoalMinutes, setWeeklyGoalMinutes] = useState(() => {
+    const raw = storageGet("axis_weekly_goal_minutes", null);
+    const dailyStored = Number(storageGet("axis_daily_goal_minutes", 30));
+    const daily = Math.min(240, Math.max(5, Number.isFinite(dailyStored) ? dailyStored : 30));
+    if (raw != null && raw !== "") {
+      const w = Number(raw);
+      if (Number.isFinite(w)) {
+        const snapped = Math.round(w / 5) * 5;
+        return Math.min(1680, Math.max(35, snapped));
+      }
+    }
+    return daily * 7;
+  });
   const [welcomeName, setWelcomeName] = useState(() => {
     try {
       return typeof localStorage !== "undefined" && localStorage.getItem("axisUserName") || "Adam";
@@ -6100,6 +6113,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {
     storageSet("axis_daily_goal_minutes", dailyGoalMinutes);
   }, [dailyGoalMinutes]);
+  useEffect(() => {
+    storageSet("axis_weekly_goal_minutes", weeklyGoalMinutes);
+  }, [weeklyGoalMinutes]);
   useEffect(() => {
     try {
       const n = typeof localStorage !== "undefined" && localStorage.getItem("axisUserName");
@@ -6315,7 +6331,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const todayDateStr = new Date().toDateString();
   const todayMinutesTotal = axisSumMinutesOnLocalDay(axisHistoryForDailyTotals(history), todayDateStr);
   const goalMin = Math.max(0, Number(dailyGoalMinutes) || 0);
-  const weeklyTargetMin = Math.max(0, goalMin * 7);
+  const weeklyTargetMin = Math.max(0, Number(weeklyGoalMinutes) || 0);
   const weekBarPct = weeklyTargetMin > 0 ? Math.min(100, weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
   const rawGoalProgressPct = goalMin > 0 ? todayMinutesTotal / goalMin * 100 : 0;
   const goalProgressPct = Math.min(100, Math.max(0, rawGoalProgressPct));
@@ -6342,7 +6358,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "app-screen-title", style: { marginBottom: 24 } }, "SETTINGS"), /*#__PURE__*/
     React.createElement(SettingsAuthSection, null), /*#__PURE__*/
     React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12 } }, "Daily Commitment"), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12 } }, "Daily Goal"), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Set your daily goal. 5 minutes, 30 minutes, the choice is yours. Choose a number you'll stick to. You can change this at any time."), /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 } }, /*#__PURE__*/
     React.createElement("label", { htmlFor: "axis-daily-goal", style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Minutes per day"), /*#__PURE__*/
@@ -6357,6 +6373,22 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       style: { flex: "1 1 160px", maxWidth: 280, accentColor: "var(--accent)" }
     }), /*#__PURE__*/
     React.createElement("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "var(--text-base)", fontWeight: 600, color: "var(--accent)", minWidth: 48 } }, dailyGoalMinutes, "m")
+    ), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12, marginTop: 24 } }, "Weekly Goal"), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Target total minutes for the week. The Summary weekly bar tracks progress against this goal."), /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 } }, /*#__PURE__*/
+    React.createElement("label", { htmlFor: "axis-weekly-goal", style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Minutes per week"), /*#__PURE__*/
+    React.createElement("input", {
+      id: "axis-weekly-goal",
+      type: "range",
+      min: 35,
+      max: 1680,
+      step: 5,
+      value: weeklyGoalMinutes,
+      onChange: (e) => setWeeklyGoalMinutes(Number(e.target.value)),
+      style: { flex: "1 1 160px", maxWidth: 280, accentColor: "var(--accent)" }
+    }), /*#__PURE__*/
+    React.createElement("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "var(--text-base)", fontWeight: 600, color: "var(--accent)", minWidth: 56 } }, weeklyGoalMinutes, " min")
     )
     ), /*#__PURE__*/
     React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
@@ -6637,7 +6669,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-week-bar-fill", style: { width: weekBarPct + "%" } })
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
-      weeklyTargetMin > 0 ? `${weeklyGoalBarMinutesCurrent} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weeklyGoalBarMinutesCurrent} min this week · set a daily goal in Settings for a weekly target`
+      weeklyTargetMin > 0 ? `${weeklyGoalBarMinutesCurrent} / ${weeklyTargetMin} min · ${Math.round(weekBarPct)}%` : `${weeklyGoalBarMinutesCurrent} min this week · set a weekly goal in Settings`
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-goal-footnote" }, "Weekly goal can be changed in the Settings tab.")
       ), /*#__PURE__*/
