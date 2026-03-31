@@ -762,7 +762,7 @@ const css = `
   .app-page-header { padding: var(--safe-top) var(--page-padding) 0; width: 100%; max-width: 100%; box-sizing: border-box; text-align: left; }
   /* With dashboard: main title lines share the same vertical start as Home greeting */
   .app-body > .dashboard-header + .app-page-header {
-    padding: calc(var(--axis-dashboard-fixed-h) + 8px) var(--page-padding) 0;
+    padding: calc(var(--axis-dashboard-fixed-h) + var(--app-title-after-dashboard)) var(--page-padding) 0;
   }
   .app-body > .dashboard-header + .home {
     padding-top: var(--axis-dashboard-fixed-h);
