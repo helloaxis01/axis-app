@@ -1899,7 +1899,7 @@ const css = `
   .home-summary-date {
     flex-shrink: 0;
     font-size: var(--text-xs);
-    color: var(--text-dimmer);
+    color: var(--text-secondary);
     letter-spacing: 0.06em;
     text-align: right;
     line-height: 1.35;
@@ -2436,7 +2436,7 @@ const css = `
     text-align: left;
   }
   .summary-hero-metric-divider {
-    width: 1px;
+    width: 2px;
     flex-shrink: 0;
     align-self: stretch;
     min-height: 52px;
@@ -2446,8 +2446,8 @@ const css = `
     box-shadow: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .summary-hero-metric-divider {
-    background: rgba(15, 30, 46, 0.14);
-    box-shadow: 0 0 0 1px rgba(15, 30, 46, 0.06);
+    background: rgba(15, 30, 46, 0.22);
+    box-shadow: 0 0 0 1px rgba(15, 30, 46, 0.08);
   }
   .app[data-night="true"] .summary-hero-metric-divider {
     background: rgba(255, 59, 48, 0.55);
@@ -3359,7 +3359,7 @@ const css = `
     background:#FF3B30 !important;
   }
   .home-browse-heading {
-    font-size:var(--text-lg);
+    font-size:var(--text-base);
     letter-spacing:-0.02em;
     text-transform:none;
     color:var(--text-white);
@@ -3375,7 +3375,7 @@ const css = `
   }
   .home-recent { margin-bottom:0; }
   .home-recent-label {
-    font-size:var(--text-lg); letter-spacing:-0.02em; text-transform:none;
+    font-size:var(--text-base); letter-spacing:-0.02em; text-transform:none;
     color:var(--text-white); margin-bottom:4px; font-weight:600;
   }
   .home-recent-strip {
@@ -5125,31 +5125,17 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const [bPhaseIdx, setBPhaseIdx] = useState(0);
   const [bCycle, setBCycle] = useState(1);
   const [bTime, setBTime] = useState(0);
-  const [bExpand, setBExpand] = useState(false);
-  const bRef = useRef(null);
-  // Refs so interval callback always reads fresh values without restarting
   const bPhaseRef = useRef(0);
   const bCycleRef = useRef(1);
   const bPatternRef = useRef(BREATH_PATTERNS["4-7-8"]);
   const bCyclesRef = useRef(4);
   const bPhaseStartedMsRef = useRef(0);
-  const breatheScaleSmoothRef = useRef(null);
+  const bPhaseElapsedMsRef = useRef(0);
   const [breatheAnimTick, setBreatheAnimTick] = useState(0);
 
   // Keep refs in sync
   useEffect(() => {bPatternRef.current = BREATH_PATTERNS[breathPattern];}, [breathPattern]);
   useEffect(() => {bCyclesRef.current = breathCycles;}, [breathCycles]);
-  useEffect(() => {
-    if (!bRunning) return;
-    let rafId = 0;
-    const tick = () => {
-      setBreatheAnimTick((n) => (n + 1) % 1000000);
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [bRunning]);
-
   const pattern = BREATH_PATTERNS[breathPattern];
   const curBreathPhase = pattern[bPhaseIdx];
   const phaseLabel = curBreathPhase?.label || "";
@@ -5157,22 +5143,28 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const isHoldPhase = phaseLabel === "Hold";
   const isExhalePhase = phaseLabel.includes("Exhale");
 
-  // Breathe intensity (4s inhale, 7s hold, 8s exhale): one formula per phase, no div-by-zero
   const phaseDur = Math.max(1, curBreathPhase?.dur ?? 1);
-  const progress = 1 - bTime / phaseDur; // 0 at phase start (e.g. 4), 1 at phase end (0)
+  void breatheAnimTick;
+  const phaseElapsedSec = Math.min(
+    phaseDur,
+    Math.max(
+      0,
+      bRunning ?
+      (performance.now() - bPhaseStartedMsRef.current) / 1000 :
+      bPhaseElapsedMsRef.current / 1000
+    )
+  );
+  const progress = Math.max(0, Math.min(1, phaseElapsedSec / phaseDur));
   let breatheIntensity = 1;
   let glowOpacity = 1;
   if (isInhalePhase) {
-    const lastSecondProgress = 1 - 1 / phaseDur; // e.g. 0.75 for 4s — full intensity once we're at 1
-    breatheIntensity = progress >= lastSecondProgress ? 1 : progress / lastSecondProgress; // 0 at 4 (off), quickly grow to 1 by "1"
-    // Mirror inhale as a gradual fade-in (18% -> 100%).
+    const lastSecondProgress = 1 - 1 / phaseDur;
+    breatheIntensity = progress >= lastSecondProgress ? 1 : progress / lastSecondProgress;
     glowOpacity = 0.18 + Math.min(1, Math.max(0, breatheIntensity)) * 0.82;
   } else if (isHoldPhase) {
     breatheIntensity = 1;
-    // Hold at peak with no size/opacity dip.
     glowOpacity = 1;
   } else if (isExhalePhase) {
-    // Smooth linear fade-out through the full exhale duration (100% -> 18%).
     breatheIntensity = 1 - progress;
     glowOpacity = 1 - Math.min(1, Math.max(0, progress)) * 0.82;
   }
@@ -5180,61 +5172,28 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const countdownLabelOpacity = isInhalePhase ? 1 : breatheIntensity;
   const breatheOpacityTransition = isInhalePhase ? `${Math.max(2.5, phaseDur * 0.85)}s ease` : "0.6s ease";
 
-  // Inner ring scale: wall-clock linear sync (avoids CSS transition fighting 1s ticks)
-  void breatheAnimTick;
-  const pd = Math.max(1, phaseDur);
-  let breatheT = 0;
-  const INHALE_ELAPSED_SLACK_SEC = 0.12;
-  if (bRunning) {
-    if (isHoldPhase) {
-      breatheT = 1;
-    } else {
-      const elapsedSec = Math.min(pd, Math.max(0, (performance.now() - bPhaseStartedMsRef.current) / 1000));
-      if (isInhalePhase) {
-        if (pd <= INHALE_ELAPSED_SLACK_SEC + 0.002) {
-          breatheT = elapsedSec / pd;
-        } else {
-          breatheT = Math.max(0, elapsedSec - INHALE_ELAPSED_SLACK_SEC) / (pd - INHALE_ELAPSED_SLACK_SEC);
-        }
-      } else if (isExhalePhase) breatheT = 1 - elapsedSec / pd;
-      else breatheT = 0;
-    }
-  }
-  breatheT = Math.max(0, Math.min(1, breatheT));
   const breatheMinScale = 0.45;
   const breatheMaxScale = 1.298;
-  const breatheScale = breatheMinScale + breatheT * (breatheMaxScale - breatheMinScale);
-  // Light frame smoothing (snap on phase/start via ref reset)
-  const BREATHE_SMOOTH_ALPHA = 0.26;
-  const isInhaleFloorPhase = isInhalePhase && breatheT <= 0.0001;
-  let breatheScaleDisplay = breatheScale;
-  if (bRunning) {
-    const prev = breatheScaleSmoothRef.current;
-    if (prev == null) {
-      breatheScaleSmoothRef.current = breatheScale;
-    } else if (isHoldPhase || isInhaleFloorPhase) {
-      breatheScaleSmoothRef.current = breatheScale;
-    } else {
-      const n = prev + (breatheScale - prev) * BREATHE_SMOOTH_ALPHA;
-      breatheScaleSmoothRef.current = Math.abs(breatheScale - n) < 0.0008 ? breatheScale : n;
-    }
-    breatheScaleDisplay = breatheScaleSmoothRef.current;
-  } else {
-    breatheScaleSmoothRef.current = null;
-  }
+  let breatheT = 0;
+  if (isHoldPhase) breatheT = 1;
+  else if (isInhalePhase) breatheT = progress;
+  else if (isExhalePhase) breatheT = 1 - progress;
+  breatheT = Math.max(0, Math.min(1, breatheT));
+  const breatheScaleT = isInhalePhase ? 1 - Math.pow(1 - breatheT, 1.35) : breatheT;
+  const breatheScale = breatheMinScale + breatheScaleT * (breatheMaxScale - breatheMinScale);
+  const breatheScaleDisplay = breatheScale;
   // per-phase fade duration for smooth glow opacity transitions
   const breatheFadeDuration = isInhalePhase ?
   Math.max(0.8, phaseDur * 0.85) :
   isHoldPhase ?
-  0.35 :
-  Math.max(0.5, phaseDur * 0.6);
+  Math.max(0.6, phaseDur * 0.9) :
+  Math.max(0.65, phaseDur * 0.72);
   const breatheOpacityDuration = `${Math.max(1, phaseDur)}s`;
 
   function bReset() {
-    clearInterval(bRef.current);
-    setBRunning(false);setBPhaseIdx(0);setBCycle(1);setBTime(0);setBExpand(false);
+    setBRunning(false);setBPhaseIdx(0);setBCycle(1);setBTime(0);
     bPhaseRef.current = 0;bCycleRef.current = 1;
-    breatheScaleSmoothRef.current = null;
+    bPhaseElapsedMsRef.current = 0;
   }
 
   function bStart() {
@@ -5243,51 +5202,62 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     setBPhaseIdx(0);setBCycle(1);
     setBTime(bPatternRef.current[0].dur);
     bPhaseStartedMsRef.current = performance.now();
-    breatheScaleSmoothRef.current = null;
-    // ensure scale transition runs on first inhale: set running first, then expand after a brief tick
-    setBExpand(false);
+    bPhaseElapsedMsRef.current = 0;
     setBRunning(true);
-    // defer setting expand so CSS transition animates from small -> full
-    setTimeout(() => {
-      const first = bPatternRef.current[0];
-      setBExpand(first.expand || first.label === "Hold");
-    }, 60);
     beep(528, 0.2);
   }
 
   useEffect(() => {
     if (!bRunning) return;
-    clearInterval(bRef.current);
-    bRef.current = setInterval(() => {
-      setBTime((t) => {
-        if (t <= 1) {
-          const pat = bPatternRef.current;
-          const nextIdx = (bPhaseRef.current + 1) % pat.length;
-          const isNewCycle = nextIdx === 0;
-          const nextCycle = isNewCycle ? bCycleRef.current + 1 : bCycleRef.current;
+    bPhaseStartedMsRef.current = performance.now() - bPhaseElapsedMsRef.current;
+    let rafId = 0;
+    const tick = () => {
+      const now = performance.now();
+      const pat = bPatternRef.current;
+      let phaseIdx = bPhaseRef.current;
+      let cycle = bCycleRef.current;
+      let phaseDurMs = Math.max(1, pat[phaseIdx]?.dur ?? 1) * 1000;
+      let elapsedMs = Math.max(0, now - bPhaseStartedMsRef.current);
 
-          if (isNewCycle && bCycleRef.current >= bCyclesRef.current) {
-            clearInterval(bRef.current);
-            setBRunning(false);setBPhaseIdx(0);setBExpand(false);
-            breatheScaleSmoothRef.current = null;
-            beep(528, 0.4);
-            return 0;
-          }
+      while (elapsedMs >= phaseDurMs) {
+        const nextIdx = (phaseIdx + 1) % pat.length;
+        const isNewCycle = nextIdx === 0;
+        const nextCycle = isNewCycle ? cycle + 1 : cycle;
 
-          bPhaseStartedMsRef.current = performance.now();
-          bPhaseRef.current = nextIdx;
-          bCycleRef.current = nextCycle;
-          setBPhaseIdx(nextIdx);
-          setBCycle(nextCycle);
-          setBExpand(pat[nextIdx].expand || pat[nextIdx].label === "Hold");
-          beep(pat[nextIdx].label === "Inhale" ? 528 : 440, 0.15);
-          return pat[nextIdx].dur;
+        if (isNewCycle && cycle >= bCyclesRef.current) {
+          bPhaseRef.current = 0;
+          bCycleRef.current = bCyclesRef.current + 1;
+          bPhaseElapsedMsRef.current = 0;
+          setBPhaseIdx(0);
+          setBCycle(bCyclesRef.current + 1);
+          setBTime(0);
+          setBRunning(false);
+          beep(528, 0.4);
+          return;
         }
-        return t - 1;
-      });
-    }, 1000);
-    return () => clearInterval(bRef.current);
-  }, [bRunning]); // only re-run when start/stop — refs handle the rest
+
+        phaseIdx = nextIdx;
+        cycle = nextCycle;
+        elapsedMs -= phaseDurMs;
+        phaseDurMs = Math.max(1, pat[phaseIdx]?.dur ?? 1) * 1000;
+        bPhaseStartedMsRef.current = now - elapsedMs;
+        beep(pat[phaseIdx].label === "Inhale" ? 528 : 440, 0.15);
+      }
+
+      bPhaseRef.current = phaseIdx;
+      bCycleRef.current = cycle;
+      bPhaseElapsedMsRef.current = elapsedMs;
+      if (phaseIdx !== bPhaseIdx) setBPhaseIdx(phaseIdx);
+      if (cycle !== bCycle) setBCycle(cycle);
+
+      const nextTime = Math.max(0, Math.ceil((phaseDurMs - elapsedMs) / 1000));
+      setBTime((prev) => prev === nextTime ? prev : nextTime);
+      setBreatheAnimTick((n) => (n + 1) % 1000000);
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [bRunning, bPhaseIdx, bCycle]);
 
   const bDone = !bRunning && bCycle > breathCycles && bTime === 0;
 
@@ -5938,7 +5908,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       r: "120",
       fill: "none",
       stroke: "var(--accent)",
-      strokeWidth: "3",
+      strokeWidth: "3.4",
       strokeLinecap: "round",
       style: { transition: "stroke 0.3s ease" } }
     )
