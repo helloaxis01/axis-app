@@ -5509,8 +5509,18 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   .timer-view-body .timer-interval-rows {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 10px;
     width: 100%;
+  }
+  /* Interval selectors should look like the Breathe pattern "chips", not a list. */
+  .timer-view-body .timer-glass-panel.timer-interval-rows {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
   }
   .timer-view-body .timer-interval-row {
     display: flex;
@@ -5518,21 +5528,26 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     justify-content: space-between;
     gap: 10px;
     min-height: 44px;
-    padding: 4px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 18px;
+    border-bottom: none;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)), rgba(0, 0, 0, 0.06);
+    border: 1px solid color-mix(in srgb, var(--glass-border) 82%, transparent);
+    border-radius: 999px;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 50%, transparent);
     box-sizing: border-box;
+    transition: all 0.2s ease;
   }
   .timer-view-body .timer-interval-row:last-child {
     border-bottom: none;
   }
   .timer-view-body .timer-interval-row-label {
     flex: 0 0 auto;
-    width: 60px;
+    width: auto;
     font-size: var(--text-xs);
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(246, 247, 248, 0.5);
+    color: var(--text-dimmer);
     font-family: var(--font-display);
   }
   .timer-view-body .timer-instrument-val {
@@ -5634,11 +5649,20 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     backdrop-filter: blur(24px) saturate(1.35);
     -webkit-backdrop-filter: blur(24px) saturate(1.35);
   }
+  .app[data-theme="dark"]:not([data-night="true"]) .timer-view-body .timer-glass-panel.timer-interval-rows {
+    background: rgba(0, 0, 0, 0.16);
+    border: 1px solid color-mix(in srgb, var(--glass-border) 70%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 28px rgba(0,0,0,0.2);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
   [data-theme="light"] .timer-view-body .timer-interval-row {
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
   }
   [data-theme="light"] .timer-view-body .timer-interval-row-label {
-    color: rgba(15,30,46,0.55);
+    color: var(--text-dimmer);
   }
   [data-theme="light"] .timer-view-body .timer-instrument-val {
     color: #1D1D1F;
@@ -5713,6 +5737,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-night="true"] .timer-view-body .timer-glass-toggle-btn.active { color: #252525 !important; background: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-interval-row { border-bottom-color: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-interval-row-label { color: #FF3B30 !important; }
+  [data-night="true"] .timer-view-body .timer-interval-row { border-color: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-instrument-val {
     color: #FF3B30 !important;
     text-shadow: none !important;
@@ -6707,6 +6732,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         const ct = nightMode
           ? { accent: "#FF3B30", accentDim: "rgba(211,47,47,0.25)", accentGlow: "rgba(211,47,47,0.4)", bg: "#000000" }
           : CIRCADIAN_THEMES[p][theme === "dark" ? "dark" : "light"];
+        const useMoodGlass = !nightMode && theme === "light";
         const isSelected = activePeriod === p;
         const isNow = nowPeriod === p;
         return (/*#__PURE__*/
@@ -6714,8 +6740,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
               display: "flex", alignItems: "center", gap: 16, padding: "16px 18px",
               borderRadius: 16, cursor: nightMode ? "default" : "pointer", textAlign: "left", width: "100%", boxSizing: "border-box",
               border: isSelected ? `1.5px solid ${ct.accent}` : "1px solid var(--glass-border)",
-              background: nightMode ? "#000000" : isSelected ? (theme !== "dark" ? `color-mix(in srgb, ${ct.accentDim} 60%, rgba(255,255,255,0.88))` : ct.accentDim) : (theme !== "dark" ? "rgba(255,255,255,0.82)" : "var(--glass-bg)"),
-              backdropFilter: nightMode ? "none" : "blur(20px)", WebkitBackdropFilter: nightMode ? "none" : "blur(20px)",
+              background: nightMode ? "#000000" : isSelected ? (useMoodGlass ? `color-mix(in srgb, ${ct.accentDim} 60%, rgba(255,255,255,0.88))` : ct.accentDim) : (useMoodGlass ? "rgba(255,255,255,0.82)" : "var(--glass-bg)"),
+              backdropFilter: useMoodGlass ? "blur(20px)" : "none", WebkitBackdropFilter: useMoodGlass ? "blur(20px)" : "none",
               transition: "all 0.2s"
             } }, /*#__PURE__*/
           React.createElement("div", { style: {
