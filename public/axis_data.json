@@ -14,7 +14,7 @@
             {
               "id": 1,
               "name": "Cat–Cow",
-              "start": "On all fours — hands under shoulders, knees under hips.",
+              "start": "All fours. Hands under shoulders, knees under hips. Spine neutral.",
               "sub": "Segmental Spinal Flexion/Extension",
               "type": "flow",
               "seconds": 45,
@@ -23,19 +23,19 @@
                   "pos": "A",
                   "label": "Neutral Tabletop",
                   "focus": "SPINE",
-                  "cue": "Hands under shoulders, knees under hips. Spine flat and parallel to floor. Neck long."
+                  "cue": "Exhale — round spine toward ceiling, chin to chest, pelvis tucked. Inhale — let belly drop, lift gaze and tailbone gently."
                 },
                 {
                   "pos": "B",
                   "label": "Cat — Exhale",
                   "focus": "FLEX",
-                  "cue": "Round spine toward ceiling. Tuck chin to chest, tuck pelvis under. Breathe out fully."
+                  "cue": "Move with your breath. Don't force the lower back on the inhale."
                 },
                 {
                   "pos": "C",
                   "label": "Cow — Inhale",
                   "focus": "EXT",
-                  "cue": "Let belly drop toward floor. Lift gaze and tailbone gently. Do not compress the lower back."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -43,7 +43,7 @@
             {
               "id": 2,
               "name": "Sphinx Pose",
-              "start": "Lying face down on the floor.",
+              "start": "Face down. Elbows under shoulders, forearms flat. Legs long, tops of feet flat.",
               "sub": "Low Prone Back Extension",
               "type": "flow",
               "seconds": 45,
@@ -52,13 +52,13 @@
                   "pos": "A",
                   "label": "Prone Start",
                   "focus": "SETUP",
-                  "cue": "Lie face down. Legs long, tops of feet flat. Elbows directly under shoulders."
+                  "cue": "Press forearms into floor and lift chest. Shoulders away from ears. Hold 5–10 seconds."
                 },
                 {
                   "pos": "B",
                   "label": "Lift",
                   "focus": "EXT",
-                  "cue": "Press forearms into floor. Lift chest and head. Shoulders away from ears. Hold 5–10s."
+                  "cue": "This is a passive hold — let the spine decompress. Don't crunch or force it."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -66,7 +66,7 @@
             {
               "id": 3,
               "name": "Child's Pose",
-              "start": "Kneeling on the floor, sitting back toward your heels.",
+              "start": "Kneel with big toes together, knees hip-width. Sit back toward heels.",
               "sub": "Rest & lengthen spine",
               "type": "flow",
               "seconds": 45,
@@ -75,13 +75,13 @@
                   "pos": "A",
                   "label": "Kneel Upright",
                   "focus": "SETUP",
-                  "cue": "Kneel with big toes together, knees hip-width apart. Sit back toward heels."
+                  "cue": "Walk hands forward, forehead to floor. Breathe into your lower back."
                 },
                 {
                   "pos": "B",
                   "label": "Fold Forward",
                   "focus": "STRETCH",
-                  "cue": "Walk hands forward, forehead to floor. Arms extended or alongside body. Breathe into the back."
+                  "cue": "If hips don't reach heels, place a folded blanket between them."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -89,7 +89,7 @@
             {
               "id": 4,
               "name": "Arm Circles",
-              "start": "Standing, feet hip-width apart.",
+              "start": "Standing, feet hip-width. Arms extended to sides at shoulder height, thumbs up.",
               "sub": "Fwd & Bwd · Small to Large",
               "type": "flow",
               "seconds": 45,
@@ -99,19 +99,19 @@
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Feet hip-width. Arms extended at sides at shoulder height. Thumbs up, palms face forward."
+                  "cue": "Circle arms forward — small to large, 10 reps. Then reverse. Keep shoulders down throughout."
                 },
                 {
                   "pos": "B",
                   "label": "Forward Circles",
                   "focus": "FORWARD",
-                  "cue": "Start small — wrist-sized circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down and relaxed. 10 reps."
+                  "cue": "Squeeze shoulder blades slightly on the back swing."
                 },
                 {
                   "pos": "C",
                   "label": "Backward Circles",
                   "focus": "BACKWARD",
-                  "cue": "Reverse direction. Same progression — small to large. Squeeze shoulder blades slightly on the back swing. 10 reps."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -126,7 +126,7 @@
             {
               "id": 5,
               "name": "Pelvic Tilts",
-              "start": "Lying on your back, knees bent, feet flat on the floor.",
+              "start": "On your back. Knees bent, feet flat. Small natural arch in lower back.",
               "sub": "Supine Posterior/Anterior Tilt",
               "reps": "10–12 reps",
               "type": "reps",
@@ -135,19 +135,19 @@
                   "pos": "A",
                   "label": "Supine Neutral",
                   "focus": "SETUP",
-                  "cue": "Small natural arch in lower back. Arms at sides."
+                  "cue": "Gently press lower back into floor, engaging deep abs. Hold 2 seconds. Release. Slowly rock between arch and press."
                 },
                 {
                   "pos": "B",
                   "label": "Posterior Tilt",
                   "focus": "CORE",
-                  "cue": "Gently press lower back into floor. Engage deep abdominals. Hold 2s. Do not hold breath."
+                  "cue": "Movement is small. Don't hold your breath."
                 },
                 {
                   "pos": "C",
                   "label": "Anterior Tilt",
                   "focus": "RELEASE",
-                  "cue": "Let the lower back arch slightly away from the floor as the pelvis tips forward. Then gently press the lower back into the floor again. Move slowly back and forth between the small arch and the gentle press."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -155,7 +155,7 @@
             {
               "id": 6,
               "name": "Glute Bridge",
-              "start": "Lying on your back, knees bent, feet flat on the floor.",
+              "start": "On your back. Feet flat, hip-width, heels about 6 inches from glutes. Arms flat at sides.",
               "sub": "Bodyweight",
               "reps": "12–15 reps",
               "type": "reps",
@@ -164,13 +164,13 @@
                   "pos": "A",
                   "label": "Supine Setup",
                   "focus": "SETUP",
-                  "cue": "Feet flat, hip-width, heels 6 inches from glutes. Arms flat at sides."
+                  "cue": "Drive through heels, lift hips until shoulders, hips, and knees form a straight line. Squeeze glutes at top. Lower slowly."
                 },
                 {
                   "pos": "B",
                   "label": "Bridge Up",
                   "focus": "GLUTES",
-                  "cue": "Drive through heels. Lift hips until shoulders, hips, knees form a straight line. Squeeze glutes at top."
+                  "cue": "Don't arch your lower back at the top. The squeeze does the work."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -178,7 +178,7 @@
             {
               "id": 7,
               "name": "Marching Bridge",
-              "start": "Lying on your back with hips lifted in a glute bridge.",
+              "start": "On your back, hips lifted in a full glute bridge. Core engaged.",
               "sub": "Keep hips level",
               "reps": "6–8 alternating",
               "type": "reps",
@@ -187,19 +187,19 @@
                   "pos": "A",
                   "label": "Hold Bridge",
                   "focus": "SETUP",
-                  "cue": "Perform a full Glute Bridge and hold at the top. Engage core. Do not let hips drop."
+                  "cue": "Slowly lift one foot off the floor, knee to 90 degrees. Hold 2 seconds. Lower and switch. Keep hips level throughout."
                 },
                 {
                   "pos": "B",
                   "label": "Lift One Foot",
                   "focus": "STABILITY",
-                  "cue": "Slowly lift one foot off floor, knee to 90°. Hips stay perfectly level. Hold 2s."
+                  "cue": "Imagine balancing a glass of water on each hip. Don't let them tip."
                 },
                 {
                   "pos": "C",
                   "label": "Alternate",
                   "focus": "CONTROL",
-                  "cue": "Lower foot, repeat other side. Think of balancing a glass of water on each hip."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -207,7 +207,7 @@
             {
               "id": 8,
               "name": "Dead Bug",
-              "start": "Lying on your back, arms reaching toward the ceiling.",
+              "start": "On your back. Arms reaching toward ceiling. Hips and knees at 90 degrees. Lower back pressed firmly into floor.",
               "sub": "Contralateral Arm/Leg",
               "reps": "6–8 per side, slow",
               "type": "reps",
@@ -216,19 +216,19 @@
                   "pos": "A",
                   "label": "Supine Tabletop",
                   "focus": "SETUP",
-                  "cue": "Arms reach to ceiling. Hips and knees at 90°. Press lower back firmly into floor."
+                  "cue": "Slowly lower your right arm overhead while extending your left leg toward the floor. Exhale throughout. Return. Switch sides. Move in 4-second counts."
                 },
                 {
                   "pos": "B",
                   "label": "Extend Opposite Limbs",
                   "focus": "CORE",
-                  "cue": "Slowly lower right arm overhead and extend left leg toward floor. Keep back flat. Exhale throughout."
+                  "cue": "Opposite arm and leg always. If your lower back lifts, reduce your range."
                 },
                 {
                   "pos": "C",
                   "label": "Return & Switch",
                   "focus": "CONTROL",
-                  "cue": "Return to tabletop position. Repeat with left arm and right leg. Move in 4-second counts each way."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -236,7 +236,7 @@
             {
               "id": 9,
               "name": "Bird Dog",
-              "start": "On all fours — hands under shoulders, knees under hips.",
+              "start": "All fours. Hands under shoulders, knees under hips. Spine neutral. Lightly brace core.",
               "sub": "Paused Extension",
               "reps": "6–8 per side, 2–3s pause",
               "type": "reps",
@@ -245,19 +245,19 @@
                   "pos": "A",
                   "label": "Neutral Tabletop",
                   "focus": "SETUP",
-                  "cue": "Hands under shoulders, knees under hips. Spine neutral. Brace core lightly before moving."
+                  "cue": "Reach right arm forward and left leg back — both parallel to floor. Pause 2–3 seconds. Optional: draw elbow to knee beneath body. Reset and switch sides."
                 },
                 {
                   "pos": "B",
                   "label": "Extend & Pause",
                   "focus": "STABILITY",
-                  "cue": "Reach right arm forward, left leg back. Both parallel to floor. Pause 2–3s. Do not rotate hips."
+                  "cue": "Opposite arm and leg. Do not rotate hips. Keep movement slow and deliberate."
                 },
                 {
                   "pos": "C",
                   "label": "Return Controlled",
                   "focus": "CONTROL",
-                  "cue": "Draw elbow to knee beneath the body (optional crunch). Reset to neutral. Switch sides."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -272,7 +272,7 @@
             {
               "id": 10,
               "name": "High Plank",
-              "start": "Facing down, hands flat on the floor, body in a straight line.",
+              "start": "Hands flat, shoulder-width. Fingers spread, wrists under shoulders. Body in a straight line from head to heels.",
               "sub": "Core tight, body straight",
               "reps": "30 seconds",
               "type": "time",
@@ -282,13 +282,13 @@
                   "pos": "A",
                   "label": "Hand Position",
                   "focus": "SETUP",
-                  "cue": "Hands flat, shoulder-width. Fingers spread. Wrists stacked under shoulders."
+                  "cue": "Hold. Squeeze glutes. Pull navel toward spine. Breathe steadily."
                 },
                 {
                   "pos": "B",
                   "label": "Full Plank",
                   "focus": "HOLD",
-                  "cue": "Body forms one straight line: head to heels. Squeeze glutes. Pull navel toward spine. Breathe."
+                  "cue": "Don't let hips sag or rise. If form breaks, drop to knees."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -296,7 +296,7 @@
             {
               "id": 11,
               "name": "Wall Push-Ups",
-              "start": "Standing an arm's length from a wall.",
+              "start": "Standing an arm's length from wall. Hands flat at shoulder height and width. Body straight.",
               "sub": "Controlled tempo",
               "reps": "10 reps",
               "type": "reps",
@@ -305,19 +305,19 @@
                   "pos": "A",
                   "label": "Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Stand arm's length from wall. Hands flat at shoulder height and width. Body straight."
+                  "cue": "Bend elbows and lower chest toward wall over 2–3 seconds. Push through palms to return. Pause 1 second at the top."
                 },
                 {
                   "pos": "B",
                   "label": "Lower",
                   "focus": "ECCENTRIC",
-                  "cue": "Bend elbows, lower chest toward wall. Take 2–3 seconds. Keep body rigid, no sagging hips."
+                  "cue": "Keep your body rigid throughout — no sagging hips."
                 },
                 {
                   "pos": "C",
                   "label": "Press Back",
                   "focus": "PUSH",
-                  "cue": "Push through palms to return to start. Fully extend arms. 1-second pause at top."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -325,7 +325,7 @@
             {
               "id": 12,
               "name": "Isometric Wall Push Hold",
-              "start": "Standing an arm's length from a wall.",
+              "start": "Same position as Wall Push-Up. Hands at shoulder height, body straight.",
               "sub": "Halfway down position",
               "reps": "30s hold",
               "type": "time",
@@ -335,13 +335,13 @@
                   "pos": "A",
                   "label": "Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Same as Wall Push-Up starting position. Body straight, hands at shoulder height."
+                  "cue": "Lower to the midpoint — elbows at roughly 90 degrees. Hold completely still for the full duration."
                 },
                 {
                   "pos": "B",
                   "label": "Halfway Hold",
                   "focus": "ISO",
-                  "cue": "Lower to the midpoint — elbows at roughly 90°. Hold completely still. Do not let arms drift further."
+                  "cue": "This is a still exercise. You'll feel tension build in your chest and arms. Don't let arms drift lower."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -349,7 +349,7 @@
             {
               "id": 13,
               "name": "Resistance Band Row",
-              "start": "Standing, band anchored at chest height in front of you.",
+              "start": "Band anchored at chest height. Stand tall, one end in each hand, slight tension at arm's length. No band? Loop a towel around a door handle.",
               "sub": "Elbows pull back, chest relaxed",
               "reps": "10–15 reps",
               "type": "reps",
@@ -358,19 +358,19 @@
                   "pos": "A",
                   "label": "Band Setup",
                   "focus": "SETUP",
-                  "cue": "Anchor band at chest height. Stand tall, holding one end in each hand. Slight tension at arm's length."
+                  "cue": "Drive elbows straight back, hugging ribs. Squeeze shoulder blades together. Pause 1 second. Extend slowly over 2–3 seconds."
                 },
                 {
                   "pos": "B",
                   "label": "Row Back",
                   "focus": "PULL",
-                  "cue": "Drive elbows straight back, hugging ribs. Shoulder blades squeeze together. Pause 1s at chest."
+                  "cue": "Don't let shoulders roll forward at full extension."
                 },
                 {
                   "pos": "C",
                   "label": "Controlled Return",
                   "focus": "RELEASE",
-                  "cue": "Extend arms slowly — 2–3 seconds. Do not let shoulders roll forward at full extension."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -378,7 +378,7 @@
             {
               "id": 14,
               "name": "Wall Angels",
-              "start": "Standing with your back flat against a wall.",
+              "start": "Back, head, and glutes against the wall. Arms bent at 90 degrees, backs of hands touching wall.",
               "sub": "Or Floor Angels",
               "reps": "6–10 slow reps",
               "type": "reps",
@@ -387,19 +387,19 @@
                   "pos": "A",
                   "label": "Wall Contact",
                   "focus": "SETUP",
-                  "cue": "Stand with back, head, and glutes against wall. Arms bent at 90°, backs of hands touching wall."
+                  "cue": "Slowly slide arms up the wall, maintaining contact at all times. Go only as far as contact allows. Return in 3 seconds."
                 },
                 {
                   "pos": "B",
                   "label": "Slide Up",
                   "focus": "RAISE",
-                  "cue": "Slowly slide arms upward, maintaining contact with wall at all times. Go only as far as contact allows."
+                  "cue": "If wall contact is lost, reduce your range. Quality over range."
                 },
                 {
                   "pos": "C",
                   "label": "Slide Down",
                   "focus": "LOWER",
-                  "cue": "Return to start position in 3s. If wall contact is lost, reduce range. Quality over range."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -414,7 +414,7 @@
             {
               "id": 15,
               "name": "Supine Hamstring Stretch",
-              "start": "Lying on your back, both legs extended. You'll do one leg at a time (e.g. right first, then left).",
+              "start": "On your back, both legs extended. Lower back neutral, arms relaxed.",
               "sub": "Straight-Leg Raise",
               "type": "flow",
               "seconds": 45,
@@ -423,13 +423,13 @@
                   "pos": "A",
                   "label": "Supine Start",
                   "focus": "SETUP",
-                  "cue": "Lie on your back. Both legs extended, lower back neutral. Arms relaxed at your sides."
+                  "cue": "Lift one leg, keeping knee straight. Hold behind the thigh or calf. Feel the stretch in the hamstring. Switch when cued."
                 },
                 {
                   "pos": "B",
                   "label": "Raise One Leg",
                   "focus": "STRETCH",
-                  "cue": "Lift one leg (e.g. right first) keeping the knee straight. Use both hands to hold behind the thigh or calf. Feel the stretch in the hamstring, not the knee. Switch to the other leg when cued."
+                  "cue": "Don't lock the knee. A mild pull is correct — sharp discomfort is not."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -437,7 +437,7 @@
             {
               "id": 16,
               "name": "Figure Four Stretch",
-              "start": "Lying on your back, knees bent, feet flat. Cross one ankle over the opposite knee (e.g. right ankle over left knee); you'll do both sides.",
+              "start": "On your back, knees bent, feet flat. Cross one ankle over the opposite knee. Flex the crossed foot.",
               "sub": "Supine Piriformis Stretch",
               "type": "flow",
               "seconds": 45,
@@ -446,13 +446,13 @@
                   "pos": "A",
                   "label": "Cross Leg Over Knee",
                   "focus": "SETUP",
-                  "cue": "Lie on your back, knees bent, feet flat. Cross one leg over the other by placing that ankle on the opposite knee (e.g. right ankle on left knee). Flex the foot of the crossed leg."
+                  "cue": "Clasp hands behind the supporting thigh and gently draw both legs toward your chest. Hold when you feel the stretch in the outer hip."
                 },
                 {
                   "pos": "B",
                   "label": "Draw In",
                   "focus": "STRETCH",
-                  "cue": "Clasp hands behind the supporting thigh (the one with the foot on the floor) and gently draw both legs toward your chest. Feel the stretch in the outer hip of the crossed leg. Repeat on the other side when cued."
+                  "cue": "Flexing the crossed foot protects the knee. Feel this in the hip, not the knee."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -460,7 +460,7 @@
             {
               "id": 17,
               "name": "Windshield Wipers",
-              "start": "Lying on your back, knees bent, arms out in a T. Rotate knees side to side.",
+              "start": "On your back, knees bent, feet flat and hip-width. Arms out in a T, palms down.",
               "sub": "Supine Hip Rotation",
               "type": "flow",
               "seconds": 45,
@@ -469,19 +469,19 @@
                   "pos": "A",
                   "label": "Supine, Feet Flat",
                   "focus": "SETUP",
-                  "cue": "Lie on your back. Knees bent, feet flat and hip-width. Arms out in a T, palms down for stability."
+                  "cue": "Let both knees fall slowly to the right. Keep shoulders flat. Breathe out. Sweep back through center and lower to the left. Continue alternating."
                 },
                 {
                   "pos": "B",
                   "label": "Lower Knees Right",
                   "focus": "ROTATE",
-                  "cue": "Let both knees fall slowly to the right toward the floor. Keep shoulders flat. Breathe out."
+                  "cue": "Shoulders stay on the floor throughout. Slow is better."
                 },
                 {
                   "pos": "C",
                   "label": "Lower Knees Left",
                   "focus": "ROTATE",
-                  "cue": "Sweep knees back through center and lower to the left. Move at a slow, windshield-wiper pace. Continue alternating as needed."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -489,7 +489,7 @@
             {
               "id": 18,
               "name": "Reclined Spinal Twist",
-              "start": "Lying on your back, one knee drawn to your chest. Do one side (e.g. right) then the other.",
+              "start": "On your back. Draw one knee to your chest. Arms out in a T, shoulders heavy.",
               "sub": "Arms in T position",
               "type": "flow",
               "seconds": 45,
@@ -498,13 +498,13 @@
                   "pos": "A",
                   "label": "Supine Start",
                   "focus": "SETUP",
-                  "cue": "Lie on your back. Draw one knee to your chest (e.g. right first). Arms out in a T, shoulders heavy on the floor."
+                  "cue": "Guide that knee across your body with the opposite hand. Turn gaze the other way if comfortable. Hold 20–30 seconds. Switch sides when cued."
                 },
                 {
                   "pos": "B",
                   "label": "Cross & Hold",
                   "focus": "TWIST",
-                  "cue": "Guide that knee across your body with the opposite hand (e.g. right knee to the left with left hand). Turn gaze the other way if comfortable. Hold 20–30s. Repeat on the other side when cued."
+                  "cue": "Don't force the knee down — let gravity do the work."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -519,7 +519,7 @@
             {
               "id": 19,
               "name": "Seated Forward Fold",
-              "start": "Seated on the floor, legs extended in front of you.",
+              "start": "Seated, legs extended or slightly bent. Spine long. Breathe in.",
               "sub": "Relaxed Spine",
               "type": "flow",
               "seconds": 45,
@@ -528,13 +528,13 @@
                   "pos": "A",
                   "label": "Seated Tall",
                   "focus": "SETUP",
-                  "cue": "Sit with legs extended or slightly bent. Spine long. Hands on thighs. Breathe in."
+                  "cue": "Hinge at hips and walk hands toward feet. Let spine round naturally. Head heavy. Hold 30–60 seconds."
                 },
                 {
                   "pos": "B",
                   "label": "Fold Forward",
                   "focus": "RELEASE",
-                  "cue": "Hinge at hips, walk hands toward feet. Let spine round naturally. Head heavy. Hold 30–60s."
+                  "cue": "Bend knees if hamstrings are tight. Length in the spine matters more than reaching your feet."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -542,7 +542,7 @@
             {
               "id": 20,
               "name": "Chin Tucks",
-              "start": "Seated or standing upright, eyes level with the horizon.",
+              "start": "Seated or standing tall. Eyes level with horizon. Shoulders relaxed, jaw loose.",
               "sub": "Cervical Retractions",
               "type": "flow",
               "seconds": 45,
@@ -551,13 +551,13 @@
                   "pos": "A",
                   "label": "Neutral Head",
                   "focus": "SETUP",
-                  "cue": "Sit or stand tall. Eyes level with horizon. Shoulders relaxed. No tension in jaw."
+                  "cue": "Draw chin straight back — not down. Create a slight double chin. Hold 2 seconds. Release and repeat."
                 },
                 {
                   "pos": "B",
                   "label": "Retract",
                   "focus": "CERVICAL",
-                  "cue": "Draw chin straight back — not down. Create a slight double chin. Hold 2s. Feel a gentle stretch at base of skull."
+                  "cue": "Movement is purely horizontal. You should feel a gentle stretch at the base of your skull."
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -565,7 +565,7 @@
             {
               "id": 21,
               "name": "Neck Half-Circles",
-              "start": "Seated upright, shoulders relaxed, eyes forward.",
+              "start": "Seated tall, shoulders relaxed. Eyes forward. Do not perform full circles.",
               "sub": "Controlled Tilts",
               "type": "flow",
               "seconds": 45,
@@ -574,19 +574,19 @@
                   "pos": "A",
                   "label": "Neutral Start",
                   "focus": "SETUP",
-                  "cue": "Sit tall, shoulders relaxed. Eyes forward. Do not perform full circles — avoid rolling the head back."
+                  "cue": "Drop right ear toward right shoulder, hold 3 seconds. Return through center. Drop left ear toward left shoulder. Smooth arc only — ear to ear through the front."
                 },
                 {
                   "pos": "B",
                   "label": "Right Tilt",
                   "focus": "LATERAL",
-                  "cue": "Drop right ear toward right shoulder. Keep left shoulder down. Hold 3s. Return through center."
+                  "cue": "Never roll the head backward. Slow and controlled only."
                 },
                 {
                   "pos": "C",
                   "label": "Left Tilt",
                   "focus": "LATERAL",
-                  "cue": "Drop left ear toward left shoulder. Smooth arc only from ear to ear through chin. Never through the back."
+                  "cue": ""
                 }
               ],
               "demoVideo": "/assets/videos/cat_cow.mp4"
@@ -5069,11 +5069,5 @@
       ],
       "duration": "18 min"
     }
-  },
-  "_meta": {
-    "description": "AXIS workout library. Primary key: TRACKS (object keyed by track id).",
-    "trackFields": "id, label (display title), subtitle, purpose (description), duration, sections[]",
-    "sectionFields": "label, tag, purpose, exercises[]",
-    "exerciseFields": "id, name, start, sub, type, seconds (time), steps[{pos,label,focus,cue}] (instructions as cues)"
   }
 }

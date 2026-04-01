@@ -845,7 +845,7 @@ const css = `
     --dot-bg: rgba(255,255,255,0.14);
     --dot-done: rgba(255,255,255,0.32);
     --step-connector: rgba(255,255,255,0.08);
-    --accent-btn-text: #252525;
+    --accent-btn-text: #f6f7f8;
     --bg-hover: rgba(255,255,255,0.05);
     --summary-grid-bg: rgba(255,255,255,0.04);
     --eol-color: rgba(255,255,255,0.30);
@@ -884,7 +884,7 @@ const css = `
     --text-done: rgba(15,30,46,0.48);
     --dot-bg: rgba(15,30,46,0.12);
     --dot-done: rgba(15,30,46,0.38);
-    --accent-btn-text: #f6f7f8;
+    --accent-btn-text: #111111;
     --step-connector: rgba(160,195,225,0.40);
     --bg-hover: rgba(255,255,255,0.38);
     --summary-grid-bg: rgba(255,255,255,0.32);
@@ -1012,7 +1012,7 @@ const css = `
     --dot-bg: #000000;
     --dot-done: #FF3B30;
     --step-connector: #FF3B30;
-    --accent-btn-text: #252525;
+    --accent-btn-text: #f6f7f8;
     --bg-hover: rgba(211, 47, 47, 0.1);
     --summary-grid-bg: #180303;
     --text-teal: #FF3B30;
@@ -1117,6 +1117,105 @@ const css = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
+  .app[data-night="true"],
+  .app[data-night="true"] .app-body,
+  .app[data-night="true"] .content,
+  .app[data-night="true"] .home,
+  .app[data-night="true"] .app-page-header,
+  .app[data-night="true"] .hdr-wrap,
+  .app[data-night="true"] .dashboard-header,
+  .app[data-night="true"] .tab-subbar,
+  .app[data-night="true"] .tab-bar,
+  .app[data-night="true"] .summary-panel,
+  .app[data-night="true"] .summary-day-card,
+  .app[data-night="true"] .summary-week-card,
+  .app[data-night="true"] .summary-hero,
+  .app[data-night="true"] .summary-bento-item,
+  .app[data-night="true"] .purpose-note,
+  .app[data-night="true"] .er-card,
+  .app[data-night="true"] .panel,
+  .app[data-night="true"] .sg,
+  .app[data-night="true"] .track-card,
+  .app[data-night="true"] .session-card.track-card {
+    background: #000000 !important;
+  }
+  .app[data-night="true"] .app *,
+  .app[data-night="true"] .content *,
+  .app[data-night="true"] .home *,
+  .app[data-night="true"] .tab-bar * {
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+  }
+  .app[data-night="true"] .guided-cta-fill,
+  .app[data-night="true"] .fv-cta:not(.done),
+  .app[data-night="true"] .begin-btn.session-browse-btn,
+  .app[data-night="true"] .timer-view-body .timer-glass-btn-pri,
+  .app[data-night="true"] .summary-cta-btn {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    background: #FF3B30 !important;
+  }
+  .app[data-night="true"] .guided-overlay *,
+  .app[data-night="true"].guided-overlay * {
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+    border-color: #FF3B30 !important;
+  }
+  .app[data-night="true"] .guided-overlay,
+  .app[data-night="true"].guided-overlay {
+    background: #000000 !important;
+  }
+  .app[data-night="true"] .begin-btn,
+  .app[data-night="true"] .session-browse-btn,
+  .app[data-night="true"] .guided-cta-fill,
+  .app[data-night="true"] .fv-cta:not(.done),
+  .app[data-night="true"] .summary-cta-btn,
+  .app[data-night="true"] .settings-chip--active,
+  .app[data-night="true"] .ultra-filled-btn {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+  .app[data-night="true"] .settings-range {
+    accent-color: #FF3B30 !important;
+  }
+  .app[data-night="true"] .settings-range::-webkit-slider-runnable-track {
+    background: rgba(255, 59, 48, 0.2) !important;
+    border-radius: 999px;
+    height: 6px;
+  }
+  .app[data-night="true"] .settings-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #FF3B30;
+    background: #FF3B30 !important;
+    box-shadow: none !important;
+  }
+  .app[data-night="true"] .settings-range::-moz-range-track {
+    background: rgba(255, 59, 48, 0.2) !important;
+    border-radius: 999px;
+    height: 6px;
+    border: none;
+  }
+  .app[data-night="true"] .settings-range::-moz-range-progress,
+  .app[data-night="true"] .settings-range::-moz-range-thumb {
+    background: #FF3B30 !important;
+    border: 1px solid #FF3B30 !important;
+    box-shadow: none !important;
+  }
+  .ultra-icon-grid {
+    position: relative;
+  }
+  .ultra-icon-lock {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.92);
+    pointer-events: none;
+  }
   .app[data-night="true"][data-theme="light"] .track-card {
     background: #000000 !important;
     border-color: #FF3B30 !important;
@@ -1215,10 +1314,10 @@ const css = `
     border: 1px solid #FF3B30 !important;
     box-shadow: none !important;
   }
-  /* Red accent fill + red text = invisible in WebKit — black ink on red; home uses black pill + red ink below */
+  /* Night filled accent buttons use white ink for consistency. */
   .app[data-night="true"] .begin-btn.session-browse-btn {
-    color: #252525 !important;
-    -webkit-text-fill-color: #252525 !important;
+    color: #f6f7f8 !important;
+    -webkit-text-fill-color: #f6f7f8 !important;
   }
   .app[data-night="true"] .home .track-card .begin-btn:not(.begin-btn--today-primary) {
     color: #FF3B30 !important;
@@ -1275,12 +1374,12 @@ const css = `
   [data-night="true"] .tab-btn.active .tab-icon-shell::before { background: none !important; filter: none !important; -webkit-filter: none !important; }
   [data-night="true"] .fv-cta, [data-night="true"] .fv-cta:hover, [data-night="true"] .fv-cta:active,
   [data-night="true"] .fv-skip, [data-night="true"] .fv-prev { box-shadow: none !important; }
-  /* Night accent-fill CTAs: deep red ink on #FF3B30 (Safari/WebKit) */
+  /* Night accent-fill CTAs: white ink on the red fill. */
   .app[data-night="true"] .content .fv-cta:not(.done),
   .app[data-night="true"] .content .fv-cta:not(.done) *,
   .app[data-night="true"] .content .tb {
-    color: #252525 !important;
-    -webkit-text-fill-color: #252525 !important;
+    color: #f6f7f8 !important;
+    -webkit-text-fill-color: #f6f7f8 !important;
   }
   .app[data-night="true"] .content .fv-cta:not(.done) {
     background: #FF3B30 !important;
@@ -1291,8 +1390,8 @@ const css = `
     border: none !important;
   }
   [data-night="true"].guided-overlay .guided-cta-fill {
-    color: #252525 !important;
-    -webkit-text-fill-color: #252525 !important;
+    color: #f6f7f8 !important;
+    -webkit-text-fill-color: #f6f7f8 !important;
   }
   /* Guided shell: flat canvas — dark #000 / light #fff */
   .guided-overlay[data-night="true"] {
@@ -1504,8 +1603,8 @@ const css = `
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
     background: #FF3B30 !important;
     border: none !important;
-    color: #252525 !important;
-    -webkit-text-fill-color: #252525 !important;
+    color: #f6f7f8 !important;
+    -webkit-text-fill-color: #f6f7f8 !important;
   }
   /* ── BASE ── */
   .app {
@@ -1943,13 +2042,14 @@ const css = `
   .purpose-label { font-size: var(--text-xs); font-family:var(--font-display); font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-secondary); margin-bottom:8px; }
 
   /* ── EXERCISE ROW ── */
-  .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; border-bottom:1px solid var(--border); cursor:pointer; transition:all 0.2s; position:relative; border-radius:0; }
-  .er:hover { background:var(--bg-hover); border-bottom-color:transparent; border-radius:10px; margin:0 -8px; padding:13px 8px; }
+  .er-card { border-bottom:1px solid var(--border); transition:all 0.2s; position:relative; }
+  .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; cursor:pointer; transition:all 0.2s; position:relative; border-radius:0; }
+  .er-card:hover { background:var(--bg-hover); border-bottom-color:transparent; border-radius:10px; margin:0 -8px; padding:0 8px; }
   .er.open {
-    background:var(--glass-bg); border:1px solid var(--glass-border-strong);
+    background:transparent; border:none;
     border-radius:12px 12px 0 0; border-bottom-color:transparent;
-    box-shadow:inset 0 1px 0 var(--glass-specular);
-    backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
+    box-shadow:none;
+    backdrop-filter:none; -webkit-backdrop-filter:none;
     margin:6px -8px 0; padding:13px 8px;
   }
   .panel {
@@ -1958,6 +2058,27 @@ const css = `
     margin:0 -8px 8px;
     backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
     box-shadow:0 4px 20px rgba(60,80,150,0.10), inset 0 -1px 0 var(--glass-specular);
+  }
+  .er-card.er-card--open {
+    margin:6px -8px 8px;
+    padding:0 8px 8px;
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border-strong);
+    border-radius:12px;
+    backdrop-filter:blur(24px) saturate(1.4);
+    -webkit-backdrop-filter:blur(24px) saturate(1.4);
+    box-shadow:0 8px 28px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.35);
+  }
+  .er-card.er-card--open .panel {
+    background: transparent;
+    border: none;
+    border-top: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 10px 0 0;
+    border-radius: 0;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
   }
   /* Unified Liquid Glass — major cards (Home + Protocol) */
   .session-card.track-card {
@@ -2715,6 +2836,22 @@ const css = `
     line-height: 1.35;
     text-align: left;
     margin-top: 8px;
+  }
+  .summary-goal-link {
+    background:none;
+    border:none;
+    padding:0;
+    margin:0;
+    cursor:pointer;
+    color:inherit;
+    font:inherit;
+    display:inline-flex;
+    align-items:baseline;
+    gap:4px;
+  }
+  .summary-goal-link .summary-hero-metric-num,
+  .summary-goal-link .summary-hero-metric-unit {
+    color: var(--accent);
   }
 
   /* ── DONE BANNER ── */
@@ -3608,90 +3745,80 @@ function RestTimer({ onDone }) {
 const FOCUS_SPELL = { EXT: "Extension", FLEX: "Flexion", SETUP: "Setup", SPINE: "Spine", STRETCH: "Stretch", CORE: "Core", RELEASE: "Release", GLUTES: "Glutes", STABILITY: "Stability", CONTROL: "Control", HOLD: "Hold", ECCENTRIC: "Eccentric", PUSH: "Push", ISO: "Isometric", PULL: "Pull", RAISE: "Raise", LOWER: "Lower", ROTATE: "Rotation", TWIST: "Twist", CERVICAL: "Cervical", LATERAL: "Lateral", CIRCULATE: "Circulate", FLOW: "Flow", MOBILIZE: "Mobilize", MOMENTUM: "Momentum", ISOLATE: "Isolate", DECOMPRESS: "Decompress", FORWARD: "Forward", BACKWARD: "Backward", GROUND: "Ground", "END-RANGE": "End Range", TARGET: "Target", EXHALE: "Exhale", INHALE: "Inhale", FLEX: "Flexion" };
 function spellFocus(f) {return f && FOCUS_SPELL[f.toUpperCase()] ? FOCUS_SPELL[f.toUpperCase()] : f || "";}
 
-function Steps({ steps, small, start: startText, exerciseId, exerciseName, theme = "dark", ultraNight = false, trackId }) {
-  const [collapsed, setCollapsed] = useState(false);
-  return (/*#__PURE__*/
-    React.createElement("div", { className: small ? "steps" : "fc-steps" },
-    !small && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", borderBottom: "1px solid var(--border)" } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: "inherit" } }, "INSTRUCTIONS"), /*#__PURE__*/
-    React.createElement("button", { onClick: () => setCollapsed((c) => !c), style: { fontFamily: "var(--font-display)", background: "transparent", border: ultraNight ? "1px solid #FF3B30" : "none", color: "inherit", cursor: "pointer", fontWeight: 600 } },
-    collapsed ? "Show" : "Hide"
-    )
-    ),
+function buildInstructionTiers(startText, steps) {
+  const normalizedStart = typeof startText === "string" ? startText.trim() : "";
+  const normalizedSteps = Array.isArray(steps) ?
+  steps.map((step) => typeof step?.cue === "string" ? step.cue.trim() : "").filter(Boolean) :
+  [];
+  const startHere = normalizedStart || normalizedSteps[0] || "";
+  const theMove = normalizedStart ? normalizedSteps[0] || "" : normalizedSteps[1] || "";
+  const goodToKnow = normalizedStart ?
+  normalizedSteps.slice(1).join(" ") :
+  normalizedSteps.slice(2).join(" ");
+  return [
+  { key: "start", label: "START HERE", body: startHere, tone: "primary" },
+  { key: "move", label: "THE MOVE", body: theMove, tone: "primary" },
+  { key: "good", label: "GOOD TO KNOW", body: goodToKnow, tone: "muted" }].
+  filter((tier) => tier.body);
+}
 
-    small && (steps?.length > 0 || startText) && /*#__PURE__*/
-    React.createElement("div", { style: { display: "none", fontSize: "var(--text-xs)", letterSpacing: "0.22em", textTransform: "uppercase",
-        color: "var(--text-dimmer)", fontWeight: 600, paddingBottom: 8,
-        borderBottom: "1px solid var(--border)", marginBottom: 0, paddingLeft: 0 } }, "How to perform"
-
-    ),
-
-
-
-    !collapsed && small && exerciseUsesCatCowTemplateLayout(trackId, exerciseId, exerciseName) && (startText || steps?.length) && /*#__PURE__*/
-    React.createElement("div", {
-      className: "exercise-figure--catcow",
+function CueTiers({ tiers, theme = "dark", ultraNight = false, moveOpacity = 1, compact = false, bodyColorOverride = null }) {
+  const isDarkMode = ultraNight || theme === "dark";
+  const primary = isDarkMode ? "#FFFFFF" : "#000000";
+  const goodLabel = isDarkMode ? "#888888" : "#999999";
+  const goodBody = isDarkMode ? "#FFFFFF" : "#111111";
+  const divider = isDarkMode ? "#141414" : "#F0F0F0";
+  const accent = ultraNight ? "#FF3B30" : "var(--accent)";
+  const labelSize = compact ? "10px" : "11px";
+  const primarySize = compact ? "var(--text-base)" : "clamp(22px, 3.9vw, 28px)";
+  const goodSize = compact ? "13px" : "15px";
+  return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", width: "100%" } },
+  tiers.map((tier, idx) => {
+    const isGoodTier = tier.key === "good";
+    const bodyColor = bodyColorOverride || (isGoodTier ? goodBody : primary);
+    const bodyOpacity = tier.key === "move" ? moveOpacity : 1;
+    const bodyFontSize = isGoodTier ? goodSize : primarySize;
+    const bodyFontWeight = isGoodTier ? 400 : 500;
+    const labelColor = isGoodTier ? goodLabel : accent;
+    return /*#__PURE__*/React.createElement("div", {
+      key: tier.key,
       style: {
-        display: "block",
-        width: "100%",
-        marginTop: 0,
-        marginBottom: 12,
-        padding: 0,
-        boxSizing: "border-box",
-        color: catCowInstructionColor(theme, ultraNight)
-      },
-      "aria-hidden": true
+        padding: compact ? "12px 0" : "16px 0",
+        borderTop: idx === 0 ? "none" : `1px solid ${divider}`
+      }
     }, /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", fontFamily: "var(--font-display)", fontWeight: 500, lineHeight: 1.2, opacity: 0.9, textAlign: "center", marginTop: 2 } }, exerciseShowsCatCowFigure(exerciseId, exerciseName) ? "Move 2 - Cat (Exhale)" : `${String(exerciseName || "Exercise").trim()} · 1 of 2`), /*#__PURE__*/
-    React.createElement(ExerciseFigure, { id: CATCOW_CAT_FIGURE_ASSET_ID, aspect: 512 / 1024, fillContainer: true }), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", fontFamily: "var(--font-display)", fontWeight: 500, lineHeight: 1.2, opacity: 0.9, textAlign: "center", marginTop: 2 } }, exerciseShowsCatCowFigure(exerciseId, exerciseName) ? "Move 3 - Cow (Inhale)" : `${String(exerciseName || "Exercise").trim()} · 2 of 2`), /*#__PURE__*/
-    React.createElement(ExerciseFigure, { id: CATCOW_COW_FIGURE_ASSET_ID, aspect: 512 / 1024, fillContainer: true }))
-    ),
+    React.createElement("div", { style: {
+        fontSize: labelSize,
+        fontWeight: 600,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        color: labelColor,
+        marginBottom: compact ? 6 : 8
+      } }, tier.label), /*#__PURE__*/
+    React.createElement("div", { style: {
+        fontSize: bodyFontSize,
+        fontWeight: bodyFontWeight,
+        lineHeight: isGoodTier ? 1.45 : 1.32,
+        letterSpacing: isGoodTier ? "0" : "-0.01em",
+        color: bodyColor,
+        opacity: bodyOpacity,
+        transition: tier.key === "move" ? "opacity 0.18s ease-out" : "none"
+      } }, tier.body));
+  }));
+}
 
-
-    !collapsed && startText && (small ? /*#__PURE__*/
-    React.createElement("div", { className: "step" }, /*#__PURE__*/
-    React.createElement("div", { className: "step-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "step-focus", style: { marginBottom: 4 } }, "POSITION"), /*#__PURE__*/
-    React.createElement("div", { className: "step-cue" }, startText)
-    )
-    ) : /*#__PURE__*/
-
-    React.createElement("div", { className: "fc-step" }, /*#__PURE__*/
-    React.createElement("div", { className: "fc-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "fc-pfocus" }, "POSITION"), /*#__PURE__*/
-    React.createElement("div", { className: "fc-pcue" }, startText)
-    )
-    )),
-
-
-
-    steps?.map((s, i) => small ? /*#__PURE__*/
-    React.createElement("div", { className: "step", key: i }, /*#__PURE__*/
-    React.createElement("div", { className: "step-badge" }, /*#__PURE__*/
-    React.createElement("div", { className: "step-badge-inner" }, /*#__PURE__*/
-    React.createElement("span", { className: "step-pos" }, i + 1)
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "step-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "step-focus" }, startText ? `MOVE ${i + 1}` : i === 0 ? "POSITION" : `MOVE ${i}`), /*#__PURE__*/
-    React.createElement("div", { className: "step-cue" }, s.cue)
-    )
-    ) : /*#__PURE__*/
-
-    React.createElement("div", { className: "fc-step", key: i }, /*#__PURE__*/
-    React.createElement("div", { className: "fc-badge" }, /*#__PURE__*/
-    React.createElement("span", { className: "fc-pos" }, i + 1)
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "fc-right" }, /*#__PURE__*/
-    React.createElement("div", { className: "fc-pfocus" }, startText ? `MOVE ${i + 1}` : i === 0 ? "POSITION" : `MOVE ${i}`), /*#__PURE__*/
-    React.createElement("div", { className: "fc-pcue" }, s.cue)
-    )
-    )
-    )
-    ));
+function Steps({ steps, small, start: startText, exerciseId, exerciseName, theme = "dark", ultraNight = false, trackId }) {
+  const tiers = buildInstructionTiers(startText, steps);
+  if (tiers.length === 0) return null;
+  return (/*#__PURE__*/
+    React.createElement("div", { className: small ? "steps" : "fc-steps" }, /*#__PURE__*/
+    React.createElement(CueTiers, {
+      tiers: tiers,
+      theme: theme,
+      ultraNight: ultraNight,
+      moveOpacity: 1,
+      compact: Boolean(small) }
+    )));
 
 }
 
@@ -3715,7 +3842,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     return () => clearTimeout(t);
   }, [open, ex.id]);
   return (/*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
+    React.createElement("div", { className: `er-card ${open ? "er-card--open" : ""}` }, /*#__PURE__*/
     React.createElement("div", { ref: rowRef, className: `er ${open ? "open" : ""} ${skipped ? "skipped" : ""}`, onClick: onExpand, style: skipped ? { opacity: 0.32 } : {} },
     !hideDone && /*#__PURE__*/React.createElement("div", { className: `chk ${done && !skipped ? "on" : ""}`, onClick: (e) => {e.stopPropagation();if (!skipped) onToggle();} }, /*#__PURE__*/
     React.createElement("svg", { width: "9", height: "7", viewBox: "0 0 9 7", fill: "none" }, /*#__PURE__*/
@@ -4285,24 +4412,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const guidedDialogRef = useRef(null);
   const guidedCloseBtnRef = useRef(null);
   const guidedFocusReturnRef = useRef(null);
+  const guidedMiddleScrollRef = useRef(null);
+  const [guidedScrollProgress, setGuidedScrollProgress] = useState(0);
   const cur = list.length > 0 ? list[Math.min(fi, list.length - 1)] : null;
   const next = list[fi + 1] || null;
   const headerPoseCounterNum = (phase === "getready" || phase === "exercise") ? (next ? fi + 2 : listTotal) : fi + 1;
   const guidedMoveSeconds = typeof exerciseDurationSeconds === "number" && exerciseDurationSeconds > 0 ? exerciseDurationSeconds : 45;
-  const guidedStepCards = (() => {
-    if (!cur) return [];
-    const cards = [];
-    const hasStart = Boolean(cur.start);
-    if (hasStart) cards.push({ label: "POSITION", cue: cur.start });
-    (cur.steps || []).forEach((step, idx) => {
-      const label = (!hasStart && idx === 0)
-        ? "POSITION"
-        : `MOVE ${hasStart ? idx + 1 : idx}`;
-      cards.push({ label, cue: step.cue });
-    });
-    return cards;
-  })();
-  const guidedStepTotal = guidedStepCards.length;
+  const guidedInstructionTiers = buildInstructionTiers(cur?.start, cur?.steps || []);
+  const guidedStepTotal = guidedInstructionTiers.length;
 
   useEffect(() => {
     guidedFocusReturnRef.current = document.activeElement;
@@ -4333,8 +4450,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const guidedDefaultDisplay = `${Math.floor(guidedMoveSeconds / 60)}:${(guidedMoveSeconds % 60).toString().padStart(2, "0")}`;
   // Guided large countdown state (per-exercise running timer)
   const [gLeft, setGLeft] = useState(null);
-  const gRef = useRef(null);
   const [gRunning, setGRunning] = useState(false);
+  const [guidedTransitioning, setGuidedTransitioning] = useState(false);
+  const [guidedProgressHidden, setGuidedProgressHidden] = useState(false);
+  const [guidedProgressPct, setGuidedProgressPct] = useState(0);
+  const gAnimRef = useRef(null);
+  const gElapsedMsRef = useRef(0);
+  const guidedExerciseKeyRef = useRef("");
+  const guidedProgressStageRef = useRef("idle");
 
   // Reset BEFORE the tick interval mounts (avoids 0:00 flash / instant skip when tapping START NOW).
   useLayoutEffect(() => {
@@ -4345,34 +4468,77 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     }
   }, [phase, fi, cur?.id, guidedMoveSeconds]);
 
-  // Effect 2: manage the interval — runs on exercise change OR pause toggle, never resets gLeft
+  // Guided exercise timing: frame-driven so progress can hit 100% exactly before transition.
   useEffect(() => {
-    clearInterval(gRef.current);
-    gRef.current = null;
-    if (phase === "exercise" && cur && !paused) {
-      setGRunning(true);
-      gRef.current = setInterval(() => {
-        setGLeft((l) => {
-          if (l == null) return l;
-          if (l <= 1) {
-            clearInterval(gRef.current);
-            setGRunning(false);
-            handleTimerDone();
-            return 0;
-          }
-          return l - 1;
-        });
-      }, 1000);
-    } else {
+    if (gAnimRef.current) cancelAnimationFrame(gAnimRef.current);
+    gAnimRef.current = null;
+    if (phase !== "exercise" || !cur) {
       setGRunning(false);
+      return;
     }
-    return () => clearInterval(gRef.current);
+    const exerciseKey = `${cur.id}:${fi}:${guidedMoveSeconds}`;
+    if (guidedExerciseKeyRef.current !== exerciseKey) {
+      guidedExerciseKeyRef.current = exerciseKey;
+      gElapsedMsRef.current = 0;
+      setGuidedProgressPct(0);
+      setGuidedProgressHidden(false);
+      guidedProgressStageRef.current = "idle";
+      setGLeft(guidedMoveSeconds);
+    }
+    if (paused) {
+      setGRunning(false);
+      return;
+    }
+    setGRunning(true);
+    const totalMs = guidedMoveSeconds * 1000;
+    const startAt = performance.now() - gElapsedMsRef.current;
+    const tick = (now) => {
+      if (guidedProgressStageRef.current === "transitioning") return;
+      const elapsedMs = Math.min(totalMs, Math.max(0, now - startAt));
+      gElapsedMsRef.current = elapsedMs;
+      const remainingMs = Math.max(0, totalMs - elapsedMs);
+      const remainingSeconds = Math.max(0, Math.ceil(remainingMs / 1000));
+      const nextPct = totalMs > 0 ? elapsedMs / totalMs * 100 : 0;
+      if (remainingSeconds <= 1) {
+        guidedProgressStageRef.current = "transitioning";
+        setGRunning(false);
+        setGLeft(1);
+        setGuidedProgressPct(100);
+        if (gAnimRef.current) cancelAnimationFrame(gAnimRef.current);
+        gAnimRef.current = requestAnimationFrame(() => {
+          setGuidedProgressHidden(true);
+          gAnimRef.current = requestAnimationFrame(() => {
+            setGLeft(0);
+            setGuidedProgressPct(0);
+            handleTimerDone();
+          });
+        });
+        return;
+      }
+      setGLeft((prev) => prev === remainingSeconds ? prev : remainingSeconds);
+      setGuidedProgressPct((prev) => Math.abs(prev - nextPct) < 0.05 ? prev : nextPct);
+      gAnimRef.current = requestAnimationFrame(tick);
+    };
+    gAnimRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (gAnimRef.current) cancelAnimationFrame(gAnimRef.current);
+    };
   }, [phase, fi, cur?.id, paused]);
 
   // helper display and pct for guided large timer
   const gTotal = cur && phase === "exercise" ? guidedMoveSeconds : 0;
-  const gPct = gTotal > 0 && gLeft != null ? (gTotal - gLeft) / gTotal : 0;
+  const gPct = gTotal > 0 ? guidedProgressPct / 100 : 0;
   const gDisplay = gLeft != null ? `${Math.floor(gLeft / 60)}:${(gLeft % 60).toString().padStart(2, "0")}` : guidedDefaultDisplay;
+  const guidedFilledText = isNight ? "#000000" : theme === "light" ? "#f6f7f8" : "#252525";
+  const guidedShellBg = isNight || isDark ? "#000000" : "#FFFFFF";
+  const guidedBodyText = isDark ? "#FFFFFF" : "#111111";
+  const guidedMoveOpacity = 1;
+  const handleGuidedMiddleScroll = (e) => {
+    const el = e.currentTarget;
+    const maxScroll = Math.max(0, (el.scrollHeight || 0) - (el.clientHeight || 0));
+    const progress = maxScroll > 0 ? (el.scrollTop || 0) / maxScroll : 0;
+    setGuidedScrollProgress(Math.max(0, Math.min(1, progress)));
+  };
 
   // GUIDED phase flags
   const isExercisePhase = phase === "exercise";
@@ -4411,6 +4577,12 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
           clearInterval(readyRef.current);
           primeAudio();
           beep(880, 0.2);
+          guidedExerciseKeyRef.current = "";
+          gElapsedMsRef.current = 0;
+          guidedProgressStageRef.current = "idle";
+          setGuidedProgressPct(0);
+          setGuidedProgressHidden(false);
+          setGLeft(guidedMoveSeconds);
           setPhase("exercise");
           return GETREADY_SECONDS;
         }
@@ -4443,6 +4615,18 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     if (diag && typeof diag.scrollTo === "function") {
       try {diag.scrollTo({ left: 0, behavior: "auto" });} catch (e) {}
     }
+    setGuidedScrollProgress(0);
+    const middle = guidedMiddleScrollRef.current;
+    if (middle && typeof middle.scrollTo === "function") {
+      try {middle.scrollTo({ top: 0, behavior: "auto" });} catch (e) {}
+    }
+    const revealId = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setGuidedTransitioning(false);
+        setGuidedProgressHidden(false);
+      });
+    });
+    return () => cancelAnimationFrame(revealId);
   }, [fi, phase, cur && cur.id]);
 
   // Cat/Cow carousel is user-driven (no auto-swap).
@@ -4465,11 +4649,17 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     const at50 = Math.ceil(listTotal * 0.5);
     const at75 = Math.ceil(listTotal * 0.75);
     if (nextTotal === at25 || nextTotal === at50 || nextTotal === at75) {
+      setGuidedTransitioning(true);
+      guidedExerciseKeyRef.current = "";
+      gElapsedMsRef.current = 0;
+      guidedProgressStageRef.current = "idle";
+      setGuidedProgressPct(0);
       const msg = nextTotal === at25 ? "Quarter done" : nextTotal === at50 ? "Halfway there" : "Almost there";
       setMilestoneMessage(msg);
       setPhase("milestone");
       if (milestoneRef.current) clearTimeout(milestoneRef.current);
       milestoneRef.current = setTimeout(() => {
+        setGLeft(guidedMoveSeconds);
         setFi((i) => Math.min(i + 1, list.length - 1));
         setReadyLeft(GETREADY_SECONDS);
         setPhase("getready");
@@ -4477,6 +4667,12 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         milestoneRef.current = null;
       }, 2200);
     } else {
+      setGuidedTransitioning(true);
+      guidedExerciseKeyRef.current = "";
+      gElapsedMsRef.current = 0;
+      guidedProgressStageRef.current = "idle";
+      setGuidedProgressPct(0);
+      setGLeft(guidedMoveSeconds);
       setFi((i) => Math.min(i + 1, list.length - 1));
       setReadyLeft(GETREADY_SECONDS);
       setPhase("getready");
@@ -4494,12 +4690,19 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const handleSkip = () => {
     onSkip(cur.id);
     beep(440, 0.2);
-    if (fi < list.length - 1) {setFi((i) => i + 1);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}
+    if (fi < list.length - 1) {guidedExerciseKeyRef.current = "";gElapsedMsRef.current = 0;guidedProgressStageRef.current = "idle";setGuidedProgressPct(0);setGuidedTransitioning(true);setGuidedProgressHidden(true);setGLeft(guidedMoveSeconds);setFi((i) => i + 1);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}
   };
 
   const handleNext = () => {
     beep(440, 0.2);
     if (fi < list.length - 1) {
+      guidedExerciseKeyRef.current = "";
+      gElapsedMsRef.current = 0;
+      guidedProgressStageRef.current = "idle";
+      setGuidedProgressPct(0);
+      setGuidedTransitioning(true);
+      setGuidedProgressHidden(true);
+      setGLeft(guidedMoveSeconds);
       setFi((i) => i + 1);
       setReadyLeft(GETREADY_SECONDS);
       setPhase("getready");
@@ -4509,33 +4712,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   };
 
   const handlePrev = () => {
-    if (fi > 0) {setFi((i) => i - 1);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}
+    if (fi > 0) {guidedExerciseKeyRef.current = "";gElapsedMsRef.current = 0;guidedProgressStageRef.current = "idle";setGuidedProgressPct(0);setGuidedTransitioning(true);setGuidedProgressHidden(true);setGLeft(guidedMoveSeconds);setFi((i) => i - 1);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}
   };
-
-  const catCowCaptionAt = (slideIdx) => {
-    const native = cur && exerciseShowsCatCowFigure(cur.id, cur.name);
-    if (cur && !native && isBaselineProtocolTrack(activeTrackId)) {
-      const en = String(cur.name || "Exercise").trim();
-      return slideIdx === 0 ? `${en} · 1 of 2` : `${en} · 2 of 2`;
-    }
-    const catLine = guidedStepCards.find((c) => /\bcat\b/i.test(String(c.cue || "")) && !/\bcow\b/i.test(String(c.cue || "")));
-    const cowLine = guidedStepCards.find((c) => /\bcow\b/i.test(String(c.cue || "")));
-    if (slideIdx === 0) {
-      if (catLine) return `${catLine.label} - ${catLine.cue}`.replace(/\s+/g, " ").trim();
-      return "MOVE 2 - CAT (EXHALE)";
-    }
-    if (cowLine) return `${cowLine.label} - ${cowLine.cue}`.replace(/\s+/g, " ").trim();
-    return "MOVE 3 - COW (INHALE)";
-  };
-
-  const guidedPagerDot = (active) => ({
-    width: 6,
-    height: 6,
-    borderRadius: "50%",
-    background: active ? gA : isNight ? "rgba(211, 47, 47, 0.48)" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)",
-    boxShadow: active ? `0 0 8px ${gA}` : "none",
-    opacity: active ? 1 : 0.7
-  });
 
   // No exercises: show message and exit (avoids cur.id / cur.name access on undefined)
   if (listTotal === 0 || !cur) {
@@ -4551,8 +4729,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       React.createElement("div", { style: { fontSize: "var(--text-sm)", color: S, marginBottom: 24 } }, "Add exercises or clear filters and try again."), /*#__PURE__*/
       React.createElement("button", { ref: guidedCloseBtnRef, type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
           padding: "14px 40px", borderRadius: 28, cursor: "pointer",
-          background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isDark ? "#252525" : "var(--axis-white)",
-          WebkitTextFillColor: isDark ? "#252525" : undefined,
+          background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: guidedFilledText,
+          WebkitTextFillColor: guidedFilledText,
           fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 600,
           letterSpacing: "0.18em", textTransform: "uppercase"
         } }, "Exit")
@@ -4664,8 +4842,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     ), /*#__PURE__*/
     React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
         padding: "16px 48px", borderRadius: 28, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isDark ? "#252525" : "var(--axis-white)",
-        WebkitTextFillColor: isDark ? "#252525" : undefined,
+        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: guidedFilledText,
+        WebkitTextFillColor: guidedFilledText,
         fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 600,
         letterSpacing: "0.18em", textTransform: "uppercase",
         boxShadow: `0 0 32px ${ct.accentGlow}`
@@ -4703,7 +4881,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         padding: "8px 14px", borderRadius: 8, border: "1px solid",
         borderColor: exerciseDurationSeconds === sec ? "var(--accent)" : "var(--glass-border)",
         background: exerciseDurationSeconds === sec ? "var(--accent)" : "var(--glass-bg)",
-        color: exerciseDurationSeconds === sec ? "#252525" : "var(--text-secondary)",
+        color: exerciseDurationSeconds === sec ? guidedFilledText : "var(--text-secondary)",
         cursor: "pointer", fontWeight: 600
       } },
     sec === 60 ? "1 min" : `${sec} sec`
@@ -4711,8 +4889,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, opacity: 0.85, maxWidth: 320, lineHeight: 1.4, marginBottom: 14, textAlign: "center" } }, "No equipment? You can modify \u2014 use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion."), /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.3);setReadyLeft(GETREADY_SECONDS);setPhase("getready");}, style: {
         padding: "14px 48px", borderRadius: 999, cursor: "pointer",
-        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isDark ? "#252525" : "var(--axis-white)",
-        WebkitTextFillColor: isDark ? "#252525" : undefined,
+        background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: guidedFilledText,
+        WebkitTextFillColor: guidedFilledText,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
         letterSpacing: "0.24em", textTransform: "uppercase",
         boxShadow: `0 0 24px ${ct.accentGlow}`
@@ -4727,324 +4905,182 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
     phase !== "intro" && phase !== "closing" && phase !== "milestone" && /*#__PURE__*/
-    React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", position: "relative", zIndex: 2, minHeight: 0, overflow: "hidden" } }, /*#__PURE__*/
-
-    React.createElement("div", { style: { flex: "1 1 0%", minHeight: 0, overflow: "hidden", padding: "4px 16px 0", display: "flex", flexDirection: "column" } }, /*#__PURE__*/
-
-    (phase === "getready" || phase === "exercise") && /*#__PURE__*/
+    React.createElement("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column", position: "relative", zIndex: 2, overflow: "hidden" } }, /*#__PURE__*/
     React.createElement("div", { style: {
-        display: "flex", justifyContent: "center", alignItems: "center",
-        height: 38, minHeight: 38, maxHeight: 38, marginBottom: 4, flexShrink: 0,
-        boxSizing: "border-box"
+        flexShrink: 0,
+        padding: "8px 16px 12px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10
+      } }, /*#__PURE__*/
+    React.createElement("div", { style: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: 24
       } }, /*#__PURE__*/
     React.createElement("div", { key: phase === "exercise" ? "begin" : "getready", style: {
-        display: "flex", alignItems: "center", justifyContent: "center",
-        width: "100%", height: "100%",
         fontSize: phase === "exercise" ? 20 : 10,
         fontWeight: phase === "exercise" ? 700 : 500,
-        letterSpacing: phase === "exercise" ? "0.12em" : "0.14em",
+        letterSpacing: phase === "exercise" ? "0.12em" : "0.16em",
         textTransform: "uppercase",
         color: W,
-        border: "none",
-        background: "transparent",
-        borderRadius: 0,
-        padding: 0,
-        margin: 0,
         fontFamily: "var(--font-display)",
         lineHeight: 1,
-        whiteSpace: "nowrap",
-        animation: phase === "exercise" && !isNight ? "guidedBeginBreath 2s ease-in-out infinite" : "none",
-        transform: "translateZ(0)"
-      } }, phase === "getready" ? "REST & GET READY" : "BEGIN")
-    ), /*#__PURE__*/
-
-
-
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: phase === "getready" || phase === "exercise" ? "center" : "flex-start", minHeight: 56 } }, /*#__PURE__*/
+        animation: phase === "exercise" && !isNight ? "guidedBeginBreath 2s ease-in-out infinite" : "none"
+      } }, phase === "getready" ? "REST & GET READY" : "BEGIN")), /*#__PURE__*/
     React.createElement("div", {
       ref: titleRef,
       style: {
-        fontSize: phase === "getready" || phase === "exercise" ? 29 : 26,
-        fontWeight: 500, letterSpacing: "0.04em", lineHeight: 1.08, textTransform: "uppercase",
-        color: W,
-        minHeight: 61,
-        maxHeight: 68,
-        maxWidth: Math.min(420, carouselCardW + 80),
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-        marginBottom: 0, flexShrink: 0, fontFamily: "var(--font-display)",
-        textShadow: phase === "getready" || phase === "exercise" ? "none" : NAME_SHAD,
-        textAlign: "center",
-        whiteSpace: "normal",
-        wordBreak: "break-word"
-      } },
-    (cur?.name || "").replace(/-/g, " ")
-    )
-    ),
-
-
-    (phase === "getready" || phase === "exercise") && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", minHeight: 0, marginTop: 4, marginBottom: 10, flexShrink: 0 } },
-
-    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: "2px 0 0" } }, /*#__PURE__*/
-    phase === "getready"
-    ? React.createElement("div", { style: { minWidth: 119, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 75, fontWeight: 500, letterSpacing: "-0.03em", color: isNight ? A : isDark ? A : gA, lineHeight: 1, textShadow: "none", opacity: isNight ? 0.85 : 0.5 } },
-        `0:${readyLeft.toString().padStart(2, "0")}`)
-    : React.createElement("div", { style: { minWidth: 119, textAlign: "center", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontSize: 75, fontWeight: 500, letterSpacing: "-0.03em", color: isNight ? A : isDark ? A : gA, lineHeight: 1, textShadow: "none" } },
-        gDisplay)
-    ),
-
-    React.createElement("div", { style: { width: carouselCardW * 0.85, height: 7, borderRadius: 999, background: isNight ? "rgba(211, 47, 47, 0.35)" : isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden", marginTop: 5 } }, /*#__PURE__*/
-    React.createElement("div", { style: {
-        height: 7, borderRadius: 999, background: gA,
-        width: phase === "getready"
-          ? `${(GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS * 100}%`
-          : `${gPct * 100}%`,
-        transition: "width 1s linear", willChange: "width"
-      } })
-    )
-
-    ),
-
-
-
-    (phase === "getready" || phase === "exercise") && guidedStepTotal > 0 && cur && /*#__PURE__*/React.createElement("div", {
-      className: "gdc-root",
-      style: {
-        flex: 1,
-        minHeight: 0,
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        marginTop: 6,
-        boxSizing: "border-box"
-      }
-    }, /*#__PURE__*/
-    exerciseUsesCatCowTemplateLayout(activeTrackId, cur.id, cur.name) ? /*#__PURE__*/React.createElement("div", {
-      className: "gdc-section gdc-section--instr-expand",
-      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", paddingTop: 4 }
-    }, /*#__PURE__*/
-    React.createElement("button", {
-      type: "button",
-      className: "gdc-instr-expand-btn",
-      "aria-expanded": instructionsExpanded,
-      "aria-controls": `gdc-instr-expand-panel-${cur.id}`,
-      onClick: () => {axisHapticTick();setInstructionsExpanded((v) => !v);},
-      style: {
-        border: isNight ? "1px solid #FF3B30" : isDark ? "1px solid rgba(255,255,255,0.22)" : `1px solid ${gA}`,
-        background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "rgba(0, 122, 255, 0.08)",
-        color: isNight ? A : gA
-      }
-    }, /*#__PURE__*/React.createElement("span", { style: { textAlign: "left" } }, "Full instructions"), /*#__PURE__*/React.createElement("span", { className: "gdc-instr-expand-chevron", "aria-hidden": true, style: { transform: instructionsExpanded ? "rotate(180deg)" : "rotate(0deg)" } }, "\u25BC")), /*#__PURE__*/
-    React.createElement("div", { className: "gdc-instr-expand-anim", "data-expanded": instructionsExpanded ? "true" : "false", "aria-hidden": instructionsExpanded ? undefined : "true" }, /*#__PURE__*/React.createElement("div", { className: "gdc-instr-expand-anim-inner" }, /*#__PURE__*/React.createElement("div", {
-      id: `gdc-instr-expand-panel-${cur.id}`,
-      className: "gdc-instr-expand-panel",
-      role: "region",
-      "data-panel": "guided-black",
-      "aria-label": "Full exercise instructions",
-      style: {
-        background: "#000000",
-        color: "#f6f7f8",
-        WebkitTextFillColor: "#f6f7f8",
-        border: isNight ? "1px solid #FF3B30" : isDark ? "1px solid rgba(255,255,255,0.22)" : "1px solid rgba(255,255,255,0.18)",
-        boxShadow: isNight ? "none" : "0 4px 24px rgba(0,0,0,0.25)"
-      }
-    }, guidedStepCards.map((card, idx) => /*#__PURE__*/React.createElement("div", {
-      key: `gdc-exp-${idx}`,
-      className: "gdc-instr-expand-row"
-    }, /*#__PURE__*/React.createElement("div", { className: "gdc-instr-expand-label" }, card.label), /*#__PURE__*/React.createElement("div", { className: "gdc-instr-expand-cue" }, card.cue))))))) : /*#__PURE__*/React.createElement("div", {
-      className: "gdc-section gdc-section--instr",
-      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", paddingTop: 4 }
-    }, /*#__PURE__*/
-    React.createElement("div", { id: `instr-${cur.id}`, style: { width: "100%", boxSizing: "border-box" } }, /*#__PURE__*/
-    React.createElement("div", {
-      ref: carouselTrackRef,
-      className: "gdc-instr-track",
-      onScroll: (e) => {
-        const el = e.currentTarget;
-        const slide = el.querySelector(".gdc-instr-slide");
-        const stride = (slide?.offsetWidth || 0) + carouselGap;
-        const maxScroll = Math.max(0, (el.scrollWidth || 0) - (el.clientWidth || 0));
-        let idx;
-        if (maxScroll > 0) {
-          if ((el.scrollLeft || 0) >= maxScroll - 2) {
-            idx = guidedStepTotal - 1;
-          } else {
-            idx = stride > 0 ? Math.round((el.scrollLeft || 0) / stride) : 0;
-          }
-        } else {
-          idx = stride > 0 ? Math.round((el.scrollLeft || 0) / stride) : 0;
-        }
-        const bounded = Math.max(0, Math.min(guidedStepTotal - 1, idx));
-        if (bounded !== carouselActiveIdx) setCarouselActiveIdx(bounded);
-      },
-      style: {
-        gap: carouselGap,
-        overflowX: "auto",
-        overflowY: "hidden",
-        scrollSnapType: "x mandatory",
-        WebkitOverflowScrolling: "touch",
-        padding: `0 ${carouselSidePad}px`,
-        scrollPaddingLeft: carouselSidePad,
-        scrollPaddingRight: carouselSidePad,
-        boxSizing: "border-box"
-      }
-    }, guidedStepCards.map((card, idx) => /*#__PURE__*/React.createElement("div", {
-      key: idx,
-      className: "gdc-instr-slide",
-      style: {
-        scrollSnapAlign: "center",
-        borderRadius: 12,
-        overflow: "hidden",
-        padding: "7px 10px 9px",
-        borderTop: "none",
-        border: idx === carouselActiveIdx ? `2px solid ${gA}` : isNight ? "1px solid #FF3B30" : isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.08)",
-        background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.06)" : "#FFFFFF",
-        backdropFilter: "blur(24px) saturate(1.4)",
-        WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-        boxShadow: isDark ? "0 4px 24px rgba(0,0,0,0.15)" : "0 4px 20px rgba(0,0,0,0.06)",
-        opacity: idx === carouselActiveIdx ? 1 : 0.78,
-        transform: idx === carouselActiveIdx ? "scale(1)" : "scale(0.98)",
-        transition: "opacity 0.25s ease-out, transform 0.25s ease-out"
-      }
-    }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.2em", textTransform: "uppercase", color: isNight ? "#FF3B30" : gA, marginBottom: 5 } }, card.label),
-    /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", color: W, lineHeight: 1.18, fontWeight: 400, letterSpacing: "-0.01em" } }, card.cue)))))), /*#__PURE__*/
-    exerciseUsesCatCowTemplateLayout(activeTrackId, cur.id, cur.name) ? /*#__PURE__*/React.createElement("div", {
-      className: "gdc-section gdc-section--diagram",
-      style: { flexShrink: 0, width: "100%", boxSizing: "border-box", marginTop: 12 }
-    }, /*#__PURE__*/
-    React.createElement("div", { className: "gdc-diag-frame", style: {
-        background: isNight ? "#000000" : isDark ? "rgba(255,255,255,0.04)" : "#FFFFFF",
-        border: isNight ? "1px solid #FF3B30" : isDark ? "1px solid rgba(255,255,255,0.22)" : "1px solid #1D1D1F"
-      } }, /*#__PURE__*/React.createElement("div", {
-      ref: diagramCarouselRef,
-      className: "gdc-diag-track gdc-diag-track--catcow",
-      onScroll: (e) => {
-        const el = e.currentTarget;
-        const slide = el.querySelector(".gdc-diag-slide");
-        const stride = (slide?.offsetWidth || 0) + carouselGap;
-        const maxScroll = Math.max(0, (el.scrollWidth || 0) - (el.clientWidth || 0));
-        let idx;
-        if (maxScroll > 0 && (el.scrollLeft || 0) >= maxScroll - 2) {
-          idx = 1;
-        } else {
-          idx = stride > 0 ? Math.round((el.scrollLeft || 0) / stride) : 0;
-        }
-        const b = Math.max(0, Math.min(1, idx));
-        if (b !== diagramSlideIdx) setDiagramSlideIdx(b);
-      },
-      style: {
-        gap: 0,
-        overflowX: "auto",
-        overflowY: "hidden",
-        scrollSnapType: "x mandatory",
-        width: "100%",
-        maxHeight: 520,
-        WebkitOverflowScrolling: "touch",
-        padding: 0,
-        scrollPaddingLeft: 0,
-        scrollPaddingRight: 0,
-        boxSizing: "border-box"
-      },
-      "aria-label": exerciseShowsCatCowFigure(cur.id, cur.name) ? "Cat and Cow pose diagram" : `${String(cur.name || "Exercise").trim()} · movement diagram, swipe between two poses`
-    }, /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide gdc-diag-slide--catcow", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
-      id: CATCOW_CAT_FIGURE_ASSET_ID,
-      preserveAspectRatio: "xMidYMid slice",
-      fillContainer: true,
-      className: "exercise-figure--catcow",
-      style: { color: catCowInstructionColor(theme, isNight), width: "100%", height: "100%", minHeight: 0 }
-    })), /*#__PURE__*/React.createElement("div", { className: "gdc-diag-slide gdc-diag-slide--catcow", style: { position: "relative" } }, /*#__PURE__*/React.createElement(ExerciseFigure, {
-      id: CATCOW_COW_FIGURE_ASSET_ID,
-      preserveAspectRatio: "xMidYMid slice",
-      fillContainer: true,
-      className: "exercise-figure--catcow",
-      style: { color: catCowInstructionColor(theme, isNight), width: "100%", height: "100%", minHeight: 0 }
-    })))), /*#__PURE__*/
-    React.createElement("div", {
-      key: `gdc-cap-${diagramSlideIdx}`,
-      "aria-live": "polite",
-      "aria-atomic": "true",
-      style: {
-        width: "100%",
-        padding: "0 8px",
-        boxSizing: "border-box",
-        textAlign: "center",
-        marginTop: 12,
-        marginBottom: 0,
-        fontSize: "var(--text-xs)",
+        fontSize: 29,
         fontWeight: 500,
-        letterSpacing: "0.06em",
+        letterSpacing: "0.04em",
+        lineHeight: 1.08,
         textTransform: "uppercase",
-        color: !isNight && !isDark ? "#1D1D1F" : S,
-        lineHeight: 1.35,
-        fontFamily: "var(--font-display)"
+        color: W,
+        textAlign: "center",
+        fontFamily: "var(--font-display)",
+        minHeight: 52
       }
-    }, catCowCaptionAt(diagramSlideIdx)), /*#__PURE__*/
-    React.createElement("div", { className: "gdc-diag-dots", style: { width: "100%", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 10, flexShrink: 0 } },
-    [0, 1].map((i) => /*#__PURE__*/React.createElement("span", { key: `gdc-ddot-${i}`, "aria-hidden": true, style: guidedPagerDot(i === diagramSlideIdx) })))) : null, /*#__PURE__*/
-    React.createElement("div", { className: "gdc-air", style: { flex: "1 1 0%", minHeight: "max(64px, 20vh)", paddingTop: 32, width: "100%", boxSizing: "border-box" } })),
-
-
-
-    )
-    ),
-
-
-
-    phase !== "closing" && phase !== "milestone" && phase !== "intro" && /*#__PURE__*/
+    }, (cur?.name || "").replace(/-/g, " ")), /*#__PURE__*/
     React.createElement("div", { style: {
-        marginTop: "auto",
-        marginBottom: phase === "getready" ? `max(36px, env(safe-area-inset-bottom, 32px))` : `max(28px, env(safe-area-inset-bottom, 28px))`,
+        textAlign: "center",
+        fontVariantNumeric: "tabular-nums",
+        fontFamily: "var(--font-display)",
+        fontSize: 75,
+        fontWeight: 500,
+        letterSpacing: "-0.03em",
+        color: isNight ? A : isDark ? A : gA,
+        lineHeight: 1,
+        opacity: guidedTransitioning ? 0 : phase === "getready" && isNight ? 0.85 : phase === "getready" ? 0.5 : 1,
+        transition: "opacity 0.12s ease-out"
+      } }, phase === "getready" ? `0:${readyLeft.toString().padStart(2, "0")}` : gDisplay), /*#__PURE__*/
+    React.createElement("div", { style: { width: "100%", display: "flex", justifyContent: "center", opacity: guidedTransitioning || guidedProgressHidden ? 0 : 1, transition: "opacity 0.12s ease-out" } }, /*#__PURE__*/
+    React.createElement("div", { style: { width: "100%", maxWidth: 320, height: 7, borderRadius: 999, background: isNight ? "rgba(211, 47, 47, 0.35)" : isDark ? "rgba(255,255,255,0.08)" : "#EEEEEE", overflow: "hidden" } }, /*#__PURE__*/
+    React.createElement("div", { style: {
+        height: 7,
+        borderRadius: 999,
+        background: gA,
+        width: phase === "getready" ? `${(GETREADY_SECONDS - readyLeft) / GETREADY_SECONDS * 100}%` : `${gPct * 100}%`,
+        transition: guidedTransitioning || guidedProgressHidden ? "none" : "width 1s linear",
+        willChange: "width"
+      } })))), /*#__PURE__*/
+    React.createElement("div", { style: { position: "relative", flex: "1 1 0%", minHeight: 0, padding: "0 16px" } }, /*#__PURE__*/
+    React.createElement("div", {
+      ref: guidedMiddleScrollRef,
+      onScroll: handleGuidedMiddleScroll,
+      style: {
+        height: "100%",
+        overflowY: "auto",
+        overflowX: "hidden",
+        WebkitOverflowScrolling: "touch",
+        padding: "6px 0 20px",
+        scrollbarWidth: "none",
+        msOverflowStyle: "none"
+      }
+    }, guidedStepTotal > 0 ? /*#__PURE__*/React.createElement(CueTiers, {
+      tiers: guidedInstructionTiers,
+      theme: theme,
+      ultraNight: isNight,
+      moveOpacity: guidedMoveOpacity,
+      bodyColorOverride: guidedBodyText,
+      compact: false }
+    ) : null), /*#__PURE__*/
+    React.createElement("div", { "aria-hidden": true, style: {
+        position: "absolute",
+        top: 0,
+        left: 16,
+        right: 16,
+        height: 22,
+        pointerEvents: "none",
+        background: `linear-gradient(to bottom, ${guidedShellBg} 0%, rgba(0,0,0,0) 100%)`
+      } }), /*#__PURE__*/
+    React.createElement("div", { "aria-hidden": true, style: {
+        position: "absolute",
+        bottom: 0,
+        left: 16,
+        right: 16,
+        height: 26,
+        pointerEvents: "none",
+        background: `linear-gradient(to top, ${guidedShellBg} 0%, rgba(0,0,0,0) 100%)`
+      } })), /*#__PURE__*/
+    React.createElement("div", { style: {
+        flexShrink: 0,
+        position: "relative",
+        height: 96,
         marginLeft: 16,
         marginRight: 16,
-        flexShrink: 0, position: "relative", zIndex: 2,
-        display: "flex", alignItems: "stretch", height: 56, gap: phase === "exercise" ? 12 : 0,
-        ...(phase === "exercise" ? {} : { borderRadius: 24, overflow: "hidden", background: BAR_BG, backdropFilter: isDark ? "blur(40px) saturate(2)" : "blur(28px) saturate(1.4)", WebkitBackdropFilter: isDark ? "blur(40px) saturate(2)" : "blur(28px) saturate(1.4)", border: BAR_BDR, boxShadow: BAR_SHAD })
-      } },
-
-    phase === "exercise" && cur && /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
+        marginBottom: `max(22px, env(safe-area-inset-bottom, 18px))`
+      } }, /*#__PURE__*/
+    React.createElement("div", { style: { position: "absolute", top: 0, left: 0, right: 0, display: "flex", gap: 12, height: 56, opacity: phase === "exercise" && cur ? 1 : 0, pointerEvents: phase === "exercise" && cur ? "auto" : "none" } }, /*#__PURE__*/
     React.createElement("button", { onClick: () => {axisHapticTick();setPaused((p) => !p);}, style: {
-        flex: 1, minWidth: 0, borderRadius: 999,
+        flex: 1,
+        minWidth: 0,
+        minHeight: 56,
+        borderRadius: 999,
         background: "transparent",
-        backdropFilter: "none", WebkitBackdropFilter: "none",
         border: `1px solid ${gA}`,
         color: gA,
-        fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
-        letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
-        transition: "all 0.2s", boxShadow: "none"
+        fontFamily: "var(--font-display)",
+        fontSize: "var(--text-xs)",
+        fontWeight: 600,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        cursor: "pointer"
       } }, paused ? "RESUME" : "PAUSE"), /*#__PURE__*/
     React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: handleNext, style: {
-        flex: 1, minWidth: 0, borderRadius: 999,
-        background: gA, border: nightMode ? "1px solid #FF3B30" : "none",
-        color: isDark ? "#252525" : "var(--axis-white)",
-        WebkitTextFillColor: isDark ? "#252525" : undefined,
-        fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
-        letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
+        flex: 1,
+        minWidth: 0,
+        minHeight: 56,
+        borderRadius: 999,
+        background: gA,
+        border: nightMode ? "1px solid #FF3B30" : "none",
+        color: guidedFilledText,
+        WebkitTextFillColor: guidedFilledText,
+        fontFamily: "var(--font-display)",
+        fontSize: "var(--text-xs)",
+        fontWeight: 600,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        cursor: "pointer",
         boxShadow: !isNight && !isDark ? "0 0 16px rgba(0, 122, 255, 0.35)" : `0 0 16px ${ct.accentGlow}`
-      } }, "NEXT")
-    ),
-
-
-
-    phase === "getready" && /*#__PURE__*/
-    React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {clearInterval(readyRef.current);primeAudio();beep(880, 0.2);setGLeft(guidedMoveSeconds);setPhase("exercise");}, style: {
-        flex: 1, width: "100%", minWidth: 0, background: gA, border: nightMode ? "1px solid #FF3B30" : "none",
-        color: isDark ? "#252525" : "var(--axis-white)",
-        WebkitTextFillColor: isDark ? "#252525" : undefined,
-        fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
-        letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer",
-        boxShadow: !isNight && !isDark ? "0 0 20px rgba(0, 122, 255, 0.38)" : `0 0 20px ${ct.accentGlow}`
-      } }, "START NOW"),
-
-
-
-    )
-
+      } }, "NEXT \u2192")), /*#__PURE__*/
+    React.createElement("button", { className: isNight ? "guided-cta-fill" : undefined, onClick: () => {clearInterval(readyRef.current);primeAudio();beep(880, 0.2);guidedExerciseKeyRef.current = "";gElapsedMsRef.current = 0;guidedProgressStageRef.current = "idle";setGuidedProgressPct(0);setGuidedProgressHidden(false);setGLeft(guidedMoveSeconds);setPhase("exercise");}, style: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        minHeight: 56,
+        height: 56,
+        minWidth: 0,
+        borderRadius: 999,
+        background: gA,
+        border: nightMode ? "1px solid #FF3B30" : "none",
+        color: guidedFilledText,
+        WebkitTextFillColor: guidedFilledText,
+        fontFamily: "var(--font-display)",
+        fontSize: "var(--text-xs)",
+        fontWeight: 600,
+        letterSpacing: "0.2em",
+        textTransform: "uppercase",
+        cursor: "pointer",
+        boxShadow: !isNight && !isDark ? "0 0 20px rgba(0, 122, 255, 0.38)" : `0 0 20px ${ct.accentGlow}`,
+        opacity: phase === "getready" ? 1 : 0,
+        pointerEvents: phase === "getready" ? "auto" : "none"
+      } }, "START NOW"), /*#__PURE__*/
+    React.createElement("div", { style: { position: "absolute", left: 0, right: 0, bottom: 0, height: 20, display: "flex", justifyContent: "center", alignItems: "center" } }, /*#__PURE__*/
+    React.createElement("button", { type: "button", onClick: handleSkip, style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        color: isNight ? "#FF3B30" : isDark ? "#FFFFFF" : "#111111",
+        fontFamily: "var(--font-display)",
+        fontSize: "11px",
+        fontWeight: 500,
+        letterSpacing: "0.16em",
+        textTransform: "uppercase",
+        opacity: 0.74
+      } }, "SKIP EXERCISE"))))
     ));
 
 }
@@ -6515,6 +6551,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 } }, /*#__PURE__*/
     React.createElement("label", { htmlFor: "axis-daily-goal", style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Minutes per day"), /*#__PURE__*/
     React.createElement("input", {
+      className: "settings-range",
       id: "axis-daily-goal",
       type: "range",
       min: 1,
@@ -6536,6 +6573,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 } }, /*#__PURE__*/
     React.createElement("label", { htmlFor: "axis-weekly-goal", style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Minutes per week"), /*#__PURE__*/
     React.createElement("input", {
+      className: "settings-range",
       id: "axis-weekly-goal",
       type: "range",
       min: 5,
@@ -6570,11 +6608,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 16 } }, "Session"), /*#__PURE__*/
     React.createElement("div", null, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 8 } }, "Exercise duration (LIST)"), /*#__PURE__*/
+    React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 8 } }, "Timer length per exercise"), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, marginBottom: 12, maxWidth: 280 } }, "Timer length for each exercise in LIST view."), /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
     [30, 45, 60].map((sec) => /*#__PURE__*/
-    React.createElement("button", { key: sec, onClick: () => setExerciseDuration(sec), style: { fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 8, border: "1px solid", borderColor: exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)", background: exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)", color: exerciseDuration === sec ? theme === "dark" || nightMode ? "#252525" : "var(--axis-white)" : "var(--text-secondary)", cursor: "pointer", fontWeight: 600 } },
+    React.createElement("button", { key: sec, className: exerciseDuration === sec ? "ultra-filled-btn settings-chip--active" : undefined, onClick: () => setExerciseDuration(sec), style: { fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 8, border: "1px solid", borderColor: exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)", background: exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)", color: exerciseDuration === sec ? nightMode ? "#000000" : theme === "light" ? "#111111" : "#FFFFFF" : "var(--text-secondary)", cursor: "pointer", fontWeight: 600 } },
     sec === 60 ? "1 min" : `${sec} sec`
     )
     )
@@ -6584,23 +6622,25 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 32 } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 16 } }, "Custom App Icon"), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, marginBottom: 12, maxWidth: 320 } }, "Pick a home screen icon style."), /*#__PURE__*/
-    React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 10 } },
+    React.createElement("div", { className: "ultra-icon-grid", style: { display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 10 } },
     APP_ICON_OPTIONS.map((opt) => {
       const isSelected = selectedAppIcon === opt.src;
       return /*#__PURE__*/React.createElement("button", {
         key: opt.id,
         type: "button",
-        onClick: () => setSelectedAppIcon(opt.src),
+        onClick: nightMode ? undefined : () => setSelectedAppIcon(opt.src),
+        disabled: nightMode,
         style: {
           position: "relative",
           borderRadius: 12,
           border: isSelected ? "2px solid #FF3B30" : "1px solid var(--glass-border)",
           background: "var(--glass-bg)",
           padding: 6,
-          cursor: "pointer",
+          cursor: nightMode ? "default" : "pointer",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          opacity: nightMode ? 0.18 : 1
         },
         "aria-label": `Select ${opt.label} app icon`,
         "aria-pressed": isSelected ? "true" : "false"
@@ -6625,7 +6665,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           textAlign: "center"
         }
       }, "\u2713"));
-    })), /*#__PURE__*/
+    }), nightMode && /*#__PURE__*/React.createElement("div", { className: "ultra-icon-lock", "aria-hidden": true })), /*#__PURE__*/
+    nightMode && /*#__PURE__*/React.createElement("div", { style: { fontSize: "10px", letterSpacing: "0.16em", textTransform: "uppercase", color: "#FF3B30", marginTop: 10, fontWeight: 600 } }, "NOT AVAILABLE IN ULTRA MODE"), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, marginTop: 12, maxWidth: 320 } }, "Note: To apply a new icon to your Home Screen, please re-save the app using the Share menu after selecting.")
     ), /*#__PURE__*/
     React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 0 } }, /*#__PURE__*/
@@ -6732,7 +6773,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, marginBottom: 3 } }, /*#__PURE__*/
           React.createElement("span", { style: { fontSize: "var(--text-base)", fontWeight: 600, color: isSelected ? ct.accent : "var(--text-white)", fontFamily: "var(--font-display)", letterSpacing: "-0.01em" } }, label), /*#__PURE__*/
           React.createElement("span", { style: { fontSize: "var(--text-xs)", color: nightMode ? ct.accent : "var(--text-dimmer)" } }, time),
-          isNow && !nightMode && /*#__PURE__*/React.createElement("span", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--accent)", opacity: 0.7 } }, "now")
+          isNow && !nightMode && /*#__PURE__*/React.createElement("span", { style: { fontSize: "var(--text-xs)", color: "var(--text-dimmer)", letterSpacing: "0.02em", textTransform: "none", fontWeight: 500 } }, "Now")
           ), /*#__PURE__*/
           React.createElement("div", { style: { fontSize: "var(--text-sm)", color: nightMode ? ct.accent : "var(--text-secondary)" } }, desc)
           ),
@@ -6744,9 +6785,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
 
 
+      React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.20em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 10, fontWeight: 600 } }, "Display"), /*#__PURE__*/
       React.createElement("div", { style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, marginBottom: 0 } }, /*#__PURE__*/
       React.createElement("div", null, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, "Ultra mode"), /*#__PURE__*/
+      React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, "Ultra Mode"), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, maxWidth: 280 } }, "Pure black OLED background with AXIS red accents. Optimized for low light.")
       ), /*#__PURE__*/
       React.createElement("button", { onClick: toggleNight, style: { flexShrink: 0, marginTop: 2, width: 44, height: 26, border: "1px solid", borderColor: nightMode ? "var(--accent)" : "var(--glass-border-strong)", borderRadius: 13, background: nightMode ? "var(--accent)" : "var(--glass-bg)", cursor: "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
@@ -6767,7 +6809,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const summaryDow = summaryDateObj.toLocaleDateString(undefined, { weekday: "long" });
     const summaryMonthDay = summaryDateObj.toLocaleDateString(undefined, { month: "long", day: "numeric" });
     const summaryHeroWeeklyEmpty = weeklyGoalBarMinutesCurrent === 0;
-    const summaryHeroAvgEmpty = weekSessionCountForWindow === 0;
     const summaryRecentLimit = summaryRecentExpanded ? 15 : 3;
     const summaryRecentRows = history.slice(0, Math.min(history.length, summaryRecentLimit));
     return (/*#__PURE__*/
@@ -6787,35 +6828,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-main-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-sunset-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero summary-hero--feature" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric summary-hero-metric--left" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-label" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Total"), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Weekly"), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Time")
-      ), /*#__PURE__*/
-      summaryHeroWeeklyEmpty ? /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value-stack" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-metric", style: { width: "100%", display: "flex", alignItems: "stretch", justifyContent: "space-between", gap: 0 } }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-metric-label", style: { flex: "1 1 50%", alignItems: "center", textAlign: "center" } }, /*#__PURE__*/
+      React.createElement("span", { className: "summary-hero-metric-label-line", style: { textAlign: "center" } }, "TOTAL WEEKLY TIME")), /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-metric-divider" }), /*#__PURE__*/
+      summaryHeroWeeklyEmpty ? /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value-stack", style: { flex: "1 1 50%", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-metric-value", style: { justifyContent: "center" } }, /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-num" }, "--")
       ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-hint" }, "Ready to start?")
-      ) : /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-hero-metric-hint", style: { textAlign: "center" } }, "Ready to start?")
+      ) : /*#__PURE__*/React.createElement("button", { type: "button", className: "summary-goal-link", onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("settings");}, style: { flex: "1 1 50%", display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-num" }, weeklyGoalBarMinutesCurrent), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
-      )
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-divider", "aria-hidden": true }), /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric summary-hero-metric--right" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-label" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Average"), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Session"), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-label-line" }, "Time")
-      ), /*#__PURE__*/
-      summaryHeroAvgEmpty ? /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-num" }, "--")
-      ) : /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value" }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-num" }, avgSessionMinutesRounded), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-unit" }, "m")
-      )
+      React.createElement("span", { className: "summary-hero-metric-unit" }, "m"))
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento" }, /*#__PURE__*/
@@ -6834,9 +6858,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-week-bar-fill" + (dailyBarOverdrive ? " summary-week-bar-fill--overdrive" : ""), style: { width: dailyBarFillPct + "%" } })
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
-      goalMin > 0 ? `${todayMinutesTotal} / ${goalMin} min · ${dailyGoalDisplayPct}%` : "Set a daily movement goal in Settings to track today."
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-goal-footnote" }, "Adjust in Settings → Daily Movement Goal.")
+      goalMin > 0 ? /*#__PURE__*/React.createElement(React.Fragment, null,
+      todayMinutesTotal, " / ", /*#__PURE__*/React.createElement("button", { type: "button", className: "summary-goal-link", onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("settings");} }, goalMin, " min"), " · ", dailyGoalDisplayPct, "%") : /*#__PURE__*/React.createElement(React.Fragment, null,
+      /*#__PURE__*/React.createElement("button", { type: "button", className: "summary-goal-link", onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("settings");} }, "Set daily goal"), " to track today.")
+      )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-card" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-week-head" }, "Weekly goal"), /*#__PURE__*/
@@ -6844,9 +6869,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-week-bar-fill" + (weeklyBarOverdrive ? " summary-week-bar-fill--overdrive" : ""), style: { width: weeklyBarFillPct + "%" } })
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-week-meta" },
-      weeklyTargetMin > 0 ? `${weeklyGoalBarMinutesCurrent} / ${weeklyTargetMin} min · ${weeklyGoalDisplayPct}%` : `${weeklyGoalBarMinutesCurrent} min this week · set a weekly movement goal in Settings`
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "summary-goal-footnote" }, "Adjust in Settings → Weekly Movement Goal.")
+      weeklyTargetMin > 0 ? /*#__PURE__*/React.createElement(React.Fragment, null,
+      weeklyGoalBarMinutesCurrent, " / ", /*#__PURE__*/React.createElement("button", { type: "button", className: "summary-goal-link", onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("settings");} }, weeklyTargetMin, " min"), " · ", weeklyGoalDisplayPct, "%") : /*#__PURE__*/React.createElement(React.Fragment, null,
+      weeklyGoalBarMinutesCurrent, " min this week · ", /*#__PURE__*/React.createElement("button", { type: "button", className: "summary-goal-link", onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("settings");} }, "Set weekly goal"))
+      )
       ), /*#__PURE__*/
       React.createElement(MomentumMap, { history: history, nightMode: nightMode, theme: theme }), /*#__PURE__*/
       history.length > 0 && /*#__PURE__*/
@@ -7246,7 +7272,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       disabled: filteredAll.length === 0,
       style: {
         width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #FF3B30" : "none",
-        background: "var(--accent)", color: theme === "dark" || nightMode ? "#252525" : "var(--axis-white)",
+        background: "var(--accent)", color: theme === "light" && !nightMode ? "#111111" : "#FFFFFF",
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
         letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
         opacity: filteredAll.length === 0 ? 0.45 : 1, transition: "opacity 0.18s, transform 0.18s"
