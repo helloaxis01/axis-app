@@ -3,6 +3,7 @@ node_modules/
 dist/
 .vercel/
 *.bak
+*onboarding.html.bak-*
 .env
 .env.*
 # Standalone deploy repo (own git remote) — do not commit into axis-app
