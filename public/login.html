@@ -20,6 +20,21 @@
       min-height: 100dvh;
     }
   </style>
+  <script>
+  (function () {
+    window.axisOnboardingHref = function () {
+      try {
+        if (!window.location.protocol || window.location.protocol === "file:") return "./onboarding.html";
+        var p = window.location.pathname || "/";
+        var d = p.replace(/[^/]*$/, "");
+        if (d.slice(-1) !== "/") d += "/";
+        return window.location.origin + d + "onboarding.html";
+      } catch (e) {
+        return "./onboarding.html";
+      }
+    };
+  })();
+  </script>
 </head>
 <body>
   <div id="root"></div>

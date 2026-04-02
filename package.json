@@ -3,11 +3,18 @@
   "private": true,
   "scripts": {
     "build": "node build.js",
-    "build:auth": "node scripts/build-auth.mjs"
+    "build:auth": "node scripts/build-auth.mjs",
+    "dev": "npm run build && node scripts/static-dev.cjs",
+    "dev:serve": "npm run build && npx --yes serve dist -l 3000",
+    "cap:sync": "npm run build && npx cap sync"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
     "@babel/preset-react": "^7.23.0",
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0",
+    "@capacitor/ios": "^8.3.0",
     "@resvg/resvg-js": "^2.6.2",
     "esbuild": "^0.25.12"
   },

@@ -57,6 +57,15 @@ function copyRecursive(src, dest) {
 }
 
 copyRecursive(path.join(root, 'Logo - Vector'), path.join(dist, 'Logo - Vector'));
+
+// Onboarding + brand assets for same-origin navigation (Settings → onboarding.html, Capacitor dist/)
+const publicDir = path.join(root, 'public');
+function copyPublicToDist(name) {
+  const src = path.join(publicDir, name);
+  const dest = path.join(dist, name);
+  if (fs.existsSync(src)) fs.copyFileSync(src, dest);
+}
+['onboarding.html', 'onboarding.css', 'AXIS_Branding_DarkMode_Outlined.svg', 'AXIS_Branding_LightMode_Outlined.svg', 'axis_data.json'].forEach(copyPublicToDist);
 // Single app icon only: navy PNG in Logo - Vector → axis-icon.png (no old filenames, no SVG fallback)
 const iconPngRoot = path.join(root, 'Logo - Vector', 'AXIS_Branding_Navy.png');
 const iconPngDist = path.join(dist, 'axis-icon.png');
@@ -87,12 +96,16 @@ if (fs.existsSync(authBundleSrc)) {
     console.error('Failed to copy auth-bundle.js to dist:', e);
   }
 }
-// onboarding assets are now served from /public/onboarding/ (Vercel serves public/ automatically)
-// previous copy step removed in favor of placing files in /public/onboarding/
 finish();
 
 function finish() {
   const vercel = path.join(root, 'vercel.json');
   if (fs.existsSync(vercel)) fs.copyFileSync(vercel, path.join(dist, 'vercel.json'));
+  // `serve` defaults to cleanUrls → 301 from /onboarding.html to /onboarding; some clients show ERR_INVALID_RESPONSE/404.
+  fs.writeFileSync(
+    path.join(dist, 'serve.json'),
+    JSON.stringify({ cleanUrls: false, trailingSlash: false }, null, 2),
+    'utf8'
+  );
   console.log('Build done: dist/ with index.html (inline app script) and assets');
 }

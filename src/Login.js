@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { axisOnboardingUrl } from "./axis-onboarding-url.js";
 import React, { useState } from "./react-shim.js";
 import { auth, syncUserProfile } from "./firebase.js";
 
@@ -33,7 +34,7 @@ export default function Login() {
             localStorage.removeItem("hasCompletedOnboarding");
             localStorage.setItem("axis_onboarded", JSON.stringify(false));
           } catch (err) {}
-          window.location.replace("./onboarding.html");
+          window.location.replace(axisOnboardingUrl());
           return;
         }
         const cred = await signInWithEmailAndPassword(auth, email.trim(), password);

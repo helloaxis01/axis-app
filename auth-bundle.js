@@ -8040,6 +8040,25 @@
     }
   });
 
+  // src/axis-onboarding-url.js
+  function axisOnboardingUrl() {
+    if (typeof window === "undefined") return "./onboarding.html";
+    if (window.location.protocol === "file:") return "./onboarding.html";
+    if (typeof window.axisOnboardingHref === "function") return window.axisOnboardingHref();
+    try {
+      const p = window.location.pathname || "/";
+      let dir = p.replace(/[^/]*$/, "");
+      if (dir.slice(-1) !== "/") dir += "/";
+      return window.location.origin + dir + "onboarding.html";
+    } catch (e) {
+      return "./onboarding.html";
+    }
+  }
+  var init_axis_onboarding_url = __esm({
+    "src/axis-onboarding-url.js"() {
+    }
+  });
+
   // src/react-shim.js
   function getReact() {
     const ReactRef = typeof window !== "undefined" ? window.React : null;
@@ -20479,7 +20498,7 @@ This typically indicates that your device does not have a healthy Internet conne
               localStorage.setItem("axis_onboarded", JSON.stringify(false));
             } catch (err) {
             }
-            window.location.replace("./onboarding.html");
+            window.location.replace(axisOnboardingUrl());
             return;
           }
           const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
@@ -20502,9 +20521,7 @@ This typically indicates that your device does not have a healthy Internet conne
       padding: "max(20px, env(safe-area-inset-top, 0px)) 20px calc(20px + env(safe-area-inset-bottom, 0px))",
       boxSizing: "border-box",
       background: "radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%)",
-      color: "#f6f7f8",
-      border: "none",
-      outline: "none"
+      color: "#f6f7f8"
     };
     const top = {
       flex: "0 0 40%",
@@ -20529,9 +20546,9 @@ This typically indicates that your device does not have a healthy Internet conne
       padding: "12px 16px",
       marginBottom: "12px",
       borderRadius: 999,
-      border: "none",
-      background: "#f6f7f8",
-      color: "#252525",
+      border: "1px solid rgba(255,255,255,0.18)",
+      background: "rgba(8,13,24,0.24)",
+      color: "#f6f7f8",
       fontFamily: "'Inter', system-ui, sans-serif",
       fontSize: "15px",
       outline: "none",
@@ -20650,9 +20667,8 @@ This typically indicates that your device does not have a healthy Internet conne
                 type: "submit",
                 style: {
                   ...submitBtn,
-                  background: mode === "signin" ? "#252525" : "#FF9F43",
-                  color: mode === "signin" ? "#f6f7f8" : "#252525",
-                  border: "none"
+                  background: mode === "signin" ? "#2EC4B6" : "#FF9F43",
+                  color: mode === "signin" ? "#0D2E2A" : "#252525"
                 },
                 disabled: busy
               },
@@ -20679,6 +20695,7 @@ This typically indicates that your device does not have a healthy Internet conne
   var init_Login = __esm({
     "src/Login.js"() {
       init_index_esm5();
+      init_axis_onboarding_url();
       init_react_shim();
       init_firebase();
       window.AXIS_DEBUG_KEY = "NEW_KEY_ACTIVE";
@@ -20711,7 +20728,7 @@ This typically indicates that your device does not have a healthy Internet conne
           });
         }
         if (u && !isOnboarded()) {
-          window.location.replace("./onboarding.html");
+          window.location.replace(axisOnboardingUrl());
         }
       });
       return () => unsub();
@@ -20724,6 +20741,7 @@ This typically indicates that your device does not have a healthy Internet conne
   var init_App = __esm({
     "src/App.js"() {
       init_index_esm5();
+      init_axis_onboarding_url();
       init_Login();
       init_react_shim();
       init_firebase();

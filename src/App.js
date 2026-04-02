@@ -1,4 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
+import { axisOnboardingUrl } from "./axis-onboarding-url.js";
 import Login from "./Login.js";
 import React, { useEffect, useState } from "./react-shim.js";
 import { auth, syncUserProfile } from "./firebase.js";
@@ -29,7 +30,7 @@ export default function App({ children }) {
         });
       }
       if (u && !isOnboarded()) {
-        window.location.replace("./onboarding.html");
+        window.location.replace(axisOnboardingUrl());
       }
     });
     return () => unsub();

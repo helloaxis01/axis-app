@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  (function () {
+    window.axisOnboardingHref = function () {
+      try {
+        if (!window.location.protocol || window.location.protocol === "file:") return "./onboarding.html";
+        var p = window.location.pathname || "/";
+        var d = p.replace(/[^/]*$/, "");
+        if (d.slice(-1) !== "/") d += "/";
+        return window.location.origin + d + "onboarding.html";
+      } catch (e) {
+        return "./onboarding.html";
+      }
+    };
+  })();
+  </script>
   <meta charset="UTF-8" />
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="pragma" content="no-cache" />
@@ -4134,17 +4149,17 @@ function MomentumMap({ history, nightMode = false, theme = "dark" }) {
   const styleDayOff = theme === "light" ? {
     background: "#9F9FA5",
     border: "1px solid rgba(15, 30, 46, 0.125)",
-    boxShadow: "none",
-    backdropFilter: "none",
-    WebkitBackdropFilter: "none"
-  } : {
-    background: "var(--glass-bg)",
-    border: "1px solid var(--glass-border)",
-    boxShadow: "inset 0 1px 0 var(--glass-specular)",
-    backdropFilter: "blur(8px)",
-    WebkitBackdropFilter: "blur(8px)"
-  };
-  return (/*#__PURE__*/
+        boxShadow: "none",
+        backdropFilter: "none",
+        WebkitBackdropFilter: "none"
+      } : {
+        background: "var(--glass-bg)",
+        border: "1px solid var(--glass-border)",
+        boxShadow: "inset 0 1px 0 var(--glass-specular)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)"
+      };
+      return (/*#__PURE__*/
     React.createElement("div", { className: "summary-momentum" }, /*#__PURE__*/
     React.createElement("div", { className: "summary-title", style: { marginBottom: 12 } }, "7-Day Momentum"), /*#__PURE__*/
     React.createElement("div", { className: "momentum-strip", role: "img", "aria-label": "Seven days of session activity" },
@@ -5361,7 +5376,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     let rafId = 0;
     const tick = () => {
       const now = performance.now();
-      const pat = bPatternRef.current;
+          const pat = bPatternRef.current;
       let phaseIdx = bPhaseRef.current;
       let cycle = bCycleRef.current;
       let phaseDurMs = Math.max(1, pat[phaseIdx]?.dur ?? 1) * 1000;
@@ -5369,7 +5384,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
       while (elapsedMs >= phaseDurMs) {
         const nextIdx = (phaseIdx + 1) % pat.length;
-        const isNewCycle = nextIdx === 0;
+          const isNewCycle = nextIdx === 0;
         const nextCycle = isNewCycle ? cycle + 1 : cycle;
 
         if (isNewCycle && cycle >= bCyclesRef.current) {
@@ -5380,7 +5395,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
           setBCycle(bCyclesRef.current + 1);
           setBTime(0);
           setBRunning(false);
-          beep(528, 0.4);
+            beep(528, 0.4);
           triggerHaptic(HAPTIC_DOUBLE_TAP);
           return;
         }
@@ -6591,7 +6606,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           const newHistory = [newEntry, ...prev].slice(0, 30);
           storageSet("axis_history", newHistory);
           if (!hadTodayBefore) {
-            const yesterday = new Date(Date.now() - 86400000).toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
             const hadYesterday = prev.some((e) => axisLocalDateKey(e.date) === yesterday);
             setStreak((st) => {
               const n = hadYesterday ? st + 1 : 1;
@@ -6786,7 +6801,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     ), /*#__PURE__*/
     React.createElement("div", { style: { borderTop: "1px solid var(--border)", paddingTop: 24, marginBottom: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 16 } }, "About"), /*#__PURE__*/
-    React.createElement("button", { onClick: () => { try { storageSet("axis_onboarded", false); } catch(e){} try { localStorage.setItem('hasCompletedOnboarding','false'); } catch(e){} window.location.href = "./onboarding.html"; }, style: { background: "none", border: "1px solid var(--glass-border)", fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-dim)", cursor: "pointer", padding: "10px 18px", marginBottom: 16, borderRadius: 10 } }, "View Onboarding Again"), /*#__PURE__*/
+    React.createElement("button", { onClick: () => { try { storageSet("axis_onboarded", false); } catch(e){} try { localStorage.setItem('hasCompletedOnboarding','false'); } catch(e){} window.location.href = window.axisOnboardingHref(); }, style: { background: "none", border: "1px solid var(--glass-border)", fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-dim)", cursor: "pointer", padding: "10px 18px", marginBottom: 16, borderRadius: 10 } }, "View Onboarding Again"), /*#__PURE__*/
     React.createElement("div", null, /*#__PURE__*/
     React.createElement(FeedbackButton, null)
     )
@@ -7201,9 +7216,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement(EolMarker, null)
       )
       )
-      , /*#__PURE__*/
+    , /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--today" })
-      ), /*#__PURE__*/
+    ), /*#__PURE__*/
       React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
       ));
 
@@ -7220,7 +7235,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
   // SESSION — render Guided overlay via portal to document.body so position:fixed is viewport-relative (parent has transform)
   const guidedOverlayEl = guidedActive ? /*#__PURE__*/
-    React.createElement(GuidedOverlay, {
+  React.createElement(GuidedOverlay, {
     theme: theme, activePeriod: activePeriod, activeAll: filteredAll, TOTAL: filteredAll.length,
     done: done, totalDone: totalDone, sessionSecs: sessionSecs,
     onExit: () => {setGuidedActive(false);setSessionComplete(false);},

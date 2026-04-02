@@ -8040,6 +8040,25 @@
     }
   });
 
+  // src/axis-onboarding-url.js
+  function axisOnboardingUrl() {
+    if (typeof window === "undefined") return "./onboarding.html";
+    if (window.location.protocol === "file:") return "./onboarding.html";
+    if (typeof window.axisOnboardingHref === "function") return window.axisOnboardingHref();
+    try {
+      const p = window.location.pathname || "/";
+      let dir = p.replace(/[^/]*$/, "");
+      if (dir.slice(-1) !== "/") dir += "/";
+      return window.location.origin + dir + "onboarding.html";
+    } catch (e) {
+      return "./onboarding.html";
+    }
+  }
+  var init_axis_onboarding_url = __esm({
+    "src/axis-onboarding-url.js"() {
+    }
+  });
+
   // src/react-shim.js
   function getReact() {
     const ReactRef = typeof window !== "undefined" ? window.React : null;
@@ -20479,7 +20498,7 @@ This typically indicates that your device does not have a healthy Internet conne
               localStorage.setItem("axis_onboarded", JSON.stringify(false));
             } catch (err) {
             }
-            window.location.replace("./onboarding.html");
+            window.location.replace(axisOnboardingUrl());
             return;
           }
           const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
@@ -20676,6 +20695,7 @@ This typically indicates that your device does not have a healthy Internet conne
   var init_Login = __esm({
     "src/Login.js"() {
       init_index_esm5();
+      init_axis_onboarding_url();
       init_react_shim();
       init_firebase();
       window.AXIS_DEBUG_KEY = "NEW_KEY_ACTIVE";
@@ -20708,7 +20728,7 @@ This typically indicates that your device does not have a healthy Internet conne
           });
         }
         if (u && !isOnboarded()) {
-          window.location.replace("./onboarding.html");
+          window.location.replace(axisOnboardingUrl());
         }
       });
       return () => unsub();
@@ -20721,6 +20741,7 @@ This typically indicates that your device does not have a healthy Internet conne
   var init_App = __esm({
     "src/App.js"() {
       init_index_esm5();
+      init_axis_onboarding_url();
       init_Login();
       init_react_shim();
       init_firebase();
