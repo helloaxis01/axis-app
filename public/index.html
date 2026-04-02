@@ -674,8 +674,8 @@ const css = `
     font-family: var(--font-ui);
     --dashboard-browse-sticky-top: calc(env(safe-area-inset-top, 0px) + 49px);
     --axis-dashboard-fixed-h: calc(env(safe-area-inset-top, 0px) + 49px);
-    /* Reserve space for session hdr (back, title, LIST/GUIDED) so tab subbar isn’t covered */
-    --axis-session-fixed-h: 152px;
+    /* Session fixed hdr (below dashboard). Tuned with scroll-pad gradient so list doesn’t show through extra pad. */
+    --axis-session-fixed-h: 132px;
   }
   .home-wordmark, .track-card-name, .hdr-title, .session-title,
   .fc-name, .fv-name, .guided-exercise-name, .en, .step-label,
@@ -1332,14 +1332,14 @@ const css = `
     border: 1px solid color-mix(in srgb, #FF3B30 15%, transparent) !important;
     color: #FF3B30 !important;
     font-family: var(--font-display) !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     font-weight: 500 !important;
     line-height: 1 !important;
     letter-spacing: 0.05em !important;
     text-transform: uppercase !important;
-    min-height: 26px !important;
+    min-height: 32px !important;
     height: auto !important;
-    padding: 5px !important;
+    padding: 8px !important;
     border-radius: 999px !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
@@ -1948,14 +1948,14 @@ const css = `
     -webkit-backdrop-filter: blur(10px) saturate(1.8);
     box-shadow: 0 4px 20px rgba(0,0,0,0.18), 0 1px 0 var(--glass-border);
     margin: 0 calc(-1 * var(--page-gutter));
-    padding: 8px var(--page-gutter) 16px;
+    padding: 8px var(--page-gutter) 14px;
   }
   .tab-desc-line {
     font-size: var(--text-sm);
     letter-spacing:0.03em;
-    padding-top: 4px;
-    padding-bottom: 10px;
-    line-height: 1.35;
+    padding-top: 6px;
+    padding-bottom: 8px;
+    line-height: 1.45;
   }
   .tab-prog-row {
     display:flex; align-items:center; justify-content:space-between;
@@ -2014,6 +2014,18 @@ const css = `
     backdrop-filter: blur(28px) saturate(1.35);
     -webkit-backdrop-filter: blur(28px) saturate(1.35);
     box-shadow: 0 4px 28px rgba(0, 0, 0, 0.22), 0 1px 0 color-mix(in srgb, var(--glass-border) 65%, transparent);
+  }
+  /* Session scroll pad: same tint as fixed hdr-wrap so no “see-through” strip under LIST/GUIDED */
+  .app[data-theme="dark"]:not([data-night="true"]) .app-body > .dashboard-header + .hdr-wrap + .content.content--session {
+    background-image: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--tab-bg) 58%, transparent) 0,
+      color-mix(in srgb, var(--tab-bg) 58%, transparent) var(--session-scroll-pad),
+      transparent var(--session-scroll-pad)
+    );
+    background-repeat: no-repeat;
+    background-size: 100% var(--session-scroll-pad);
+    background-position: top center;
   }
   .app[data-theme="dark"]:not([data-night="true"]) .hdr-session-head .tabs .tab.on {
     background: transparent;
@@ -2977,20 +2989,20 @@ const css = `
     min-width: 0;
   }
   .fav-filter.fav-filter--session-util .fav-toggle__icon {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
     display: block;
   }
-  /* Session pills: ~15% larger, equal inset on all sides */
+  /* Session pills: larger tap targets, equal padding on all sides */
   .fav-filter.fav-filter--session-util .fav-toggle {
     flex: 0 0 auto;
-    min-height: 26px;
+    min-height: 32px;
     height: auto;
-    padding: 5px !important;
+    padding: 8px !important;
     border-radius: 999px !important;
     font-family: var(--font-display) !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     font-weight: 500 !important;
     line-height: 1 !important;
     letter-spacing: 0.05em !important;
@@ -3000,7 +3012,7 @@ const css = `
     color: var(--text-dimmer) !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
-    gap: 4px;
+    gap: 5px;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -3404,7 +3416,18 @@ const css = `
     background:rgba(255, 59, 48, 0.3) !important;
   }
   .app-body > .dashboard-header + .hdr-wrap + .content.content--session {
-    padding-top: calc(var(--axis-dashboard-fixed-h) + var(--axis-session-fixed-h));
+    --session-scroll-pad: calc(var(--axis-dashboard-fixed-h) + var(--axis-session-fixed-h));
+    padding-top: var(--session-scroll-pad);
+    /* Opaque band same height as padding: matches hdr/tab-subbar so nothing shows through the “gap” */
+    background-image: linear-gradient(
+      to bottom,
+      var(--hdr-bg) 0,
+      var(--hdr-bg) var(--session-scroll-pad),
+      transparent var(--session-scroll-pad)
+    );
+    background-repeat: no-repeat;
+    background-size: 100% var(--session-scroll-pad);
+    background-position: top center;
   }
   /* Left edge aligns with TODAY card — only .track-cards-outer supplies horizontal gutter */
   .home-welcome {
