@@ -672,7 +672,7 @@ const css = `
     --global-body-size: var(--text-base);
     --global-eyebrow-size: var(--text-xs);
     /* First line below dashboard: Home greeting + tab screen titles share this top inset */
-    --app-title-after-dashboard: 36px;
+    --app-title-after-dashboard: 44px;
     --home-section-gap: 18px;
   }
   /* AXIS design tokens — foundation */
@@ -803,19 +803,8 @@ const css = `
     margin-bottom: 8px;
     font-size: var(--text-lg) !important;
   }
-  .app--timer-tab .dashboard-header__brand {
-    visibility: hidden;
-    width: 0;
-    max-width: 0;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    letter-spacing: 0;
-    font-size: 0 !important;
-    line-height: 0;
-    pointer-events: none;
-  }
-  .app-body > .dashboard-header + .timer-view-body {
+  /* Timer: no top dashboard strip — same first-line inset as Home / Mood / Settings */
+  .app--timer-tab .app-body > .timer-view-body {
     flex: 1;
     min-height: 0;
     display: flex;
@@ -5266,7 +5255,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 // ─────────────────────────────────────────────────────────────
 //  TIMER VIEW — standalone interval timer
 // ─────────────────────────────────────────────────────────────
-function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null, dashboardHeaderEl = null }) {
+function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null }) {
   const [mode, setMode] = useState("interval"); // "interval" | "breathe"
   // derive dark flag early so all uses below are safe
   const isDark = typeof nightMode === "boolean" && nightMode || theme === "dark";
@@ -6000,7 +5989,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
 
     React.createElement("div", { className: "app-body" }, /*#__PURE__*/
-    dashboardHeaderEl, /*#__PURE__*/
     React.createElement("div", { className: "timer-view-body" }, /*#__PURE__*/
 
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 360, flex: 1, minHeight: 0 } }, /*#__PURE__*/
@@ -6728,7 +6716,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // SETTINGS
   // TIMER VIEW (key forces fresh mount to avoid blank on first open)
   if (view === "timer") {
-    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeaderEl: dashboardHeaderEl });
+    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode });
   }
   if (view === "settings") return (/*#__PURE__*/
     React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
@@ -7220,6 +7208,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       border: "none",
       boxShadow: `0 4px 16px rgba(0,0,0,0.2), 0 2px 10px rgba(${mx},${my},${mz},0.28)`
     };
+    if (!nightMode && (nowPeriod === "prime" || nowPeriod === "rest")) {
+      todayBtn.color = "#f6f7f8";
+      todayBtn.WebkitTextFillColor = "#f6f7f8";
+    }
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
