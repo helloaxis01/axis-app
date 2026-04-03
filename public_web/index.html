@@ -1,21 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: gap: content: blob:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval';">
-<script>
-setTimeout(function () {
-(function () {
-  if (typeof window === "undefined") return;
-  window.onerror = function(msg, url, line, col, error) {
-    console.error("AXIS_DEBUG_CRASH: ", {msg, url, line, col, error});
-    return false;
-  };
-})();
-}, 100);
-</script>
   <script>
   (function () {
-    if (typeof window === "undefined") return;
     window.axisOnboardingHref = function () {
       try {
         if (!window.location.protocol || window.location.protocol === "file:") return "./onboarding.html";
@@ -71,33 +58,23 @@ setTimeout(function () {
     /* Ensure onboarding screens are centered if the onboarding CSS isn't loaded */
     .ob-screen { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100dvh; box-sizing:border-box; }
   </style>
-  <script defer src="./react.production.min.js" onerror="showLoadErr('Could not load ./react.production.min.js (must sit next to index.html in the app bundle).')"></script>
-  <script defer src="./react-dom.production.min.js" onerror="showLoadErr('Could not load ./react-dom.production.min.js (must sit next to index.html in the app bundle).')"></script>
-  <script defer src="./auth-bundle.js" onerror="showLoadErr('Could not load ./auth-bundle.js (must sit next to index.html in the app bundle).')"></script>
-  <script defer src="./axis-cap-plugins.js"></script>
 </head>
 <body>
-  <h1 id="axis-loading-marker">AXIS LOADING...</h1>
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
-(function () {
-  if (typeof window === "undefined" || typeof document === "undefined") return;
-  function showLoadErr(msg) {
-    try {
-      var el = document.getElementById("load-err");
-      if (el) { el.style.display = "block"; el.textContent = msg; }
-    } catch (e) {}
-  }
-  window.onerror = function(msg, src, line, col, err) {
-    try { console.error("AXIS_DEBUG_CRASH: ", { msg: msg, url: src, line: line, col: col, error: err }); } catch (e) {}
-    try {
-      showLoadErr("Error: " + msg + (err && err.stack ? "\n" + err.stack : ""));
-    } catch (e2) {}
-    return true;
-  };
-})();
+    function showLoadErr(msg) {
+      var el = document.getElementById('load-err');
+      if (el) { el.style.display = 'block'; el.textContent = msg; }
+    }
+    window.onerror = function(msg, src, line, col, err) {
+      showLoadErr('Error: ' + msg + (err && err.stack ? '\n' + err.stack : ''));
+      return true;
+    };
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
+  <script src="./auth-bundle.js" crossorigin="anonymous" onerror="showLoadErr('Could not load auth-bundle.js. Check your connection and try again.')"></script>
   <!-- Babel standalone removed for production builds; app is precompiled in dist/ -->
   <script>
     // Workout content is loaded asynchronously from ./axis_data.json (see bootstrapAxisApp at end of app script).
@@ -105,7 +82,6 @@ setTimeout(function () {
   <script>
   (function () {
     try {
-      if (typeof localStorage === "undefined" || !localStorage.getItem || !localStorage.setItem) return;
       var sm = localStorage.getItem("selectedMood");
       if (sm === "auto") localStorage.setItem("axis_period", JSON.stringify(null));
       else if (sm && /^(dawn|midday|prime|rest)$/.test(sm)) localStorage.setItem("axis_period", JSON.stringify(sm));
@@ -113,56 +89,33 @@ setTimeout(function () {
   })();
   </script>
   <script>// Development flag: add ?dev=1 to the URL or set localStorage.axis_dev = "1" to enable debug UI and verbose logs.
-(function () {
-  if (typeof window === "undefined") return;
+window.AXIS_DEV = location.search.indexOf('dev=1') !== -1 || localStorage.getItem && localStorage.getItem('axis_dev') === '1';
+if (window.AXIS_DEV) {
   try {
-    var devFromQuery = false;
-    try { devFromQuery = typeof location !== "undefined" && location.search.indexOf("dev=1") !== -1; } catch (e0) {}
-    var devFromLs = false;
-    try {
-      if (typeof localStorage !== "undefined" && localStorage.getItem) {
-        devFromLs = localStorage.getItem("axis_dev") === "1";
-      }
-    } catch (eLs) {}
-    window.AXIS_DEV = devFromQuery || devFromLs;
-  } catch (e) {
-    try { window.AXIS_DEV = false; } catch (e2) {}
-  }
-})();
-if (typeof window !== "undefined" && window.AXIS_DEV) {
-  try {
-    // Minimal debug overlay (var/function for broadest WKWebView compatibility in this small block)
-    var _dbg = document.createElement('div');
+    // Minimal debug overlay
+    const _dbg = document.createElement('div');
     _dbg.id = 'axis-debug-overlay';
     _dbg.style = 'position:fixed;right:12px;bottom:12px;z-index:99999;background:rgba(0,0,0,0.6);color:var(--axis-white);padding:8px 10px;border-radius:8px;font-family:monospace;font-size:var(--text-xs);cursor:pointer';
     _dbg.textContent = 'AXIS DEV';
     _dbg.title = 'Click to toggle verbose logging (persists)';
-    _dbg.onclick = function () {
-      var v = "0";
+    _dbg.onclick = () => {
+      const v = localStorage.getItem('axis_verbose') === '1' ? '0' : '1';
+      localStorage.setItem('axis_verbose', v);
+      alert('axis_verbose = ' + v);
+    };
+    document.addEventListener('DOMContentLoaded', () => {document.body.appendChild(_dbg);});
+    // Verbose logger if axis_verbose=1
+    const origLog = console.log.bind(console);
+    console.log = function (...args) {
       try {
-        v = localStorage.getItem("axis_verbose") === "1" ? "0" : "1";
-        localStorage.setItem("axis_verbose", v);
-      } catch (eLs) {}
-      try { alert("axis_verbose = " + v); } catch (eA) {}
+        if (localStorage.getItem('axis_verbose') === '1') origLog('[AXIS]', ...args);
+      } catch (e) {origLog('[AXIS]', ...args);}
     };
-    document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(_dbg); });
-    var origLog = console.log.bind(console);
-    console.log = function () {
-      var args = Array.prototype.slice.call(arguments);
-      try {
-        if (localStorage.getItem('axis_verbose') === '1') origLog.apply(console, ['[AXIS]'].concat(args));
-      } catch (e) { origLog.apply(console, ['[AXIS]'].concat(args)); }
-    };
-    var origError = console.error.bind(console);
-    console.error = function () {
-      var args = Array.prototype.slice.call(arguments);
-      origError.apply(console, ['[AXIS ERROR]'].concat(args));
-    };
+    const origError = console.error.bind(console);
+    console.error = function (...args) {origError('[AXIS ERROR]', ...args);};
   } catch (e) {}
 }
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+
 const { useState, useEffect, useLayoutEffect, useRef, useId } = React;
 
 // Ensure a global fallback 'highlight' exists for any older references or cached builds.
@@ -3592,7 +3545,7 @@ const css = `
     text-transform:uppercase;
     cursor:pointer;
     position:relative;
-    transition:color 0.18s, opacity 0.18s, -webkit-text-fill-color 0.18s;
+    transition:color 0.18s, opacity 0.18s;
     white-space:nowrap;
     -webkit-tap-highlight-color:transparent;
   }
@@ -3617,7 +3570,7 @@ const css = `
     background:var(--mood-color);
     pointer-events:none;
   }
-  .home-category-tab:active { opacity:0.88; }
+  .home-category-tab:active { opacity:0.85; }
   [data-theme="light"] .home-category-tab:not([aria-selected="true"]) {
     color:color-mix(in srgb, var(--mood-color) 30%, transparent);
     -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 30%, transparent);
@@ -4341,7 +4294,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "home" ? "active" : ""}`,
-    onClick: () => {axisHapticNavTab();setView("home");},
+    onClick: () => {axisHapticTick();setView("home");},
     "aria-label": "Home",
     "aria-current": view === "home" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4353,7 +4306,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "summary" ? "active" : ""}`,
-    onClick: () => {axisHapticNavTab();setView("summary");},
+    onClick: () => {axisHapticTick();setView("summary");},
     "aria-label": "Summary",
     "aria-current": view === "summary" ? "page" : undefined },
 
@@ -4365,7 +4318,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "timer" ? "active" : ""}`,
-    onClick: () => {axisHapticNavTab();setView("timer");},
+    onClick: () => {axisHapticTick();setView("timer");},
     "aria-label": "Timer",
     "aria-current": view === "timer" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4377,7 +4330,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "mood" ? "active" : ""}`,
-    onClick: () => {axisHapticNavTab();setView("mood");},
+    onClick: () => {axisHapticTick();setView("mood");},
     "aria-label": "Mood Focus",
     "aria-current": view === "mood" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4389,7 +4342,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "settings" ? "active" : ""}`,
-    onClick: () => {axisHapticNavTab();setView("settings");},
+    onClick: () => {axisHapticTick();setView("settings");},
     "aria-label": "Settings",
     "aria-current": view === "settings" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4488,35 +4441,11 @@ function axisHapticTick() {
   } catch (e) {}
 }
 
-/** Main tab bar: light impact / click on native (Capacitor). */
-function axisHapticNavTab() {
-  try {
-    const w = typeof window !== "undefined" ? window : null;
-    if (w?.AXISCap?.impactLight && typeof w.AXISCap.impactLight === "function") {
-      w.AXISCap.impactLight();
-      return;
-    }
-    if (w?.webkit?.messageHandlers?.axisHaptic?.postMessage) {
-      w.webkit.messageHandlers.axisHaptic.postMessage({ type: "tick" });
-      return;
-    }
-    if (w?.AXISNative?.haptic && typeof w.AXISNative.haptic === "function") {
-      w.AXISNative.haptic("tick");
-      return;
-    }
-    triggerHaptic(HAPTIC_LIGHT_TAP);
-  } catch (e) {}
-}
-
 function axisHapticSuccess() {
   try {
     const w = typeof window !== "undefined" ? window : null;
     if (w?.webkit?.messageHandlers?.axisHaptic?.postMessage) {
       w.webkit.messageHandlers.axisHaptic.postMessage({ type: "success" });
-      return;
-    }
-    if (w?.AXISCap?.notificationSuccess && typeof w.AXISCap.notificationSuccess === "function") {
-      w.AXISCap.notificationSuccess();
       return;
     }
     if (w?.AXISNative?.haptic && typeof w.AXISNative.haptic === "function") {
@@ -4841,18 +4770,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   }, [phase]);
   useEffect(() => () => {try {wakeLockRef.current?.release();wakeLockRef.current = null;} catch (e) {}}, []);
 
-  // Capacitor: keep display awake during guided flow (mirrors Screen Wake Lock phases).
-  useEffect(() => {
-    const cap = typeof window !== "undefined" && window.AXISCap;
-    if (!cap || typeof cap.keepAwakeOn !== "function" || typeof cap.keepAwakeOff !== "function") return;
-    if (phase === "intro" || phase === "closing") {
-      cap.keepAwakeOff();
-      return;
-    }
-    cap.keepAwakeOn();
-    return () => {cap.keepAwakeOff();};
-  }, [phase]);
-
   useEffect(() => {
     if (!titleRef.current) return;
     const el = titleRef.current;
@@ -4896,14 +4813,12 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     beep(660, 0.4);
     onToggle(cur.id);
     if (fi >= list.length - 1) {
-      axisHapticSuccess();
       setPhase("closing");
       if (onSessionComplete) onSessionComplete();
       return;
     }
     const nextTotal = totalDone + 1;
     if (nextTotal >= listTotal) {
-      axisHapticSuccess();
       setPhase("closing");
       if (onSessionComplete) onSessionComplete();
       return;
@@ -7839,7 +7754,6 @@ async function bootstrapAxisApp() {
   }
 }
 bootstrapAxisApp();
-});
   </script>
   <script>
   document.addEventListener("DOMContentLoaded", function () {

@@ -330,6 +330,14 @@ const CIRCADIAN_THEMES = {
   }
 };
 
+/** Parse #RRGGBB → [r,g,b] for rgba() fills (Today card tint, glows). */
+function axisHexToRgbTuple(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || "").trim());
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
 /** sRGB relative luminance → readable ink on solid circadian accent fills */
 function inkForAccentHex(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || "").trim());
@@ -689,8 +697,7 @@ const css = `
     font-family: var(--font-ui);
     --dashboard-browse-sticky-top: calc(env(safe-area-inset-top, 0px) + 49px);
     --axis-dashboard-fixed-h: calc(env(safe-area-inset-top, 0px) + 49px);
-    /* Session fixed hdr (below dashboard). Tuned with scroll-pad gradient so list doesn’t show through extra pad. */
-    --axis-session-fixed-h: 132px;
+    --axis-session-fixed-h: 108px;
   }
   .home-wordmark, .track-card-name, .hdr-title, .session-title,
   .fc-name, .fv-name, .guided-exercise-name, .en, .step-label,
@@ -708,8 +715,7 @@ const css = `
   .fc-pcue, .fv-cue, .step-cue { font-size: var(--text-base); }
   .purpose-text { font-size: calc(var(--text-sm) - 1px); font-style: normal; }
   .fc-sub { font-size: var(--text-sm); }
-  /* Exercise list rows: secondary / metadata (match track cards @ 13px) */
-  .es { font-size: 13px; }
+  .es { font-size: var(--text-xs); }
 
   /* Map app text/colors to canonical axis colors */
   .app[data-theme="dark"] {
@@ -779,7 +785,7 @@ const css = `
   .app-page-header { padding: var(--safe-top) var(--page-padding) 0; width: 100%; max-width: 100%; box-sizing: border-box; text-align: left; }
   /* With dashboard: main title lines share the same vertical start as Home greeting */
   .app-body > .dashboard-header + .app-page-header {
-    padding: calc(var(--axis-dashboard-fixed-h) + var(--app-title-after-dashboard)) var(--page-padding) 0;
+    padding: calc(var(--axis-dashboard-fixed-h) + max(4px, calc(var(--app-title-after-dashboard) - 32px))) var(--page-padding) 0;
   }
   .app-body > .dashboard-header + .home {
     padding-top: var(--axis-dashboard-fixed-h);
@@ -795,6 +801,30 @@ const css = `
   }
   .app-body > .dashboard-header + .app-page-header .app-screen-title {
     margin-bottom: 8px;
+    font-size: var(--text-lg) !important;
+  }
+  .app--timer-tab .dashboard-header__brand {
+    visibility: hidden;
+    width: 0;
+    max-width: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    letter-spacing: 0;
+    font-size: 0 !important;
+    line-height: 0;
+    pointer-events: none;
+  }
+  .app-body > .dashboard-header + .timer-view-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    padding: calc(var(--axis-dashboard-fixed-h) + max(4px, calc(var(--app-title-after-dashboard) - 32px))) 24px calc(84px + env(safe-area-inset-bottom, 0px));
   }
   .app-page-bottom-pad { padding-bottom: var(--safe-bottom); }
   .app-label { letter-spacing: var(--label-spacing); }
@@ -1177,11 +1207,19 @@ const css = `
   .app[data-night="true"] .begin-btn.session-browse-btn *,
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri *,
   .app[data-night="true"] .summary-cta-btn *,
-  .app[data-night="true"] .ultra-filled-btn * {
+  .app[data-night="true"] .ultra-filled-btn:not(.begin-btn--today-primary) * {
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
     fill: currentColor !important;
     stroke: currentColor !important;
+  }
+  .app[data-night="true"] .today-card--ghost .today-card__line {
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+  }
+  .app[data-night="true"] .today-card--ghost .today-card__line--muted {
+    color: rgba(255, 59, 48, 0.72) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.72) !important;
   }
   .app[data-night="true"] .fv-cta,
   .app[data-night="true"] .fv-cta span,
@@ -1226,20 +1264,20 @@ const css = `
     fill: #000000 !important;
     stroke: #000000 !important;
   }
-  .app[data-night="true"] .today-card,
-  .app[data-night="true"] .today-card *,
-  .app[data-night="true"] .start-here-group.today-card,
-  .app[data-night="true"] .start-here-group.today-card * {
+  .app[data-night="true"] .today-card:not(.today-card--ghost),
+  .app[data-night="true"] .today-card:not(.today-card--ghost) *,
+  .app[data-night="true"] .start-here-group.today-card:not(.today-card--ghost),
+  .app[data-night="true"] .start-here-group.today-card:not(.today-card--ghost) * {
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
   }
-  .app[data-night="true"] .begin-btn,
+  .app[data-night="true"] .begin-btn:not(.begin-btn--today-primary),
   .app[data-night="true"] .session-browse-btn,
   .app[data-night="true"] .guided-cta-fill,
   .app[data-night="true"] .fv-cta:not(.done),
   .app[data-night="true"] .summary-cta-btn,
   .app[data-night="true"] .settings-chip--active,
-  .app[data-night="true"] .ultra-filled-btn {
+  .app[data-night="true"] .ultra-filled-btn:not(.begin-btn--today-primary) {
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
   }
@@ -1347,14 +1385,14 @@ const css = `
     border: 1px solid color-mix(in srgb, #FF3B30 15%, transparent) !important;
     color: #FF3B30 !important;
     font-family: var(--font-display) !important;
-    font-size: 11px !important;
+    font-size: 9.5pt !important;
     font-weight: 500 !important;
     line-height: 1 !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
-    min-height: 32px !important;
-    height: auto !important;
-    padding: 8px !important;
+    min-height: 28px !important;
+    height: 28px !important;
+    padding: 0 8px !important;
     border-radius: 999px !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
@@ -1376,34 +1414,19 @@ const css = `
   [data-night="true"] .tab.on::after { background: #FF3B30 !important; }
   [data-night="true"] .purpose-note { background: #000000 !important; border-color: #FF3B30 !important; }
 
-  /* TODAY hero (night): .app color is red — force black copy on red card; CTA = black pill + red label (Safari/WebKit) */
-  .app[data-night="true"] .start-here-group > div {
+  /* TODAY (Ultra): red copy; hero CTA fill = system red, label ink = black */
+  .app[data-night="true"] .start-here-group.today-card--ghost .begin-btn--today-primary {
+    background: #FF3B30 !important;
     color: #000000 !important;
-    -webkit-text-fill-color: #000000;
-  }
-  .app[data-night="true"] .start-here-group .begin-btn--today-primary {
-    background: #000000 !important;
-    color: #FF3B30 !important;
-    -webkit-text-fill-color: #FF3B30 !important;
-    border: 1px solid #FF3B30 !important;
-    box-shadow: none !important;
-  }
-  /* Night filled accent buttons use white ink for consistency. */
-  .app[data-night="true"] .begin-btn.session-browse-btn {
-    color: #f6f7f8 !important;
-    -webkit-text-fill-color: #f6f7f8 !important;
+    -webkit-text-fill-color: #000000 !important;
+    border: none !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.32), 0 0 22px rgba(255,59,48,0.4) !important;
   }
   .app[data-night="true"] .home .track-card .begin-btn:not(.begin-btn--today-primary) {
     color: #FF3B30 !important;
     -webkit-text-fill-color: #FF3B30 !important;
     background: #000000 !important;
     border: 1px solid #FF3B30 !important;
-    box-shadow: none !important;
-  }
-  /* TODAY hero: explicit red card (public .track-group { transparent } must not win over this) */
-  .app[data-night="true"] .home .track-group.start-here-group {
-    background: #FF3B30 !important;
-    border: 2px solid #FF3B30 !important;
     box-shadow: none !important;
   }
   .app[data-night="true"] .hdr-title {
@@ -1682,7 +1705,7 @@ const css = `
   }
   /* ── BASE ── */
   .app {
-    --axis-tab-h: 64px;
+    --axis-tab-h: 88px;
     --axis-tab-clearance: 24px;
     --axis-bottom-content-inset: 120px;
     min-height:100vh;
@@ -1783,11 +1806,11 @@ const css = `
 
   /* ── GLASS CARD ── (white hairline only when not AXIS Ultra) */
   .app:not([data-night="true"]) .glass-card,
-  .app:not([data-night="true"]) .today-card {
+  .app:not([data-night="true"]) .today-card:not(.today-card--ghost) {
     border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
   [data-night="true"] .glass-card,
-  [data-night="true"] .today-card {
+  [data-night="true"] .today-card:not(.today-card--ghost) {
     border-top: 1px solid #FF3B30 !important;
   }
   .glass-card {
@@ -1963,14 +1986,12 @@ const css = `
     -webkit-backdrop-filter: blur(10px) saturate(1.8);
     box-shadow: 0 4px 20px rgba(0,0,0,0.18), 0 1px 0 var(--glass-border);
     margin: 0 calc(-1 * var(--page-gutter));
-    padding: 8px var(--page-gutter) 14px;
+    padding: 8px var(--page-gutter) 16px;
   }
   .tab-desc-line {
     font-size: var(--text-sm);
     letter-spacing:0.03em;
-    padding-top: 6px;
     padding-bottom: 8px;
-    line-height: 1.45;
   }
   .tab-prog-row {
     display:flex; align-items:center; justify-content:space-between;
@@ -2029,18 +2050,6 @@ const css = `
     backdrop-filter: blur(28px) saturate(1.35);
     -webkit-backdrop-filter: blur(28px) saturate(1.35);
     box-shadow: 0 4px 28px rgba(0, 0, 0, 0.22), 0 1px 0 color-mix(in srgb, var(--glass-border) 65%, transparent);
-  }
-  /* Session scroll pad: same tint as fixed hdr-wrap so no “see-through” strip under LIST/GUIDED */
-  .app[data-theme="dark"]:not([data-night="true"]) .app-body > .dashboard-header + .hdr-wrap + .content.content--session {
-    background-image: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--tab-bg) 58%, transparent) 0,
-      color-mix(in srgb, var(--tab-bg) 58%, transparent) var(--session-scroll-pad),
-      transparent var(--session-scroll-pad)
-    );
-    background-repeat: no-repeat;
-    background-size: 100% var(--session-scroll-pad);
-    background-position: top center;
   }
   .app[data-theme="dark"]:not([data-night="true"]) .hdr-session-head .tabs .tab.on {
     background: transparent;
@@ -2108,6 +2117,9 @@ const css = `
   /* LIST + GUIDED: breathing room above tab bar for primary CTAs */
   .session-cta-pad { margin-bottom: var(--axis-safe-bottom); padding-bottom: 12px; }
   .session-cta-pad--guided { margin-bottom: 0; padding-bottom: 0; }
+  .session-guided-preview {
+    opacity: 0.75;
+  }
   .sg {
     margin-top:24px;
     background:var(--glass-bg);
@@ -2198,7 +2210,11 @@ const css = `
   .today-card {
     position:relative;
     overflow:hidden;
-    transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow), backdrop-filter var(--motion-slow);
+    isolation: isolate;
+    transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow), backdrop-filter var(--motion-slow), -webkit-backdrop-filter var(--motion-slow);
+  }
+  .today-card--ghost {
+    box-sizing:border-box;
   }
   .panel:focus { outline: none; }
   .panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -2235,19 +2251,13 @@ const css = `
   .en.skipped { color:var(--text-done); text-decoration:line-through; }
   .es { margin-top:4px; }
 
-  .ereps { font-size: 13px; font-weight:500; font-family:var(--font-display); color:var(--text-secondary); letter-spacing:0.08em; margin-top:8px; text-transform:uppercase; }
+  .ereps { font-size: var(--text-sm); font-weight:500; font-family:var(--font-display); color:var(--text-secondary); letter-spacing:0.08em; margin-top:8px; text-transform:uppercase; }
   .npill {
     font-family:var(--font-display); font-weight:500; font-size: var(--text-sm); letter-spacing:0.16em; text-transform:uppercase; padding:2px 9px; border-radius:20px;
     background:var(--glass-bg); border:1px solid var(--glass-border); color:var(--text-secondary);
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   }
-  /* Expand chevron hit area (icon glyph unchanged); row also toggles expand */
-  .chev {
-    color:var(--text-dim); font-size: var(--text-sm); transition:transform 0.25s; align-self:center;
-    display:inline-flex; align-items:center; justify-content:center;
-    min-width:44px; min-height:44px; box-sizing:border-box; padding:0 10px; margin-left:4px;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .chev { color:var(--text-dim); font-size: var(--text-sm); transition:transform 0.25s; align-self:center; }
   .chev.op { transform:rotate(180deg); }
   .row-actions { display:flex; gap:4px; flex-shrink:0; align-self:center; }
   .ra-btn {
@@ -2981,12 +2991,12 @@ const css = `
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
     margin: 16px 0 8px;
     padding: 0;
-    gap: 9px;
+    gap: 0;
     min-height: 0;
   }
   .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util {
@@ -2999,35 +3009,35 @@ const css = `
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     flex: 0 1 auto;
     min-width: 0;
   }
   .fav-filter.fav-filter--session-util .fav-toggle__icon {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     flex-shrink: 0;
     display: block;
   }
-  /* Session pills: larger tap targets, equal padding on all sides */
+  /* Same size/color as header tab subtitle (“Step-by-step walkthrough.”): var(--text-xs) + var(--text-dimmer) */
   .fav-filter.fav-filter--session-util .fav-toggle {
     flex: 0 0 auto;
-    min-height: 32px;
-    height: auto;
-    padding: 8px !important;
+    min-height: 28px;
+    height: 28px;
+    padding: 0 8px !important;
     border-radius: 999px !important;
     font-family: var(--font-display) !important;
-    font-size: 11px !important;
+    font-size: 9.5pt !important;
     font-weight: 500 !important;
     line-height: 1 !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
     border: 1px solid color-mix(in srgb, var(--text-primary) 15%, transparent) !important;
     background: transparent !important;
     color: var(--text-dimmer) !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
-    gap: 5px;
+    gap: 4px;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -3077,7 +3087,7 @@ const css = `
   }
 
   .reset-pill { margin-left:auto; }
-  .fav-filter.fav-filter--session-util .reset-pill { margin-left: auto; }
+  .fav-filter.fav-filter--session-util .reset-pill { margin-left: 0; }
   .fav-filter::before {
     display:none;
   }
@@ -3130,16 +3140,28 @@ const css = `
     backdrop-filter: blur(25px) saturate(1.35); -webkit-backdrop-filter: blur(25px) saturate(1.35);
     border-top: 1px solid var(--border);
     display:flex; align-items:center; justify-content:space-around;
-    padding: 0 8px calc(env(safe-area-inset-bottom,0px));
+    padding: 6px 8px calc(12px + env(safe-area-inset-bottom,0px));
     z-index:300;
+    box-sizing:border-box;
   }
   .tab-btn {
-    display:flex; flex-direction: column; align-items:center; justify-content:center; gap:3px;
-    min-width:44px; min-height:44px; width:44px; height:44px;
+    display:flex; flex-direction: column; align-items:center; justify-content:center;
+    gap:0;
+    min-width:48px; min-height:48px; width:auto; height:auto;
     padding:0; border:none; cursor:pointer; border-radius:999px;
     background:transparent; color: rgba(225,236,252,0.68);
     transition:color 0.15s, transform var(--motion-fast), opacity var(--motion-fast); position:relative; flex:0 0 auto;
     -webkit-tap-highlight-color: transparent;
+  }
+  .tab-btn-stack {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+  }
+  .tab-btn:not(.active) .nav-glow-dot {
+    display:none;
   }
   .tab-btn:active { transform: scale(0.95); opacity: 0.88; }
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn { color: color-mix(in srgb, var(--axis-black) 34%, transparent); }
@@ -3431,22 +3453,11 @@ const css = `
     background:rgba(255, 59, 48, 0.3) !important;
   }
   .app-body > .dashboard-header + .hdr-wrap + .content.content--session {
-    --session-scroll-pad: calc(var(--axis-dashboard-fixed-h) + var(--axis-session-fixed-h));
-    padding-top: var(--session-scroll-pad);
-    /* Opaque band same height as padding: matches hdr/tab-subbar so nothing shows through the “gap” */
-    background-image: linear-gradient(
-      to bottom,
-      var(--hdr-bg) 0,
-      var(--hdr-bg) var(--session-scroll-pad),
-      transparent var(--session-scroll-pad)
-    );
-    background-repeat: no-repeat;
-    background-size: 100% var(--session-scroll-pad);
-    background-position: top center;
+    padding-top: calc(var(--axis-dashboard-fixed-h) + var(--axis-session-fixed-h));
   }
   /* Left edge aligns with TODAY card — only .track-cards-outer supplies horizontal gutter */
   .home-welcome {
-    padding:var(--app-title-after-dashboard) 0 12px;
+    padding:max(4px, calc(var(--app-title-after-dashboard) - 32px)) 0 12px;
     font-size:var(--text-lg);
     font-weight:600;
     letter-spacing:-0.02em;
@@ -3532,13 +3543,16 @@ const css = `
     font-weight:600;
     letter-spacing:0.1em;
     text-transform:uppercase;
-    color:var(--text-dim);
-    opacity:0.55;
     cursor:pointer;
     position:relative;
     transition:color 0.18s, opacity 0.18s;
     white-space:nowrap;
     -webkit-tap-highlight-color:transparent;
+  }
+  .home-category-tab:not([aria-selected="true"]) {
+    color:color-mix(in srgb, var(--mood-color) 30%, transparent);
+    -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 30%, transparent);
+    opacity:1;
   }
   .home-category-tab[aria-selected="true"] {
     color:var(--mood-color);
@@ -3557,9 +3571,9 @@ const css = `
     pointer-events:none;
   }
   .home-category-tab:active { opacity:0.85; }
-  [data-theme="light"] .home-category-tab {
-    color:rgba(15,30,46,0.55);
-    opacity:1;
+  [data-theme="light"] .home-category-tab:not([aria-selected="true"]) {
+    color:color-mix(in srgb, var(--mood-color) 30%, transparent);
+    -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 30%, transparent);
   }
   [data-theme="light"] .home-category-tab[aria-selected="true"] {
     color:var(--mood-color);
@@ -3605,9 +3619,9 @@ const css = `
     color:#FF3B30 !important;
     -webkit-text-fill-color:#FF3B30 !important;
   }
-  .app[data-night="true"] .home-category-tab {
-    color:rgba(255, 59, 48, 0.38) !important;
-    -webkit-text-fill-color:rgba(255, 59, 48, 0.38) !important;
+  .app[data-night="true"] .home-category-tab:not([aria-selected="true"]) {
+    color:color-mix(in srgb, var(--mood-color) 30%, transparent) !important;
+    -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 30%, transparent) !important;
     opacity:1 !important;
   }
   .app[data-night="true"] .home-category-tab[aria-selected="true"] {
@@ -3635,7 +3649,8 @@ const css = `
   .home-recent { margin-bottom:0; }
   .home-recent-label {
     font-size:var(--text-base); letter-spacing:-0.02em; text-transform:none;
-    color:var(--text-white); margin-bottom:4px; font-weight:600;
+    color:var(--text-white); margin:0 0 4px; padding:0; font-weight:600;
+    text-align:left;
   }
   .home-recent-strip {
     display:flex; flex-wrap:nowrap; gap:10px; align-items:stretch;
@@ -3693,6 +3708,15 @@ const css = `
     -webkit-text-fill-color:#FF3B30 !important;
     text-shadow:0 0 1px rgba(0,0,0,0.4);
   }
+  .app[data-night="true"] .home-recent-label,
+  .app[data-night="true"] .home-recent-title {
+    color:#FF3B30 !important;
+    -webkit-text-fill-color:#FF3B30 !important;
+  }
+  .app[data-night="true"] .home-recent-dur {
+    color:rgba(255, 59, 48, 0.55) !important;
+    -webkit-text-fill-color:rgba(255, 59, 48, 0.55) !important;
+  }
   .home-recent-dur {
     font-size:var(--text-xs); font-family:var(--font-display); letter-spacing:0.1em;
     text-transform:uppercase; color:var(--text-dimmer); font-weight:500;
@@ -3724,9 +3748,8 @@ const css = `
   .track-card:active { transform:scale(0.98); }
   .track-card-left { flex:1; min-width:0; width:100%; }
   .track-card-name { font-size: var(--text-lg); font-weight:600; color:var(--text-white); margin-bottom:6px; letter-spacing:-0.02em; }
-  .track-card-sub { font-size: 13px; color:var(--accent-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; line-height:1.4; }
+  .track-card-sub { font-size: var(--text-sm); color:var(--accent-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; line-height:1.4; }
   .track-card-sub .glass-label {
-    font-size: 13px;
     background: none;
     border: none;
     box-shadow: none;
@@ -3744,9 +3767,9 @@ const css = `
     text-overflow: ellipsis;
   }
   .track-card-sub { margin-bottom: 8px; }
-  .track-card-purpose { font-size: 13px; margin-top:10px; }
+  .track-card-purpose { font-size: var(--text-base); margin-top:10px; }
   .track-card-right { display:flex; align-items:center; justify-content:space-between; width:100%; }
-  .track-card-dur { font-size: 13px; font-family:var(--font-display); letter-spacing:0.16em; text-transform:uppercase; color:var(--text-dim); font-weight: 500; }
+  .track-card-dur { font-size: var(--text-sm); font-family:var(--font-display); letter-spacing:0.16em; text-transform:uppercase; color:var(--text-dim); font-weight: 500; }
   .begin-btn {
     padding:8px 22px; font-family:var(--font-display); font-size: var(--text-sm); font-weight:600;
     letter-spacing:0.18em; text-transform:uppercase; cursor:pointer; border-radius:var(--axis-radius);
@@ -4108,7 +4131,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     ) :
     "—")
     ), /*#__PURE__*/
-    React.createElement("div", { className: `chev ${open ? "op" : ""}` }, "\u25BE")
+    React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: { marginLeft: 4 } }, "\u25BE")
     ),
     open && /*#__PURE__*/
     React.createElement("div", { ref: sessionDetailPanelRef, className: "panel protocol-panel", tabIndex: -1, role: "region", "aria-label": `${ex.name} — exercise details`, style: skipped ? { opacity: 0.45 } : {} }, /*#__PURE__*/
@@ -4183,17 +4206,17 @@ function MomentumMap({ history, nightMode = false, theme = "dark" }) {
   const styleDayOff = theme === "light" ? {
     background: "#9F9FA5",
     border: "1px solid rgba(15, 30, 46, 0.125)",
-    boxShadow: "none",
-    backdropFilter: "none",
-    WebkitBackdropFilter: "none"
-  } : {
-    background: "var(--glass-bg)",
-    border: "1px solid var(--glass-border)",
-    boxShadow: "inset 0 1px 0 var(--glass-specular)",
-    backdropFilter: "blur(8px)",
-    WebkitBackdropFilter: "blur(8px)"
-  };
-  return (/*#__PURE__*/
+        boxShadow: "none",
+        backdropFilter: "none",
+        WebkitBackdropFilter: "none"
+      } : {
+        background: "var(--glass-bg)",
+        border: "1px solid var(--glass-border)",
+        boxShadow: "inset 0 1px 0 var(--glass-specular)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)"
+      };
+      return (/*#__PURE__*/
     React.createElement("div", { className: "summary-momentum" }, /*#__PURE__*/
     React.createElement("div", { className: "summary-title", style: { marginBottom: 12 } }, "7-Day Momentum"), /*#__PURE__*/
     React.createElement("div", { className: "momentum-strip", role: "img", "aria-label": "Seven days of session activity" },
@@ -4275,7 +4298,9 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-label": "Home",
     "aria-current": view === "home" ? "page" : undefined }, /*#__PURE__*/
 
+  React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(HomeIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  )
 
   ), /*#__PURE__*/
   React.createElement("button", {
@@ -4285,7 +4310,9 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-label": "Summary",
     "aria-current": view === "summary" ? "page" : undefined },
 
+  React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SessionIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  )
 
   ), /*#__PURE__*/
   React.createElement("button", {
@@ -4295,7 +4322,9 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-label": "Timer",
     "aria-current": view === "timer" ? "page" : undefined }, /*#__PURE__*/
 
+  React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(TimerIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  )
 
   ), /*#__PURE__*/
   React.createElement("button", {
@@ -4305,7 +4334,9 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-label": "Mood Focus",
     "aria-current": view === "mood" ? "page" : undefined }, /*#__PURE__*/
 
+  React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MoodIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  )
 
   ), /*#__PURE__*/
   React.createElement("button", {
@@ -4315,7 +4346,9 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-label": "Settings",
     "aria-current": view === "settings" ? "page" : undefined }, /*#__PURE__*/
 
+  React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SettingsIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  )
 
   )
   );
@@ -5233,7 +5266,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 // ─────────────────────────────────────────────────────────────
 //  TIMER VIEW — standalone interval timer
 // ─────────────────────────────────────────────────────────────
-function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null }) {
+function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null, dashboardHeaderEl = null }) {
   const [mode, setMode] = useState("interval"); // "interval" | "breathe"
   // derive dark flag early so all uses below are safe
   const isDark = typeof nightMode === "boolean" && nightMode || theme === "dark";
@@ -5410,7 +5443,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     let rafId = 0;
     const tick = () => {
       const now = performance.now();
-      const pat = bPatternRef.current;
+          const pat = bPatternRef.current;
       let phaseIdx = bPhaseRef.current;
       let cycle = bCycleRef.current;
       let phaseDurMs = Math.max(1, pat[phaseIdx]?.dur ?? 1) * 1000;
@@ -5418,7 +5451,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
       while (elapsedMs >= phaseDurMs) {
         const nextIdx = (phaseIdx + 1) % pat.length;
-        const isNewCycle = nextIdx === 0;
+          const isNewCycle = nextIdx === 0;
         const nextCycle = isNewCycle ? cycle + 1 : cycle;
 
         if (isNewCycle && cycle >= bCyclesRef.current) {
@@ -5429,7 +5462,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
           setBCycle(bCyclesRef.current + 1);
           setBTime(0);
           setBRunning(false);
-          beep(528, 0.4);
+            beep(528, 0.4);
           triggerHaptic(HAPTIC_DOUBLE_TAP);
           return;
         }
@@ -5503,7 +5536,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const TIMER_MID_IDLE_HEIGHT = 176; // fixed height when idle so INTERVAL and BREATHE START align
   const TIMER_PHASE_BAND = 52; // matches BREATHE phase label block height so Pause/Reset align when running
   // Toggle: spacer above so INTERVAL/BREATHE sit halfway between top edge and top of circle
-  const TIMER_TOGGLE_SPACER_TOP = 12;
+  const TIMER_TOGGLE_SPACER_TOP = 0;
   const TIMER_TOGGLE_WRAP = { flexShrink: 0, display: "flex", gap: 10, marginBottom: 14, padding: 6, minHeight: 48, alignItems: "center", boxSizing: "border-box" };
   // Button row: equal spacers when Pause/Reset/Again — when START only, shrink spacer above so START sits same height as Pause/RESET
   const TIMER_BTN_SPACER_ABOVE = { flex: 1, minHeight: 0, width: "100%" };
@@ -5961,17 +5994,14 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   ` : "";
 
   return (/*#__PURE__*/
-    React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false", style: { minHeight: "100dvh", display: "flex", flexDirection: "column", minWidth: "100%", boxSizing: "border-box" } }, /*#__PURE__*/
+    React.createElement("div", { className: "app app--timer-tab", "data-theme": theme, "data-night": nightMode ? "true" : "false", style: { minHeight: "100dvh", display: "flex", flexDirection: "column", minWidth: "100%", boxSizing: "border-box" } }, /*#__PURE__*/
     React.createElement("style", null, css), /*#__PURE__*/
     React.createElement("style", null, timerFlatCss + timerNightCss), /*#__PURE__*/
     React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
 
-    React.createElement("div", { className: "app-body timer-view-body", style: {
-        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start",
-        flex: 1, minHeight: 0, width: "100%",
-        padding: "calc(env(safe-area-inset-top, 0px) + 16px) 24px calc(84px + env(safe-area-inset-bottom, 0px))",
-        boxSizing: "border-box"
-      } }, /*#__PURE__*/
+    React.createElement("div", { className: "app-body" }, /*#__PURE__*/
+    dashboardHeaderEl, /*#__PURE__*/
+    React.createElement("div", { className: "timer-view-body" }, /*#__PURE__*/
 
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 360, flex: 1, minHeight: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: { flexShrink: 0, height: TIMER_TOGGLE_SPACER_TOP, width: "100%" }, "aria-hidden": true }), /*#__PURE__*/
@@ -6225,6 +6255,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("div", { style: !bRunning && !bDone ? TIMER_BTN_SPACER_BELOW_IDLE : TIMER_BTN_SPACER_BELOW, "aria-hidden": true })
     )
 
+    )
     )
     ), /*#__PURE__*/
     React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
@@ -6640,7 +6671,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           const newHistory = [newEntry, ...prev].slice(0, 30);
           storageSet("axis_history", newHistory);
           if (!hadTodayBefore) {
-            const yesterday = new Date(Date.now() - 86400000).toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
             const hadYesterday = prev.some((e) => axisLocalDateKey(e.date) === yesterday);
             setStreak((st) => {
               const n = hadYesterday ? st + 1 : 1;
@@ -6697,7 +6728,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // SETTINGS
   // TIMER VIEW (key forces fresh mount to avoid blank on first open)
   if (view === "timer") {
-    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode });
+    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeaderEl: dashboardHeaderEl });
   }
   if (view === "settings") return (/*#__PURE__*/
     React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
@@ -6706,7 +6737,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "app-body app-body--settings-pad" }, /*#__PURE__*/
     dashboardHeaderEl, /*#__PURE__*/
     React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
-    React.createElement("div", { className: "app-screen-title", style: { marginBottom: 24 } }, "Settings"), /*#__PURE__*/
+    React.createElement("div", { className: "app-screen-title" }, "Settings"), /*#__PURE__*/
     React.createElement("div", { style: { marginBottom: 32 } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-sm)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 12 } }, "Daily Movement Goal"), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 16, maxWidth: 340 } }, "Go at your own pace. Moving this updates your weekly target to daily × 7 until you set a custom week."), /*#__PURE__*/
@@ -7119,11 +7150,76 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const todaySug = TODAY_SUGGESTIONS[nowPeriod];
     const todayTrack = TRACKS[todaySug.trackId];
     const isTodayLight = theme === "light" && !nightMode;
-    const todayInk = nightMode ? "#FF3B30" : isTodayLight ? "#f6f7f8" : "#252525";
-    const todayInkSecondary = nightMode ? "#FF3B30" : isTodayLight ? "#f6f7f8" : todayInk;
-    const todayBtn = nightMode ? { background: "#000000", color: "#FF3B30", border: "1px solid #FF3B30" } : isTodayLight ? { background: "#f6f7f8", color: "#252525", border: "none" } : { background: "#252525", color: "#f6f7f8", border: "none" };
-    const todayGlassBg = nightMode ? "#000000" : homeHighlight;
-    const todayGlassBorder = "1px solid rgba(255,255,255,0.18)";
+    const todayFillHex = homeCt && homeCt.accent ? homeCt.accent : "#FF9F43";
+    const todayBorderHex = nightMode ? "#FF3B30" : todayFillHex;
+    const rgbM = axisHexToRgbTuple(todayBorderHex) || [255, 159, 67];
+    const mx = rgbM[0], my = rgbM[1], mz = rgbM[2];
+    const rgbMood = axisHexToRgbTuple(todayFillHex) || rgbM;
+    const tx = rgbMood[0], ty = rgbMood[1], tz = rgbMood[2];
+    const moodTintGlassBg = nightMode ?
+    `rgba(${mx},${my},${mz},0.10)` :
+    theme === "dark" ?
+    `rgba(${tx},${ty},${tz},0.15)` :
+    `rgba(${tx},${ty},${tz},0.10)`;
+    const todayCardGlassBlur = "blur(12px) saturate(1.35)";
+
+    let todayCardStyle;
+    if (nightMode) {
+      // Ultra / night: hero border unchanged; mood-tinted glass fill lets orbs show through
+      todayCardStyle = {
+        marginBottom: 16,
+        padding: "20px var(--page-gutter) 22px",
+        borderRadius: 24,
+        background: moodTintGlassBg,
+        border: "2px solid #FF3B30",
+        backdropFilter: todayCardGlassBlur,
+        WebkitBackdropFilter: todayCardGlassBlur,
+        boxShadow: "none"
+      };
+    } else if (isTodayLight) {
+      todayCardStyle = {
+        marginBottom: 16,
+        padding: "20px var(--page-gutter) 22px",
+        borderRadius: 24,
+        background: moodTintGlassBg,
+        border: `2px solid ${todayBorderHex}`,
+        backdropFilter: todayCardGlassBlur,
+        WebkitBackdropFilter: todayCardGlassBlur,
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.55)"
+      };
+    } else {
+      todayCardStyle = {
+        marginBottom: 16,
+        padding: "20px var(--page-gutter) 22px",
+        borderRadius: 24,
+        background: moodTintGlassBg,
+        border: `2px solid ${todayBorderHex}`,
+        backdropFilter: todayCardGlassBlur,
+        WebkitBackdropFilter: todayCardGlassBlur,
+        boxShadow: `inset 0 1px 0 rgba(255,255,255,0.14), 0 0 32px rgba(${mx},${my},${mz},0.24)`
+      };
+    }
+
+    let todayInk;
+    if (nightMode) todayInk = "#FF3B30";
+    else if (isTodayLight) todayInk = "#252525";
+    else todayInk = "#f6f7f8";
+
+    const todayInkSecondary = nightMode ? "rgba(255,59,48,0.78)" : isTodayLight ? "#252525" : "rgba(246,247,248,0.86)";
+    const heroBtnInk = inkForAccentHex(todayFillHex) || "var(--axis-white)";
+    const todayBtn = nightMode ? {
+      background: "#FF3B30",
+      color: "#000000",
+      WebkitTextFillColor: "#000000",
+      border: "none",
+      boxShadow: "0 4px 16px rgba(0,0,0,0.28)"
+    } : {
+      background: todayFillHex,
+      color: heroBtnInk,
+      WebkitTextFillColor: heroBtnInk,
+      border: "none",
+      boxShadow: `0 4px 16px rgba(0,0,0,0.2), 0 2px 10px rgba(${mx},${my},${mz},0.28)`
+    };
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
@@ -7148,16 +7244,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome", id: "axis-home-welcome" }, timeGreeting + "."), /*#__PURE__*/
-      React.createElement("div", { className: "track-group start-here-group today-card", role: "region", "aria-label": "Today's suggestion", style: {
-          marginBottom: 18, padding: "20px 20px 22px", borderRadius: 24,
-          background: todayGlassBg, border: todayGlassBorder, borderTop: "1px solid rgba(255,255,255,0.22)",
-          backdropFilter: nightMode ? "none" : "blur(24px) saturate(1.4)", WebkitBackdropFilter: nightMode ? "none" : "blur(24px) saturate(1.4)",
-          boxShadow: nightMode ? "none" : `0 10px 36px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.35)`
-        } }, /*#__PURE__*/
-      React.createElement("div", { style: { letterSpacing: "-0.02em", textTransform: "none", color: todayInk, marginBottom: 8, fontWeight: 600, fontSize: "var(--text-lg)" } }, "Today"), /*#__PURE__*/
-      React.createElement("div", { style: { fontWeight: 600, color: todayInk, marginBottom: 6 } }, periodLabels[nowPeriod]), /*#__PURE__*/
-      React.createElement("div", { style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySug.suggestion), /*#__PURE__*/
-      React.createElement("div", { style: { color: todayInkSecondary, letterSpacing: "0.06em", marginBottom: 18 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
+      React.createElement("div", { className: "track-group start-here-group today-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "none", color: todayInk, marginBottom: 8, fontWeight: 600, fontSize: "var(--text-lg)" } }, "Today"), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 600, color: todayInk, marginBottom: 6 } }, periodLabels[nowPeriod]), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySug.suggestion), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.06em", marginBottom: 18 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
       React.createElement("button", {
         className: "begin-btn begin-btn--today-primary ultra-filled-btn",
         onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(todayTrack.id);},
@@ -7214,6 +7305,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         role: "tab",
         className: "home-category-tab",
         "aria-selected": homeTrackCategory === cf.id ? "true" : "false",
+        style: homeTrackCategory === cf.id ?
+        { color: "var(--mood-color)", WebkitTextFillColor: "var(--mood-color)" } :
+        undefined,
         onClick: () => {
           if (navigator.vibrate) navigator.vibrate(8);
           axisHapticTick();
@@ -7250,9 +7344,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement(EolMarker, null)
       )
       )
-      , /*#__PURE__*/
+    , /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--today" })
-      ), /*#__PURE__*/
+    ), /*#__PURE__*/
       React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
       ));
 
@@ -7269,7 +7363,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
   // SESSION — render Guided overlay via portal to document.body so position:fixed is viewport-relative (parent has transform)
   const guidedOverlayEl = guidedActive ? /*#__PURE__*/
-    React.createElement(GuidedOverlay, {
+  React.createElement(GuidedOverlay, {
     theme: theme, activePeriod: activePeriod, activeAll: filteredAll, TOTAL: filteredAll.length,
     done: done, totalDone: totalDone, sessionSecs: sessionSecs,
     onExit: () => {setGuidedActive(false);setSessionComplete(false);},
@@ -7339,7 +7433,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "tab-subbar" }, /*#__PURE__*/
     React.createElement("div", { className: "tab-desc-line" },
     tab === "list" && "Your pace. Tap to expand, mark done when ready.",
-    tab === "guided" && "Hands-free. Auto-timed."
+    tab === "guided" && "Hands-free. Auto-timed. Rest for :15 between moves."
     ),
     React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
@@ -7447,7 +7541,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )
     ),
     tab === "guided" && /*#__PURE__*/
-    React.createElement(React.Fragment, null,
+    React.createElement("div", { className: "session-guided-preview", "aria-label": "Exercise preview for guided flow" },
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg", key: sec.label }, /*#__PURE__*/
     React.createElement("div", { className: "sh" }, /*#__PURE__*/
