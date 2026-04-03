@@ -4,7 +4,10 @@ const fs = require("fs");
 const path = require("path");
 const { execFile } = require("child_process");
 
-const root = path.join(__dirname, "..", "dist");
+// Capacitor webDir — same bundle as iOS/Android (not dist/, which follows root index.html + build.js).
+const root = path.resolve(
+  process.env.AXIS_WEB_ROOT || path.join(__dirname, "..", "public_web")
+);
 const PORT = Number(process.env.PORT) || 3000;
 
 const MIME = {
@@ -61,11 +64,18 @@ const server = http.createServer((req, res) => {
       return res.end(
         "404: " +
           reqPath +
-          "\n\nRun: npm run build (onboarding.html must exist in dist/)\n"
+          "\n\nExpected file under: " +
+          root +
+          "\n"
       );
     }
     const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
+    const headers = { "Content-Type": MIME[ext] || "application/octet-stream" };
+    if (ext === ".html" || ext === ".js" || ext === ".json") {
+      headers["Cache-Control"] = "no-store, no-cache, must-revalidate";
+      headers["Pragma"] = "no-cache";
+    }
+    res.writeHead(200, headers);
     if (req.method === "HEAD") return res.end();
     fs.createReadStream(filePath).pipe(res);
   });
@@ -96,7 +106,11 @@ function openSystemBrowser(urls) {
 server.listen(PORT, () => {
   const base = "http://127.0.0.1:" + PORT;
   const local = "http://localhost:" + PORT;
-  console.log("AXIS dev (no redirects): " + base + "/  → dist/");
+  console.log("AXIS dev (no redirects): " + base + "/");
+  console.log("  Serving from: " + root);
+  if (process.env.AXIS_WEB_ROOT) {
+    console.log("  (AXIS_WEB_ROOT override)");
+  }
   console.log("  Main:        " + base + "/  (or " + local + "/)");
   console.log("  Onboarding:  " + base + "/onboarding.html");
   if (process.env.AXIS_OPEN_BROWSER === "1") {

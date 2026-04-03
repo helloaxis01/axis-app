@@ -5,9 +5,10 @@
     "build:cap-plugins": "esbuild src/axis-cap-plugins.js --bundle --format=iife --platform=browser --outfile=public_web/axis-cap-plugins.js",
     "build": "node build.js",
     "build:auth": "node scripts/build-auth.mjs",
-    "dev": "npm run build && node scripts/static-dev.cjs",
-    "dev:open": "npm run build && AXIS_OPEN_BROWSER=1 node scripts/static-dev.cjs",
-    "dev:serve": "npm run build && npx --yes serve dist -l 3000",
+    "dev": "node scripts/static-dev.cjs",
+    "dev:open": "AXIS_OPEN_BROWSER=1 node scripts/static-dev.cjs",
+    "dev:with-build": "npm run build && node scripts/static-dev.cjs",
+    "dev:serve": "npx --yes serve public_web -l 3000",
     "cap:sync": "npm run build && npx cap sync",
     "sync": "npx cap copy ios"
   },

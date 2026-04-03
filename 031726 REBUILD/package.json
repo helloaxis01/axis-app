@@ -1,21 +1,13 @@
 {
-  "name": "031726-rebuild",
-  "version": "1.0.0",
-  "description": "",
-  "main": ".tmp_check_v31.js",
+  "name": "axis-031726-rebuild-workspace",
+  "private": true,
+  "description": "Proxies npm scripts to the parent AXIS repo (run dev from this folder).",
   "scripts": {
-    "build": "npm --prefix .. run build",
     "dev": "npm --prefix .. run dev",
     "dev:open": "npm --prefix .. run dev:open",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "@capacitor/cli": "^8.3.0",
-    "@capacitor/core": "^8.3.0",
-    "@capacitor/ios": "^8.3.0"
+    "dev:serve": "npm --prefix .. run dev:serve",
+    "dev:with-build": "npm --prefix .. run dev:with-build",
+    "build": "npm --prefix .. run build",
+    "cap:sync": "npm --prefix .. run cap:sync"
   }
 }
