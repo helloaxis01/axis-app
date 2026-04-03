@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
 <script>
+(function () {
+  if (typeof window === "undefined") return;
   window.onerror = function(msg, url, line, col, error) {
     console.error("AXIS_DEBUG_CRASH: ", {msg, url, line, col, error});
     return false;
   };
+})();
 </script>
   <script>
   (function () {
+    if (typeof window === "undefined") return;
     window.axisOnboardingHref = function () {
       try {
         if (!window.location.protocol || window.location.protocol === "file:") return "./onboarding.html";
@@ -69,18 +73,26 @@
   <script defer src="./auth-bundle.js" onerror="showLoadErr('Could not load ./auth-bundle.js (must sit next to index.html in the app bundle).')"></script>
 </head>
 <body>
+  <h1 id="axis-loading-marker">AXIS LOADING...</h1>
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
-    function showLoadErr(msg) {
-      var el = document.getElementById('load-err');
-      if (el) { el.style.display = 'block'; el.textContent = msg; }
-    }
-    window.onerror = function(msg, src, line, col, err) {
-      try { console.error("AXIS_DEBUG_CRASH: ", { msg: msg, url: src, line: line, col: col, error: err }); } catch (e) {}
-      showLoadErr('Error: ' + msg + (err && err.stack ? '\n' + err.stack : ''));
-      return true;
-    };
+(function () {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  function showLoadErr(msg) {
+    try {
+      var el = document.getElementById("load-err");
+      if (el) { el.style.display = "block"; el.textContent = msg; }
+    } catch (e) {}
+  }
+  window.onerror = function(msg, src, line, col, err) {
+    try { console.error("AXIS_DEBUG_CRASH: ", { msg: msg, url: src, line: line, col: col, error: err }); } catch (e) {}
+    try {
+      showLoadErr("Error: " + msg + (err && err.stack ? "\n" + err.stack : ""));
+    } catch (e2) {}
+    return true;
+  };
+})();
   </script>
   <!-- Babel standalone removed for production builds; app is precompiled in dist/ -->
   <script>
@@ -89,6 +101,7 @@
   <script>
   (function () {
     try {
+      if (typeof localStorage === "undefined" || !localStorage.getItem || !localStorage.setItem) return;
       var sm = localStorage.getItem("selectedMood");
       if (sm === "auto") localStorage.setItem("axis_period", JSON.stringify(null));
       else if (sm && /^(dawn|midday|prime|rest)$/.test(sm)) localStorage.setItem("axis_period", JSON.stringify(sm));
@@ -96,8 +109,23 @@
   })();
   </script>
   <script>// Development flag: add ?dev=1 to the URL or set localStorage.axis_dev = "1" to enable debug UI and verbose logs.
-window.AXIS_DEV = location.search.indexOf('dev=1') !== -1 || localStorage.getItem && localStorage.getItem('axis_dev') === '1';
-if (window.AXIS_DEV) {
+(function () {
+  if (typeof window === "undefined") return;
+  try {
+    var devFromQuery = false;
+    try { devFromQuery = typeof location !== "undefined" && location.search.indexOf("dev=1") !== -1; } catch (e0) {}
+    var devFromLs = false;
+    try {
+      if (typeof localStorage !== "undefined" && localStorage.getItem) {
+        devFromLs = localStorage.getItem("axis_dev") === "1";
+      }
+    } catch (eLs) {}
+    window.AXIS_DEV = devFromQuery || devFromLs;
+  } catch (e) {
+    try { window.AXIS_DEV = false; } catch (e2) {}
+  }
+})();
+if (typeof window !== "undefined" && window.AXIS_DEV) {
   try {
     // Minimal debug overlay (var/function for broadest WKWebView compatibility in this small block)
     var _dbg = document.createElement('div');
@@ -106,9 +134,12 @@ if (window.AXIS_DEV) {
     _dbg.textContent = 'AXIS DEV';
     _dbg.title = 'Click to toggle verbose logging (persists)';
     _dbg.onclick = function () {
-      var v = localStorage.getItem('axis_verbose') === '1' ? '0' : '1';
-      localStorage.setItem('axis_verbose', v);
-      alert('axis_verbose = ' + v);
+      var v = "0";
+      try {
+        v = localStorage.getItem("axis_verbose") === "1" ? "0" : "1";
+        localStorage.setItem("axis_verbose", v);
+      } catch (eLs) {}
+      try { alert("axis_verbose = " + v); } catch (eA) {}
     };
     document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(_dbg); });
     var origLog = console.log.bind(console);
