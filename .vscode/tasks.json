@@ -47,6 +47,12 @@
           "endsPattern": "AXIS dev \\(no redirects\\):"
         }
       }
+    },
+    {
+      "label": "AXIS: open in system browser (use if Cursor panel is blank)",
+      "type": "shell",
+      "command": "open 'http://127.0.0.1:3000/' && open 'http://127.0.0.1:3000/onboarding.html'",
+      "problemMatcher": []
     }
   ]
 }

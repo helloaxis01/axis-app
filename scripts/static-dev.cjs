@@ -91,10 +91,13 @@ function openSystemBrowser(urls) {
   }
 }
 
-server.listen(PORT, "127.0.0.1", () => {
+// Listen on all interfaces (IPv4 + IPv6 loopback). Binding only 127.0.0.1 breaks some
+// clients (e.g. Cursor Simple Browser) that connect via localhost → ::1.
+server.listen(PORT, () => {
   const base = "http://127.0.0.1:" + PORT;
+  const local = "http://localhost:" + PORT;
   console.log("AXIS dev (no redirects): " + base + "/  → dist/");
-  console.log("  Main:        " + base + "/");
+  console.log("  Main:        " + base + "/  (or " + local + "/)");
   console.log("  Onboarding:  " + base + "/onboarding.html");
   if (process.env.AXIS_OPEN_BROWSER === "1") {
     openSystemBrowser([base + "/", base + "/onboarding.html"]);
