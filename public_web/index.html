@@ -74,6 +74,7 @@ setTimeout(function () {
   <script defer src="./react.production.min.js" onerror="showLoadErr('Could not load ./react.production.min.js (must sit next to index.html in the app bundle).')"></script>
   <script defer src="./react-dom.production.min.js" onerror="showLoadErr('Could not load ./react-dom.production.min.js (must sit next to index.html in the app bundle).')"></script>
   <script defer src="./auth-bundle.js" onerror="showLoadErr('Could not load ./auth-bundle.js (must sit next to index.html in the app bundle).')"></script>
+  <script defer src="./axis-cap-plugins.js"></script>
 </head>
 <body>
   <h1 id="axis-loading-marker">AXIS LOADING...</h1>
@@ -375,6 +376,19 @@ const CIRCADIAN_THEMES = {
     }
   }
 };
+
+/** Blend a #RRGGBB mood accent toward white — unselected BROWSE tabs (avoids grey color-mix fallbacks in WKWebView). */
+function axisTintMoodTowardWhite(hex, whiteFrac) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || "").trim());
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  const t = Math.max(0, Math.min(1, whiteFrac));
+  const R = Math.round(r * (1 - t) + 255 * t);
+  const G = Math.round(g * (1 - t) + 255 * t);
+  const B = Math.round(b * (1 - t) + 255 * t);
+  return `rgb(${R},${G},${B})`;
+}
 
 /** sRGB relative luminance → readable ink on solid circadian accent fills */
 function inkForAccentHex(hex) {
@@ -3545,13 +3559,17 @@ const css = `
     font-weight:600;
     letter-spacing:0.1em;
     text-transform:uppercase;
-    color:var(--text-dim);
-    opacity:0.55;
     cursor:pointer;
     position:relative;
-    transition:color 0.18s, opacity 0.18s;
+    transition:color 0.18s, opacity 0.18s, -webkit-text-fill-color 0.18s;
     white-space:nowrap;
     -webkit-tap-highlight-color:transparent;
+  }
+  /* Unselected: --browse-category-muted set inline on TODAY .app (lighter tint of mood hex) */
+  .home-category-tab:not([aria-selected="true"]) {
+    color:var(--browse-category-muted, var(--mood-color));
+    -webkit-text-fill-color:var(--browse-category-muted, var(--mood-color));
+    opacity:1;
   }
   .home-category-tab[aria-selected="true"] {
     color:var(--mood-color);
@@ -3569,11 +3587,7 @@ const css = `
     background:var(--mood-color);
     pointer-events:none;
   }
-  .home-category-tab:active { opacity:0.85; }
-  [data-theme="light"] .home-category-tab {
-    color:rgba(15,30,46,0.55);
-    opacity:1;
-  }
+  .home-category-tab:active { opacity:0.88; }
   [data-theme="light"] .home-category-tab[aria-selected="true"] {
     color:var(--mood-color);
     opacity:1;
@@ -3617,11 +3631,6 @@ const css = `
   .app[data-night="true"] .home-browse-heading {
     color:#FF3B30 !important;
     -webkit-text-fill-color:#FF3B30 !important;
-  }
-  .app[data-night="true"] .home-category-tab {
-    color:rgba(255, 59, 48, 0.38) !important;
-    -webkit-text-fill-color:rgba(255, 59, 48, 0.38) !important;
-    opacity:1 !important;
   }
   .app[data-night="true"] .home-category-tab[aria-selected="true"] {
     color:#FF3B30 !important;
@@ -4283,7 +4292,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "home" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("home");},
+    onClick: () => {axisHapticNavTab();setView("home");},
     "aria-label": "Home",
     "aria-current": view === "home" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4293,7 +4302,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "summary" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("summary");},
+    onClick: () => {axisHapticNavTab();setView("summary");},
     "aria-label": "Summary",
     "aria-current": view === "summary" ? "page" : undefined },
 
@@ -4303,7 +4312,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "timer" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("timer");},
+    onClick: () => {axisHapticNavTab();setView("timer");},
     "aria-label": "Timer",
     "aria-current": view === "timer" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4313,7 +4322,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "mood" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("mood");},
+    onClick: () => {axisHapticNavTab();setView("mood");},
     "aria-label": "Mood Focus",
     "aria-current": view === "mood" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4323,7 +4332,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "settings" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("settings");},
+    onClick: () => {axisHapticNavTab();setView("settings");},
     "aria-label": "Settings",
     "aria-current": view === "settings" ? "page" : undefined }, /*#__PURE__*/
 
@@ -4420,11 +4429,35 @@ function axisHapticTick() {
   } catch (e) {}
 }
 
+/** Main tab bar: light impact / click on native (Capacitor). */
+function axisHapticNavTab() {
+  try {
+    const w = typeof window !== "undefined" ? window : null;
+    if (w?.AXISCap?.impactLight && typeof w.AXISCap.impactLight === "function") {
+      w.AXISCap.impactLight();
+      return;
+    }
+    if (w?.webkit?.messageHandlers?.axisHaptic?.postMessage) {
+      w.webkit.messageHandlers.axisHaptic.postMessage({ type: "tick" });
+      return;
+    }
+    if (w?.AXISNative?.haptic && typeof w.AXISNative.haptic === "function") {
+      w.AXISNative.haptic("tick");
+      return;
+    }
+    triggerHaptic(HAPTIC_LIGHT_TAP);
+  } catch (e) {}
+}
+
 function axisHapticSuccess() {
   try {
     const w = typeof window !== "undefined" ? window : null;
     if (w?.webkit?.messageHandlers?.axisHaptic?.postMessage) {
       w.webkit.messageHandlers.axisHaptic.postMessage({ type: "success" });
+      return;
+    }
+    if (w?.AXISCap?.notificationSuccess && typeof w.AXISCap.notificationSuccess === "function") {
+      w.AXISCap.notificationSuccess();
       return;
     }
     if (w?.AXISNative?.haptic && typeof w.AXISNative.haptic === "function") {
@@ -4749,6 +4782,18 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   }, [phase]);
   useEffect(() => () => {try {wakeLockRef.current?.release();wakeLockRef.current = null;} catch (e) {}}, []);
 
+  // Capacitor: keep display awake during guided flow (mirrors Screen Wake Lock phases).
+  useEffect(() => {
+    const cap = typeof window !== "undefined" && window.AXISCap;
+    if (!cap || typeof cap.keepAwakeOn !== "function" || typeof cap.keepAwakeOff !== "function") return;
+    if (phase === "intro" || phase === "closing") {
+      cap.keepAwakeOff();
+      return;
+    }
+    cap.keepAwakeOn();
+    return () => {cap.keepAwakeOff();};
+  }, [phase]);
+
   useEffect(() => {
     if (!titleRef.current) return;
     const el = titleRef.current;
@@ -4792,12 +4837,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     beep(660, 0.4);
     onToggle(cur.id);
     if (fi >= list.length - 1) {
+      axisHapticSuccess();
       setPhase("closing");
       if (onSessionComplete) onSessionComplete();
       return;
     }
     const nextTotal = totalDone + 1;
     if (nextTotal >= listTotal) {
+      axisHapticSuccess();
       setPhase("closing");
       if (onSessionComplete) onSessionComplete();
       return;
@@ -7136,6 +7183,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const todayBtn = nightMode ? { background: "#000000", color: "#FF3B30", border: "1px solid #FF3B30" } : isTodayLight ? { background: "#f6f7f8", color: "#252525", border: "none" } : { background: "#252525", color: "#f6f7f8", border: "none" };
     const todayGlassBg = nightMode ? "#000000" : homeHighlight;
     const todayGlassBorder = "1px solid rgba(255,255,255,0.18)";
+    const moodHexForBrowse = nightMode ? "#FF3B30" : homeCt && homeCt.accent ? homeCt.accent : "#FF9F43";
+    const browseCategoryMuted = axisTintMoodTowardWhite(
+      moodHexForBrowse,
+      nightMode ? 0.26 : theme === "light" ? 0.3 : 0.24
+    ) || moodHexForBrowse;
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
@@ -7219,19 +7271,26 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         className: "home-category-strip",
         role: "tablist",
         "aria-label": "Filter tracks by category"
-      }, HOME_CATEGORY_FILTERS.map((cf) => /*#__PURE__*/
-      React.createElement("button", {
-        key: cf.id,
-        type: "button",
-        role: "tab",
-        className: "home-category-tab",
-        "aria-selected": homeTrackCategory === cf.id ? "true" : "false",
-        onClick: () => {
-          if (navigator.vibrate) navigator.vibrate(8);
-          axisHapticTick();
-          setHomeTrackCategory(cf.id);
-        }
-      }, cf.label)
+      }, HOME_CATEGORY_FILTERS.map((cf) => {
+        const catSelected = homeTrackCategory === cf.id;
+        return (/*#__PURE__*/
+        React.createElement("button", {
+          key: cf.id,
+          type: "button",
+          role: "tab",
+          className: "home-category-tab",
+          "aria-selected": catSelected ? "true" : "false",
+          style: catSelected ?
+          { color: "var(--mood-color)", WebkitTextFillColor: "var(--mood-color)" } :
+          { color: browseCategoryMuted, WebkitTextFillColor: browseCategoryMuted },
+          onClick: () => {
+            if (navigator.vibrate) navigator.vibrate(8);
+            axisHapticTick();
+            setHomeTrackCategory(cf.id);
+          }
+        }, cf.label)
+        );
+      })
       ))
       )
       )

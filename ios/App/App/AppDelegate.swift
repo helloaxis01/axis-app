@@ -1,5 +1,7 @@
+import AVFoundation
 import UIKit
 import Capacitor
+import WebKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,8 +9,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers, .duckOthers])
+        try? AVAudioSession.sharedInstance().setActive(true)
+
+        // WKWebView may not exist until after the first layout; try after launch + again when active.
+        DispatchQueue.main.async { [weak self] in
+            self?.axisEnableWKWebViewInspection()
+        }
         return true
+    }
+
+    /// Safari → Develop / Xcode → Web inspector (iOS 16.4+). Capacitor: `CAPBridgeViewController.bridge?.webView` is the WKWebView.
+    private func axisEnableWKWebViewInspection() {
+        if #available(iOS 16.4, *) {
+            let capRoot = (window?.rootViewController as? CAPBridgeViewController)
+                ?? (UIApplication.shared.connectedScenes
+                    .compactMap { $0 as? UIWindowScene }
+                    .flatMap { $0.windows }
+                    .first(where: \.isKeyWindow)?
+                    .rootViewController as? CAPBridgeViewController)
+            if let webView = capRoot?.bridge?.webView {
+                webView.isInspectable = true
+            } else if let capRoot = capRoot, let wk = capRoot.view as? WKWebView {
+                // Fallback if the controller’s root view is the web view directly.
+                wk.isInspectable = true
+            }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -26,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        axisEnableWKWebViewInspection()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

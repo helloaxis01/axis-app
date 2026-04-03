@@ -2,6 +2,7 @@
   "name": "axis-app",
   "private": true,
   "scripts": {
+    "build:cap-plugins": "esbuild src/axis-cap-plugins.js --bundle --format=iife --platform=browser --outfile=public_web/axis-cap-plugins.js",
     "build": "node build.js",
     "build:auth": "node scripts/build-auth.mjs",
     "dev": "npm run build && node scripts/static-dev.cjs",
@@ -24,6 +25,9 @@
   "description": "",
   "main": "build.js",
   "dependencies": {
+    "@capacitor-community/keep-awake": "^8.0.0",
+    "@capacitor-community/native-audio": "^8.0.0",
+    "@capacitor/haptics": "^8.0.2",
     "baseline-browser-mapping": "^2.10.0",
     "browserslist": "^4.28.1",
     "caniuse-lite": "^1.0.30001777",

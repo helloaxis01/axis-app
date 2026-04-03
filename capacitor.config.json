@@ -1,9 +1,9 @@
 {
-  "appId": "com.axis.app",
+  "appId": "com.adamlorber.axis.wellness",
   "appName": "AXIS",
   "webDir": "public_web",
   "server": {
-    "url": "http://localhost:8080",
+    "url": "http://192.168.86.182:8080",
     "cleartext": true,
     "androidScheme": "https",
     "iosScheme": "capacitor",
