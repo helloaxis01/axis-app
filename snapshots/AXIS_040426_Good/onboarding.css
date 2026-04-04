@@ -1,0 +1,312 @@
+:root {
+  --font-display: 'Barlow', sans-serif;
+  --font-ui: 'Inter', sans-serif;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 32px;
+  --axis-white: #f6f7f8;
+  --axis-black: #252525;
+}
+
+.ob-ext-nav, .ob-label {
+  display: none;
+}
+
+.ob-wrap {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  color: var(--ob-text-body);
+  font-family: var(--font-ui), sans-serif;
+  background: transparent;
+}
+
+.ob-shell {
+  height: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  position: relative;
+  z-index: 100;
+}
+
+.ob-orb-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.ob-orb-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, rgba(255,255,255,0.03) 0%, transparent 85%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ob-screen {height: 100%;
+  scroll-snap-align: start;
+  display: block;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 110px 24px 150px;
+  box-sizing: border-box;
+}
+
+.ob-pad {
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.ob-eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ob-accent);
+  margin-bottom: 12px;
+}
+
+.ob-heading {
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ob-text-head);
+  margin-bottom: 16px;
+}
+
+.ob-heading em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ob-accent);
+}
+
+.ob-body {
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: var(--ob-text-body);
+}
+
+.ob-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 28px);
+  background: var(--ob-nav-bg);
+  z-index: 101;
+  box-sizing: border-box;
+}
+
+/* Ensure nav inner spans full width so buttons are truly in corners */
+.ob-nav-inner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* Pin back/next to true corners — left 24px, right 24px */
+.ob-nav-bar .ob-nav-back {
+  position: absolute;
+  left: 24px;
+  margin: 0;
+}
+.ob-nav-bar .ob-nav-next {
+  position: absolute;
+  right: 24px;
+  margin: 0;
+}
+
+.ob-nav-next,
+.ob-nav-back,
+.ob-btn-primary {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.ob-nav-next, .ob-btn-primary {
+  background: var(--ob-accent);
+  color: var(--ob-accent-text);
+}
+
+.ob-nav-back {
+    background: transparent;
+    color: var(--ob-text-sec);
+}
+
+.ob-ndots {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ob-nd {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ob-dot-bg);
+  transition: all 0.2s;
+}
+
+.ob-nd.a {
+  background: var(--ob-accent);
+}
+
+.ob-sci-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.ob-sci {
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--ob-box-bg);
+  border: 1px solid var(--ob-box-border);
+  text-align: left;
+}
+
+.ob-sci-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ob-text-sec);
+  margin-bottom: 6px;
+}
+
+.ob-sci-text {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--ob-text-body);
+}
+
+.ob-cta-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.ob-cta-screen .ob-pad {
+  text-align: center;
+}
+
+.ob-cta-head {
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ob-text-head);
+  margin-bottom: 12px;
+}
+
+.ob-cta-head em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ob-accent);
+}
+
+.ob-cta-sub {
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: var(--ob-text-body);
+  margin-bottom: 24px;
+}
+
+/* --- Strong onboarding overrides to persist visual styles --- */
+/* Back & Next: circular buttons in bottom left & right corners */
+.ob-nav-next,
+.ob-nav-back {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Mood buttons: dark semi-transparent look, rounded corners */
+.ob-pad button.mood-btn,
+.ob-pad .mood-option,
+.ob-pad button {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  color: var(--ob-text-head) !important;
+  border-radius: 16px !important;
+  padding: 12px 16px !important;
+  text-align: left !important;
+  transition: all 0.18s ease !important;
+}
+
+/* Active mood: 2px solid accent */
+.ob-pad button.mood-btn[aria-pressed="true"],
+.ob-pad button.mood-btn.active,
+.ob-pad .mood-option.active {
+  border: 2px solid var(--ob-accent) !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.24) inset !important;
+}
+
+/* Ensure mood icon container contrasts */
+.ob-pad .mood-icon {
+  background: transparent !important;
+  color: currentColor !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 10px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* Reinforce typography */
+body, .ob-wrap, .ob-shell, .ob-pad {
+  font-family: var(--font-display) !important;
+  color: var(--ob-text-body) !important;
+  font-weight: 400 !important;
+}
+
+/* Ensure nav bar is fixed and visually consistent */
+.ob-nav-bar {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding: 20px !important;
+  background: var(--ob-nav-bg) !important;
+  z-index: 9999 !important;
+}
+
