@@ -6489,44 +6489,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     )
     ),
 
-    bRunning && /*#__PURE__*/
-    React.createElement("div", { className: "timer-glass-phase", style: { flexShrink: 0, width: "100%", textAlign: "center", padding: "10px 20px 12px", marginTop: 4, boxSizing: "border-box", minHeight: TIMER_PHASE_BAND, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
-    React.createElement("div", { key: `${bPhaseIdx}-${phaseLabel}-${bCycle}`, style: {
-        fontSize: "var(--text-xl)",
-        fontWeight: 500,
-        letterSpacing: "0.22em",
-        textTransform: "uppercase",
-        color: nightMode ? "#FF3B30" : isDark ? "var(--app-white)" : "#1D1D1F",
-        opacity: 1,
-        fontFamily: "var(--font-display)",
-        transition: "none",
-        lineHeight: 1.25
-      } }, curBreathPhase.label)
-    ),
-
-
-    bRunning && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", width: "100%", maxWidth: 360, marginLeft: "auto", marginRight: "auto", justifyContent: "center", marginTop: 6, marginBottom: 6, boxSizing: "border-box" } }, /*#__PURE__*/
-    React.createElement("div", { className: "timer-breathe-cycle-chip", role: "group", "aria-label": `Cycle ${bCycle} of ${breathCycles}` }, /*#__PURE__*/
-    React.createElement("div", { className: "timer-round-pips" }, Array.from({ length: breathCycles }, (_, i) => {
-      const activeIdx = bCycle - 1;
-      const done = i < activeIdx;
-      const active = i === activeIdx;
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        className: "timer-round-pip" + (done ? " is-done" : "") + (active ? " is-active" : ""),
-        "aria-hidden": true
-      });
-    }))
-    )
-    ),
-
-
-    bDone && /*#__PURE__*/
-    React.createElement("div", { style: { flexShrink: 0, width: "100%", minHeight: TIMER_PHASE_BAND, boxSizing: "border-box" }, "aria-hidden": true }), /*#__PURE__*/
-
-
-    React.createElement("div", { style: { flexShrink: 0, height: !bRunning && !bDone ? TIMER_MID_IDLE_HEIGHT : undefined, minHeight: !bRunning && !bDone ? TIMER_MID_IDLE_HEIGHT : 0, width: "100%", marginTop: !bRunning && !bDone ? TIMER_IDLE_VERTICAL_GAP : 6, marginBottom: !bRunning && !bDone ? 0 : 6, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", boxSizing: "border-box" } },
+    React.createElement("div", { style: { flexShrink: 0, minHeight: TIMER_MID_IDLE_HEIGHT, width: "100%", marginTop: TIMER_IDLE_VERTICAL_GAP, marginBottom: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", boxSizing: "border-box" } },
     !bRunning && !bDone && /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "timer-pattern-row", style: { width: "100%", maxWidth: 360 } },
@@ -6547,6 +6510,38 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     )
     )
 
+    ),
+
+    bRunning && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
+    React.createElement("div", { className: "timer-glass-phase", style: { flexShrink: 0, width: "100%", textAlign: "center", padding: "10px 20px 8px", marginTop: 0, boxSizing: "border-box", minHeight: TIMER_PHASE_BAND, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
+    React.createElement("div", { key: `${bPhaseIdx}-${phaseLabel}-${bCycle}`, style: {
+        fontSize: "var(--text-xl)",
+        fontWeight: 500,
+        letterSpacing: "0.22em",
+        textTransform: "uppercase",
+        color: nightMode ? "#FF3B30" : isDark ? "var(--app-white)" : "#1D1D1F",
+        opacity: 1,
+        fontFamily: "var(--font-display)",
+        transition: "none",
+        lineHeight: 1.25
+      } }, curBreathPhase.label)
+    ),
+    React.createElement("div", { style: { display: "flex", width: "100%", maxWidth: 360, marginLeft: "auto", marginRight: "auto", justifyContent: "center", marginTop: 4, marginBottom: 0, boxSizing: "border-box" } }, /*#__PURE__*/
+    React.createElement("div", { className: "timer-breathe-cycle-chip", role: "group", "aria-label": `Cycle ${bCycle} of ${breathCycles}` }, /*#__PURE__*/
+    React.createElement("div", { className: "timer-round-pips" }, Array.from({ length: breathCycles }, (_, i) => {
+      const activeIdx = bCycle - 1;
+      const done = i < activeIdx;
+      const active = i === activeIdx;
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        className: "timer-round-pip" + (done ? " is-done" : "") + (active ? " is-active" : ""),
+        "aria-hidden": true
+      });
+    }))
+    )
+    )
+    )
+
     ), /*#__PURE__*/
 
     React.createElement("div", { style: TIMER_BTN_SPACER_ABOVE_BREATHE_IDLE, "aria-hidden": true }), /*#__PURE__*/
@@ -6561,7 +6556,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("div", { style: TIMER_BTN_SPACER_BELOW_IDLE, "aria-hidden": true })
     )
 
-    )
     )
     ), /*#__PURE__*/
     React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })

@@ -1149,7 +1149,7 @@ const css = `
     --dot-bg: #000000;
     --dot-done: #FF3B30;
     --step-connector: #FF3B30;
-    --accent-btn-text: #f6f7f8;
+    --accent-btn-text: #000000;
     --bg-hover: rgba(211, 47, 47, 0.1);
     --summary-grid-bg: #180303;
     --text-teal: #FF3B30;
@@ -1757,6 +1757,11 @@ const css = `
     opacity: 1;
     -webkit-text-fill-color: #f6f7f8;
   }
+  .app[data-night="true"] .guided-overlay .gdc-instr-expand-panel[data-panel="guided-black"] .gdc-instr-expand-label,
+  .app[data-night="true"] .guided-overlay .gdc-instr-expand-panel[data-panel="guided-black"] .gdc-instr-expand-cue {
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+  }
   .guided-overlay .gdc-instr-expand-row {
     display: grid;
     grid-template-columns: minmax(72px, 28%) 1fr;
@@ -1795,8 +1800,8 @@ const css = `
   .app[data-night="true"] .timer-view-body .timer-glass-btn-pri {
     background: #FF3B30 !important;
     border: none !important;
-    color: #f6f7f8 !important;
-    -webkit-text-fill-color: #f6f7f8 !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
   }
   /* ── BASE ── */
   .app {
@@ -3138,6 +3143,15 @@ const css = `
     color: #252525;
     -webkit-text-fill-color: #252525;
   }
+  /* Ultra: filled momentum square — weekday letter on red uses true black (beats .content * red) */
+  .app[data-night="true"] .summary-momentum .momentum-cell--on .momentum-cell__dow {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+  .app[data-night="true"] .summary-momentum .momentum-cell:not(.momentum-cell--on) .momentum-cell__dow {
+    color: rgba(255, 59, 48, 0.55) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.55) !important;
+  }
   .momentum-labels { display:flex; justify-content:space-between; margin-bottom:6px; padding: 0; width: 100%; box-sizing: border-box; }
   .momentum-label { font-size: var(--text-xs); letter-spacing:0.10em; text-transform:uppercase; color:var(--text-dimmer); }
   .app[data-theme="light"]:not([data-night="true"]) .momentum-label { color: var(--text-dim); }
@@ -3849,15 +3863,22 @@ const css = `
     color:#FF3B30 !important;
     -webkit-text-fill-color:#FF3B30 !important;
   }
+  /* Inactive Browse tabs: muted system red (repeat .content path so we beat .content * { color: #FF3B30 }) */
+  .app[data-night="true"] .content .home-category-tab:not([aria-selected="true"]),
+  .app[data-night="true"] .home .home-category-tab:not([aria-selected="true"]),
   .app[data-night="true"] .home-category-tab:not([aria-selected="true"]) {
-    color:color-mix(in srgb, var(--mood-color) 50%, #ffffff) !important;
-    -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 50%, #ffffff) !important;
+    color:rgba(255, 99, 88, 0.92) !important;
+    -webkit-text-fill-color:rgba(255, 99, 88, 0.92) !important;
     opacity:1 !important;
   }
+  .app[data-night="true"] .content .home-category-tab[aria-selected="true"],
+  .app[data-night="true"] .home .home-category-tab[aria-selected="true"],
   .app[data-night="true"] .home-category-tab[aria-selected="true"] {
     color:#FF3B30 !important;
     -webkit-text-fill-color:#FF3B30 !important;
   }
+  .app[data-night="true"] .content .home-category-tab[aria-selected="true"]::after,
+  .app[data-night="true"] .home .home-category-tab[aria-selected="true"]::after,
   .app[data-night="true"] .home-category-tab[aria-selected="true"]::after {
     background:#FF3B30 !important;
   }
@@ -5681,15 +5702,15 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const breatheOpacityTransition = isInhalePhase ? `${Math.max(2.5, phaseDur * 0.85)}s ease` : "0.6s ease";
 
   const breatheMinScale = 0.45;
-  // ringSize 312 + guide r=140 (320 vb): max scale so accent stroke outer edge meets guide stroke inner edge
+  // ringSize 312 + guide r=140 (320 vb): max scale so accent stroke outer edge meets guide stroke outer edge
   const ringSize = 312;
   const breatheInset = (ringSize - 306) / 2;
   const breatheGuideStrokeVB = nightMode || isDark ? 2.5 : 3;
   const breatheInnerOuterR = 120 + 3.4 / 2;
-  const breatheGuideInnerEdgePx = (ringSize / 320) * (140 - breatheGuideStrokeVB / 2);
+  const breatheGuideOuterEdgePx = (ringSize / 320) * (140 + breatheGuideStrokeVB / 2);
   const breatheMaxScale = Math.max(
     breatheMinScale + 0.02,
-    (breatheGuideInnerEdgePx - breatheInset) / breatheInnerOuterR
+    breatheGuideOuterEdgePx / breatheInnerOuterR
   );
   let breatheT = 0;
   if (isHoldPhase) breatheT = 1;
@@ -6253,7 +6274,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     border: 1px solid #FF3B30 !important;
   }
   [data-night="true"] .timer-view-body .timer-glass-toggle-btn { color: rgba(255, 59, 48, 0.65) !important; }
-  [data-night="true"] .timer-view-body .timer-glass-toggle-btn.active { color: #252525 !important; background: #FF3B30 !important; }
+  [data-night="true"] .timer-view-body .timer-glass-toggle-btn.active { color: #000000 !important; background: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-interval-row { border-bottom-color: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-interval-row-label { color: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-instrument-val {
@@ -6301,6 +6322,15 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-night="true"] .timer-view-body .timer-interval-row-value span:last-child {
     color: #FF3B30 !important;
   }
+  /* Ultra: interval arcs match breathe guide — 2.5px; track uses same stroke-opacity as breathe outline (thin look) */
+  [data-night="true"] .timer-view-body .timer-interval-ring circle:first-of-type {
+    stroke-width: 2.5 !important;
+    stroke-opacity: 0.5 !important;
+  }
+  [data-night="true"] .timer-view-body .timer-interval-ring .timer-interval-progress {
+    stroke-width: 2.5 !important;
+    stroke-opacity: 1 !important;
+  }
   ` : "";
 
   return (/*#__PURE__*/
@@ -6328,7 +6358,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("circle", { cx: "160", cy: "160", r: "140", fill: "none", stroke: nightMode ? "#FF3B30" : isDark ? "var(--border)" : "#EEEEEE", strokeWidth: isDark ? "2.5" : "1.5" }),
     iPhase !== "idle" && iPhase !== "done" && /*#__PURE__*/
     React.createElement("circle", { className: "timer-interval-progress", cx: "160", cy: "160", r: "140", fill: "none",
-      stroke: iRingColor, strokeWidth: "3", strokeLinecap: "round",
+      stroke: iRingColor, strokeWidth: nightMode ? "2.5" : "3", strokeLinecap: "round",
       strokeDasharray: iCircumference,
       strokeDashoffset: iCircumference * (1 - iPct / 100) }
     )
@@ -6431,7 +6461,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     bRunning && /*#__PURE__*/
     React.createElement("div", { className: isHoldPhase ? "timer-breathe-hold" : "", style: {
         position: "absolute", left: breatheInset, top: breatheInset, width: 306, height: 306, borderRadius: "50%", overflow: "visible", pointerEvents: "none",
-        // scale max: accent stroke outer edge = guide stroke inner edge (see breatheMaxScale)
+        // scale max: accent stroke outer edge = guide stroke outer edge (see breatheMaxScale)
         transform: bRunning ? `translateZ(0) scale(${breatheScaleDisplay})` : "scale(0.45)",
         transformOrigin: "center center",
         transition: !bRunning ? "transform 0.6s ease" : "none",
@@ -7543,12 +7573,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const minsNow = new Date().getHours() * 60 + new Date().getMinutes();
     const nm = welcomeName || "Adam";
     let timeGreeting;
-    if (minsNow >= 5 * 60 && minsNow <= 11 * 60 + 59) {
+    if (minsNow >= 5 * 60 && minsNow < 11 * 60) {
       timeGreeting = "Good Morning, " + nm;
-    } else if (minsNow >= 12 * 60 && minsNow <= 16 * 60 + 59) {
+    } else if (minsNow >= 11 * 60 && minsNow < 17 * 60) {
       timeGreeting = "Good Afternoon, " + nm;
-    } else {
+    } else if (minsNow >= 17 * 60 && minsNow < 21 * 60) {
       timeGreeting = "Good Evening, " + nm;
+    } else {
+      timeGreeting = "Good Night, " + nm;
     }
 
     return (/*#__PURE__*/
@@ -8074,20 +8106,6 @@ async function bootstrapAxisApp() {
   }
 }
 bootstrapAxisApp();
-  </script>
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    function applyWelcome() {
-      try {
-        var name = localStorage.getItem("axisUserName");
-        var el = document.getElementById("axis-home-greeting");
-        if (name && el) el.textContent = "Welcome back, " + name;
-      } catch (e) {}
-    }
-    applyWelcome();
-    requestAnimationFrame(applyWelcome);
-    setTimeout(applyWelcome, 50);
-  });
   </script>
 </body>
 </html>

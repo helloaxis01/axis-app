@@ -1,7 +1,9 @@
 "use strict";
 /**
  * Copies the canonical app shell into repo-root index.html before build.js → dist/.
- * Capacitor uses public_web/; preview on :4173 typically serves dist/ from npm run build.
+ * Capacitor uses public_web/ — keep it in sync with 031726 REBUILD (or run npm run build).
+ * To preview the same bundle as dist: npm run preview → http://localhost:4173/
+ * preview:web serves public_web only (copy 031726 → public_web first if needed).
  */
 const fs = require("fs");
 const path = require("path");
