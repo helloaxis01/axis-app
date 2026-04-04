@@ -674,6 +674,10 @@ const css = `
     /* First line below dashboard: Home greeting + tab screen titles share this top inset */
     --app-title-after-dashboard: 44px;
     --home-section-gap: 18px;
+    /* Home: edge-to-edge gaps between major blocks (Today card, Recents, Browse, browse results) */
+    --home-block-gap: 32px;
+    /* Space from section label (e.g. FOUNDATION) down to cards — tied to block gap */
+    --home-group-label-gap: calc(var(--home-block-gap) * 0.375);
   }
   /* AXIS design tokens — foundation */
   :root {
@@ -697,7 +701,8 @@ const css = `
     font-family: var(--font-ui);
     --dashboard-browse-sticky-top: calc(env(safe-area-inset-top, 0px) + 49px);
     --axis-dashboard-fixed-h: calc(env(safe-area-inset-top, 0px) + 49px);
-    --axis-session-fixed-h: 108px;
+    /* Session chrome: title + duration + LIST/GUIDED + instruction line (fixed hdr-wrap) */
+    --axis-session-fixed-h: 168px;
   }
   .home-wordmark, .track-card-name, .hdr-title, .session-title,
   .fc-name, .fv-name, .guided-exercise-name, .en, .step-label,
@@ -821,10 +826,18 @@ const css = `
     box-sizing: border-box;
     padding: calc(var(--axis-dashboard-fixed-h) + max(4px, calc(var(--app-title-after-dashboard) - 32px)) - 18px) 20px calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 4px);
   }
-  /* Prime/Rest + dark (non-Ultra): TODAY hero CTA label — explicit brand off-white (beats circadian --accent-btn-text) */
-  .app[data-theme="dark"][data-night="false"] .start-here-group.today-card--ghost .begin-btn--today-primary.begin-btn--today-pr-rest-dark {
-    color: #f6f7f8 !important;
-    -webkit-text-fill-color: #f6f7f8 !important;
+  /* Dark (non-Ultra): accent CTA pills use charcoal ink on mood fills (circadian vars can lose to inline / inheritance) */
+  .app[data-theme="dark"][data-night="false"] .begin-btn,
+  .app[data-theme="dark"][data-night="false"] .session-browse-btn,
+  .app[data-theme="dark"][data-night="false"] .fv-cta:not(.done),
+  .app[data-theme="dark"][data-night="false"] .summary-cta-btn,
+  .app[data-theme="dark"][data-night="false"] .content .tb {
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
+  }
+  .app[data-theme="dark"][data-night="false"] .fv-cta:not(.done) svg,
+  .app[data-theme="dark"][data-night="false"] .fv-cta:not(.done) svg * {
+    fill: #252525 !important;
   }
   .app-page-bottom-pad { padding-bottom: var(--safe-bottom); }
   .app-label { letter-spacing: var(--label-spacing); }
@@ -892,7 +905,7 @@ const css = `
     --dot-bg: rgba(255,255,255,0.14);
     --dot-done: rgba(255,255,255,0.32);
     --step-connector: rgba(255,255,255,0.08);
-    --accent-btn-text: #000000;
+    --accent-btn-text: #252525;
     --bg-hover: rgba(255,255,255,0.05);
     --summary-grid-bg: rgba(255,255,255,0.04);
     --eol-color: rgba(255,255,255,0.30);
@@ -916,11 +929,11 @@ const css = `
     --text-primary: var(--axis-black);
     --text-secondary: color-mix(in srgb, var(--axis-black) 90%, transparent);
     --text-tertiary: rgba(15,30,46,0.82);
-    --text-dim: rgba(15,30,46,0.76);
-    --text-dimmer: rgba(15,30,46,0.68);
+    --text-dim: rgba(15,30,46,0.86);
+    --text-dimmer: rgba(15,30,46,0.80);
     --text-white: var(--axis-black);
     --accent: var(--accent);
-    --accent-secondary: rgba(42,95,143,0.58);
+    --accent-secondary: rgba(28,68,108,0.74);
     --accent-dim: rgba(42,95,143,0.12);
     --accent-glow: rgba(42,95,143,0.22);
     --cue-bar: rgba(42,95,143,0.65);
@@ -931,12 +944,54 @@ const css = `
     --text-done: rgba(15,30,46,0.48);
     --dot-bg: rgba(15,30,46,0.12);
     --dot-done: rgba(15,30,46,0.38);
-    --accent-btn-text: #111111;
+    --accent-btn-text: #f6f7f8;
     --step-connector: rgba(160,195,225,0.40);
     --bg-hover: rgba(255,255,255,0.38);
     --summary-grid-bg: rgba(255,255,255,0.32);
     --eol-color: rgba(15,30,46,0.48);
     --bg-app: var(--bg-gradient);
+  }
+
+  /* Settings sliders: larger thumb (default; Ultra night overrides below) */
+  .app:not([data-night="true"]) .settings-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 44px;
+    background: transparent;
+    accent-color: var(--accent);
+  }
+  .app:not([data-night="true"]) .settings-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 24%, rgba(15, 30, 46, 0.14));
+  }
+  .app:not([data-night="true"]) .settings-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    margin-top: -9px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--accent);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
+    cursor: pointer;
+  }
+  .app:not([data-night="true"]) .settings-range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 24%, rgba(15, 30, 46, 0.14));
+    border: none;
+  }
+  .app:not([data-night="true"]) .settings-range::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--accent);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
+    cursor: pointer;
   }
 
   /* ── LIGHT MODE TEXT WEIGHT BOOST ── */
@@ -955,6 +1010,14 @@ const css = `
   [data-theme="light"] .ob-body,
   [data-theme="light"] .ob-sci-text {
     font-weight: 400;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .cue-tiers__label:not(.cue-tiers__label--tip) {
+    color: color-mix(in srgb, var(--accent) 76%, #15202c) !important;
+    -webkit-text-fill-color: color-mix(in srgb, var(--accent) 76%, #15202c) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .cue-tiers__label--tip {
+    color: rgba(55, 62, 72, 0.92) !important;
+    -webkit-text-fill-color: rgba(55, 62, 72, 0.92) !important;
   }
   /* Light mode small text accessibility */
   [data-theme="light"] .track-group-label,
@@ -1295,9 +1358,9 @@ const css = `
   .app[data-night="true"] .settings-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    margin-top: -5px;
-    width: 16px;
-    height: 16px;
+    margin-top: -8px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     border: 1px solid #B71C1C;
     background: #B71C1C !important;
@@ -1309,8 +1372,13 @@ const css = `
     height: 6px;
     border: none;
   }
-  .app[data-night="true"] .settings-range::-moz-range-progress,
+  .app[data-night="true"] .settings-range::-moz-range-progress {
+    background: #B71C1C !important;
+  }
   .app[data-night="true"] .settings-range::-moz-range-thumb {
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
     background: #B71C1C !important;
     border: 1px solid #B71C1C !important;
     box-shadow: none !important;
@@ -1376,7 +1444,7 @@ const css = `
   .tab-bar[data-night="true"] .tab-btn:not(.active) { color: rgba(211, 47, 47, 0.25) !important; opacity: 1 !important; }
   .tab-bar[data-night="true"] .tab-btn:not(.active):hover { color: rgba(211, 47, 47, 0.25) !important; opacity: 1 !important; }
   .tab-bar[data-night="true"] .tab-btn.active:hover { color: #FF3B30 !important; opacity: 1 !important; }
-  .tab-bar[data-night="true"] .nav-glow-dot { background: #FF3B30 !important; box-shadow: none !important; }
+  .tab-bar[data-night="true"] .nav-tab-indicator { background: #FF3B30 !important; box-shadow: none !important; opacity: 1; }
   [data-night="true"] .prog-fill { background: #FF3B30 !important; box-shadow: none !important; }
   [data-night="true"] .prog-bar { height: 4px !important; background: #000000 !important; border: none !important; border-radius: 4px !important; }
   /* Session utility pills — Ultra: red label, hairline border */
@@ -1980,18 +2048,65 @@ const css = `
   }
   /* sub-bar: tab-desc + progress live here, bleeds to edges, floats above content */
   .tab-subbar {
-    position:sticky; top: 0; z-index:190;
+    position:sticky; top: 0; z-index:195;
     background: var(--hdr-bg);
     backdrop-filter: blur(10px) saturate(1.8);
     -webkit-backdrop-filter: blur(10px) saturate(1.8);
     box-shadow: 0 4px 20px rgba(0,0,0,0.18), 0 1px 0 var(--glass-border);
     margin: 0 calc(-1 * var(--page-gutter));
-    padding: 8px var(--page-gutter) 16px;
+    padding: 10px var(--page-gutter) 16px;
   }
+  .hdr-tabs-wrap { width: 100%; box-sizing: border-box; }
   .tab-desc-line {
     font-size: var(--text-sm);
     letter-spacing:0.03em;
     padding-bottom: 8px;
+  }
+  /* Instruction copy lives in fixed hdr (below tabs) so it never stacks under LIST/GUIDED */
+  .tab-desc-line--under-tabs {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 0 10px;
+    margin: 0;
+    border-bottom: none;
+    line-height: 1.45;
+  }
+  /* Session LIST / GUIDED: two hints aligned under each tab; inactive column is muted */
+  .tab-desc-line--dual {
+    display: flex;
+    align-items: flex-start;
+    justify-content: stretch;
+    gap: 0;
+  }
+  .tab-desc-line--dual .tab-desc-col {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    line-height: 1.45;
+    padding: 0 4px;
+    box-sizing: border-box;
+    transition: opacity 0.2s ease, color 0.2s ease;
+  }
+  .tab-desc-line--dual .tab-desc-col--active {
+    opacity: 1;
+  }
+  .tab-desc-line--dual .tab-desc-col--inactive {
+    opacity: 0.4;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .tab-desc-line--dual .tab-desc-col--inactive {
+    opacity: 0.5;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .hdr-wrap .tab-desc-line--under-tabs {
+    color: rgba(15, 30, 46, 0.78);
+    font-weight: 400;
+    font-style: italic;
+  }
+  .app[data-theme="dark"]:not([data-night="true"]) .hdr-wrap .tab-desc-line--under-tabs {
+    color: color-mix(in srgb, var(--text-primary) 80%, transparent);
+  }
+  .app[data-night="true"] .hdr-wrap .tab-desc-line--under-tabs {
+    color: rgba(211, 47, 47, 0.82) !important;
+    -webkit-text-fill-color: rgba(211, 47, 47, 0.82) !important;
   }
   .tab-prog-row {
     display:flex; align-items:center; justify-content:space-between;
@@ -2285,7 +2400,7 @@ const css = `
   .fc-idx { position:absolute; top:14px; right:16px; font-size: var(--text-sm); color:var(--text-dimmer); letter-spacing:0.12em; }
   .fc-name { font-size: var(--text-xl); font-weight: 600; letter-spacing:-0.03em; line-height:1.15; margin:4px 0 6px; color:var(--text-white); }
   .fc-sub { margin-bottom:16px; }
-  .fc-steps { display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); padding-top:18px; margin-bottom:18px; }
+  .fc-steps { display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); padding-top:18px; margin-bottom:18px; padding-left:20px; padding-right:20px; box-sizing:border-box; }
   .fc-step { display:flex; gap:0; position:relative; }
   .fc-step:not(:last-child)::after { content:''; position:absolute; left:21px; top:42px; bottom:0; width:1px; background:var(--step-connector); display:none; }
   .fc-badge { display:none;
@@ -2381,7 +2496,17 @@ const css = `
   .fv-prev:disabled { opacity:0.2; cursor:not-allowed; }
 
   /* ── STEPS (A/B/C cues) ── */
-  .steps { display:flex; flex-direction:column; gap:0; margin-top:8px; }
+  .steps { display:flex; flex-direction:column; gap:0; margin-top:8px; padding-left:26px; padding-right:26px; box-sizing:border-box; }
+  /* Expanded list row: instruction stack inset from card edge (LIST / GUIDED detail) */
+  .er-card.er-card--open .protocol-panel.panel .steps {
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .er-card.er-card--open .protocol-panel.panel .timer-wrap {
+    margin-left:20px;
+    margin-right:20px;
+    box-sizing:border-box;
+  }
   .step { display:flex; gap:10px; align-items:flex-start; padding:14px 0 29px; border-bottom:1px solid var(--border); }
   .step:last-child { border-bottom:none; }
   .step-badge { display:none;
@@ -2733,6 +2858,20 @@ const css = `
     color: var(--text-white);
     margin-bottom: 6px;
   }
+  /* Minutes (hero) stays heavy; Sessions reads as secondary metric */
+  .summary-bento-num--sessions {
+    font-weight: 500;
+    color: var(--text-white);
+  }
+  .summary-bento-num--active-days {
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .summary-hero-metric-num--minutes {
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    color: color-mix(in srgb, var(--text-white) 90%, var(--accent) 10%);
+  }
   .summary-bento-lbl {
     font-size: var(--text-xs);
     letter-spacing: 0.18em;
@@ -2906,28 +3045,23 @@ const css = `
     transition: all 0.2s;
     position: relative;
   }
-  .momentum-cell__dow {
+  .summary-momentum .momentum-cell__dow {
     position: absolute;
     bottom: 3px;
     right: 4px;
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.01em;
+    font-size: var(--text-sm);
+    font-weight: 800;
+    letter-spacing: 0.02em;
     line-height: 1;
     pointer-events: none;
-    color: color-mix(in srgb, var(--text-primary) 42%, transparent);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .momentum-cell:not(.momentum-cell--on) .momentum-cell__dow {
-    color: rgba(255, 255, 255, 0.82);
+  .summary-momentum .momentum-cell:not(.momentum-cell--on) .momentum-cell__dow {
+    color: #f6f7f8;
+    -webkit-text-fill-color: #f6f7f8;
   }
-  .momentum-cell--on .momentum-cell__dow {
-    color: rgba(255, 255, 255, 0.92);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .momentum-cell--on .momentum-cell__dow {
-    color: rgba(255, 255, 255, 0.95);
-  }
-  [data-night="true"] .momentum-cell--on .momentum-cell__dow {
-    color: rgba(37, 37, 37, 0.72);
+  .summary-momentum .momentum-cell--on .momentum-cell__dow {
+    color: #252525;
+    -webkit-text-fill-color: #252525;
   }
   .momentum-labels { display:flex; justify-content:space-between; margin-bottom:6px; padding: 0; width: 100%; box-sizing: border-box; }
   .momentum-label { font-size: var(--text-xs); letter-spacing:0.10em; text-transform:uppercase; color:var(--text-dimmer); }
@@ -2987,17 +3121,19 @@ const css = `
 
   /* Sessions: same horizontal inset as .tab-subbar (--page-gutter) — matches full-width .fv-cta / list CTA edges */
   .fav-filter.fav-filter--session-util {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
-    margin: 16px 0 8px;
+    margin: 16px 0 10px;
     padding: 0;
     gap: 0;
-    min-height: 0;
+    min-height: 32px;
+    visibility: visible;
+    opacity: 1;
   }
   .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util {
     margin-top: 12px;
@@ -3160,15 +3296,16 @@ const css = `
     justify-content:center;
     gap:4px;
   }
-  .tab-btn:not(.active) .nav-glow-dot {
-    display:none;
+  .tab-btn:not(.active) .nav-tab-indicator {
+    opacity: 0;
+    transform: scaleX(0.35);
   }
   .tab-btn:active { transform: scale(0.95); opacity: 0.88; }
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn { color: color-mix(in srgb, var(--axis-black) 34%, transparent); }
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active { color: #1D1D1F; }
 
   .tab-bar[data-night="false"][data-theme="dark"] .tab-btn { color: color-mix(in srgb, var(--axis-white) 25%, transparent); }
-  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn.active { color: var(--axis-white); }
+  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn.active { color: #D1D5DB; }
 
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn:hover:not(.active) { color: color-mix(in srgb, var(--axis-black) 47%, transparent); }
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active:hover { color: #1D1D1F; }
@@ -3199,20 +3336,34 @@ const css = `
     opacity: 1;
   }
   .tab-btn.active .tab-icon-shell::before { content:none; }
-  .tab-btn .tab-icon-shell svg { position:relative; z-index:1; }
-  .nav-glow-dot {
-    width:3px; height:3px; border-radius:50%;
-    margin:0;
-    align-self: center;
-    background: var(--mood-accent);
-    box-shadow: 0 0 5px var(--mood-accent);
-    opacity: 0;
-    transition: opacity 0.15s ease;
+  /* No legacy glow/dot under icons — only .nav-tab-indicator above (all themes) */
+  .tab-bar .tab-btn .tab-icon-shell::before,
+  .tab-bar .tab-btn .tab-icon-shell::after {
+    content: none !important;
+    display: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
   }
-  .tab-btn.active .nav-glow-dot { opacity: 1; }
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active .nav-glow-dot {
+  .tab-btn .tab-icon-shell svg { position:relative; z-index:1; }
+  .nav-tab-indicator {
+    width: 26px;
+    height: 3px;
+    border-radius: 999px;
+    margin: 0;
+    align-self: center;
+    background: transparent;
+    opacity: 0;
+    transform: scaleX(1);
+    transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease;
+  }
+  .tab-btn.active .nav-tab-indicator {
+    opacity: 1;
+    background: var(--mood-accent);
+    box-shadow: none;
+  }
+  .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active .nav-tab-indicator {
     background: var(--accent);
-    box-shadow: 0 0 5px var(--accent);
     opacity: 1;
   }
   .tab-bar-spacer {
@@ -3471,16 +3622,15 @@ const css = `
     position:relative;
     z-index:1;
     padding-top:0;
-    /* Match RECENTS→BROWSE gap to BROWSE→FOUNDATION (avoid stacking base padding + section gap) */
     padding-bottom:0;
     margin-bottom:0;
   }
-  /* Browse results + EOL: horizontal gutter matches track-cards-outer; top pad = BROWSE→FOUNDATION gap */
+  /* Browse results: horizontal gutter; top gap from Browse tabs uses margin (edge-to-edge), not padding stack */
   .home-browse-scroll-mask {
     position:relative;
     z-index:1;
-    margin-top:-20px;
-    padding:calc(var(--home-section-gap) + 20px) var(--page-gutter) 24px;
+    margin-top:var(--home-block-gap);
+    padding:0 var(--page-gutter) 24px;
     margin-bottom:var(--axis-safe-bottom);
     box-sizing:border-box;
   }
@@ -3488,7 +3638,7 @@ const css = `
     position:static;
     z-index:auto;
     padding-bottom:0;
-    margin-top:var(--home-section-gap);
+    margin-top:var(--home-block-gap);
   }
   /* Ensure final list marker clears fixed tab bar on iPhone */
   .content.content--session.content--session-list .track-cards-outer {
@@ -3498,7 +3648,7 @@ const css = `
   .track-group + .track-group { margin-top:14px; }
   .track-group-label {
     font-size: var(--text-sm); font-family:var(--font-display); font-weight:500; letter-spacing:0.28em; text-transform:uppercase;
-    color:var(--text-dim); margin-bottom:6px;
+    color:var(--text-dim); margin-bottom:var(--home-group-label-gap);
   }
   /* TODAY browse: horizontal tab strip (no pill), no band behind BROWSE, no edge fades */
   .home-category-strip-wrap {
@@ -3572,8 +3722,8 @@ const css = `
   }
   .home-category-tab:active { opacity:0.85; }
   [data-theme="light"] .home-category-tab:not([aria-selected="true"]) {
-    color:color-mix(in srgb, var(--mood-color) 30%, transparent);
-    -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 30%, transparent);
+    color:color-mix(in srgb, var(--mood-color) 44%, #15202c);
+    -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 44%, #15202c);
   }
   [data-theme="light"] .home-category-tab[aria-selected="true"] {
     color:var(--mood-color);
@@ -3584,7 +3734,7 @@ const css = `
     top:var(--dashboard-browse-sticky-top);
     z-index:120;
     margin:0;
-    padding-top:8px;
+    padding-top:0;
     padding-bottom:4px;
     padding-left:0;
     padding-right:0;
@@ -3636,7 +3786,7 @@ const css = `
     letter-spacing:-0.02em;
     text-transform:none;
     color:var(--text-white);
-    margin-bottom:8px;
+    margin-bottom:10px;
     font-weight:600;
     padding-inline:var(--page-gutter);
     box-sizing:border-box;
@@ -3646,7 +3796,13 @@ const css = `
     min-height:0;
     box-sizing:border-box;
   }
-  .home-recent { margin-bottom:0; }
+  .home-recent {
+    margin-top:var(--home-block-gap);
+    margin-bottom:0;
+    padding-top:0;
+    padding-bottom:0;
+    box-sizing:border-box;
+  }
   .home-recent-label {
     font-size:var(--text-base); letter-spacing:-0.02em; text-transform:none;
     color:var(--text-white); margin:0 0 4px; padding:0; font-weight:600;
@@ -3894,14 +4050,14 @@ function buildInstructionTiers(startText, steps) {
 function CueTiers({ tiers, theme = "dark", ultraNight = false, moveOpacity = 1, compact = false, bodyColorOverride = null }) {
   const isDarkMode = ultraNight || theme === "dark";
   const primary = ultraNight ? "#FF3B30" : isDarkMode ? "#FFFFFF" : "#000000";
-  const tipLabel = ultraNight ? "#FF3B30" : isDarkMode ? "#BEBEBE" : "#C7C7C7";
-  const tipBody = ultraNight ? "#FF3B30" : isDarkMode ? "#E2E2E2" : "#D2D2D2";
+  const tipLabel = ultraNight ? "#FF3B30" : isDarkMode ? "#BEBEBE" : "#A8A8A8";
+  const tipBody = ultraNight ? "#FF3B30" : isDarkMode ? "#E2E2E2" : "#B6B6B6";
   const divider = ultraNight ? "rgba(255, 59, 48, 0.72)" : isDarkMode ? "#141414" : "#F0F0F0";
   const accent = ultraNight ? "#FF3B30" : "var(--accent)";
   const labelSize = compact ? "10px" : "11px";
   const primarySize = compact ? "var(--text-base)" : "clamp(22px, 3.9vw, 28px)";
   const tipSize = compact ? "13px" : "15px";
-  return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", width: "100%" } },
+  return /*#__PURE__*/React.createElement("div", { className: "cue-tiers", style: { display: "flex", flexDirection: "column", width: "100%" } },
   tiers.map((tier, idx) => {
     const isTipTier = tier.key === "tip";
     const bodyColor = bodyColorOverride || (isTipTier ? tipBody : primary);
@@ -3911,12 +4067,13 @@ function CueTiers({ tiers, theme = "dark", ultraNight = false, moveOpacity = 1, 
     const labelColor = isTipTier ? tipLabel : accent;
     return /*#__PURE__*/React.createElement("div", {
       key: tier.key,
+      className: "cue-tiers__block",
       style: {
         padding: compact ? "12px 0" : "16px 0",
         borderTop: idx === 0 ? "none" : `1px solid ${divider}`
       }
     }, /*#__PURE__*/
-    React.createElement("div", { style: {
+    React.createElement("div", { className: "cue-tiers__label" + (isTipTier ? " cue-tiers__label--tip" : ""), style: {
         fontSize: labelSize,
         fontWeight: 600,
         letterSpacing: "0.18em",
@@ -4299,7 +4456,8 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-current": view === "home" ? "page" : undefined }, /*#__PURE__*/
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(HomeIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(HomeIcon, null))
   )
 
   ), /*#__PURE__*/
@@ -4311,7 +4469,8 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-current": view === "summary" ? "page" : undefined },
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SessionIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SessionIcon, null))
   )
 
   ), /*#__PURE__*/
@@ -4323,7 +4482,8 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-current": view === "timer" ? "page" : undefined }, /*#__PURE__*/
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(TimerIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(TimerIcon, null))
   )
 
   ), /*#__PURE__*/
@@ -4335,7 +4495,8 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-current": view === "mood" ? "page" : undefined }, /*#__PURE__*/
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MoodIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MoodIcon, null))
   )
 
   ), /*#__PURE__*/
@@ -4347,7 +4508,8 @@ function TabBar({ view, setView, theme, nightMode = false }) {
     "aria-current": view === "settings" ? "page" : undefined }, /*#__PURE__*/
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SettingsIcon, null)), /*#__PURE__*/React.createElement("span", { className: "nav-glow-dot", "aria-hidden": true })
+  React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SettingsIcon, null))
   )
 
   )
@@ -4944,7 +5106,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     paused: paused,
     hapticMidpoint: guidedNeedsMidpointHaptic,
     onComplete: handleTimerDone }) : null),
-  /*#__PURE__*/React.createElement("div", { key: "middle", style: { position: "relative", flex: "1 1 0%", minHeight: 0, padding: "0 16px" } }, /*#__PURE__*/
+  /*#__PURE__*/React.createElement("div", { key: "middle", style: { position: "relative", flex: "1 1 0%", minHeight: 0, padding: "0 20px" } }, /*#__PURE__*/
   React.createElement("div", {
     ref: guidedMiddleScrollRef,
     onScroll: handleGuidedMiddleScroll,
@@ -4967,8 +5129,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   React.createElement("div", { "aria-hidden": true, style: {
       position: "absolute",
       top: 0,
-      left: 16,
-      right: 16,
+      left: 20,
+      right: 20,
       height: 22,
       pointerEvents: "none",
       background: `linear-gradient(to bottom, ${guidedShellBg} 0%, rgba(0,0,0,0) 100%)`
@@ -4976,8 +5138,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   React.createElement("div", { "aria-hidden": true, style: {
       position: "absolute",
       bottom: 0,
-      left: 16,
-      right: 16,
+      left: 20,
+      right: 20,
       height: 26,
       pointerEvents: "none",
       background: `linear-gradient(to top, ${guidedShellBg} 0%, rgba(0,0,0,0) 100%)`
@@ -5625,6 +5787,22 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     background: color-mix(in srgb, var(--accent-dim) 55%, rgba(255, 255, 255, 0.04));
     border-top-color: color-mix(in srgb, var(--accent) 45%, transparent);
     color: var(--accent);
+  }
+  .timer-view-body .timer-glass-pattern-btn:not(.active) {
+    color: rgba(18, 32, 48, 0.78);
+    border-color: color-mix(in srgb, var(--glass-border) 55%, rgba(18, 32, 48, 0.22));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)), rgba(0, 0, 0, 0.1);
+  }
+  .app[data-theme="light"] .timer-view-body .timer-glass-pattern-btn:not(.active) {
+    color: rgba(15, 30, 46, 0.84);
+    border-color: rgba(15, 30, 46, 0.24);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.28)), rgba(255, 255, 255, 0.4);
+  }
+  .app[data-night="true"] .timer-view-body .timer-glass-pattern-btn:not(.active) {
+    color: rgba(255, 59, 48, 0.95) !important;
+    border-color: rgba(255, 59, 48, 0.5) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.95) !important;
+    background: linear-gradient(135deg, rgba(255, 59, 48, 0.12), rgba(0, 0, 0, 0.08)), rgba(0, 0, 0, 0.35) !important;
   }
   .timer-view-body .timer-breathe-orb {
     position: absolute;
@@ -6808,7 +6986,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, marginBottom: 12, maxWidth: 280 } }, "Timer length for each exercise in LIST view."), /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
     [30, 45, 60].map((sec) => /*#__PURE__*/
-    React.createElement("button", { key: sec, className: exerciseDuration === sec ? "ultra-filled-btn settings-chip--active" : undefined, onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setExerciseDuration(sec);}, style: { fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 8, border: "1px solid", borderColor: exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)", background: exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)", color: exerciseDuration === sec ? nightMode ? "#000000" : theme === "light" ? "#111111" : "#FFFFFF" : "var(--text-secondary)", cursor: "pointer", fontWeight: 600 } },
+    React.createElement("button", { key: sec, className: exerciseDuration === sec ? "ultra-filled-btn settings-chip--active" : undefined, onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setExerciseDuration(sec);}, style: { fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 8, border: "1px solid", borderColor: exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)", background: exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)", color: exerciseDuration === sec ? nightMode ? "#000000" : theme === "light" ? "#f6f7f8" : "#252525" : "var(--text-secondary)", cursor: "pointer", fontWeight: 600 } },
     sec === 60 ? "1 min" : `${sec} sec`
     )
     )
@@ -6955,7 +7133,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           React.createElement("button", { key: p, onClick: nightMode ? undefined : () => {axisHapticTick();setActivePeriod(p);storageSet("axis_period", p);}, style: {
               display: "flex", alignItems: "center", gap: 16, padding: "16px 18px",
               borderRadius: 16, cursor: nightMode ? "default" : "pointer", textAlign: "left", width: "100%", boxSizing: "border-box",
-              border: isSelected ? `1.5px solid ${ct.accent}` : "1px solid var(--glass-border)",
+              border: isSelected ? "1.5px solid var(--accent)" : "1px solid var(--glass-border)",
               background: nightMode ? "#000000" : isSelected ? (useMoodGlass ? `color-mix(in srgb, ${ct.accentDim} 60%, rgba(255,255,255,0.88))` : ct.accentDim) : (useMoodGlass ? "rgba(255,255,255,0.82)" : "var(--glass-bg)"),
               backdropFilter: useMoodGlass ? "blur(20px)" : "none", WebkitBackdropFilter: useMoodGlass ? "blur(20px)" : "none",
               transition: "all 0.2s"
@@ -6974,9 +7152,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           isNow && !nightMode && /*#__PURE__*/React.createElement("span", { style: { fontSize: "var(--text-xs)", color: "var(--text-dimmer)", letterSpacing: "0.02em", textTransform: "none", fontWeight: 500 } }, "Now")
           ), /*#__PURE__*/
           React.createElement("div", { style: { fontSize: "var(--text-sm)", color: nightMode ? ct.accent : "var(--text-secondary)" } }, desc)
-          ),
-          isSelected && !nightMode && /*#__PURE__*/React.createElement("div", { style: { width: 8, height: 8, borderRadius: "50%", background: ct.accent, flexShrink: 0, boxShadow: `0 0 8px ${ct.accentGlow}` } })
-          ));
+          )
+          )
+        );
 
       })
       )
@@ -7007,6 +7185,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const summaryDow = summaryDateObj.toLocaleDateString(undefined, { weekday: "long" });
     const summaryMonthDay = summaryDateObj.toLocaleDateString(undefined, { month: "long", day: "numeric" });
     const summaryHeroWeeklyEmpty = weeklyGoalBarMinutesCurrent === 0;
+    const formatSummaryWeeklyMinutes = (totalMins) => {
+      const n = Math.max(0, Math.floor(Number(totalMins) || 0));
+      return `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")} m`;
+    };
     const summaryRecentLimit = summaryRecentExpanded ? 15 : 3;
     const summaryRecentRows = history.slice(0, Math.min(history.length, summaryRecentLimit));
     return (/*#__PURE__*/
@@ -7029,24 +7211,22 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-hero-metric", style: { width: "100%", display: "flex", alignItems: "stretch", justifyContent: "space-between", gap: 0 } }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-label", style: { flex: "1 1 50%", alignItems: "center", textAlign: "center" } }, /*#__PURE__*/
       React.createElement("span", { className: "summary-hero-metric-label-line", style: { textAlign: "center" } }, "TOTAL WEEKLY TIME")), /*#__PURE__*/
-      React.createElement("div", { className: "summary-hero-metric-divider" }), /*#__PURE__*/
       summaryHeroWeeklyEmpty ? /*#__PURE__*/React.createElement("div", { className: "summary-hero-metric-value-stack", style: { flex: "1 1 50%", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-value", style: { justifyContent: "center" } }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-num" }, "--")
+      React.createElement("span", { className: "summary-hero-metric-num summary-hero-metric-num--minutes" }, formatSummaryWeeklyMinutes(0))
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-hero-metric-hint", style: { textAlign: "center" } }, "Ready to start?")
       ) : /*#__PURE__*/React.createElement("button", { type: "button", className: "summary-goal-link", onClick: () => {if (navigator.vibrate) navigator.vibrate(10);axisHapticTick();setView("settings");}, style: { flex: "1 1 50%", display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-num" }, weeklyGoalBarMinutesCurrent), /*#__PURE__*/
-      React.createElement("span", { className: "summary-hero-metric-unit" }, "m"))
+      React.createElement("span", { className: "summary-hero-metric-num summary-hero-metric-num--minutes" }, formatSummaryWeeklyMinutes(weeklyGoalBarMinutesCurrent)))
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-item" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-bento-num" }, weekSessionCountForWindow), /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-num summary-bento-num--sessions" }, weekSessionCountForWindow), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-lbl" }, "Sessions")
       ), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-item" }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-bento-num" }, activeDays7Count, /*#__PURE__*/React.createElement("span", { style: { opacity: 0.55, fontWeight: 600 } }, "/", 7)), /*#__PURE__*/
+      React.createElement("div", { className: "summary-bento-num summary-bento-num--active-days" }, activeDays7Count, /*#__PURE__*/React.createElement("span", { style: { opacity: 0.55, fontWeight: 600 } }, "/", 7)), /*#__PURE__*/
       React.createElement("div", { className: "summary-bento-lbl" }, "Active Days")
       )
       ), /*#__PURE__*/
@@ -7150,7 +7330,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       rest: { trackId: "prime", suggestion: "Relax your body with a quick wind down." }
     };
     const periodLabels = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
-    const todaySug = TODAY_SUGGESTIONS[nowPeriod];
+    const todayBoxTitleByPeriod = { dawn: "Morning Session", midday: "Midday Reset", prime: "Evening Stretch", rest: "Nightly Winddown" };
+    const periodKey = TODAY_SUGGESTIONS[usedPeriod] ? usedPeriod : nowPeriod;
+    const todaySug = TODAY_SUGGESTIONS[periodKey];
     const todayTrack = TRACKS[todaySug.trackId];
     const isTodayLight = theme === "light" && !nightMode;
     const todayFillHex = homeCt && homeCt.accent ? homeCt.accent : "#FF9F43";
@@ -7216,6 +7398,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       WebkitTextFillColor: "#000000",
       border: "none",
       boxShadow: "0 4px 16px rgba(0,0,0,0.28)"
+    } : theme === "dark" ? {
+      background: todayFillHex,
+      color: "#252525",
+      WebkitTextFillColor: "#252525",
+      border: "none",
+      boxShadow: `0 4px 16px rgba(0,0,0,0.2), 0 2px 10px rgba(${mx},${my},${mz},0.28)`
     } : {
       background: todayFillHex,
       color: heroBtnInk,
@@ -7223,10 +7411,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       border: "none",
       boxShadow: `0 4px 16px rgba(0,0,0,0.2), 0 2px 10px rgba(${mx},${my},${mz},0.28)`
     };
-    if (!nightMode && theme === "dark" && (nowPeriod === "prime" || nowPeriod === "rest")) {
-      todayBtn.color = "#f6f7f8";
-      todayBtn.WebkitTextFillColor = "#f6f7f8";
-    }
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
@@ -7252,12 +7436,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome", id: "axis-home-welcome" }, timeGreeting + "."), /*#__PURE__*/
       React.createElement("div", { className: "track-group start-here-group today-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "none", color: todayInk, marginBottom: 8, fontWeight: 600, fontSize: "var(--text-lg)" } }, "Today"), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 600, color: todayInk, marginBottom: 6 } }, periodLabels[nowPeriod]), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "none", color: todayInk, marginBottom: 8, fontWeight: 600, fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 600, color: todayInk, marginBottom: 6 } }, periodLabels[periodKey]), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySug.suggestion), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.06em", marginBottom: 18 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
       React.createElement("button", {
-        className: "begin-btn begin-btn--today-primary ultra-filled-btn" + (!nightMode && theme === "dark" && (nowPeriod === "prime" || nowPeriod === "rest") ? " begin-btn--today-pr-rest-dark" : ""),
+        className: "begin-btn begin-btn--today-primary ultra-filled-btn",
         onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(todayTrack.id);},
         style: {
           width: "100%",
@@ -7417,6 +7601,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "hdr-title" }, TRACKS[track].label)
     )
     ), /*#__PURE__*/
+    React.createElement("div", { className: "hdr-tabs-wrap" }, /*#__PURE__*/
     React.createElement("div", { className: "tabs" },
     ["list", "guided"].map((t) => /*#__PURE__*/
     React.createElement("button", {
@@ -7429,6 +7614,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )
     )
     )
+    , /*#__PURE__*/
+    React.createElement("div", { className: "tab-desc-line tab-desc-line--under-tabs tab-desc-line--dual" }, /*#__PURE__*/
+    React.createElement("div", { className: "tab-desc-col " + (tab === "list" ? "tab-desc-col--active" : "tab-desc-col--inactive") }, "Your pace. Tap to expand."), /*#__PURE__*/
+    React.createElement("div", { className: "tab-desc-col " + (tab === "guided" ? "tab-desc-col--active" : "tab-desc-col--inactive") }, "Hands-free. Auto-timed.")
+    )
+    )
     ), /*#__PURE__*/
 
     React.createElement("div", { className: "content content--session" + (tab === "list" ? " content--session-list" : ""), ref: sessionContentRef, onScroll: (e) => {
@@ -7438,10 +7629,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       } }, /*#__PURE__*/
 
     React.createElement("div", { className: "tab-subbar" }, /*#__PURE__*/
-    React.createElement("div", { className: "tab-desc-line" },
-    tab === "list" && "Your pace. Tap to expand, mark done when ready.",
-    tab === "guided" && "Hands-free. Auto-timed. Rest for :15 between moves."
-    ),
     React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__line" }, /*#__PURE__*/
@@ -7538,7 +7725,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       disabled: filteredAll.length === 0,
       style: {
         width: "100%", padding: "14px 18px", borderRadius: 999, border: nightMode ? "1px solid #FF3B30" : "none",
-        background: "var(--accent)", color: theme === "light" && !nightMode ? "#111111" : "#FFFFFF",
+        background: "var(--accent)", color: nightMode ? "#000000" : theme === "light" ? "#111111" : "#252525",
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 600,
         letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer",
         opacity: filteredAll.length === 0 ? 0.45 : 1, transition: "opacity 0.18s, transform 0.18s"
