@@ -2247,6 +2247,58 @@ const css = `
     color: var(--text-secondary);
     line-height: 1.45;
   }
+  .home-summary-lede--story {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-white);
+    letter-spacing: -0.02em;
+    line-height: 1.38;
+  }
+  .summary-story-meta {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .summary-weekly-target-echo { font-size: var(--text-xs); color: var(--text-secondary); }
+  .summary-vs-prior { font-size: var(--text-xs); color: var(--text-dimmer); letter-spacing: 0.02em; line-height: 1.4; }
+  .summary-sparkline {
+    display: flex; align-items: flex-end; gap: 4px; height: 44px; margin-bottom: 16px; padding: 0 2px; box-sizing: border-box;
+  }
+  .summary-sparkline__bar {
+    flex: 1; min-width: 0; border-radius: 3px 3px 0 0;
+    background: color-mix(in srgb, var(--accent) 60%, transparent);
+    min-height: 8px; transition: height 0.2s ease;
+  }
+  .app[data-night="true"] .summary-sparkline__bar { background: rgba(255, 59, 48, 0.5); }
+  .summary-history-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;
+  }
+  .summary-history-filter { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; max-width: 100%; }
+  .summary-history-filter__chip {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 12px; min-height: 36px;
+    border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass-bg);
+    color: var(--text-secondary); cursor: pointer; font-family: var(--font-display); font-weight: 600;
+    box-sizing: border-box;
+  }
+  .summary-history-filter__chip--active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .app[data-night="true"] .home-summary-lede--story {
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+  }
+  .app[data-night="true"] .summary-story-meta,
+  .app[data-night="true"] .summary-vs-prior { color: rgba(255, 59, 48, 0.82) !important; }
+  .app[data-night="true"] .summary-weekly-target-echo__lbl { color: rgba(255, 59, 48, 0.75) !important; }
+  .history-day-group-label {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dimmer);
+    margin: 12px 0 6px; font-weight: 600; font-family: var(--font-display);
+  }
+  .history-day-group-label:first-child { margin-top: 4px; }
+  .history-date--muted { opacity: 0.7; font-size: 11px; }
+  .summary-history-empty { padding: 16px; text-align: center; color: var(--text-dimmer); font-size: var(--text-sm); }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
   .home-summary-date {
     flex-shrink: 0;
     font-size: var(--text-xs);
@@ -3125,6 +3177,34 @@ const css = `
     transition: all 0.2s;
     position: relative;
   }
+  .momentum-cell--btn {
+    appearance: none; -webkit-appearance: none;
+    display: block; width: 100%; height: auto; align-self: stretch;
+    margin: 0; padding: 0; cursor: pointer; font: inherit; color: inherit;
+  }
+  .momentum-cell--selected { box-shadow: 0 0 0 2px var(--accent); }
+  .app[data-night="true"] .momentum-cell--selected { box-shadow: 0 0 0 2px #FF3B30; }
+  .summary-momentum-head { margin-bottom: 2px; }
+  .momentum-explainer { font-size: var(--text-xs); color: var(--text-dimmer); line-height: 1.45; margin-bottom: 10px; }
+  .momentum-day-detail {
+    margin-top: 12px; padding: 12px 14px; border-radius: 14px;
+    border: 1px solid var(--glass-border); background: var(--glass-bg);
+    box-sizing: border-box;
+  }
+  .momentum-day-detail__head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; font-size: var(--text-sm); font-weight: 600; color: var(--text-white); }
+  .momentum-day-detail__tot { font-size: var(--text-xs); font-weight: 500; color: var(--text-dimmer); letter-spacing: 0.04em; }
+  .momentum-day-detail__list { list-style: none; margin: 0; padding: 0; }
+  .momentum-day-detail__list li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-top: 1px solid var(--border); font-size: var(--text-sm); }
+  .momentum-day-detail__list li:first-of-type { border-top: none; padding-top: 0; }
+  .momentum-day-detail__track { color: var(--text-secondary); }
+  .momentum-day-detail__dur { font-variant-numeric: tabular-nums; color: var(--text-dimmer); }
+  .momentum-day-detail__empty { font-size: var(--text-sm); color: var(--text-dimmer); }
+  .momentum-day-detail__close {
+    margin-top: 10px; width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--glass-border);
+    background: transparent; color: var(--text-secondary); font-family: var(--font-display); font-size: var(--text-xs);
+    letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 600;
+  }
+  .app[data-night="true"] .momentum-day-detail { background: #000000; border-color: #FF3B30; }
   .summary-momentum .momentum-cell__dow {
     position: absolute;
     bottom: 3px;
@@ -4499,7 +4579,21 @@ function axisWeekdayShortLabel(dateStr) {
 //  MOMENTUM — 7-day strip (device-only)
 // ─────────────────────────────────────────────────────────────
 function MomentumMap({ history, nightMode = false, theme = "dark" }) {
+  const [detailDate, setDetailDate] = React.useState(null);
   const { dates, sessionCounts, active } = axisWeekMomentumFromHistory(history);
+  const minutesByDate = React.useMemo(() => {
+    const acc = {};
+    for (const e of history || []) {
+      const k = axisLocalDateKey(e && e.date);
+      if (!k) continue;
+      acc[k] = (acc[k] || 0) + (Number(e.duration) || 0);
+    }
+    return acc;
+  }, [history]);
+  const detailEntries = React.useMemo(() => {
+    if (!detailDate) return [];
+    return (history || []).filter((e) => axisLocalDateKey(e.date) === detailDate);
+  }, [history, detailDate]);
   const styleDayOff = theme === "light" ? {
     background: "#9F9FA5",
     border: "1px solid rgba(15, 30, 46, 0.125)",
@@ -4515,11 +4609,15 @@ function MomentumMap({ history, nightMode = false, theme = "dark" }) {
       };
       return (/*#__PURE__*/
     React.createElement("div", { className: "summary-momentum" }, /*#__PURE__*/
-    React.createElement("div", { className: "summary-title", style: { marginBottom: 12 } }, "7-Day Momentum"), /*#__PURE__*/
-    React.createElement("div", { className: "momentum-strip", role: "img", "aria-label": "Seven days of session activity" },
+    React.createElement("div", { className: "summary-momentum-head" }, /*#__PURE__*/
+    React.createElement("div", { className: "summary-title", style: { marginBottom: 6 } }, "7-Day Momentum"), /*#__PURE__*/
+    React.createElement("div", { className: "momentum-explainer" }, "Each square is one day. Filled = at least one logged session that day (tap a day for minutes and sessions).")
+    ),
+    React.createElement("div", { className: "momentum-strip", role: "group", "aria-label": "Seven days of session activity" },
     dates.map((dateStr, i) => {
       const count = sessionCounts[dateStr] || 0;
       const on = active[i];
+      const mins = minutesByDate[dateStr] || 0;
       const styleNight = {
         background: on ? "#FF3B30" : "#000000",
         boxShadow: "none",
@@ -4532,8 +4630,17 @@ function MomentumMap({ history, nightMode = false, theme = "dark" }) {
         backdropFilter: "none",
         WebkitBackdropFilter: "none"
       } : styleDayOff;
+      const selected = detailDate === dateStr;
       return (/*#__PURE__*/
-        React.createElement("div", { key: i, className: "momentum-cell" + (on ? " momentum-cell--on" : ""), style: nightMode ? styleNight : styleDay, "aria-label": `${dateStr}: ${count} session(s)` }, /*#__PURE__*/
+        React.createElement("button", {
+          key: i,
+          type: "button",
+          className: "momentum-cell momentum-cell--btn" + (on ? " momentum-cell--on" : "") + (selected ? " momentum-cell--selected" : ""),
+          style: nightMode ? styleNight : styleDay,
+          "aria-label": `${dateStr}: ${count} session(s), ${mins} minutes`,
+          "aria-pressed": selected ? "true" : "false",
+          onClick: () => {axisHapticTick();setDetailDate((d) => d === dateStr ? null : dateStr);}
+        }, /*#__PURE__*/
         React.createElement("span", { className: "momentum-cell__dow", "aria-hidden": true }, axisWeekdayShortLabel(dateStr))));
 
     })
@@ -4542,7 +4649,20 @@ function MomentumMap({ history, nightMode = false, theme = "dark" }) {
     React.createElement("span", { className: "momentum-label" }, "7 days ago"), /*#__PURE__*/
     React.createElement("span", { className: "momentum-label" }, "Today")
     ), /*#__PURE__*/
-    React.createElement("div", { className: "momentum-disclaimer" }, "One square per day when you logged a session. Data stays on this device."
+    detailDate && /*#__PURE__*/React.createElement("div", { className: "momentum-day-detail", role: "region", "aria-label": "Selected day detail" }, /*#__PURE__*/
+    React.createElement("div", { className: "momentum-day-detail__head" }, /*#__PURE__*/
+    React.createElement("span", null, axisRelativeDayLabel(detailDate)), /*#__PURE__*/
+    React.createElement("span", { className: "momentum-day-detail__tot" }, (minutesByDate[detailDate] || 0), " min · ", detailEntries.length, " session", detailEntries.length !== 1 ? "s" : "")
+    ),
+    detailEntries.length === 0 ? /*#__PURE__*/React.createElement("div", { className: "momentum-day-detail__empty" }, "No entries.") : /*#__PURE__*/React.createElement("ul", { className: "momentum-day-detail__list" },
+    detailEntries.map((e, idx) => /*#__PURE__*/React.createElement("li", { key: idx }, /*#__PURE__*/
+    React.createElement("span", { className: "momentum-day-detail__track" }, e.track), /*#__PURE__*/
+    React.createElement("span", { className: "momentum-day-detail__dur" }, e.duration, "m")
+    ))
+    ),
+    React.createElement("button", { type: "button", className: "momentum-day-detail__close", onClick: () => setDetailDate(null) }, "Close")
+    ),
+    React.createElement("div", { className: "momentum-disclaimer" }, "Data stays on this device."
     )
     ));
 
@@ -5584,6 +5704,15 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const [intervalRingSnap, setIntervalRingSnap] = useState(false);
   const iRef = useRef(null);
   const breathHapticFlagsRef = useRef({ holdMidpoint: false });
+  const [timerSoundOn, setTimerSoundOn] = useState(() => storageGet("axis_timer_sound", "1") !== "0");
+  const [breatheHintDismissed, setBreatheHintDismissed] = useState(() => storageGet("axis_breathe_hint_dismissed", "") === "1");
+  const wakeLockRef = useRef(null);
+  const timerBeep = (f, d) => { if (timerSoundOn) beep(f, d); };
+  const INTERVAL_PRESETS = [
+  { label: "Tabata", work: 20, rest: 10, rounds: 8 },
+  { label: "5×5", work: 300, rest: 60, rounds: 5 },
+  { label: "1:1", work: 60, rest: 60, rounds: 5 },
+  { label: "Sprint", work: 45, rest: 15, rounds: 6 }];
 
   useEffect(() => {
     if (!intervalRingSnap) return;
@@ -5610,19 +5739,19 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       setITime((t) => {
         if (t <= 1) {
           if (iPhase === "work") {
-            beep(660, 0.25);
+            timerBeep(660, 0.25);
             triggerHaptic(HAPTIC_DOUBLE_TAP);
             if (rest > 0) {setIPhase("rest");return rest;}
-            setIRound((r) => {if (r >= rounds) {setIPhase("done");setIRunning(false);beep(440, 0.5);return r;}setIPhase("work");return r + 1;});
+            setIRound((r) => {if (r >= rounds) {setIPhase("done");setIRunning(false);timerBeep(440, 0.5);return r;}setIPhase("work");return r + 1;});
             return work;
           } else {
-            beep(880, 0.2);
+            timerBeep(880, 0.2);
             triggerHaptic(HAPTIC_DOUBLE_TAP);
-            setIRound((r) => {if (r >= rounds) {setIPhase("done");setIRunning(false);beep(440, 0.5);return r;}setIPhase("work");return r + 1;});
+            setIRound((r) => {if (r >= rounds) {setIPhase("done");setIRunning(false);timerBeep(440, 0.5);return r;}setIPhase("work");return r + 1;});
             return work;
           }
         }
-        if (t === 4) beep(440, 0.12);
+        if (t === 4) timerBeep(440, 0.12);
         return t - 1;
       });
     }, 1000);
@@ -5744,7 +5873,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     bPhaseElapsedMsRef.current = 0;
     breathHapticFlagsRef.current = { holdMidpoint: false };
     setBRunning(true);
-    beep(528, 0.2);
+    timerBeep(528, 0.2);
     triggerHaptic(HAPTIC_LIGHT_TAP);
   }
 
@@ -5773,7 +5902,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
           setBCycle(bCyclesRef.current + 1);
           setBTime(0);
           setBRunning(false);
-            beep(528, 0.4);
+            timerBeep(528, 0.4);
           triggerHaptic(HAPTIC_DOUBLE_TAP);
           return;
         }
@@ -5783,7 +5912,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
         elapsedMs -= phaseDurMs;
         phaseDurMs = Math.max(1, pat[phaseIdx]?.dur ?? 1) * 1000;
         bPhaseStartedMsRef.current = now - elapsedMs;
-        beep(pat[phaseIdx].label === "Inhale" ? 528 : 440, 0.15);
+        timerBeep(pat[phaseIdx].label === "Inhale" ? 528 : 440, 0.15);
         breathHapticFlagsRef.current = { holdMidpoint: false };
         if (breathPattern === "4-7-8") {
           const nextLabel = pat[phaseIdx].label;
@@ -5813,6 +5942,34 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
   const bDone = !bRunning && bCycle > breathCycles && bTime === 0;
 
+  useEffect(() => {
+    const active = iRunning || bRunning;
+    let cancelled = false;
+    const acquire = async () => {
+      try {
+        if (!active || typeof navigator === "undefined" || !navigator.wakeLock || cancelled) return;
+        const wl = await navigator.wakeLock.request("screen");
+        wakeLockRef.current = wl;
+      } catch (e) {}
+    };
+    const release = () => {
+      try {
+        wakeLockRef.current?.release();
+      } catch (e) {}
+      wakeLockRef.current = null;
+    };
+    if (active) acquire();else release();
+    const onVis = () => {
+      if (document.visibilityState === "visible" && active && !wakeLockRef.current) acquire();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      cancelled = true;
+      document.removeEventListener("visibilitychange", onVis);
+      release();
+    };
+  }, [iRunning, bRunning]);
+
   // switch mode → reset both
   function switchMode(m) {axisHapticTick();iReset();bReset();setMode(m);}
 
@@ -5832,7 +5989,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     color: nightMode ? "#FF3B30" : isDark ? "var(--text-white)" : "#1D1D1F",
     lineHeight: 1,
     fontVariantNumeric: "tabular-nums",
-    textShadow: "none"
+    textShadow: nightMode ? "0 0 4px rgba(0,0,0,0.95), 0 2px 12px rgba(0,0,0,0.5)" : "none"
   };
   const timerNumMedium = { fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--text-lg)", color: "var(--text-white)", lineHeight: 1, minWidth: 40, textAlign: "center", fontVariantNumeric: "tabular-nums" };
   const timerNumSmall = { fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--text-sm)", color: "var(--text-dimmer)", lineHeight: 1.2 };
@@ -6247,6 +6404,94 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       transition: stroke-dashoffset 0s linear, stroke 0s !important;
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .timer-view-body .timer-interval-ring .timer-interval-progress {
+      transition: none !important;
+    }
+    .timer-view-body .timer-breathe-ring circle {
+      transition: none !important;
+    }
+  }
+  .timer-interval-toolbar {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 2px;
+    box-sizing: border-box;
+  }
+  .timer-interval-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .timer-interval-preset-chip {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .timer-sound-toggle {
+    align-self: center;
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    min-height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-dimmer);
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .timer-sound-toggle--on { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 70%, transparent); }
+  .timer-view-body .timer-glass-stepper.timer-interval-stepper {
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 12px;
+  }
+  .timer-breathe-hint {
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)), rgba(0,0,0,0.06);
+    box-sizing: border-box;
+  }
+  .timer-breathe-hint__text {
+    margin: 0 0 10px 0;
+    font-size: var(--text-xs);
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+  .timer-breathe-hint__dismiss {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    background: var(--accent-dim);
+    color: var(--accent);
+    cursor: pointer;
+  }
   `;
 
   const timerNightCss = nightMode ? `
@@ -6331,6 +6576,31 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     stroke-width: 2.5 !important;
     stroke-opacity: 1 !important;
   }
+  [data-night="true"] .timer-view-body .timer-interval-preset-chip {
+    background: #000000 !important;
+    border-color: #FF3B30 !important;
+    color: rgba(255, 59, 48, 0.88) !important;
+  }
+  [data-night="true"] .timer-view-body .timer-sound-toggle {
+    border-color: #FF3B30 !important;
+    color: rgba(255, 59, 48, 0.75) !important;
+  }
+  [data-night="true"] .timer-view-body .timer-sound-toggle--on {
+    color: #FF3B30 !important;
+    background: rgba(255, 59, 48, 0.12) !important;
+  }
+  [data-night="true"] .timer-view-body .timer-breathe-hint {
+    background: #000000 !important;
+    border-color: #FF3B30 !important;
+  }
+  [data-night="true"] .timer-view-body .timer-breathe-hint__text {
+    color: rgba(255, 59, 48, 0.88) !important;
+  }
+  [data-night="true"] .timer-view-body .timer-breathe-hint__dismiss {
+    border-color: #FF3B30 !important;
+    color: #000000 !important;
+    background: #FF3B30 !important;
+  }
   ` : "";
 
   return (/*#__PURE__*/
@@ -6344,10 +6614,13 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 360, flex: 1, minHeight: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: { flexShrink: 0, height: TIMER_TOGGLE_SPACER_TOP, width: "100%" }, "aria-hidden": true }), /*#__PURE__*/
-    React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap", style: TIMER_TOGGLE_WRAP },
+    React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap", style: TIMER_TOGGLE_WRAP, role: "tablist", "aria-label": "Timer mode" },
     ["interval", "breathe"].map((m) => /*#__PURE__*/
-    React.createElement("button", { key: m, type: "button", onClick: () => switchMode(m), className: "timer-glass-toggle-btn" + (mode === m ? " active" : "") }, m === "interval" ? "Interval" : "Breathe")
+    React.createElement("button", { key: m, type: "button", role: "tab", "aria-selected": mode === m ? "true" : "false", onClick: () => switchMode(m), className: "timer-glass-toggle-btn" + (mode === m ? " active" : "") }, m === "interval" ? "Interval" : "Breathe")
     )
+    ),
+    React.createElement("div", { className: "sr-only", "aria-live": "polite", "aria-atomic": "true" },
+    mode === "interval" && (iPhase === "work" || iPhase === "rest") ? `Interval ${iPhase}, ${iTime} seconds remaining` : mode === "interval" && iPhase === "done" ? "Interval complete" : mode === "breathe" && bRunning ? `Breathe ${phaseLabel}, ${bTime} seconds` : mode === "breathe" && bDone ? "Breathing cycles complete" : ""
     ),
 
 
@@ -6366,6 +6639,19 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ), /*#__PURE__*/
 
     React.createElement("div", { style: { position: "absolute", left: 0, top: 0, width: ringSize, height: ringSize, pointerEvents: "none" } }, /*#__PURE__*/
+
+    (iPhase === "work" || iPhase === "rest") && /*#__PURE__*/
+    React.createElement("div", { className: "timer-interval-phase-banner", style: { position: "absolute", top: 20, left: 0, right: 0, textAlign: "center", pointerEvents: "none", zIndex: 2 } }, /*#__PURE__*/
+    React.createElement("span", { style: {
+        fontFamily: "var(--font-display)",
+        fontSize: "var(--text-xs)",
+        letterSpacing: "0.32em",
+        fontWeight: 700,
+        textTransform: "uppercase",
+        color: iPhase === "rest" ? nightMode ? "rgba(255,99,88,0.92)" : "var(--text-secondary)" : nightMode ? "#FF3B30" : "var(--accent)",
+        textShadow: nightMode ? "0 0 3px rgba(0,0,0,0.9)" : "none"
+      } }, iPhase === "work" ? "Work" : "Rest")
+    ),
 
     React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
     iPhase === "idle" && /*#__PURE__*/
@@ -6402,6 +6688,31 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
     )
     ), /*#__PURE__*/
+
+    iPhase === "idle" && /*#__PURE__*/React.createElement("div", { className: "timer-interval-toolbar" }, /*#__PURE__*/
+    React.createElement("div", { className: "timer-interval-presets", role: "group", "aria-label": "Interval presets" },
+    INTERVAL_PRESETS.map((p) => /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      key: p.label,
+      className: "timer-interval-preset-chip",
+      onClick: () => {axisHapticTick();setWork(p.work);setRest(p.rest);setRounds(p.rounds);}
+    }, p.label))
+    ), /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "timer-sound-toggle" + (timerSoundOn ? " timer-sound-toggle--on" : ""),
+      "aria-pressed": timerSoundOn ? "true" : "false",
+      "aria-label": timerSoundOn ? "Timer sounds on" : "Timer sounds off",
+      onClick: () => {
+        axisHapticTick();
+        setTimerSoundOn((v) => {
+          const next = !v;
+          storageSet("axis_timer_sound", next ? "1" : "0");
+          return next;
+        });
+      }
+    }, timerSoundOn ? "Sound on" : "Mute")
+    ),
 
 
     React.createElement("div", { style: { flexShrink: 0, height: iPhase === "idle" ? TIMER_MID_IDLE_HEIGHT : undefined, minHeight: iPhase === "idle" ? TIMER_MID_IDLE_HEIGHT : 0, width: "100%", marginTop: iPhase === "idle" ? TIMER_IDLE_VERTICAL_GAP : 6, marginBottom: iPhase === "idle" ? 0 : 6, boxSizing: "border-box" } },
@@ -6507,7 +6818,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement(React.Fragment, null, /*#__PURE__*/
 
     React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
-    React.createElement("div", { style: { ...intervalDigitStyle, minWidth: 72, color: nightMode ? "#FF3B30" : isDark ? "var(--app-white)" : "#1D1D1F", textShadow: "none", opacity: countdownLabelOpacity, transition: "none" } }, formatSecondsOnly(bTime))
+    React.createElement("div", { style: { ...intervalDigitStyle, minWidth: 72, color: nightMode ? "#FF3B30" : isDark ? "var(--app-white)" : "#1D1D1F", opacity: countdownLabelOpacity, transition: "none" } }, formatSecondsOnly(bTime))
     )
     ),
 
@@ -6530,7 +6841,8 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
         opacity: 1,
         fontFamily: "var(--font-display)",
         transition: "none",
-        lineHeight: 1.25
+        lineHeight: 1.25,
+        textShadow: nightMode ? "0 0 4px rgba(0,0,0,0.95), 0 2px 10px rgba(0,0,0,0.45)" : "none"
       } }, curBreathPhase.label)
     ),
 
@@ -6559,6 +6871,14 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("div", { style: { flexShrink: 0, height: !bRunning && !bDone ? TIMER_MID_IDLE_HEIGHT : undefined, minHeight: !bRunning && !bDone ? TIMER_MID_IDLE_HEIGHT : 0, width: "100%", marginTop: !bRunning && !bDone ? TIMER_IDLE_VERTICAL_GAP : 6, marginBottom: !bRunning && !bDone ? 0 : 6, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", boxSizing: "border-box" } },
     !bRunning && !bDone && /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
+    !breatheHintDismissed && /*#__PURE__*/React.createElement("div", { className: "timer-breathe-hint" }, /*#__PURE__*/
+    React.createElement("p", { className: "timer-breathe-hint__text" }, "Inhale as the ring grows, hold steady, exhale as it shrinks. Follow the phase label under the timer."),
+    React.createElement("button", {
+      type: "button",
+      className: "timer-breathe-hint__dismiss",
+      onClick: () => {axisHapticTick();setBreatheHintDismissed(true);storageSet("axis_breathe_hint_dismissed", "1");}
+    }, "Got it")
+    ),
     React.createElement("div", { className: "timer-pattern-row", style: { width: "100%", maxWidth: 360 } },
     Object.keys(BREATH_PATTERNS).map((p) => /*#__PURE__*/
     React.createElement("button", { key: p, type: "button", onClick: () => {axisHapticTick();setBreathPattern(p);}, className: "timer-glass-pattern-btn" + (breathPattern === p ? " active" : ""), style: { fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", padding: "9px 20px", cursor: "pointer", color: nightMode ? breathPattern === p ? "#FF3B30" : "rgba(255, 59, 48, 0.72)" : breathPattern === p ? "var(--accent)" : "var(--text-secondary)" } }, p === "4-7-8" ? "4-7-8" : p === "Box" ? "Box" : "Physio Sigh")
@@ -6694,6 +7014,40 @@ function axisLocalDateKey(raw) {
   }
 }
 
+/** Prior rolling 7-day window (days 8–14 ago) for “vs last week” comparisons. */
+function axisPrevWeekWindowStats(history) {
+  const today = new Date();
+  const prevWeekDates = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(d.getDate() - (13 - i));
+    return d.toDateString();
+  });
+  const set = new Set(prevWeekDates);
+  let mins = 0;
+  let sessions = 0;
+  for (const e of history || []) {
+    if (!set.has(axisLocalDateKey(e.date))) continue;
+    mins += Number(e.duration) || 0;
+    sessions += 1;
+  }
+  return { prevWeekMinutes: mins, prevWeekSessions: sessions };
+}
+
+/** “Today” / “Yesterday” / short date for history group headers. */
+function axisRelativeDayLabel(dateKey) {
+  if (!dateKey) return "";
+  const today = new Date();
+  const t0 = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+  const d = new Date(dateKey);
+  if (Number.isNaN(d.getTime())) return dateKey;
+  const d0 = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const diff = Math.round((t0 - d0) / 86400000);
+  if (diff === 0) return "Today";
+  if (diff === 1) return "Yesterday";
+  if (diff === 2) return "2 days ago";
+  return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+}
+
 /** Total minutes — sums every history entry whose date falls on the same local day as todayKey. */
 function axisSumMinutesOnLocalDay(history, todayKey) {
   let sum = 0;
@@ -6791,6 +7145,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     return axisSnapWeeklyGoalMinutes(daily * 7);
   });
   const [summaryRecentExpanded, setSummaryRecentExpanded] = useState(false);
+  const [summaryHistoryFilter, setSummaryHistoryFilter] = useState("all");
   const [welcomeName, setWelcomeName] = useState(() => {
     try {
       return typeof localStorage !== "undefined" && localStorage.getItem("axisUserName") || "Adam";
@@ -7344,8 +7699,29 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const n = Math.max(0, Math.floor(Number(totalMins) || 0));
       return `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")} m`;
     };
+    const { prevWeekMinutes, prevWeekSessions } = axisPrevWeekWindowStats(history);
+    const deltaMin = weeklyGoalBarMinutesCurrent - prevWeekMinutes;
+    const deltaSess = weekSessionCountForWindow - prevWeekSessions;
+    const hasPrev = prevWeekMinutes > 0 || prevWeekSessions > 0;
+    const summaryVsPrior = hasPrev ? `vs prior 7 days: ${deltaMin >= 0 ? "+" : ""}${deltaMin} min · ${deltaSess >= 0 ? "+" : ""}${deltaSess} sessions` : null;
+    const summaryStoryLine = weeklyTargetMin > 0 ? `You're at ${weeklyGoalDisplayPct}% of your weekly goal (${weekSessionCountForWindow} session${weekSessionCountForWindow !== 1 ? "s" : ""} this week).` : weekSessionCountForWindow === 0 && weeklyGoalBarMinutesCurrent === 0 ? "Your week is open — start a session on Home when you're ready." : `${weekSessionCountForWindow} session${weekSessionCountForWindow !== 1 ? "s" : ""} this week · ${formatSummaryWeeklyMinutes(weeklyGoalBarMinutesCurrent)} total.`;
+    const wmSpark = axisWeekMomentumFromHistory(history);
+    const mins7 = wmSpark.dates.map((dk) => axisSumMinutesOnLocalDay(history, dk));
+    const sparkMax = Math.max(1, ...mins7);
+    const summaryTrackFilters = ["all", ...new Set((history || []).map((e) => e.track).filter(Boolean))];
+    const filteredHistoryRows = (history || []).filter((e) => summaryHistoryFilter === "all" || e.track === summaryHistoryFilter);
     const summaryRecentLimit = summaryRecentExpanded ? 15 : 3;
-    const summaryRecentRows = history.slice(0, Math.min(history.length, summaryRecentLimit));
+    const summaryRecentRows = filteredHistoryRows.slice(0, Math.min(filteredHistoryRows.length, summaryRecentLimit));
+    const summaryHistoryGroups = [];
+    for (const e of summaryRecentRows) {
+      const dk = axisLocalDateKey(e.date);
+      const last = summaryHistoryGroups[summaryHistoryGroups.length - 1];
+      if (!last || last.dateKey !== dk) {
+        summaryHistoryGroups.push({ dateKey: dk, rows: [e] });
+      } else {
+        last.rows.push(e);
+      }
+    }
     return (/*#__PURE__*/
       React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
@@ -7356,10 +7732,20 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome", id: "axis-summary-welcome" }, "Summary"), /*#__PURE__*/
       React.createElement("div", { className: "home-summary-lede-row" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-summary-lede" }, "Your progress at a glance."), /*#__PURE__*/
+      React.createElement("div", { className: "home-summary-lede home-summary-lede--story" }, summaryStoryLine), /*#__PURE__*/
       React.createElement("div", { className: "home-summary-date" }, /*#__PURE__*/
       React.createElement("span", { className: "home-summary-date__dow" }, summaryDow), " ", summaryMonthDay)
       ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-story-meta" }, /*#__PURE__*/
+      weeklyTargetMin > 0 && /*#__PURE__*/React.createElement("div", { className: "summary-weekly-target-echo" }, /*#__PURE__*/
+      React.createElement("span", { className: "summary-weekly-target-echo__lbl" }, "Weekly target "),
+      React.createElement("button", { type: "button", className: "summary-goal-link summary-weekly-target-echo__num", onClick: () => {axisHapticTick();setView("settings");} }, weeklyTargetMin, " min")
+      ),
+      summaryVsPrior && /*#__PURE__*/React.createElement("div", { className: "summary-vs-prior" }, summaryVsPrior)
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "summary-sparkline", role: "img", "aria-label": "This week minutes by day" },
+      mins7.map((m, si) => /*#__PURE__*/React.createElement("div", { key: si, className: "summary-sparkline__bar", style: { height: `${Math.max(8, Math.round(m / sparkMax * 100))}%` }, title: `${m} min` }))
+      ),
       React.createElement("div", { className: "summary-main-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-sunset-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-hero summary-hero--feature" }, /*#__PURE__*/
@@ -7410,16 +7796,29 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement(MomentumMap, { history: history, nightMode: nightMode, theme: theme }), /*#__PURE__*/
       history.length > 0 && /*#__PURE__*/
       React.createElement("div", { className: "summary-panel history", style: { marginTop: 0 } }, /*#__PURE__*/
-      React.createElement("div", { className: "summary-title", style: { marginBottom: 8 } }, "Recent Sessions"),
-      React.createElement("div", { className: "summary-history-list-wrap" + (summaryRecentExpanded ? " summary-history-list-wrap--expanded" : "") },
-      summaryRecentRows.map((e, i) => /*#__PURE__*/
-      React.createElement("div", { className: "history-row", key: `${e.date}-${e.track}-${i}` }, /*#__PURE__*/
-      React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "history-date" }, e.date), /*#__PURE__*/React.createElement("div", { className: "history-track" }, e.track)), /*#__PURE__*/
-      React.createElement("div", { className: "history-detail" }, e.duration, "m")
-      )
+      React.createElement("div", { className: "summary-history-head" }, /*#__PURE__*/
+      React.createElement("div", { className: "summary-title", style: { marginBottom: 0 } }, "Recent Sessions"),
+      summaryTrackFilters.length > 1 && /*#__PURE__*/React.createElement("div", { className: "summary-history-filter" },
+      summaryTrackFilters.map((fid) => /*#__PURE__*/React.createElement("button", {
+        type: "button",
+        key: fid,
+        className: "summary-history-filter__chip" + (summaryHistoryFilter === fid ? " summary-history-filter__chip--active" : ""),
+        onClick: () => {axisHapticTick();setSummaryHistoryFilter(fid);}
+      }, fid === "all" ? "All" : fid))
       )
       ),
-      history.length > 3 && /*#__PURE__*/
+      React.createElement("div", { className: "summary-history-list-wrap" + (summaryRecentExpanded ? " summary-history-list-wrap--expanded" : "") },
+      summaryHistoryGroups.length === 0 && filteredHistoryRows.length === 0 && summaryHistoryFilter !== "all" && /*#__PURE__*/React.createElement("div", { className: "summary-history-empty" }, "No sessions for this filter."),
+      summaryHistoryGroups.map((g) => /*#__PURE__*/React.createElement(React.Fragment, { key: g.dateKey }, /*#__PURE__*/
+      React.createElement("div", { className: "history-day-group-label" }, axisRelativeDayLabel(g.dateKey)),
+      g.rows.map((e, ri) => /*#__PURE__*/React.createElement("div", { className: "history-row", key: `${g.dateKey}-${e.track}-${ri}` }, /*#__PURE__*/
+      React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "history-date history-date--muted" }, e.date), /*#__PURE__*/React.createElement("div", { className: "history-track" }, e.track)), /*#__PURE__*/
+      React.createElement("div", { className: "history-detail" }, e.duration, "m")
+      ))
+      ))
+      )
+      ),
+      filteredHistoryRows.length > 3 && /*#__PURE__*/
       React.createElement("button", {
         type: "button",
         className: "summary-history-toggle",
@@ -7427,8 +7826,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       }, summaryRecentExpanded ? "Show less" : "View all")
       ),
       history.length === 0 && /*#__PURE__*/
-      React.createElement("div", { className: "summary-panel", style: { textAlign: "center", padding: "40px 16px", marginTop: 0 } }, /*#__PURE__*/
-      React.createElement("div", { style: { color: "var(--text-dim)", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase" } }, "Complete a session to see your history")
+      React.createElement("div", { className: "summary-panel summary-empty-cta", style: { textAlign: "center", padding: "36px 16px 40px", marginTop: 0 } }, /*#__PURE__*/
+      React.createElement("div", { style: { color: "var(--text-secondary)", fontSize: "var(--text-sm)", lineHeight: 1.5, marginBottom: 16 } }, "Complete a session on Home to see your history and momentum here."),
+      React.createElement("button", {
+        type: "button",
+        className: "summary-empty-cta__btn ultra-filled-btn",
+        onClick: () => {axisHapticTick();setView("home");}
+      }, "Go to Home")
       ),
       (track === "anxiety" || track === "stress") && totalDone > 0 && /*#__PURE__*/
       React.createElement("div", { style: { marginTop: 20, padding: "18px", borderRadius: 24, border: "1px solid var(--glass-border)", background: "var(--glass-bg)" } }, /*#__PURE__*/
