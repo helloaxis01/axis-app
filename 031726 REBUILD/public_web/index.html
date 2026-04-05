@@ -530,6 +530,25 @@ function getAll(trackId) {
   return secs.flatMap((s) => (s.exercises || []).map((e) => ({ ...e, sectionLabel: s.label })));
 }
 
+/** Resolve exercise display name for a history row (uses trackId when present; else scans tracks for legacy rows). */
+function axisExerciseNameForHistoryEntry(entry) {
+  if (!entry || !TRACKS) return "";
+  const exId = entry.exerciseId;
+  if (exId == null) return "";
+  const tid = entry.trackId;
+  if (tid && TRACKS[tid]) {
+    const all = getAll(tid);
+    const found = all.find((ex) => ex.id === exId || Number(ex.id) === Number(exId));
+    if (found && found.name) return String(found.name);
+  }
+  for (const kid of Object.keys(TRACKS)) {
+    const all = getAll(kid);
+    const found = all.find((ex) => ex.id === exId || Number(ex.id) === Number(exId));
+    if (found && found.name) return String(found.name);
+  }
+  return "";
+}
+
 /** TODAY browse: 7 categories × 22 tracks — single source for filter + tagging */
 const HOME_TRACK_GROUPS = [
   { id: "foundation", label: "Foundation", ids: ["daily", "restorative"] },
@@ -3221,7 +3240,9 @@ const css = `
   .history-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid color-mix(in srgb, var(--border) 76%, transparent); }
   .history { width:100%; box-sizing:border-box; }
   .history-date { font-size: var(--text-xs); color:var(--text-tertiary); }
+  .history-exercise { font-size: var(--text-sm); font-weight: 600; letter-spacing: 0.02em; text-transform: none; color: var(--text-secondary); line-height: 1.35; margin-top: 2px; }
   .history-track { font-size: var(--text-xs); letter-spacing:0.08em; text-transform:uppercase; color:var(--text-secondary); }
+  .history-track--sub { margin-top: 4px; opacity: 0.72; font-size: 10px; letter-spacing: 0.06em; }
   .history-detail { font-size: var(--text-xs); color:var(--text-dim); }
   .summary-cta {
     margin-top:16px;
@@ -3303,8 +3324,11 @@ const css = `
   .momentum-day-detail__list { list-style: none; margin: 0; padding: 0; }
   .momentum-day-detail__list li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-top: 1px solid var(--border); font-size: var(--text-sm); }
   .momentum-day-detail__list li:first-of-type { border-top: none; padding-top: 0; }
+  .momentum-day-detail__cell-left { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; text-align: left; }
+  .momentum-day-detail__exercise { font-weight: 600; color: var(--text-white); line-height: 1.3; }
   .momentum-day-detail__track { color: var(--text-secondary); }
-  .momentum-day-detail__dur { font-variant-numeric: tabular-nums; color: var(--text-dimmer); }
+  .momentum-day-detail__track--sub { font-size: var(--text-xs); opacity: 0.8; font-weight: 500; }
+  .momentum-day-detail__dur { font-variant-numeric: tabular-nums; color: var(--text-dimmer); flex-shrink: 0; }
   .momentum-day-detail__empty { font-size: var(--text-sm); color: var(--text-dimmer); }
   .momentum-day-detail__close {
     margin-top: 10px; width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--glass-border);
@@ -4766,10 +4790,13 @@ function MomentumMap({ history, nightMode = false, theme = "dark" }) {
     React.createElement("span", { className: "momentum-day-detail__tot" }, (minutesByDate[detailDate] || 0), " min · ", detailEntries.length, " session", detailEntries.length !== 1 ? "s" : "")
     ),
     detailEntries.length === 0 ? /*#__PURE__*/React.createElement("div", { className: "momentum-day-detail__empty" }, "No entries.") : /*#__PURE__*/React.createElement("ul", { className: "momentum-day-detail__list" },
-    detailEntries.map((e, idx) => /*#__PURE__*/React.createElement("li", { key: idx }, /*#__PURE__*/
-    React.createElement("span", { className: "momentum-day-detail__track" }, e.track), /*#__PURE__*/
-    React.createElement("span", { className: "momentum-day-detail__dur" }, e.duration, "m")
-    ))
+    detailEntries.map((e, idx) => {
+      const exLabel = axisExerciseNameForHistoryEntry(e);
+      return (/*#__PURE__*/React.createElement("li", { key: `${idx}-${e.exerciseId != null ? e.exerciseId : "x"}` }, /*#__PURE__*/
+      React.createElement("span", { className: "momentum-day-detail__cell-left" }, exLabel ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", { className: "momentum-day-detail__exercise" }, exLabel), /*#__PURE__*/React.createElement("span", { className: "momentum-day-detail__track momentum-day-detail__track--sub" }, e.track)) : /*#__PURE__*/React.createElement("span", { className: "momentum-day-detail__track" }, e.track)), /*#__PURE__*/
+      React.createElement("span", { className: "momentum-day-detail__dur" }, e.duration, "m")
+      ));
+    })
     ),
     React.createElement("button", { type: "button", className: "momentum-day-detail__close", onClick: () => setDetailDate(null) }, "Close")
     )
@@ -7246,7 +7273,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         const today = new Date().toDateString();
         const perMoveSec = exerciseDuration || 45;
         const durationMins = Math.max(1, Math.round(perMoveSec / 60));
-        const newEntry = { date: today, track: TRACKS[track] && TRACKS[track].label || track, duration: durationMins, exerciseId: id };
+        const newEntry = { date: today, track: TRACKS[track] && TRACKS[track].label || track, trackId: track, duration: durationMins, exerciseId: id };
         setHistory((prev) => {
           const hadTodayBefore = prev.some((e) => axisLocalDateKey(e.date) === today);
           const newHistory = [newEntry, ...prev].slice(0, 30);
@@ -7676,10 +7703,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-history-list-wrap" + (summaryRecentExpanded ? " summary-history-list-wrap--expanded" : "") },
       summaryHistoryGroups.map((g) => /*#__PURE__*/React.createElement(React.Fragment, { key: g.dateKey }, /*#__PURE__*/
       React.createElement("div", { className: "history-day-group-label" }, axisRelativeDayLabel(g.dateKey)),
-      g.rows.map((e, ri) => /*#__PURE__*/React.createElement("div", { className: "history-row", key: `${g.dateKey}-${e.track}-${ri}` }, /*#__PURE__*/
-      React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "history-date history-date--muted" }, e.date), /*#__PURE__*/React.createElement("div", { className: "history-track" }, e.track)), /*#__PURE__*/
-      React.createElement("div", { className: "history-detail" }, e.duration, "m")
-      ))
+      g.rows.map((e, ri) => {
+        const exLabel = axisExerciseNameForHistoryEntry(e);
+        return (/*#__PURE__*/React.createElement("div", { className: "history-row", key: `${g.dateKey}-${e.track}-${e.exerciseId != null ? e.exerciseId : ri}-${ri}` }, /*#__PURE__*/
+        React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "history-date history-date--muted" }, e.date), exLabel ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "history-exercise" }, exLabel), /*#__PURE__*/React.createElement("div", { className: "history-track history-track--sub" }, e.track)) : /*#__PURE__*/React.createElement("div", { className: "history-track" }, e.track)), /*#__PURE__*/
+        React.createElement("div", { className: "history-detail" }, e.duration, "m")
+        ));
+      })
       ))
       ),
       (history || []).length > 3 && /*#__PURE__*/React.createElement("button", {
