@@ -10,7 +10,7 @@
     "dev:with-build": "npm run build && node scripts/static-dev.cjs",
     "dev:serve": "npx --yes serve public_web -l 3000",
     "preview": "npm run build && npx --yes serve dist -l 4173",
-    "preview:web": "npx --yes serve public_web -l 4173",
+    "preview:web": "npm run build && npx --yes serve dist -l 4173",
     "cap:sync": "npm run build && npx cap sync",
     "sync": "npx cap copy ios"
   },
