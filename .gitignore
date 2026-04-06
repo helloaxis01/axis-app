@@ -5,3 +5,4 @@ dist/
 *.bak
 .env
 .env.*
+.cursor/
