@@ -3065,10 +3065,90 @@ const css = `
     width: 100%;
     box-sizing: border-box;
   }
-  .metrics-quick-glance__minutes .metrics-stat-feature__value {
+  .metrics-stat-feature.metrics-quick-glance__qg {
+    padding: 12pt 18px 18px;
+  }
+  .metrics-quick-glance__stat-title {
+    font-family: var(--font-display);
+    font-size: 10pt;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: #a0a0a0;
+  }
+  .app[data-theme="dark"] .metrics-quick-glance__stat-title,
+  .app[data-night="true"] .metrics-quick-glance__stat-title {
+    color: #a0a0a0;
+  }
+  .metrics-quick-glance__stat-title--movement {
+    padding-left: 8px;
+    text-align: left;
+    margin: 0 0 0.35rem;
+  }
+  .metrics-quick-glance__minutes-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-height: 0;
+  }
+  .metrics-quick-glance__minutes-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 5.5vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    text-align: center;
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+    color: #f6f7f8;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .metrics-quick-glance__minutes-value {
+    color: #121418;
+  }
+  .metrics-quick-glance__stat-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    text-align: center;
+  }
+  .metrics-quick-glance__stat-stack .metrics-quick-glance__stat-title {
+    margin: 0;
     width: 100%;
     text-align: center;
-    font-size: clamp(1.85rem, 6vw, 2.35rem);
+  }
+  .metrics-quick-glance__stat-big {
+    font-family: var(--font-display);
+    font-size: 24pt;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: #f6f7f8;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .metrics-quick-glance__stat-big {
+    color: #121418;
+  }
+  .metrics-quick-glance__stat-big-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .metrics-quick-glance__stat-suffix {
+    font-family: var(--font-display);
+    font-size: 12pt;
+    font-weight: 500;
+    color: color-mix(in srgb, #a0a0a0 75%, transparent);
+    letter-spacing: 0;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .metrics-quick-glance__stat-suffix {
+    color: color-mix(in srgb, #a0a0a0 88%, #121418 12%);
   }
   .metrics-quick-glance__duo {
     display: grid;
@@ -3076,11 +3156,6 @@ const css = `
     gap: 10px;
     width: 100%;
     box-sizing: border-box;
-  }
-  .metrics-quick-glance__stat-sm .metrics-stat-feature__value {
-    font-size: clamp(1.1rem, 3.8vw, 1.4rem);
-    text-align: center;
-    line-height: 1.2;
   }
   .metrics-quick-glance__sub {
     font-size: 11px;
@@ -10616,7 +10691,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   if (view === "metrics") {
     const formatSummaryWeeklyMinutes = (totalMins) => {
       const n = Math.max(0, Math.floor(Number(totalMins) || 0));
-      return `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")} m`;
+      return `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")}m`;
     };
     const summaryRecentLimit = summaryRecentExpanded ? 15 : 3;
     const summaryRecentRows = (history || []).slice(0, Math.min((history || []).length, summaryRecentLimit));
@@ -10642,18 +10717,27 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "summary-main-stack summary-main-stack--metrics" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-sunset-stack summary-sunset-stack--metrics" }, /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-quick-glance__boxes" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-stat-feature metrics-quick-glance__minutes", role: "status" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-stat-feature__value" }, formatSummaryWeeklyMinutes(weeklyGoalBarMinutesCurrent))
-      ),
-      React.createElement("div", { className: "metrics-quick-glance__duo" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-stat-feature metrics-quick-glance__stat-sm" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-stat-feature__value" }, weekSessionCountForWindow, "\u00a0", "sessions")
-      ),
-      React.createElement("div", { className: "metrics-stat-feature metrics-quick-glance__stat-sm" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-stat-feature__value metrics-stat-feature__value--days" }, activeDays7Count, "/7", "\u00a0", "days")
+      React.createElement("div", { className: "metrics-quick-glance__boxes" }, [/*#__PURE__*/
+      React.createElement("div", { className: "metrics-stat-feature metrics-quick-glance__qg metrics-quick-glance__minutes", role: "status" }, /*#__PURE__*/
+      React.createElement("div", { className: "metrics-quick-glance__minutes-inner" }, /*#__PURE__*/
+      React.createElement("div", { className: "metrics-quick-glance__stat-title metrics-quick-glance__stat-title--movement" }, "TOTAL MOVEMENT TIME"),
+      React.createElement("div", { className: "metrics-quick-glance__minutes-value" }, formatSummaryWeeklyMinutes(weeklyGoalBarMinutesCurrent))
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "metrics-quick-glance__duo" }, [/*#__PURE__*/
+      React.createElement("div", { className: "metrics-stat-feature metrics-quick-glance__qg metrics-quick-glance__stat-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "metrics-quick-glance__stat-title" }, "SESSIONS"),
+      React.createElement("div", { className: "metrics-quick-glance__stat-big" }, String(weekSessionCountForWindow))
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "metrics-stat-feature metrics-quick-glance__qg metrics-quick-glance__stat-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "metrics-quick-glance__stat-title" }, "ACTIVE DAYS"),
+      React.createElement("div", { className: "metrics-quick-glance__stat-big-row" }, /*#__PURE__*/
+      React.createElement("span", { className: "metrics-quick-glance__stat-big" }, String(activeDays7Count)),
+      React.createElement("span", { className: "metrics-quick-glance__stat-suffix" }, "/ 7")
       )
       )
+      ])
+      ])
       ,
       /*#__PURE__*/React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }),
       /*#__PURE__*/React.createElement("div", { className: "metrics-quick-glance__sub" }, "Last 7 days"),
@@ -10842,7 +10926,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         onClick: () => {setView("home");} },
       "Start Another Session"
       ))
-      )
       )
       )
       , /*#__PURE__*/
