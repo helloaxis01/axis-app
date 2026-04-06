@@ -3244,7 +3244,7 @@ const css = `
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
+    text-transform: none;
     color: var(--color-text-secondary);
     margin: 0 0 1rem;
     font-family: var(--font-display);
@@ -3401,6 +3401,31 @@ const css = `
     cursor: pointer;
     text-align: left;
     -webkit-tap-highlight-color: transparent;
+  }
+  .metrics-recent-section--collapsed {
+    padding: 0 !important;
+    margin-top: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+  }
+  .metrics-recent-section--collapsed::before {
+    content: none !important;
+    display: none !important;
+  }
+  .metrics-recent-section--collapsed .metrics-recent-header-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--glass-bg) 78%, transparent);
   }
   .metrics-recent-header-btn__chev {
     display: flex;
@@ -3935,6 +3960,7 @@ const css = `
     width: 100%;
     margin: 0 0 1.5rem;
     box-sizing: border-box;
+    position: relative;
   }
   .weight-section__chart-svg {
     width: 100%;
@@ -3966,6 +3992,51 @@ const css = `
     stroke: color-mix(in srgb, var(--color-background-secondary) 70%, var(--color-text-primary) 30%);
     stroke-width: 1.35;
     vector-effect: non-scaling-stroke;
+    cursor: pointer;
+  }
+  .weight-section__chart-dot:focus-visible {
+    outline: none;
+    stroke: var(--color-text-primary);
+    stroke-width: 2;
+  }
+  .metric-chart-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, calc(-100% - 8px));
+    pointer-events: none;
+    z-index: 3;
+    background: color-mix(in srgb, var(--color-background-primary) 92%, #000 8%);
+    color: var(--color-text-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 10px;
+    padding: 6px 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    min-width: 120px;
+  }
+  .metric-chart-tooltip__value {
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    line-height: 1.2;
+  }
+  .metric-chart-tooltip__date {
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 1.2;
+    color: var(--color-text-secondary);
+  }
+  .metric-chart-tooltip::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    border-right: 0.5px solid var(--color-border-secondary);
+    border-bottom: 0.5px solid var(--color-border-secondary);
+    transform: translate(-50%, -4px) rotate(45deg);
   }
   .weight-section__chart-axis {
     display: grid;
@@ -4387,28 +4458,31 @@ const css = `
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
     margin: 0 0 1rem;
   }
   .pain-section__toggle {
-    padding: 0;
+    padding: 6px 11px;
     margin: 0;
-    border: none;
-    background: none;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--glass-bg) 75%, transparent);
     font-family: var(--font-ui);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     color: var(--color-text-secondary);
     cursor: pointer;
-    text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   }
   .pain-section__toggle--active {
-    color: var(--weight-mood-accent, var(--accent));
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
+    color: var(--color-text-primary);
+    border-color: color-mix(in srgb, var(--weight-mood-accent, var(--accent)) 65%, var(--color-border-secondary));
+    background: color-mix(in srgb, var(--weight-mood-accent, var(--accent)) 22%, var(--color-background-secondary));
+  }
+  .pain-heat__cell-wrap {
+    position: relative;
   }
   .pain-heat__grid {
     display: flex;
@@ -9829,7 +9903,7 @@ function axisMetricsWeightTwoWeekTrend(samples) {
 }
 
 function axisMetricsWeightSectionInsight() {
-  return { text: "Small weight shifts ease load on knees & hips." };
+  return { text: "Research shows each 1 lb of weight loss can reduce knee joint load by about 4 lbs per step." };
 }
 
 function axisMetricsShortDateFromDateKey(dateKey) {
@@ -10051,6 +10125,7 @@ function axisMetricsPainHasAnyEntry(painByDay) {
 }
 
 function WeightSectionSparkline({ entries }) {
+  const [activeTs, setActiveTs] = React.useState(null);
   const W = 120;
   const H = 48;
   const padL = 0;
@@ -10076,7 +10151,16 @@ function WeightSectionSparkline({ entries }) {
   const xAt = (i) => dotR + (n <= 1 ? innerW / 2 : (i / (n - 1)) * innerW);
   const yAt = (lbs) => padT + (1 - (lbs - minW) / span) * plotH;
   const pts = entries.map((e, i) => `${xAt(i)},${yAt(e.lbs)}`).join(" ");
+  const activeEntry = entries.find((e) => e.ts === activeTs) || null;
+  const activeIndex = activeEntry ? entries.findIndex((e) => e.ts === activeEntry.ts) : -1;
+  const tipX = activeIndex >= 0 ? (xAt(activeIndex) / W) * 100 : 50;
+  const tipY = activeEntry ? yAt(activeEntry.lbs) : 0;
   return /*#__PURE__*/React.createElement("div", { className: "weight-section__chart-wrap" }, /*#__PURE__*/
+  activeEntry && /*#__PURE__*/React.createElement("div", { className: "metric-chart-tooltip", style: { left: `${tipX}%`, top: `${tipY}px` } }, /*#__PURE__*/
+  React.createElement("div", { className: "metric-chart-tooltip__value" }, `${activeEntry.lbs.toFixed(1)} lbs`),
+  /*#__PURE__*/React.createElement("div", { className: "metric-chart-tooltip__date" }, axisMetricsFormatWeightLastLogFriendly(activeEntry.ts))
+  ),
+  /*#__PURE__*/
   React.createElement("svg", {
     className: "weight-section__chart-svg",
     viewBox: `0 0 ${W} ${H}`,
@@ -10086,7 +10170,24 @@ function WeightSectionSparkline({ entries }) {
   React.createElement("line", { className: "weight-section__chart-baseline", x1: 0, x2: W, y1: topRuleY, y2: topRuleY }),
   React.createElement("line", { className: "weight-section__chart-baseline", x1: 0, x2: W, y1: baselineY, y2: baselineY }),
   n >= 2 ? /*#__PURE__*/React.createElement("polyline", { className: "weight-section__chart-line", points: pts }) : null,
-  entries.map((e, i) => /*#__PURE__*/React.createElement("circle", { key: e.ts, className: "weight-section__chart-dot", cx: xAt(i), cy: yAt(e.lbs), r: 3.5 }))
+  entries.map((e, i) => /*#__PURE__*/React.createElement("circle", {
+    key: e.ts,
+    className: "weight-section__chart-dot",
+    cx: xAt(i),
+    cy: yAt(e.lbs),
+    r: 3.5,
+    role: "button",
+    tabIndex: 0,
+    onMouseEnter: () => setActiveTs(e.ts),
+    onClick: () => setActiveTs((cur) => cur === e.ts ? null : e.ts),
+    onKeyDown: (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        setActiveTs((cur) => cur === e.ts ? null : e.ts);
+      }
+    },
+    "aria-label": `${e.lbs.toFixed(1)} pounds, ${axisMetricsFormatWeightLastLogFriendly(e.ts)}`
+  }))
   ),
   /*#__PURE__*/React.createElement("div", { className: "weight-section__chart-axis" }, /*#__PURE__*/
   React.createElement("span", null, "Oldest"),
@@ -10185,7 +10286,7 @@ function MetricsWeightCard({ theme, nightMode, activePeriod, samples, stepsToday
   graphBlock,
   /*#__PURE__*/React.createElement("button", {
     type: "button",
-    className: "weight-section__btn weight-section__btn--expand weight-section__btn--primary",
+    className: "weight-section__btn weight-section__btn--expand",
     "aria-expanded": manualOpen,
     title: manualOpen ? "Collapse manual log" : "Expand to log weight",
     onClick: () => { axisHapticTick(); setManualOpen((o) => !o); }
@@ -10272,7 +10373,8 @@ function axisMetricsPainWeekRangeLabel(dkFirst, dkLast) {
   }
 }
 
-function MetricsPainGrid({ painByDay, mode, dkToday, onCellPress }) {
+function MetricsPainGrid({ painByDay, mode, dkToday }) {
+  const [activeDateKey, setActiveDateKey] = React.useState(null);
   const dowShort = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
   const cell = (dk, showDow) => {
     const raw = painByDay && painByDay[dk];
@@ -10284,11 +10386,16 @@ function MetricsPainGrid({ painByDay, mode, dkToday, onCellPress }) {
     const btn = /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: cls,
-      onClick: () => onCellPress && onCellPress({ dateKey: dk, level, note: axisMetricsPainGetNote(raw) }),
+      onClick: () => setActiveDateKey((cur) => cur === dk ? null : dk),
       "aria-label": label
     }, level != null ? level : "\u2014");
-    if (!showDow) return btn;
-    return /*#__PURE__*/React.createElement("div", { key: dk, className: "pain-heat__col" }, btn, /*#__PURE__*/React.createElement("div", { className: "pain-heat__dow" }, dowShort[new Date(dk).getDay()]));
+    const tooltip = activeDateKey === dk ? /*#__PURE__*/React.createElement("div", { className: "metric-chart-tooltip", style: { left: "50%", top: "0px" } }, /*#__PURE__*/
+    React.createElement("div", { className: "metric-chart-tooltip__value" }, level != null ? `${level}/10 pain` : "No pain entry"),
+    /*#__PURE__*/React.createElement("div", { className: "metric-chart-tooltip__date" }, axisMetricsShortDateFromDateKey(dk))) : null;
+    if (!showDow) return /*#__PURE__*/React.createElement("div", { className: "pain-heat__cell-wrap" }, tooltip, btn);
+    return /*#__PURE__*/React.createElement("div", { key: dk, className: "pain-heat__col" }, /*#__PURE__*/
+    React.createElement("div", { className: "pain-heat__cell-wrap" }, tooltip, btn),
+    /*#__PURE__*/React.createElement("div", { className: "pain-heat__dow" }, dowShort[new Date(dk).getDay()]));
   };
   if (mode === "7d") {
     const keys = axisMetricsLast7DateKeys();
@@ -10378,8 +10485,7 @@ function MetricsPainCard({ theme, nightMode, activePeriod, painByDay, onLogPain,
   const heatmapBlock = !hasAnyEntry ? /*#__PURE__*/React.createElement("p", { className: "pain-heat__placeholder" }, "No entries yet. Tap Log pain to start.") : /*#__PURE__*/React.createElement(MetricsPainGrid, {
     painByDay: painByDay,
     mode: gridMode,
-    dkToday: dkToday,
-    onCellPress: undefined
+    dkToday: dkToday
   });
   return /*#__PURE__*/React.createElement("div", { className: "weight-section pain-section", style: { "--weight-mood-accent": moodAccent } }, /*#__PURE__*/
   React.createElement("div", { className: "weight-section__header" }, "Pain"),
@@ -10389,12 +10495,12 @@ function MetricsPainCard({ theme, nightMode, activePeriod, painByDay, onLogPain,
   ) : /*#__PURE__*/React.createElement("span", { className: "pain-section__hero-empty" }, "No entry")),
   contextLine ? /*#__PURE__*/React.createElement("div", { className: "weight-section__context" }, contextLine) : null,
   /*#__PURE__*/React.createElement("div", { className: "pain-section__toggles", role: "tablist", "aria-label": "Pain heatmap range" }, /*#__PURE__*/
-  React.createElement("button", { type: "button", role: "tab", "aria-selected": painGridMode === "7d", className: "pain-section__toggle" + (painGridMode === "7d" ? " pain-section__toggle--active" : ""), onClick: () => { axisHapticTick(); setPainGridMode("7d"); } }, "[7D]"),
-  React.createElement("button", { type: "button", role: "tab", "aria-selected": painGridMode === "28d", className: "pain-section__toggle" + (painGridMode === "28d" ? " pain-section__toggle--active" : ""), onClick: () => { axisHapticTick(); setPainGridMode("28d"); } }, "[4W]")
+  React.createElement("button", { type: "button", role: "tab", "aria-selected": painGridMode === "7d", className: "pain-section__toggle" + (painGridMode === "7d" ? " pain-section__toggle--active" : ""), onClick: () => { axisHapticTick(); setPainGridMode("7d"); } }, "7D"),
+  React.createElement("button", { type: "button", role: "tab", "aria-selected": painGridMode === "28d", className: "pain-section__toggle" + (painGridMode === "28d" ? " pain-section__toggle--active" : ""), onClick: () => { axisHapticTick(); setPainGridMode("28d"); } }, "4W")
   ),
   heatmapBlock,
   painCallout ? /*#__PURE__*/React.createElement("div", { className: "weight-section__insight" }, "\uD83D\uDCA1 ", painCallout) : null,
-  /*#__PURE__*/React.createElement("button", { type: "button", className: "weight-section__btn weight-section__btn--expand weight-section__btn--primary", "aria-expanded": entryOpen, title: entryOpen ? "Collapse pain log" : "Expand to log pain", onClick: () => { axisHapticTick(); setEntryOpen((o) => !o); } }, /*#__PURE__*/React.createElement("span", null, "Log pain")),
+  /*#__PURE__*/React.createElement("button", { type: "button", className: "weight-section__btn weight-section__btn--expand", "aria-expanded": entryOpen, title: entryOpen ? "Collapse pain log" : "Expand to log pain", onClick: () => { axisHapticTick(); setEntryOpen((o) => !o); } }, /*#__PURE__*/React.createElement("span", null, "Log pain")),
   entryOpen && /*#__PURE__*/React.createElement("div", { className: "metric-inline-log", role: "region", "aria-labelledby": "pain-inline-log-h" }, /*#__PURE__*/
   React.createElement("h2", { id: "pain-inline-log-h", className: "weight-log-modal__title sr-only" }, "Pain log"),
   /*#__PURE__*/React.createElement("div", { className: "metric-inline-log__pain-add-stack" }, /*#__PURE__*/
@@ -11240,7 +11346,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       dashboardHeaderEl, /*#__PURE__*/
       React.createElement("div", { className: "home" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top home-track-cards-outer--summary" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-metrics-welcome" }, "METRICS"), /*#__PURE__*/
+      React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-metrics-welcome" }, "Metrics"), /*#__PURE__*/
       React.createElement("div", { className: "summary-main-stack summary-main-stack--metrics" }, /*#__PURE__*/
       React.createElement("div", { className: "summary-sunset-stack summary-sunset-stack--metrics" }, /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance" }, /*#__PURE__*/
@@ -11265,11 +11371,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       ])
       ])
-      ,
-      /*#__PURE__*/React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }),
-      /*#__PURE__*/React.createElement("div", { className: "metrics-quick-glance__sub" }, "Last 7 days"),
-      /*#__PURE__*/React.createElement("div", { className: "metrics-quick-glance__hint" }, "(Tap the day to reveal more details.)"),
-      /*#__PURE__*/React.createElement(MomentumMap, { history: history, nightMode: nightMode, theme: theme, compact: true, metricsQuickGlance: true })
       ),
       /*#__PURE__*/React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }),
       React.createElement("div", { className: "metrics-goals-wrap metrics-section--goals" }, /*#__PURE__*/
@@ -11314,6 +11415,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       )
       , /*#__PURE__*/
+      React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }),
+      /*#__PURE__*/React.createElement("div", { className: "metrics-quick-glance__sub" }, "Last 7 days"),
+      /*#__PURE__*/React.createElement("div", { className: "metrics-quick-glance__hint" }, "(Tap the day to reveal more details.)"),
+      /*#__PURE__*/React.createElement(MomentumMap, { history: history, nightMode: nightMode, theme: theme, compact: true, metricsQuickGlance: true }), /*#__PURE__*/
       React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }), /*#__PURE__*/
       React.createElement("div", { className: "metrics-metric-panel" }, /*#__PURE__*/
       React.createElement(MetricsWeightCard, {
@@ -11380,7 +11485,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       , /*#__PURE__*/
       /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
       React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }),
-      history.length > 0 && /*#__PURE__*/React.createElement("div", { className: "metrics-recent-section summary-panel history summary-panel--metrics-follow", style: { "--metrics-session-accent": metricsSessionAccent } }, /*#__PURE__*/
+      history.length > 0 && /*#__PURE__*/React.createElement("div", { className: "metrics-recent-section summary-panel history summary-panel--metrics-follow" + (summaryRecentOpen ? "" : " metrics-recent-section--collapsed"), style: { "--metrics-session-accent": metricsSessionAccent } }, /*#__PURE__*/
       React.createElement("button", {
         type: "button",
         className: "metrics-recent-header-btn",
@@ -11471,8 +11576,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // TODAY (formerly Home)
   if (view === "home" && !hasActiveSession) {
     const nowPeriod = getCircadianPeriod();
-    const usedPeriod = activePeriod || nowPeriod;
-    const homeCt = CIRCADIAN_THEMES[usedPeriod][theme === "dark" ? "dark" : "light"];
+    // Suggestions follow local time; visuals follow selected mood (or auto).
+    const stylePeriod = activePeriod || nowPeriod;
+    const homeCt = CIRCADIAN_THEMES[stylePeriod][theme === "dark" ? "dark" : "light"];
     const homeHighlight = nightMode ? "#FF3B30" : homeCt && homeCt.accent ? homeCt.accent : "var(--accent)";
     const perMove = exerciseDuration || 45;
     const getTrackDisplayDuration = (trackId) => {
@@ -11490,7 +11596,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     };
     const periodLabels = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
     const todayBoxTitleByPeriod = { dawn: "Morning Session", midday: "Afternoon Reset", prime: "Evening Stretch", rest: "Nightly Winddown" };
-    const periodKey = TODAY_SUGGESTIONS[usedPeriod] ? usedPeriod : nowPeriod;
+    const periodKey = TODAY_SUGGESTIONS[nowPeriod] ? nowPeriod : "dawn";
     const todaySug = TODAY_SUGGESTIONS[periodKey];
     const todayTrack = TRACKS[todaySug.trackId];
     const isTodayLight = theme === "light" && !nightMode;
