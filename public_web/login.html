@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Sign in · AXIS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; padding: 0; min-height: 100%; background: #080d18; }
+    #root { min-height: 100vh; min-height: 100dvh; }
+  </style>
+  <script>
+  (function () {
+    window.axisOnboardingHref = function () {
+      try {
+        if (!window.location.protocol || window.location.protocol === "file:") return "./onboarding.html";
+        var p = window.location.pathname || "/";
+        var d = p.replace(/[^/]*$/, "");
+        if (d.slice(-1) !== "/") d += "/";
+        return window.location.origin + d + "onboarding.html";
+      } catch (e) {
+        return "./onboarding.html";
+      }
+    };
+  })();
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="./auth-bundle.js"></script>
+  <script>
+    function axisOnboarded() {
+      try {
+        var uid = "";
+        try {
+          uid = (window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.uid) ? String(window.AXIS_auth.currentUser.uid) : "";
+        } catch (e) {}
+        if (!uid) {
+          try { uid = String(localStorage.getItem("axis_auth_uid") || ""); } catch (e) {}
+        }
+        var key = uid ? ("axis_onboarded:" + uid) : "axis_onboarded";
+        var raw = localStorage.getItem(key);
+        if (raw === null) return false;
+        return JSON.parse(raw) === true;
+      } catch (e) {
+        return false;
+      }
+    }
+    function LoginGate() {
+      var useEffect = React.useEffect;
+      var Login = window.AXIS_Login;
+      useEffect(function () {
+        var auth = window.AXIS_auth;
+        var onAuth = window.AXIS_onAuthStateChanged;
+        if (!auth || !onAuth) return undefined;
+        var unsub = onAuth(auth, function (u) {
+          if (!u) return;
+          if (axisOnboarded()) {
+            window.location.replace("./index.html");
+          } else {
+            window.location.replace(window.axisOnboardingHref ? window.axisOnboardingHref() : "./onboarding.html");
+          }
+        });
+        return function () {
+          try {
+            unsub();
+          } catch (e) {}
+        };
+      }, []);
+      return React.createElement(Login);
+    }
+    var root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(React.createElement(LoginGate));
+  </script>
+</body>
+</html>

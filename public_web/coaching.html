@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>1-on-1 session · AXIS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      min-height: 100dvh;
+      width: 100%;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+    :root {
+      --font-display: 'Barlow', sans-serif;
+      --font-ui: 'Inter', sans-serif;
+      --text-xs: 12px;
+      --text-sm: 14px;
+      --text-base: 16px;
+      --text-lg: 20px;
+      --axis-white: #f6f7f8;
+      --axis-black: #252525;
+      --safe-top: calc(env(safe-area-inset-top, 0px) + 56px);
+      --page-padding: 16px;
+      --motion-slow: 800ms ease-in-out;
+    }
+
+    [data-theme="dark"]:not([data-night="true"]) {
+      --bg-gradient: radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%);
+      --text-primary: var(--axis-white);
+      --text-secondary-toned: color-mix(in srgb, var(--axis-white) 70%, transparent);
+      --glass-bg: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+      --color-text-primary: var(--text-primary);
+      --color-text-secondary: rgba(237, 237, 237, 0.88);
+    }
+    [data-theme="light"]:not([data-night="true"]) {
+      --bg-gradient: linear-gradient(145deg, #dce6f0 0%, #e4ebf4 35%, #eaf0f7 70%, #f0f5fa 100%);
+      --text-primary: var(--axis-black);
+      --text-secondary-toned: rgba(28, 28, 30, 0.88);
+      --glass-bg: rgba(255,255,255,0.55);
+      --glass-border: rgba(200, 220, 240, 0.68);
+      --color-text-primary: var(--text-primary);
+      --color-text-secondary: rgba(28, 28, 30, 0.88);
+    }
+
+    /* AXIS Ultra — match index.html */
+    .app.axis-coaching-page[data-night="true"] {
+      --text-primary: #FF3B30;
+      --text-secondary: rgba(211, 47, 47, 0.88);
+      --glass-bg: #1c0505;
+      --glass-border: #FF3B30;
+      --accent: #FF3B30;
+      --accent-dim: rgba(211, 47, 47, 0.16);
+      --color-text-primary: #FF3B30;
+      --color-text-secondary: rgba(211, 47, 47, 0.82);
+    }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--body-bg, #080d18);
+      transition: background var(--motion-slow);
+    }
+
+    .app.axis-coaching-page {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+      color: var(--text-primary, var(--axis-white));
+    }
+
+    .app-orbs {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      transition: background var(--motion-slow), opacity 0.4s ease;
+    }
+    .app.axis-coaching-page[data-night="true"] .app-orbs {
+      display: none !important;
+    }
+
+    .app-body.axis-app-scroll-root {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      padding: var(--safe-top) var(--page-padding) calc(env(safe-area-inset-bottom, 0px) + 28px);
+    }
+
+    .coaching-header {
+      margin-bottom: 20px;
+    }
+    .coaching-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 16px;
+      padding: 0;
+      border: none;
+      background: none;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent, #FF9F43);
+      cursor: pointer;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .coaching-back:hover { opacity: 0.92; }
+    .coaching-back:active { opacity: 0.85; }
+    .app.axis-coaching-page[data-night="true"] .coaching-back {
+      color: #FF3B30;
+    }
+
+    .coaching-panel {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 18px;
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .coaching-eyebrow {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1.2;
+      color: var(--accent, #FF9F43);
+    }
+    .app.axis-coaching-page[data-night="true"] .coaching-eyebrow {
+      color: #FF3B30;
+    }
+    .coaching-body {
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--color-text-secondary);
+      margin: 0 0 16px;
+    }
+    .coaching-note {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--color-text-secondary);
+      opacity: 0.85;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="axis-coaching-root" class="app axis-coaching-page" data-theme="dark" data-night="false">
+    <div class="app-orbs" aria-hidden="true"></div>
+    <div class="app-body axis-app-scroll-root">
+      <header class="coaching-header">
+        <a class="coaching-back" href="./index.html">← Back</a>
+        <div class="coaching-panel">
+          <div class="coaching-eyebrow">1-on-1 coaching</div>
+          <p class="coaching-body">
+            Book time to review your metrics or perfect your form in a 1-on-1, on camera session with a licensed Physical Literacy Coach.
+          </p>
+          <p class="coaching-note">Scheduling details coming soon (placeholder).</p>
+        </div>
+      </header>
+    </div>
+  </div>
+  <script>
+(function () {
+  const MAIN_APP_BG = {
+    dark: "radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%)",
+    light: "linear-gradient(145deg, #dce6f0 0%, #e4ebf4 35%, #eaf0f7 70%, #f0f5fa 100%)"
+  };
+
+  function getCircadianPeriod() {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 11) return "dawn";
+    if (h >= 11 && h < 17) return "midday";
+    if (h >= 17 && h < 22) return "prime";
+    return "rest";
+  }
+
+  const CIRCADIAN_THEMES = {
+    dawn: {
+      dark: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,135,55,0.72) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,175,75,0.50) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(205,80,20,0.60) 0%, transparent 76%)",
+        accent: "#FF9F43",
+        accentDim: "rgba(255,159,67,0.25)",
+        accentGlow: "rgba(255,159,67,0.55)",
+        accentBtnText: "#252525",
+        bg: MAIN_APP_BG.dark,
+        textPrimary: "#FFF0E0",
+        tabBg: "rgba(7,9,18,0.84)"
+      },
+      light: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,120,40,0.26) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,165,70,0.20) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(220,120,30,0.18) 0%, transparent 76%)",
+        accent: "#C85A00",
+        accentDim: "rgba(200,90,0,0.18)",
+        accentGlow: "rgba(200,90,0,0.38)",
+        accentBtnText: "#f6f7f8",
+        bg: "linear-gradient(160deg, #ffe8c8 0%, #ffd4a0 35%, #ffbf78 70%, #ffd4a8 100%)",
+        textPrimary: "#2a1200"
+      }
+    },
+    midday: {
+      dark: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(0,225,190,0.64) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(0,210,170,0.44) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(0,140,110,0.55) 0%, transparent 76%)",
+        accent: "#00E8C0",
+        accentDim: "rgba(0,232,192,0.20)",
+        accentGlow: "rgba(0,232,192,0.52)",
+        accentBtnText: "#252525",
+        bg: MAIN_APP_BG.dark,
+        textPrimary: "#D0FFF5",
+        tabBg: "rgba(0,8,4,0.78)"
+      },
+      light: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(0,210,175,0.30) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(0,195,155,0.22) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(0,150,125,0.22) 0%, transparent 76%)",
+        accent: "#007A6A",
+        accentDim: "rgba(0,122,106,0.16)",
+        accentGlow: "rgba(0,122,106,0.34)",
+        accentBtnText: "#f6f7f8",
+        bg: "linear-gradient(160deg, #f0fffc 0%, #e0fff8 35%, #d0fff4 70%, #e8fff9 100%)",
+        textPrimary: "#00261f"
+      }
+    },
+    prime: {
+      dark: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(40,120,255,0.56) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(70,160,255,0.42) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 118%, rgba(20,60,170,0.52) 0%, transparent 76%)",
+        accent: "#4DA8FF",
+        accentDim: "rgba(77,168,255,0.22)",
+        accentGlow: "rgba(77,168,255,0.55)",
+        accentBtnText: "#252525",
+        bg: MAIN_APP_BG.dark,
+        textPrimary: "#D8EEFF",
+        tabBg: "rgba(0,6,14,0.78)"
+      },
+      light: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(40,120,230,0.28) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(70,160,230,0.22) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 118%, rgba(40,90,200,0.22) 0%, transparent 76%)",
+        accent: "#1060C0",
+        accentDim: "rgba(16,96,192,0.17)",
+        accentGlow: "rgba(16,96,192,0.38)",
+        accentBtnText: "#f6f7f8",
+        bg: "linear-gradient(160deg, #d8eeff 0%, #c0e0ff 35%, #a8d4ff 70%, #c8e8ff 100%)",
+        textPrimary: "#001830"
+      }
+    },
+    rest: {
+      dark: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(130,50,240,0.56) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(170,80,255,0.42) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 120%, rgba(90,40,180,0.52) 0%, transparent 76%)",
+        accent: "#A060FF",
+        accentDim: "rgba(160,96,255,0.22)",
+        accentGlow: "rgba(160,96,255,0.52)",
+        accentBtnText: "#252525",
+        bg: MAIN_APP_BG.dark,
+        textPrimary: "#E8D8FF",
+        tabBg: "rgba(3,0,8,0.80)"
+      },
+      light: {
+        orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(120,40,220,0.26) 0%, transparent 70%)",
+        orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(150,70,230,0.20) 0%, transparent 72%)",
+        orb3: "radial-gradient(ellipse 75% 75% at 50% 120%, rgba(90,40,180,0.20) 0%, transparent 76%)",
+        accent: "#6030B0",
+        accentDim: "rgba(96,48,176,0.18)",
+        accentGlow: "rgba(96,48,176,0.38)",
+        accentBtnText: "#f6f7f8",
+        bg: "linear-gradient(160deg, #ece0ff 0%, #ddd0ff 35%, #cec0ff 70%, #e0d4ff 100%)",
+        textPrimary: "#180030"
+      }
+    }
+  };
+
+  function axisResolveMoodPeriod(period) {
+    if (period && CIRCADIAN_THEMES[period]) return period;
+    return getCircadianPeriod();
+  }
+
+  function applyCircadianTheme(isDark, period) {
+    const p = axisResolveMoodPeriod(period);
+    const t = CIRCADIAN_THEMES[p][isDark ? "dark" : "light"];
+    var el = document.getElementById("circadian-style");
+    if (!el) {
+      el = document.createElement("style");
+      el.id = "circadian-style";
+      document.head.appendChild(el);
+    }
+    const accentSec = t.accent && t.accent.match(/^#[0-9a-fA-F]{6}$/) ? t.accent + "99" : t.accent;
+    el.textContent =
+      '\n[data-theme]:not([data-night="true"]) {\n' +
+      "  --orb1: " + t.orb1 + " !important;\n" +
+      "  --orb2: " + t.orb2 + " !important;\n" +
+      "  --orb3: " + t.orb3 + " !important;\n" +
+      "  --mood-accent: " + t.accent + " !important;\n" +
+      "  --accent: " + t.accent + " !important;\n" +
+      (t.bg ? "  --bg-app: " + t.bg + " !important;\n" : "") +
+      "  --accent-secondary: " + accentSec + " !important;\n" +
+      "  --accent-dim: " + t.accentDim + " !important;\n" +
+      "  --accent-glow: " + t.accentGlow + " !important;\n" +
+      (t.textPrimary ? "  --text-primary: " + t.textPrimary + " !important;\n" : "") +
+      (t.accentBtnText ? "  --accent-btn-text: " + t.accentBtnText + " !important;\n" : "") +
+      "}\n";
+    return { bg: t.bg };
+  }
+
+  function readPrefs() {
+    var theme = "dark";
+    var night = false;
+    var period = null;
+    var hasAxisPeriod = false;
+    try {
+      var tr = localStorage.getItem("axis_theme");
+      if (tr != null) theme = JSON.parse(tr) || "dark";
+    } catch (e) {}
+    try {
+      var nt = localStorage.getItem("axis_night");
+      if (nt != null) night = JSON.parse(nt) === true;
+    } catch (e) {}
+    try {
+      if (localStorage.getItem("axis_period") != null) {
+        period = JSON.parse(localStorage.getItem("axis_period"));
+        hasAxisPeriod = true;
+      }
+    } catch (e) {}
+    if (!hasAxisPeriod) {
+      try {
+        var sm = localStorage.getItem("selectedMood");
+        if (sm === "auto") period = null;
+        else if (sm && /^(dawn|midday|prime|rest)$/.test(sm)) period = sm;
+      } catch (e) {}
+    }
+    return { theme: theme, night: night, period: period };
+  }
+
+  function paint() {
+    var root = document.getElementById("axis-coaching-root");
+    var orbs = document.querySelector(".app-orbs");
+    var prefs = readPrefs();
+    var isDark = prefs.theme === "dark";
+    root.setAttribute("data-theme", prefs.theme);
+    root.setAttribute("data-night", prefs.night ? "true" : "false");
+
+    if (prefs.night) {
+      var st = document.getElementById("circadian-style");
+      if (st) st.textContent = "";
+      document.body.style.setProperty("--body-bg", "#000000");
+      document.body.style.background = "#000000";
+      if (orbs) {
+        orbs.style.display = "none";
+        orbs.style.background = "none";
+      }
+      return;
+    }
+
+    var circ = applyCircadianTheme(isDark, prefs.period);
+    var fallback = isDark ? MAIN_APP_BG.dark : MAIN_APP_BG.light;
+    var newBg = (circ && circ.bg) || fallback;
+    document.body.style.setProperty("--body-bg", newBg);
+    document.body.style.background = newBg;
+    if (orbs) {
+      orbs.style.display = "";
+      orbs.style.background = "var(--orb1), var(--orb2), var(--orb3)";
+    }
+  }
+
+  paint();
+  window.addEventListener("storage", function (e) {
+    if (!e.key || e.key.indexOf("axis_") === 0 || e.key === "selectedMood") paint();
+  });
+  window.addEventListener("focus", paint);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) paint();
+  });
+})();
+  </script>
+</body>
+</html>

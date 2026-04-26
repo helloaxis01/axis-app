@@ -1,0 +1,9 @@
+{
+  "name": "axis-031726-rebuild",
+  "private": true,
+  "description": "AXIS web shell (public_web). npm run preview works from this folder even when the parent axis-app repo is missing — uses public_web/ or walks up to find the full build.",
+  "scripts": {
+    "preview": "node scripts/preview.cjs",
+    "preview:static": "npx --yes serve public_web -l 4173"
+  }
+}
