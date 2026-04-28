@@ -20407,7 +20407,9 @@ This typically indicates that your device does not have a healthy Internet conne
   // src/Login.js
   function isOnboarded() {
     try {
-      const raw = localStorage.getItem("axis_onboarded");
+      const uid = auth && auth.currentUser && auth.currentUser.uid ? String(auth.currentUser.uid) : "";
+      const scopedKey = uid ? `axis_onboarded:${uid}` : "axis_onboarded";
+      const raw = localStorage.getItem(scopedKey);
       if (raw === null) return false;
       return JSON.parse(raw) === true;
     } catch (e) {
@@ -20433,16 +20435,24 @@ This typically indicates that your device does not have a healthy Internet conne
         try {
           if (mode === "signup") {
             const cred2 = await createUserWithEmailAndPassword(auth, email.trim(), password);
+            try {
+              localStorage.setItem("axis_auth_uid", String(cred2.user.uid || ""));
+            } catch (err) {
+            }
             await syncUserProfile(cred2.user);
             try {
               localStorage.removeItem("hasCompletedOnboarding");
-              localStorage.setItem("axis_onboarded", JSON.stringify(false));
+              localStorage.setItem(`axis_onboarded:${cred2.user.uid}`, JSON.stringify(false));
             } catch (err) {
             }
             window.location.replace(axisOnboardingUrl());
             return;
           }
           const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
+          try {
+            localStorage.setItem("axis_auth_uid", String(cred.user.uid || ""));
+          } catch (err) {
+          }
           syncUserProfile(cred.user).catch((err) => {
             try {
               console.error("AXIS: sync after sign-in", err);
@@ -20657,7 +20667,9 @@ This typically indicates that your device does not have a healthy Internet conne
   // src/App.js
   function isOnboarded2() {
     try {
-      const raw = localStorage.getItem("axis_onboarded");
+      const uid = auth && auth.currentUser && auth.currentUser.uid ? String(auth.currentUser.uid) : "";
+      const scopedKey = uid ? `axis_onboarded:${uid}` : "axis_onboarded";
+      const raw = localStorage.getItem(scopedKey);
       if (raw === null) return false;
       return JSON.parse(raw) === true;
     } catch (e) {
@@ -20671,6 +20683,11 @@ This typically indicates that your device does not have a healthy Internet conne
       const unsub = onAuthStateChanged(auth, (u) => {
         setUser(u || null);
         setLoading(false);
+        try {
+          if (u && u.uid) localStorage.setItem("axis_auth_uid", String(u.uid));
+          else localStorage.removeItem("axis_auth_uid");
+        } catch (e) {
+        }
         if (u) {
           syncUserProfile(u).catch((err) => {
             try {
