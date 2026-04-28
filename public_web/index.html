@@ -8405,6 +8405,26 @@ const css = `
     overscroll-behavior-x:contain;
   }
   .home-recent-strip::-webkit-scrollbar { display:none; height:0; width:0; }
+  .home-recent-strip--empty {
+    overflow:visible;
+    flex-wrap:wrap;
+  }
+  .home-recent-empty {
+    margin:0;
+    padding:14px 16px;
+    border-radius:14px;
+    border:1px dashed color-mix(in srgb, var(--glass-border) 72%, transparent);
+    background:color-mix(in srgb, var(--glass-bg) 45%, transparent);
+    font-size:var(--text-sm);
+    color:var(--text-dimmer);
+    font-weight:500;
+    letter-spacing:-0.01em;
+    text-align:left;
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+    line-height:1.35;
+  }
   .home-recent-card {
     position: relative;
     flex:0 0 auto; width:min(44vw, 188px); min-width:0;
@@ -13149,8 +13169,23 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const sessionExerciseLoggedRef = useRef(/* @__PURE__ */ new Set());
   const [recentTracks, setRecentTracks] = useState(() => {
     const raw = storageGet("axis_recent_tracks", []);
-    if (!Array.isArray(raw)) return [];
-    return raw.filter((id) => typeof id === "string").slice(0, 4);
+    let arr = Array.isArray(raw) ? raw.filter((id) => typeof id === "string").slice(0, 4) : [];
+    let resolved = arr.filter((id) => TRACKS && TRACKS[id]);
+    if (resolved.length > 0) return resolved;
+    const hist = storageGet("axis_history", []);
+    if (Array.isArray(hist)) {
+      const fromHist = [];
+      const seen = /* @__PURE__ */ new Set();
+      for (let i = 0; i < hist.length && fromHist.length < 4; i++) {
+        const tid = hist[i] && hist[i].trackId;
+        if (typeof tid === "string" && TRACKS && TRACKS[tid] && !seen.has(tid)) {
+          seen.add(tid);
+          fromHist.push(tid);
+        }
+      }
+      if (fromHist.length > 0) return fromHist;
+    }
+    return arr;
   });
   const [selectedAppIcon, setSelectedAppIcon] = useState(() => storageGet("axis_app_icon", "./app-icons/icon-classic.png"));
   const [dailyGoalMinutes, setDailyGoalMinutes] = useState(() => {
@@ -14292,10 +14327,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       (() => {
         const recentResolved = recentTracks.filter((id) => TRACKS && TRACKS[id]);
-        return recentResolved.length === 0 ? null : /*#__PURE__*/
-        React.createElement("div", { className: "home-recent", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
-        React.createElement("div", { className: "home-recent-label" }, "Recents"), /*#__PURE__*/
-        React.createElement("div", { className: "home-recent-strip" },
+        const hasCards = recentResolved.length > 0;
+        return /*#__PURE__*/React.createElement("div", { className: "home-recent", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
+        React.createElement("div", { className: "home-recent-label" }, "Recents"),
+        hasCards ? /*#__PURE__*/React.createElement("div", { className: "home-recent-strip" },
         recentResolved.map((id) => {
           const rt = TRACKS[id];
           const rdur = getTrackDisplayDuration(id);
@@ -14312,8 +14347,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             React.createElement("div", { className: "home-recent-dur" }, rdur)
             ));
         })
-        )
-        );
+        ) : /*#__PURE__*/React.createElement("div", { className: "home-recent-strip home-recent-strip--empty" }, /*#__PURE__*/React.createElement("p", { className: "home-recent-empty" }, "Your recent sessions will appear here after you start a track.")));
       })(), /*#__PURE__*/
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-float-stack" }, /*#__PURE__*/
