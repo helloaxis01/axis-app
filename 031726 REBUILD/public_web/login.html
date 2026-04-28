@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>AXIS — Sign in</title>
+  <title>Sign in · AXIS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -35,7 +35,15 @@
   <script>
     function axisOnboarded() {
       try {
-        var raw = localStorage.getItem("axis_onboarded");
+        var uid = "";
+        try {
+          uid = (window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.uid) ? String(window.AXIS_auth.currentUser.uid) : "";
+        } catch (e) {}
+        if (!uid) {
+          try { uid = String(localStorage.getItem("axis_auth_uid") || ""); } catch (e) {}
+        }
+        var key = uid ? ("axis_onboarded:" + uid) : "axis_onboarded";
+        var raw = localStorage.getItem(key);
         if (raw === null) return false;
         return JSON.parse(raw) === true;
       } catch (e) {
