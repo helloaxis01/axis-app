@@ -2,3 +2,6 @@ node_modules
 .DS_Store
 .vercel
 *.log
+
+# Local full snapshots before axis-static mirrors (do not commit)
+.axis-sync-archive/
