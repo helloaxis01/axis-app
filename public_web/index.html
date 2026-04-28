@@ -119,7 +119,7 @@ if (window.AXIS_DEV) {
   } catch (e) {}
 }
 
-const { useState, useEffect, useLayoutEffect, useRef, useId } = React;
+const { useState, useEffect, useLayoutEffect, useRef, useId, useCallback } = React;
 
 // Ensure a global fallback 'highlight' exists for any older references or cached builds.
 try {
@@ -2077,6 +2077,41 @@ const css = `
     border: 1px solid rgba(15, 30, 46, 0.12);
     border-bottom: none;
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.12);
+  }
+  .guided-leave-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100003;
+    background: rgba(0, 0, 0, 0.48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(20px, env(safe-area-inset-top, 20px)) max(20px, env(safe-area-inset-right, 20px)) max(24px, env(safe-area-inset-bottom, 24px)) max(20px, env(safe-area-inset-left, 20px));
+    box-sizing: border-box;
+    animation: guidedRefresherFadeIn 0.2s ease-out;
+  }
+  .guided-leave-dialog-panel {
+    width: 100%;
+    max-width: 340px;
+    border-radius: 16px;
+    padding: 22px 20px 18px;
+    box-sizing: border-box;
+    animation: guidedRefresherFadeIn 0.22s ease-out;
+  }
+  .guided-overlay[data-night="true"] .guided-leave-dialog-panel {
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 59, 48, 0.42);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+  }
+  .guided-overlay[data-night="false"][data-theme="dark"] .guided-leave-dialog-panel {
+    background: #161616;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  }
+  .guided-overlay[data-night="false"][data-theme="light"] .guided-leave-dialog-panel {
+    background: #ffffff;
+    border: 1px solid rgba(15, 30, 46, 0.14);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.14);
   }
   @keyframes guidedRefresherSlideUp {
     from { transform: translateY(100%); opacity: 0.85; }
@@ -9078,7 +9113,7 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
       } }))));
 }
 
-function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, paused = false, onComplete, hapticMidpoint = false }) {
+function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, paused = false, onComplete, hapticMidpoint = false, initialRemainingSeconds, onRemainingSecondsChange }) {
   const [remainingSeconds, setRemainingSeconds] = useState(seconds);
   const [progressPct, setProgressPct] = useState(0);
   const intervalRef = useRef(null);
@@ -9090,11 +9125,26 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
   }, [onComplete]);
   useEffect(() => {
     clearInterval(intervalRef.current);
-    setRemainingSeconds(seconds);
-    setProgressPct(0);
+    let start = seconds;
+    if (typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0 && initialRemainingSeconds <= seconds) {
+      start = Math.floor(initialRemainingSeconds);
+    }
+    setRemainingSeconds(start);
+    setProgressPct(seconds > 0 ? (seconds - start) / seconds * 100 : 100);
     completedRef.current = false;
     midpointTriggeredRef.current = false;
-  }, [seconds, hapticMidpoint]);
+    if (hapticMidpoint && typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0) {
+      const midpointThreshold = Math.ceil(seconds / 2);
+      if (start < midpointThreshold) {
+        midpointTriggeredRef.current = true;
+      }
+    }
+  }, [seconds, hapticMidpoint, initialRemainingSeconds]);
+  useEffect(() => {
+    if (typeof onRemainingSecondsChange === "function") {
+      onRemainingSecondsChange(remainingSeconds);
+    }
+  }, [remainingSeconds, onRemainingSecondsChange]);
   useEffect(() => {
     clearInterval(intervalRef.current);
     if (paused || completedRef.current) return () => clearInterval(intervalRef.current);
@@ -9810,6 +9860,9 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   useEffect(() => {showDetailedInstructionsRef.current = showDetailedInstructions;}, [showDetailedInstructions]);
   const [refresherOpen, setRefresherOpen] = useState(false);
   const pausedBeforeRefresherRef = useRef(false);
+  const [leaveConfirmOpen, setLeaveConfirmOpen] = useState(false);
+  const leaveConfirmOpenRef = useRef(false);
+  useEffect(() => {leaveConfirmOpenRef.current = leaveConfirmOpen;}, [leaveConfirmOpen]);
 
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
@@ -9829,13 +9882,29 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const next = list[fi + 1] || null;
   const headerPoseCounterNum = (phase === "instruction" || phase === "rest" || phase === "exercise") ? (next ? fi + 2 : listTotal) : fi + 1;
   const guidedMoveSeconds = typeof exerciseDurationSeconds === "number" && exerciseDurationSeconds > 0 ? exerciseDurationSeconds : 45;
+  const guidedExerciseRemainingRef = useRef(guidedMoveSeconds);
+  const guidedExerciseSnapshotsRef = useRef({});
+  const guidedPrepIncludedInstructionRef = useRef({});
+  const [guidedExerciseResumeSeconds, setGuidedExerciseResumeSeconds] = useState(null);
+  const handleGuidedRemainingTick = useCallback((n) => {
+    guidedExerciseRemainingRef.current = n;
+  }, []);
   const guidedPack = cur ? axisResolveInstructionFields(cur, cur.__axisSide || axisInstructionSideFromId(cur.id)) : null;
   const guidedInstructionTiersFiltered = axisInstructionTiersFromPack(guidedPack);
   const guidedStepTotal = guidedInstructionTiersFiltered.length;
   const guidedAnimKey = cur ? resolveExerciseAnimationKey(activeTrackId, cur.id, cur.name) : null;
   const guidedAnimMode = exerciseAnimationModeFromTheme(theme, isNight);
-  const goToPrepPhase = () => setPhase(showDetailedInstructionsRef.current ? "instruction" : "rest");
-  const handleRestTimerComplete = () => setPhase("exercise");
+  const goToPrepPhaseAt = (listIndex) => {
+    const incl = !!showDetailedInstructionsRef.current;
+    guidedPrepIncludedInstructionRef.current[listIndex] = incl;
+    setPhase(incl ? "instruction" : "rest");
+  };
+  const handleRestTimerComplete = () => {
+    const saved = guidedExerciseSnapshotsRef.current[fi];
+    const canResume = typeof saved === "number" && saved > 0 && saved < guidedMoveSeconds;
+    setGuidedExerciseResumeSeconds(canResume ? saved : null);
+    setPhase("exercise");
+  };
   const openGuidedRefresher = () => {
     if (phase !== "exercise" && phase !== "rest") return;
     if (guidedStepTotal <= 0) return;
@@ -9850,6 +9919,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const refresherOpenRef = useRef(false);
   useEffect(() => {refresherOpenRef.current = refresherOpen;}, [refresherOpen]);
 
+  const exitGuidedIfConfirmed = useCallback(() => {
+    if (phase === "intro" || phase === "closing") {
+      onExit();
+      return;
+    }
+    setLeaveConfirmOpen(true);
+  }, [onExit, phase]);
+
   useEffect(() => {
     guidedFocusReturnRef.current = document.activeElement;
     let rafInner = 0;
@@ -9861,12 +9938,16 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     const onKeyDown = (e) => {
       if (e.key === "Escape") {
         e.preventDefault();
+        if (leaveConfirmOpenRef.current) {
+          setLeaveConfirmOpen(false);
+          return;
+        }
         if (refresherOpenRef.current) {
           setRefresherOpen(false);
           setPaused(pausedBeforeRefresherRef.current);
           return;
         }
-        onExit();
+        exitGuidedIfConfirmed();
       }
     };
     document.addEventListener("keydown", onKeyDown, true);
@@ -9879,8 +9960,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         try {el.focus();} catch (err) {}
       }
     };
-  }, [onExit]);
+  }, [exitGuidedIfConfirmed]);
   const [guidedTransitioning, setGuidedTransitioning] = useState(false);
+  useEffect(() => {
+    if (phase === "exercise" && guidedExerciseResumeSeconds == null) {
+      guidedExerciseRemainingRef.current = guidedMoveSeconds;
+    }
+  }, [fi, phase, guidedMoveSeconds, guidedExerciseResumeSeconds]);
   const guidedFilledText = isNight ? "#000000" : theme === "light" ? "#f6f7f8" : "#252525";
   const guidedShellBg = isNight || isDark ? "#000000" : "#FFFFFF";
   const guidedBodyText = isNight ? "#FF3B30" : isDark ? "#E8E8E8" : "#121418";
@@ -9936,6 +10022,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     setCarouselActiveIdx(0);
     setDiagramSlideIdx(0);
     setRefresherOpen(false);
+    setLeaveConfirmOpen(false);
     setPaused(false);
     const track = carouselTrackRef.current;
     if (track && typeof track.scrollTo === "function") {
@@ -9960,7 +10047,33 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
   // Cat/Cow carousel is user-driven (no auto-swap).
 
+  const snapshotGuidedExerciseProgress = () => {
+    if (phase === "exercise") {
+      guidedExerciseSnapshotsRef.current[fi] = guidedExerciseRemainingRef.current;
+    }
+  };
+
+  const goPrevExercise = () => {
+    if (fi <= 0) return;
+    snapshotGuidedExerciseProgress();
+    const prevIdx = fi - 1;
+    const saved = guidedExerciseSnapshotsRef.current[prevIdx];
+    const canResume = typeof saved === "number" && saved > 0 && saved < guidedMoveSeconds;
+    setPaused(false);
+    setGuidedTransitioning(true);
+    setFi(prevIdx);
+    if (canResume) {
+      setGuidedExerciseResumeSeconds(saved);
+      setPhase("exercise");
+    } else {
+      setGuidedExerciseResumeSeconds(null);
+      goToPrepPhaseAt(prevIdx);
+    }
+  };
+
   const completeCurrent = () => {
+    delete guidedExerciseSnapshotsRef.current[fi];
+    setGuidedExerciseResumeSeconds(null);
     beep(660, 0.4);
     onToggle(cur.id);
     if (fi >= list.length - 1) {
@@ -9983,18 +10096,20 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       const msg = nextTotal === at25 ? "Quarter done" : nextTotal === at50 ? "Halfway there" : "Almost there";
       setMilestoneMessage(msg);
       setPhase("milestone");
+      const advanceTo = Math.min(fi + 1, list.length - 1);
       if (milestoneRef.current) clearTimeout(milestoneRef.current);
       milestoneRef.current = setTimeout(() => {
-        setFi((i) => Math.min(i + 1, list.length - 1));
-        goToPrepPhase();
+        setFi(advanceTo);
+        goToPrepPhaseAt(advanceTo);
         setMilestoneMessage("");
         milestoneRef.current = null;
       }, 2200);
     } else {
       setGuidedTransitioning(true);
       setPaused(false);
-      setFi((i) => Math.min(i + 1, list.length - 1));
-      goToPrepPhase();
+      const nextFi = Math.min(fi + 1, list.length - 1);
+      setFi(nextFi);
+      goToPrepPhaseAt(nextFi);
     }
   };
 
@@ -10009,23 +10124,58 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const handleSkip = () => {
     onSkip(cur.id);
     beep(440, 0.2);
-    if (fi < list.length - 1) {setPaused(false);setGuidedTransitioning(true);setFi((i) => i + 1);goToPrepPhase();}
+    setGuidedExerciseResumeSeconds(null);
+    if (fi < list.length - 1) {
+      snapshotGuidedExerciseProgress();
+      setPaused(false);
+      setGuidedTransitioning(true);
+      const nextFi = fi + 1;
+      setFi(nextFi);
+      goToPrepPhaseAt(nextFi);
+    }
   };
 
   const handleNext = () => {
     beep(440, 0.2);
+    setGuidedExerciseResumeSeconds(null);
     if (fi < list.length - 1) {
+      snapshotGuidedExerciseProgress();
       setPaused(false);
       setGuidedTransitioning(true);
-      setFi((i) => i + 1);
-      goToPrepPhase();
+      const nextFi = fi + 1;
+      setFi(nextFi);
+      goToPrepPhaseAt(nextFi);
     } else {
       completeCurrent();
     }
   };
 
   const handlePrev = () => {
-    if (fi > 0) {setPaused(false);setGuidedTransitioning(true);setFi((i) => i - 1);goToPrepPhase();}
+    if (guidedTransitioning) return;
+    if (phase === "exercise") {
+      snapshotGuidedExerciseProgress();
+      setGuidedExerciseResumeSeconds(null);
+      setPaused(false);
+      setGuidedTransitioning(true);
+      setPhase("rest");
+      return;
+    }
+    if (phase === "rest") {
+      const recorded = guidedPrepIncludedInstructionRef.current[fi];
+      const hadInstructionStep = recorded === undefined ? !!showDetailedInstructionsRef.current : !!recorded;
+      if (hadInstructionStep) {
+        setPaused(false);
+        setGuidedTransitioning(true);
+        setPhase("instruction");
+        return;
+      }
+      goPrevExercise();
+      return;
+    }
+    if (phase === "instruction") {
+      goPrevExercise();
+      return;
+    }
   };
 
   const guidedTimerAccent = isNight ? A : isDark ? A : gA;
@@ -10043,6 +10193,32 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   some((name) => guidedExerciseName === name);
   const guidedPhaseChipLabel = phase === "instruction" ? "INSTRUCTIONS" : phase === "rest" ? "REST & GET READY" : "BEGIN";
   const guidedPhaseChipLarge = phase === "exercise";
+  const guidedPrepRecord0 = guidedPrepIncludedInstructionRef.current[0];
+  const guidedPrepHadInstr0 = guidedPrepRecord0 === undefined ? showDetailedInstructions : !!guidedPrepRecord0;
+  const guidedPrevDisabled = guidedTransitioning || (phase === "instruction" && fi === 0) || (phase === "rest" && fi === 0 && !guidedPrepHadInstr0);
+  const guidedPrevFooterButton = () => /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    disabled: guidedPrevDisabled,
+    "aria-disabled": guidedPrevDisabled ? "true" : "false",
+    onClick: () => {if (guidedPrevDisabled) return;triggerHaptic(HAPTIC_LIGHT_TAP);handlePrev();},
+    style: {
+      flex: 1,
+      minWidth: 0,
+      minHeight: 56,
+      borderRadius: 999,
+      background: "transparent",
+      border: `1px solid ${gA}`,
+      color: gA,
+      fontFamily: "var(--font-display)",
+      fontSize: "var(--text-xs)",
+      fontWeight: 600,
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      cursor: guidedPrevDisabled ? "default" : "pointer",
+      opacity: guidedPrevDisabled ? 0.38 : 1
+    }
+  }, "\u2190 PREV");
+  const guidedSkipFooterHint = fi > 0 && cur ? phase === "exercise" ? "\u2190 Prev through setup, then last pose" : phase === "instruction" || phase === "rest" ? "Prev: back one screen; from Instructions \u2192 last pose" : null : null;
   const guidedPhaseBody = (phase === "instruction" || phase === "rest" || phase === "exercise") && cur ? /*#__PURE__*/React.createElement("div", {
     style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column", position: "relative", zIndex: 2, overflow: "hidden" }
   }, [
@@ -10104,6 +10280,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     hidden: guidedTransitioning,
     paused: paused,
     hapticMidpoint: guidedNeedsMidpointHaptic,
+    initialRemainingSeconds: guidedExerciseResumeSeconds != null ? guidedExerciseResumeSeconds : undefined,
+    onRemainingSecondsChange: handleGuidedRemainingTick,
     onComplete: handleTimerDone }) : null,
   (phase === "rest" || phase === "exercise") && guidedStepTotal > 0 ? /*#__PURE__*/React.createElement("div", { style: { width: "100%", maxWidth: 320, alignSelf: "center", paddingTop: 14, paddingBottom: 2, display: "flex", justifyContent: "center" } }, /*#__PURE__*/
   React.createElement("button", {
@@ -10179,19 +10357,28 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   /*#__PURE__*/React.createElement("div", { key: "footer", style: {
       flexShrink: 0,
       position: "relative",
-      minHeight: 96,
+      minHeight: 104,
       marginLeft: 16,
       marginRight: 16,
       marginBottom: `max(22px, env(safe-area-inset-bottom, 18px))`
     } }, [
-  /*#__PURE__*/React.createElement("button", { key: "start-from-rest", type: "button", className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn", onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();}, style: {
+  /*#__PURE__*/React.createElement("div", { key: "rest-actions", style: {
       position: "absolute",
       top: 0,
       left: 0,
       right: 0,
+      display: "flex",
+      gap: 8,
+      flexWrap: "nowrap",
+      alignItems: "stretch",
+      minHeight: 56,
+      opacity: phase === "rest" && cur && !guidedTransitioning ? 1 : 0,
+      pointerEvents: phase === "rest" && cur && !guidedTransitioning ? "auto" : "none"
+    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn", onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();}, style: {
+      flex: 2,
+      minWidth: 0,
       minHeight: 56,
       height: 56,
-      minWidth: 0,
       borderRadius: 999,
       background: gA,
       border: nightMode ? "1px solid #FF3B30" : "none",
@@ -10203,11 +10390,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       letterSpacing: "0.2em",
       textTransform: "uppercase",
       cursor: "pointer",
-      boxShadow: !isNight && !isDark ? "0 0 20px rgba(0, 122, 255, 0.38)" : `0 0 20px ${ct.accentGlow}`,
-      opacity: phase === "rest" && cur && !guidedTransitioning ? 1 : 0,
-      pointerEvents: phase === "rest" && cur && !guidedTransitioning ? "auto" : "none"
-    } }, "START"),
-  /*#__PURE__*/React.createElement("div", { key: "exercise-actions", style: { position: "absolute", top: 0, left: 0, right: 0, display: "flex", gap: 12, flexWrap: "nowrap", minHeight: 56, opacity: phase === "exercise" && cur ? 1 : 0, pointerEvents: phase === "exercise" && cur ? "auto" : "none" } }, /*#__PURE__*/
+      boxShadow: !isNight && !isDark ? "0 0 20px rgba(0, 122, 255, 0.38)" : `0 0 20px ${ct.accentGlow}`
+    } }, "START")),
+  /*#__PURE__*/React.createElement("div", { key: "exercise-actions", style: { position: "absolute", top: 0, left: 0, right: 0, display: "flex", gap: 8, flexWrap: "nowrap", minHeight: 56, opacity: phase === "exercise" && cur ? 1 : 0, pointerEvents: phase === "exercise" && cur ? "auto" : "none" } }, /*#__PURE__*/
+  guidedPrevFooterButton(), /*#__PURE__*/
   React.createElement("button", { type: "button", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setPaused((p) => !p);}, style: {
       flex: 1,
       minWidth: 0,
@@ -10240,14 +10426,23 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       cursor: "pointer",
       boxShadow: !isNight && !isDark ? "0 0 16px rgba(0, 122, 255, 0.35)" : `0 0 16px ${ct.accentGlow}`
     } }, "NEXT \u2192")),
-  /*#__PURE__*/React.createElement("button", { key: "start-exercise", type: "button", className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn", onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);setPhase("rest");}, style: {
+  /*#__PURE__*/React.createElement("div", { key: "instruction-actions", style: {
       position: "absolute",
       top: 0,
       left: 0,
       right: 0,
+      display: "flex",
+      gap: 8,
+      flexWrap: "nowrap",
+      alignItems: "stretch",
+      minHeight: 56,
+      opacity: phase === "instruction" ? 1 : 0,
+      pointerEvents: phase === "instruction" ? "auto" : "none"
+    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn", onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);setPhase("rest");}, style: {
+      flex: 2,
+      minWidth: 0,
       minHeight: 56,
       height: 56,
-      minWidth: 0,
       borderRadius: 999,
       background: gA,
       border: nightMode ? "1px solid #FF3B30" : "none",
@@ -10259,11 +10454,37 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       letterSpacing: "0.2em",
       textTransform: "uppercase",
       cursor: "pointer",
-      boxShadow: !isNight && !isDark ? "0 0 20px rgba(0, 122, 255, 0.38)" : `0 0 20px ${ct.accentGlow}`,
-      opacity: phase === "instruction" ? 1 : 0,
-      pointerEvents: phase === "instruction" ? "auto" : "none"
-    } }, "START EXERCISE"),
-  /*#__PURE__*/React.createElement("div", { key: "skip", style: { position: "absolute", left: 0, right: 0, bottom: 0, height: 20, display: "flex", justifyContent: "center", alignItems: "center" } }, /*#__PURE__*/
+      boxShadow: !isNight && !isDark ? "0 0 20px rgba(0, 122, 255, 0.38)" : `0 0 20px ${ct.accentGlow}`
+    } }, "START EXERCISE")),
+  /*#__PURE__*/React.createElement("div", { key: "skip", style: {
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: 0,
+      minHeight: 22,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: guidedSkipFooterHint ? "space-between" : "center",
+      alignItems: "flex-start",
+      gap: 10,
+      paddingLeft: 2,
+      paddingRight: 2,
+      boxSizing: "border-box"
+    } }, guidedSkipFooterHint ? /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "var(--font-meta)",
+        fontSize: 10,
+        fontWeight: 400,
+        letterSpacing: "0.04em",
+        color: D,
+        lineHeight: 1.3,
+        flex: "1 1 0%",
+        minWidth: 0,
+        opacity: 0.92,
+        paddingRight: 8,
+        paddingTop: 1
+      }
+    }, guidedSkipFooterHint) : null, /*#__PURE__*/
   React.createElement("button", { type: "button", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);handleSkip();}, style: {
       background: "none",
       border: "none",
@@ -10274,7 +10495,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       fontWeight: 500,
       letterSpacing: "0.16em",
       textTransform: "uppercase",
-      opacity: 0.74
+      opacity: 0.74,
+      flexShrink: 0,
+      whiteSpace: "nowrap",
+      paddingTop: 1
     } }, "SKIP EXERCISE"))])]) : null;
 
   // No exercises: show message and exit (avoids cur.id / cur.name access on undefined)
@@ -10315,7 +10539,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 
 
     React.createElement("div", { className: "app-hdr-topbar app-hdr-topbar--spread" }, /*#__PURE__*/
-    React.createElement("button", { ref: guidedCloseBtnRef, type: "button", onClick: onExit, "aria-label": "Back", style: {
+    React.createElement("div", { style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        flexShrink: 0,
+        minWidth: 0
+      } }, /*#__PURE__*/
+    React.createElement("button", { ref: guidedCloseBtnRef, type: "button", onClick: exitGuidedIfConfirmed, "aria-label": "Leave guided session", style: {
         display: "flex", alignItems: "center", justifyContent: "center",
         width: 40, height: 40, borderRadius: "50%",
         border: `1px solid ${isNight ? "#FF3B30" : isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)"}`,
@@ -10324,7 +10555,22 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       } }, /*#__PURE__*/
     React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
     React.createElement("path", { d: "M19 12H5M12 5l-7 7 7 7" }))
-    ),
+    ), /*#__PURE__*/
+    React.createElement("span", {
+      style: {
+        fontFamily: "var(--font-meta)",
+        fontSize: 10,
+        fontWeight: 600,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        color: D,
+        whiteSpace: "nowrap",
+        maxWidth: 56,
+        overflow: "hidden",
+        textOverflow: "ellipsis"
+      },
+      "aria-hidden": true
+    }, "Leave")),
     phase !== "intro" && phase !== "closing" && listTotal > 0 && (phase === "instruction" || phase === "rest" || phase === "exercise")
     ? React.createElement("div", { style: {
         flex: 1,
@@ -10488,7 +10734,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     sec === 60 ? "1 min" : `${sec} sec`
     ))), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, opacity: 0.92, maxWidth: 320, lineHeight: 1.5, marginTop: 16, marginBottom: 14, textAlign: "center" } }, "No equipment? You can modify \u2014 use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion."), /*#__PURE__*/
-    React.createElement("button", { className: (isNight ? "guided-cta-fill ultra-filled-btn " : "ultra-filled-btn ") + "axis-session-primary-cta", onClick: () => {primeAudio();beep(880, 0.3);triggerHaptic(HAPTIC_LIGHT_TAP);setPaused(false);goToPrepPhase();}, style: {
+    React.createElement("button", { className: (isNight ? "guided-cta-fill ultra-filled-btn " : "ultra-filled-btn ") + "axis-session-primary-cta", onClick: () => {primeAudio();beep(880, 0.3);triggerHaptic(HAPTIC_LIGHT_TAP);setPaused(false);goToPrepPhaseAt(0);}, style: {
         padding: "14px 48px", borderRadius: 999, cursor: "pointer",
         background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : guidedFilledText,
         WebkitTextFillColor: isNight ? "#000000" : guidedFilledText,
@@ -10554,7 +10800,72 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         textTransform: "uppercase",
         cursor: "pointer"
       }
-    }, "Done"))) : null
+    }, "Done"))) : null,
+    leaveConfirmOpen ? /*#__PURE__*/React.createElement("div", {
+      className: "guided-leave-dialog-backdrop",
+      role: "presentation",
+      onClick: () => setLeaveConfirmOpen(false)
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "guided-leave-dialog-panel",
+      role: "dialog",
+      "aria-modal": "true",
+      "aria-labelledby": "guided-leave-title",
+      onClick: (e) => e.stopPropagation(),
+      style: { display: "flex", flexDirection: "column", gap: 14 }
+    }, /*#__PURE__*/React.createElement("div", { id: "guided-leave-title", style: {
+        fontFamily: "var(--font-display)",
+        fontSize: "var(--text-lg)",
+        fontWeight: 600,
+        color: W,
+        lineHeight: 1.28,
+        textAlign: "center"
+      } }, "Leave this guided session?"), /*#__PURE__*/React.createElement("div", { style: {
+        fontSize: "var(--text-sm)",
+        color: S,
+        lineHeight: 1.5,
+        textAlign: "center"
+      } }, "You can start guided again anytime."), /*#__PURE__*/React.createElement("div", { style: {
+        display: "flex",
+        flexDirection: "row",
+        gap: 10,
+        marginTop: 2
+      } }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setLeaveConfirmOpen(false);},
+      style: {
+        flex: 1,
+        minHeight: 48,
+        borderRadius: 999,
+        border: `1px solid ${gA}`,
+        background: "transparent",
+        color: gA,
+        fontFamily: "var(--font-display)",
+        fontSize: "var(--text-xs)",
+        fontWeight: 600,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        cursor: "pointer"
+      }
+    }, "Stay"), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn",
+      onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setLeaveConfirmOpen(false);onExit();},
+      style: {
+        flex: 1,
+        minHeight: 48,
+        borderRadius: 999,
+        background: gA,
+        border: nightMode ? "1px solid #FF3B30" : "none",
+        color: isNight ? "#000000" : guidedFilledText,
+        WebkitTextFillColor: isNight ? "#000000" : guidedFilledText,
+        fontFamily: "var(--font-display)",
+        fontSize: "var(--text-xs)",
+        fontWeight: 600,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        cursor: "pointer"
+      }
+    }, "Leave")))) : null
     ));
 
 }

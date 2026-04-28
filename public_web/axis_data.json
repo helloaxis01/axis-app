@@ -106,71 +106,71 @@
             },
             {
               "id": "4-R",
-              "name": "Arm Circles - Right Arm",
+              "name": "Arm Circles - Forwards",
               "start": "Stand tall with your feet apart.",
-              "sub": "Fwd & Bwd · Small to Large",
+              "sub": "Small to Large",
               "type": "flow",
               "seconds": 45,
-              "reps": "10 each direction",
+              "reps": "10 forward",
               "steps": [
                 {
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Make small controlled circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down."
+                  "cue": "Reach your right arm straight out to the side at shoulder height. Shoulders relaxed down."
                 },
                 {
                   "pos": "B",
                   "label": "Forward Circles",
                   "focus": "FORWARD",
-                  "cue": "Reverse direction. Same progression, small to large. Slight squeeze of shoulder blades on the back swing."
+                  "cue": "Make small controlled circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down."
                 },
                 {
                   "pos": "C",
-                  "label": "Backward Circles",
-                  "focus": "BACKWARD",
-                  "cue": "Keep shoulders away from your ears throughout both directions."
+                  "label": "Full Range",
+                  "focus": "FORWARD",
+                  "cue": "Continue forward circles with an easy rhythm. Slight squeeze of shoulder blades on the back phase."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
               "position": "Stand tall with your feet apart.",
               "next": "Reach your right arm straight out to the side at shoulder height.",
-              "then": "Move your right arm in slow circles forward. Make the circles bigger as you go. Do 10 times.",
-              "tip": "Switch directions. Move your arm in slow circles backward 10 times."
+              "then": "Move your right arm in slow circles forward only. Start small and grow the circles. Do 10 reps.",
+              "tip": "Stay in the forward direction the whole time; increase range gradually."
             },
             {
               "id": "4-L",
-              "name": "Arm Circles - Left Arm",
+              "name": "Arm Circles - Backwards",
               "start": "Stand tall with your feet apart.",
-              "sub": "Fwd & Bwd · Small to Large",
+              "sub": "Small to Large",
               "type": "flow",
               "seconds": 45,
-              "reps": "10 each direction",
+              "reps": "10 backward",
               "steps": [
                 {
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Make small controlled circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down."
+                  "cue": "Reach your left arm straight out to the side at shoulder height. Shoulders relaxed down."
                 },
                 {
                   "pos": "B",
-                  "label": "Forward Circles",
-                  "focus": "FORWARD",
-                  "cue": "Reverse direction. Same progression, small to large. Slight squeeze of shoulder blades on the back swing."
+                  "label": "Backward Circles",
+                  "focus": "BACKWARD",
+                  "cue": "Make small controlled circles moving backward. Gradually increase to full arm sweeps. Keep shoulders down."
                 },
                 {
                   "pos": "C",
-                  "label": "Backward Circles",
+                  "label": "Full Range",
                   "focus": "BACKWARD",
-                  "cue": "Keep shoulders away from your ears throughout both directions."
+                  "cue": "Continue backward circles with an easy rhythm. Keep shoulders away from your ears."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
               "position": "Stand tall with your feet apart.",
               "next": "Reach your left arm straight out to the side at shoulder height.",
-              "then": "Move your left arm in slow circles forward. Make the circles bigger as you go. Do 10 times.",
-              "tip": "Switch directions. Move your arm in slow circles backward 10 times."
+              "then": "Move your left arm in slow circles backward only. Start small and grow the circles. Do 10 reps.",
+              "tip": "Stay in the backward direction the whole time; increase range gradually."
             }
           ]
         },
