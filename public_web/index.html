@@ -29,7 +29,7 @@
   <title>AXIS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@500&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./onboarding.css" />
   <style>
     :root {
@@ -38,6 +38,7 @@
       --font-body: var(--font-ui);
       --font-meta: var(--font-ui);
       --font-editorial: 'Lora', Georgia, 'Times New Roman', serif;
+      --font-roboto-mono: 'Roboto Mono', ui-monospace, monospace;
       --text-xs: 12px;
       --text-sm: 14px;
       --text-base: 16px;
@@ -78,6 +79,11 @@
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
   <script src="auth-bundle.js"></script>
+  <script>
+  /* Supabase: paste anon key (Dashboard → Project Settings → API) to enable cloud favorites and REST ping for project activity. */
+  window.AXIS_SUPABASE_URL = window.AXIS_SUPABASE_URL || "https://gndgtmwuxsotqgdwbata.supabase.co";
+  window.AXIS_SUPABASE_ANON_KEY = window.AXIS_SUPABASE_ANON_KEY || "sb_publishable_0oSSNdUlLJdZfdwga7zJeg_2rGnpBR7";
+  </script>
   <!-- Babel standalone removed for production builds; app is precompiled in dist/ -->
   <script>
     // Workout content is loaded asynchronously from ./axis_data.json (see bootstrapAxisApp at end of app script).
@@ -898,6 +904,76 @@ function storageSet(key, val) {
   try {localStorage.setItem(key, JSON.stringify(val));} catch {}
 }
 
+/** Library favorites: scoped by Firebase uid when present, else local device key. */
+function axisLibraryFavStorageKey() {
+  const u = axisActiveUidForStorage();
+  if (u) return "axis_lib_fav_tracks:" + u;
+  return "axis_lib_fav_tracks_local";
+}
+function axisLoadLibraryFavoritesFromStorage() {
+  const raw = storageGet(axisLibraryFavStorageKey(), []);
+  return Array.isArray(raw) ? raw.map((id) => (id == null ? "" : String(id))).filter((id) => id) : [];
+}
+
+function axisSupabaseRestHeaders() {
+  const k = typeof window !== "undefined" && window.AXIS_SUPABASE_ANON_KEY;
+  if (!k) return null;
+  return {
+    apikey: k,
+    Authorization: "Bearer " + k,
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  };
+}
+/** Lightweight GET to keep the Supabase project active; no auth required. */
+function axisSupabaseProjectPing() {
+  const h = axisSupabaseRestHeaders();
+  if (!h) return Promise.resolve(false);
+  const base = (window.AXIS_SUPABASE_URL || "https://gndgtmwuxsotqgdwbata.supabase.co").replace(/\/$/, "");
+  const u = new URL(base + "/rest/v1/user_favorites");
+  u.searchParams.set("select", "track_id");
+  u.searchParams.set("limit", "1");
+  return fetch(u.toString(), { method: "GET", headers: h, cache: "no-store" }).then((r) => r.ok).catch(() => false);
+}
+function axisSupabaseFavoritesSelect(uid) {
+  const h = axisSupabaseRestHeaders();
+  if (!h || !uid) return Promise.resolve([]);
+  const base = (window.AXIS_SUPABASE_URL || "https://gndgtmwuxsotqgdwbata.supabase.co").replace(/\/$/, "");
+  const u = new URL(base + "/rest/v1/user_favorites");
+  u.searchParams.set("user_id", "eq." + uid);
+  u.searchParams.set("select", "track_id,created_at");
+  u.searchParams.set("order", "created_at.desc");
+  return fetch(u.toString(), { method: "GET", headers: h, cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : []))
+    .then((rows) => (Array.isArray(rows) ? rows.map((x) => x && x.track_id).filter((id) => id) : []))
+    .catch(() => []);
+}
+function axisSupabaseFavoriteInsert(uid, trackId) {
+  const h = axisSupabaseRestHeaders();
+  if (!h || !uid) return Promise.resolve(false);
+  const base = (window.AXIS_SUPABASE_URL || "https://gndgtmwuxsotqgdwbata.supabase.co").replace(/\/$/, "");
+  return fetch(base + "/rest/v1/user_favorites", {
+    method: "POST",
+    headers: { ...h, Prefer: "return=minimal" },
+    body: JSON.stringify({ user_id: uid, track_id: String(trackId) })
+  }).then((r) => r.ok).catch(() => false);
+}
+function axisSupabaseFavoriteDelete(uid, trackId) {
+  const h = axisSupabaseRestHeaders();
+  if (!h || !uid) return Promise.resolve(false);
+  const base = (window.AXIS_SUPABASE_URL || "https://gndgtmwuxsotqgdwbata.supabase.co").replace(/\/$/, "");
+  const u = new URL(base + "/rest/v1/user_favorites");
+  u.searchParams.set("user_id", "eq." + uid);
+  u.searchParams.set("track_id", "eq." + String(trackId));
+  return fetch(u.toString(), { method: "DELETE", headers: h }).then((r) => r.ok).catch(() => false);
+}
+
+function AxisStarIcon({ on, size }) {
+  return /*#__PURE__*/React.createElement("svg", { width: size || 16, height: size || 16, viewBox: "0 0 24 24", fill: on ? "currentColor" : "none", stroke: "currentColor", strokeWidth: 1.65, "aria-hidden": true },
+  /*#__PURE__*/React.createElement("path", { d: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" })
+  );
+}
+
 /** First whitespace-delimited token (given name) for greetings. */
 function axisWelcomeFirstName(full) {
   if (full == null || typeof full !== "string") return "";
@@ -1077,6 +1153,7 @@ const css = `
     --axis-radius: 12px;
     --app-white: var(--axis-white);
     --app-black: var(--axis-black);
+    --font-roboto-mono: 'Roboto Mono', ui-monospace, monospace;
     --mood-accent: var(--accent, #FF9F43);
     --mood-color: var(--accent, #FF9F43);
     --bg-app: var(--bg-gradient, #080d18);
@@ -7962,7 +8039,89 @@ const css = `
   }
 
   /* ── HOME ── */
-  .home { min-height:100vh; position:relative; z-index:1; }
+  .home {
+    min-height:100vh;
+    position:relative;
+    z-index:1;
+    background:transparent;
+  }
+  .home .glass-label,
+  .home .home-recent-sub,
+  .home .home-recent-dur,
+  .home .track-card-sub,
+  .home .track-card-dur,
+  .home .track-card-purpose,
+  .home .home-mine-all-toggle,
+  .home .home-favorites-label,
+  .home .home-recent-label {
+    font-family: var(--font-roboto-mono), var(--font-meta);
+    font-weight: 500;
+  }
+  .home-mine-all-toggle {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    padding:12px var(--page-gutter) 16px;
+    box-sizing:border-box;
+  }
+  .home-mine-all-toggle__pill {
+    display:flex;
+    flex-direction:row;
+    align-items:stretch;
+    width:100%;
+    max-width:320px;
+    border-radius:999px;
+    padding:3px;
+    box-sizing:border-box;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    gap:0;
+  }
+  .home-mine-all-toggle__btn {
+    flex:1;
+    min-width:0;
+    background:transparent;
+    border:none;
+    margin:0;
+    padding:10px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    font-family: var(--font-roboto-mono), var(--font-meta);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color: color-mix(in srgb, var(--text-dim) 85%, transparent);
+    transition:background 0.18s ease,color 0.18s ease;
+  }
+  .home-mine-all-toggle__btn--on {
+    color: var(--text-white, #f6f7f8);
+    background:rgba(255,255,255,0.14);
+    box-shadow:0 1px 0 rgba(255,255,255,0.06);
+  }
+  .axis-track-card-star {
+    flex-shrink:0;
+    width:40px;
+    min-width:40px;
+    min-height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    background:transparent;
+    border:none;
+    border-radius:10px;
+    color: color-mix(in srgb, var(--text-dim) 80%, transparent);
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .axis-track-card-star--on { color: #ffd65c; }
+  .home-recent-row { display:flex; flex-direction:row; align-items:stretch; gap:6px; width:100%; }
+  .home-recent-row .home-recent-card { flex:1; min-width:0; }
+  .home-browse-sticky--all-only .home-browse-heading { display:none; }
+  .home-favorites-label { font-size:var(--text-base); letter-spacing:-0.02em; text-transform:none; color:var(--text-white); margin:0 0 4px; padding:0 0 0; font-weight:600; }
   .home-hdr { padding: var(--safe-top) var(--page-padding) 0; max-width:100%; }
   .home-wordmark {
     font-size: var(--text-xl); font-weight:700; letter-spacing:-0.02em; text-transform:uppercase; font-family: var(--font-display);
@@ -8034,6 +8193,23 @@ const css = `
     backdrop-filter:blur(20px) saturate(1.35);
     -webkit-backdrop-filter:blur(20px) saturate(1.35);
     border-bottom:1px solid var(--border);
+  }
+  /* Today tab: movement tiles mount here so they stay visible (not lost in scroll body) */
+  .dashboard-header__below {
+    width:100%;
+    box-sizing:border-box;
+    padding:4px var(--page-gutter) 12px;
+    margin:0;
+    border-top:1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  }
+  .dashboard-header__below .home-dashboard-glance-wrap {
+    padding-left:0;
+    padding-right:0;
+    margin-bottom:0;
+    z-index:auto;
+  }
+  .app-body > .dashboard-header.dashboard-header--has-subrow + .home {
+    padding-top:calc(var(--axis-dashboard-fixed-h) + clamp(124px, 34vw, 168px));
   }
   .dashboard-header__row {
     display:grid;
@@ -8188,6 +8364,169 @@ const css = `
     padding-top:0;
     padding-bottom:0;
     margin-bottom:0;
+  }
+  /* Today tab — compact dashboard strip (tap opens Metrics); lives directly under .home so it cannot be clipped */
+  .home-dashboard-glance-wrap {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 4;
+  }
+  .home-dashboard-glance__heading {
+    margin: 0 0 10px;
+    padding: 0;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-family: var(--font-ui);
+    color: color-mix(in srgb, var(--text-secondary) 88%, transparent);
+    border: none;
+    background: transparent;
+  }
+  .app[data-night="true"] .home-dashboard-glance__heading {
+    color: rgba(255, 59, 48, 0.85);
+  }
+  .home-dashboard-glance {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    min-height: 104px;
+  }
+  .home-dashboard-glance__tile {
+    margin: 0;
+    padding: 12px 10px 12px;
+    border-radius: 16px;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+    min-width: 0;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 88%, transparent);
+    background: color-mix(in srgb, var(--glass-bg) 92%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 55%, transparent), 0 6px 18px rgba(0, 0, 0, 0.12);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .home-dashboard-glance__tile:hover {
+    border-color: color-mix(in srgb, var(--home-dash-accent, var(--accent)) 35%, var(--glass-border));
+    background: color-mix(in srgb, var(--glass-bg-hover) 88%, transparent);
+  }
+  .home-dashboard-glance__tile:active {
+    transform: scale(0.98);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-dashboard-glance__tile {
+    background: color-mix(in srgb, #ffffff 78%, transparent);
+    border-color: color-mix(in srgb, var(--border) 65%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 8px 22px rgba(15, 30, 46, 0.08);
+  }
+  .app[data-night="true"] .home-dashboard-glance__tile {
+    border-color: rgba(255, 59, 48, 0.38);
+    background: rgba(28, 5, 5, 0.92);
+    box-shadow: inset 0 1px 0 rgba(255, 59, 48, 0.12), 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+  .home-dashboard-glance__label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: var(--font-ui);
+    color: color-mix(in srgb, var(--text-secondary) 92%, transparent);
+    margin: 0 0 6px;
+  }
+  .app[data-night="true"] .home-dashboard-glance__label {
+    color: rgba(255, 59, 48, 0.72);
+  }
+  .home-dashboard-glance__metric {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 5px;
+    margin: 0 0 6px;
+    min-height: 30px;
+  }
+  .home-dashboard-glance__metric--solo {
+    gap: 5px;
+    align-items: baseline;
+  }
+  .home-dashboard-glance__num {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 5vw, 24px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--home-dash-accent, var(--accent));
+  }
+  .app[data-night="true"] .home-dashboard-glance__num {
+    color: #ff3b30;
+  }
+  .home-dashboard-glance__denom {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.5;
+    letter-spacing: -0.02em;
+  }
+  .app[data-night="true"] .home-dashboard-glance__denom {
+    opacity: 0.65;
+  }
+  .home-dashboard-glance__unit {
+    font-family: var(--font-meta);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    align-self: flex-end;
+    padding-bottom: 1px;
+  }
+  .home-dashboard-glance__suffix {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.72;
+    letter-spacing: -0.02em;
+  }
+  .app[data-night="true"] .home-dashboard-glance__suffix {
+    opacity: 0.85;
+  }
+  .home-dashboard-glance__progress {
+    height: 3px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--text-dim) 22%, transparent);
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .app[data-night="true"] .home-dashboard-glance__progress {
+    background: rgba(255, 59, 48, 0.22);
+  }
+  .home-dashboard-glance__progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--home-dash-accent, var(--accent));
+    transition: width 0.35s ease;
+  }
+  .app[data-night="true"] .home-dashboard-glance__progress-fill {
+    background: #ff3b30;
+  }
+  .home-dashboard-glance__sub {
+    font-family: var(--font-roboto-mono), var(--font-meta);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    opacity: 0.62;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .app[data-night="true"] .home-dashboard-glance__sub {
+    opacity: 0.78;
   }
   /* Summary: --top zeroes padding; restore deep bottom inset so last blocks scroll above fixed tab bar */
   .home .track-cards-outer.home-track-cards-outer--top.home-track-cards-outer--summary {
@@ -8559,6 +8898,89 @@ const css = `
   .track-card:active { transform:scale(0.98); }
   .track-card-left { flex:1; min-width:0; width:100%; }
   .track-card-name { font-size: var(--text-lg); font-weight:700; color:var(--text-white); margin-bottom:6px; letter-spacing:-0.02em; }
+  .home .track-card-title-actions-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+    box-sizing: border-box;
+  }
+  .home .track-card-title-actions-row .track-card-name {
+    margin-bottom: 0;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+  }
+  .home .track-card-meta-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+  }
+  .home .track-card-meta-row .track-card-dur {
+    margin-bottom: 0;
+  }
+  .track-card-begin-inline {
+    padding: 8px 16px !important;
+    letter-spacing: 0.14em !important;
+    margin: 0;
+  }
+  .today-card__hero-title-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+  }
+  .today-card__period-heading {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    flex: 1;
+    min-width: 0;
+  }
+  .today-card__track-title-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+  }
+  .today-card__track-label {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+  }
+  .begin-btn--today-inline {
+    width: auto !important;
+    min-width: auto !important;
+    align-self: center;
+    margin: 0 !important;
+  }
   .track-card-sub { font-size: var(--text-sm); color:var(--accent-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; line-height:1.4; }
   .track-card-sub .glass-label {
     background: none;
@@ -9369,34 +9791,49 @@ function MomentumMap({ history, nightMode = false, theme = "dark", compact = fal
 // ─────────────────────────────────────────────────────────────
 //  DASHBOARD HEADER (global: progress + AXIS + streak)
 // ─────────────────────────────────────────────────────────────
-function DashboardHeader({ progressFillPct = 0, progressOverdrive = false, history = [] }) {
+function DashboardHeader({ progressFillPct = 0, progressOverdrive = false, history = [], belowRow = null }) {
   const pct = Math.max(0, Math.min(100, Number(progressFillPct) || 0));
   const { active } = axisWeekMomentumFromHistory(history);
   const activeCount = active.filter(Boolean).length;
-  return /*#__PURE__*/React.createElement("header", { className: "dashboard-header", role: "banner" }, /*#__PURE__*/
-  React.createElement("div", { className: "dashboard-header__row" }, /*#__PURE__*/
+  const hasSubrow = belowRow != null;
+  const progressRow = /*#__PURE__*/React.createElement("div", { className: "dashboard-header__row" }, /*#__PURE__*/
   React.createElement("div", { className: "dashboard-header__left" }, /*#__PURE__*/
-  React.createElement("div", { className: "dashboard-header__progress-track", role: "progressbar", "aria-valuenow": Math.round(pct), "aria-valuemin": 0, "aria-valuemax": 100, "aria-label": "Daily goal progress" }, /*#__PURE__*/
-  React.createElement("div", { className: "dashboard-header__progress-fill" + (progressOverdrive ? " dashboard-header__progress-fill--overdrive" : ""), style: { width: pct + "%" } })
-  )
+  React.createElement("div", {
+    className: "dashboard-header__progress-track",
+    role: "progressbar",
+    "aria-valuenow": Math.round(pct),
+    "aria-valuemin": 0,
+    "aria-valuemax": 100,
+    "aria-label": "Daily goal progress"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dashboard-header__progress-fill" + (progressOverdrive ? " dashboard-header__progress-fill--overdrive" : ""),
+    style: { width: pct + "%" }
+  }))
   ), /*#__PURE__*/
   React.createElement("div", { className: "dashboard-header__brand", "aria-label": "AXIS" }, "AXIS"), /*#__PURE__*/
-  React.createElement("div", { className: "dashboard-header__right", role: "img", "aria-label": `${activeCount} of 7 days with activity` },
-  Array.from({ length: 7 }, (_, i) => /*#__PURE__*/
   React.createElement("div", {
+    className: "dashboard-header__right",
+    role: "img",
+    "aria-label": `${activeCount} of 7 days with activity`
+  }, /*#__PURE__*/Array.from({ length: 7 }, (_, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     className: "dashboard-header__streak-cell" + (active[i] ? " dashboard-header__streak-cell--on" : "")
-  })
-  )
-  )
-  )
-  );
+  }))
+  ));
+
+  return /*#__PURE__*/React.createElement("header", {
+    className: "dashboard-header" + (hasSubrow ? " dashboard-header--has-subrow" : ""),
+    role: "banner"
+  }, progressRow, hasSubrow ? /*#__PURE__*/React.createElement("div", {
+    className: "dashboard-header__below",
+    id: "axis-dashboard-home-glance-slot"
+  }, belowRow) : null);
 }
 
 // ─────────────────────────────────────────────────────────────
 //  TAB BAR
 // ─────────────────────────────────────────────────────────────
-function TabBar({ view, setView, theme, nightMode = false }) {
+function TabBar({ view, setView, theme, nightMode = false, onHomePress }) {
   const HomeIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" }));
   const MetricsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("polyline", { points: "8 12.5 11 15.5 16.5 9" }));
   const MoodIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "5" }));
@@ -9409,7 +9846,7 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   React.createElement("button", {
     type: "button",
     className: `tab-btn ${view === "home" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("home");},
+    onClick: () => {axisHapticTick(); if (typeof onHomePress === "function") onHomePress(); else setView("home");},
     "aria-label": "Home",
     "aria-current": view === "home" ? "page" : undefined }, /*#__PURE__*/
 
@@ -10566,7 +11003,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
 // ─────────────────────────────────────────────────────────────
 //  TIMER VIEW — standalone interval timer
 // ─────────────────────────────────────────────────────────────
-function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null, dashboardHeader = null }) {
+function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null, dashboardHeader = null, onHomePress }) {
   const [mode, setMode] = useState("interval"); // "interval" | "breathe"
   // derive dark flag early so all uses below are safe
   const isDark = typeof nightMode === "boolean" && nightMode || theme === "dark";
@@ -11998,7 +12435,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     )
     )
     ), /*#__PURE__*/
-    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onHomePress: onHomePress })
     ));
 
 }
@@ -13162,6 +13599,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const prevTabRef = useRef(tab);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
+  const [homeLibTab, setHomeLibTab] = useState(() => (storageGet("axis_home_lib_tab", "mine") === "all" ? "all" : "mine"));
+  const [userLibraryFavoriteIds, setUserLibraryFavoriteIds] = useState(() => axisLoadLibraryFavoritesFromStorage());
   /** Prevents double-counting if an exercise is toggled off/on in one session; cleared in beginTrack */
   const sessionExerciseLoggedRef = useRef(/* @__PURE__ */ new Set());
   const [recentTracks, setRecentTracks] = useState(() => {
@@ -13421,6 +13860,19 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
   useEffect(() => {storageSet("axis_notes", notes);}, [notes]);
+  useEffect(() => {storageSet("axis_home_lib_tab", homeLibTab);}, [homeLibTab]);
+  useEffect(() => {try {storageSet(axisLibraryFavStorageKey(), userLibraryFavoriteIds);} catch (e) {}}, [userLibraryFavoriteIds]);
+  useEffect(() => {
+    axisSupabaseProjectPing();
+    const uid = axisActiveUidForStorage();
+    if (!uid || !window.AXIS_SUPABASE_ANON_KEY) return;
+    let cancelled = false;
+    axisSupabaseFavoritesSelect(uid).then((ids) => {
+      if (cancelled || !ids || !ids.length) return;
+      setUserLibraryFavoriteIds((prev) => [...new Set([...prev, ...ids])]);
+    });
+    return () => { cancelled = true; };
+  }, []);
   useEffect(() => {storageSet("axis_recent_tracks", recentTracks);}, [recentTracks]);
   // If recents are empty or only invalid ids (e.g. track id renames) but history has trackId, backfill from history.
   useEffect(() => {
@@ -13506,6 +13958,22 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     setHasActiveSession(true);
     setView("home");
   };
+  const toggleLibraryFavorite = (trackId) => {
+    const tid = trackId == null || trackId === "" ? "" : String(trackId);
+    if (!tid || !TRACKS || !TRACKS[tid]) return;
+    triggerHaptic(HAPTIC_LIGHT_TAP);
+    const uid = axisActiveUidForStorage();
+    setUserLibraryFavoriteIds((prev) => {
+      const wasOn = prev.indexOf(tid) >= 0;
+      const next = wasOn ? prev.filter((x) => x !== tid) : [...prev, tid];
+      try {storageSet(axisLibraryFavStorageKey(), next);} catch (e) {}
+      if (uid) {
+        if (wasOn) axisSupabaseFavoriteDelete(uid, tid);
+        else axisSupabaseFavoriteInsert(uid, tid);
+      }
+      return next;
+    });
+  };
   const goHome = () => {setHasActiveSession(false);setView("home");setTab("list");};
   const playBeep = (freq = 880) => beep(freq);
   const formatTime = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -13526,7 +13994,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const weeklyGoalDisplayPct = weeklyTargetMin > 0 ? Math.round(weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
   const weeklyBarFillPct = weeklyTargetMin > 0 ? Math.min(100, weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
   const weeklyBarOverdrive = weeklyTargetMin > 0 && weeklyGoalBarMinutesCurrent > weeklyTargetMin;
-  const dashboardHeaderEl = /*#__PURE__*/React.createElement(DashboardHeader, { progressFillPct: dailyBarFillPct, progressOverdrive: dailyBarOverdrive, history: history });
+  const buildDashboardHeader = (belowRow) => /*#__PURE__*/React.createElement(DashboardHeader, {
+    progressFillPct: dailyBarFillPct,
+    progressOverdrive: dailyBarOverdrive,
+    history: history,
+    belowRow: belowRow != null ? belowRow : undefined
+  });
+  const dashboardHeaderEl = buildDashboardHeader(null);
   const favCount = Object.values(favs).filter(Boolean).length;
   const skippedCount = Object.values(skipped).filter(Boolean).length;
   const visibleSections = SECTIONS.map((s) => ({ ...s, exercises: s.exercises.filter((e) => {if (showFavOnly) return favs[e.id];if (showSkipOnly) return skipped[e.id];return true;}) })).filter((s) => s.exercises.length > 0);
@@ -13537,7 +14011,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // SETTINGS
   // TIMER VIEW (key forces fresh mount to avoid blank on first open)
   if (view === "timer") {
-    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
+    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl, onHomePress: goHome });
   }
   if (view === "settings") return (/*#__PURE__*/
     React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
@@ -13774,7 +14248,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       weightArchive: metricsWeightArchive,
       painArchive: metricsPainArchive
     }), /*#__PURE__*/
-    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onHomePress: goHome })
     ));
 
 
@@ -13889,7 +14363,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--mood" })
       ), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onHomePress: goHome })
       ));
 
   }
@@ -14196,7 +14670,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       , /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--metrics" })
       ), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onHomePress: goHome })
       ));
   }
 
@@ -14242,6 +14716,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     `linear-gradient(145deg, color-mix(in srgb, ${homeHighlight} 16%, #151b26) 0%, #151b26 52%, #121822 100%)`;
 
     const todayCardStyle = {
+      position: "relative",
       marginBottom: 32,
       padding: "20px var(--page-gutter) 22px",
       borderRadius: 24,
@@ -14286,6 +14761,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
+
+    const showMine = homeLibTab === "mine";
+    const showAll = homeLibTab === "all";
+    const libraryFavSet = new Set(userLibraryFavoriteIds);
+    const homeMineAllToggleEl = React.createElement("div", { className: "home-mine-all-toggle", role: "tablist", "aria-label": "Home library" }, /*#__PURE__*/
+    React.createElement("div", { className: "home-mine-all-toggle__pill" }, /*#__PURE__*/
+    React.createElement("button", { type: "button", role: "tab", className: "home-mine-all-toggle__btn" + (showMine ? " home-mine-all-toggle__btn--on" : ""), "aria-selected": showMine ? "true" : "false", onClick: () => {axisHapticTick(); setHomeLibTab("mine");} }, "MINE"),
+    React.createElement("button", { type: "button", role: "tab", className: "home-mine-all-toggle__btn" + (showAll ? " home-mine-all-toggle__btn--on" : ""), "aria-selected": showAll ? "true" : "false", onClick: () => {axisHapticTick(); setHomeLibTab("all");} }, "ALL")
+    ));
 
     const minsNow = new Date().getHours() * 60 + new Date().getMinutes();
     const nm = welcomeName.trim();
@@ -14341,9 +14825,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
             recentIdsForHome.map((id) => {
               const rt = TRACKS[id];
               const rdur = getTrackDisplayDuration(id);
+              const isF = libraryFavSet.has(id);
               return (/*#__PURE__*/
+                React.createElement("div", { key: id, className: "home-recent-row" },
                 React.createElement("button", {
-                  key: id,
                   type: "button",
                   className: "home-recent-card",
                   onClick: () => {
@@ -14355,6 +14840,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
                 React.createElement("div", { className: "home-recent-title" }, rt.label),
                 React.createElement("div", { className: "home-recent-sub" }, rt.subtitle),
                 React.createElement("div", { className: "home-recent-dur" }, rdur)
+                ),
+                React.createElement("button", {
+                  type: "button",
+                  className: "axis-track-card-star" + (isF ? " axis-track-card-star--on" : ""),
+                  "aria-pressed": isF ? "true" : "false",
+                  "aria-label": isF ? "Remove from favorites" : "Add to favorites",
+                  onClick: (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleLibraryFavorite(id);
+                  }
+                }, /*#__PURE__*/React.createElement(AxisStarIcon, { on: isF }))
                 )
               );
             })
@@ -14362,41 +14859,151 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         : React.createElement("p", { className: "home-recent-empty" }, "Start a session to see recent tracks here.")
     );
 
+    const favoriteIdsForHome = userLibraryFavoriteIds.filter((id) => TRACKS && TRACKS[id]);
+    const homeFavoritesSectionEl = React.createElement(
+      "div",
+      {
+        className: "home-recent home-favorites",
+        id: "axis-home-favorites",
+        role: "region",
+        "aria-label": "Favorite tracks"
+      },
+      React.createElement("div", { className: "home-favorites-label" }, "Favorites"),
+      favoriteIdsForHome.length > 0
+        ? React.createElement(
+            "div",
+            { className: "home-recent-strip" },
+            favoriteIdsForHome.map((id) => {
+              const rt = TRACKS[id];
+              const rdur = getTrackDisplayDuration(id);
+              return (/*#__PURE__*/
+                React.createElement("div", { key: id, className: "home-recent-row" },
+                React.createElement("button", {
+                  type: "button",
+                  className: "home-recent-card",
+                  onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP); beginTrack(id);},
+                  "aria-label": `Open ${rt.label}, ${rdur}`
+                },
+                React.createElement("div", { className: "home-recent-title" }, rt.label),
+                React.createElement("div", { className: "home-recent-sub" }, rt.subtitle),
+                React.createElement("div", { className: "home-recent-dur" }, rdur)
+                ),
+                React.createElement("button", {
+                  type: "button",
+                  className: "axis-track-card-star axis-track-card-star--on",
+                  "aria-pressed": "true",
+                  "aria-label": "Remove from favorites",
+                  onClick: (e) => {e.stopPropagation(); e.preventDefault(); toggleLibraryFavorite(id);}
+                }, /*#__PURE__*/React.createElement(AxisStarIcon, { on: true }))
+                )
+              );
+            })
+          )
+        : React.createElement("p", { className: "home-recent-empty" }, "Star tracks in All to add favorites here.")
+    );
+
+    const homeHistMerged = axisHistoryForDailyTotals(history);
+    let homeSessionsToday = 0;
+    for (const e of homeHistMerged || []) {
+      if (!e) continue;
+      if (axisLocalDateKey(e.date) !== todayDateStr) continue;
+      homeSessionsToday++;
+    }
+    const homeMovementStreak = axisMovementStreakDays(homeHistMerged);
+    const homeDashTodayAria = goalMin > 0 ?
+    `Today: ${Math.round(todayMinutesTotal)} of ${goalMin} minutes toward your daily goal. ${homeSessionsToday} session${homeSessionsToday !== 1 ? "s" : ""} today. Opens Metrics.` :
+    `Today: ${Math.round(todayMinutesTotal)} minutes logged. ${homeSessionsToday} session${homeSessionsToday !== 1 ? "s" : ""} today. Opens Metrics.`;
+    const homeDashboardGlanceEl = /*#__PURE__*/React.createElement("div", {
+      className: "home-dashboard-glance-wrap",
+      id: "axis-home-dashboard-glance",
+      role: "region",
+      "aria-label": "Movement summary"
+    }, /*#__PURE__*/
+    React.createElement("h2", { className: "home-dashboard-glance__heading" }, "Movement"), /*#__PURE__*/
+    React.createElement("div", {
+      className: "home-dashboard-glance",
+      style: { ["--home-dash-accent"]: homeHighlight }
+    }, /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "home-dashboard-glance__tile",
+      onClick: () => {axisHapticTick(); setView("metrics");},
+      "aria-label": homeDashTodayAria
+    }, /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__label" }, "Today"), /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__metric" }, /*#__PURE__*/
+    React.createElement("span", { className: "home-dashboard-glance__num" }, String(Math.max(0, Math.round(todayMinutesTotal)))), goalMin > 0 ? /*#__PURE__*/React.createElement("span", { className: "home-dashboard-glance__denom" }, `/ ${goalMin}`) : null, /*#__PURE__*/
+    React.createElement("span", { className: "home-dashboard-glance__unit" }, "min")), goalMin > 0 ? /*#__PURE__*/React.createElement("div", { className: "home-dashboard-glance__progress", "aria-hidden": true }, /*#__PURE__*/React.createElement("div", { className: "home-dashboard-glance__progress-fill", style: { width: `${dailyBarFillPct}%` } })) : null, /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__sub" }, `${homeSessionsToday} session${homeSessionsToday !== 1 ? "s" : ""} today`)), /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "home-dashboard-glance__tile",
+      onClick: () => {axisHapticTick(); setView("metrics");},
+      "aria-label": `Streak: ${homeMovementStreak} consecutive days with movement. Opens Metrics.`
+    }, /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__label" }, "Streak"), /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__metric home-dashboard-glance__metric--solo" }, /*#__PURE__*/
+    React.createElement("span", { className: "home-dashboard-glance__num" }, String(Math.max(0, homeMovementStreak))), /*#__PURE__*/
+    React.createElement("span", { className: "home-dashboard-glance__suffix" }, "days")), /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__sub" }, "in a row")), /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "home-dashboard-glance__tile",
+      onClick: () => {axisHapticTick(); setView("metrics");},
+      "aria-label": weeklyTargetMin > 0 ?
+      `This week: ${Math.round(weeklyGoalBarMinutesCurrent)} of ${weeklyTargetMin} minutes toward your weekly goal. ${weekSessionCountForWindow} sessions this week. Opens Metrics.` :
+      `This week: ${Math.round(weeklyGoalBarMinutesCurrent)} minutes. ${weekSessionCountForWindow} sessions this week. Opens Metrics.`
+    }, /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__label" }, "Week"), /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__metric" }, /*#__PURE__*/
+    React.createElement("span", { className: "home-dashboard-glance__num" }, String(Math.max(0, Math.round(weeklyGoalBarMinutesCurrent)))), weeklyTargetMin > 0 ? /*#__PURE__*/React.createElement("span", { className: "home-dashboard-glance__denom" }, `/ ${weeklyTargetMin}`) : null, /*#__PURE__*/
+    React.createElement("span", { className: "home-dashboard-glance__unit" }, "min")), weeklyTargetMin > 0 ? /*#__PURE__*/React.createElement("div", { className: "home-dashboard-glance__progress", "aria-hidden": true }, /*#__PURE__*/React.createElement("div", { className: "home-dashboard-glance__progress-fill", style: { width: `${weeklyBarFillPct}%` } })) : null, /*#__PURE__*/
+    React.createElement("div", { className: "home-dashboard-glance__sub" }, `${weekSessionCountForWindow} session${weekSessionCountForWindow !== 1 ? "s" : ""} · week`))));
+
+    const homeTodayHeroEl = /*#__PURE__*/React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top home-today-hero" }, /*#__PURE__*/
+    React.createElement("div", { className: "home-welcome", id: "axis-home-welcome" }, timeGreeting), /*#__PURE__*/
+    React.createElement("div", { className: "track-group start-here-group today-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
+    React.createElement("div", { className: "today-card__hero-title-row" }, /*#__PURE__*/
+    React.createElement("div", { className: (nightMode ? "today-card__line " : "") + "today-card__period-heading", style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, fontWeight: 700, fontFamily: "var(--font-display)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
+    React.createElement("button", {
+      className: "begin-btn begin-btn--today-primary ultra-filled-btn begin-btn--today-inline",
+      onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(todayTrack.id);},
+      style: {
+        flexShrink: 0,
+        padding: "10px 18px",
+        fontSize: "var(--text-base)",
+        fontWeight: 500,
+        letterSpacing: "0.05em",
+        ...todayBtn,
+        ["--axis-today-glow"]: homeHighlight
+      },
+      "aria-label": `Start ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}` }, "Start")), /*#__PURE__*/
+    React.createElement("div", { className: "today-card__track-title-row" }, /*#__PURE__*/
+    React.createElement("div", { className: nightMode ? "today-card__line today-card__track-label" : "today-card__track-label", style: { fontWeight: 700, fontFamily: "var(--font-display)", letterSpacing: "-0.02em", color: todayInk } }, todayTrack.label), /*#__PURE__*/
+    React.createElement("button", { type: "button", className: "axis-track-card-star", "aria-pressed": libraryFavSet.has(todayTrack.id) ? "true" : "false", "aria-label": libraryFavSet.has(todayTrack.id) ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation(); toggleLibraryFavorite(todayTrack.id);} }, /*#__PURE__*/React.createElement(AxisStarIcon, { on: libraryFavSet.has(todayTrack.id) }))), /*#__PURE__*/
+    React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 600, fontFamily: "var(--font-display)", letterSpacing: "-0.02em", color: todayInk, marginBottom: 6, fontSize: "var(--text-sm)", opacity: 0.92 } }, periodLabels[periodKey]), /*#__PURE__*/
+    React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySuggestionText), /*#__PURE__*/
+    React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.06em", marginBottom: 0 } }, getTrackDisplayDuration(todayTrack.id))
+    )
+    );
+
     return (/*#__PURE__*/
       React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
       React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
       React.createElement("div", { className: "app-body" }, /*#__PURE__*/
-      dashboardHeaderEl, /*#__PURE__*/
+      buildDashboardHeader(homeDashboardGlanceEl), /*#__PURE__*/
       React.createElement("div", { className: "home" }, /*#__PURE__*/
-      React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-welcome", id: "axis-home-welcome" }, timeGreeting), /*#__PURE__*/
-      React.createElement("div", { className: "track-group start-here-group today-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 700, fontFamily: "var(--font-display)", fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 700, fontFamily: "var(--font-display)", letterSpacing: "-0.02em", color: todayInk, marginBottom: 6 } }, periodLabels[periodKey]), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySuggestionText), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.06em", marginBottom: 18 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
-      React.createElement("button", {
-        className: "begin-btn begin-btn--today-primary ultra-filled-btn",
-        onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(todayTrack.id);},
-        style: {
-          width: "100%",
-          padding: "14px 24px",
-          fontSize: "var(--text-base)",
-          fontWeight: 500,
-          letterSpacing: "0.05em",
-          ...todayBtn,
-          ["--axis-today-glow"]: homeHighlight
-        },
-        "aria-label": `Start ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}` },
-      todayTrack.label
-      )
-      )
-      )
-      , /*#__PURE__*/
+      homeTodayHeroEl, /*#__PURE__*/
+      homeMineAllToggleEl, /*#__PURE__*/
+      showMine ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
       homeRecentSectionEl, /*#__PURE__*/
+      homeFavoritesSectionEl, /*#__PURE__*/
+      React.createElement(EolMarker, null)
+      ) : null, /*#__PURE__*/
+      showAll ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
       React.createElement("div", { className: "home-float-stack" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-browse-sticky" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-browse-sticky home-browse-sticky--all-only" }, /*#__PURE__*/
       React.createElement("div", { className: "home-browse-heading" }, "Browse"), /*#__PURE__*/
       React.createElement("div", { className: "home-category-strip-wrap" }, /*#__PURE__*/
       React.createElement("div", {
@@ -14431,15 +15038,21 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-cards" },
       g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);return (/*#__PURE__*/
           React.createElement("div", { className: "track-card session-card", key: t.id, "data-category": TRACK_CATEGORY_BY_ID[id] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
-          React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
+          React.createElement("div", { className: "track-card-title-actions-row" }, /*#__PURE__*/
           React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
+          React.createElement("button", { className: "begin-btn ultra-filled-btn track-card-begin-inline", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")), /*#__PURE__*/
+          React.createElement("div", { className: "track-card-meta-row" }, /*#__PURE__*/
+          React.createElement("div", { className: "track-card-dur" }, cardDur), /*#__PURE__*/
+          React.createElement("button", {
+            type: "button",
+            className: "axis-track-card-star" + (libraryFavSet.has(t.id) ? " axis-track-card-star--on" : ""),
+            "aria-pressed": libraryFavSet.has(t.id) ? "true" : "false",
+            "aria-label": libraryFavSet.has(t.id) ? "Remove from favorites" : "Add to favorites",
+            onClick: (e) => {e.stopPropagation(); e.preventDefault(); toggleLibraryFavorite(t.id);}
+          }, /*#__PURE__*/React.createElement(AxisStarIcon, { on: libraryFavSet.has(t.id) }))
+          ), /*#__PURE__*/
           React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
           React.createElement("div", { className: "track-card-purpose" }, t.purpose)
-          ), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-right" }, /*#__PURE__*/
-          React.createElement("div", { className: "track-card-dur" }, cardDur), /*#__PURE__*/
-          React.createElement("button", { className: "begin-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")
-          )
           ));
       })
       )
@@ -14449,10 +15062,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement(EolMarker, null)
       )
       )
+     : null
+    )
     , /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--today" })
     ), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onHomePress: goHome })
       ));
 
   }
@@ -14688,7 +15303,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--session" })
     )
     ), /*#__PURE__*/
-    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onHomePress: goHome })
     )
     ));
 
