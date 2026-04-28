@@ -2304,7 +2304,8 @@ const css = `
     overflow: hidden;
     -webkit-overflow-scrolling:touch;
     background: var(--bg-app, var(--bg-gradient));
-    background-color: var(--bg-fallback, #0a1525);
+    /* Solid fallback blocked mood gradients when combined with ::before/::after + --bg-fallback (unset) */
+    background-color: transparent;
     color:var(--text-primary);
     font-family:var(--font-ui);
     font-weight: 400;
@@ -2313,8 +2314,9 @@ const css = `
     box-sizing:border-box;
   }
   @media (prefers-reduced-motion: no-preference) {
+    /* Match Timer tab: full mood gradient shell (was flat --bg-fallback → #0a1525 and hid ::before) */
     [data-theme]:not([data-night="true"]) .app {
-      background: var(--bg-fallback, #0a1525);
+      background: var(--bg-app-a, var(--bg-app, var(--bg-gradient)));
       transition: color 0.3s ease, background var(--motion-slow), background-color var(--motion-slow);
     }
     [data-theme]:not([data-night="true"]) .app::before,
@@ -2355,13 +2357,16 @@ const css = `
   }
   .app-body { flex:1; display:flex; flex-direction:column; width:100%; position:relative; min-height:0; z-index: 1; }
   .app-orbs { position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.15; background-position: top center; background-repeat: no-repeat; }
+  .app[data-theme="light"]:not([data-night="true"]) .app-orbs {
+    opacity: 0.38;
+  }
   .app-orbs::after {
     content:''; position:absolute; inset:0; pointer-events:none;
     background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.02) 60%, transparent 100%);
   }
-  /* Light Mode: subtle white wash to keep the gradient clean (not AXIS Ultra) */
+  /* Light mode: keep mood/orbs visible (Timer reads “full color”; heavy wash flattened Today/Metrics) */
   .app[data-theme="light"]:not([data-night="true"]) .app-orbs::after {
-    background: rgba(255,255,255,0.85) !important;
+    background: linear-gradient(165deg, rgba(255,255,255,0.18) 0%, transparent 48%, rgba(255,255,255,0.06) 100%) !important;
   }
   /* Portrait lock: hide app in landscape. Exception: body.axis-media-expand-active (AXIS_BODY_CLASS_MEDIA_EXPAND_ACTIVE) while ExerciseCarousel portal enlarge is open — required for every gif/webp demo and any future non–native-fullscreen enlarge; new Baseline videos use that carousel path. */
   @media screen and (orientation: landscape) {
@@ -4016,6 +4021,7 @@ const css = `
     flex-direction: column;
     gap: 0;
     padding-bottom: 2px;
+    background: transparent;
   }
   .summary-sunset-stack.summary-sunset-stack--metrics .metrics-section {
     margin-bottom: 0;
@@ -7962,7 +7968,7 @@ const css = `
   }
 
   /* ── HOME ── */
-  .home { min-height:100vh; position:relative; z-index:1; }
+  .home { min-height:100vh; position:relative; z-index:1; background: transparent; }
   .home-hdr { padding: var(--safe-top) var(--page-padding) 0; max-width:100%; }
   .home-wordmark {
     font-size: var(--text-xl); font-weight:700; letter-spacing:-0.02em; text-transform:uppercase; font-family: var(--font-display);
@@ -9604,7 +9610,7 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
 
   // Theme-aware timer colors — use circadian accent
   const isTimerDark = nightMode || theme === "dark";
-  const timerPeriod = activePeriod || getCircadianPeriod();
+  const timerPeriod = axisResolveMoodPeriod(activePeriod);
   const timerCt = nightMode ?
   { accent: "#FF3B30", accentDim: "rgba(211, 47, 47, 0.42)" } :
   CIRCADIAN_THEMES[timerPeriod][isTimerDark ? "dark" : "light"];
@@ -9682,7 +9688,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
   const isNight = nightMode;
   const isDark = isNight || theme === "dark";
   const onExerciseDurationChange = typeof (arguments[0] && arguments[0].onExerciseDurationChange) === "function" ? arguments[0].onExerciseDurationChange : null;
-  const period = activePeriod || getCircadianPeriod();
+  const period = axisResolveMoodPeriod(activePeriod);
 
   // AXIS Ultra: deep red canvas + #FF3B30, no circadian bleed
   const ct = isNight ?
@@ -12708,7 +12714,7 @@ function MetricsWeightCard({ theme, nightMode, activePeriod, samples, stepsToday
   const [editingTs, setEditingTs] = React.useState(null);
   const [editDraft, setEditDraft] = React.useState("");
   const logBodyRef = React.useRef(null);
-  const periodW = activePeriod || getCircadianPeriod();
+  const periodW = axisResolveMoodPeriod(activePeriod);
   const ctW = CIRCADIAN_THEMES[periodW][theme === "dark" ? "dark" : "light"];
   const moodColor = nightMode ? "#FF3B30" : (ctW && ctW.accent ? ctW.accent : "#4DA8FF");
   const arr = axisMetricsNormalizeWeightList(samples);
@@ -12867,7 +12873,7 @@ function MetricsPainCard({ theme, nightMode, activePeriod, painByDay, onLogPain,
   const [editV, setEditV] = React.useState(5);
   const [editNote, setEditNote] = React.useState("");
   const logBodyRef = React.useRef(null);
-  const periodPain = activePeriod || getCircadianPeriod();
+  const periodPain = axisResolveMoodPeriod(activePeriod);
   const ctPain = CIRCADIAN_THEMES[periodPain][theme === "dark" ? "dark" : "light"];
   const moodAccent = nightMode ? "#FF3B30" : (ctPain && ctPain.accent ? ctPain.accent : "#4DA8FF");
   const dkToday = new Date().toDateString();
@@ -14376,7 +14382,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
   const sessionBackNight = nightMode;
   const sessionBackDark = sessionBackNight || theme === "dark";
-  const sessionBackPeriod = activePeriod || getCircadianPeriod();
+  const sessionBackPeriod = axisResolveMoodPeriod(activePeriod);
   const sessionBackCt = sessionBackNight ? null : CIRCADIAN_THEMES[sessionBackPeriod][sessionBackDark ? "dark" : "light"];
   const sessionBackIconColor = sessionBackNight ? "#FF3B30" : sessionBackCt && sessionBackCt.textPrimary || (sessionBackDark ? "var(--axis-white)" : "#0f1020");
   const sessionBackBorderColor = sessionBackNight ? "#FF3B30" : sessionBackDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)";
