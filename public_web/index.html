@@ -7425,7 +7425,7 @@ const css = `
 
   /* TODAY (solid highlight) sometimes needs extra breathing room */
   .tab-bar-spacer--today {
-    height: calc(var(--axis-bottom-content-inset) + var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 140px);
+    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 24px);
   }
 
   /* Active SESSION (LIST / GUIDED / SUMMARY): tight tail above tab bar — no duplicate --axis-bottom-content-inset + 56px stack */
@@ -8058,6 +8058,7 @@ const css = `
     padding-left:var(--page-gutter);
     padding-right:var(--page-gutter);
     box-sizing:border-box;
+    display:none;
   }
   .eol-marker {
     display:flex; align-items:center; justify-content:center;
@@ -8273,89 +8274,224 @@ const css = `
     margin-bottom:0;
   }
   .home-hero-sticky { position: sticky; top: 0; z-index: 8; background: transparent; }
-  .home-pivot-row {
-    display:flex; align-items:center; justify-content:center;
-    padding:8px var(--page-gutter) 10px;
+  .home-last-movement-card {
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.03);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    padding:18px 12px 20px;
+    margin-bottom:16px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);
   }
-  .home-pivot-pill {
-    display:inline-flex; align-items:center; gap:2px; padding:3px;
-    border-radius:999px; border:1px solid rgba(255,255,255,0.12);
-    background:rgba(255,255,255,0.06);
+  .home-last-movement-head {
+    font-family:'Roboto Mono', ui-monospace, monospace;
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    opacity:0.75;
+    margin-bottom:10px;
+  }
+  .home-last-movement-row {
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .home-last-movement-status {
+    width:24px;
+    height:24px;
+    min-width:24px;
+    min-height:24px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.38);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    color:rgba(255,255,255,0.85);
     box-sizing:border-box;
-    box-shadow:0 10px 24px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+    flex-shrink:0;
   }
-  .home-pivot-segment {
-    border:none; margin:0; cursor:pointer; border-radius:999px;
-    padding:8px 18px; min-width:0;
-    font-family:'Roboto Mono', ui-monospace, monospace; font-weight:500; font-size:11px;
-    letter-spacing:0.15em; text-transform:uppercase; color:#fff;
-    background:transparent; color:#fff; opacity:0.42;
-    transition:background 0.2s ease, opacity 0.2s ease;
-    -webkit-tap-highlight-color:transparent;
+  .home-last-movement-status svg { width:12px; height:12px; display:block; }
+  .home-last-movement-copy { flex:1; min-width:0; position:relative; padding-right:88px; min-height:34px; }
+  .home-last-movement-card .home-recent-row {
+    position:relative;
+    padding-left:18px;
   }
-  .home-pivot-segment[aria-selected="true"] {
-    opacity:1;
-    background:rgba(255,255,255,0.16);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);
+  .home-last-movement-card .home-recent-row::before {
+    content:"";
+    position:absolute;
+    left:0;
+    top:50%;
+    width:2px;
+    height:18px;
+    border-radius:2px;
+    background:rgba(34,230,212,0.92);
+    transform:translateY(-50%);
+    box-sizing:border-box;
   }
-  .home-pivot-segment:focus-visible { outline:2px solid var(--accent, #fff); outline-offset:2px; }
-  .home-pivot-separator {
-    display:block;
+  .home-last-movement-card .home-recent-row::after {
+    content:none;
+  }
+  .home-last-movement-card .home-last-movement-walk-svg { display:none; }
+  .home-last-movement-stamp {
+    position:absolute;
+    right:0;
+    top:0;
+    font-family:'Roboto Mono', ui-monospace, monospace;
+    font-size:9px;
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    opacity:0.5;
+  }
+  .home-sections-rule {
     height:1px;
     width:100%;
-    background:#333;
-    box-sizing:border-box;
-    flex:0 0 auto;
+    background:rgba(255,255,255,0.05);
+    margin:2px 0 12px;
   }
-  /* Stacked panes (same grid cell): no 200% wide row — avoids flex min-width:auto inflating column past TODAY card. */
-  .home-slide-viewport {
+  .home-header-lock {
+    position:relative;
+    z-index:50;
+    background:transparent;
+  }
+  .home-nav-anchor {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:34px;
+    padding:2px 0 12px;
+  }
+  .home-nav-anchor-btn {
+    border:1px solid transparent;
+    background:transparent;
+    padding:4px 12px;
+    margin:0;
+    cursor:pointer;
+    font-family:'Roboto Mono', ui-monospace, monospace;
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:#fff;
+    opacity:0.3;
+    transition:opacity 0.2s ease;
+    -webkit-tap-highlight-color:transparent;
+    position:relative;
+    padding:4px 12px;
+    border-radius:4px;
+  }
+  .home-nav-anchor-btn[aria-selected="true"] { opacity:1; border-color:rgba(255,255,255,0.9); }
+  .home-slide-shell {
     width:100%;
     max-width:100%;
-    min-width:0;
     overflow:hidden;
     box-sizing:border-box;
+    padding-top:20px;
+    position:relative;
+    z-index:10;
   }
-  .home-slide-stack {
-    display:grid;
-    grid-template-columns:minmax(0, 1fr);
-    grid-template-rows:auto;
+  .home-slide-track {
+    width:100%;
+    max-width:100%;
+    display:block;
+    align-items:flex-start;
+    transition:none;
+    transform:none;
+    box-sizing:border-box;
+  }
+  .home-slide-track.home-slide-track--explore { transform:none; }
+  .home-slide-view {
     width:100%;
     max-width:100%;
     min-width:0;
+    flex:0 0 auto;
     box-sizing:border-box;
-  }
-  .home-slide-stack > .home-slide-pane {
-    grid-column:1;
-    grid-row:1;
-    place-self:start stretch;
-    min-width:0;
-    width:100%;
-    max-width:100%;
-    box-sizing:border-box;
-    padding:12px var(--page-gutter) 10px;
+    padding:12px 0 0;
+    height:auto;
+    overflow-y:visible;
+    overflow:visible;
+    -webkit-overflow-scrolling:touch;
     display:none;
   }
-  .home-slide-stack > .home-slide-pane.home-slide-pane--active {
+  .home-slide-view.home-slide-view--active {
     display:block;
+    animation:homeViewIn 300ms ease-out both;
   }
-  .home-slide-stack > .home-slide-pane.home-slide-pane--explore {
+  @keyframes homeViewIn {
+    from { opacity:0; transform:translateX(8px); }
+    to { opacity:1; transform:translateX(0); }
+  }
+  .home-slide-view--routine,
+  .home-slide-view--explore {
     padding-left:0;
     padding-right:0;
   }
-  .home-explore-browse {
-    width:100%;
-    max-width:100%;
-    min-width:0;
-    box-sizing:border-box;
+  .home-slide-view--explore { padding-top:12px; }
+  .home-slide-view--routine .home-routine-section:last-child { padding-bottom:24px; }
+  .home-slide-view--routine {
+    height:auto;
+    overflow-y:visible;
   }
-  .home-slide-pane--explore .home-category-strip-wrap {
-    margin-bottom:0;
+  .home-slide-view--routine .home-routine-section { margin-top:0; }
+  .home-slide-view--routine .track-cards { gap:10px; margin-top:0; }
+  .home-routine-track-card {
+    background:color-mix(in srgb, var(--glass-bg) 82%, rgba(0,0,0,0.22));
+    border-color:color-mix(in srgb, var(--glass-border) 72%, rgba(0,0,0,0.28));
+    box-shadow:0 10px 26px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .home-slide-view--explore .track-card.session-card {
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.03);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
   }
   .home-liquid-inner {
-    border-radius:16px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03);
+    border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03);
     backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); padding:14px 12px 16px;
   }
-  .home-routine-head { font-family:var(--font-display); font-size:var(--text-xs); font-weight:700; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
+  .home-routine-head { font-family:'Roboto Mono', ui-monospace, monospace; font-size:10px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0; opacity:0.5; }
+  .home-routine-head-row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:0;
+  }
+  .home-routine-head-btn {
+    border:none;
+    background:transparent;
+    color:rgba(255,255,255,0.52);
+    width:22px;
+    height:22px;
+    min-width:22px;
+    min-height:22px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    transition:background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  }
+  .home-routine-head-btn:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.82); }
+  .home-routine-head-btn svg { width:14px; height:14px; display:block; transition:transform 0.22s ease; }
+  .home-routine-head-btn[aria-expanded="true"] svg { transform:rotate(180deg); }
+  .home-routine-collapse {
+    overflow:hidden;
+    transition:max-height 0.28s ease, opacity 0.22s ease;
+  }
+  .home-routine-collapse[aria-hidden="true"] {
+    max-height:0;
+    opacity:0;
+    pointer-events:none;
+  }
+  .home-routine-collapse[aria-hidden="false"] {
+    max-height:1600px;
+    opacity:1;
+  }
   .home-routine-box {
     box-shadow:0 10px 28px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.07);
     background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
@@ -8370,7 +8506,10 @@ const css = `
     margin:14px 0;
     flex:0 0 auto;
   }
-  .home-slide-pane--routine .track-cards { gap:10px; }
+  .home-routine-panel .track-cards { gap:10px; }
+  .home .track-card-sub,
+  .home .track-card-purpose,
+  .home .track-card-dur,
   .home-routine-track-card .track-card-sub,
   .home-routine-track-card .track-card-purpose,
   .home-routine-track-card .track-card-dur {
@@ -8386,19 +8525,19 @@ const css = `
   .home-recent-row-title { font-family:var(--font-display); font-size:var(--text-base); font-weight:600; line-height:1.2; margin-bottom:2px; }
   .home-recent-row-meta,
   .home-routine-empty,
-  .home-slide-pane--explore .track-card-dur {
+  .home-slide-view--explore .track-card-dur {
     font-family:'Roboto Mono', ui-monospace, monospace !important; font-weight:500 !important;
   }
-  .home-slide-pane--explore .track-card-sub { font-size:calc(var(--text-sm) - 2px) !important; }
-  .home-slide-pane--explore .track-card-purpose { font-size:calc(var(--text-base) - 2px) !important; }
+  .home-slide-view--explore .track-card-sub { font-size:calc(var(--text-sm) - 2px) !important; }
+  .home-slide-view--explore .track-card-purpose { font-size:calc(var(--text-base) - 2px) !important; }
   .track-card-title-stack { flex:1; min-width:0; width:100%; }
-  .home-slide-pane--explore .track-card-dur { margin-top:8px; }
+  .home-slide-view--explore .track-card-dur { margin-top:8px; }
   .track-card-footer {
     display:flex; align-items:center; justify-content:space-between; width:100%; gap:12px;
     margin-top:2px;
   }
   .track-card-footer .home-fav-star-btn { flex-shrink:0; }
-  .home-slide-pane--explore .track-card { border-radius:24px; width:100%; max-width:100%; box-sizing:border-box; }
+  .home-slide-view--explore .track-card { border-radius:12px; width:100%; max-width:100%; box-sizing:border-box; }
   .home-fav-row-main { flex:1; min-width:0; border:none; background:transparent; color:inherit; text-align:left; padding:0; }
   .home-fav-star-btn {
     width:40px;
@@ -8446,24 +8585,51 @@ const css = `
     margin-bottom:var(--axis-safe-bottom);
     box-sizing:border-box;
   }
-  .home-slide-pane--explore .home-browse-scroll-mask {
+  .home-slide-view--explore .home-category-strip-wrap {
+    position:sticky;
+    top:0;
+    z-index:120;
+    background:transparent;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    border-bottom:none;
+    padding:0;
+    margin-top:16px;
+    margin-bottom:12px;
+  }
+  .home-slide-view--explore .home-category-strip {
+    padding-top:4px;
+    padding-bottom:8px;
+  }
+  .home-slide-view--explore .home-browse-scroll-mask {
     padding-left:0;
     padding-right:0;
-    margin-top:16px;
+    margin-top:4px;
+    padding-bottom:0;
   }
-  .home-slide-pane--explore .home-browse-results {
-    width:calc(100% - (2 * var(--page-gutter)));
-    max-width:calc(100% - (2 * var(--page-gutter)));
+  .home-slide-view--explore .home-browse-results {
+    width:100%;
+    max-width:100%;
     min-width:0;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left:0;
+    margin-right:0;
     box-sizing:border-box;
+  }
+  .home-slide-view--explore .home-category-strip {
+    padding-left:0;
+    padding-right:0;
   }
   .home-float-stack {
     position:static;
     z-index:auto;
     padding-bottom:0;
     margin-top:var(--home-block-gap);
+  }
+  .home .track-cards-outer.home-track-cards-outer--top {
+    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 6px);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
   }
   /* Ensure final list marker clears fixed tab bar on iPhone */
   .content.content--session.content--session-list .track-cards-outer {
@@ -8476,10 +8642,14 @@ const css = `
     color:var(--text-dim); margin-bottom:var(--home-group-label-gap);
     text-align:left;
   }
-  .home-slide-pane--explore .track-group-label {
+  .home-slide-view--explore .track-group-label {
     padding-left:0;
     padding-right:0;
     box-sizing:border-box;
+    margin-bottom:12px;
+  }
+  .home-slide-view--explore .home-browse-results > .track-group:last-child {
+    padding-bottom:20px;
   }
   /* TODAY browse: horizontal tab strip (no pill), no edge fades */
   .home-category-strip-wrap {
@@ -8519,8 +8689,8 @@ const css = `
     border-radius:0;
     border:none;
     background:transparent;
-    font-family:var(--font-ui);
-    font-size:var(--text-xs);
+    font-family:'Roboto Mono', ui-monospace, monospace;
+    font-size:11px;
     font-weight:500;
     letter-spacing:0.1em;
     text-transform:uppercase;
@@ -8534,7 +8704,7 @@ const css = `
     color:color-mix(in srgb, var(--mood-color) 50%, #ffffff);
     -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 50%, #ffffff);
     opacity:1;
-    font-family: var(--font-ui) !important;
+    font-family:'Roboto Mono', ui-monospace, monospace !important;
     font-size: 11px !important;
     font-weight: 500 !important;
   }
@@ -8542,13 +8712,16 @@ const css = `
     color:var(--mood-color);
     opacity:1;
     -webkit-text-fill-color:var(--mood-color);
+    font-family:'Roboto Mono', ui-monospace, monospace !important;
+    font-size:11px !important;
+    font-weight:500 !important;
   }
   .home-category-tab[aria-selected="true"]::after {
     content:"";
     position:absolute;
     left:8px;
     right:8px;
-    bottom:0;
+    bottom:4px;
     height:2px;
     border-radius:1px;
     background:var(--mood-color);
@@ -8630,6 +8803,17 @@ const css = `
     margin-bottom:10px;
     font-weight:600;
     padding-inline:var(--page-gutter);
+    box-sizing:border-box;
+  }
+  .home-slide-view--explore .home-browse-head {
+    font-family:'Roboto Mono', ui-monospace, monospace;
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    margin:0 0 12px;
+    opacity:0.5;
+    padding:0;
     box-sizing:border-box;
   }
   /* Browse: consistent peek below sticky bar — avoid variable min-height */
@@ -8779,14 +8963,14 @@ const css = `
     background:var(--glass-bg); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
     border:1px solid var(--glass-border);
     box-shadow:0 24px 48px rgba(0,0,0,0.06), var(--glass-shadow), inset 0 1px 0 var(--glass-specular);
-    border-radius:24px; padding:24px var(--page-gutter) 16px; cursor:pointer;
+    border-radius:12px; padding:24px var(--page-gutter) 16px; cursor:pointer;
     transition: background 0.22s, border-color 0.22s, box-shadow 0.22s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display:flex; flex-direction:column; gap:12px; position:relative; overflow:hidden;
   }
 
   /* Home Browse: flatter track cards (EXPLORE pane overrides radius to match TODAY card) */
   .home .track-card {
-    border-radius: 20px;
+    border-radius: 12px;
     border: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
     background: color-mix(in srgb, var(--glass-bg) 92%, transparent);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 58%, transparent);
@@ -8848,19 +9032,20 @@ const css = `
   .begin-btn {
     padding:8px 22px; font-family:var(--font-display); font-size: var(--text-base); font-weight:500;
     letter-spacing:0.05em; text-transform:uppercase; cursor:pointer; border-radius:var(--axis-radius);
-    background:var(--accent); border:none; color:#1A1A1A !important;
-    -webkit-text-fill-color: #1A1A1A !important;
+    background:var(--accent); border:none; color:var(--accent-btn-text, #000000) !important;
+    -webkit-text-fill-color: var(--accent-btn-text, #000000) !important;
     transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
     box-shadow:0 2px 12px var(--accent-glow);
     -webkit-tap-highlight-color: transparent;
   }
+  .home .track-card .begin-btn:not(.begin-btn--today-primary) { box-shadow:none !important; }
   .begin-btn:hover { opacity:0.88; transform:scale(1.03); }
   .begin-btn:active { transform: scale(0.97); opacity: 0.92; }
   .session-browse-btn, .fv-cta, .summary-cta-btn {
     background: var(--accent) !important;
     border: none !important;
-    color: #1A1A1A !important;
-    -webkit-text-fill-color: #1A1A1A !important;
+    color: var(--accent-btn-text, #000000) !important;
+    -webkit-text-fill-color: var(--accent-btn-text, #000000) !important;
     box-shadow: none !important;
   }
   /* TODAY primary CTA: wider tracking; weight matches unbolded title */
@@ -13697,7 +13882,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const prevTabRef = useRef(tab);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
-  const [homePivot, setHomePivot] = useState(() => storageGet("axis_home_pivot", "routine"));
+  const [homeSection, setHomeSection] = useState(() => {
+    const v = storageGet("axis_home_section", null);
+    if (v === "routine" || v === "explore") return v;
+    const legacy = storageGet("axis_home_pivot", "routine");
+    return legacy === "explore" ? "explore" : "routine";
+  });
+  const [homeRoutineFavoritesOpen, setHomeRoutineFavoritesOpen] = useState(() => storageGet("axis_home_routine_favorites_open", true));
+  const [homeRoutineRecentsOpen, setHomeRoutineRecentsOpen] = useState(() => storageGet("axis_home_routine_recents_open", true));
   const [favoriteTrackIds, setFavoriteTrackIds] = useState(() => {
     const raw = storageGet("axis_favorite_tracks", []);
     if (!Array.isArray(raw)) return [];
@@ -13978,7 +14170,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
   useEffect(() => {storageSet("axis_notes", notes);}, [notes]);
   useEffect(() => {storageSet("axis_recent_tracks", recentTracks);}, [recentTracks]);
-  useEffect(() => {storageSet("axis_home_pivot", homePivot);}, [homePivot]);
+  useEffect(() => {storageSet("axis_home_section", homeSection);}, [homeSection]);
+  useEffect(() => {storageSet("axis_home_routine_favorites_open", homeRoutineFavoritesOpen);}, [homeRoutineFavoritesOpen]);
+  useEffect(() => {storageSet("axis_home_routine_recents_open", homeRoutineRecentsOpen);}, [homeRoutineRecentsOpen]);
   useEffect(() => {storageSet("axis_favorite_tracks", favoriteTrackIds);}, [favoriteTrackIds]);
 
   // Remember LIST scroll position within Session content so switching tabs feels continuous
@@ -14018,7 +14212,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         const today = new Date().toDateString();
         const perMoveSec = exerciseDuration || 45;
         const durationMins = Math.max(1, Math.round(perMoveSec / 60));
-        const newEntry = { date: today, track: TRACKS[track] && TRACKS[track].label || track, trackId: track, duration: durationMins, exerciseId: id };
+        const newEntry = { date: today, loggedAt: Date.now(), track: TRACKS[track] && TRACKS[track].label || track, trackId: track, duration: durationMins, exerciseId: id };
         setHistory((prev) => {
           const newHistory = [newEntry, ...prev].slice(0, 30);
           storageSet("axis_history", newHistory);
@@ -14771,9 +14965,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const isTodayLight = theme === "light" && !nightMode;
 
     const todayCardStyle = {
-      marginBottom: 32,
+      marginBottom: 24,
       padding: "20px var(--page-gutter) 22px",
-      borderRadius: 24,
+      borderRadius: 12,
       background: "rgba(255, 255, 255, 0.03)",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       boxShadow: "none",
@@ -14811,9 +15005,24 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
-    const homePivotIsExplore = homePivot === "explore";
+    const homeSectionIsRoutine = homeSection === "routine";
+    const homeSectionIsExplore = homeSection === "explore";
     const recentResolvedHome = recentTracks.filter((id) => TRACKS && TRACKS[id]);
     const favResolvedHome = favoriteTrackIds.filter((id) => TRACKS && TRACKS[id]);
+    const routineRecentsHome = recentResolvedHome.filter((id) => favResolvedHome.indexOf(id) === -1);
+    const lastMovementTrackId = recentResolvedHome.length ? recentResolvedHome[0] : null;
+    const lastMovementTrack = lastMovementTrackId && TRACKS ? TRACKS[lastMovementTrackId] : null;
+    const lastMovementEntry = lastMovementTrackId && Array.isArray(history) ? history.find((h) => h && h.trackId === lastMovementTrackId) : null;
+    const homeLogStamp = (() => {
+      if (!lastMovementEntry) return "LOGGED: --";
+      const raw = lastMovementEntry.loggedAt || lastMovementEntry.timestamp || lastMovementEntry.ts || lastMovementEntry.at || lastMovementEntry.date;
+      const parsed = raw != null ? new Date(raw) : null;
+      if (!parsed || Number.isNaN(parsed.getTime())) return "LOGGED: --";
+      const month = parsed.toLocaleString("en-US", { month: "short" }).toUpperCase();
+      const day = String(parsed.getDate()).padStart(2, "0");
+      const time = parsed.toLocaleString("en-US", { hour: "numeric", minute: "2-digit", hour12: true }).toUpperCase();
+      return `LOGGED: ${month} ${day}, ${time}`;
+    })();
     const renderHomeRoutineTrackCard = (trackId, keyPrefix) => {
       const t = TRACKS && TRACKS[trackId];
       if (!t) return null;
@@ -14857,6 +15066,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       dashboardHeaderEl, /*#__PURE__*/
       React.createElement("div", { className: "home" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-header-lock" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome", id: "axis-home-welcome" }, timeGreeting), /*#__PURE__*/
       React.createElement("div", { className: "track-group start-here-group today-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 700, fontFamily: "'Inter', var(--font-ui), sans-serif", fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
@@ -14879,33 +15089,46 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       todayTrack.label
       )
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-pivot-row" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-pivot-pill", role: "tablist", "aria-label": "Home content mode" }, /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "tab", className: "home-pivot-segment", "aria-selected": homePivotIsExplore ? "false" : "true", onClick: () => {axisHapticTick();setHomePivot("routine");} }, "ROUTINE"), /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "tab", className: "home-pivot-segment", "aria-selected": homePivotIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomePivot("explore");} }, "EXPLORE")
+      React.createElement("div", { className: "home-last-movement-card", role: "region", "aria-label": "Last movement" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-last-movement-head" }, "LAST MOVEMENT"),
+      lastMovementTrack ? /*#__PURE__*/React.createElement("button", { type: "button", className: "home-recent-row", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(lastMovementTrackId);}, "aria-label": `Resume ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}` }, /*#__PURE__*/React.createElement("svg", { className: "home-last-movement-walk-svg", viewBox: "0 0 100 24", preserveAspectRatio: "none", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { fill: "none", stroke: "currentColor", strokeWidth: "1.25", vectorEffect: "non-scaling-stroke", points: axisHomeWalkPolylinePoints(lastMovementTrackId) })), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-copy" }, /*#__PURE__*/React.createElement("div", { className: "home-recent-row-title" }, lastMovementTrack.label), /*#__PURE__*/React.createElement("div", { className: "home-recent-row-meta" }, getTrackDisplayDuration(lastMovementTrackId)), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-stamp" }, homeLogStamp))) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "No recent movement yet.")
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "home-sections-rule", "aria-hidden": "true" }), /*#__PURE__*/
+      React.createElement("div", { className: "home-nav-anchor", role: "tablist", "aria-label": "Home content sections" }, /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsRoutine ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("routine");} }, "ROUTINE"), /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("explore");} }, "EXPLORE")
       )
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-pivot-separator", "aria-hidden": "true" })
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "home-slide-viewport" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-slide-stack" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-slide-pane home-slide-pane--routine" + (!homePivotIsExplore ? " home-slide-pane--active" : ""), "aria-hidden": homePivotIsExplore ? "true" : "false" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-head" }, "RECENTS"), /*#__PURE__*/
-      React.createElement("div", { className: "track-cards" },
-      recentResolvedHome.length ? recentResolvedHome.map((id) => renderHomeRoutineTrackCard(id, "recent")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
-      )
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-separator", "aria-hidden": "true" }), /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-shell" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-track" + (homeSectionIsExplore ? " home-slide-track--explore" : "") }, /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-view home-slide-view--routine" + (homeSectionIsRoutine ? " home-slide-view--active" : "") }, /*#__PURE__*/
       React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Favorite tracks" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-head-row" }, /*#__PURE__*/
       React.createElement("div", { className: "home-routine-head" }, "FAVORITES"), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-routine-head-btn", "aria-expanded": homeRoutineFavoritesOpen ? "true" : "false", "aria-label": homeRoutineFavoritesOpen ? "Collapse favorites" : "Expand favorites", onClick: () => {axisHapticTick();setHomeRoutineFavoritesOpen((v) => !v);} }, /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" })))
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-collapse", "aria-hidden": homeRoutineFavoritesOpen ? "false" : "true" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
       favResolvedHome.length ? favResolvedHome.map((id) => renderHomeRoutineTrackCard(id, "fav")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Tap the star on a track in Explore to save favorites here.")
       )
       )
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-slide-pane home-slide-pane--explore" + (homePivotIsExplore ? " home-slide-pane--active" : ""), "aria-hidden": !homePivotIsExplore ? "true" : "false" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-separator", "aria-hidden": "true" }), /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-head-row" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-head" }, "RECENTS"), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-routine-head-btn", "aria-expanded": homeRoutineRecentsOpen ? "true" : "false", "aria-label": homeRoutineRecentsOpen ? "Collapse recents" : "Expand recents", onClick: () => {axisHapticTick();setHomeRoutineRecentsOpen((v) => !v);} }, /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" })))
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-collapse", "aria-hidden": homeRoutineRecentsOpen ? "false" : "true" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-cards" },
+      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeRoutineTrackCard(id, "recent")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
+      )
+      )
+      ), /*#__PURE__*/
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-view home-slide-view--explore" + (homeSectionIsExplore ? " home-slide-view--active" : "") }, /*#__PURE__*/
       React.createElement("div", { className: "home-explore-browse" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-browse-head" }, "BROWSE"), /*#__PURE__*/
       React.createElement("div", { className: "home-category-strip-wrap" }, /*#__PURE__*/
       React.createElement("div", {
         className: "home-category-strip",
@@ -14958,15 +15181,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       )
       )
+      )
       ), /*#__PURE__*/
       React.createElement(EolMarker, null)
-      )
       )
     , /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--today" })
     ), /*#__PURE__*/
       React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
-      ));
+      )));
 
   }
 
