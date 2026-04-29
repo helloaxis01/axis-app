@@ -3395,6 +3395,15 @@ const css = `
     isolation: isolate;
     transition: background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), transform var(--motion-slow), backdrop-filter var(--motion-slow), -webkit-backdrop-filter var(--motion-slow);
   }
+  .today-card::before {
+    content: "";
+    position: absolute;
+    inset: -20% -12%;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(72% 52% at 50% 22%, color-mix(in srgb, var(--mood-color) 15%, transparent) 0%, transparent 72%);
+  }
   .today-card--ghost {
     box-sizing:border-box;
   }
@@ -14536,30 +14545,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const todaySuggestionText = todaySug && todayTrackId === todaySug.trackId ? todaySug.suggestion : (todayTrack && todayTrack.purpose) || (todaySug && todaySug.suggestion) || "";
     const isTodayLight = theme === "light" && !nightMode;
 
-    // TODAY card: keep previous shape/structure, but use Metrics "TOTAL MOVEMENT TIME" surface style.
-    const todayCardBorder = nightMode ? "rgba(255, 59, 48, 0.48)" : isTodayLight ?
-    `color-mix(in srgb, ${homeHighlight} 32%, rgba(15, 30, 46, 0.14))` :
-    `color-mix(in srgb, ${homeHighlight} 38%, var(--glass-border))`;
-
-    const todayCardBg = nightMode ?
-    "linear-gradient(180deg, rgba(255, 59, 48, 0.2) 0%, #1c0505 55%, #140303 100%)" :
-    isTodayLight ?
-    `linear-gradient(145deg, color-mix(in srgb, ${homeHighlight} 14%, #ffffff) 0%, #f4f7fb 45%, #eef2f7 100%)` :
-    `linear-gradient(145deg, color-mix(in srgb, ${homeHighlight} 16%, #151b26) 0%, #151b26 52%, #121822 100%)`;
-
     const todayCardStyle = {
       marginBottom: 32,
       padding: "20px var(--page-gutter) 22px",
       borderRadius: 24,
-      background: todayCardBg,
-      border: `0.5px solid ${todayCardBorder}`,
-      boxShadow: nightMode ?
-      "0 0 0 1px rgba(255, 59, 48, 0.12), 0 16px 40px rgba(0, 0, 0, 0.55)" :
-      isTodayLight ?
-      "0 14px 38px rgba(15, 30, 46, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95)" :
-      "0 14px 42px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.07)",
-      backdropFilter: "none",
-      WebkitBackdropFilter: "none"
+      background: "rgba(255, 255, 255, 0.03)",
+      border: "1px solid rgba(255, 255, 255, 0.1)",
+      boxShadow: "none",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)"
     };
 
     let todayInk;
@@ -14617,10 +14611,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome", id: "axis-home-welcome" }, timeGreeting), /*#__PURE__*/
       React.createElement("div", { className: "track-group start-here-group today-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 700, fontFamily: "var(--font-display)", fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 700, fontFamily: "'Inter', var(--font-ui), sans-serif", fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 700, fontFamily: "var(--font-display)", letterSpacing: "-0.02em", color: todayInk, marginBottom: 6 } }, periodLabels[periodKey]), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySuggestionText), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.06em", marginBottom: 18 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.1em", marginBottom: 18, fontFamily: "'Roboto Mono', ui-monospace, monospace", fontWeight: 500 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
       React.createElement("button", {
         className: "begin-btn begin-btn--today-primary ultra-filled-btn",
         onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(todayTrack.id);},
