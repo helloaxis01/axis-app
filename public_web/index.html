@@ -1194,7 +1194,7 @@ const css = `
   .app .eyebrow,
   .app .small-label { font-size: var(--global-eyebrow-size) !important; letter-spacing: 0.12em; text-transform: uppercase; }
   /* App-shell scrolling: single scroll container for native iOS feel */
-  .app { height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+  .app { height: 100dvh; display: flex; flex-direction: column; overflow: hidden; min-width: 0; max-width: 100%; box-sizing: border-box; }
   .app-body, .app-shell, .app-content { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
   /* Root scroll: smooth iOS momentum + avoid scroll chaining fights with nested strips */
   .axis-app-scroll-root {
@@ -2392,7 +2392,18 @@ const css = `
       display: none !important;
     }
   }
-  .app-body { flex:1; display:flex; flex-direction:column; width:100%; position:relative; min-height:0; z-index: 1; }
+  .app-body {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    position:relative;
+    min-height:0;
+    z-index: 1;
+    box-sizing:border-box;
+  }
   .app-orbs { position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.15; background-position: top center; background-repeat: no-repeat; }
   .app[data-theme="light"]:not([data-night="true"]) .app-orbs {
     opacity: 0.38;
@@ -8019,7 +8030,16 @@ const css = `
   }
 
   /* ── HOME ── */
-  .home { min-height:100vh; position:relative; z-index:1; background: transparent; }
+  .home {
+    min-height:100vh;
+    position:relative;
+    z-index:1;
+    background: transparent;
+    min-width:0;
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+  }
   .home-hdr { padding: var(--safe-top) var(--page-padding) 0; max-width:100%; }
   .home-wordmark {
     font-size: var(--text-xl); font-weight:700; letter-spacing:-0.02em; text-transform:uppercase; font-family: var(--font-display);
@@ -8075,6 +8095,12 @@ const css = `
 
   /* ── TRACK GROUPS ── */
   .track-cards-outer { padding:0 var(--page-gutter) 24px; margin-bottom: var(--axis-safe-bottom); }
+  /* Flex child (.app-body is flex column): min-width:auto lets 200%-wide slide track inflate width to ~100vw — browse cards then look full-bleed vs TODAY. */
+  .home > .track-cards-outer {
+    min-width:0;
+    max-width:100%;
+    box-sizing:border-box;
+  }
   /* Global dashboard (safe area + progress + AXIS + streak) */
   .dashboard-header {
     position:fixed;
@@ -8218,7 +8244,7 @@ const css = `
   #axis-home-welcome {
     text-align:center;
     font-family: var(--font-ui);
-    font-size: clamp(11px, 0.75rem, 12px);
+    font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -8246,6 +8272,167 @@ const css = `
     padding-bottom:0;
     margin-bottom:0;
   }
+  .home-hero-sticky { position: sticky; top: 0; z-index: 8; background: transparent; }
+  .home-pivot-row {
+    display:flex; align-items:center; justify-content:center;
+    padding:8px var(--page-gutter) 10px;
+  }
+  .home-pivot-pill {
+    display:inline-flex; align-items:center; gap:2px; padding:3px;
+    border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+    background:rgba(255,255,255,0.06);
+    box-sizing:border-box;
+    box-shadow:0 10px 24px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .home-pivot-segment {
+    border:none; margin:0; cursor:pointer; border-radius:999px;
+    padding:8px 18px; min-width:0;
+    font-family:'Roboto Mono', ui-monospace, monospace; font-weight:500; font-size:11px;
+    letter-spacing:0.15em; text-transform:uppercase; color:#fff;
+    background:transparent; color:#fff; opacity:0.42;
+    transition:background 0.2s ease, opacity 0.2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .home-pivot-segment[aria-selected="true"] {
+    opacity:1;
+    background:rgba(255,255,255,0.16);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .home-pivot-segment:focus-visible { outline:2px solid var(--accent, #fff); outline-offset:2px; }
+  .home-pivot-separator {
+    display:block;
+    height:1px;
+    width:100%;
+    background:#333;
+    box-sizing:border-box;
+    flex:0 0 auto;
+  }
+  /* Stacked panes (same grid cell): no 200% wide row — avoids flex min-width:auto inflating column past TODAY card. */
+  .home-slide-viewport {
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    overflow:hidden;
+    box-sizing:border-box;
+  }
+  .home-slide-stack {
+    display:grid;
+    grid-template-columns:minmax(0, 1fr);
+    grid-template-rows:auto;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+  }
+  .home-slide-stack > .home-slide-pane {
+    grid-column:1;
+    grid-row:1;
+    place-self:start stretch;
+    min-width:0;
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+    padding:12px var(--page-gutter) 10px;
+    display:none;
+  }
+  .home-slide-stack > .home-slide-pane.home-slide-pane--active {
+    display:block;
+  }
+  .home-slide-stack > .home-slide-pane.home-slide-pane--explore {
+    padding-left:0;
+    padding-right:0;
+  }
+  .home-explore-browse {
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+  }
+  .home-slide-pane--explore .home-category-strip-wrap {
+    margin-bottom:0;
+  }
+  .home-liquid-inner {
+    border-radius:16px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); padding:14px 12px 16px;
+  }
+  .home-routine-head { font-family:var(--font-display); font-size:var(--text-xs); font-weight:700; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
+  .home-routine-box {
+    box-shadow:0 10px 28px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.07);
+    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  }
+  .home-routine-box + .home-routine-box { margin-top:12px; }
+  .home-routine-separator {
+    display:block;
+    height:1px;
+    width:100%;
+    background:#333;
+    box-sizing:border-box;
+    margin:14px 0;
+    flex:0 0 auto;
+  }
+  .home-slide-pane--routine .track-cards { gap:10px; }
+  .home-routine-track-card .track-card-sub,
+  .home-routine-track-card .track-card-purpose,
+  .home-routine-track-card .track-card-dur {
+    font-family:'Roboto Mono', ui-monospace, monospace !important;
+    font-weight:500 !important;
+  }
+  .home-recent-row, .home-fav-row {
+    width:100%; display:flex; align-items:center; gap:10px; border:none; background:transparent; padding:10px 0;
+    border-top:1px solid #333; color:inherit; text-align:left;
+  }
+  .home-recent-walk-svg { width:72px; height:24px; flex-shrink:0; }
+  .home-recent-row-text { flex:1; min-width:0; }
+  .home-recent-row-title { font-family:var(--font-display); font-size:var(--text-base); font-weight:600; line-height:1.2; margin-bottom:2px; }
+  .home-recent-row-meta,
+  .home-routine-empty,
+  .home-slide-pane--explore .track-card-dur {
+    font-family:'Roboto Mono', ui-monospace, monospace !important; font-weight:500 !important;
+  }
+  .home-slide-pane--explore .track-card-sub { font-size:calc(var(--text-sm) - 2px) !important; }
+  .home-slide-pane--explore .track-card-purpose { font-size:calc(var(--text-base) - 2px) !important; }
+  .track-card-title-stack { flex:1; min-width:0; width:100%; }
+  .home-slide-pane--explore .track-card-dur { margin-top:8px; }
+  .track-card-footer {
+    display:flex; align-items:center; justify-content:space-between; width:100%; gap:12px;
+    margin-top:2px;
+  }
+  .track-card-footer .home-fav-star-btn { flex-shrink:0; }
+  .home-slide-pane--explore .track-card { border-radius:24px; width:100%; max-width:100%; box-sizing:border-box; }
+  .home-fav-row-main { flex:1; min-width:0; border:none; background:transparent; color:inherit; text-align:left; padding:0; }
+  .home-fav-star-btn {
+    width:40px;
+    height:40px;
+    min-width:40px;
+    min-height:40px;
+    border-radius:999px;
+    border:1px solid var(--glass-border);
+    background:var(--glass-bg);
+    color:var(--text-dim);
+    padding:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    box-sizing:border-box;
+    transition:border-color 0.18s, background 0.18s, color 0.18s, transform var(--motion-fast), opacity var(--motion-fast);
+  }
+  .home-fav-star-btn:hover {
+    background:var(--glass-bg-hover);
+    border-color:var(--glass-border-strong);
+    color:var(--text-primary);
+  }
+  .home-fav-star-btn:active {
+    transform:scale(0.97);
+    opacity:0.9;
+  }
+  .home-fav-star-btn[aria-pressed="true"] {
+    color:var(--accent);
+    border-color:var(--accent);
+    background:var(--accent-dim);
+  }
   /* Summary: --top zeroes padding; restore deep bottom inset so last blocks scroll above fixed tab bar */
   .home .track-cards-outer.home-track-cards-outer--top.home-track-cards-outer--summary {
     padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 48px);
@@ -8257,6 +8444,19 @@ const css = `
     margin-top:var(--home-block-gap);
     padding:0 var(--page-gutter) 24px;
     margin-bottom:var(--axis-safe-bottom);
+    box-sizing:border-box;
+  }
+  .home-slide-pane--explore .home-browse-scroll-mask {
+    padding-left:0;
+    padding-right:0;
+    margin-top:16px;
+  }
+  .home-slide-pane--explore .home-browse-results {
+    width:calc(100% - (2 * var(--page-gutter)));
+    max-width:calc(100% - (2 * var(--page-gutter)));
+    min-width:0;
+    margin-left:auto;
+    margin-right:auto;
     box-sizing:border-box;
   }
   .home-float-stack {
@@ -8274,6 +8474,12 @@ const css = `
   .track-group-label {
     font-size: var(--text-sm); font-family: var(--font-data); font-weight:500; letter-spacing:0.28em; text-transform:uppercase;
     color:var(--text-dim); margin-bottom:var(--home-group-label-gap);
+    text-align:left;
+  }
+  .home-slide-pane--explore .track-group-label {
+    padding-left:0;
+    padding-right:0;
+    box-sizing:border-box;
   }
   /* TODAY browse: horizontal tab strip (no pill), no edge fades */
   .home-category-strip-wrap {
@@ -8578,7 +8784,7 @@ const css = `
     display:flex; flex-direction:column; gap:12px; position:relative; overflow:hidden;
   }
 
-  /* Home Browse: flatter track cards (match Metrics Sessions/Active Days boxes vibe) */
+  /* Home Browse: flatter track cards (EXPLORE pane overrides radius to match TODAY card) */
   .home .track-card {
     border-radius: 20px;
     border: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
@@ -13430,6 +13636,22 @@ function axisExportAxisLocalData() {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
+function axisHomeWalkPolylinePoints(seedId = "") {
+  const base = String(seedId || "axis");
+  let hash = 0;
+  for (let i = 0; i < base.length; i++) hash = (hash * 31 + base.charCodeAt(i)) % 9973;
+  const p1 = 6 + hash % 16;
+  const p2 = 26 + hash % 18;
+  const p3 = 48 + hash % 22;
+  const p4 = 72 + hash % 18;
+  const y1 = 14 + hash % 5;
+  const y2 = 9 + hash % 7;
+  const y3 = 15 + hash % 5;
+  const y4 = 8 + hash % 6;
+  const y5 = 13 + hash % 5;
+  return `0,${y1} ${p1},${y2} ${p2},${y3} ${p3},${y4} ${p4},${y5} 100,${y2}`;
+}
+
 function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () => {}, onGuidedOpen }) {
   const APP_ICON_OPTIONS = [
   { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
@@ -13475,6 +13697,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const prevTabRef = useRef(tab);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
+  const [homePivot, setHomePivot] = useState(() => storageGet("axis_home_pivot", "routine"));
+  const [favoriteTrackIds, setFavoriteTrackIds] = useState(() => {
+    const raw = storageGet("axis_favorite_tracks", []);
+    if (!Array.isArray(raw)) return [];
+    return raw.filter((id) => typeof id === "string" && TRACKS && TRACKS[id]).slice(0, 24);
+  });
   /** Prevents double-counting if an exercise is toggled off/on in one session; cleared in beginTrack */
   const sessionExerciseLoggedRef = useRef(/* @__PURE__ */ new Set());
   const [recentTracks, setRecentTracks] = useState(() => {
@@ -13750,6 +13978,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
   useEffect(() => {storageSet("axis_notes", notes);}, [notes]);
   useEffect(() => {storageSet("axis_recent_tracks", recentTracks);}, [recentTracks]);
+  useEffect(() => {storageSet("axis_home_pivot", homePivot);}, [homePivot]);
+  useEffect(() => {storageSet("axis_favorite_tracks", favoriteTrackIds);}, [favoriteTrackIds]);
 
   // Remember LIST scroll position within Session content so switching tabs feels continuous
   useEffect(() => {
@@ -13801,6 +14031,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
   const toggleSkip = (id) => setSkipped((s) => ({ ...s, [id]: !s[id] }));
   const toggleFav = (id) => setFavs((f) => ({ ...f, [id]: !f[id] }));
+  const toggleFavoriteTrack = (trackId) => {
+    if (!trackId || !TRACKS[trackId]) return;
+    setFavoriteTrackIds((prev) =>
+    prev.indexOf(trackId) !== -1 ? prev.filter((id) => id !== trackId) : [trackId, ...prev.filter((id) => id !== trackId)].slice(0, 24)
+    );
+  };
   const setNote = (id, val) => setNotes((n) => ({ ...n, [id]: val }));
   const switchTrack = (t) => {setTrack(t);setFi(0);setOpenId(null);};
   const beginTrack = (t) => {
@@ -14575,6 +14811,29 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
+    const homePivotIsExplore = homePivot === "explore";
+    const recentResolvedHome = recentTracks.filter((id) => TRACKS && TRACKS[id]);
+    const favResolvedHome = favoriteTrackIds.filter((id) => TRACKS && TRACKS[id]);
+    const renderHomeRoutineTrackCard = (trackId, keyPrefix) => {
+      const t = TRACKS && TRACKS[trackId];
+      if (!t) return null;
+      const cardDur = getTrackDisplayDuration(t.id);
+      const isFav = favoriteTrackIds.indexOf(t.id) !== -1;
+      return /*#__PURE__*/React.createElement("div", { className: "track-card session-card home-routine-track-card", key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-dur" }, cardDur)
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-footer" }, /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M12 2.5l2.6 5.4 6 .6-4.4 3.8 1.3 6L12 15.9 6.5 18.3 7.8 12.3 3.5 8.5l6-.6z" }))), /*#__PURE__*/
+      React.createElement("button", { className: "begin-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")
+      )
+      );
+    };
 
     const minsNow = new Date().getHours() * 60 + new Date().getMinutes();
     const nm = welcomeName.trim();
@@ -14620,34 +14879,33 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       todayTrack.label
       )
       ), /*#__PURE__*/
-      (() => {
-        const recentResolved = recentTracks.filter((id) => TRACKS && TRACKS[id]);
-        const hasCards = recentResolved.length > 0;
-        return /*#__PURE__*/React.createElement("div", { className: "home-recent", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
-        React.createElement("div", { className: "home-recent-label" }, "Recents"),
-        hasCards ? /*#__PURE__*/React.createElement("div", { className: "home-recent-strip" },
-        recentResolved.map((id) => {
-          const rt = TRACKS[id];
-          const rdur = getTrackDisplayDuration(id);
-          return (/*#__PURE__*/
-            React.createElement("button", {
-              key: id,
-              type: "button",
-              className: "home-recent-card",
-              onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(id);},
-              "aria-label": `Resume ${rt.label}, ${rdur}`
-            }, /*#__PURE__*/
-            React.createElement("div", { className: "home-recent-title" }, rt.label), /*#__PURE__*/
-            React.createElement("div", { className: "home-recent-sub" }, rt.subtitle), /*#__PURE__*/
-            React.createElement("div", { className: "home-recent-dur" }, rdur)
-            ));
-        })
-        ) : /*#__PURE__*/React.createElement("div", { className: "home-recent-strip home-recent-strip--empty" }, /*#__PURE__*/React.createElement("p", { className: "home-recent-empty" }, "Your recent sessions will appear here after you start a track.")));
-      })(), /*#__PURE__*/
+      React.createElement("div", { className: "home-pivot-row" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-pivot-pill", role: "tablist", "aria-label": "Home content mode" }, /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "tab", className: "home-pivot-segment", "aria-selected": homePivotIsExplore ? "false" : "true", onClick: () => {axisHapticTick();setHomePivot("routine");} }, "ROUTINE"), /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "tab", className: "home-pivot-segment", "aria-selected": homePivotIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomePivot("explore");} }, "EXPLORE")
+      )
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-float-stack" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-browse-sticky" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-browse-heading" }, "Browse"), /*#__PURE__*/
+      React.createElement("div", { className: "home-pivot-separator", "aria-hidden": "true" })
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-viewport" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-pane home-slide-pane--routine" + (!homePivotIsExplore ? " home-slide-pane--active" : ""), "aria-hidden": homePivotIsExplore ? "true" : "false" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-head" }, "RECENTS"), /*#__PURE__*/
+      React.createElement("div", { className: "track-cards" },
+      recentResolvedHome.length ? recentResolvedHome.map((id) => renderHomeRoutineTrackCard(id, "recent")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-separator", "aria-hidden": "true" }), /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Favorite tracks" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-routine-head" }, "FAVORITES"), /*#__PURE__*/
+      React.createElement("div", { className: "track-cards" },
+      favResolvedHome.length ? favResolvedHome.map((id) => renderHomeRoutineTrackCard(id, "fav")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Tap the star on a track in Explore to save favorites here.")
+      )
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "home-slide-pane home-slide-pane--explore" + (homePivotIsExplore ? " home-slide-pane--active" : ""), "aria-hidden": !homePivotIsExplore ? "true" : "false" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-explore-browse" }, /*#__PURE__*/
       React.createElement("div", { className: "home-category-strip-wrap" }, /*#__PURE__*/
       React.createElement("div", {
         className: "home-category-strip",
@@ -14670,8 +14928,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         }
       }, cf.label)
       ))
-      )
-      )
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-browse-scroll-mask" }, /*#__PURE__*/
       React.createElement("div", { className: "home-browse-results" }, /*#__PURE__*/
@@ -14679,19 +14935,26 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-group", key: g.id }, /*#__PURE__*/
       React.createElement("div", { className: "track-group-label" }, g.label), /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);return (/*#__PURE__*/
+      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);const isFav = favoriteTrackIds.indexOf(t.id) !== -1;return (/*#__PURE__*/
           React.createElement("div", { className: "track-card session-card", key: t.id, "data-category": TRACK_CATEGORY_BY_ID[id] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
           React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
+          React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
           React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
           React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-purpose" }, t.purpose)
+          React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
+          React.createElement("div", { className: "track-card-dur" }, cardDur)
+          )
           ), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-right" }, /*#__PURE__*/
-          React.createElement("div", { className: "track-card-dur" }, cardDur), /*#__PURE__*/
+          React.createElement("div", { className: "track-card-footer" }, /*#__PURE__*/
+          React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M12 2.5l2.6 5.4 6 .6-4.4 3.8 1.3 6L12 15.9 6.5 18.3 7.8 12.3 3.5 8.5l6-.6z" }))), /*#__PURE__*/
           React.createElement("button", { className: "begin-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")
           )
           ));
       })
+      )
+      )
+      )
+      )
       )
       )
       )
