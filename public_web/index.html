@@ -15196,7 +15196,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-slide-view home-slide-view--explore" + (homeSectionIsExplore ? " home-slide-view--active" : "") }, /*#__PURE__*/
       React.createElement("div", { className: "home-explore-browse" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-browse-head" }, "BROWSE"), /*#__PURE__*/
       React.createElement("div", { className: "home-category-strip-wrap" }, /*#__PURE__*/
       React.createElement("div", {
         className: "home-category-strip explore-filters",
@@ -15225,7 +15224,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home-browse-results" }, /*#__PURE__*/
       homeBrowseGroups.map((g) => /*#__PURE__*/
       React.createElement("div", { className: "track-group", key: g.id }, /*#__PURE__*/
-      React.createElement("div", { className: "track-group-label" }, g.label), /*#__PURE__*/
+      homeTrackCategory === "all" && /*#__PURE__*/React.createElement("div", { className: "track-group-label" }, g.label), /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
       g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);const isFav = favoriteTrackIds.indexOf(t.id) !== -1;return (/*#__PURE__*/
           React.createElement("div", { className: "track-card session-card", key: t.id, "data-category": TRACK_CATEGORY_BY_ID[id] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
