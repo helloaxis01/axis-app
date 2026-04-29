@@ -3543,11 +3543,14 @@ const css = `
   }
   .chk {
     width:26px; height:26px; flex-shrink:0; border-radius:50%; cursor:pointer;
-    border:1.5px solid var(--glass-border-strong); background:var(--glass-bg);
+    border: 2px solid rgba(255,255,255,0.28) !important;
+    background: transparent !important;
+    min-width: 28px;
+    min-height: 28px;
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     display:flex; align-items:center; justify-content:center; transition:all 0.2s;
   }
-  .chk.on { border-color:var(--accent); background:var(--accent); box-shadow:0 0 12px var(--accent-glow); }
+  .chk.on { border-color: var(--accent) !important; background: var(--accent) !important; box-shadow:0 0 12px var(--accent-glow); }
   .chk svg { opacity:0; transition:opacity 0.15s; }
   .chk.on svg { opacity:1; }
   .ei { flex:1; min-width:0; }
@@ -3563,7 +3566,7 @@ const css = `
     background:var(--glass-bg); border:1px solid var(--glass-border); color:var(--text-secondary);
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   }
-  .chev { color:var(--text-dim); font-size: var(--text-sm); transition:transform 0.25s; align-self:center; }
+  .chev { color:var(--text-dim); font-size: var(--text-sm); transition:transform 0.25s; align-self:center; min-width: 36px; min-height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
   .chev.op { transform:rotate(180deg); }
   .row-actions { display:flex; gap:4px; flex-shrink:0; align-self:center; }
   .ra-btn {
@@ -3577,6 +3580,32 @@ const css = `
   .ra-btn:hover { background:var(--glass-bg-hover); border-color:var(--glass-border-strong); color:var(--text-primary); }
   .ra-btn:active { transform: scale(0.97); opacity: 0.9; }
   .ra-btn.fav-on { color:var(--accent); border-color:var(--accent); background:var(--accent-dim); }
+  /* AXIS — LIST view action button visibility */
+  .content--session-list .ra-btn {
+    background: rgba(255,255,255,0.18) !important;
+    border: 1px solid rgba(255,255,255,0.22) !important;
+    border-radius: 50%;
+    color: rgba(255,255,255,0.70) !important;
+  }
+
+  .content--session-list .ra-btn.fav-on {
+    background: var(--accent-dim) !important;
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+  }
+
+  .content--session-list .chev {
+    background: rgba(255,255,255,0.12) !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
+    border-radius: 50% !important;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    color: rgba(255,255,255,0.60) !important;
+  }
 
   /* ── GUIDED CARD ── */
   .fc {
@@ -8270,8 +8299,8 @@ const css = `
     position:relative;
     z-index:1;
     padding-top:0;
-    padding-bottom:0;
-    margin-bottom:0;
+    padding-bottom:8px;
+    margin-bottom:8px;
   }
   .home-hero-sticky { position: sticky; top: 0; z-index: 8; background: transparent; }
   .home-last-movement-card {
@@ -8361,7 +8390,9 @@ const css = `
     align-items:center;
     justify-content:center;
     gap:34px;
-    padding:2px 0 12px;
+    padding:0;
+    margin-top:4px;
+    margin-bottom:0;
   }
   .home-nav-anchor-btn {
     border:1px solid transparent;
@@ -8382,13 +8413,13 @@ const css = `
     padding:4px 12px;
     border-radius:4px;
   }
-  .home-nav-anchor-btn[aria-selected="true"] { opacity:1; border-color:rgba(255,255,255,0.9); }
+  .home-nav-anchor-btn[aria-selected="true"] { opacity:1; border:1px solid rgba(255,255,255,0.6); }
   .home-slide-shell {
     width:100%;
     max-width:100%;
     overflow:hidden;
     box-sizing:border-box;
-    padding-top:20px;
+    padding-top:16px;
     position:relative;
     z-index:10;
   }
@@ -8589,6 +8620,7 @@ const css = `
     position:sticky;
     top:0;
     z-index:120;
+    overflow:hidden;
     background:transparent;
     backdrop-filter:none;
     -webkit-backdrop-filter:none;
@@ -8598,9 +8630,14 @@ const css = `
     margin-bottom:12px;
   }
   .home-slide-view--explore .home-category-strip {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
     padding-top:4px;
-    padding-bottom:8px;
+    padding-bottom:4px;
   }
+  .explore-filters::-webkit-scrollbar { display: none; }
   .home-slide-view--explore .home-browse-scroll-mask {
     padding-left:0;
     padding-right:0;
@@ -8717,17 +8754,48 @@ const css = `
     font-weight:500 !important;
   }
   .home-category-tab[aria-selected="true"]::after {
-    content:"";
-    position:absolute;
-    left:8px;
-    right:8px;
-    bottom:4px;
-    height:2px;
-    border-radius:1px;
-    background:var(--mood-color);
-    pointer-events:none;
+    content:none !important;
   }
   .home-category-tab:active { opacity:0.85; }
+  .explore-filter-btn, .filter-tab {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px) saturate(1.3);
+    -webkit-backdrop-filter: blur(12px) saturate(1.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    transition: all 0.15s ease;
+  }
+  .explore-filter-btn.active, .filter-tab.active,
+  .explore-filter-btn[data-active="true"], .filter-tab[data-active="true"] {
+    background: var(--glass-bg-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  /* AXIS Home typography hierarchy polish */
+  .home-greeting {
+    letter-spacing: 0.10em;
+    opacity: 0.55;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  .home-last-movement-head,
+  .home-routine-head {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.45;
+    color: var(--text-white);
+  }
+  .track-card-name { letter-spacing: -0.02em; }
+  .track-card-sub { letter-spacing: 0.08em; }
   [data-theme="light"] .home-category-tab:not([aria-selected="true"]) {
     color:color-mix(in srgb, var(--mood-color) 50%, #ffffff);
     -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 50%, #ffffff);
@@ -8793,7 +8861,8 @@ const css = `
   .app[data-night="true"] .content .home-category-tab[aria-selected="true"]::after,
   .app[data-night="true"] .home .home-category-tab[aria-selected="true"]::after,
   .app[data-night="true"] .home-category-tab[aria-selected="true"]::after {
-    background:#FF3B30 !important;
+    content:none !important;
+    background:transparent !important;
   }
   .home-browse-heading {
     font-size:var(--text-base);
@@ -14968,7 +15037,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       marginBottom: 24,
       padding: "20px var(--page-gutter) 22px",
       borderRadius: 12,
-      background: "rgba(255, 255, 255, 0.03)",
+      background: "color-mix(in srgb, var(--mood-color, #22e6d4) 14%, rgba(255,255,255,0.03))",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       boxShadow: "none",
       backdropFilter: "blur(20px)",
@@ -15016,19 +15085,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const homeLogStamp = (() => {
       if (!lastMovementEntry) return "LOGGED: --";
       const raw = lastMovementEntry.loggedAt || lastMovementEntry.timestamp || lastMovementEntry.ts || lastMovementEntry.at || lastMovementEntry.date;
-      const parsed = raw != null ? new Date(raw) : null;
-      if (!parsed || Number.isNaN(parsed.getTime())) return "LOGGED: --";
-      const month = parsed.toLocaleString("en-US", { month: "short" }).toUpperCase();
-      const day = String(parsed.getDate()).padStart(2, "0");
-      const time = parsed.toLocaleString("en-US", { hour: "numeric", minute: "2-digit", hour12: true }).toUpperCase();
-      return `LOGGED: ${month} ${day}, ${time}`;
+      const normalizedRaw = typeof raw === "string" && /^\d{4}-\d{2}-\d{2}$/.test(raw) ? `${raw}T00:00:00` : raw;
+      const loggedDate = normalizedRaw != null ? new Date(normalizedRaw) : null;
+      if (!loggedDate || Number.isNaN(loggedDate.getTime())) return "LOGGED: --";
+      const loggedLabel = loggedDate.toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true });
+      return `LOGGED: ${String(loggedLabel).toUpperCase()}`;
     })();
     const renderHomeRoutineTrackCard = (trackId, keyPrefix) => {
       const t = TRACKS && TRACKS[trackId];
       if (!t) return null;
       const cardDur = getTrackDisplayDuration(t.id);
       const isFav = favoriteTrackIds.indexOf(t.id) !== -1;
-      return /*#__PURE__*/React.createElement("div", { className: "track-card session-card home-routine-track-card", key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
+      return /*#__PURE__*/React.createElement("div", { className: "track-card session-card home-routine-track-card glass-card", key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
@@ -15067,8 +15135,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-header-lock" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-welcome", id: "axis-home-welcome" }, timeGreeting), /*#__PURE__*/
-      React.createElement("div", { className: "track-group start-here-group today-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
+      React.createElement("div", { className: "home-welcome home-greeting", id: "axis-home-welcome" }, timeGreeting), /*#__PURE__*/
+      React.createElement("div", { className: "track-group start-here-group today-card glass-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 700, fontFamily: "'Inter', var(--font-ui), sans-serif", fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 700, fontFamily: "var(--font-display)", letterSpacing: "-0.02em", color: todayInk, marginBottom: 6 } }, periodLabels[periodKey]), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySuggestionText), /*#__PURE__*/
@@ -15086,12 +15154,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           ["--axis-today-glow"]: homeHighlight
         },
         "aria-label": `Start ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}` },
-      todayTrack.label
+      "BEGIN"
       )
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-last-movement-card", role: "region", "aria-label": "Last movement" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-last-movement-head" }, "LAST MOVEMENT"),
-      lastMovementTrack ? /*#__PURE__*/React.createElement("button", { type: "button", className: "home-recent-row", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(lastMovementTrackId);}, "aria-label": `Resume ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}` }, /*#__PURE__*/React.createElement("svg", { className: "home-last-movement-walk-svg", viewBox: "0 0 100 24", preserveAspectRatio: "none", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { fill: "none", stroke: "currentColor", strokeWidth: "1.25", vectorEffect: "non-scaling-stroke", points: axisHomeWalkPolylinePoints(lastMovementTrackId) })), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-copy" }, /*#__PURE__*/React.createElement("div", { className: "home-recent-row-title" }, lastMovementTrack.label), /*#__PURE__*/React.createElement("div", { className: "home-recent-row-meta" }, getTrackDisplayDuration(lastMovementTrackId)), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-stamp" }, homeLogStamp))) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "No recent movement yet.")
+      React.createElement("div", { className: "home-last-movement-card glass-card", role: "region", "aria-label": "Last movement" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-last-movement-head" }, "LAST SESSION"),
+      lastMovementTrack ? /*#__PURE__*/React.createElement("button", { type: "button", className: "home-recent-row", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(lastMovementTrackId);}, "aria-label": `Resume ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}` }, /*#__PURE__*/React.createElement("svg", { className: "home-last-movement-walk-svg", viewBox: "0 0 100 24", preserveAspectRatio: "none", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { fill: "none", stroke: "currentColor", strokeWidth: "1.25", vectorEffect: "non-scaling-stroke", points: axisHomeWalkPolylinePoints(lastMovementTrackId) })), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-copy" }, /*#__PURE__*/React.createElement("div", { className: "home-recent-row-title" }, lastMovementTrack.label), /*#__PURE__*/React.createElement("div", { className: "home-recent-row-meta" }, getTrackDisplayDuration(lastMovementTrackId)), homeLogStamp && homeLogStamp !== "LOGGED: --" ? /*#__PURE__*/React.createElement("div", { className: "home-last-movement-stamp" }, homeLogStamp) : /*#__PURE__*/React.createElement("span", { style: { opacity: 0.4, fontSize: "12px", fontFamily: "monospace" } }, "no session logged today"))) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "No recent movement yet.")
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-sections-rule", "aria-hidden": "true" }), /*#__PURE__*/
       React.createElement("div", { className: "home-nav-anchor", role: "tablist", "aria-label": "Home content sections" }, /*#__PURE__*/
@@ -15131,7 +15199,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home-browse-head" }, "BROWSE"), /*#__PURE__*/
       React.createElement("div", { className: "home-category-strip-wrap" }, /*#__PURE__*/
       React.createElement("div", {
-        className: "home-category-strip",
+        className: "home-category-strip explore-filters",
         role: "tablist",
         "aria-label": "Filter tracks by category"
       }, HOME_CATEGORY_FILTERS.map((cf) => /*#__PURE__*/
@@ -15139,7 +15207,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         key: cf.id,
         type: "button",
         role: "tab",
-        className: "home-category-tab",
+        className: "home-category-tab filter-tab explore-filter-btn" + (homeTrackCategory === cf.id ? " active" : ""),
+        "data-active": homeTrackCategory === cf.id ? "true" : "false",
         "aria-selected": homeTrackCategory === cf.id ? "true" : "false",
         style: homeTrackCategory === cf.id ?
         { color: "var(--mood-color)", WebkitTextFillColor: "var(--mood-color)" } :
@@ -15334,7 +15403,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     tab === "list" && /*#__PURE__*/
     React.createElement(React.Fragment, null,
     visibleSections.map((sec) => /*#__PURE__*/
-    React.createElement("div", { className: "sg", key: sec.label }, /*#__PURE__*/
+    React.createElement("div", { className: "sg glass-card", key: sec.label }, /*#__PURE__*/
     React.createElement("div", { className: "sh" }, /*#__PURE__*/
     React.createElement("span", { className: "sh-tag" }, sec.tag), /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
