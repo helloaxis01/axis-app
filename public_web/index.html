@@ -45,7 +45,7 @@
       --text-lg: 20px;
       --text-2xl: 24px;
       --text-xl: 32px;
-      --page-gutter: 16px;
+      --page-gutter: 20px;
       --axis-white: #f6f7f8;
       --axis-black: #252525;
       --motion-slow: 800ms ease-in-out;
@@ -1031,7 +1031,7 @@ const css = `
     --axis-safe-bottom-inset: 34px;
     --safe-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--axis-safe-bottom-inset));
     --page-padding: 16px;
-    --page-gutter: 16px;
+    --page-gutter: 20px;
     --font-display: 'Inter', sans-serif;
     --font-ui: 'Inter', sans-serif;
     --font-body: var(--font-ui);
@@ -2568,6 +2568,176 @@ const css = `
     font-size: var(--text-lg) !important;
   }
   .settings-density .app-screen-title { margin-bottom: 14px !important; }
+  .settings-ios-page {
+    background: transparent;
+    padding-inline: 20px;
+    box-sizing: border-box;
+  }
+  .app-body--settings-pad {
+    background: var(--tab-bg);
+  }
+  .settings-ios-section-title {
+    font-family: var(--font-data);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    margin: 10px 0 8px;
+    font-weight: 600;
+  }
+  .settings-ios-section-title--button {
+    margin: 0;
+  }
+  .settings-ios-disclosure {
+    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 0 14px;
+    min-height: 36px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+    color: var(--text-secondary);
+    margin: 4px 0 6px;
+  }
+  .settings-ios-disclosure-chevron {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.75;
+  }
+  .settings-ios-disclosure-group > summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .settings-ios-disclosure-group > summary::-webkit-details-marker {
+    display: none;
+  }
+  .settings-ios-disclosure-group {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .settings-ios-disclosure-group > .settings-ios-disclosure {
+    padding: 0;
+    margin: 4px 0 6px;
+    min-height: 36px;
+  }
+  .settings-ios-disclosure-group > .settings-ios-group {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 14px;
+  }
+  /* If disclosure groups render at app-body level, keep them on the same rail as SESSION/GOALS */
+  .app-body.app-body--settings-pad > .settings-ios-disclosure-group {
+    margin-left: max(var(--page-gutter), env(safe-area-inset-left, 0px));
+    margin-right: max(var(--page-gutter), env(safe-area-inset-right, 0px));
+  }
+  .settings-ios-disclosure-group:not([open]) .settings-ios-group {
+    display: none;
+  }
+  .settings-ios-disclosure-group[open] .settings-ios-disclosure-chevron {
+    transform: rotate(180deg);
+    opacity: 1;
+  }
+  .settings-ios-disclosure-chevron.is-open {
+    transform: rotate(180deg);
+    opacity: 1;
+  }
+  .settings-ios-group {
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--glass-bg) 92%, transparent);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .settings-ios-row {
+    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding: 12px 14px;
+    min-height: 44px;
+    border: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+    background: transparent;
+    color: var(--text-white);
+    text-align: left;
+    font-family: inherit;
+    font-size: var(--text-sm);
+    box-sizing:border-box;
+  }
+  .settings-ios-group > :last-child { border-bottom: none; }
+  .settings-ios-row--stack {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .settings-ios-label { font-weight: 500; color: var(--text-white); }
+  .settings-ios-right { display:inline-flex; align-items:center; gap:8px; color: var(--text-dimmer); }
+  .settings-ios-meta { font-size: var(--text-xs); color: var(--text-dimmer); }
+  .settings-ios-meta--muted { opacity: 0.8; }
+  .settings-ios-value-badge {
+    display:inline-flex;
+    padding: 2px 8px;
+    border-radius:999px;
+    font-size: var(--text-xs);
+    color: var(--mood-color);
+    background: color-mix(in srgb, var(--mood-color) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--mood-color) 30%, transparent);
+  }
+  .settings-ios-segment {
+    width:100%;
+    display:flex;
+    gap:6px;
+    margin-top:8px;
+  }
+  .settings-ios-segment-btn {
+    flex:1;
+    min-height:34px;
+    border-radius:9px;
+    border:1px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-data);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .settings-ios-segment-btn--active {
+    border-color: color-mix(in srgb, var(--mood-color) 55%, transparent);
+    background: color-mix(in srgb, var(--mood-color) 18%, transparent);
+    color: var(--mood-color);
+    font-weight: 600;
+  }
+  .settings-ios-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--mood-color) 55%, transparent);
+    display: inline-block;
+  }
+  .settings-ios-link-row { text-decoration: none; }
+  .settings-ios-row--danger {
+    color: #d94b4b;
+    font-weight: 600;
+    justify-content: flex-start;
+  }
+  .content--session .step-cue,
+  .content--session .purpose-text,
+  .content--session .fc-pcue,
+  .content--session .fv-cue {
+    padding-inline: 16px;
+    box-sizing: border-box;
+  }
   .settings-block {
     border-top: 1px solid var(--border);
     padding-top: 14px;
@@ -7399,10 +7569,10 @@ const css = `
     pointer-events: none;
   }
   .tab-btn:active { transform: scale(0.95); opacity: 0.88; }
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn { color: color-mix(in srgb, var(--axis-black) 34%, transparent); }
+  .tab-bar[data-night="false"][data-theme="light"] .tab-btn { color: color-mix(in srgb, var(--axis-black) 46%, transparent); }
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active { color: #1D1D1F; }
 
-  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn { color: color-mix(in srgb, var(--axis-white) 25%, transparent); }
+  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn { color: color-mix(in srgb, var(--axis-white) 38%, transparent); }
   .tab-bar[data-night="false"][data-theme="dark"] .tab-btn.active { color: #D1D5DB; }
 
   .tab-bar[data-night="false"][data-theme="light"] .tab-btn:hover:not(.active) { color: color-mix(in srgb, var(--axis-black) 47%, transparent); }
@@ -8077,6 +8247,53 @@ const css = `
     gap: 6px;
     flex-shrink: 0;
   }
+  .mood-base-theme__toggle--full {
+    width: 100%;
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 4px;
+    background: color-mix(in srgb, var(--glass-bg) 84%, transparent);
+    gap: 4px;
+    box-sizing: border-box;
+  }
+  .mood-base-theme-btn {
+    flex: 1;
+    min-height: 36px;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-data);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .mood-base-theme-btn--active {
+    border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+    background: color-mix(in srgb, var(--accent-dim) 44%, transparent);
+    color: var(--accent);
+  }
+  .mood-period-badge {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:18px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-family: var(--font-data);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .mood-period-badge--locked {
+    background: color-mix(in srgb, var(--text-dimmer) 20%, transparent);
+    color: var(--text-dim);
+    border: 1px solid color-mix(in srgb, var(--text-dimmer) 32%, transparent);
+  }
 
   /* ── HOME ── */
   .home {
@@ -8651,6 +8868,23 @@ const css = `
   .home-slide-view--explore .track-card-sub { font-size:calc(var(--text-sm) - 2px) !important; }
   .home-slide-view--explore .track-card-purpose { font-size:calc(var(--text-base) - 2px) !important; }
   .track-card-title-stack { flex:1; min-width:0; width:100%; }
+  .track-card-category-badge {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: fit-content;
+    margin-bottom:8px;
+    padding:2px 8px;
+    border-radius:999px;
+    font-family:var(--font-data);
+    font-size:9px;
+    font-weight:600;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color: color-mix(in srgb, var(--mood-color) 78%, var(--text-secondary));
+    background: color-mix(in srgb, var(--mood-color) 22%, transparent);
+    border:1px solid color-mix(in srgb, var(--mood-color) 38%, transparent);
+  }
   .home-slide-view--explore .track-card-dur { margin-top:8px; }
   .track-card-footer {
     display:flex; align-items:center; justify-content:space-between; width:100%; gap:12px;
@@ -9192,7 +9426,7 @@ const css = `
     text-overflow: ellipsis;
   }
   .track-card-sub { margin-bottom: 8px; }
-  .track-card-purpose { font-size: var(--text-base); margin-top:10px; }
+  .track-card-purpose { font-size: var(--text-base); margin-top:10px; line-height:1.5; }
   .track-card-right { display:flex; align-items:center; justify-content:space-between; width:100%; }
   .track-card-dur {
     font-size: var(--text-sm); font-family:var(--font-meta); letter-spacing:-0.02em; text-transform:uppercase; color:var(--text-dim);
@@ -9815,7 +10049,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     })()
     ), /*#__PURE__*/
     React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
-    !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": "Favorite workout", "aria-pressed": faved ? "true" : "false" }, "\u2605"), /*#__PURE__*/
+    !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": "Favorite workout", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "13", height: "13", viewBox: "0 0 24 24", fill: faved ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
     React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, skipped ? /*#__PURE__*/
     React.createElement("svg", { width: "13", height: "13", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/
     React.createElement("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }), /*#__PURE__*/
@@ -10025,7 +10259,7 @@ function DashboardHeader({ progressFillPct = 0, progressOverdrive = false, histo
 function TabBar({ view, setView, theme, nightMode = false }) {
   const HomeIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" }));
   const MetricsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("polyline", { points: "8 12.5 11 15.5 16.5 9" }));
-  const MoodIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "5" }));
+  const MoodIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "1.5", x2: "12", y2: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "20", x2: "12", y2: "22.5" }), /*#__PURE__*/React.createElement("line", { x1: "1.5", y1: "12", x2: "4", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "20", y1: "12", x2: "22.5", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.6", y1: "4.6", x2: "6.35", y2: "6.35" }), /*#__PURE__*/React.createElement("line", { x1: "17.65", y1: "17.65", x2: "19.4", y2: "19.4" }), /*#__PURE__*/React.createElement("line", { x1: "4.6", y1: "19.4", x2: "6.35", y2: "17.65" }), /*#__PURE__*/React.createElement("line", { x1: "17.65", y1: "6.35", x2: "19.4", y2: "4.6" }));
   const TimerIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("path", { d: "M12 7.5 L12 12 L17 12" }));
   const SettingsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /*#__PURE__*/React.createElement("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" }));
 
@@ -14124,6 +14358,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [metricsWeightArchive, setMetricsWeightArchive] = useState(() => axisMetricsMergeWeightArchive([], storageGet(AXIS_WEIGHT_ARCHIVE_KEY, [])));
   const [metricsPainArchive, setMetricsPainArchive] = useState(() => axisMetricsMergePainArchive([], storageGet(AXIS_PAIN_ARCHIVE_KEY, [])));
   const [archivedDataOpen, setArchivedDataOpen] = useState(false);
+  const [privacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
+  const [settingsHealthOpen, setSettingsHealthOpen] = useState(true);
+  const [settingsDataOpen, setSettingsDataOpen] = useState(true);
+  const [settingsAboutOpen, setSettingsAboutOpen] = useState(true);
+  const [settingsAccountOpen, setSettingsAccountOpen] = useState(true);
   const [metricsStepsToday, setMetricsStepsToday] = useState(null);
   const [metricsHealthHint, setMetricsHealthHint] = useState("");
   const [healthConnectSyncMsg, setHealthConnectSyncMsg] = useState("");
@@ -14337,6 +14576,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {
     if (view === "home" && hasActiveSession) storageSet("axis_last_session_tab", tab);
   }, [tab, view, hasActiveSession]);
+  useEffect(() => {
+    if (view === "settings") {
+      setSettingsHealthOpen(true);
+      setSettingsDataOpen(true);
+      setSettingsAboutOpen(true);
+      setSettingsAccountOpen(true);
+    }
+  }, [view]);
   useEffect(() => {storageSet("axis_done", done);}, [done]);
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
@@ -14445,71 +14692,55 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   if (view === "timer") {
     return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
   }
-  if (view === "settings") return (/*#__PURE__*/
-    React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
-    React.createElement("style", null, css), /*#__PURE__*/
-    React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
-    React.createElement("div", { className: "app-body app-body--settings-pad settings-density" }, /*#__PURE__*/
-    dashboardHeaderEl, /*#__PURE__*/
-    React.createElement("div", { className: "settings-page-rail" }, /*#__PURE__*/
-    React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
-    React.createElement("div", { className: "app-screen-title" }, "Settings"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-goals-panel", style: { marginBottom: 14 } }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "Daily Movement Goal"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-help-text" }, "5 minutes is a good start. Aim for 10-20."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-slider-group" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-slider-label-row" }, /*#__PURE__*/
-    React.createElement("label", { className: "settings-slider-label", htmlFor: "axis-daily-goal" }, "Minutes per day"), /*#__PURE__*/
-    React.createElement("span", { className: "settings-slider-value", "aria-live": "polite" }, dailyGoalMinutes, " min")
-    ), /*#__PURE__*/
-    React.createElement("input", {
-      className: "settings-range",
-      id: "axis-daily-goal",
-      type: "range",
-      min: 1,
-      max: 90,
-      step: 1,
-      value: dailyGoalMinutes,
-      onChange: (e) => {
-        const n = Number(e.target.value);
-        setDailyGoalMinutes(n);
-        setWeeklyFollowsDaily(true);
-        setWeeklyGoalMinutes(axisSnapWeeklyGoalMinutes(n * 7));
-      },
-      style: { accentColor: "var(--accent)" }
-    })
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "Weekly Movement Goal"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-help-text" }, "Your weekly target. Adjust anytime."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-slider-group" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-slider-label-row" }, /*#__PURE__*/
-    React.createElement("label", { className: "settings-slider-label", htmlFor: "axis-weekly-goal" }, "Minutes per week"), /*#__PURE__*/
-    React.createElement("span", { className: "settings-slider-value", "aria-live": "polite" }, weeklyGoalMinutes, " min")
-    ), /*#__PURE__*/
-    React.createElement("input", {
-      className: "settings-range",
-      id: "axis-weekly-goal",
-      type: "range",
-      min: 5,
-      max: 500,
-      step: 5,
-      value: weeklyGoalMinutes,
-      onChange: (e) => {
-        setWeeklyFollowsDaily(false);
-        setWeeklyGoalMinutes(Number(e.target.value));
-      },
-      style: { accentColor: "var(--accent)" }
-    })
-    )
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-block settings-block--session" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "Health & metrics"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-help-text", style: { marginBottom: 12 } }, "Sync from Apple Health (iPhone) or Health Connect (Android). Pulls weight and steps into Metrics."),
-    React.createElement("button", {
-      type: "button",
-      className: "settings-outline-btn axis-surface-tmt settings-health-sync-btn",
-      onClick: async () => {
+  if (view === "settings") {
+    const hasHealthData = Boolean(metricsHealthHint && /synced|updated|connected/i.test(metricsHealthHint + " " + healthConnectSyncMsg));
+    const accountEmail = typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.email ? String(window.AXIS_auth.currentUser.email) : storageGet("axis_user_email", null) || "Not signed in";
+    const appVersion = "v1.0.0";
+    const RowChevron = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }));
+    const DisclosureChevron = ({ open }) => /*#__PURE__*/React.createElement("svg", { className: "settings-ios-disclosure-chevron" + (open ? " is-open" : ""), width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" }));
+    const MailIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" }), /*#__PURE__*/React.createElement("polyline", { points: "22,6 12,13 2,6" }));
+    const Toggle = ({ on, setOn }) => /*#__PURE__*/React.createElement("button", { onClick: () => {axisHapticTick();setOn((v) => !v);}, style: { flexShrink: 0, width: 44, height: 26, border: "1px solid", borderColor: on ? "var(--mood-color)" : "var(--glass-border-strong)", borderRadius: 13, background: on ? "var(--mood-color)" : "var(--glass-bg)", cursor: "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: 3, left: on ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: nightMode ? "#000000" : "rgba(255,255,255,0.95)", transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" } }));
+    return (/*#__PURE__*/
+      React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
+      React.createElement("style", null, css), /*#__PURE__*/
+      React.createElement("div", { className: "app-orbs", style: { background: "none", transition: "background 0.4s ease" } }), /*#__PURE__*/
+      React.createElement("div", { className: "app-body app-body--settings-pad settings-density" }, /*#__PURE__*/
+      dashboardHeaderEl, /*#__PURE__*/
+      React.createElement("div", { className: "settings-page-rail settings-ios-page" }, /*#__PURE__*/
+      React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
+      React.createElement("div", { className: "app-screen-title" }, "Settings")), /*#__PURE__*/
+
+      React.createElement("div", { className: "settings-ios-section-title" }, "Appearance"), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/
+      React.createElement("span", { className: "settings-ios-label" }, "Base Theme"), /*#__PURE__*/
+      React.createElement("div", { className: "mood-base-theme__toggle mood-base-theme__toggle--full", style: nightMode ? { opacity: 0.45, pointerEvents: "none" } : {} },
+      [{ val: "light", label: "Light" }, { val: "dark", label: "Dark" }].map(({ val, label }) => /*#__PURE__*/
+      React.createElement("button", { key: val, type: "button", onClick: nightMode ? undefined : () => {if (theme !== val) {axisHapticTick();toggleTheme();}}, className: "mood-base-theme-btn" + (theme === val ? " mood-base-theme-btn--active" : "") }, label)))), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();setView("mood");} }, /*#__PURE__*/
+      React.createElement("span", { className: "settings-ios-label" }, "Accent Color"), /*#__PURE__*/
+      React.createElement("span", { className: "settings-ios-right" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-swatch", style: { background: "var(--mood-color)" } }), /*#__PURE__*/React.createElement(RowChevron, null))), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/
+      React.createElement("span", { className: "settings-ios-label" }, "Show % Done"), /*#__PURE__*/
+      React.createElement(Toggle, { on: showPct, setOn: setShowPct }))), /*#__PURE__*/
+
+      React.createElement("div", { className: "settings-ios-section-title" }, "Goals"), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Daily Goal"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-value-badge" }, dailyGoalMinutes, " min"), /*#__PURE__*/React.createElement("input", { className: "settings-range", type: "range", min: 1, max: 90, step: 1, value: dailyGoalMinutes, onChange: (e) => {const n = Number(e.target.value);setDailyGoalMinutes(n);setWeeklyFollowsDaily(true);setWeeklyGoalMinutes(axisSnapWeeklyGoalMinutes(n * 7));}, style: { accentColor: "var(--mood-color)" } })), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Weekly Goal"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-value-badge" }, weeklyGoalMinutes, " min"), /*#__PURE__*/React.createElement("input", { className: "settings-range", type: "range", min: 5, max: 500, step: 5, value: weeklyGoalMinutes, onChange: (e) => {setWeeklyFollowsDaily(false);setWeeklyGoalMinutes(Number(e.target.value));}, style: { accentColor: "var(--mood-color)" } }))), /*#__PURE__*/
+
+      React.createElement("div", { className: "settings-ios-section-title" }, "Session"), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/
+      React.createElement("span", { className: "settings-ios-label" }, "Timer Length per Exercise"), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-segment" },
+      [30, 45, 60].map((sec) => /*#__PURE__*/React.createElement("button", { key: sec, type: "button", onClick: () => {axisHapticTick();setExerciseDuration(sec);}, className: "settings-ios-segment-btn" + (exerciseDuration === sec ? " settings-ios-segment-btn--active" : "") }, sec === 60 ? "1 min" : `${sec}s`)), /*#__PURE__*/
+      React.createElement("button", { type: "button", onClick: () => {axisHapticTick();setExerciseDuration(90);}, className: "settings-ios-segment-btn" + (![30, 45, 60].includes(exerciseDuration) ? " settings-ios-segment-btn--active" : "") }, "Custom"))))), /*#__PURE__*/
+
+      React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
+      React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "Health"), React.createElement(DisclosureChevron, null)),
+      React.createElement("div", { className: "settings-ios-group" },
+      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: async () => {
         axisHapticTick();
         setHealthConnectSyncMsg("Syncing…");
         try {
@@ -14519,169 +14750,64 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           setMetricsStepsToday(steps);
           if (imported.length > 0) {
             setMetricsWeightSamples((prev) => axisMetricsMergeWeightByTs(axisMetricsNormalizeWeightList(prev), imported));
-            setMetricsHealthHint("Synced from Apple Health / Health Connect");
-            setHealthConnectSyncMsg("Updated weight and steps.");
+            setMetricsHealthHint("Connected");
+            setHealthConnectSyncMsg("Connected");
           } else {
-            setMetricsHealthHint(typeof window.axisFetchHealthWeightSamples === "function" ? "" : "No health data yet, use Log Weight on Metrics or open this app from the native shell.");
-            setHealthConnectSyncMsg("No new weight samples. Steps refreshed if available.");
+            setHealthConnectSyncMsg("Not connected");
           }
         } catch (e) {
-          setHealthConnectSyncMsg("Could not sync. Enable permissions in Apple Health or Health Connect.");
+          setHealthConnectSyncMsg("Not connected");
         }
-      }
-    }, "Connect & sync from Health"),
-    healthConnectSyncMsg && /*#__PURE__*/React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", marginTop: 12, lineHeight: 1.45 } }, healthConnectSyncMsg)
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-block settings-block--session" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "Session Bar"),
-    [
-    { label: "Show % done", desc: "Percentage of exercises completed in the current track.", val: showPct, set: setShowPct }].
-    map(({ label, desc, val, set }) => /*#__PURE__*/
-    React.createElement("div", { key: label, style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 12 } }, /*#__PURE__*/
-    React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, label), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, width: "100%", maxWidth: "100%" } }, desc)
-    ), /*#__PURE__*/
-    React.createElement("button", { onClick: () => {axisHapticTick();set((s) => !s);}, style: { flexShrink: 0, marginTop: 2, width: 44, height: 26, border: "1px solid", borderColor: val ? "var(--accent)" : "var(--glass-border-strong)", borderRadius: 13, background: val ? "var(--accent)" : "var(--glass-bg)", cursor: "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
-    React.createElement("div", { style: { position: "absolute", top: 3, left: val ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: nightMode ? "#000000" : "rgba(255,255,255,0.95)", transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" } })
-    )
-    )
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-block settings-block--session" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "Session"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-session-stack", style: { display: "flex", flexDirection: "column", gap: 12 } }, /*#__PURE__*/
-    React.createElement("div", { style: { marginTop: 10 } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, "Timer length per exercise"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-help-text" }, "Set timer length for each LIST exercise."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-session-preset-row", style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-    [30, 45, 60].map((sec) => /*#__PURE__*/
-    React.createElement("button", { key: sec, className: exerciseDuration === sec ? "ultra-filled-btn settings-chip--active" : undefined, onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setExerciseDuration(sec);}, style: { fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 8, border: "1px solid", borderColor: exerciseDuration === sec ? "var(--accent)" : "var(--glass-border)", background: exerciseDuration === sec ? "var(--accent)" : "var(--glass-bg)", color: exerciseDuration === sec ? nightMode ? "#000000" : theme === "light" ? "#f6f7f8" : "#252525" : "var(--text-secondary)", cursor: "pointer", fontWeight: 600 } },
-    sec === 60 ? "1 min" : `${sec} sec`
-    )
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", null, /*#__PURE__*/
-    React.createElement("label", { className: "settings-custom-duration-label", htmlFor: "axis-exercise-custom" }, "Custom duration (seconds)"),
-    React.createElement("input", {
-      id: "axis-exercise-custom",
-      className: "settings-custom-duration-input",
-      type: "number",
-      min: 1,
-      max: 300,
-      step: 1,
-      inputMode: "numeric",
-      placeholder: "e.g., 45",
-      value: exerciseDuration,
-      onChange: (e) => {
-        const raw = e.target.value.replace(/\D/g, "").slice(0, 3);
-        if (raw === "") return;
-        const n = parseInt(raw, 10);
-        if (!Number.isFinite(n)) return;
-        triggerHaptic(HAPTIC_LIGHT_TAP);
-        setExerciseDuration(Math.min(300, Math.max(1, n)));
-      },
-      onBlur: (e) => {
-        const raw = e.target.value.replace(/\D/g, "");
-        const n = parseInt(raw, 10);
-        if (!Number.isFinite(n) || n < 1) setExerciseDuration(45);
-        else setExerciseDuration(Math.min(300, Math.max(1, n)));
-      }
-    }), /*#__PURE__*/
-    React.createElement("div", { className: "settings-custom-duration-hint" }, "Range: 1–300 seconds")
-    )
-    )
-    )
-    , /*#__PURE__*/
-    React.createElement("div", { className: "settings-block settings-block--privacy" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "PRIVACY & DATA"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-sub" }, "YOUR DATA"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "Your workout history, goals, and preferences are stored on this device only. We never see them."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "When you log in, your account info is secured by Firebase Authentication."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-sub" }, "DATA RETENTION"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "\u2022 Data is kept locally for 90 days."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "\u2022 Older entries are automatically archived."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-actions" }, /*#__PURE__*/
-    React.createElement("button", {
-      type: "button",
-      className: "settings-privacy-export-accent",
-      onClick: () => { axisHapticTick(); axisExportAxisLocalData(); }
-    }, "EXPORT MY DATA"), /*#__PURE__*/
-    React.createElement("button", {
-      type: "button",
-      className: "settings-outline-btn settings-privacy-archived-outline",
-      onClick: () => { axisHapticTick(); setArchivedDataOpen(true); }
-    }, "VIEW ARCHIVED DATA")
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-sub" }, "Backups"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "Your data currently stays local. Eventually we will implement cloud storage."), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-sub" }, "What We Don't Do"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "No analytics tracking"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "No data selling"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "No behavioral profiling"), /*#__PURE__*/
-    React.createElement("div", { className: "settings-privacy-line" }, "No cloud storage of your workouts (device-only)")
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-block" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "Custom App Icon"), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, marginBottom: 8, width: "100%", maxWidth: "100%", boxSizing: "border-box" } }, "Pick a home screen icon style."), /*#__PURE__*/
-    React.createElement("div", { className: "ultra-icon-grid", style: { display: "grid", width: "100%", maxWidth: "100%", boxSizing: "border-box", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 10 } },
-    APP_ICON_OPTIONS.map((opt) => {
-      const isSelected = selectedAppIcon === opt.src;
-      return /*#__PURE__*/React.createElement("button", {
-        key: opt.id,
-        type: "button",
-        className: (nightMode ? "ultra-icon-slot " : "") + "settings-app-icon-slot",
-        onClick: nightMode ? undefined : () => setSelectedAppIcon(opt.src),
-        disabled: nightMode,
-        style: {
-          position: "relative",
-          borderRadius: "var(--border-radius-md)",
-          border: nightMode ? "1px solid rgba(255, 59, 48, 0.4)" : "1px solid var(--glass-border)",
-          background: nightMode ? "#000000" : "var(--glass-bg)",
-          padding: 6,
-          cursor: nightMode ? "default" : "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "visible"
-        },
-        "aria-label": `Select ${opt.label} app icon`,
-        "aria-pressed": isSelected ? "true" : "false"
-      }, /*#__PURE__*/React.createElement("img", {
-        src: opt.src,
-        alt: `${opt.label} app icon`,
-        style: { width: "100%", aspectRatio: "1 / 1", borderRadius: 10, display: "block", objectFit: "cover" }
-      }), nightMode && /*#__PURE__*/React.createElement("span", { className: "ultra-icon-slot-dim", "aria-hidden": true }, " "), isSelected && !nightMode && /*#__PURE__*/React.createElement("span", {
-        className: "settings-app-icon-badge",
-        "aria-hidden": true
-      }, /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 24 24", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M20 6L9 17l-5-5" }))));
-    })), /*#__PURE__*/
-    nightMode && /*#__PURE__*/React.createElement("div", { style: { fontSize: "10px", letterSpacing: "0.16em", textTransform: "uppercase", color: "#FF3B30", marginTop: 10, fontWeight: 600 } }, "NOT AVAILABLE IN ULTRA MODE"), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, marginTop: 8, width: "100%", maxWidth: "100%", boxSizing: "border-box", fontWeight: 400 } }, "To apply a new icon, re-save the app using Share.")
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-block settings-block--flush" }, /*#__PURE__*/
-    React.createElement("div", { className: "settings-section-title settings-block__title" }, "About"), /*#__PURE__*/
-    React.createElement("button", { type: "button", className: "settings-outline-btn", onClick: () => { try { const uid = axisActiveUidForStorage(); if (uid) storageSet("axis_onboarded:" + uid, false); else storageSet("axis_onboarded", false); } catch(e){} try { localStorage.setItem('hasCompletedOnboarding','false'); } catch(e){} window.location.href = window.axisOnboardingHref(); } }, "View Onboarding Again"), /*#__PURE__*/
-    React.createElement("div", null, /*#__PURE__*/
-    React.createElement(FeedbackButton, null)
-    )
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "settings-account-footer" }, /*#__PURE__*/
-    React.createElement("hr", { className: "settings-admin-hr" }), /*#__PURE__*/
-    React.createElement(SettingsAuthSection, { isFooter: true })
-    ), /*#__PURE__*/
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })
-    ), /*#__PURE__*/
-    React.createElement(MetricsArchivedDataModal, {
-      open: archivedDataOpen,
-      onClose: () => setArchivedDataOpen(false),
-      weightArchive: metricsWeightArchive,
-      painArchive: metricsPainArchive
-    }), /*#__PURE__*/
-    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
-    ));
+      } }, React.createElement("span", { className: "settings-ios-label" }, "Connect Apple Health"), React.createElement("span", { className: "settings-ios-right" }, React.createElement("span", { className: "settings-ios-meta" }, hasHealthData ? "Connected" : "Not connected"), React.createElement(RowChevron, null))))),
+
+      React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
+      React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "Data"), React.createElement(DisclosureChevron, null)),
+      React.createElement("div", { className: "settings-ios-group" },
+      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();axisExportAxisLocalData();} }, React.createElement("span", { className: "settings-ios-label" }, "Export My Data"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
+      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();setArchivedDataOpen(true);} }, React.createElement("span", { className: "settings-ios-label" }, "View Archived Data"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
+      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();setPrivacyPolicyOpen(true);} }, React.createElement("span", { className: "settings-ios-label" }, "Privacy Policy"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))))),
+
+      React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
+      React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "About"), React.createElement(DisclosureChevron, null)),
+      React.createElement("div", { className: "settings-ios-group" },
+      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => { try { const uid = axisActiveUidForStorage(); if (uid) storageSet("axis_onboarded:" + uid, false); else storageSet("axis_onboarded", false); } catch (e) {} try { localStorage.setItem("hasCompletedOnboarding", "false"); } catch (e) {} window.location.href = window.axisOnboardingHref(); } }, React.createElement("span", { className: "settings-ios-label" }, "View Onboarding"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
+      React.createElement("a", { href: "mailto:hello@adamlorber.com", className: "settings-ios-row settings-ios-link-row" }, React.createElement("span", { className: "settings-ios-label" }, "Send Feedback"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(MailIcon, null), React.createElement(RowChevron, null))),
+      React.createElement("div", { className: "settings-ios-row" }, React.createElement("span", { className: "settings-ios-label" }, "App Version"), React.createElement("span", { className: "settings-ios-meta" }, appVersion)),
+      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack", style: { alignItems: "stretch" } },
+      React.createElement("span", { className: "settings-ios-label", style: { marginBottom: 8 } }, "Custom App Icon"),
+      React.createElement("div", { className: "ultra-icon-grid", style: { display: "grid", width: "100%", maxWidth: "100%", boxSizing: "border-box", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 10 } },
+      APP_ICON_OPTIONS.map((opt) => {
+        const isSelected = selectedAppIcon === opt.src;
+        return React.createElement("button", {
+          key: opt.id,
+          type: "button",
+          className: (nightMode ? "ultra-icon-slot " : "") + "settings-app-icon-slot",
+          onClick: nightMode ? undefined : () => setSelectedAppIcon(opt.src),
+          disabled: nightMode,
+          style: { position: "relative", borderRadius: "var(--border-radius-md)", border: nightMode ? "1px solid rgba(255, 59, 48, 0.4)" : "1px solid var(--glass-border)", background: nightMode ? "#000000" : "var(--glass-bg)", padding: 6, cursor: nightMode ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", overflow: "visible" },
+          "aria-label": `Select ${opt.label} app icon`,
+          "aria-pressed": isSelected ? "true" : "false"
+        }, React.createElement("img", { src: opt.src, alt: `${opt.label} app icon`, style: { width: "100%", aspectRatio: "1 / 1", borderRadius: 10, display: "block", objectFit: "cover" } }), nightMode && React.createElement("span", { className: "ultra-icon-slot-dim", "aria-hidden": true }, " "), isSelected && !nightMode && React.createElement("span", { className: "settings-app-icon-badge", "aria-hidden": true }, React.createElement("svg", { viewBox: "0 0 24 24", "aria-hidden": true }, React.createElement("path", { d: "M20 6L9 17l-5-5" }))));
+      })))),
+
+      React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
+      React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "Account"), React.createElement(DisclosureChevron, null)),
+      React.createElement("div", { className: "settings-ios-group" },
+      React.createElement("div", { className: "settings-ios-row" }, React.createElement("span", { className: "settings-ios-label" }, "Email"), React.createElement("span", { className: "settings-ios-meta settings-ios-meta--muted" }, accountEmail)),
+      React.createElement("button", { type: "button", className: "settings-ios-row settings-ios-row--danger", onClick: () => {axisHapticTick();try { localStorage.removeItem("axis_auth_uid"); } catch (e) {}if (window.AXIS_signOut) window.AXIS_signOut().catch(() => {});} }, "Log Out"),
+      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, React.createElement(SettingsAuthSection, { isFooter: true }))))), /*#__PURE__*/
+
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })), /*#__PURE__*/
+      privacyPolicyOpen && /*#__PURE__*/React.createElement("div", { className: "metrics-archive-backdrop", onClick: () => setPrivacyPolicyOpen(false) }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-modal", role: "dialog", "aria-modal": "true", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-header" }, /*#__PURE__*/React.createElement("h3", { className: "metrics-archive-title" }, "Privacy Policy"), /*#__PURE__*/React.createElement("button", { type: "button", className: "metrics-archive-close", onClick: () => setPrivacyPolicyOpen(false), "aria-label": "Close privacy policy" }, "\u00d7")), /*#__PURE__*/React.createElement("div", { className: "metrics-archive-body", style: { display: "flex", flexDirection: "column", gap: 10 } }, /*#__PURE__*/React.createElement("p", null, "Your workout history, goals, and preferences are stored on this device. We do not sell or profile your data."), /*#__PURE__*/React.createElement("p", null, "Account login uses Firebase Authentication. Local records are retained and older entries are archived automatically."), /*#__PURE__*/React.createElement("p", null, "You can export data any time from Data > Export My Data.")))), /*#__PURE__*/
+      React.createElement(MetricsArchivedDataModal, {
+        open: archivedDataOpen,
+        onClose: () => setArchivedDataOpen(false),
+        weightArchive: metricsWeightArchive,
+        painArchive: metricsPainArchive
+      }), /*#__PURE__*/
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      ));
+  }
 
 
   // MOOD
@@ -14724,20 +14850,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("button", { onClick: nightMode ? undefined : () => {axisHapticTick();const n = activePeriod === null ? nowPeriod : null;setActivePeriod(n);storageSet("axis_period", n);}, style: { flexShrink: 0, width: 44, height: 26, border: "1px solid", borderColor: activePeriod === null ? "var(--accent)" : "var(--glass-border-strong)", borderRadius: 13, background: activePeriod === null ? "var(--accent)" : "var(--glass-bg)", cursor: nightMode ? "default" : "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
       React.createElement("div", { style: { position: "absolute", top: 3, left: activePeriod === null ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: nightMode ? "#000000" : "rgba(255,255,255,0.95)", transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" } })
       )
-      ), /*#__PURE__*/
-      React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, paddingTop: 10, marginTop: 2 } }, /*#__PURE__*/
-      React.createElement("span", { className: "mood-base-theme__label" }, "BASE THEME"),
-      React.createElement("div", { className: "mood-base-theme__toggle", style: nightMode ? { opacity: 0.45, pointerEvents: "none", transition: "opacity 0.2s ease" } : {} },
-      [{ val: "dark", label: "Dark" }, { val: "light", label: "Light" }].map(({ val, label }) => /*#__PURE__*/
-      React.createElement("button", { key: val, type: "button", onClick: nightMode ? undefined : () => {axisHapticTick();toggleTheme();}, style: {
-        padding: "5px 10px", borderRadius: 8, cursor: nightMode ? "default" : "pointer",
-        fontFamily: "var(--font-display)", fontSize: "10px", fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase",
-        border: theme === val ? "1px solid color-mix(in srgb, var(--accent) 50%, transparent)" : "1px solid color-mix(in srgb, var(--glass-border) 65%, transparent)",
-        background: theme === val ? "color-mix(in srgb, var(--accent-dim) 35%, transparent)" : "color-mix(in srgb, var(--glass-bg) 40%, transparent)",
-        color: theme === val ? "color-mix(in srgb, var(--accent) 70%, var(--text-secondary))" : "color-mix(in srgb, var(--text-dimmer) 95%, transparent)",
-        transition: "all 0.18s", lineHeight: 1.2
-      } }, label)
       )
+      ), /*#__PURE__*/
+
+      React.createElement("div", { style: { marginBottom: 12 } }, /*#__PURE__*/
+      React.createElement("div", { className: "mood-base-theme__label", style: { marginBottom: 8 } }, "BASE THEME"), /*#__PURE__*/
+      React.createElement("div", { className: "mood-base-theme__toggle mood-base-theme__toggle--full", style: nightMode ? { opacity: 0.45, pointerEvents: "none", transition: "opacity 0.2s ease" } : {} },
+      [{ val: "dark", label: "Dark" }, { val: "light", label: "Light" }].map(({ val, label }) => /*#__PURE__*/
+      React.createElement("button", { key: val, type: "button", onClick: nightMode ? undefined : () => {if (theme !== val) {axisHapticTick();toggleTheme();}}, className: "mood-base-theme-btn" + (theme === val ? " mood-base-theme-btn--active" : "") }, label)
       )
       )
       ), /*#__PURE__*/
@@ -14768,10 +14888,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
               transition: "box-shadow 0.2s"
             } }, icon), /*#__PURE__*/
           React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /*#__PURE__*/
-          React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, marginBottom: 3 } }, /*#__PURE__*/
+          React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 3 } }, /*#__PURE__*/
           React.createElement("span", { style: { fontSize: "var(--text-base)", fontWeight: 600, color: isSelected ? ct.accent : "var(--text-white)", fontFamily: "var(--font-display)", letterSpacing: "-0.01em" } }, label), /*#__PURE__*/
           React.createElement("span", { style: { fontSize: "var(--text-xs)", color: nightMode ? ct.accent : "var(--text-dimmer)" } }, time),
-          isNow && !nightMode && /*#__PURE__*/React.createElement("span", { style: { fontSize: "var(--text-xs)", color: "var(--text-dimmer)", letterSpacing: "0.02em", textTransform: "none", fontWeight: 500 } }, "Now")
+          activePeriod === null && isNow && /*#__PURE__*/React.createElement("span", { className: "mood-period-badge", style: { background: ct.accent, color: nightMode ? "#000" : "#111" } }, "ACTIVE"),
+          activePeriod !== null && isSelected && /*#__PURE__*/React.createElement("span", { className: "mood-period-badge mood-period-badge--locked" }, "LOCKED")
           ), /*#__PURE__*/
           React.createElement("div", { style: { fontSize: "var(--text-sm)", color: nightMode ? ct.accent : "var(--text-secondary)" } }, desc)
           )
@@ -14786,7 +14907,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, marginBottom: 0 } }, /*#__PURE__*/
       React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, "Ultra Mode"), /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, width: "100%", maxWidth: "100%" } }, "Pure black OLED background with AXIS red accents. Optimized for low light.")
+      React.createElement("div", { style: { fontSize: "var(--text-xs)", fontWeight: 400, color: "var(--text-secondary)", lineHeight: 1.45, width: "100%", maxWidth: "100%" } }, "Pure black OLED background with AXIS red accents. Optimized for low light.")
       ), /*#__PURE__*/
       React.createElement("button", { onClick: () => {axisHapticTick();toggleNight();}, style: { flexShrink: 0, marginTop: 2, width: 44, height: 26, border: "1px solid", borderColor: nightMode ? "var(--accent)" : "var(--glass-border-strong)", borderRadius: 13, background: nightMode ? "var(--accent)" : "var(--glass-bg)", cursor: "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
       React.createElement("div", { style: { position: "absolute", top: 3, left: nightMode ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: nightMode ? "#000000" : "rgba(255,255,255,0.95)", transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" } })
@@ -15194,14 +15315,26 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const loggedLabel = loggedDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
       return `LOGGED: ${String(loggedLabel).toUpperCase()}`;
     })();
+    const homeCategoryBadgeLabel = (categoryId) => {
+      switch (categoryId) {
+        case "foundation":return "FULL BODY";
+        case "time":return "MOBILITY";
+        case "targeted":return "TARGETED";
+        case "body":return "CARDIO";
+        case "all":
+        default:return "SESSION";
+      }
+    };
     const renderHomeRoutineTrackCard = (trackId, keyPrefix) => {
       const t = TRACKS && TRACKS[trackId];
       if (!t) return null;
       const cardDur = getTrackDisplayDuration(t.id);
       const isFav = favoriteTrackIds.indexOf(t.id) !== -1;
+      const badgeLabel = homeCategoryBadgeLabel(TRACK_CATEGORY_BY_ID[trackId] || "all");
       return /*#__PURE__*/React.createElement("div", { className: "track-card session-card home-routine-track-card glass-card", key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-category-badge" }, badgeLabel), /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
       React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
@@ -15209,7 +15342,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "track-card-footer" }, /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M12 2.5l2.6 5.4 6 .6-4.4 3.8 1.3 6L12 15.9 6.5 18.3 7.8 12.3 3.5 8.5l6-.6z" }))), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
       React.createElement("button", { className: "begin-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")
       )
       );
@@ -15329,10 +15462,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-group", key: g.id }, /*#__PURE__*/
       homeTrackCategory === "all" && /*#__PURE__*/React.createElement("div", { className: "track-group-label" }, g.label), /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);const isFav = favoriteTrackIds.indexOf(t.id) !== -1;return (/*#__PURE__*/
+      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);const isFav = favoriteTrackIds.indexOf(t.id) !== -1;const badgeLabel = homeCategoryBadgeLabel(g.id);return (/*#__PURE__*/
           React.createElement("div", { className: "track-card session-card", key: t.id, "data-category": TRACK_CATEGORY_BY_ID[id] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
           React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
           React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+          React.createElement("span", { className: "track-card-category-badge" }, badgeLabel), /*#__PURE__*/
           React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
           React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
           React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
@@ -15340,7 +15474,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           )
           ), /*#__PURE__*/
           React.createElement("div", { className: "track-card-footer" }, /*#__PURE__*/
-          React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M12 2.5l2.6 5.4 6 .6-4.4 3.8 1.3 6L12 15.9 6.5 18.3 7.8 12.3 3.5 8.5l6-.6z" }))), /*#__PURE__*/
+          React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
           React.createElement("button", { className: "begin-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")
           )
           ));
