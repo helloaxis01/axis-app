@@ -234,7 +234,7 @@ const CIRCADIAN_THEMES = {
       orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(220,120,30,0.18) 0%, transparent 76%)",
       accent: "#C85A00", accentDim: "rgba(200,90,0,0.18)", accentGlow: "rgba(200,90,0,0.38)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #ffe8c8 0%, #ffd4a0 35%, #ffbf78 70%, #ffd4a8 100%)",
+      bg: "linear-gradient(160deg, #F5F2EE 0%, #F2EFE9 50%, #F0EDE8 100%)",
       textPrimary: "#2a1200"
     }
   },
@@ -255,7 +255,7 @@ const CIRCADIAN_THEMES = {
       orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(0,150,125,0.22) 0%, transparent 76%)",
       accent: "#007A6A", accentDim: "rgba(0,122,106,0.16)", accentGlow: "rgba(0,122,106,0.34)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #f0fffc 0%, #e0fff8 35%, #d0fff4 70%, #e8fff9 100%)",
+      bg: "linear-gradient(160deg, #F0F3F5 0%, #EDF0F2 50%, #EBF0F3 100%)",
       textPrimary: "#00261f"
     }
   },
@@ -276,7 +276,7 @@ const CIRCADIAN_THEMES = {
       orb3: "radial-gradient(ellipse 75% 75% at 50% 118%, rgba(40,90,200,0.22) 0%, transparent 76%)",
       accent: "#1060C0", accentDim: "rgba(16,96,192,0.17)", accentGlow: "rgba(16,96,192,0.38)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #d8eeff 0%, #c0e0ff 35%, #a8d4ff 70%, #c8e8ff 100%)",
+      bg: "linear-gradient(160deg, #EEEEF5 0%, #EBEBF2 50%, #E8E8F0 100%)",
       textPrimary: "#001830"
     }
   },
@@ -297,7 +297,7 @@ const CIRCADIAN_THEMES = {
       orb3: "radial-gradient(ellipse 75% 75% at 50% 120%, rgba(90,40,180,0.20) 0%, transparent 76%)",
       accent: "#6030B0", accentDim: "rgba(96,48,176,0.18)", accentGlow: "rgba(96,48,176,0.38)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #ece0ff 0%, #ddd0ff 35%, #cec0ff 70%, #e0d4ff 100%)",
+      bg: "linear-gradient(160deg, #EEEEF5 0%, #EAEAF2 50%, #E6E6F0 100%)",
       textPrimary: "#180030"
     }
   }
@@ -328,7 +328,7 @@ function applyCircadianTheme(isDark, period) {
       --mood-accent: ${t.accent} !important;
       --mood-color: ${t.accent} !important;
       --accent: ${t.accent} !important;
-      ${t.bg ? `--bg-app: ${t.bg} !important;` : ""}
+      ${t.bg && isDark ? `--bg-app: ${t.bg} !important;` : ""}
       --accent-secondary: ${accentSec} !important;
       --accent-dim: ${t.accentDim} !important;
       --accent-glow: ${t.accentGlow} !important;
@@ -1296,7 +1296,8 @@ const css = `
   /* ── LIQUID GLASS VARIABLES ── */
   [data-theme="dark"] {
     /* Match MAIN_APP_BG.dark: deep navy shell; orbs control most color */
-    --bg-gradient: radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%);
+    /* Additional ~20% lighter toward white */
+    --bg-gradient: radial-gradient(ellipse at 50% 40%, #78818E 0%, #767C85 45%, #75787D 100%);
     --orb1: radial-gradient(ellipse 60% 50% at 20% 20%, rgba(99,179,237,0.18) 0%, transparent 70%);
     --orb2: radial-gradient(ellipse 50% 60% at 80% 70%, rgba(167,139,250,0.15) 0%, transparent 70%);
     --orb3: radial-gradient(ellipse 40% 40% at 60% 10%, rgba(251,191,36,0.10) 0%, transparent 70%);
@@ -1342,20 +1343,20 @@ const css = `
     --color-border-primary: color-mix(in srgb, var(--accent) 72%, var(--border-card) 28%);
   }
   [data-theme="light"] {
-    --bg-gradient: linear-gradient(145deg, #dce6f0 0%, #e4ebf4 35%, #eaf0f7 70%, #f0f5fa 100%);
-    --orb1: radial-gradient(ellipse 65% 55% at 10% 15%, rgba(80,140,200,0.12) 0%, transparent 65%);
-    --orb2: radial-gradient(ellipse 55% 65% at 90% 75%, rgba(100,160,210,0.09) 0%, transparent 65%);
-    --orb3: radial-gradient(ellipse 50% 45% at 55% 5%,  rgba(140,180,220,0.07) 0%, transparent 65%);
+    --bg-gradient: linear-gradient(160deg, #F0F2F4 0%, #F4F5F7 50%, #F2F4F6 100%);
+    --orb1: radial-gradient(ellipse 65% 55% at 10% 15%, rgba(180,190,200,0.08) 0%, transparent 65%);
+    --orb2: radial-gradient(ellipse 55% 65% at 90% 75%, rgba(180,190,200,0.06) 0%, transparent 65%);
+    --orb3: radial-gradient(ellipse 50% 45% at 55% 5%,  rgba(180,190,200,0.04) 0%, transparent 65%);
     --glass-bg: rgba(255,255,255,0.55);
     --glass-bg-hover: rgba(255,255,255,0.72);
-    --glass-border: rgba(200,220,240,0.68);
-    --glass-border-strong: rgba(160,195,225,0.78);
+    --glass-border: rgba(180,185,195,0.35);
+    --glass-border-strong: rgba(160,170,185,0.55);
     --glass-specular: rgba(255,255,255,0.88);
     --glass-shadow: 0 2px 12px rgba(20,50,90,0.11), 0 1px 4px rgba(20,50,90,0.06);
     --glass-shadow-lg: 0 10px 32px rgba(20,50,90,0.13), 0 2px 10px rgba(20,50,90,0.07);
     /* Tab bar: opaque strip vs lavender gradient (Safari/iOS) */
-    --tab-bg: #f6f7f8;
-    --hdr-bg: rgba(235,243,250,0.75);
+    --tab-bg: #F2F4F6;
+    --hdr-bg: rgba(242,244,246,0.85);
     --text-primary: var(--axis-black);
     --text-secondary: rgba(22,26,32,0.92);
     --text-tertiary: rgba(18,22,28,0.88);
@@ -3413,7 +3414,11 @@ const css = `
     border-radius: inherit;
     pointer-events: none;
     z-index: 0;
-    background: radial-gradient(72% 52% at 50% 22%, color-mix(in srgb, var(--mood-color) 15%, transparent) 0%, transparent 72%);
+    background:
+      linear-gradient(180deg,
+      color-mix(in srgb, var(--mood-color) 22%, transparent) 0%,
+      color-mix(in srgb, var(--mood-color) 12%, transparent) 28%,
+      transparent 72%);
   }
   .today-card--ghost {
     box-sizing:border-box;
@@ -8355,7 +8360,7 @@ const css = `
     width:2px;
     height:18px;
     border-radius:2px;
-    background:rgba(34,230,212,0.92);
+    background:color-mix(in srgb, var(--mood-color) 92%, transparent);
     transform:translateY(-50%);
     box-sizing:border-box;
   }
@@ -8391,8 +8396,8 @@ const css = `
     justify-content:center;
     gap:34px;
     padding:0;
-    margin-top:4px;
-    margin-bottom:0;
+    margin-top:32px;
+    margin-bottom:16px;
   }
   .home-nav-anchor-btn {
     border:1px solid transparent;
@@ -8414,12 +8419,31 @@ const css = `
     border-radius:4px;
   }
   .home-nav-anchor-btn[aria-selected="true"] { opacity:1; border:1px solid rgba(255,255,255,0.6); }
+  [data-theme="light"] .home-nav-anchor-btn {
+    color: var(--axis-black);
+    opacity: 0.45;
+  }
+  [data-theme="light"] .home-nav-anchor-btn[aria-selected="true"] {
+    opacity: 1;
+    border-color: rgba(0,0,0,0.55);
+  }
+  /* AXIS — light mode hero card neutral surface */
+  [data-theme="light"] .home-today-card,
+  [data-theme="light"] .today-card {
+    background: rgba(255,255,255,0.62) !important;
+    border: 1px solid rgba(0,0,0,0.07) !important;
+  }
+  /* AXIS — light mode last session card contrast */
+  [data-theme="light"] .home-last-movement-card {
+    background: rgba(255,255,255,0.55) !important;
+    border: 1px solid rgba(0,0,0,0.09) !important;
+  }
   .home-slide-shell {
     width:100%;
     max-width:100%;
     overflow:hidden;
     box-sizing:border-box;
-    padding-top:16px;
+    padding-top:0;
     position:relative;
     z-index:10;
   }
@@ -8490,11 +8514,12 @@ const css = `
     justify-content:space-between;
     gap:10px;
     margin-bottom:0;
+    color: var(--text-white);
   }
   .home-routine-head-btn {
     border:none;
     background:transparent;
-    color:rgba(255,255,255,0.52);
+    color: var(--text-white);
     width:22px;
     height:22px;
     min-width:22px;
@@ -8505,10 +8530,17 @@ const css = `
     justify-content:center;
     cursor:pointer;
     padding:0;
-    transition:background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    transition:background 0.18s ease, color 0.18s ease, transform 0.18s ease, opacity 0.18s ease;
   }
-  .home-routine-head-btn:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.82); }
-  .home-routine-head-btn svg { width:14px; height:14px; display:block; transition:transform 0.22s ease; }
+  .home-routine-head-btn:hover { background:rgba(255,255,255,0.06); }
+  .home-routine-head-btn:hover svg { opacity: 0.82; }
+  .home-routine-head-btn svg {
+    width:14px;
+    height:14px;
+    display:block;
+    opacity: 0.45;
+    transition:transform 0.22s ease, opacity 0.18s ease;
+  }
   .home-routine-head-btn[aria-expanded="true"] svg { transform:rotate(180deg); }
   .home-routine-collapse {
     overflow:hidden;
@@ -8745,6 +8777,12 @@ const css = `
     font-size: 11px !important;
     font-weight: 500 !important;
   }
+  .home-category-tab.explore-filter-btn:not([aria-selected="true"]),
+  .home-category-tab.filter-tab:not([aria-selected="true"]) {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
   .home-category-tab[aria-selected="true"] {
     color:var(--mood-color);
     opacity:1;
@@ -8793,6 +8831,11 @@ const css = `
     text-transform: uppercase;
     opacity: 0.45;
     color: var(--text-white);
+  }
+  .home-last-movement-card .home-last-movement-head {
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
+    opacity: 0.88;
   }
   .track-card-name { letter-spacing: -0.02em; }
   .track-card-sub { letter-spacing: 0.08em; }
@@ -14165,7 +14208,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       document.documentElement.style.removeProperty("--bg-app-a");
       document.documentElement.style.removeProperty("--bg-app-b");
       document.body.style.transition = "none";
-      document.body.style.background = newBg;
+      if (theme !== "light") document.body.style.background = newBg;
+      else document.body.style.background = "";
       prevMoodBgRef.current = newBg;
       return () => {document.body.style.background = "";};
     }
@@ -14176,7 +14220,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       document.documentElement.classList.remove("axis-mood-xfade--b-top");
       document.documentElement.style.removeProperty("--bg-app-a");
       document.documentElement.style.removeProperty("--bg-app-b");
-      document.body.style.background = newBg;
+      if (theme !== "light") document.body.style.background = newBg;
+      else document.body.style.background = "";
       prevMoodBgRef.current = newBg;
       return () => {document.body.style.background = "";};
     }
@@ -14202,7 +14247,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       prevMoodBgRef.current = newBg;
     }
 
-    document.body.style.background = newBg;
+    if (theme !== "light") document.body.style.background = newBg;
+    else document.body.style.background = "";
     return () => {
       document.body.style.background = "";
       if (moodXfadeTimerRef.current) {
@@ -15037,7 +15083,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       marginBottom: 24,
       padding: "20px var(--page-gutter) 22px",
       borderRadius: 12,
-      background: "color-mix(in srgb, var(--mood-color, #22e6d4) 14%, rgba(255,255,255,0.03))",
+      background: "var(--glass-bg)",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       boxShadow: "none",
       backdropFilter: "blur(20px)",
@@ -15088,7 +15134,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const normalizedRaw = typeof raw === "string" && /^\d{4}-\d{2}-\d{2}$/.test(raw) ? `${raw}T00:00:00` : raw;
       const loggedDate = normalizedRaw != null ? new Date(normalizedRaw) : null;
       if (!loggedDate || Number.isNaN(loggedDate.getTime())) return "LOGGED: --";
-      const loggedLabel = loggedDate.toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true });
+      const loggedLabel = loggedDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
       return `LOGGED: ${String(loggedLabel).toUpperCase()}`;
     })();
     const renderHomeRoutineTrackCard = (trackId, keyPrefix) => {
@@ -15140,7 +15186,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 700, fontFamily: "'Inter', var(--font-ui), sans-serif", fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 700, fontFamily: "var(--font-display)", letterSpacing: "-0.02em", color: todayInk, marginBottom: 6 } }, periodLabels[periodKey]), /*#__PURE__*/
       React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySuggestionText), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.1em", marginBottom: 18, fontFamily: "'Roboto Mono', ui-monospace, monospace", fontWeight: 500 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
+      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.1em", marginBottom: 18, fontFamily: "'Roboto Mono', ui-monospace, monospace", fontWeight: 500, fontSize: "9px", opacity: 0.5 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
       React.createElement("button", {
         className: "begin-btn begin-btn--today-primary ultra-filled-btn",
         onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(todayTrack.id);},
