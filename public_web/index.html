@@ -1296,8 +1296,8 @@ const css = `
   /* ── LIQUID GLASS VARIABLES ── */
   [data-theme="dark"] {
     /* Match MAIN_APP_BG.dark: deep navy shell; orbs control most color */
-    /* Additional ~20% lighter toward white */
-    --bg-gradient: radial-gradient(ellipse at 50% 40%, #78818E 0%, #767C85 45%, #75787D 100%);
+    /* Additional ~20% lighter again toward white */
+    --bg-gradient: radial-gradient(ellipse at 50% 40%, #939AA5 0%, #91959D 45%, #909296 100%);
     --orb1: radial-gradient(ellipse 60% 50% at 20% 20%, rgba(99,179,237,0.18) 0%, transparent 70%);
     --orb2: radial-gradient(ellipse 50% 60% at 80% 70%, rgba(167,139,250,0.15) 0%, transparent 70%);
     --orb3: radial-gradient(ellipse 40% 40% at 60% 10%, rgba(251,191,36,0.10) 0%, transparent 70%);
@@ -3571,7 +3571,7 @@ const css = `
     background:var(--glass-bg); border:1px solid var(--glass-border); color:var(--text-secondary);
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   }
-  .chev { color:var(--text-dim); font-size: var(--text-sm); transition:transform 0.25s; align-self:center; min-width: 36px; min-height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .chev { color:var(--text-dim); font-size: var(--text-sm); transition:transform 0.25s; align-self:center; min-width: 28px; min-height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
   .chev.op { transform:rotate(180deg); }
   .row-actions { display:flex; gap:4px; flex-shrink:0; align-self:center; }
   .ra-btn {
@@ -3603,13 +3603,24 @@ const css = `
     background: rgba(255,255,255,0.12) !important;
     border: 1px solid rgba(255,255,255,0.14) !important;
     border-radius: 50% !important;
-    min-width: 36px;
-    min-height: 36px;
+    min-width: 28px;
+    min-height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 4px 8px;
     color: rgba(255,255,255,0.60) !important;
+  }
+  /* LIST + GUIDED: favorite/skip state colors */
+  .content--session .ra-btn {
+    border: none !important;
+    color: #ffffff !important;
+  }
+  .content--session .ra-btn.fav-on,
+  .content--session .ra-btn.skip-on {
+    border: none !important;
+    color: color-mix(in srgb, var(--mood-color) 50%, #ffffff) !important;
+    background: color-mix(in srgb, var(--mood-color) 16%, transparent) !important;
   }
 
   /* ── GUIDED CARD ── */
@@ -3812,6 +3823,10 @@ const css = `
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  /* START GUIDED media frame: no drop shadow */
+  .exercise-carousel__graphic-frame.axis-surface-tmt {
+    box-shadow: none !important;
   }
   .app[data-night="true"] .exercise-carousel__graphic-frame {
     border-color: rgba(255, 59, 48, 0.35);
@@ -8427,6 +8442,48 @@ const css = `
     opacity: 1;
     border-color: rgba(0,0,0,0.55);
   }
+  /* AXIS — light mode rule/line contrast + control visibility */
+  [data-theme="light"] .home-sections-rule,
+  [data-theme="light"] .home-routine-separator {
+    background: rgba(37,37,37,0.30);
+  }
+  [data-theme="light"] {
+    --border: rgba(37,37,37,0.30);
+    --instruction-step-divider: rgba(37,37,37,0.30);
+  }
+  [data-theme="light"] .chk,
+  [data-theme="light"] .ra-btn,
+  [data-theme="light"] .content--session-list .chev,
+  [data-theme="light"] .home-routine-head-btn {
+    color: rgba(37,37,37,0.50) !important;
+    border-color: rgba(37,37,37,0.50) !important;
+  }
+  [data-theme="light"] .ra-btn:hover,
+  [data-theme="light"] .home-routine-head-btn:hover,
+  [data-theme="light"] .content--session-list .chev:hover,
+  [data-theme="light"] .chk:hover {
+    color: rgba(37,37,37,0.50) !important;
+    border-color: rgba(37,37,37,0.50) !important;
+  }
+  [data-theme="light"] .home-routine-head-btn:hover svg {
+    opacity: 1;
+  }
+  /* LIST/GUIDED controls: 25% lighter than prior 50% tone */
+  [data-theme="light"] .content--session .chk.on {
+    background: rgba(37,37,37,0.38) !important;
+    border-color: rgba(37,37,37,0.38) !important;
+    box-shadow: none !important;
+  }
+  [data-theme="light"] .content--session .chev {
+    color: rgba(37,37,37,0.38) !important;
+    border-color: rgba(37,37,37,0.38) !important;
+    background: rgba(37,37,37,0.08) !important;
+  }
+  .content--session .ra-btn.fav-on,
+  .content--session .ra-btn.skip-on,
+  .content--session .chev {
+    border: none !important;
+  }
   /* AXIS — light mode hero card neutral surface */
   [data-theme="light"] .home-today-card,
   [data-theme="light"] .today-card {
@@ -8705,7 +8762,7 @@ const css = `
     padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 76px);
   }
   .track-group { padding:0; max-width:100%; }
-  .track-group + .track-group { margin-top:14px; }
+  .track-group + .track-group { margin-top:22px; }
   .track-group-label {
     font-size: var(--text-sm); font-family: var(--font-data); font-weight:500; letter-spacing:0.28em; text-transform:uppercase;
     color:var(--text-dim); margin-bottom:var(--home-group-label-gap);
