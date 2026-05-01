@@ -3806,11 +3806,38 @@ const css = `
   .er-card { border-bottom:1px solid var(--border); transition:background 0.18s ease, border-color 0.18s ease; position:relative; background:transparent; }
   .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; cursor:pointer; transition:background 0.18s ease, opacity 0.18s ease; position:relative; border-radius:0; }
   .content--session .er-card > .er {
-    align-items:flex-start;
-    gap:10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
     padding:14px 0;
     padding-inline: var(--er-panel-pad-inline);
     box-sizing: border-box;
+  }
+  .content--session .er-top {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  /* Title first (aligns with er-body); chk sits with actions, left of bookmark */
+  .content--session .er-top .chk {
+    align-self: flex-start;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .content--session .er-body {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .content--session .er-body .es {
+    margin-top: 0;
+  }
+  .content--session .er-body .ereps {
+    margin-top: 4px;
   }
   /* LIST/GUIDED: match expanded panel inset when closed so the header row doesn’t shift on open */
   /* (padding-inline inherited from rule above) */
@@ -11061,22 +11088,14 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   return (/*#__PURE__*/
     React.createElement("div", { className: `er-card ${open ? "er-card--open" : ""}` }, /*#__PURE__*/
     React.createElement("div", { ref: rowRef, className: `er ${open ? "open" : ""} ${skipped ? "skipped" : ""}`, onClick: () => {axisHapticTick();onExpand();}, style: skipped ? { opacity: 0.32 } : {} },
+    /*#__PURE__*/React.createElement("div", { className: "er-top" },
+    /*#__PURE__*/React.createElement("div", { className: "ei" }, /*#__PURE__*/
+    React.createElement("div", { className: `en ${done && !skipped ? "done" : ""} ${skipped ? "skipped" : ""}` }, ex.name)
+    ), /*#__PURE__*/
     !hideDone && /*#__PURE__*/React.createElement("div", { className: `chk ${done && !skipped ? "on" : ""}`, onClick: (e) => {e.stopPropagation();if (!skipped) {triggerHaptic(HAPTIC_SUCCESS);onToggle();}} }, /*#__PURE__*/
     React.createElement("svg", { width: "9", height: "7", viewBox: "0 0 9 7", fill: "none" }, /*#__PURE__*/
     React.createElement("path", { d: "M1 3.5L3.2 5.5L8 1", stroke: "#13181B", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" })
     )
-    ), /*#__PURE__*/
-    /*#__PURE__*/React.createElement("div", { className: "ei" }, /*#__PURE__*/
-    React.createElement("div", { className: `en ${done && !skipped ? "done" : ""} ${skipped ? "skipped" : ""}` }, ex.name), /*#__PURE__*/
-    React.createElement("div", { className: "es" }, ex.sub),
-    !skipped && !hideDone && (() => {
-      const effectiveSeconds = exerciseDurationSeconds != null ? exerciseDurationSeconds : ex.seconds || 0;
-      const useOverride = exerciseDurationSeconds != null;
-      const displayText = useOverride ?
-      effectiveSeconds === 60 ? "1 MIN" : `${effectiveSeconds} SEC` :
-      ex.reps;
-      return displayText ? /*#__PURE__*/React.createElement("div", { className: "ereps" }, displayText) : null;
-    })()
     ), /*#__PURE__*/
     React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
     !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "13", height: "13", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", fill: faved ? "currentColor" : "none", stroke: faved ? "none" : "currentColor", strokeWidth: faved ? "0" : "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
@@ -11088,6 +11107,18 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     "—")
     ), /*#__PURE__*/
     React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: { marginLeft: 2 } }, "\u25BE")
+    ), /*#__PURE__*/
+    /*#__PURE__*/React.createElement("div", { className: "er-body" }, /*#__PURE__*/
+    React.createElement("div", { className: "es" }, ex.sub),
+    !skipped && !hideDone && (() => {
+      const effectiveSeconds = exerciseDurationSeconds != null ? exerciseDurationSeconds : ex.seconds || 0;
+      const useOverride = exerciseDurationSeconds != null;
+      const displayText = useOverride ?
+      effectiveSeconds === 60 ? "1 MIN" : `${effectiveSeconds} SEC` :
+      ex.reps;
+      return displayText ? /*#__PURE__*/React.createElement("div", { className: "ereps" }, displayText) : null;
+    })()
+    )
     ),
     open && /*#__PURE__*/
     React.createElement("div", { ref: sessionDetailPanelRef, className: "panel protocol-panel", tabIndex: -1, role: "region", "aria-label": `${ex.name}, exercise details`, style: skipped ? { opacity: 0.45 } : {} }, /*#__PURE__*/
