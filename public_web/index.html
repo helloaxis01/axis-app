@@ -3929,7 +3929,7 @@ const css = `
   .today-card--ghost {
     box-sizing:border-box;
   }
-  /* Home: unified NOW + LAST SESSION smart card (one track-card shell, two tappable rows) */
+  /* Home: unified NOW + START LAST SESSION smart card (one track-card shell, two tappable rows) */
   .home .home-smart-card--unified.track-card--home-browse {
     padding: 0;
     gap: 0;
@@ -3951,8 +3951,19 @@ const css = `
     touch-action: manipulation;
     padding: 10px max(var(--page-gutter), env(safe-area-inset-left, 0px)) 10px max(var(--page-gutter), env(safe-area-inset-right, 0px));
   }
+  .home-smart-card__hit--now {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background:
+      linear-gradient(180deg,
+      color-mix(in srgb, var(--mood-color) 22%, transparent) 0%,
+      color-mix(in srgb, var(--mood-color) 14%, transparent) 58%,
+      transparent 100%);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--glass-border) 62%, transparent);
+  }
   .home-smart-card__hit--last {
-    padding-bottom: 11px;
+    padding-top: 8px;
+    padding-bottom: 9px;
   }
   .home-smart-card__hit:focus {
     outline: none;
@@ -3968,10 +3979,10 @@ const css = `
   }
   .home-smart-card__hit .track-card-home-chevron {
     top: 9px;
-    right: max(12px, var(--page-gutter));
+    right: 14px;
   }
   .home-smart-card__body {
-    padding-right: 22px;
+    padding-right: 14px;
     min-width: 0;
   }
   .home-smart-card__eyebrow {
@@ -3992,7 +4003,7 @@ const css = `
     letter-spacing: -0.03em;
     line-height: 1.12;
     color: var(--text-white);
-    margin: 0 0 4px;
+    margin: 0 0 6px;
   }
   .app[data-theme="light"]:not([data-night="true"]) .home-smart-card__title-now {
     color: #121418;
@@ -4020,29 +4031,45 @@ const css = `
   }
   .home-smart-card__last-main {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: baseline;
-    gap: 6px 10px;
-    row-gap: 4px;
+    justify-content: space-between;
+    gap: 8px;
     min-width: 0;
+    width: 100%;
   }
   .home-smart-card__title-last {
     font-family: var(--font-display);
-    font-size: var(--text-base);
+    font-size: calc(var(--text-base) - 1px);
     font-weight: 400;
     letter-spacing: -0.02em;
     color: var(--text-white);
-    flex: 1 1 140px;
+    flex: 1 1 auto;
     min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .app[data-theme="light"]:not([data-night="true"]) .home-smart-card__title-last {
     color: #121418;
   }
   .home-smart-card__dur-date {
-    margin-left: auto;
+    margin-left: 6px;
     flex-shrink: 0;
     text-align: right;
-    max-width: min(52%, 14rem);
+    max-width: none;
+    white-space: nowrap;
+    font-family: var(--font-meta), var(--font-data);
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .home-smart-card__hit--last .home-smart-card__eyebrow,
+  .home-smart-card__hit--last .home-smart-card__title-last,
+  .home-smart-card__hit--last .home-smart-card__dur-date,
+  .home-smart-card__hit--last .track-card-home-chevron {
+    opacity: 0.68;
   }
   .home-smart-card__empty {
     margin: 0;
@@ -10117,10 +10144,12 @@ const css = `
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    white-space: nowrap;
+    white-space: normal;
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
   }
   .track-card-sub { margin-bottom: 8px; }
   .track-card-purpose { font-size: var(--text-base); margin-top:10px; line-height:1.5; }
@@ -10144,7 +10173,7 @@ const css = `
     color: rgba(15, 30, 46, 0.28);
   }
   .track-card-home-body {
-    padding-right: 22px;
+    padding-right: 14px;
     padding-bottom: 10px;
   }
   .track-card-home-footer {
@@ -10175,6 +10204,7 @@ const css = `
   .home .home-routine-track-card.track-card--home-browse .track-card-sub {
     margin-bottom: 8px !important;
     margin-top: 0 !important;
+    font-size: calc(var(--text-xs) + 1px);
   }
   .home .track-card--home-browse .track-card-purpose {
     margin-top: 8px;
@@ -10198,32 +10228,29 @@ const css = `
     color: rgba(255, 59, 48, 0.52) !important;
     -webkit-text-fill-color: rgba(255, 59, 48, 0.52) !important;
   }
-  .home .home-browse-card--favorites .track-card-purpose {
-    font-size: calc(var(--text-sm) - 1px) !important;
-    line-height: 1.4 !important;
-    margin-top: 6px !important;
-    font-weight: 400 !important;
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home .home-browse-card--favorites .track-card-purpose {
-    color: rgba(237, 237, 237, 0.44) !important;
-    -webkit-text-fill-color: rgba(237, 237, 237, 0.44) !important;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .home .home-browse-card--favorites .track-card-purpose {
-    color: rgba(36, 40, 48, 0.46) !important;
-    -webkit-text-fill-color: rgba(36, 40, 48, 0.46) !important;
-  }
-  [data-night="true"] .home .home-browse-card--favorites .track-card-purpose {
-    color: rgba(255, 59, 48, 0.48) !important;
-    -webkit-text-fill-color: rgba(255, 59, 48, 0.48) !important;
-  }
+  .home .home-browse-card--favorites .track-card-sub,
   .home .home-browse-card--recent .track-card-sub {
     font-size: calc(var(--text-xs) + 1px);
   }
-  .home .home-browse-card--recent .track-card-name {
+  .home .home-browse-card--favorites .track-card-name {
     font-size: calc(var(--text-lg) - 4px);
   }
+  .home .home-browse-card--recent .track-card-name {
+    font-size: calc(var(--text-base) - 1px);
+  }
+  .home .home-browse-card--favorites .track-card-home-dur,
   .home .home-browse-card--recent .track-card-home-dur {
     font-size: var(--text-xs);
+  }
+  .home .home-browse-card--recent.track-card--home-browse {
+    padding-top: 14px;
+    padding-bottom: 12px;
+  }
+  .home .home-browse-card--recent .track-card-name,
+  .home .home-browse-card--recent .track-card-sub,
+  .home .home-browse-card--recent .track-card-home-dur,
+  .home .home-browse-card--recent .track-card-home-chevron {
+    opacity: 0.7;
   }
   .home-track-bookmark-btn {
     border: none;
@@ -16083,7 +16110,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const homeSectionIsExplore = homeSection === "explore";
     const recentResolvedHome = recentTracks.filter((id) => TRACKS && TRACKS[id]);
     const favResolvedHome = favoriteTrackIds.filter((id) => TRACKS && TRACKS[id]);
-    const routineRecentsHome = recentResolvedHome.filter((id) => favResolvedHome.indexOf(id) === -1);
     const lastGlobalHist = axisLatestHistoryEntryGlobal(history);
     const lastMovementFromHist = axisResolveTrackIdFromHistoryEntry(lastGlobalHist);
     const lastMovementTrackId = lastMovementFromHist || (recentResolvedHome.length ? recentResolvedHome[0] : null);
@@ -16091,6 +16117,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const lastMovementEntry = lastMovementFromHist ? lastGlobalHist : axisLatestHistoryEntryForTrack(lastMovementTrackId, history);
     const lastSessionLoggedDate = axisDateFromHistoryEntry(lastMovementEntry);
     const lastSessionDayUpper = lastSessionLoggedDate ? axisFormatLastSessionDayUpper(lastSessionLoggedDate) : "";
+    const routineRecentsHome = recentResolvedHome.filter((id) => favResolvedHome.indexOf(id) === -1 && id !== lastMovementTrackId);
     const lastSessionDurDateLine = lastMovementTrackId ?
     lastSessionDayUpper ?
     `${getTrackDisplayDuration(lastMovementTrackId)} \u00b7 ${lastSessionDayUpper}` :
@@ -16122,7 +16149,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
       React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
-      !isRecent ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, t.purpose) : null)), /*#__PURE__*/
+      !isRecent && !isFavorites ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, t.purpose) : null)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Save bookmark", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", fill: isFav ? "currentColor" : "none", stroke: isFav ? "none" : "currentColor", strokeWidth: isFav ? "0" : "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" })))));
@@ -16156,7 +16183,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", {
         className: "home-smart-card home-smart-card--unified track-card session-card track-card--home-browse glass-card",
         role: "region",
-        "aria-label": "Now and last session",
+        "aria-label": "Now and start last session",
         style: { marginBottom: 16 }
       }, /*#__PURE__*/
       React.createElement("div", {
@@ -16185,7 +16212,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         className: "home-smart-card__hit home-smart-card__hit--last",
         role: "button",
         tabIndex: 0,
-        "aria-label": `Last session, ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}${lastSessionDayUpper ? ", " + lastSessionDayUpper : ""}`,
+        "aria-label": `Start last session, ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}${lastSessionDayUpper ? ", " + lastSessionDayUpper : ""}`,
         onClick: () => {axisHapticTick();openTrackDetail(lastMovementTrackId);},
         onKeyDown: (e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -16197,13 +16224,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
       React.createElement("div", { className: "home-smart-card__body" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-smart-card__eyebrow" }, "LAST SESSION"), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__eyebrow" }, "START LAST SESSION"), /*#__PURE__*/
       React.createElement("div", { className: "home-smart-card__last-main" }, /*#__PURE__*/
       React.createElement("span", { className: "home-smart-card__title-last" }, lastMovementTrack.label), /*#__PURE__*/
       React.createElement("span", { className: "home-smart-card__dur-date axis-duration-label" }, lastSessionDurDateLine)))
       ) : /*#__PURE__*/React.createElement("div", { className: "home-smart-card__hit home-smart-card__hit--last home-smart-card__hit--disabled" }, /*#__PURE__*/
       React.createElement("div", { className: "home-smart-card__body" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-smart-card__eyebrow" }, "LAST SESSION"), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__eyebrow" }, "START LAST SESSION"), /*#__PURE__*/
       React.createElement("p", { className: "home-smart-card__empty home-smart-card__empty--sessions" }, "No sessions yet — start one below")))
       )
       ), /*#__PURE__*/
