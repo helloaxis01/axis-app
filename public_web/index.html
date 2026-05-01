@@ -1207,9 +1207,9 @@ const css = `
   .app {
     font-family: var(--font-ui);
     --dashboard-browse-sticky-top: calc(env(safe-area-inset-top, 0px) + 49px);
-    --axis-dashboard-fixed-h: calc(env(safe-area-inset-top, 0px) + 49px);
+    --axis-dashboard-fixed-h: calc(env(safe-area-inset-top, 0px) + 43px);
     /* Session chrome: title + duration + LIST/GUIDED + instruction line (fixed hdr-wrap) */
-    --axis-session-fixed-h: 300px;
+    --axis-session-fixed-h: 228px;
   }
   .home-wordmark, .track-card-name, .hdr-title, .session-title,
   .fc-name, .fv-name, .guided-exercise-name, .en, .step-label,
@@ -2640,7 +2640,7 @@ const css = `
   /* Shared with guided overlay top bar: safe-area + back row (matches Guided flow). */
   .app-hdr-topbar {
     display:flex; align-items:center; gap:12px;
-    padding: max(12px, env(safe-area-inset-top, 0px)) var(--page-gutter) 10px;
+    padding: max(8px, env(safe-area-inset-top, 0px)) var(--page-gutter) 6px;
     flex-shrink:0; position:relative; z-index:2;
     box-sizing:border-box; width:100%;
   }
@@ -2654,8 +2654,8 @@ const css = `
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:6px;
-    padding:8px var(--page-gutter) 0;
+    gap:4px;
+    padding:4px var(--page-gutter) 0;
     box-sizing:border-box;
     width:100%;
   }
@@ -2674,7 +2674,7 @@ const css = `
     margin-top:0;
   }
   .hdr-session-head .tabs {
-    margin-top:10px;
+    margin-top:6px;
   }
   .hdr-session-head .back-btn {
     position:relative !important;
@@ -3285,13 +3285,13 @@ const css = `
     -webkit-backdrop-filter: none;
     box-shadow: none;
     margin: 0;
-    padding: 14px 0 2px;
+    padding: 4px 0 0;
   }
   .hdr-tabs-wrap {
     width: 100%;
     box-sizing: border-box;
-    margin: 8px 0 0;
-    padding: 10px 0 14px;
+    margin: 4px 0 0;
+    padding: 6px 0 8px;
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -8111,7 +8111,7 @@ const css = `
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
-    margin: 14px 0 10px;
+    margin: 10px 0 2px;
     padding: 0;
     gap: 0;
     min-height: 32px;
@@ -8119,9 +8119,13 @@ const css = `
     opacity: 1;
   }
   .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util {
-    margin-top: 14px;
+    margin-top: 10px;
     padding-top: 0;
     border-top: none;
+  }
+  /* Session utility row -> first section: keep tight handoff */
+  .content--session .fav-filter.fav-filter--session-util + .sg.sg--session-sheet {
+    margin-top: 4px !important;
   }
   .fav-filter.fav-filter--session-util .fav-filter__cluster--left {
     display: flex;
@@ -9713,9 +9717,9 @@ const css = `
     -webkit-backdrop-filter:none;
     border-bottom:none;
     padding:0;
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
+    margin-left: calc(-1 * var(--page-gutter));
+    margin-right: calc(-1 * var(--page-gutter));
+    width: calc(100% + 2 * var(--page-gutter));
     margin-top:16px;
     margin-bottom:12px;
   }
@@ -9756,8 +9760,8 @@ const css = `
     flex-wrap: nowrap;
     padding-top:6px;
     padding-bottom:6px;
-    padding-left: var(--page-gutter);
-    padding-right: var(--page-gutter);
+    padding-left: calc(var(--page-gutter) + 2px);
+    padding-right: calc(var(--page-gutter) + 2px);
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -9777,8 +9781,8 @@ const css = `
     box-sizing:border-box;
   }
   .home-slide-view--explore .home-category-strip {
-    padding-left:var(--page-gutter);
-    padding-right:var(--page-gutter);
+    padding-left:calc(var(--page-gutter) + 2px);
+    padding-right:calc(var(--page-gutter) + 2px);
   }
   .home-float-stack {
     position:static;
@@ -16512,7 +16516,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL)
     )
     ), /*#__PURE__*/
-    React.createElement("div", { className: "prog-bar", style: { marginBottom: 0 } }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })),
+    React.createElement("div", { className: "prog-bar", style: { marginBottom: 8 } }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })),
     (tab === "list" || tab === "guided") && /*#__PURE__*/
     React.createElement("div", { className: "fav-filter fav-filter--session-util" }, /*#__PURE__*/
     React.createElement("div", { className: "fav-filter__cluster--left" }, /*#__PURE__*/
