@@ -1643,6 +1643,12 @@ const css = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
+  .app[data-night="true"] .content--session .er-card.er-card--open .protocol-panel.panel,
+  .app[data-night="true"] .content--session .er-card.er-card--open .panel.protocol-panel {
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 59, 48, 0.28) !important;
+    box-shadow: none !important;
+  }
   .app[data-night="true"] .session-card.track-card:hover {
     background: #000000 !important;
     box-shadow: none !important;
@@ -1881,6 +1887,15 @@ const css = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
+  .app[data-night="true"] .content--session .er:not(.open),
+  .app[data-night="true"] .content--session .er.open {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #FF3B30 !important;
+  }
+  .app[data-night="true"] .content--session .er.open {
+    border-bottom-color: transparent !important;
+  }
   [data-night="true"] .track-card::before,
   [data-night="true"] .glass-card::before { background: #FF3B30 !important; }
   [data-night="true"] .tab-bar .tab-bar-top-line { background: #000000 !important; }
@@ -1905,7 +1920,7 @@ const css = `
     min-height: 28px !important;
     height: 28px !important;
     padding: 0 8px !important;
-    border-radius: 999px !important;
+    border-radius: 12px !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
     display: inline-flex !important;
@@ -1974,9 +1989,32 @@ const css = `
     border-radius: 0 !important;
     margin: 0 !important;
     padding: 13px var(--er-panel-pad-inline) !important;
-    background: transparent !important;
+    background: rgba(255, 59, 48, 0.07) !important;
     border: none !important;
     border-bottom: 1px solid #FF3B30 !important;
+  }
+  .app[data-night="true"] .content--session .purpose-note.purpose-note--guided {
+    background: transparent !important;
+    border-color: transparent !important;
+  }
+  .app[data-night="true"] .content--session .purpose-disclosure-hit {
+    color: rgba(255, 59, 48, 0.88) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.88) !important;
+    border-bottom-color: rgba(255, 59, 48, 0.35) !important;
+    background: transparent !important;
+  }
+  .app[data-night="true"] .content--session .purpose-disclosure-hit:hover {
+    background: rgba(255, 59, 48, 0.08) !important;
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+  }
+  .app[data-night="true"] .content--session .purpose-text--guided-body,
+  .app[data-night="true"] .content--session .purpose-text--guided-body * {
+    color: rgba(255, 59, 48, 0.92) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.92) !important;
+  }
+  .app[data-night="true"] .content--session .er-card {
+    background: transparent !important;
   }
 
   /* AXIS Ultra: no glows/shadows */
@@ -3475,7 +3513,7 @@ const css = `
   .session-cta-pad { margin-bottom: var(--axis-safe-bottom); padding-bottom: 12px; }
   .session-cta-pad--guided { margin-bottom: 0; padding-bottom: 0; }
   .session-guided-preview {
-    opacity: 0.75;
+    opacity: 1;
   }
   .sg {
     margin-top:24px;
@@ -3496,25 +3534,106 @@ const css = `
     margin-top:8px; margin-bottom:8px; padding:10px 0;
     border-top:1px solid var(--border); border-bottom:1px solid var(--border);
   }
-  .purpose-label { font-size: var(--text-xs); font-family:var(--font-ui); font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-secondary); margin-bottom:8px; }
+  .purpose-note.purpose-note--list {
+    margin-top:4px;
+    margin-bottom:2px;
+    padding:8px 0 4px;
+    border-bottom:1px solid var(--border);
+  }
+  .purpose-note.purpose-note--guided {
+    margin-top: 2px;
+    margin-bottom: 0;
+    padding: 0;
+    border: none;
+    border-bottom: none;
+  }
+  .purpose-disclosure-hit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
+    padding: 4px 0 8px;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+    font-size: calc(var(--text-xs) + 1px);
+    font-weight: 600;
+    color: color-mix(in srgb, var(--accent-secondary) 92%, transparent);
+    opacity: 0.88;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.15s ease, background 0.15s ease;
+  }
+  .purpose-disclosure-hit:hover {
+    opacity: 1;
+    background: color-mix(in srgb, var(--mood-color) 6%, transparent);
+  }
+  .purpose-disclosure-hit__lbl { flex: 0 0 auto; }
+  .purpose-disclosure-hit__chev {
+    display: inline-block;
+    transition: transform 0.22s ease;
+    font-weight: 400;
+    font-size: 0.92em;
+    opacity: 0.75;
+  }
+  .purpose-disclosure-hit__chev--open {
+    transform: rotate(90deg);
+    opacity: 1;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .purpose-disclosure-hit {
+    color: rgba(15,30,46,0.58);
+    opacity: 1;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .purpose-disclosure-hit:hover {
+    background: color-mix(in srgb, var(--mood-color) 8%, transparent);
+    color: rgba(15,30,46,0.78);
+  }
+  .purpose-text--guided-body {
+    margin-top: 6px;
+    padding-bottom: 4px;
+  }
+  .purpose-label { font-size: var(--text-xs); font-family:var(--font-ui); font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-secondary); margin-bottom:4px; }
 
-  /* ── EXERCISE ROW ── */
-  .er-card { border-bottom:1px solid var(--border); transition:all 0.2s; position:relative; }
-  .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; cursor:pointer; transition:all 0.2s; position:relative; border-radius:0; }
-  /* LIST/GUIDED: match expanded panel inset when closed so the header row doesn’t shift on open */
+  /* ── EXERCISE ROW (LIST + GUIDED preview: flat strips, hairlines) ── */
+  .er-card { border-bottom:1px solid var(--border); transition:background 0.18s ease, border-color 0.18s ease; position:relative; background:transparent; }
+  .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; cursor:pointer; transition:background 0.18s ease, opacity 0.18s ease; position:relative; border-radius:0; }
   .content--session .er-card > .er {
+    align-items:flex-start;
+    gap:10px;
+    padding:14px 0;
     padding-inline: var(--er-panel-pad-inline);
     box-sizing: border-box;
   }
-  .er-card:hover { background:var(--bg-hover); border-bottom-color:transparent; border-radius:10px; margin:0; padding:0; }
-  .er.open {
-    background:transparent; border:none;
-    border-radius:12px 12px 0 0; border-bottom-color:transparent;
-    box-shadow:none;
-    backdrop-filter:none; -webkit-backdrop-filter:none;
-    margin:6px 0 0;
-    padding-top: 13px;
-    padding-bottom: 13px;
+  /* LIST/GUIDED: match expanded panel inset when closed so the header row doesn’t shift on open */
+  /* (padding-inline inherited from rule above) */
+  .content--session .sg.sg--session-sheet > .er-card:last-of-type:not(.er-card--open) {
+    border-bottom: none;
+  }
+  .content--session:not([data-night="true"]) .er-card:hover:not(.er-card--open) {
+    background: color-mix(in srgb, var(--mood-color) 8%, transparent);
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+  }
+  .content--session:not([data-night="true"]) .er-card:hover:not(.er-card--open) {
+    border-bottom-color: var(--border);
+  }
+  .content--session .er.open {
+    margin: 0;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .panel {
     background:var(--glass-bg); border:1px solid var(--glass-border-strong); border-top:none;
@@ -3522,6 +3641,54 @@ const css = `
     margin:0 0 8px;
     backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
     box-shadow:0 4px 20px rgba(60,80,150,0.10), inset 0 -1px 0 var(--glass-specular);
+  }
+  /* LIST / GUIDED expanded row: single unified surface (title row + details share one chrome) */
+  .content--session .er-card.er-card--open {
+    margin: 8px 0 14px;
+    padding: 0;
+    border-bottom: none !important;
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-bg) 94%, transparent) 0%, color-mix(in srgb, var(--glass-bg) 78%, transparent) 100%),
+      color-mix(in srgb, var(--mood-color) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glass-border) 90%, transparent);
+    border-radius: 14px;
+    border-bottom-color: color-mix(in srgb, var(--glass-border) 90%, transparent);
+    backdrop-filter: blur(22px) saturate(1.35);
+    -webkit-backdrop-filter: blur(22px) saturate(1.35);
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 65%, transparent);
+    overflow: hidden;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-card.er-card--open {
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(0, 0, 0, 0.09);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px) saturate(1.25);
+    -webkit-backdrop-filter: blur(20px) saturate(1.25);
+  }
+  .app[data-night="true"] .content--session .er-card.er-card--open {
+    background: rgba(8, 4, 4, 0.96) !important;
+    border: 1px solid rgba(255, 59, 48, 0.32) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .content--session .er-card.er-card--open .protocol-panel.panel,
+  .content--session .er-card.er-card--open .panel {
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid color-mix(in srgb, var(--border) 38%, transparent) !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 14px 0 18px;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-card.er-card--open .protocol-panel.panel,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-card.er-card--open .panel {
+    border-top-color: rgba(37, 37, 37, 0.12) !important;
   }
   .er-card.er-card--open {
     margin:6px 0 8px;
@@ -3533,7 +3700,8 @@ const css = `
     -webkit-backdrop-filter:blur(24px) saturate(1.4);
     box-shadow:0 8px 28px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.35);
   }
-  .er-card.er-card--open .panel {
+  /* Non-session shells (historical fallback): collapsed panel inset */
+  .er-card.er-card--open .panel:not(.protocol-panel) {
     background: transparent;
     border: none;
     border-top: none;
@@ -3728,14 +3896,47 @@ const css = `
   .chk.on { border-color: var(--accent) !important; background: var(--accent) !important; box-shadow:0 0 12px var(--accent-glow); }
   .chk svg { opacity:0; transition:opacity 0.15s; }
   .chk.on svg { opacity:1; }
+  .content--session .chk {
+    width:21px;
+    height:21px;
+    min-width:22px;
+    min-height:22px;
+    border-width:1.75px !important;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
   .ei { flex:1; min-width:0; }
+  .content--session .ei { display:flex; flex-direction:column; align-items:flex-start; gap:0; flex:1; min-width:0; }
   .en { font-size: var(--text-lg); font-weight:700; color:var(--text-primary); letter-spacing:-0.02em; transition:all 0.2s; }
+  .content--session .en { font-weight: 500; }
+  .content--session .er.open .en { font-weight: 500; }
   .er.open .en { color:var(--text-white); font-weight: 700; }
   .en.done { color:var(--text-done); text-decoration:line-through; }
   .en.skipped { color:var(--text-done); text-decoration:line-through; }
   .es { margin-top:4px; }
+  .content--session .es {
+    margin-top:2px;
+    font-size:calc(var(--text-sm) - 2px);
+    line-height:1.38;
+    color:var(--text-dimmer);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .es {
+    color:rgba(15,30,46,0.58);
+  }
 
   .ereps { font-size: var(--text-sm); font-weight:500; font-family:var(--font-ui); color:var(--text-secondary); letter-spacing:0.08em; margin-top:8px; text-transform:uppercase; font-variant-numeric: tabular-nums; }
+  .content--session .ereps {
+    font-family:'Roboto Mono', ui-monospace, var(--font-ui), sans-serif !important;
+    font-size:var(--text-xs);
+    font-weight:500;
+    letter-spacing:0.1em;
+    margin-top:5px;
+    font-variant:normal;
+    font-variant-numeric: tabular-nums;
+    opacity:0.85;
+    color:var(--text-dimmer);
+    text-transform:uppercase;
+  }
   .npill {
     font-family:var(--font-ui); font-weight:600; font-size: var(--text-sm); letter-spacing:0.16em; text-transform:uppercase; padding:2px 9px; border-radius:20px;
     background:var(--glass-bg); border:1px solid var(--glass-border); color:var(--text-secondary);
@@ -3743,7 +3944,12 @@ const css = `
   }
   .chev { color:var(--text-dim); font-size: var(--text-sm); transition:transform 0.25s; align-self:center; min-width: 28px; min-height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
   .chev.op { transform:rotate(180deg); }
+  .content--session .chev {
+    align-self:flex-start;
+    margin-top:1px;
+  }
   .row-actions { display:flex; gap:4px; flex-shrink:0; align-self:center; }
+  .content--session .row-actions { gap:2px; align-self:flex-start; margin-top:1px; flex-shrink:0; }
   .ra-btn {
     min-width:44px; min-height:44px; border-radius:999px; border:1px solid var(--glass-border);
     padding:12px;
@@ -3755,42 +3961,107 @@ const css = `
   .ra-btn:hover { background:var(--glass-bg-hover); border-color:var(--glass-border-strong); color:var(--text-primary); }
   .ra-btn:active { transform: scale(0.97); opacity: 0.9; }
   .ra-btn.fav-on { color:var(--accent); border-color:var(--accent); background:var(--accent-dim); }
-  /* AXIS — LIST view action button visibility */
-  .content--session-list .ra-btn {
-    background: rgba(255,255,255,0.18) !important;
-    border: 1px solid rgba(255,255,255,0.22) !important;
-    border-radius: 50%;
-    color: rgba(255,255,255,0.70) !important;
+  .content--session-list .ra-btn,
+  .content--session-guided .ra-btn {
+    min-width:44px !important;
+    min-height:44px !important;
+    padding:0 !important;
+    border-radius:12px !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: rgba(246,247,248,0.88) !important;
+  }
+  .content--session-list .ra-btn:focus,
+  .content--session-list .ra-btn:focus-visible,
+  .content--session-guided .ra-btn:focus,
+  .content--session-guided .ra-btn:focus-visible {
+    outline: none !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--mood-color) 40%, transparent) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .ra-btn,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .ra-btn {
+    color:rgba(17,26,42,0.72) !important;
+    background: transparent !important;
+  }
+  .content--session-list .ra-btn:hover,
+  .content--session-guided .ra-btn:hover {
+    background: color-mix(in srgb, var(--mood-color) 11%, transparent) !important;
+    color: rgba(252,253,254,0.95) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .ra-btn:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .ra-btn:hover {
+    background: color-mix(in srgb, var(--mood-color) 22%, transparent) !important;
+    color:rgba(12,22,42,0.88) !important;
+  }
+  .content--session-list .ra-btn.fav-on,
+  .content--session-list .ra-btn.skip-on,
+  .content--session-guided .ra-btn.fav-on,
+  .content--session-guided .ra-btn.skip-on {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: color-mix(in srgb, var(--accent) 78%, rgba(246,247,248,1)) !important;
+  }
+  .app[data-night="true"] .content--session-list .ra-btn,
+  .app[data-night="true"] .content--session-guided .ra-btn {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
+  }
+  .app[data-night="true"] .content--session-list .ra-btn:hover,
+  .app[data-night="true"] .content--session-guided .ra-btn:hover {
+    background: rgba(255, 59, 48, 0.09) !important;
+  }
+  .app[data-night="true"] .content--session-list .ra-btn:focus-visible,
+  .app[data-night="true"] .content--session-guided .ra-btn:focus-visible {
+    box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.42) !important;
   }
 
-  .content--session-list .ra-btn.fav-on {
-    background: var(--accent-dim) !important;
-    border-color: var(--accent) !important;
-    color: var(--accent) !important;
-  }
-
-  .content--session-list .chev {
-    background: rgba(255,255,255,0.12) !important;
-    border: 1px solid rgba(255,255,255,0.14) !important;
-    border-radius: 50% !important;
-    min-width: 28px;
-    min-height: 28px;
+  .content--session-list .chev,
+  .content--session-guided .chev {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px 8px;
-    color: rgba(255,255,255,0.60) !important;
+    color: rgba(246,247,248,0.62) !important;
   }
-  /* LIST + GUIDED: favorite/skip state colors */
-  .content--session .ra-btn {
-    border: none !important;
-    color: #ffffff !important;
+  .content--session-list .chev:hover,
+  .content--session-guided .chev:hover {
+    background: color-mix(in srgb, var(--mood-color) 11%, transparent) !important;
+    color:rgba(246,247,248,0.88) !important;
   }
-  .content--session .ra-btn.fav-on,
-  .content--session .ra-btn.skip-on {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .chev,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .chev {
+    color:rgba(15,30,46,0.46) !important;
+    background: transparent !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .chev:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .chev:hover {
+    background: color-mix(in srgb, var(--mood-color) 22%, transparent) !important;
+    color:rgba(15,30,46,0.72) !important;
+  }
+  .app[data-night="true"] .content--session-list .chev,
+  .app[data-night="true"] .content--session-guided .chev {
     border: none !important;
-    color: color-mix(in srgb, var(--mood-color) 50%, #ffffff) !important;
-    background: color-mix(in srgb, var(--mood-color) 16%, transparent) !important;
+    background: transparent !important;
+    color:rgba(255,59,48,0.78) !important;
+    -webkit-text-fill-color:rgba(255,59,48,0.78) !important;
+  }
+  .app[data-night="true"] .content--session-list .chev:hover,
+  .app[data-night="true"] .content--session-guided .chev:hover {
+    background: rgba(255, 59, 48, 0.09) !important;
   }
 
   /* ── GUIDED CARD ── */
@@ -3962,6 +4233,22 @@ const css = `
     border-radius: 12px;
     object-fit: contain;
   }
+  .guided-overlay .exercise-animation--video .exercise-animation__media {
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none;
+    aspect-ratio: unset !important;
+    border-radius: 12px;
+  }
+  .content--session .protocol-panel .exercise-animation--video .exercise-animation__media {
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none;
+    aspect-ratio: unset !important;
+    border-radius: 10px;
+  }
   .exercise-animation--video {
     aspect-ratio: 16 / 9;
     display: flex;
@@ -3985,21 +4272,27 @@ const css = `
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    border-radius: 14px;
-    border: 1px solid color-mix(in srgb, var(--glass-border) 80%, transparent);
+    border-radius: 18px;
+    border: none;
+    outline: none;
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--glass-bg) 90%, transparent) 0%,
+      color-mix(in srgb, var(--glass-border) 8%, transparent) 100%);
     padding: 0;
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 42%, transparent);
   }
   /* START GUIDED media frame: no drop shadow */
   .exercise-carousel__graphic-frame.axis-surface-tmt {
     box-shadow: none !important;
   }
   .app[data-night="true"] .exercise-carousel__graphic-frame {
-    border-color: rgba(255, 59, 48, 0.35);
+    background: #0a0a0a;
+    box-shadow: inset 0 0 0 1px rgba(255, 59, 48, 0.22);
   }
   .exercise-carousel__graphic { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
   .exercise-carousel__graphic svg { width: 100%; height: 100%; display: block; max-height: 100%; }
@@ -4013,8 +4306,9 @@ const css = `
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 0;
     overflow: hidden;
+    background: transparent;
   }
   .exercise-carousel__media-fs-shell:fullscreen,
   .exercise-carousel__media-fs-shell:-webkit-full-screen {
@@ -4031,7 +4325,56 @@ const css = `
     border-radius: 0;
     object-fit: contain;
   }
-  .exercise-carousel__media { width: 100%; height: 100%; aspect-ratio: 16 / 9; display: block; object-fit: contain; border-radius: 10px; }
+  .exercise-carousel__media { width: 100%; height: 100%; aspect-ratio: 16 / 9; display: block; object-fit: contain; border-radius: 0; background: transparent; }
+  /* Guided flow overlay: demos fill frame edge-to-edge */
+  .guided-overlay .exercise-carousel__graphic-frame {
+    background: #06090f;
+    box-shadow: none;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .guided-overlay .exercise-carousel__graphic-frame {
+    background: #0a0d12;
+  }
+  .guided-overlay .exercise-carousel__graphic-frame video.exercise-carousel__media,
+  .guided-overlay .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell .exercise-carousel__media {
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100%;
+    min-height: 100%;
+    aspect-ratio: unset !important;
+    max-width: none;
+    max-height: none;
+  }
+  .app[data-night="true"] .guided-overlay .exercise-carousel__graphic-frame {
+    background: #050505 !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 59, 48, 0.22) !important;
+  }
+  /* LIST / GUIDED expanded card: thumbnail sits inset with carousel padding — fill frame horizontally inside padded column */
+  .content--session .protocol-panel .exercise-carousel__graphic-frame {
+    background: #070b11;
+    box-shadow: none;
+    margin-inline: 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .protocol-panel .exercise-carousel__graphic-frame {
+    background: #0c1018;
+  }
+  .content--session .protocol-panel .exercise-carousel__graphic-frame video.exercise-carousel__media,
+  .content--session .protocol-panel .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell .exercise-carousel__media {
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100%;
+    min-height: 100%;
+    aspect-ratio: unset !important;
+    max-width: none;
+    max-height: none;
+  }
+  .app[data-night="true"] .content--session .protocol-panel .exercise-carousel__graphic-frame {
+    background: #050508 !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 59, 48, 0.2) !important;
+  }
   .exercise-carousel__graphic--catcow svg { transform-origin: center center; }
   /* Normalize Cat-Cow poses to CatCow_3_Black.svg visual size baseline. */
   .exercise-carousel__graphic--catcow-f1 svg { transform: scale(1.08); }
@@ -4103,22 +4446,37 @@ const css = `
   }
   .exercise-carousel__expand-btn {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
     border: none;
-    background: rgba(0,0,0,0.06);
+    background: color-mix(in srgb, rgba(255,255,255,1) 8%, transparent);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: var(--accent);
     cursor: pointer;
     transition: background 0.12s ease, opacity 0.12s ease;
-    z-index: 6;
+    z-index: 8;
+    box-sizing: border-box;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
-  .exercise-carousel__expand-btn:hover { background: rgba(0,0,0,0.12); }
+  .exercise-carousel__expand-btn:hover {
+    background: color-mix(in srgb, var(--mood-color) 18%, rgba(255,255,255,0.14));
+    color: var(--accent);
+  }
+  .app[data-night="true"] .exercise-carousel__expand-btn {
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+  .app[data-night="true"] .exercise-carousel__expand-btn:hover {
+    background: rgba(255,59,48,0.18);
+    color:#FF3B30;
+  }
   .exercise-carousel__media-expand-overlay {
     position: fixed;
     inset: 0;
@@ -4169,6 +4527,9 @@ const css = `
   .er-card.er-card--open .protocol-panel.panel .steps {
     padding-left:0;
     padding-right:0;
+  }
+  .content--session .er-card.er-card--open .protocol-panel.panel .steps {
+    margin-top: 0;
   }
   .content--session .protocol-panel.panel .steps > .cue-tiers,
   .protocol-panel.panel .steps > .cue-tiers,
@@ -7428,7 +7789,7 @@ const css = `
     min-height: 28px;
     height: 28px;
     padding: 0 8px !important;
-    border-radius: 999px !important;
+    border-radius: 12px !important;
     font-family: var(--font-display) !important;
     font-size: 9.5pt !important;
     font-weight: 500 !important;
@@ -8541,12 +8902,13 @@ const css = `
   }
   .home-hero-sticky { position: sticky; top: 0; z-index: 8; background: transparent; }
   .home-last-movement-card {
+    position:relative;
     border-radius:12px;
     border:1px solid rgba(255,255,255,0.1);
     background:rgba(255,255,255,0.03);
     backdrop-filter:blur(20px);
     -webkit-backdrop-filter:blur(20px);
-    padding:18px 12px 20px;
+    padding:18px 36px 20px 12px;
     margin-bottom:16px;
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);
   }
@@ -8579,43 +8941,68 @@ const css = `
     flex-shrink:0;
   }
   .home-last-movement-status svg { width:12px; height:12px; display:block; }
-  .home-last-movement-copy { flex:1; min-width:0; position:relative; padding-right:88px; min-height:34px; }
-  .home-last-movement-card .home-recent-row {
-    position:relative;
-    padding-left:18px;
+  .home-last-movement-chevron {
+    position:absolute;
+    top:10px;
+    right:14px;
+    font-size:1.125rem;
+    line-height:1;
+    color:rgba(255,255,255,0.26);
+    pointer-events:none;
+    font-weight:300;
   }
-  .home-last-movement-card .home-recent-row::before {
+  .app[data-theme="light"]:not([data-night="true"]) .home-last-movement-chevron {
+    color:rgba(15,30,46,0.28);
+  }
+  .home-last-movement-stack {
+    position:relative;
+    padding-left:14px;
+    box-sizing:border-box;
+  }
+  .home-last-movement-stack::before {
     content:"";
     position:absolute;
     left:0;
-    top:50%;
+    top:0;
+    bottom:0;
     width:2px;
-    height:18px;
     border-radius:2px;
     background:color-mix(in srgb, var(--mood-color) 92%, transparent);
-    transform:translateY(-50%);
     box-sizing:border-box;
   }
-  .home-last-movement-card .home-recent-row::after {
-    content:none;
+  .home-last-movement-hit {
+    display:flex;
+    align-items:flex-start;
+    width:100%;
+    margin:0;
+    padding:0;
+    border:none;
+    background:transparent;
+    color:inherit;
+    text-align:left;
+    cursor:pointer;
+    font:inherit;
+    -webkit-tap-highlight-color:transparent;
   }
+  .home-last-movement-copy {
+    flex:1;
+    min-width:0;
+    position:relative;
+    padding-right:4px;
+    min-height:34px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .home-last-movement-dur { margin-bottom:12px; }
   .home-last-movement-card .home-last-movement-walk-svg { display:none; }
   .home-last-movement-stamp {
-    position:absolute;
-    right:0;
-    top:0;
     font-family:'Roboto Mono', ui-monospace, monospace;
     font-size:9px;
     font-weight:500;
     letter-spacing:0.12em;
     text-transform:uppercase;
     opacity:0.5;
-  }
-  .home-sections-rule {
-    height:1px;
-    width:100%;
-    background:rgba(255,255,255,0.05);
-    margin:2px 0 12px;
   }
   .home-header-lock {
     position:relative;
@@ -8660,10 +9047,6 @@ const css = `
     border-color: rgba(0,0,0,0.55);
   }
   /* AXIS — light mode rule/line contrast + control visibility */
-  [data-theme="light"] .home-sections-rule,
-  [data-theme="light"] .home-routine-separator {
-    background: rgba(37,37,37,0.30);
-  }
   [data-theme="light"] {
     --border: rgba(37,37,37,0.30);
     --instruction-step-divider: rgba(37,37,37,0.30);
@@ -8764,6 +9147,9 @@ const css = `
     overflow-y:visible;
   }
   .home-slide-view--routine .home-routine-section { margin-top:0; }
+  .home-slide-view--routine .home-routine-section + .home-routine-section {
+    margin-top:32px;
+  }
   .home-slide-view--routine .track-cards { gap:10px; margin-top:0; }
   .home-routine-track-card {
     background:color-mix(in srgb, var(--glass-bg) 82%, rgba(0,0,0,0.22));
@@ -8834,15 +9220,6 @@ const css = `
     background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   }
   .home-routine-box + .home-routine-box { margin-top:12px; }
-  .home-routine-separator {
-    display:block;
-    height:1px;
-    width:100%;
-    background:#333;
-    box-sizing:border-box;
-    margin:14px 0;
-    flex:0 0 auto;
-  }
   .home-routine-panel .track-cards { gap:10px; }
   .home .track-card-sub,
   .home .track-card-purpose,
@@ -8853,9 +9230,9 @@ const css = `
     font-family:'Roboto Mono', ui-monospace, monospace !important;
     font-weight:500 !important;
   }
-  .home-recent-row, .home-fav-row {
+  .home-fav-row {
     width:100%; display:flex; align-items:center; gap:10px; border:none; background:transparent; padding:10px 0;
-    border-top:1px solid #333; color:inherit; text-align:left;
+    border-top:0.25px solid #333; color:inherit; text-align:left;
   }
   .home-recent-walk-svg { width:72px; height:24px; flex-shrink:0; }
   .home-recent-row-text { flex:1; min-width:0; }
@@ -8866,7 +9243,6 @@ const css = `
     font-family:'Roboto Mono', ui-monospace, monospace !important; font-weight:500 !important;
   }
   .home-slide-view--explore .track-card-sub { font-size:calc(var(--text-sm) - 2px) !important; }
-  .home-slide-view--explore .track-card-purpose { font-size:calc(var(--text-base) - 2px) !important; }
   .track-card-title-stack { flex:1; min-width:0; width:100%; }
   .track-card-category-badge {
     display:inline-flex;
@@ -9427,6 +9803,106 @@ const css = `
   }
   .track-card-sub { margin-bottom: 8px; }
   .track-card-purpose { font-size: var(--text-base); margin-top:10px; line-height:1.5; }
+  .track-card--home-browse {
+    gap: 0;
+    align-items: stretch;
+    padding-top: 14px;
+    padding-bottom: 12px;
+  }
+  .track-card-home-chevron {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.125rem;
+    line-height: 1;
+    color: rgba(255,255,255,0.26);
+    pointer-events: none;
+    font-weight: 300;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .track-card-home-chevron {
+    color: rgba(15, 30, 46, 0.28);
+  }
+  .track-card-home-body {
+    padding-right: 22px;
+    padding-bottom: 10px;
+  }
+  .track-card-home-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+  .track-card-home-dur {
+    font-family: var(--font-meta), var(--font-data);
+    font-size: calc(var(--text-xs) + 3px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-dimmer);
+  }
+  /* Routine/Explore workout cards on Home (not TODAY hero): title regular weight; purpose smaller, muted, one line */
+  .home .track-card--home-browse .track-card-name {
+    font-weight: 400;
+  }
+  .home .track-card--home-browse .track-card-purpose {
+    margin-top: 8px;
+    line-height: 1.45;
+    font-size: calc(var(--text-base) * 0.85) !important;
+    font-weight: 400 !important;
+    white-space: normal;
+    overflow: visible;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .app[data-theme="dark"]:not([data-night="true"]) .home .track-card--home-browse .track-card-purpose {
+    color: rgba(237, 237, 237, 0.5) !important;
+    -webkit-text-fill-color: rgba(237, 237, 237, 0.5) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home .track-card--home-browse .track-card-purpose {
+    color: rgba(36, 40, 48, 0.5) !important;
+    -webkit-text-fill-color: rgba(36, 40, 48, 0.5) !important;
+  }
+  [data-night="true"] .home .track-card--home-browse .track-card-purpose {
+    color: rgba(255, 59, 48, 0.52) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.52) !important;
+  }
+  .home-track-bookmark-btn {
+    border: none;
+    background: transparent;
+    padding: 4px;
+    margin: -4px -4px -4px 0;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.18s ease, transform 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .home-track-bookmark-btn:active { transform: scale(0.92); }
+  .home-track-bookmark-btn[aria-pressed="true"] {
+    color: var(--accent, var(--mood-color)) !important;
+    -webkit-text-fill-color: var(--accent, var(--mood-color)) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-track-bookmark-btn {
+    color: rgba(15, 30, 46, 0.34);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-track-bookmark-btn[aria-pressed="true"] {
+    color: var(--accent, var(--mood-color)) !important;
+    -webkit-text-fill-color: var(--accent, var(--mood-color)) !important;
+  }
+  /* Ribbon bookmark: solid fill when saved / filter on — no stroke (stroke + fill looked outline-only) */
+  .home-track-bookmark-btn[aria-pressed="true"] .axis-bookmark-glyph-svg,
+  .content--session .ra-btn.fav-on .axis-bookmark-glyph-svg,
+  .fav-filter.fav-filter--session-util .fav-toggle.on .fav-toggle__icon.axis-bookmark-glyph-svg,
+  .fav-filter.fav-filter--session-util .fav-toggle.on .axis-bookmark-glyph-svg {
+    fill: currentColor !important;
+    stroke: none !important;
+  }
   .track-card-right { display:flex; align-items:center; justify-content:space-between; width:100%; }
   .track-card-dur {
     font-size: var(--text-sm); font-family:var(--font-meta); letter-spacing:-0.02em; text-transform:uppercase; color:var(--text-dim);
@@ -10043,13 +10519,13 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
       const effectiveSeconds = exerciseDurationSeconds != null ? exerciseDurationSeconds : ex.seconds || 0;
       const useOverride = exerciseDurationSeconds != null;
       const displayText = useOverride ?
-      effectiveSeconds === 60 ? "1 min" : `${effectiveSeconds} sec` :
+      effectiveSeconds === 60 ? "1 MIN" : `${effectiveSeconds} SEC` :
       ex.reps;
       return displayText ? /*#__PURE__*/React.createElement("div", { className: "ereps" }, displayText) : null;
     })()
     ), /*#__PURE__*/
     React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
-    !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": "Favorite workout", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "13", height: "13", viewBox: "0 0 24 24", fill: faved ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
+    !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "13", height: "13", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", fill: faved ? "currentColor" : "none", stroke: faved ? "none" : "currentColor", strokeWidth: faved ? "0" : "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
     React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, skipped ? /*#__PURE__*/
     React.createElement("svg", { width: "13", height: "13", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/
     React.createElement("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }), /*#__PURE__*/
@@ -10057,7 +10533,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     ) :
     "—")
     ), /*#__PURE__*/
-    React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: { marginLeft: 4 } }, "\u25BE")
+    React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: { marginLeft: 2 } }, "\u25BE")
     ),
     open && /*#__PURE__*/
     React.createElement("div", { ref: sessionDetailPanelRef, className: "panel protocol-panel", tabIndex: -1, role: "region", "aria-label": `${ex.name}, exercise details`, style: skipped ? { opacity: 0.45 } : {} }, /*#__PURE__*/
@@ -14284,6 +14760,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const listScrollRef = useRef(0);
   const prevTabRef = useRef(tab);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
+  const [guidedPurposeOpenBySection, setGuidedPurposeOpenBySection] = useState(() => ({}));
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
   const [homeSection, setHomeSection] = useState(() => {
     const v = storageGet("axis_home_section", null);
@@ -14652,6 +15129,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   };
   const setNote = (id, val) => setNotes((n) => ({ ...n, [id]: val }));
   const switchTrack = (t) => {setTrack(t);setFi(0);setOpenId(null);};
+  const openTrackDetail = (tid) => {
+    if (!tid || !(TRACKS && TRACKS[tid])) return;
+    triggerHaptic(HAPTIC_LIGHT_TAP);
+    switchTrack(tid);
+    setHasActiveSession(true);
+    setView("home");
+    setTab("list");
+  };
   const beginTrack = (t) => {
     sessionExerciseLoggedRef.current.clear();
     if (typeof t === "string" && t) {
@@ -14710,20 +15195,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
       React.createElement("div", { className: "app-screen-title" }, "Settings")), /*#__PURE__*/
 
-      React.createElement("div", { className: "settings-ios-section-title" }, "Appearance"), /*#__PURE__*/
-      React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
-      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/
-      React.createElement("span", { className: "settings-ios-label" }, "Base Theme"), /*#__PURE__*/
-      React.createElement("div", { className: "mood-base-theme__toggle mood-base-theme__toggle--full", style: nightMode ? { opacity: 0.45, pointerEvents: "none" } : {} },
-      [{ val: "light", label: "Light" }, { val: "dark", label: "Dark" }].map(({ val, label }) => /*#__PURE__*/
-      React.createElement("button", { key: val, type: "button", onClick: nightMode ? undefined : () => {if (theme !== val) {axisHapticTick();toggleTheme();}}, className: "mood-base-theme-btn" + (theme === val ? " mood-base-theme-btn--active" : "") }, label)))), /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();setView("mood");} }, /*#__PURE__*/
-      React.createElement("span", { className: "settings-ios-label" }, "Accent Color"), /*#__PURE__*/
-      React.createElement("span", { className: "settings-ios-right" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-swatch", style: { background: "var(--mood-color)" } }), /*#__PURE__*/React.createElement(RowChevron, null))), /*#__PURE__*/
-      React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/
-      React.createElement("span", { className: "settings-ios-label" }, "Show % Done"), /*#__PURE__*/
-      React.createElement(Toggle, { on: showPct, setOn: setShowPct }))), /*#__PURE__*/
-
       React.createElement("div", { className: "settings-ios-section-title" }, "Goals"), /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Daily Goal"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-value-badge" }, dailyGoalMinutes, " min"), /*#__PURE__*/React.createElement("input", { className: "settings-range", type: "range", min: 1, max: 90, step: 1, value: dailyGoalMinutes, onChange: (e) => {const n = Number(e.target.value);setDailyGoalMinutes(n);setWeeklyFollowsDaily(true);setWeeklyGoalMinutes(axisSnapWeeklyGoalMinutes(n * 7));}, style: { accentColor: "var(--mood-color)" } })), /*#__PURE__*/
@@ -14731,6 +15202,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
       React.createElement("div", { className: "settings-ios-section-title" }, "Session"), /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/
+      React.createElement("span", { className: "settings-ios-label" }, "Progress % (List / Guided)"), /*#__PURE__*/
+      React.createElement(Toggle, { on: showPct, setOn: setShowPct })), /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/
       React.createElement("span", { className: "settings-ios-label" }, "Timer Length per Exercise"), /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-segment" },
@@ -15315,37 +15789,27 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const loggedLabel = loggedDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
       return `LOGGED: ${String(loggedLabel).toUpperCase()}`;
     })();
-    const homeCategoryBadgeLabel = (categoryId) => {
-      switch (categoryId) {
-        case "foundation":return "FULL BODY";
-        case "time":return "MOBILITY";
-        case "targeted":return "TARGETED";
-        case "body":return "CARDIO";
-        case "all":
-        default:return "SESSION";
-      }
+    const formatHomeCardDur = (durLabel) => {
+      const m = String(durLabel || "").match(/(\d+)\s*min\b/i);
+      return m ? `${m[1]} MIN` : String(durLabel || "").toUpperCase();
     };
-    const renderHomeRoutineTrackCard = (trackId, keyPrefix) => {
+    const renderHomeBrowseTrackCard = (trackId, keyPrefix, routineVariant) => {
       const t = TRACKS && TRACKS[trackId];
       if (!t) return null;
       const cardDur = getTrackDisplayDuration(t.id);
+      const durShown = formatHomeCardDur(cardDur);
       const isFav = favoriteTrackIds.indexOf(t.id) !== -1;
-      const badgeLabel = homeCategoryBadgeLabel(TRACK_CATEGORY_BY_ID[trackId] || "all");
-      return /*#__PURE__*/React.createElement("div", { className: "track-card session-card home-routine-track-card glass-card", key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
-      React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
+      const cardShellClass = "track-card session-card track-card--home-browse glass-card" + (routineVariant ? " home-routine-track-card" : "");
+      return /*#__PURE__*/React.createElement("div", { className: cardShellClass, key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {openTrackDetail(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();openTrackDetail(t.id);}}, "aria-label": `View workout, ${t.label}, ${durShown}` }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
-      React.createElement("span", { className: "track-card-category-badge" }, badgeLabel), /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
       React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-dur" }, cardDur)
-      )
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-footer" }, /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
-      React.createElement("button", { className: "begin-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")
-      )
-      );
+      React.createElement("div", { className: "track-card-purpose" }, t.purpose))), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-dur" }, durShown), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Save bookmark", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", fill: isFav ? "currentColor" : "none", stroke: isFav ? "none" : "currentColor", strokeWidth: isFav ? "0" : "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" })))));
     };
 
     const minsNow = new Date().getHours() * 60 + new Date().getMinutes();
@@ -15389,15 +15853,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           ...todayBtn,
           ["--axis-today-glow"]: homeHighlight
         },
-        "aria-label": `Start ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}` },
-      "BEGIN"
+        "aria-label": `Learn more, ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}` },
+      "LEARN MORE"
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-last-movement-card glass-card", role: "region", "aria-label": "Last movement" }, /*#__PURE__*/
       React.createElement("div", { className: "home-last-movement-head" }, "LAST SESSION"),
-      lastMovementTrack ? /*#__PURE__*/React.createElement("button", { type: "button", className: "home-recent-row", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(lastMovementTrackId);}, "aria-label": `Resume ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}` }, /*#__PURE__*/React.createElement("svg", { className: "home-last-movement-walk-svg", viewBox: "0 0 100 24", preserveAspectRatio: "none", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { fill: "none", stroke: "currentColor", strokeWidth: "1.25", vectorEffect: "non-scaling-stroke", points: axisHomeWalkPolylinePoints(lastMovementTrackId) })), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-copy" }, /*#__PURE__*/React.createElement("div", { className: "home-recent-row-title" }, lastMovementTrack.label), /*#__PURE__*/React.createElement("div", { className: "home-recent-row-meta" }, getTrackDisplayDuration(lastMovementTrackId)), homeLogStamp && homeLogStamp !== "LOGGED: --" ? /*#__PURE__*/React.createElement("div", { className: "home-last-movement-stamp" }, homeLogStamp) : /*#__PURE__*/React.createElement("span", { style: { opacity: 0.4, fontSize: "12px", fontFamily: "monospace" } }, "no session logged today"))) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "No recent movement yet.")
+      lastMovementTrack ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
+      React.createElement("span", { className: "home-last-movement-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
+      React.createElement("div", { className: "home-last-movement-stack" }, /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-last-movement-hit", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(lastMovementTrackId);}, "aria-label": `Resume ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}` }, /*#__PURE__*/React.createElement("svg", { className: "home-last-movement-walk-svg", viewBox: "0 0 100 24", preserveAspectRatio: "none", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { fill: "none", stroke: "currentColor", strokeWidth: "1.25", vectorEffect: "non-scaling-stroke", points: axisHomeWalkPolylinePoints(lastMovementTrackId) })), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-copy" }, /*#__PURE__*/React.createElement("div", { className: "home-recent-row-title" }, lastMovementTrack.label), /*#__PURE__*/React.createElement("div", { className: "home-recent-row-meta home-last-movement-dur" }, getTrackDisplayDuration(lastMovementTrackId)), homeLogStamp && homeLogStamp !== "LOGGED: --" ? /*#__PURE__*/React.createElement("div", { className: "home-last-movement-stamp home-last-movement-logline" }, homeLogStamp) : /*#__PURE__*/React.createElement("span", { className: "home-last-movement-logline", style: { opacity: 0.4, fontSize: "12px", fontFamily: "monospace" } }, "no session logged today")))
+      )) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "No recent movement yet.")
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-sections-rule", "aria-hidden": "true" }), /*#__PURE__*/
       React.createElement("div", { className: "home-nav-anchor", role: "tablist", "aria-label": "Home content sections" }, /*#__PURE__*/
       React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsRoutine ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("routine");} }, "ROUTINE"), /*#__PURE__*/
       React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("explore");} }, "EXPLORE")
@@ -15413,11 +15880,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-routine-collapse", "aria-hidden": homeRoutineFavoritesOpen ? "false" : "true" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      favResolvedHome.length ? favResolvedHome.map((id) => renderHomeRoutineTrackCard(id, "fav")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Tap the star on a track in Explore to save favorites here.")
+      favResolvedHome.length ? favResolvedHome.map((id) => renderHomeBrowseTrackCard(id, "fav", true)) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Save a bookmark on a track in Explore to pin it here.")
       )
       )
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-separator", "aria-hidden": "true" }), /*#__PURE__*/
       React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
       React.createElement("div", { className: "home-routine-head-row" }, /*#__PURE__*/
       React.createElement("div", { className: "home-routine-head" }, "RECENTS"), /*#__PURE__*/
@@ -15425,10 +15891,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-routine-collapse", "aria-hidden": homeRoutineRecentsOpen ? "false" : "true" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeRoutineTrackCard(id, "recent")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
+      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", true)) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
       )
       )
-      ), /*#__PURE__*/
+      )
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-slide-view home-slide-view--explore" + (homeSectionIsExplore ? " home-slide-view--active" : "") }, /*#__PURE__*/
       React.createElement("div", { className: "home-explore-browse" }, /*#__PURE__*/
@@ -15462,23 +15928,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-group", key: g.id }, /*#__PURE__*/
       homeTrackCategory === "all" && /*#__PURE__*/React.createElement("div", { className: "track-group-label" }, g.label), /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => {const t = TRACKS[id];const cardDur = getTrackDisplayDuration(t.id);const isFav = favoriteTrackIds.indexOf(t.id) !== -1;const badgeLabel = homeCategoryBadgeLabel(g.id);return (/*#__PURE__*/
-          React.createElement("div", { className: "track-card session-card", key: t.id, "data-category": TRACK_CATEGORY_BY_ID[id] || "", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}}, "aria-label": `${t.label}, ${cardDur}. Begin session` }, /*#__PURE__*/
-          React.createElement("div", { className: "track-card-left" }, /*#__PURE__*/
-          React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
-          React.createElement("span", { className: "track-card-category-badge" }, badgeLabel), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-dur" }, cardDur)
-          )
-          ), /*#__PURE__*/
-          React.createElement("div", { className: "track-card-footer" }, /*#__PURE__*/
-          React.createElement("button", { type: "button", className: "home-fav-star-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove from favorites" : "Add to favorites", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: isFav ? "currentColor" : "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" }))), /*#__PURE__*/
-          React.createElement("button", { className: "begin-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(t.id);}, "aria-label": `Begin ${t.label}` }, "Begin")
-          )
-          ));
-      })
+      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => renderHomeBrowseTrackCard(id, `ex-${g.id}`, false))
       )
       )
       )
@@ -15579,18 +16029,17 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__line" }, /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__done" }, totalDone), /*#__PURE__*/
-    React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL, " exercises")
-    ), /*#__PURE__*/
-    React.createElement("span", { className: "tab-prog-row__pct" }, pct, "%")
+    React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL)
+    )
     ), /*#__PURE__*/
     React.createElement("div", { className: "prog-bar", style: { marginBottom: 0 } }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })),
     (tab === "list" || tab === "guided") && /*#__PURE__*/
     React.createElement("div", { className: "fav-filter fav-filter--session-util" }, /*#__PURE__*/
     React.createElement("div", { className: "fav-filter__cluster--left" }, /*#__PURE__*/
     React.createElement("button", { type: "button", className: `fav-toggle ${showFavOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowFavOnly((f) => !f);setShowSkipOnly(false);} }, /*#__PURE__*/
-    React.createElement("svg", { className: "fav-toggle__icon", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("path", { d: "M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 00-.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" })),
-    "Favorites"), /*#__PURE__*/
+    React.createElement("svg", { className: "fav-toggle__icon fav-toggle__icon--bookmark axis-bookmark-glyph-svg", viewBox: "0 0 24 24", fill: showFavOnly ? "currentColor" : "none", stroke: showFavOnly ? "none" : "currentColor", strokeWidth: showFavOnly ? 0 : 1.5, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
+    React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" })),
+    "Bookmarks"), /*#__PURE__*/
     React.createElement("button", { type: "button", className: `fav-toggle ${showSkipOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowSkipOnly((f) => !f);setShowFavOnly(false);} }, /*#__PURE__*/
     React.createElement("svg", { className: "fav-toggle__icon", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
     React.createElement("path", { d: "M21 12a9 9 0 11-18 0 9 9 0 0118 0z" }), /*#__PURE__*/
@@ -15612,7 +16061,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )
     ), /*#__PURE__*/
 
-    React.createElement("div", { className: "content content--session" + (tab === "list" ? " content--session-list" : ""), ref: sessionContentRef, onScroll: (e) => {
+    React.createElement("div", { className: "content content--session" + (tab === "list" ? " content--session-list" : "") + (tab === "guided" ? " content--session-guided" : ""), ref: sessionContentRef, onScroll: (e) => {
         if (tab === "list") {
           listScrollRef.current = e.currentTarget.scrollTop || 0;
         }
@@ -15639,14 +16088,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     tab === "list" && /*#__PURE__*/
     React.createElement(React.Fragment, null,
     visibleSections.map((sec) => /*#__PURE__*/
-    React.createElement("div", { className: "sg glass-card", key: sec.label }, /*#__PURE__*/
+    React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement("div", { className: "sh" }, /*#__PURE__*/
     React.createElement("span", { className: "sh-tag" }, sec.tag), /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
     React.createElement("span", { className: "sh-ct" }, sec.exercises.filter((e) => done[e.id]).length, "/", sec.exercises.length)
     ),
     sec.purpose && /*#__PURE__*/
-    React.createElement("div", { className: "purpose-note" }, /*#__PURE__*/
+    React.createElement("div", { className: "purpose-note purpose-note--list" }, /*#__PURE__*/
     React.createElement("div", { className: "purpose-label" }, "Purpose"), /*#__PURE__*/
     React.createElement("div", { className: "purpose-text" }, sec.purpose)
     ),
@@ -15690,16 +16139,23 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     tab === "guided" && /*#__PURE__*/
     React.createElement("div", { className: "session-guided-preview", "aria-label": "Exercise preview for guided flow" },
     visibleSections.map((sec) => /*#__PURE__*/
-    React.createElement("div", { className: "sg", key: sec.label }, /*#__PURE__*/
+    React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement("div", { className: "sh" }, /*#__PURE__*/
     React.createElement("span", { className: "sh-tag" }, sec.tag), /*#__PURE__*/
-    React.createElement("span", { className: "sh-name" }, sec.label)
+    React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
+    React.createElement("span", { className: "sh-ct" }, sec.exercises.filter((e) => done[e.id]).length, "/", sec.exercises.length)
     ),
     sec.purpose && /*#__PURE__*/
-    React.createElement("div", { className: "purpose-note" }, /*#__PURE__*/
-    React.createElement("div", { className: "purpose-label" }, "Purpose"), /*#__PURE__*/
-    React.createElement("div", { className: "purpose-text" }, sec.purpose)
-    ),
+    React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "purpose-disclosure-hit",
+      "aria-expanded": guidedPurposeOpenBySection[sec.label] ? "true" : "false",
+      onClick: (e) => {e.preventDefault();axisHapticTick();setGuidedPurposeOpenBySection((m) => ({ ...m, [sec.label]: !m[sec.label] }));}
+    }, /*#__PURE__*/
+    React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "Purpose"), /*#__PURE__*/
+    React.createElement("span", { className: "purpose-disclosure-hit__chev" + (guidedPurposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a")),
+    guidedPurposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null),
 
     sec.exercises.map((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;
