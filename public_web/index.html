@@ -5715,20 +5715,32 @@ const css = `
   }
   /* Shared surface: matches TOTAL MOVEMENT TIME hero card (after .metrics-stat-feature so it wins when combined) */
   .axis-surface-tmt {
-    border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--glass-border));
-    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 16%, #151b26) 0%, #151b26 52%, #121822 100%);
-    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--glass-border));
+    background:
+      linear-gradient(180deg,
+      color-mix(in srgb, var(--mood-color) 22%, transparent) 0%,
+      color-mix(in srgb, var(--mood-color) 12%, transparent) 28%,
+      transparent 72%),
+      color-mix(in srgb, var(--glass-bg) 92%, #121822);
+    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.07);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .axis-surface-tmt {
-    border-color: color-mix(in srgb, var(--accent) 32%, rgba(15, 30, 46, 0.14));
-    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 14%, #ffffff) 0%, #f4f7fb 45%, #eef2f7 100%);
+    border-color: color-mix(in srgb, var(--accent) 28%, rgba(15, 30, 46, 0.14));
+    background:
+      linear-gradient(180deg,
+      color-mix(in srgb, var(--mood-color) 20%, transparent) 0%,
+      color-mix(in srgb, var(--mood-color) 10%, transparent) 28%,
+      transparent 72%),
+      color-mix(in srgb, var(--glass-bg) 96%, #eef2f7);
     box-shadow: 0 14px 38px rgba(15, 30, 46, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95);
   }
   .app[data-night="true"] .axis-surface-tmt {
     border-color: rgba(255, 59, 48, 0.48) !important;
-    background: linear-gradient(180deg, rgba(255, 59, 48, 0.2) 0%, #1c0505 55%, #140303 100%) !important;
+    background:
+      linear-gradient(180deg, rgba(255, 59, 48, 0.2) 0%, rgba(255, 59, 48, 0.12) 28%, transparent 72%),
+      #140303 !important;
     box-shadow: 0 0 0 1px rgba(255, 59, 48, 0.12), 0 16px 40px rgba(0, 0, 0, 0.55) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -13395,9 +13407,14 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     border-radius: 50%;
     overflow: hidden;
     box-sizing: border-box;
-    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 14%, #151b26) 0%, #151b26 52%, #121822 100%);
-    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--glass-border));
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    background:
+      linear-gradient(180deg,
+      color-mix(in srgb, var(--mood-color) 22%, transparent) 0%,
+      color-mix(in srgb, var(--mood-color) 12%, transparent) 28%,
+      transparent 72%),
+      color-mix(in srgb, var(--glass-bg) 92%, #121822);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--glass-border));
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.055);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -13587,7 +13604,12 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   }
   [data-theme="light"] .timer-view-body .timer-interval-ring-wrap.axis-surface-tmt,
   [data-theme="light"] .timer-view-body .timer-breathe-ring-wrap.axis-surface-tmt {
-    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 14%, #ffffff) 0%, #f4f7fb 45%, #eef2f7 100%);
+    background:
+      linear-gradient(180deg,
+      color-mix(in srgb, var(--mood-color) 20%, transparent) 0%,
+      color-mix(in srgb, var(--mood-color) 10%, transparent) 28%,
+      transparent 72%),
+      color-mix(in srgb, var(--glass-bg) 96%, #eef2f7);
     border: 1px solid color-mix(in srgb, var(--accent) 28%, rgba(15, 30, 46, 0.12));
     box-shadow: 0 12px 34px rgba(15, 30, 46, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.95);
     backdrop-filter: none;
@@ -13720,7 +13742,9 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   }
   [data-night="true"] .timer-view-body .timer-interval-ring-wrap.axis-surface-tmt,
   [data-night="true"] .timer-view-body .timer-breathe-ring-wrap.axis-surface-tmt {
-    background: linear-gradient(180deg, rgba(255, 59, 48, 0.2) 0%, #1c0505 55%, #140303 100%) !important;
+    background:
+      linear-gradient(180deg, rgba(255, 59, 48, 0.2) 0%, rgba(255, 59, 48, 0.12) 28%, transparent 72%),
+      #140303 !important;
     border: 1px solid rgba(255, 59, 48, 0.48) !important;
     box-shadow: 0 0 0 1px rgba(255, 59, 48, 0.12), 0 16px 40px rgba(0, 0, 0, 0.55) !important;
     backdrop-filter: none !important;
