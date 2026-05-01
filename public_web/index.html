@@ -956,11 +956,125 @@ function axisWelcomeDisplayNameFromStorage() {
 
 const AXIS_GUIDED_DETAILED_INSTRUCTIONS_KEY = "axis_guided_detailed_instructions";
 
-/** Weekly goal slider: 5–500 min, snapped to step 5. */
+/** Weekly goal minutes: clamped 5–500, snapped to step 5. */
 function axisSnapWeeklyGoalMinutes(m) {
   const r = Math.round(Number(m) || 0);
   const s = Math.round(r / 5) * 5;
   return Math.min(500, Math.max(5, s));
+}
+
+/** Canonical workout/session length label: "N MIN" (uppercase, no unit accent). */
+function axisFormatDurationMinUpper(mins) {
+  const n = Math.max(0, Math.round(Number(mins) || 0));
+  return `${n} MIN`;
+}
+
+/** Coerce track JSON / UI strings ("12 min", "12m", "12 MIN") → "12 MIN". */
+function axisNormalizeDurationLabelToMin(input) {
+  const s = String(input ?? "").trim();
+  if (!s || s === "\u2014" || s === "—") return "0 MIN";
+  const m = s.match(/(\d+)\s*(?:min|MIN|m)\b/i) || s.match(/^(\d+)\s*$/i);
+  if (m) return axisFormatDurationMinUpper(m[1]);
+  return s.toUpperCase();
+}
+
+/** Home last-session trailing date: TODAY, YESTERDAY, or uppercase short date (e.g. APR 22). */
+function axisFormatLastSessionDayUpper(loggedDate) {
+  const d = loggedDate instanceof Date ? loggedDate : new Date(loggedDate);
+  if (!d || Number.isNaN(d.getTime())) return "";
+  const logStart = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffDays = Math.round((todayStart - logStart) / 86400000);
+  if (diffDays === 0) return "TODAY";
+  if (diffDays === 1) return "YESTERDAY";
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase();
+}
+
+/** Stable time for sorting / dating a history row (loggedAt ms, legacy date string, etc.). */
+function axisHistoryEntryTimeMs(entry) {
+  if (!entry || typeof entry !== "object") return NaN;
+  const n = entry.loggedAt ?? entry.timestamp ?? entry.ts ?? entry.at;
+  if (typeof n === "number" && Number.isFinite(n)) return n < 1e12 ? n * 1000 : n;
+  if (typeof n === "string" && n.trim()) {
+    const t = n.trim();
+    if (/^\s*[\d.]+\s*$/.test(t)) {
+      const v = Number(t);
+      if (Number.isFinite(v)) return v < 1e12 ? v * 1000 : v;
+    }
+    const iso = Date.parse(t);
+    if (Number.isFinite(iso)) return iso;
+  }
+  const ds = entry.date;
+  if (typeof ds === "string" && ds.trim()) {
+    const d = new Date(ds.trim());
+    if (!Number.isNaN(d.getTime())) return d.getTime();
+  }
+  return NaN;
+}
+
+/** Newest history row for a track (matches trackId or legacy label-only rows). */
+function axisLatestHistoryEntryForTrack(trackId, historyArr) {
+  if (!trackId || !Array.isArray(historyArr) || !TRACKS || !TRACKS[trackId]) return null;
+  let best = null;
+  let bestT = -Infinity;
+  const label = TRACKS[trackId].label;
+  for (let i = 0; i < historyArr.length; i++) {
+    const h = historyArr[i];
+    if (!h) continue;
+    const tid = typeof h.trackId === "string" ? h.trackId : null;
+    const byId = tid === trackId;
+    const legacy = tid == null && typeof h.track === "string" && (h.track === label || h.track === trackId);
+    if (!byId && !legacy) continue;
+    const t = axisHistoryEntryTimeMs(h);
+    if (!Number.isFinite(t)) continue;
+    if (t > bestT) {
+      bestT = t;
+      best = h;
+    }
+  }
+  return best;
+}
+
+function axisDateFromHistoryEntry(entry) {
+  const t = axisHistoryEntryTimeMs(entry);
+  return Number.isFinite(t) ? new Date(t) : null;
+}
+
+/** Resolve a session history row to a canonical track id (TRACKS key). */
+function axisResolveTrackIdFromHistoryEntry(entry) {
+  if (!entry || typeof entry !== "object" || !TRACKS) return null;
+  const tid = typeof entry.trackId === "string" ? entry.trackId : null;
+  if (tid && TRACKS[tid]) return tid;
+  const tr = typeof entry.track === "string" ? entry.track.trim() : "";
+  if (!tr) return null;
+  if (TRACKS[tr]) return tr;
+  const keys = Object.keys(TRACKS);
+  for (let i = 0; i < keys.length; i++) {
+    const id = keys[i];
+    const row = TRACKS[id];
+    if (row && row.label === tr) return id;
+  }
+  return null;
+}
+
+/** Newest history row that maps to a known track (for Home LAST SESSION). */
+function axisLatestHistoryEntryGlobal(historyArr) {
+  if (!Array.isArray(historyArr) || !TRACKS) return null;
+  let best = null;
+  let bestT = -Infinity;
+  for (let i = 0; i < historyArr.length; i++) {
+    const h = historyArr[i];
+    if (!h) continue;
+    if (!axisResolveTrackIdFromHistoryEntry(h)) continue;
+    const t = axisHistoryEntryTimeMs(h);
+    if (!Number.isFinite(t)) continue;
+    if (t > bestT) {
+      bestT = t;
+      best = h;
+    }
+  }
+  return best;
 }
 
 function computeSessionSeconds(totalCount, fullSecondsFromLabel, activeCount) {
@@ -1247,7 +1361,7 @@ const css = `
     justify-content: flex-start;
     width: 100%;
     box-sizing: border-box;
-    padding: calc(var(--axis-dashboard-fixed-h) + 12px) 20px calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 4px);
+    padding: calc(var(--axis-dashboard-fixed-h) + 12px) 20px calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px));
   }
   /* Dark (non-Ultra): accent CTA pills use charcoal ink on mood fills (circadian vars can lose to inline / inheritance) */
   .app[data-theme="dark"][data-night="false"] .begin-btn,
@@ -1456,10 +1570,13 @@ const css = `
   }
   /* Light mode small text accessibility */
   [data-theme="light"] .track-group-label,
-  [data-theme="light"] .track-card-dur,
-  [data-theme="light"] .hdr-dur {
+  [data-theme="light"] .track-card-dur {
     color: rgba(18,24,32,0.88);
     font-weight: 600;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .axis-duration-label {
+    color: rgba(18, 24, 32, 0.55) !important;
+    -webkit-text-fill-color: rgba(18, 24, 32, 0.55) !important;
   }
   [data-theme="light"] .sh-name,
   [data-theme="light"] .session-time,
@@ -1583,10 +1700,8 @@ const css = `
     -webkit-backdrop-filter: none !important;
   }
   /* AXIS Ultra: primary #FF3B30; secondary copy dim red — no gray */
-  [data-night="true"] .hdr-dur { color: #FF3B30 !important; }
   [data-night="true"] .sh-tag { color: #FF3B30 !important; }
   [data-night="true"] .track-group-label { color: #FF3B30 !important; -webkit-text-fill-color: #FF3B30 !important; }
-  [data-night="true"] .track-card-dur { color: #FF3B30 !important; -webkit-text-fill-color: #FF3B30 !important; }
   [data-night="true"] .track-card-sub,
   [data-night="true"] .track-card-sub * { color: rgba(211, 47, 47, 0.78) !important; -webkit-text-fill-color: rgba(211, 47, 47, 0.78) !important; }
   [data-night="true"] .track-card-name { color: #FF3B30 !important; -webkit-text-fill-color: #FF3B30 !important; }
@@ -2368,7 +2483,7 @@ const css = `
   .app {
     --axis-tab-h: 100px;
     --axis-tab-clearance: 24px;
-    --axis-bottom-content-inset: 120px;
+    --axis-bottom-content-inset: 56px;
     min-height:100vh;
     min-height:100dvh;
     height:100%;
@@ -2611,9 +2726,6 @@ const css = `
     padding-inline: 20px;
     box-sizing: border-box;
   }
-  .app-body--settings-pad {
-    background: var(--tab-bg);
-  }
   .settings-ios-section-title {
     font-family: var(--font-data);
     font-size: 10px;
@@ -2731,6 +2843,45 @@ const css = `
     color: var(--mood-color);
     background: color-mix(in srgb, var(--mood-color) 18%, transparent);
     border: 1px solid color-mix(in srgb, var(--mood-color) 30%, transparent);
+  }
+  .settings-ios-goal-stepper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .settings-ios-goal-step {
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 11px;
+    border: 1px solid color-mix(in srgb, var(--glass-border-strong) 85%, transparent);
+    background: color-mix(in srgb, var(--glass-bg) 88%, transparent);
+    color: var(--text-dimmer);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    box-sizing: border-box;
+  }
+  .settings-ios-goal-val {
+    min-width: 4.25rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .app[data-night="true"] .settings-ios-goal-step {
+    background: #000000 !important;
+    color: #ff3b30 !important;
+    border-color: rgba(255, 59, 48, 0.55) !important;
   }
   .settings-ios-segment {
     width:100%;
@@ -3051,15 +3202,30 @@ const css = `
   }
   .back-btn:active { transform: scale(0.97); opacity: 0.9; }
   .hdr-title { font-size: var(--text-xl); font-weight: 700; font-family: var(--font-display); letter-spacing:-0.02em; line-height:1.2; color:var(--text-white); }
+  .hdr-session-head .hdr-title { font-size: calc(var(--text-xl) - 3px); }
   .hdr-meta { display:flex; gap:8px; margin-top:0; align-items:center; flex-wrap:wrap; }
   .hdr-subtitle { font-size: var(--text-sm); font-family: var(--font-ui); color:var(--text-secondary); font-style:italic; font-weight:400; line-height:1.4; }
   .hdr-dur {
-    font-size: var(--text-sm); font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-secondary); font-family:var(--font-ui);
+    font-size: var(--text-sm); font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dimmer); font-family: var(--font-meta), var(--font-data);
     font-variant-numeric: tabular-nums;
     background:var(--glass-bg); border:1px solid var(--glass-border); padding:4px 12px; border-radius:4px;
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     position: relative;
     overflow: hidden;
+  }
+  .axis-duration-label {
+    font-family: var(--font-meta), var(--font-data);
+    font-size: calc(var(--text-xs) + 2px);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dimmer) !important;
+    -webkit-text-fill-color: var(--text-dimmer) !important;
+    font-variant-numeric: tabular-nums;
+  }
+  .app[data-night="true"] .axis-duration-label {
+    color: rgba(255, 59, 48, 0.72) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.72) !important;
   }
   .hdr-dur::before {
     content: "";
@@ -3508,9 +3674,11 @@ const css = `
     color: inherit;
     letter-spacing: 0.04em;
   }
-  .content.content--session.content--session-list { padding-bottom: 100px; }
-  /* LIST + GUIDED: breathing room above tab bar for primary CTAs */
-  .session-cta-pad { margin-bottom: var(--axis-safe-bottom); padding-bottom: 12px; }
+  .content.content--session.content--session-list {
+    padding-bottom: 0;
+  }
+  /* LIST + GUIDED: session tab-bar spacer ends the scroll stack */
+  .session-cta-pad { margin-bottom: 0; padding-bottom: 12px; }
   .session-cta-pad--guided { margin-bottom: 0; padding-bottom: 0; }
   .session-guided-preview {
     opacity: 1;
@@ -3761,31 +3929,140 @@ const css = `
   .today-card--ghost {
     box-sizing:border-box;
   }
-  /* Today hero + Recents: press feedback (edge-to-edge scale + brief veil) */
-  .home .start-here-group.today-card.today-card--ghost {
-    touch-action: manipulation;
-    transition: transform 0.2s cubic-bezier(0.34, 1.3, 0.64, 1), background var(--motion-slow), border-color var(--motion-slow), box-shadow var(--motion-slow), backdrop-filter var(--motion-slow), -webkit-backdrop-filter var(--motion-slow);
+  /* Home: unified NOW + LAST SESSION smart card (one track-card shell, two tappable rows) */
+  .home .home-smart-card--unified.track-card--home-browse {
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
   }
-  .home .start-here-group.today-card.today-card--ghost::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: rgba(255, 255, 255, 0.08);
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .home .start-here-group.today-card.today-card--ghost > * {
+  .home-smart-card__hit {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
     position: relative;
-    z-index: 2;
+    margin: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    padding: 10px max(var(--page-gutter), env(safe-area-inset-left, 0px)) 10px max(var(--page-gutter), env(safe-area-inset-right, 0px));
   }
-  .home .start-here-group.today-card.today-card--ghost:active {
-    transform: scale(0.98);
+  .home-smart-card__hit--last {
+    padding-bottom: 11px;
   }
-  .home .start-here-group.today-card.today-card--ghost:active::after {
-    opacity: 1;
+  .home-smart-card__hit:focus {
+    outline: none;
+  }
+  .home-smart-card__hit:focus-visible {
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  .app[data-night="true"] .home-smart-card__hit:focus-visible {
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, #ff3b30 45%, transparent);
+  }
+  .home-smart-card__hit--disabled {
+    cursor: default;
+  }
+  .home-smart-card__hit .track-card-home-chevron {
+    top: 9px;
+    right: max(12px, var(--page-gutter));
+  }
+  .home-smart-card__body {
+    padding-right: 22px;
+    min-width: 0;
+  }
+  .home-smart-card__eyebrow {
+    font-family: "Roboto Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
+    opacity: 0.88;
+  }
+  .home-smart-card__title-now {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 3.8vw, 1.22rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    color: var(--text-white);
+    margin: 0 0 4px;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-smart-card__title-now {
+    color: #121418;
+  }
+  .home-smart-card__desc {
+    font-size: calc(var(--text-sm) + 0px);
+    font-weight: 400;
+    line-height: 1.42;
+    color: var(--text-secondary);
+    margin: 0 0 4px;
+    max-width: 40em;
+  }
+  .home-smart-card__row-duration {
+    margin: 0;
+  }
+  .home-smart-card__rule {
+    display: block;
+    width: 100%;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-top: 0.5px solid var(--color-border-tertiary);
+    box-sizing: border-box;
+  }
+  .home-smart-card__last-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 10px;
+    row-gap: 4px;
+    min-width: 0;
+  }
+  .home-smart-card__title-last {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--text-white);
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-smart-card__title-last {
+    color: #121418;
+  }
+  .home-smart-card__dur-date {
+    margin-left: auto;
+    flex-shrink: 0;
+    text-align: right;
+    max-width: min(52%, 14rem);
+  }
+  .home-smart-card__empty {
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--text-secondary);
+    opacity: 0.78;
+  }
+  .home-smart-card__empty--sessions {
+    font-style: italic;
+    opacity: 0.72;
+    margin-top: 1px;
+  }
+  .app[data-night="true"] .home-smart-card__desc,
+  .app[data-night="true"] .home-smart-card__empty {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .app[data-night="true"] .home-smart-card__title-now,
+  .app[data-night="true"] .home-smart-card__title-last {
+    color: #f6f7f8;
   }
   .panel:focus { outline: none; }
   .panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -3908,7 +4185,7 @@ const css = `
   .ei { flex:1; min-width:0; }
   .content--session .ei { display:flex; flex-direction:column; align-items:flex-start; gap:0; flex:1; min-width:0; }
   .en { font-size: var(--text-lg); font-weight:700; color:var(--text-primary); letter-spacing:-0.02em; transition:all 0.2s; }
-  .content--session .en { font-weight: 500; }
+  .content--session .en { font-size: calc(var(--text-lg) - 3px); font-weight: 500; }
   .content--session .er.open .en { font-weight: 500; }
   .er.open .en { color:var(--text-white); font-weight: 700; }
   .en.done { color:var(--text-done); text-decoration:line-through; }
@@ -3973,6 +4250,16 @@ const css = `
     box-shadow: none !important;
     color: rgba(246,247,248,0.88) !important;
   }
+  .content--session-list .ra-btn {
+    border-radius:0 !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  .content--session-list .ra-btn svg {
+    width:18px;
+    height:18px;
+    display:block;
+  }
   .content--session-list .ra-btn:focus,
   .content--session-list .ra-btn:focus-visible,
   .content--session-guided .ra-btn:focus,
@@ -3985,12 +4272,18 @@ const css = `
     color:rgba(17,26,42,0.72) !important;
     background: transparent !important;
   }
-  .content--session-list .ra-btn:hover,
+  .content--session-list .ra-btn:hover {
+    background:transparent !important;
+    color: rgba(252,253,254,0.95) !important;
+  }
   .content--session-guided .ra-btn:hover {
     background: color-mix(in srgb, var(--mood-color) 11%, transparent) !important;
     color: rgba(252,253,254,0.95) !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .ra-btn:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .ra-btn:hover {
+    background:transparent !important;
+    color:rgba(12,22,42,0.88) !important;
+  }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .ra-btn:hover {
     background: color-mix(in srgb, var(--mood-color) 22%, transparent) !important;
     color:rgba(12,22,42,0.88) !important;
@@ -4014,7 +4307,9 @@ const css = `
     color: #FF3B30 !important;
     -webkit-text-fill-color: #FF3B30 !important;
   }
-  .app[data-night="true"] .content--session-list .ra-btn:hover,
+  .app[data-night="true"] .content--session-list .ra-btn:hover {
+    background:transparent !important;
+  }
   .app[data-night="true"] .content--session-guided .ra-btn:hover {
     background: rgba(255, 59, 48, 0.09) !important;
   }
@@ -4037,7 +4332,13 @@ const css = `
     justify-content: center;
     color: rgba(246,247,248,0.62) !important;
   }
-  .content--session-list .chev:hover,
+  .content--session-list .chev {
+    border-radius:0 !important;
+  }
+  .content--session-list .chev:hover {
+    background:transparent !important;
+    color:rgba(246,247,248,0.88) !important;
+  }
   .content--session-guided .chev:hover {
     background: color-mix(in srgb, var(--mood-color) 11%, transparent) !important;
     color:rgba(246,247,248,0.88) !important;
@@ -4047,7 +4348,10 @@ const css = `
     color:rgba(15,30,46,0.46) !important;
     background: transparent !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .chev:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .chev:hover {
+    background:transparent !important;
+    color:rgba(15,30,46,0.72) !important;
+  }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .chev:hover {
     background: color-mix(in srgb, var(--mood-color) 22%, transparent) !important;
     color:rgba(15,30,46,0.72) !important;
@@ -4059,7 +4363,9 @@ const css = `
     color:rgba(255,59,48,0.78) !important;
     -webkit-text-fill-color:rgba(255,59,48,0.78) !important;
   }
-  .app[data-night="true"] .content--session-list .chev:hover,
+  .app[data-night="true"] .content--session-list .chev:hover {
+    background:transparent !important;
+  }
   .app[data-night="true"] .content--session-guided .chev:hover {
     background: rgba(255, 59, 48, 0.09) !important;
   }
@@ -4075,7 +4381,7 @@ const css = `
     background:linear-gradient(90deg, transparent, var(--glass-specular) 30%, rgba(255,255,255,0.22) 50%, var(--glass-specular) 70%, transparent);
   }
   .fc-idx { position:absolute; top:14px; right:16px; font-size: var(--text-sm); color:var(--text-dimmer); letter-spacing:0.12em; }
-  .fc-name { font-size: var(--text-xl); font-weight: 700; letter-spacing:-0.02em; line-height:1.15; margin:4px 0 6px; color:var(--text-white); }
+  .fc-name { font-size: calc(var(--text-xl) - 3px); font-weight: 700; letter-spacing:-0.02em; line-height:1.15; margin:4px 0 6px; color:var(--text-white); }
   .fc-sub { margin-bottom:16px; }
   .fc-steps { display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); padding-top:18px; margin-bottom:18px; padding-left:0; padding-right:0; box-sizing:border-box; }
   .fc-step { display:flex; gap:0; position:relative; }
@@ -4133,7 +4439,7 @@ const css = `
     background:var(--glass-bg); border:1px solid var(--glass-border);
     box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-specular);
   }
-  .fv-name { font-size: 40px; font-weight: 600; letter-spacing:-0.03em; line-height:1.1; color:var(--text-white); margin-bottom:16px; }
+  .fv-name { font-size: calc(40px - 3px); font-weight: 600; letter-spacing:-0.03em; line-height:1.1; color:var(--text-white); margin-bottom:16px; }
   .fv-cue { font-size: var(--text-lg); }
   .fv-bottom { display:flex; flex-direction:column; gap:12px; }
   .fv-next { font-size: var(--text-sm); color:var(--text-dim); letter-spacing:0.10em; text-transform:uppercase; }
@@ -4566,6 +4872,7 @@ const css = `
   .step-pos { font-size: var(--text-sm); font-family:var(--font-ui); font-weight:600; letter-spacing:0.02em; color:var(--accent-secondary); }
   .step-right { flex:1; text-align:left; }
   .step-label { font-size: var(--text-lg); font-weight: 700; font-family:var(--font-display); letter-spacing:-0.02em; color:var(--text-white); line-height:1.3; }
+  .content--session .step-label { font-size: calc(var(--text-lg) - 3px); }
   .step-focus { font-size: calc(var(--text-xs) + 2px); font-family:var(--font-ui); color:var(--accent-secondary); letter-spacing:0.1em; margin-top:8px; font-weight:600; text-transform:uppercase; }
   .step-cue { margin-top:8px; text-align:left; }
   .fc-steps .step { padding:12px 0; }
@@ -4864,17 +5171,17 @@ const css = `
     color: #ff3b30;
   }
   .metrics-quick-glance__dashboard-hero-unit {
-    font-family: var(--font-display);
-    font-size: 13px;
+    font-family: var(--font-meta), var(--font-data);
+    font-size: calc(var(--text-xs) + 2px);
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: lowercase;
-    color: color-mix(in srgb, var(--color-text-secondary) 75%, transparent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
     line-height: 1;
     flex-shrink: 0;
   }
   .app[data-night="true"] .metrics-quick-glance__dashboard-hero-unit {
-    color: color-mix(in srgb, #ff3b30 55%, transparent);
+    color: rgba(255, 59, 48, 0.72);
   }
   .metrics-quick-glance__dashboard-right {
     grid-column: 2;
@@ -4957,15 +5264,16 @@ const css = `
     display: block;
     text-align: left !important;
     margin-top: 0 !important;
-    font-family: var(--font-body);
-    font-size: 12px;
+    font-family: var(--font-meta), var(--font-data);
+    font-size: calc(var(--text-xs) + 2px);
     font-weight: 500;
-    letter-spacing: 0.02em;
-    color: color-mix(in srgb, var(--color-text-secondary) 48%, transparent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
     line-height: 1.35;
   }
   .app[data-night="true"] .metrics-quick-glance__dashboard-week-line {
-    color: color-mix(in srgb, #ff3b30 38%, transparent);
+    color: rgba(255, 59, 48, 0.72);
   }
   .metrics-quick-glance__sub {
     margin: 0 0 10px;
@@ -5137,15 +5445,17 @@ const css = `
   }
   .metrics-recent-row__dur {
     flex-shrink: 0;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: calc(var(--text-xs) + 2px);
+    font-weight: 500;
     font-variant-numeric: tabular-nums;
-    color: var(--metrics-session-accent, var(--accent));
-    font-family: var(--font-display);
+    color: var(--text-dimmer);
+    font-family: var(--font-meta), var(--font-data);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     padding-top: 2px;
   }
   .app[data-night="true"] .metrics-recent-row__dur {
-    color: #ff3b30;
+    color: rgba(255, 59, 48, 0.72);
   }
   .summary-main-stack--metrics .summary-history-toggle--secondary {
     border: 0.5px solid var(--color-border-secondary);
@@ -7003,10 +7313,14 @@ const css = `
   .metrics-goals-bar-meta {
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: 0.02em;
-    text-transform: none;
-    color: color-mix(in srgb, var(--text-secondary) 92%, transparent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
     font-variant-numeric: tabular-nums;
+    font-family: var(--font-meta), var(--font-data);
+  }
+  .app[data-night="true"] .metrics-goals-bar-meta {
+    color: rgba(255, 59, 48, 0.72);
   }
   .metrics-section--goals .metrics-goals-bar-row .prog-bar {
     height: 7px !important;
@@ -7532,7 +7846,7 @@ const css = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border-radius: 0;
-    padding: 24px 0 12px;
+    padding: 24px 0 48px;
     margin-top: 0;
     width: 100%;
     box-sizing: border-box;
@@ -8000,23 +8314,27 @@ const css = `
     opacity: 1;
   }
   .tab-bar-spacer {
-    height: calc(var(--axis-bottom-content-inset) + var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 56px);
+    height: calc(var(--axis-bottom-content-inset) + var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 12px);
   }
 
-  /* TODAY (solid highlight) sometimes needs extra breathing room */
+  /* TODAY: spacer owns tab-bar + safe-area clearance (outer column uses light padding-bottom only) */
   .tab-bar-spacer--today {
-    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 24px);
+    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 8px);
   }
 
-  /* Active SESSION (LIST / GUIDED / SUMMARY): tight tail above tab bar — no duplicate --axis-bottom-content-inset + 56px stack */
+  /* SESSION (LIST/GUIDED): scroll-end inset inside .content — keep a short tail above the tab strip */
   .tab-bar-spacer--session {
-    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 12px);
+    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 8px);
     min-height: 0;
   }
-  /* Summary: same tail as Today — long scroll so bottom CTA clears fixed tab bar + home indicator */
-  .tab-bar-spacer--summary,
+  /* Metrics: spacer kept at 0 — scroll clearance is padding on .home-track-cards-outer--summary (see below) so it isn’t negated by overflow:hidden on the flex column */
   .tab-bar-spacer--metrics {
-    height: calc(var(--axis-bottom-content-inset) + var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 140px);
+    height: 0 !important;
+    min-height: 0 !important;
+    flex-shrink: 0;
+  }
+  .tab-bar-spacer--summary {
+    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 48px);
     flex-shrink: 0;
   }
   .metrics-card-stack {
@@ -8538,7 +8856,7 @@ const css = `
     line-height: 1.45;
   }
   .tab-bar-spacer--settings {
-    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 8px);
+    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 6px);
     min-height: 0;
   }
 
@@ -8571,8 +8889,8 @@ const css = `
     display: block;
     flex: 0 0 auto;
     width: 100%;
-    min-height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + constant(safe-area-inset-bottom) + 20px);
-    min-height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 20px);
+    min-height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + constant(safe-area-inset-bottom) + 10px);
+    min-height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 10px);
     pointer-events: none;
   }
   .app--nav-gap-tight .tab-bar-spacer--mood {
@@ -8722,7 +9040,7 @@ const css = `
   .eol-marker.show-tag .eol-tag { opacity:1; }
 
   /* ── TRACK GROUPS ── */
-  .track-cards-outer { padding:0 var(--page-gutter) 24px; margin-bottom: var(--axis-safe-bottom); }
+  .track-cards-outer { padding:0 var(--page-gutter) 16px; margin-bottom: var(--axis-safe-bottom); }
   /* Flex child (.app-body is flex column): min-width:auto lets 200%-wide slide track inflate width to ~100vw — browse cards then look full-bleed vs TODAY. */
   .home > .track-cards-outer {
     min-width:0;
@@ -9074,19 +9392,23 @@ const css = `
     border-color: rgba(37,37,37,0.38) !important;
     box-shadow: none !important;
   }
-  [data-theme="light"] .content--session .chev {
+  [data-theme="light"] .content--session-guided .chev {
     color: rgba(37,37,37,0.38) !important;
     border-color: rgba(37,37,37,0.38) !important;
     background: rgba(37,37,37,0.08) !important;
+  }
+  [data-theme="light"] .content--session-list .chev {
+    border-color: transparent !important;
+    background: transparent !important;
   }
   .content--session .ra-btn.fav-on,
   .content--session .ra-btn.skip-on,
   .content--session .chev {
     border: none !important;
   }
-  /* AXIS — light mode hero card neutral surface */
-  [data-theme="light"] .home-today-card,
-  [data-theme="light"] .today-card {
+  /* AXIS — light mode hero card neutral surface (skip Movement Today–style surfaces) */
+  [data-theme="light"] .home-today-card:not(.axis-surface-tmt),
+  [data-theme="light"] .today-card:not(.axis-surface-tmt) {
     background: rgba(255,255,255,0.62) !important;
     border: 1px solid rgba(0,0,0,0.07) !important;
   }
@@ -9141,7 +9463,7 @@ const css = `
     padding-right:0;
   }
   .home-slide-view--explore { padding-top:12px; }
-  .home-slide-view--routine .home-routine-section:last-child { padding-bottom:24px; }
+  .home-slide-view--routine .home-routine-section:last-child { padding-bottom: 16px; }
   .home-slide-view--routine {
     height:auto;
     overflow-y:visible;
@@ -9302,17 +9624,19 @@ const css = `
     border-color:var(--accent);
     background:var(--accent-dim);
   }
-  /* Summary: --top zeroes padding; restore deep bottom inset so last blocks scroll above fixed tab bar */
+  /* Metrics: bottom inset on this scroll child (not the zero-height spacer) so “Start Another Session” clears fixed tab bar + home indicator */
   .home .track-cards-outer.home-track-cards-outer--top.home-track-cards-outer--summary {
-    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 48px);
+    margin-bottom: 0;
+    overflow: visible;
+    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + clamp(140px, 28vh, 280px));
   }
   /* Browse results: horizontal gutter; top gap from Browse tabs uses margin (edge-to-edge), not padding stack */
   .home-browse-scroll-mask {
     position:relative;
     z-index:1;
     margin-top:var(--home-block-gap);
-    padding:0 var(--page-gutter) 24px;
-    margin-bottom:var(--axis-safe-bottom);
+    padding:0 var(--page-gutter) 16px;
+    margin-bottom:0;
     box-sizing:border-box;
   }
   .home-slide-view--explore .home-category-strip-wrap {
@@ -9362,14 +9686,12 @@ const css = `
     margin-top:var(--home-block-gap);
   }
   .home .track-cards-outer.home-track-cards-outer--top {
-    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 6px);
+    /* Scroll inset is delegated to .tab-bar-spacer--today to avoid stacking double tab-bar + safe-area padding */
+    padding-bottom: 12px;
+    margin-bottom: 0;
     overflow:hidden;
     display:flex;
     flex-direction:column;
-  }
-  /* Ensure final list marker clears fixed tab bar on iPhone */
-  .content.content--session.content--session-list .track-cards-outer {
-    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 76px);
   }
   .track-group { padding:0; max-width:100%; }
   .track-group + .track-group { margin-top:22px; }
@@ -9385,7 +9707,7 @@ const css = `
     margin-bottom:12px;
   }
   .home-slide-view--explore .home-browse-results > .track-group:last-child {
-    padding-bottom:20px;
+    padding-bottom:12px;
   }
   /* TODAY browse: horizontal tab strip (no pill), no edge fades */
   .home-category-strip-wrap {
@@ -9680,11 +10002,10 @@ const css = `
   .home-recent-card:active { transform: scale(0.98); }
   .home-recent-card:active::after { opacity: 1; }
   @media (prefers-reduced-motion: reduce) {
-    .home .start-here-group.today-card.today-card--ghost:active,
+    .home .home-smart-card--unified.track-card:active,
     .home-recent-card:active {
       transform: none;
     }
-    .home .start-here-group.today-card.today-card--ghost:active::after,
     .home-recent-card:active::after {
       opacity: 0;
     }
@@ -9836,15 +10157,24 @@ const css = `
   }
   .track-card-home-dur {
     font-family: var(--font-meta), var(--font-data);
-    font-size: calc(var(--text-xs) + 3px);
-    letter-spacing: 0.14em;
+    font-size: calc(var(--text-xs) + 2px);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--text-dimmer);
   }
   /* Routine/Explore workout cards on Home (not TODAY hero): title regular weight; purpose smaller, muted, one line */
   .home .track-card--home-browse .track-card-name {
     font-weight: 400;
+    font-size: calc(var(--text-lg) - 3px);
+  }
+  /* FAVORITES + RECENTS: identical title ↔ subtitle rhythm (purpose on favorites stacks after subtitle via shared margins) */
+  .home .home-routine-track-card.track-card--home-browse .track-card-name {
+    margin-bottom: 6px;
+  }
+  .home .home-routine-track-card.track-card--home-browse .track-card-sub {
+    margin-bottom: 8px !important;
+    margin-top: 0 !important;
   }
   .home .track-card--home-browse .track-card-purpose {
     margin-top: 8px;
@@ -9867,6 +10197,33 @@ const css = `
   [data-night="true"] .home .track-card--home-browse .track-card-purpose {
     color: rgba(255, 59, 48, 0.52) !important;
     -webkit-text-fill-color: rgba(255, 59, 48, 0.52) !important;
+  }
+  .home .home-browse-card--favorites .track-card-purpose {
+    font-size: calc(var(--text-sm) - 1px) !important;
+    line-height: 1.4 !important;
+    margin-top: 6px !important;
+    font-weight: 400 !important;
+  }
+  .app[data-theme="dark"]:not([data-night="true"]) .home .home-browse-card--favorites .track-card-purpose {
+    color: rgba(237, 237, 237, 0.44) !important;
+    -webkit-text-fill-color: rgba(237, 237, 237, 0.44) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home .home-browse-card--favorites .track-card-purpose {
+    color: rgba(36, 40, 48, 0.46) !important;
+    -webkit-text-fill-color: rgba(36, 40, 48, 0.46) !important;
+  }
+  [data-night="true"] .home .home-browse-card--favorites .track-card-purpose {
+    color: rgba(255, 59, 48, 0.48) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.48) !important;
+  }
+  .home .home-browse-card--recent .track-card-sub {
+    font-size: calc(var(--text-xs) + 1px);
+  }
+  .home .home-browse-card--recent .track-card-name {
+    font-size: calc(var(--text-lg) - 4px);
+  }
+  .home .home-browse-card--recent .track-card-home-dur {
+    font-size: var(--text-xs);
   }
   .home-track-bookmark-btn {
     border: none;
@@ -9905,7 +10262,7 @@ const css = `
   }
   .track-card-right { display:flex; align-items:center; justify-content:space-between; width:100%; }
   .track-card-dur {
-    font-size: var(--text-sm); font-family:var(--font-meta); letter-spacing:-0.02em; text-transform:uppercase; color:var(--text-dim);
+    font-size: var(--text-sm); font-family: var(--font-meta), var(--font-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dimmer);
     font-weight: 500; font-variant-numeric: tabular-nums;
   }
   .begin-btn {
@@ -10685,14 +11042,14 @@ function MomentumMap({ history, nightMode = false, theme = "dark", compact = fal
     detailDate && /*#__PURE__*/React.createElement("div", { className: "momentum-day-detail", role: "region", "aria-label": "Selected day detail" }, /*#__PURE__*/
     React.createElement("div", { className: "momentum-day-detail__head" }, /*#__PURE__*/
     React.createElement("span", null, axisRelativeDayLabel(detailDate)), /*#__PURE__*/
-    React.createElement("span", { className: "momentum-day-detail__tot" }, (minutesByDate[detailDate] || 0), " min · ", detailEntries.length, " session", detailEntries.length !== 1 ? "s" : "")
+    React.createElement("span", { className: "momentum-day-detail__tot" }, /*#__PURE__*/React.createElement("span", { className: "axis-duration-label" }, axisFormatDurationMinUpper(minutesByDate[detailDate] || 0)), " · ", detailEntries.length, " session", detailEntries.length !== 1 ? "s" : "")
     ),
     detailEntries.length === 0 ? /*#__PURE__*/React.createElement("div", { className: "momentum-day-detail__empty" }, "No entries.") : /*#__PURE__*/React.createElement("ul", { className: "momentum-day-detail__list" },
     detailEntries.map((e, idx) => {
       const exLabel = axisExerciseNameForHistoryEntry(e);
       return (/*#__PURE__*/React.createElement("li", { key: `${idx}-${e.exerciseId != null ? e.exerciseId : "x"}` }, /*#__PURE__*/
       React.createElement("span", { className: "momentum-day-detail__cell-left" }, exLabel ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", { className: "momentum-day-detail__exercise" }, exLabel), /*#__PURE__*/React.createElement("span", { className: "momentum-day-detail__track momentum-day-detail__track--sub" }, e.track)) : /*#__PURE__*/React.createElement("span", { className: "momentum-day-detail__track" }, e.track)), /*#__PURE__*/
-      React.createElement("span", { className: "momentum-day-detail__dur" }, e.duration, "m")
+      React.createElement("span", { className: "momentum-day-detail__dur axis-duration-label" }, axisFormatDurationMinUpper(e.duration))
       ));
     })
     ),
@@ -11940,7 +12297,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     React.createElement("div", { style: { fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--text-xl)", letterSpacing: "-0.03em", lineHeight: 1.02, color: W, marginBottom: 16, textShadow: NAME_SHAD } },
     trackLabel
     ), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-lg)", color: S, marginBottom: 24, opacity: 0.9 } }, filteredCount, " exercises \u2022 ", trackDuration)
+    React.createElement("div", { style: { fontSize: "var(--text-lg)", marginBottom: 24, opacity: 0.9, display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "0.35em" } }, /*#__PURE__*/React.createElement("span", { style: { color: S } }, filteredCount, " exercises"), /*#__PURE__*/React.createElement("span", { style: { color: S }, "aria-hidden": true }, "\u2022"), /*#__PURE__*/React.createElement("span", { className: "axis-duration-label", style: { fontSize: "inherit" } }, axisNormalizeDurationLabelToMin(trackDuration)))
     ), /*#__PURE__*/
     React.createElement("div", { style: { width: "100%", maxWidth: 380, marginBottom: 32, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "nowrap", boxSizing: "border-box" } }, /*#__PURE__*/
     React.createElement("span", { style: { fontSize: "var(--text-xs)", color: guidedBodyText, lineHeight: 1.35, whiteSpace: "nowrap" } }, "Show Detailed Instructions"),
@@ -12571,7 +12928,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const TIMER_BTN_SPACER_BELOW_IDLE = { flex: 1.75, minHeight: 0, width: "100%" };
   // Interval idle: fixed gap below ring and above START (matches TIMER_IDLE_VERTICAL_GAP on mid block)
   const TIMER_BTN_SPACER_ABOVE_INTERVAL_IDLE = { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: TIMER_IDLE_VERTICAL_GAP + 14, width: "100%" };
-  const TIMER_BTN_SPACER_BELOW_INTERVAL_IDLE = { flex: 1.38, minHeight: 0, width: "100%" };
+  const TIMER_BTN_SPACER_BELOW_INTERVAL_IDLE = { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: 12, width: "100%" };
   // Breathe idle: match Interval — same gap (ring↔pattern/cycles ↔ START)
   const TIMER_BTN_SPACER_ABOVE_BREATHE_IDLE = { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: TIMER_IDLE_VERTICAL_GAP + 14, width: "100%" };
   const TIMER_BTN_ROW = { flexShrink: 0, display: "flex", flexDirection: "row", flexWrap: "nowrap", gap: 10, width: "100%", justifyContent: "center", alignItems: "center", boxSizing: "border-box", paddingTop: 6, paddingBottom: 4, maxWidth: 380, marginTop: 28 };
@@ -13071,6 +13428,18 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     padding-top: 14px;
     box-sizing: border-box;
   }
+  .timer-view-body .timer-pattern-row.timer-breathe-pattern-row .timer-glass-pattern-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+    padding: 10px 6px !important;
+  }
   .timer-view-body .timer-breathe-guide-ring circle:not(.timer-interval-guide-progress) {
     stroke: var(--border);
   }
@@ -13332,7 +13701,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
 
     mode === "interval" && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", flex: 1, minHeight: 0 } }, /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", flex: 1, minHeight: 0 } }, /*#__PURE__*/
     React.createElement("div", { className: "timer-glass-orb timer-ring-slot timer-interval-ring-wrap axis-surface-tmt timer-hero-stage", style: TIMER_RING_WRAP, "data-interval-glow": iRunning && (iPhase === "work" || iPhase === "rest") ? "peak" : undefined }, /*#__PURE__*/
     React.createElement("svg", { width: ringSize, height: ringSize, viewBox: "0 0 320 320", style: { position: "absolute", top: 0, left: 0 }, className: "timer-breathe-guide-ring" }, /*#__PURE__*/
     !isDark && React.createElement("defs", null,
@@ -13434,7 +13803,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ),
 
     mode === "breathe" && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 380, alignSelf: "center", flex: 1, minHeight: 0, boxSizing: "border-box" } }, /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", maxWidth: 380, alignSelf: "center", flex: 1, minHeight: 0, boxSizing: "border-box" } }, /*#__PURE__*/
     React.createElement("div", { className: "timer-glass-orb timer-breathe-ring-wrap timer-ring-slot axis-surface-tmt timer-hero-stage", style: TIMER_RING_WRAP, "data-breathe-glow": bRunning || bPaused ? "peak" : undefined }, /*#__PURE__*/
     React.createElement("svg", { width: ringSize, height: ringSize, viewBox: "0 0 320 320", style: { position: "absolute", top: 0, left: 0 }, className: "timer-breathe-guide-ring" }, /*#__PURE__*/
     !isDark && React.createElement("defs", null,
@@ -14048,8 +14417,7 @@ function axisMetricsSanitizeDecimalInput(raw) {
 }
 
 function axisMetricsFormatSessionDurationShort(mins) {
-  const n = Math.max(0, Math.round(Number(mins) || 0));
-  return `${n}m`;
+  return axisFormatDurationMinUpper(mins);
 }
 
 /** Pain entries newest first. */
@@ -14700,22 +15068,6 @@ function axisExportAxisLocalData() {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-function axisHomeWalkPolylinePoints(seedId = "") {
-  const base = String(seedId || "axis");
-  let hash = 0;
-  for (let i = 0; i < base.length; i++) hash = (hash * 31 + base.charCodeAt(i)) % 9973;
-  const p1 = 6 + hash % 16;
-  const p2 = 26 + hash % 18;
-  const p3 = 48 + hash % 22;
-  const p4 = 72 + hash % 18;
-  const y1 = 14 + hash % 5;
-  const y2 = 9 + hash % 7;
-  const y3 = 15 + hash % 5;
-  const y4 = 8 + hash % 6;
-  const y5 = 13 + hash % 5;
-  return `0,${y1} ${p1},${y2} ${p2},${y3} ${p3},${y4} ${p4},${y5} 100,${y2}`;
-}
-
 function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () => {}, onGuidedOpen }) {
   const APP_ICON_OPTIONS = [
   { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
@@ -15095,7 +15447,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const activeCount = filteredAll.length;
   const sessionSeconds = activeCount * perMoveSeconds;
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
-  const sessionDurationLabel = `${sessionMinutes} min`;
+  const sessionDurationLabel = axisFormatDurationMinUpper(sessionMinutes);
   const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
   const cur = activeAll[Math.min(fi, activeAll.length - 1)];
 
@@ -15188,7 +15540,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     return (/*#__PURE__*/
       React.createElement("div", { key: "settings", className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
-      React.createElement("div", { className: "app-orbs", style: { background: "none", transition: "background 0.4s ease" } }), /*#__PURE__*/
+      React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
       React.createElement("div", { className: "app-body app-body--settings-pad settings-density" }, /*#__PURE__*/
       dashboardHeaderEl, /*#__PURE__*/
       React.createElement("div", { className: "settings-page-rail settings-ios-page" }, /*#__PURE__*/
@@ -15197,8 +15549,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 
       React.createElement("div", { className: "settings-ios-section-title" }, "Goals"), /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
-      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Daily Goal"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-value-badge" }, dailyGoalMinutes, " min"), /*#__PURE__*/React.createElement("input", { className: "settings-range", type: "range", min: 1, max: 90, step: 1, value: dailyGoalMinutes, onChange: (e) => {const n = Number(e.target.value);setDailyGoalMinutes(n);setWeeklyFollowsDaily(true);setWeeklyGoalMinutes(axisSnapWeeklyGoalMinutes(n * 7));}, style: { accentColor: "var(--mood-color)" } })), /*#__PURE__*/
-      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Weekly Goal"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-value-badge" }, weeklyGoalMinutes, " min"), /*#__PURE__*/React.createElement("input", { className: "settings-range", type: "range", min: 5, max: 500, step: 5, value: weeklyGoalMinutes, onChange: (e) => {setWeeklyFollowsDaily(false);setWeeklyGoalMinutes(Number(e.target.value));}, style: { accentColor: "var(--mood-color)" } }))), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Daily Goal"), /*#__PURE__*/React.createElement("div", { className: "settings-ios-goal-stepper" }, /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-goal-step", "aria-label": "Decrease daily goal", onClick: () => {axisHapticTick();setDailyGoalMinutes((n) => {const x = Math.max(1, n - 1);setWeeklyFollowsDaily(true);setWeeklyGoalMinutes(axisSnapWeeklyGoalMinutes(x * 7));return x;});} }, "\u2212"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-goal-val axis-duration-label" }, axisFormatDurationMinUpper(dailyGoalMinutes)), /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-goal-step", "aria-label": "Increase daily goal", onClick: () => {axisHapticTick();setDailyGoalMinutes((n) => {const x = Math.min(90, n + 1);setWeeklyFollowsDaily(true);setWeeklyGoalMinutes(axisSnapWeeklyGoalMinutes(x * 7));return x;});} }, "+"))), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Weekly Goal"), /*#__PURE__*/React.createElement("div", { className: "settings-ios-goal-stepper" }, /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-goal-step", "aria-label": "Decrease weekly goal", onClick: () => {axisHapticTick();setWeeklyFollowsDaily(false);setWeeklyGoalMinutes((w) => axisSnapWeeklyGoalMinutes(Math.max(5, w - 5)));} }, "\u2212"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-goal-val axis-duration-label" }, axisFormatDurationMinUpper(weeklyGoalMinutes)), /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-goal-step", "aria-label": "Increase weekly goal", onClick: () => {axisHapticTick();setWeeklyFollowsDaily(false);setWeeklyGoalMinutes((w) => axisSnapWeeklyGoalMinutes(Math.min(500, w + 5)));} }, "+")))), /*#__PURE__*/
 
       React.createElement("div", { className: "settings-ios-section-title" }, "Session"), /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
@@ -15433,7 +15785,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "metrics-quick-glance__stat-title metrics-quick-glance__stat-title--movement metrics-quick-glance__dashboard-hero-label" }, "MOVEMENT TODAY"), /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance__dashboard-hero-metric" }, /*#__PURE__*/
       React.createElement("span", { className: "metrics-quick-glance__dashboard-hero-num" }, String(Math.max(0, Math.round(todayMinutesTotal)))), /*#__PURE__*/
-      React.createElement("span", { className: "metrics-quick-glance__dashboard-hero-unit" }, "min")
+      React.createElement("span", { className: "metrics-quick-glance__dashboard-hero-unit" }, "MIN")
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance__dashboard-right" }, /*#__PURE__*/
@@ -15450,7 +15802,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("hr", { className: "metrics-quick-glance__dashboard-divider", "aria-hidden": true }), /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance__dashboard-left-bottom" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-quick-glance__hero-week-sub metrics-quick-glance__dashboard-week-line" }, `${Math.max(0, Math.round(weeklyGoalBarMinutesCurrent))} min this week`)
+      React.createElement("div", { className: "metrics-quick-glance__hero-week-sub metrics-quick-glance__dashboard-week-line" }, `${Math.max(0, Math.round(weeklyGoalBarMinutesCurrent))} MIN THIS WEEK`)
       )
       )
       )
@@ -15484,7 +15836,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "metrics-goals-bar-row" }, /*#__PURE__*/
       React.createElement("div", { className: "metrics-goals-bar-head" }, /*#__PURE__*/
       React.createElement("span", null, "Daily"),
-      React.createElement("span", { className: "metrics-goals-bar-meta" }, todayMinutesTotal, " / ", goalMin > 0 ? goalMin : "\u2014", " min")
+      React.createElement("span", { className: "metrics-goals-bar-meta" }, todayMinutesTotal, " / ", goalMin > 0 ? goalMin : "\u2014", " MIN")
       ),
       React.createElement("div", {
         className: "prog-bar",
@@ -15498,7 +15850,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "metrics-goals-bar-row" }, /*#__PURE__*/
       React.createElement("div", { className: "metrics-goals-bar-head" }, /*#__PURE__*/
       React.createElement("span", null, "Weekly"),
-      React.createElement("span", { className: "metrics-goals-bar-meta" }, weeklyGoalBarMinutesCurrent, " / ", weeklyTargetMin > 0 ? weeklyTargetMin : "\u2014", " min")
+      React.createElement("span", { className: "metrics-goals-bar-meta" }, weeklyGoalBarMinutesCurrent, " / ", weeklyTargetMin > 0 ? weeklyTargetMin : "\u2014", " MIN")
       ),
       React.createElement("div", {
         className: "prog-bar",
@@ -15620,7 +15972,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         const trackUp = String(e.track || "").toUpperCase();
         return (/*#__PURE__*/React.createElement("div", { className: "metrics-recent-row history-row", key: `${g.dateKey}-${e.track}-${e.exerciseId != null ? e.exerciseId : ri}-${ri}` }, /*#__PURE__*/
         React.createElement("div", { className: "metrics-recent-row__main" }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "metrics-recent-row__exercise" }, exLabelResolved), /*#__PURE__*/React.createElement("div", { className: "metrics-recent-row__track" }, trackUp))),
-        /*#__PURE__*/React.createElement("div", { className: "metrics-recent-row__dur" }, axisMetricsFormatSessionDurationShort(e.duration))
+        /*#__PURE__*/React.createElement("div", { className: "metrics-recent-row__dur axis-duration-label" }, axisMetricsFormatSessionDurationShort(e.duration))
         ));
       })
       ))
@@ -15704,17 +16056,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // TODAY (formerly Home)
   if (view === "home" && !hasActiveSession) {
     const nowPeriod = getCircadianPeriod();
-    // Suggestions follow local time; visuals follow selected mood (or auto), with valid period keys only.
-    const stylePeriod = axisResolveMoodPeriod(activePeriod);
-    const homeCt = CIRCADIAN_THEMES[stylePeriod][theme === "dark" ? "dark" : "light"];
-    const homeHighlight = nightMode ? "#FF3B30" : homeCt && homeCt.accent ? homeCt.accent : "var(--accent)";
     const perMove = exerciseDuration || 45;
     const getTrackDisplayDuration = (trackId) => {
       const sections = getSections(trackId);
       const activeCount = (sections || []).reduce((n, sec) => n + (sec.exercises || []).filter((e) => !skipped[e.id]).length, 0);
       const sessionSecs = activeCount * perMove;
       const mins = Math.round(sessionSecs / 60) || 0;
-      return `${mins} min`;
+      return axisFormatDurationMinUpper(mins);
     };
     const TODAY_SUGGESTIONS = {
       dawn: { trackId: "morning", suggestion: "Start your morning with intention." },
@@ -15722,53 +16070,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       prime: { trackId: "stress", suggestion: "Wind down and decompress." },
       rest: { trackId: "prime", suggestion: "Relax your body before sleep." }
     };
-    const periodLabels = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
-    const todayBoxTitleByPeriod = { dawn: "AM Activation", midday: "Postural Reset", prime: "Sundown Stretch", rest: "Sleep-Ready Recovery" };
     const periodKey = TODAY_SUGGESTIONS[nowPeriod] ? nowPeriod : "dawn";
     const todaySug = TODAY_SUGGESTIONS[periodKey] || TODAY_SUGGESTIONS.dawn;
     const todayTrackId = todaySug && TRACKS && TRACKS[todaySug.trackId] ? todaySug.trackId : "daily";
     const todayTrack = (TRACKS && (TRACKS[todayTrackId] || TRACKS.daily)) || TRACKS_DATA_FALLBACK.daily;
     const todaySuggestionText = todaySug && todayTrackId === todaySug.trackId ? todaySug.suggestion : (todayTrack && todayTrack.purpose) || (todaySug && todaySug.suggestion) || "";
-    const isTodayLight = theme === "light" && !nightMode;
 
-    const todayCardStyle = {
-      marginBottom: 24,
-      padding: "20px var(--page-gutter) 22px",
-      borderRadius: 12,
-      background: "var(--glass-bg)",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
-      boxShadow: "none",
-      backdropFilter: "blur(20px)",
-      WebkitBackdropFilter: "blur(20px)"
-    };
-
-    let todayInk;
-    if (nightMode) todayInk = "#FF3B30";
-    else if (isTodayLight) todayInk = "#252525";
-    else todayInk = "#f6f7f8";
-
-    const todayInkSecondary = nightMode ? "rgba(255,59,48,0.78)" : isTodayLight ? "#252525" : "rgba(246,247,248,0.86)";
-
-    const heroBtnInk = inkForAccentHex(homeHighlight) || "var(--axis-white)";
-    const todayBtn = nightMode ? {
-      background: "#FF3B30",
-      color: "#000000",
-      WebkitTextFillColor: "#000000",
-      border: "none",
-      boxShadow: "0 4px 16px rgba(0,0,0,0.28)"
-    } : theme === "dark" ? {
-      background: homeHighlight,
-      color: "#252525",
-      WebkitTextFillColor: "#252525",
-      border: "none",
-      boxShadow: "0 4px 16px rgba(0,0,0,0.2)"
-    } : {
-      background: homeHighlight,
-      color: heroBtnInk,
-      WebkitTextFillColor: heroBtnInk,
-      border: "none",
-      boxShadow: "0 4px 16px rgba(0,0,0,0.2)"
-    };
     const homeBrowseGroups = homeTrackCategory === "all" ?
     HOME_TRACK_GROUPS :
     HOME_TRACK_GROUPS.filter((g) => g.id === homeTrackCategory);
@@ -15777,38 +16084,47 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const recentResolvedHome = recentTracks.filter((id) => TRACKS && TRACKS[id]);
     const favResolvedHome = favoriteTrackIds.filter((id) => TRACKS && TRACKS[id]);
     const routineRecentsHome = recentResolvedHome.filter((id) => favResolvedHome.indexOf(id) === -1);
-    const lastMovementTrackId = recentResolvedHome.length ? recentResolvedHome[0] : null;
+    const lastGlobalHist = axisLatestHistoryEntryGlobal(history);
+    const lastMovementFromHist = axisResolveTrackIdFromHistoryEntry(lastGlobalHist);
+    const lastMovementTrackId = lastMovementFromHist || (recentResolvedHome.length ? recentResolvedHome[0] : null);
     const lastMovementTrack = lastMovementTrackId && TRACKS ? TRACKS[lastMovementTrackId] : null;
-    const lastMovementEntry = lastMovementTrackId && Array.isArray(history) ? history.find((h) => h && h.trackId === lastMovementTrackId) : null;
-    const homeLogStamp = (() => {
-      if (!lastMovementEntry) return "LOGGED: --";
-      const raw = lastMovementEntry.loggedAt || lastMovementEntry.timestamp || lastMovementEntry.ts || lastMovementEntry.at || lastMovementEntry.date;
-      const normalizedRaw = typeof raw === "string" && /^\d{4}-\d{2}-\d{2}$/.test(raw) ? `${raw}T00:00:00` : raw;
-      const loggedDate = normalizedRaw != null ? new Date(normalizedRaw) : null;
-      if (!loggedDate || Number.isNaN(loggedDate.getTime())) return "LOGGED: --";
-      const loggedLabel = loggedDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-      return `LOGGED: ${String(loggedLabel).toUpperCase()}`;
-    })();
-    const formatHomeCardDur = (durLabel) => {
-      const m = String(durLabel || "").match(/(\d+)\s*min\b/i);
-      return m ? `${m[1]} MIN` : String(durLabel || "").toUpperCase();
-    };
-    const renderHomeBrowseTrackCard = (trackId, keyPrefix, routineVariant) => {
+    const lastMovementEntry = lastMovementFromHist ? lastGlobalHist : axisLatestHistoryEntryForTrack(lastMovementTrackId, history);
+    const lastSessionLoggedDate = axisDateFromHistoryEntry(lastMovementEntry);
+    const lastSessionDayUpper = lastSessionLoggedDate ? axisFormatLastSessionDayUpper(lastSessionLoggedDate) : "";
+    const lastSessionDurDateLine = lastMovementTrackId ?
+    lastSessionDayUpper ?
+    `${getTrackDisplayDuration(lastMovementTrackId)} \u00b7 ${lastSessionDayUpper}` :
+    getTrackDisplayDuration(lastMovementTrackId) :
+    "";
+    const renderHomeBrowseTrackCard = (trackId, keyPrefix, mode) => {
       const t = TRACKS && TRACKS[trackId];
       if (!t) return null;
-      const cardDur = getTrackDisplayDuration(t.id);
-      const durShown = formatHomeCardDur(cardDur);
+      const durShown = getTrackDisplayDuration(t.id);
       const isFav = favoriteTrackIds.indexOf(t.id) !== -1;
-      const cardShellClass = "track-card session-card track-card--home-browse glass-card" + (routineVariant ? " home-routine-track-card" : "");
-      return /*#__PURE__*/React.createElement("div", { className: cardShellClass, key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {openTrackDetail(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();openTrackDetail(t.id);}}, "aria-label": `View workout, ${t.label}, ${durShown}` }, /*#__PURE__*/
+      const isRoutine = mode === "favorites" || mode === "recent";
+      const isRecent = mode === "recent";
+      const isFavorites = mode === "favorites";
+      let recentHistDateUpper = "";
+      if (isRecent) {
+        const ent = axisLatestHistoryEntryForTrack(t.id, history);
+        const d = axisDateFromHistoryEntry(ent);
+        recentHistDateUpper = d ? axisFormatLastSessionDayUpper(d) : "";
+      }
+      const footerDurLine = isRecent && recentHistDateUpper ? `${durShown} \u00b7 ${recentHistDateUpper}` : durShown;
+      let cardShellClass = "track-card session-card track-card--home-browse glass-card";
+      if (isRoutine) cardShellClass += " home-routine-track-card";
+      if (isFavorites) cardShellClass += " home-browse-card--favorites";
+      if (isRecent) cardShellClass += " home-browse-card--recent";
+      const ariaDur = footerDurLine.replace(/\u00b7/g, ",").replace(/\s+/g, " ").trim();
+      return /*#__PURE__*/React.createElement("div", { className: cardShellClass, key: `${keyPrefix}-${t.id}`, "data-category": TRACK_CATEGORY_BY_ID[trackId] || "", onClick: () => {openTrackDetail(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();openTrackDetail(t.id);}}, "aria-label": `View workout, ${t.label}, ${ariaDur}` }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
       React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, t.purpose))), /*#__PURE__*/
+      !isRecent ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, t.purpose) : null)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
-      React.createElement("span", { className: "track-card-home-dur" }, durShown), /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Save bookmark", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", fill: isFav ? "currentColor" : "none", stroke: isFav ? "none" : "currentColor", strokeWidth: isFav ? "0" : "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("path", { d: "M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" })))));
     };
 
@@ -15836,34 +16152,60 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-header-lock" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome home-greeting", id: "axis-home-welcome" }, timeGreeting), /*#__PURE__*/
-      React.createElement("div", { className: "track-group start-here-group today-card glass-card today-card--ghost", role: "region", "aria-label": "Today's suggestion", style: todayCardStyle }, /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { letterSpacing: "-0.02em", textTransform: "uppercase", color: todayInk, marginBottom: 8, fontWeight: 700, fontFamily: "'Inter', var(--font-ui), sans-serif", fontSize: "var(--text-lg)" } }, todayBoxTitleByPeriod[periodKey] || "Today"), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line" : undefined, style: { fontWeight: 700, fontFamily: "var(--font-display)", letterSpacing: "-0.02em", color: todayInk, marginBottom: 6 } }, periodLabels[periodKey]), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, marginBottom: 6, lineHeight: 1.4 } }, todaySuggestionText), /*#__PURE__*/
-      React.createElement("div", { className: nightMode ? "today-card__line today-card__line--muted" : undefined, style: { color: todayInkSecondary, letterSpacing: "0.1em", marginBottom: 18, fontFamily: "'Roboto Mono', ui-monospace, monospace", fontWeight: 500, fontSize: "9px", opacity: 0.5 } }, getTrackDisplayDuration(todayTrack.id)), /*#__PURE__*/
-      React.createElement("button", {
-        className: "begin-btn begin-btn--today-primary ultra-filled-btn",
-        onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(todayTrack.id);},
-        style: {
-          width: "100%",
-          padding: "14px 24px",
-          fontSize: "var(--text-base)",
-          fontWeight: 500,
-          letterSpacing: "0.05em",
-          ...todayBtn,
-          ["--axis-today-glow"]: homeHighlight
-        },
-        "aria-label": `Learn more, ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}` },
-      "LEARN MORE"
-      )
+      React.createElement("div", { className: "track-group start-here-group" }, /*#__PURE__*/
+      React.createElement("div", {
+        className: "home-smart-card home-smart-card--unified track-card session-card track-card--home-browse glass-card",
+        role: "region",
+        "aria-label": "Now and last session",
+        style: { marginBottom: 16 }
+      }, /*#__PURE__*/
+      React.createElement("div", {
+        className: "home-smart-card__hit home-smart-card__hit--now",
+        role: "button",
+        tabIndex: 0,
+        "aria-label": `Now: ${todayTrack.label}, ${getTrackDisplayDuration(todayTrack.id)}`,
+        onClick: () => {axisHapticTick();openTrackDetail(todayTrack.id);},
+        onKeyDown: (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            axisHapticTick();
+            openTrackDetail(todayTrack.id);
+          }
+        }
+      }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__body" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__eyebrow" }, "NOW"), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__title-now" }, todayTrack.label), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__desc" }, todaySuggestionText), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__row-duration axis-duration-label" }, getTrackDisplayDuration(todayTrack.id)))
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-last-movement-card glass-card", role: "region", "aria-label": "Last movement" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-last-movement-head" }, "LAST SESSION"),
-      lastMovementTrack ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
-      React.createElement("span", { className: "home-last-movement-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
-      React.createElement("div", { className: "home-last-movement-stack" }, /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "home-last-movement-hit", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);beginTrack(lastMovementTrackId);}, "aria-label": `Resume ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}` }, /*#__PURE__*/React.createElement("svg", { className: "home-last-movement-walk-svg", viewBox: "0 0 100 24", preserveAspectRatio: "none", "aria-hidden": "true" }, /*#__PURE__*/React.createElement("polyline", { fill: "none", stroke: "currentColor", strokeWidth: "1.25", vectorEffect: "non-scaling-stroke", points: axisHomeWalkPolylinePoints(lastMovementTrackId) })), /*#__PURE__*/React.createElement("div", { className: "home-last-movement-copy" }, /*#__PURE__*/React.createElement("div", { className: "home-recent-row-title" }, lastMovementTrack.label), /*#__PURE__*/React.createElement("div", { className: "home-recent-row-meta home-last-movement-dur" }, getTrackDisplayDuration(lastMovementTrackId)), homeLogStamp && homeLogStamp !== "LOGGED: --" ? /*#__PURE__*/React.createElement("div", { className: "home-last-movement-stamp home-last-movement-logline" }, homeLogStamp) : /*#__PURE__*/React.createElement("span", { className: "home-last-movement-logline", style: { opacity: 0.4, fontSize: "12px", fontFamily: "monospace" } }, "no session logged today")))
-      )) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "No recent movement yet.")
+      React.createElement("hr", { className: "home-smart-card__rule", "aria-hidden": true }), /*#__PURE__*/
+      lastMovementTrack ? /*#__PURE__*/React.createElement("div", {
+        className: "home-smart-card__hit home-smart-card__hit--last",
+        role: "button",
+        tabIndex: 0,
+        "aria-label": `Last session, ${lastMovementTrack.label}, ${getTrackDisplayDuration(lastMovementTrackId)}${lastSessionDayUpper ? ", " + lastSessionDayUpper : ""}`,
+        onClick: () => {axisHapticTick();openTrackDetail(lastMovementTrackId);},
+        onKeyDown: (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            axisHapticTick();
+            openTrackDetail(lastMovementTrackId);
+          }
+        }
+      }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__body" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__eyebrow" }, "LAST SESSION"), /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__last-main" }, /*#__PURE__*/
+      React.createElement("span", { className: "home-smart-card__title-last" }, lastMovementTrack.label), /*#__PURE__*/
+      React.createElement("span", { className: "home-smart-card__dur-date axis-duration-label" }, lastSessionDurDateLine)))
+      ) : /*#__PURE__*/React.createElement("div", { className: "home-smart-card__hit home-smart-card__hit--last home-smart-card__hit--disabled" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__body" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-smart-card__eyebrow" }, "LAST SESSION"), /*#__PURE__*/
+      React.createElement("p", { className: "home-smart-card__empty home-smart-card__empty--sessions" }, "No sessions yet — start one below")))
+      )
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-nav-anchor", role: "tablist", "aria-label": "Home content sections" }, /*#__PURE__*/
       React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsRoutine ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("routine");} }, "ROUTINE"), /*#__PURE__*/
@@ -15880,7 +16222,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-routine-collapse", "aria-hidden": homeRoutineFavoritesOpen ? "false" : "true" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      favResolvedHome.length ? favResolvedHome.map((id) => renderHomeBrowseTrackCard(id, "fav", true)) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Save a bookmark on a track in Explore to pin it here.")
+      favResolvedHome.length ? favResolvedHome.map((id) => renderHomeBrowseTrackCard(id, "fav", "favorites")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Save a bookmark on a track in Explore to pin it here.")
       )
       )
       ), /*#__PURE__*/
@@ -15891,7 +16233,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-routine-collapse", "aria-hidden": homeRoutineRecentsOpen ? "false" : "true" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", true)) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
+      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", "recent")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
       )
       )
       )
@@ -15928,7 +16270,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-group", key: g.id }, /*#__PURE__*/
       homeTrackCategory === "all" && /*#__PURE__*/React.createElement("div", { className: "track-group-label" }, g.label), /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => renderHomeBrowseTrackCard(id, `ex-${g.id}`, false))
+      g.ids.filter((id) => TRACKS && TRACKS[id]).map((id) => renderHomeBrowseTrackCard(id, `ex-${g.id}`, "explore"))
       )
       )
       )
@@ -16000,7 +16342,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
     React.createElement("path", { d: "M19 12H5M12 5l-7 7 7 7" }))
     ), /*#__PURE__*/
-    React.createElement("div", { className: "hdr-dur", "aria-label": "Session length" }, sessionDurationLabel)
+    React.createElement("div", { className: "hdr-dur axis-duration-label", "aria-label": "Session length" }, sessionDurationLabel)
     ), /*#__PURE__*/
     React.createElement("div", { className: "hdr-left" }, /*#__PURE__*/
     React.createElement("div", { className: "hdr-title" }, TRACKS[track].label)
