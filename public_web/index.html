@@ -1208,8 +1208,15 @@ const css = `
     font-family: var(--font-ui);
     --dashboard-browse-sticky-top: calc(env(safe-area-inset-top, 0px) + 49px);
     --axis-dashboard-fixed-h: calc(env(safe-area-inset-top, 0px) + 43px);
+    /* LIST/GUIDED hdr-wrap top: aligns under dashboard bar (desktop = token; phones tighten vs over-estimated 43px tail) */
+    --axis-session-hdr-top: var(--axis-dashboard-fixed-h);
     /* Session chrome: title + duration + LIST/GUIDED + instruction line (fixed hdr-wrap) */
     --axis-session-fixed-h: 228px;
+  }
+  @media (max-width: 520px) {
+    .app {
+      --axis-session-hdr-top: calc(env(safe-area-inset-top, 0px) + 39px);
+    }
   }
   .home-wordmark, .track-card-name, .hdr-title, .session-title,
   .fc-name, .fv-name, .guided-exercise-name, .en, .step-label,
@@ -2645,7 +2652,7 @@ const css = `
 
   /* ── HEADER ── */
   .hdr-wrap {
-    position:fixed; top:var(--axis-dashboard-fixed-h); left:0; right:0; z-index:200; width:100%;
+    position:fixed; top:var(--axis-session-hdr-top); left:0; right:0; z-index:200; width:100%;
     background: var(--hdr-bg);
     backdrop-filter: blur(40px) saturate(2.0);
     -webkit-backdrop-filter: blur(40px) saturate(2.0);
@@ -9304,7 +9311,7 @@ const css = `
   }
   /* Scroll inset under fixed bookmarks row (breathing room before Start Guided / first sheet) */
   .app-body > .dashboard-header + .hdr-wrap + .content.content--session {
-    padding-top: calc(var(--axis-dashboard-fixed-h) + var(--axis-session-fixed-h) + 2 * var(--page-gutter) + 8px);
+    padding-top: calc(var(--axis-session-hdr-top) + var(--axis-session-fixed-h) + 2 * var(--page-gutter) + 8px);
   }
   /* Left edge aligns with TODAY card — only .track-cards-outer supplies horizontal gutter */
   .home-welcome {
@@ -9812,6 +9819,7 @@ const css = `
     margin-bottom:0;
     box-sizing:border-box;
   }
+  /* Edge-to-edge pill row: vw breakout so iOS/mobile isn’t clipped by padded ancestors (preview column width ≠ phone). */
   .home-slide-view--explore .home-category-strip-wrap {
     position:sticky;
     top:0;
@@ -9822,9 +9830,11 @@ const css = `
     -webkit-backdrop-filter:none;
     border-bottom:none;
     padding:0;
-    margin-left: calc(-1 * var(--page-gutter));
-    margin-right: calc(-1 * var(--page-gutter));
-    width: calc(100% + 2 * var(--page-gutter));
+    width:100vw;
+    max-width:100vw;
+    box-sizing:border-box;
+    margin-left:calc(50% - 50vw);
+    margin-right:0;
     margin-top:16px;
     margin-bottom:12px;
   }
@@ -9858,6 +9868,7 @@ const css = `
   .app[data-night="true"] .home-slide-view--explore .home-category-strip-wrap::after {
     background: linear-gradient(to left, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0) 100%);
   }
+  /* Inset only for safe-area + minimum finger comfort — pills visually reach screen edges inside full-bleed track */
   .home-slide-view--explore .home-category-strip {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -9865,8 +9876,9 @@ const css = `
     flex-wrap: nowrap;
     padding-top:6px;
     padding-bottom:6px;
-    padding-left: calc(var(--page-gutter) + 2px);
-    padding-right: calc(var(--page-gutter) + 2px);
+    padding-left:max(12px, env(safe-area-inset-left, 0px));
+    padding-right:max(12px, env(safe-area-inset-right, 0px));
+    scroll-padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -9884,10 +9896,6 @@ const css = `
     margin-left:0;
     margin-right:0;
     box-sizing:border-box;
-  }
-  .home-slide-view--explore .home-category-strip {
-    padding-left:calc(var(--page-gutter) + 2px);
-    padding-right:calc(var(--page-gutter) + 2px);
   }
   .home-float-stack {
     position:static;
