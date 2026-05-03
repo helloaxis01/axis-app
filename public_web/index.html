@@ -1765,8 +1765,8 @@ const css = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  .app[data-night="true"] .content--session .er-card.er-card--open .protocol-panel.panel,
-  .app[data-night="true"] .content--session .er-card.er-card--open .panel.protocol-panel {
+  .app[data-night="true"] .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open .protocol-panel.panel,
+  .app[data-night="true"] .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open .panel.protocol-panel {
     background: transparent !important;
     border-top: 1px solid rgba(255, 59, 48, 0.28) !important;
     box-shadow: none !important;
@@ -3950,21 +3950,25 @@ const css = `
     margin-top: 4px;
   }
 
-  /* LIST tab — collapsed exercise cards (Option A) */
-  .content--session-list .sg.sg--session-sheet > .er-card {
+  /* LIST tab + GUIDED preview — exercise cards (Option A shell) */
+  .content--session-list .sg.sg--session-sheet > .er-card,
+  .content--session-guided .sg.sg--session-sheet > .er-card {
     border-bottom: none !important;
     background: transparent;
   }
-  .content--session-list .sg.sg--session-sheet > .er-card + .er-card {
+  .content--session-list .sg.sg--session-sheet > .er-card + .er-card,
+  .content--session-guided .sg.sg--session-sheet > .er-card + .er-card {
     margin-top: 8px;
   }
-  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open),
+  .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 14px;
     transition: background 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
   }
-  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover,
+  .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: rgba(255, 255, 255, 0.06) !important;
     border-color: rgba(255, 255, 255, 0.1) !important;
     border-radius: 14px !important;
@@ -3972,13 +3976,16 @@ const css = `
     margin-right: 0 !important;
     padding: 0 !important;
   }
-  .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
+  .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open),
+  .content--session-guided .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
     border-color: color-mix(in srgb, var(--mood-color) 25%, transparent);
   }
-  .content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped {
+  .content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped,
+  .content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped {
     opacity: 0.35;
   }
-  .content--session-list .er-card > .er--list-card-a {
+  .content--session-list .er-card > .er--list-card-a,
+  .content--session-guided .er-card > .er--list-card-a {
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -4001,7 +4008,8 @@ const css = `
     background: color-mix(in srgb, var(--mood-color) 30%, transparent);
     pointer-events: none;
   }
-  .content--session-list .er-card.er-card--pinned .er-list-accent {
+  .content--session-list .er-card.er-card--pinned .er-list-accent,
+  .content--session-guided .er-card.er-card--pinned .er-list-accent {
     background: var(--mood-color);
   }
   .content--session .er--list-card-a {
@@ -4138,15 +4146,18 @@ const css = `
   .content--session .er-list-expand-chev:not(.er-list-expand-chev--open) svg {
     transition: transform 0.22s ease;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open),
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
     background: rgba(15, 30, 46, 0.04);
     border-color: rgba(15, 30, 46, 0.08);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: rgba(15, 30, 46, 0.06) !important;
     border-color: rgba(15, 30, 46, 0.12) !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open) {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open),
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
     border-color: color-mix(in srgb, var(--mood-color) 35%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-title {
@@ -4176,18 +4187,22 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-accent {
     background: color-mix(in srgb, var(--mood-color) 22%, transparent);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned .er-list-accent {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned .er-list-accent,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned .er-list-accent {
     background: var(--mood-color);
   }
-  .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
+  .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open),
+  .app[data-night="true"] .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
     background: rgba(255, 59, 48, 0.06);
     border-color: rgba(255, 59, 48, 0.22);
   }
-  .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
+  .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover,
+  .app[data-night="true"] .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: rgba(255, 59, 48, 0.1) !important;
     border-color: rgba(255, 59, 48, 0.38) !important;
   }
-  .app[data-night="true"] .content--session-list .er-card.er-card--pinned:not(.er-card--open) {
+  .app[data-night="true"] .content--session-list .er-card.er-card--pinned:not(.er-card--open),
+  .app[data-night="true"] .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
     border-color: color-mix(in srgb, var(--mood-color) 45%, transparent);
   }
   .app[data-night="true"] .content--session .er-list-desc {
@@ -4208,25 +4223,30 @@ const css = `
   .app[data-night="true"] .content--session .er-list-accent {
     background: color-mix(in srgb, var(--mood-color) 35%, transparent);
   }
-  /* Make expanded LIST cards visually match collapsed cards (compact) */
-  .content--session-list .er-card.er-card--open {
+  /* Make expanded LIST / GUIDED preview cards visually match collapsed cards (compact) */
+  .content--session-list .er-card.er-card--open,
+  .content--session-guided .er-card.er-card--open {
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(255, 255, 255, 0.07) !important;
     border-radius: 14px !important;
-    padding: 16px 16px 16px 14px !important;
+    padding: 0 0 14px 0 !important;
     margin: 0 0 8px 0 !important;
     box-shadow: none !important;
   }
-  .content--session-list .er-card.er-card--open .panel.protocol-panel {
+  .content--session-list .er-card.er-card--open .panel.protocol-panel,
+  .content--session-guided .er-card.er-card--open .panel.protocol-panel {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 0 !important;
-    margin-top: 8px !important;
+    padding: 0 16px !important;
+    margin-top: 4px !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel__graphic-frame,
   .content--session-list .panel.protocol-panel .exercise-animation__media,
-  .content--session-list .panel.protocol-panel .exercise-carousel__media {
+  .content--session-list .panel.protocol-panel .exercise-carousel__media,
+  .content--session-guided .panel.protocol-panel .exercise-carousel__graphic-frame,
+  .content--session-guided .panel.protocol-panel .exercise-animation__media,
+  .content--session-guided .panel.protocol-panel .exercise-carousel__media {
     max-height: 180px !important;
     height: auto !important;
     width: 100% !important;
@@ -4234,20 +4254,23 @@ const css = `
     object-fit: cover !important;
     overflow: hidden !important;
   }
-  /* Make START TIMER CTA less dominant in LIST expanded state */
-  .content--session-list .panel.protocol-panel .session-timer-cta-wrap .mark-btn {
+  /* Make START TIMER CTA less dominant in LIST / GUIDED preview expanded state */
+  .content--session-list .panel.protocol-panel .session-timer-cta-wrap .mark-btn,
+  .content--session-guided .panel.protocol-panel .session-timer-cta-wrap .mark-btn {
     width: auto !important;
     padding: 10px 22px !important;
     font-size: 14px !important;
     align-self: flex-start !important;
   }
   /* Prevent stacking/overflow issues and ensure expanded content stacks vertically */
-  .content--session-list .er-card {
+  .content--session-list .er-card,
+  .content--session-guided .er-card {
     overflow: hidden !important;
     position: relative !important;
   }
   /* Keep the title/summary column stacked on the left when expanded (title, subtitle, meta) */
-  .content--session-list .er-card.er-card--open .er-list-center {
+  .content--session-list .er-card.er-card--open .er-list-center,
+  .content--session-guided .er-card.er-card--open .er-list-center {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -4255,18 +4278,22 @@ const css = `
     gap: 4px !important;
     width: 100% !important;
   }
-  .content--session-list .er-card.er-card--open .er-list-title {
+  .content--session-list .er-card.er-card--open .er-list-title,
+  .content--session-guided .er-card.er-card--open .er-list-title {
     flex: 1 1 auto !important;
     margin: 0 !important;
   }
-  .content--session-list .er-card.er-card--open .er-list-rail-actions {
+  .content--session-list .er-card.er-card--open .er-list-rail-actions,
+  .content--session-guided .er-card.er-card--open .er-list-rail-actions {
     align-self: center !important;
     margin-left: 12px !important;
     position: static !important;
   }
   /* Ensure the expanded panel sits below the title row in normal flow */
   .content--session-list .er-card.er-card--open > .er > .panel.protocol-panel,
-  .content--session-list .er-card.er-card--open .panel.protocol-panel {
+  .content--session-list .er-card.er-card--open .panel.protocol-panel,
+  .content--session-guided .er-card.er-card--open > .er > .panel.protocol-panel,
+  .content--session-guided .er-card.er-card--open .panel.protocol-panel {
     position: relative !important;
     z-index: 0 !important;
     margin-top: 12px !important;
@@ -4274,33 +4301,13 @@ const css = `
   /* Force media inside expanded panel to be static in flow and not overlap */
   .content--session-list .panel.protocol-panel .exercise-carousel__graphic-frame,
   .content--session-list .panel.protocol-panel .exercise-animation__media,
-  .content--session-list .panel.protocol-panel .exercise-carousel__media {
-    position: static !important;
-    z-index: 0 !important;
-    display: block !important;
-  }
-  /* GUIDED: cap expanded media height the same way as LIST */
+  .content--session-list .panel.protocol-panel .exercise-carousel__media,
   .content--session-guided .panel.protocol-panel .exercise-carousel__graphic-frame,
   .content--session-guided .panel.protocol-panel .exercise-animation__media,
   .content--session-guided .panel.protocol-panel .exercise-carousel__media {
-    max-height: 200px !important;
-    height: auto !important;
-    width: 100% !important;
-    border-radius: 10px !important;
-    object-fit: cover !important;
-    overflow: hidden !important;
     position: static !important;
     z-index: 0 !important;
     display: block !important;
-  }
-  .content--session-guided .er-card.er-card--open .panel.protocol-panel {
-    padding: 0 16px 16px !important;
-  }
-  .content--session-guided .panel.protocol-panel .session-timer-cta-wrap .mark-btn {
-    width: auto !important;
-    padding: 10px 22px !important;
-    font-size: 14px !important;
-    align-self: flex-start !important;
   }
   .content--session .er-body {
     width: 100%;
@@ -4318,16 +4325,16 @@ const css = `
   .content--session .sg.sg--session-sheet > .er-card:last-of-type:not(.er-card--open) {
     border-bottom: none;
   }
-  .content--session:not(.content--session-list):not([data-night="true"]) .er-card:hover:not(.er-card--open) {
+  .content--session:not(.content--session-list):not(.content--session-guided):not([data-night="true"]) .er-card:hover:not(.er-card--open) {
     background: color-mix(in srgb, var(--mood-color) 8%, transparent);
     border-radius: 0;
     margin: 0;
     padding: 0;
   }
-  .content--session:not(.content--session-list):not([data-night="true"]) .er-card:hover:not(.er-card--open) {
+  .content--session:not(.content--session-list):not(.content--session-guided):not([data-night="true"]) .er-card:hover:not(.er-card--open) {
     border-bottom-color: var(--border);
   }
-  .content--session .er.open {
+  .content--session:not(.content--session-list):not(.content--session-guided) .er.open {
     margin: 0;
     padding-top: 14px;
     padding-bottom: 14px;
@@ -4338,7 +4345,8 @@ const css = `
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  .content--session-list .er-card > .er--list-card-a.open {
+  .content--session-list .er-card > .er--list-card-a.open,
+  .content--session-guided .er-card > .er--list-card-a.open {
     padding: 16px 16px 16px 14px !important;
   }
   .panel {
@@ -4348,8 +4356,8 @@ const css = `
     backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
     box-shadow:0 4px 20px rgba(60,80,150,0.10), inset 0 -1px 0 var(--glass-specular);
   }
-  /* LIST / GUIDED expanded row: single unified surface (title row + details share one chrome) */
-  .content--session .er-card.er-card--open {
+  /* Legacy session row (neither LIST nor GUIDED list cards): unified expanded chrome */
+  .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open {
     margin: 8px 0 14px;
     padding: 0;
     border-bottom: none !important;
@@ -4366,22 +4374,22 @@ const css = `
       inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 65%, transparent);
     overflow: hidden;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-card.er-card--open {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open {
     background: rgba(255, 255, 255, 0.82);
     border-color: rgba(0, 0, 0, 0.09);
     box-shadow: 0 10px 32px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(20px) saturate(1.25);
     -webkit-backdrop-filter: blur(20px) saturate(1.25);
   }
-  .app[data-night="true"] .content--session .er-card.er-card--open {
+  .app[data-night="true"] .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open {
     background: rgba(8, 4, 4, 0.96) !important;
     border: 1px solid rgba(255, 59, 48, 0.32) !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  .content--session .er-card.er-card--open .protocol-panel.panel,
-  .content--session .er-card.er-card--open .panel {
+  .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open .protocol-panel.panel,
+  .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open .panel {
     background: transparent !important;
     border: none !important;
     border-top: 1px solid color-mix(in srgb, var(--border) 38%, transparent) !important;
@@ -4392,8 +4400,8 @@ const css = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-card.er-card--open .protocol-panel.panel,
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-card.er-card--open .panel {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open .protocol-panel.panel,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open .panel {
     border-top-color: rgba(37, 37, 37, 0.12) !important;
   }
   .er-card.er-card--open {
@@ -5509,7 +5517,7 @@ const css = `
     padding-left:0;
     padding-right:0;
   }
-  .content--session .er-card.er-card--open .protocol-panel.panel .steps {
+  .content--session:not(.content--session-list):not(.content--session-guided) .er-card.er-card--open .protocol-panel.panel .steps {
     margin-top: 0;
   }
   .content--session .protocol-panel.panel .steps > .cue-tiers,
@@ -11722,7 +11730,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   )
   );
   return (/*#__PURE__*/
-    React.createElement("div", { className: `er-card${open ? " er-card--open" : ""}${listRailLayout && !hideDone && faved ? " er-card--pinned" : ""}${listRailLayout && !hideDone && skipped ? " er-card--list-skipped" : ""}` }, /*#__PURE__*/
+    React.createElement("div", { className: `er-card${open ? " er-card--open" : ""}${listRailLayout && faved ? " er-card--pinned" : ""}${listRailLayout && skipped ? " er-card--list-skipped" : ""}` }, /*#__PURE__*/
     React.createElement("div", { ref: rowRef, className: `er ${open ? "open" : ""} ${skipped ? "skipped" : ""}${listRailLayout ? " er--list-rail er--list-card-a" : ""}`, onClick: () => {axisHapticTick();onExpand();}, style: {} },
     listRailLayout ? /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement("span", { className: "er-list-accent", "aria-hidden": true }),
