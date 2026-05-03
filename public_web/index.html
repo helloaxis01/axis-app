@@ -3845,7 +3845,7 @@ const css = `
     color: rgba(255, 255, 255, 0.25);
   }
   .sg.sg--session-sheet > .sh--session-ex-head .sh-ct.sh-ct--all-done {
-    color: #C97D3A;
+    color: var(--mood-color);
   }
   .sg.sg--session-sheet > .sh-progress {
     width: 100%;
@@ -3859,7 +3859,7 @@ const css = `
   .sg.sg--session-sheet > .sh-progress .sh-progress__fill {
     height: 100%;
     width: 0%;
-    background: #C97D3A;
+    background: var(--mood-color);
     border-radius: inherit;
     transition: width 0.4s ease;
   }
@@ -3868,13 +3868,13 @@ const css = `
     color: rgba(15, 30, 46, 0.35);
   }
   .app[data-theme="light"]:not([data-night="true"]) .sg.sg--session-sheet > .sh--session-ex-head .sh-ct.sh-ct--all-done {
-    color: #C97D3A;
+    color: var(--mood-color);
   }
   .app[data-theme="light"]:not([data-night="true"]) .sg.sg--session-sheet > .sh-progress {
     background: rgba(15, 30, 46, 0.1);
   }
   .app[data-theme="light"]:not([data-night="true"]) .sg.sg--session-sheet > .sh-progress .sh-progress__fill {
-    background: #C97D3A;
+    background: var(--mood-color);
   }
 
   /* ── PURPOSE NOTE ── */
@@ -4094,7 +4094,7 @@ const css = `
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open),
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
-    border-color: rgba(201, 125, 58, 0.3);
+    border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped,
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped {
@@ -4137,11 +4137,11 @@ const css = `
     -webkit-tap-highlight-color: transparent;
   }
   .content--session-list .er-list-complete.er-list-complete--on {
-    border-color: #C97D3A;
-    background: rgba(201, 125, 58, 0.13);
+    border-color: var(--mood-color);
+    background: color-mix(in srgb, var(--mood-color) 13%, transparent);
   }
   .content--session-list .er-list-complete .er-list-complete__tick {
-    stroke: #C97D3A;
+    stroke: var(--mood-color);
   }
   .content--session-list .er-list-complete:not(.er-list-complete--on) .er-list-complete__tick {
     opacity: 0;
@@ -4163,7 +4163,7 @@ const css = `
   }
   .content--session-list .er-card.er-card--pinned .er-list-accent,
   .content--session-guided .er-card.er-card--pinned .er-list-accent {
-    background: #C97D3A;
+    background: var(--mood-color);
   }
   .content--session .er--list-card-a {
     position: relative;
@@ -4283,7 +4283,7 @@ const css = `
     color: rgba(255, 255, 255, 0.72);
   }
   .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
-    color: #C97D3A;
+    color: var(--mood-color);
   }
   .content--session .er-list-skip-btn.er-list-skip-btn--skipped {
     color: rgba(255, 255, 255, 0.45);
@@ -4316,7 +4316,7 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
-    border-color: rgba(201, 125, 58, 0.3);
+    border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-title {
     color: rgba(15, 30, 46, 0.96);
@@ -4358,7 +4358,7 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned .er-list-accent,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned .er-list-accent {
-    background: #C97D3A;
+    background: var(--mood-color);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open {
@@ -4384,7 +4384,7 @@ const css = `
   }
   .app[data-night="true"] .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-night="true"] .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
-    border-color: rgba(201, 125, 58, 0.3);
+    border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
   }
   .app[data-night="true"] .content--session .er-list-desc {
     color: rgba(255, 255, 255, 0.42);
@@ -4409,7 +4409,7 @@ const css = `
   }
   .app[data-night="true"] .content--session-list .er-card.er-card--pinned .er-list-accent,
   .app[data-night="true"] .content--session-guided .er-card.er-card--pinned .er-list-accent {
-    background: #C97D3A;
+    background: var(--mood-color);
   }
   @keyframes axisSessionExpandedPanelIn {
     from { opacity: 0; transform: translateY(-6px); }
@@ -4427,9 +4427,14 @@ const css = `
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(255, 255, 255, 0.13) !important;
     border-radius: 14px !important;
-    padding: 0 0 14px 0 !important;
+    padding: 0 !important;
     margin: 0 0 8px 0 !important;
     box-shadow: none !important;
+  }
+  /* One continuous shell: header strip only rounds the top; panel sits flush below (no nested “card under card”). */
+  .content--session-list .er-card.er-card--open > .er.er--list-card-a,
+  .content--session-guided .er-card.er-card--open > .er.er--list-card-a {
+    border-radius: 14px 14px 0 0 !important;
   }
   .content--session-list .er-card.er-card--open.er-card--complete,
   .content--session-guided .er-card.er-card--open.er-card--complete {
@@ -4441,6 +4446,8 @@ const css = `
     border: none !important;
     border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
     box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     padding: 12px 16px 24px !important;
     margin-top: 0 !important;
     animation: axisSessionExpandedPanelIn 0.2s ease forwards;
@@ -4465,6 +4472,12 @@ const css = `
     padding: 10px 22px !important;
     font-size: 14px !important;
     align-self: flex-start !important;
+  }
+  /* Panel already sets horizontal padding; don’t double-inset the CTA strip (avoids a wider “plate” under START TIMER). */
+  .content--session-list .er-card.er-card--open .protocol-panel.panel .session-timer-cta-wrap,
+  .content--session-guided .er-card.er-card--open .protocol-panel.panel .session-timer-cta-wrap {
+    padding-inline: 0 !important;
+    padding-bottom: 0 !important;
   }
   /* Prevent stacking/overflow issues and ensure expanded content stacks vertically */
   .content--session-list .er-card,
@@ -4533,7 +4546,7 @@ const css = `
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__expand-btn,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__expand-btn {
-    color: #C97D3A !important;
+    color: var(--mood-color) !important;
     background: rgba(0, 0, 0, 0.28) !important;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
@@ -4545,7 +4558,7 @@ const css = `
     font-weight: 500 !important;
     letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
-    color: #C97D3A !important;
+    color: var(--mood-color) !important;
     width: 100% !important;
     box-sizing: border-box !important;
     margin: 16px 0 10px 0 !important;
@@ -4626,13 +4639,13 @@ const css = `
     height: 6px !important;
     min-width: 18px !important;
     border-radius: 999px !important;
-    background: #C97D3A !important;
+    background: var(--mood-color) !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn {
     min-width: 36px !important;
     min-height: 36px !important;
-    color: #C97D3A !important;
+    color: var(--mood-color) !important;
     background: transparent !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:disabled,
@@ -4643,7 +4656,7 @@ const css = `
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:not(:disabled):hover,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:not(:disabled):hover {
-    background: rgba(201, 125, 58, 0.12) !important;
+    background: color-mix(in srgb, var(--mood-color) 12%, transparent) !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav-arrows--glyph .exercise-carousel__nav-btn,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav-arrows--glyph .exercise-carousel__nav-btn {
@@ -4665,8 +4678,8 @@ const css = `
     border-color: rgba(15, 30, 46, 0.22);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on {
-    border-color: #C97D3A;
-    background: rgba(201, 125, 58, 0.1);
+    border-color: var(--mood-color);
+    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
   }
   .content--session .er-body {
     width: 100%;
