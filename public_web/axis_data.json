@@ -106,7 +106,7 @@
             },
             {
               "id": "4-R",
-              "name": "Arm Circles - Forwards",
+              "name": "Arm Circles (Forwards)",
               "start": "Stand tall with your feet apart.",
               "sub": "Open the shoulders before they have to work",
               "type": "flow",
@@ -140,7 +140,7 @@
             },
             {
               "id": "4-L",
-              "name": "Arm Circles - Backwards",
+              "name": "Arm Circles (Backwards)",
               "start": "Stand tall with your feet apart.",
               "sub": "Reverse the pattern, finish what you started",
               "type": "flow",
@@ -183,7 +183,7 @@
               "id": 5,
               "name": "Pelvic Tilts",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Tiny tilts lying down — belly and low back sync up",
+              "sub": "Tiny tilts lying down — wake up your low back without strain",
               "reps": "10–12 reps",
               "type": "reps",
               "steps": [
@@ -246,7 +246,7 @@
               "id": 7,
               "name": "Marching Bridge",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Bridge steady, march the knees — glutes stay honest",
+              "sub": "Lift one foot at a time — keep your hips level and steady",
               "reps": "6–8 alternating",
               "type": "reps",
               "steps": [
@@ -352,7 +352,7 @@
               "id": 10,
               "name": "High Plank",
               "start": "Start on all fours, hands and knees on the floor.",
-              "sub": "Straight line from head to heels — core on, shoulders steady",
+              "sub": "Hold a straight line — core tight, shoulders steady",
               "reps": "30 seconds",
               "type": "time",
               "seconds": 30,
@@ -383,7 +383,7 @@
               "id": 11,
               "name": "Wall Push-Ups",
               "start": "Stand facing a wall, one arm's length away.",
-              "sub": "Hands on wall, body plank — chest and arms minus the drama",
+              "sub": "Lean into the wall — easy push-ups for chest and shoulders",
               "reps": "10 reps",
               "type": "reps",
               "steps": [
@@ -416,7 +416,7 @@
               "id": 12,
               "name": "Isometric Wall Push Hold",
               "start": "Stand facing a wall, one arm's length away.",
-              "sub": "Hold midway in the push — build strength without moving",
+              "sub": "Push and hold — build strength without moving",
               "reps": "30s hold",
               "type": "time",
               "seconds": 30,
@@ -447,7 +447,7 @@
               "id": 13,
               "name": "Resistance Band Row",
               "start": "Sit on the floor with your legs straight out in front of you.",
-              "sub": "Pull elbows back — open the chest, strengthen the upper back",
+              "sub": "Draw the elbows back — open the chest and strengthen the upper back",
               "reps": "10–15 reps",
               "type": "reps",
               "steps": [
@@ -520,7 +520,7 @@
               "id": "15-R",
               "name": "Supine Hamstring Stretch - Right Leg",
               "start": "Lie flat on your back with your legs straight.",
-              "sub": "Strap or hands behind thigh — lengthen the right leg calmly",
+              "sub": "Ease the leg up — let the back of the thigh open, no yanking",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -550,7 +550,7 @@
               "id": "15-L",
               "name": "Supine Hamstring Stretch - Left Leg",
               "start": "Lie flat on your back with your legs straight.",
-              "sub": "Strap or hands behind thigh — lengthen the left leg calmly",
+              "sub": "Ease the leg up — let the back of the thigh open, no yanking",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -580,7 +580,7 @@
               "id": "16-R",
               "name": "Figure Four Stretch - Right Hip",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Easy cross-over stretch — right hip calms down",
+              "sub": "Ankle over knee — ease the hip open, breathe into it",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -610,7 +610,7 @@
               "id": "16-L",
               "name": "Figure Four Stretch - Left Hip",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Easy cross-over stretch — left hip calms down",
+              "sub": "Ankle over knee — ease the hip open, breathe into it",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -640,7 +640,7 @@
               "id": 17,
               "name": "Windshield Wipers",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Knees sway side to side — low back stays easy on the mat",
+              "sub": "Rock the knees side to side — let the low back soften",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -798,7 +798,7 @@
             },
             {
               "id": 21,
-              "name": "Neck Half-Circles",
+              "name": "Neck Rolls",
               "start": "Sit or stand tall. Look straight ahead.",
               "sub": "Slow and controlled — let gravity do the work",
               "type": "flow",
@@ -849,7 +849,7 @@
               "id": 101,
               "name": "Lymph Hops",
               "start": "Stand with your feet apart and knees bent.",
-              "sub": "Tiny hops — lymph and circulation get a polite nudge",
+              "sub": "Light bouncy movement — wake up circulation without strain",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -915,7 +915,7 @@
               "id": 103,
               "name": "Arm Swings",
               "start": "Stand with your feet wide.",
-              "sub": "Let the arms swing — keep the neck and shoulders soft",
+              "sub": "Smooth torso turns — feet stay planted, shoulders stay easy",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -948,7 +948,7 @@
               "id": 108,
               "name": "Forward / Backward Arm Circles",
               "start": "Stand with your feet apart.",
-              "sub": "Big circles both ways — shoulders get the full tour",
+              "sub": "Big easy shoulder circles — both directions",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1014,7 +1014,7 @@
               "id": 110,
               "name": "Bent Over Back Shakes",
               "start": "Stand and bend forward from your hips.",
-              "sub": "Loose shakes — let the back and shoulders unwind",
+              "sub": "Light bouncy movement — wake up circulation without strain",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1047,7 +1047,7 @@
               "id": 104,
               "name": "Trunk Twists",
               "start": "Stand with your feet wide.",
-              "sub": "Swing the torso side to side — arms relax, ribs turn",
+              "sub": "Smooth torso turns — feet stay planted, shoulders stay easy",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1080,7 +1080,7 @@
               "id": 111,
               "name": "Golf Swings",
               "start": "Stand with your feet wide and lean slightly forward from your hips.",
-              "sub": "Smooth turns like a practice swing — ribs move, feet stay rooted",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1146,7 +1146,7 @@
               "id": 113,
               "name": "March Taps",
               "start": "Stand tall with your shoulders relaxed down.",
-              "sub": "March in place — opposite knee, opposite elbow",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1179,7 +1179,7 @@
               "id": 114,
               "name": "Wide Arm Step Backs",
               "start": "Stand with your feet together and arms at your sides.",
-              "sub": "Step back arms wide — chest opens mid-stride",
+              "sub": "Open the arms wide — undo rounded shoulders from sitting",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1212,7 +1212,7 @@
               "id": 105,
               "name": "Ballet Squats",
               "start": "Stand with your feet wide and toes pointing out to the sides.",
-              "sub": "Wide-stance bends — smooth and controlled",
+              "sub": "Wide stance bends — smooth and controlled",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1243,9 +1243,9 @@
             },
             {
               "id": 106,
-              "name": "Tip Toe Arm Swings",
+              "name": "Standing Calf Raise",
               "start": "Stand with your feet apart.",
-              "sub": "Rise on toes, swing arms overhead — calves and coordination together",
+              "sub": "Build the base — ankles and calves take more load than you think",
               "reps": "1 minute",
               "type": "time",
               "seconds": 60,
@@ -1276,7 +1276,7 @@
             },
             {
               "id": 107,
-              "name": "Doorway Pec Stretch",
+              "name": "Doorway Chest Stretch",
               "start": "Stand in a doorway.",
               "sub": "Open the chest, pull the shoulders back where they belong",
               "reps": "30–60s hold",
@@ -1360,7 +1360,7 @@
               "id": 201,
               "name": "Supine Knee Hugs",
               "start": "Lie on your back with your legs straight.",
-              "sub": "Hug knees in — lumbar gets a cozy reset",
+              "sub": "Pull the knees in — give your low back a gentle squeeze",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -1485,7 +1485,7 @@
               "id": 204,
               "name": "Standing Hip Circles",
               "start": "Stand with your feet apart and hands on your hips.",
-              "sub": "Hands on hips, circle the pelvis — low back lubrication",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -1597,7 +1597,7 @@
               "id": 301,
               "name": "Legs Up the Wall",
               "start": "Sit on the floor close to a wall.",
-              "sub": "Legs vertical on the wall — drain the legs, slow the mind",
+              "sub": "Rest the legs up the wall — let heaviness drain from your legs",
               "type": "time",
               "seconds": 120,
               "steps": [
@@ -1626,7 +1626,7 @@
               "id": 302,
               "name": "Reclined Butterfly",
               "start": "Lie on your back with your feet flat on the floor.",
-              "sub": "Soles touch, knees fall wide — hips open lying down",
+              "sub": "Soles together, sit tall — let gravity open the hips",
               "type": "flow",
               "seconds": 90,
               "steps": [
@@ -1746,7 +1746,7 @@
             },
             {
               "id": 305,
-              "name": "4-7-8 Breath",
+              "name": "Diaphragmatic Breathing",
               "start": "Sit or lie down in a comfortable position.",
               "sub": "Reset your nervous system before you finish",
               "type": "time",
@@ -1796,7 +1796,7 @@
               "id": 401,
               "name": "Standing Chest Opener",
               "start": "Stand tall away from your chair.",
-              "sub": "Arms wide, chest lifted — undo hunched texting posture",
+              "sub": "Open the arms wide — undo rounded shoulders from sitting",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -1854,7 +1854,7 @@
               "id": "403-R",
               "name": "Thoracic Rotations - Right Side",
               "start": "Sit at the front edge of a chair with your feet flat on the floor.",
-              "sub": "Rotate upper back toward the right — mid-back wakes up first",
+              "sub": "Turn through the mid-back — keep the hips quiet",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -1886,7 +1886,7 @@
               "id": "403-L",
               "name": "Thoracic Rotations - Left Side",
               "start": "Sit at the front edge of a chair with your feet flat on the floor.",
-              "sub": "Rotate upper back toward the left — mid-back wakes up first",
+              "sub": "Turn through the mid-back — keep the hips quiet",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -1976,7 +1976,7 @@
               "id": 405,
               "name": "Wrist & Forearm Release",
               "start": "Sit or stand. Reach one arm straight out in front of you.",
-              "sub": "Light stretches and shakes — wrists earn a break too",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2005,7 +2005,7 @@
               "id": "406-R",
               "name": "Neck Side Tilts - Right Neck",
               "start": "Sit or stand tall. Look straight ahead.",
-              "sub": "Tip the head sideways — leave the shoulders down",
+              "sub": "Tip the ear toward the shoulder — keep the opposite shoulder down",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2037,7 +2037,7 @@
               "id": "406-L",
               "name": "Neck Side Tilts - Left Neck",
               "start": "Sit or stand tall. Look straight ahead.",
-              "sub": "Tip the head sideways — leave the shoulders down",
+              "sub": "Tip the ear toward the shoulder — keep the opposite shoulder down",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2114,7 +2114,7 @@
               "id": "502-R",
               "name": "Neck Side Tilt - Right Neck",
               "start": "Sit tall with your shoulders relaxed.",
-              "sub": "Easy ear toward shoulder — breathe into the side of the neck",
+              "sub": "Tip the ear toward the shoulder — keep the opposite shoulder down",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2146,7 +2146,7 @@
               "id": "502-L",
               "name": "Neck Side Tilt - Left Neck",
               "start": "Sit tall with your shoulders relaxed.",
-              "sub": "Easy ear toward shoulder — breathe into the side of the neck",
+              "sub": "Tip the ear toward the shoulder — keep the opposite shoulder down",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2178,7 +2178,7 @@
               "id": "503-R",
               "name": "Levator Scapulae Stretch - Right Side",
               "start": "Sit tall in a chair.",
-              "sub": "Gentle pull and look toward the hip — right side-neck eases",
+              "sub": "Gentle neck stretch — light pull, easy breaths",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2207,7 +2207,7 @@
               "id": "503-L",
               "name": "Levator Scapulae Stretch - Left Side",
               "start": "Sit tall in a chair.",
-              "sub": "Gentle pull and look toward the hip — left side-neck eases",
+              "sub": "Gentle neck stretch — light pull, easy breaths",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2358,7 +2358,7 @@
               "id": 507,
               "name": "Chest Opener with Clasp",
               "start": "Stand tall. Clasp your hands together behind your back.",
-              "sub": "Clasp behind you and lift the chest — tall and open",
+              "sub": "Open the arms wide — undo rounded shoulders from sitting",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2467,7 +2467,7 @@
               "id": "602-R",
               "name": "Kneeling Hip Flexor Stretch - Right Hip",
               "start": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
-              "sub": "Undo sitting — open the front of the right hip",
+              "sub": "Undo the damage of sitting — open the front of the hip",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -2499,7 +2499,7 @@
               "id": "602-L",
               "name": "Kneeling Hip Flexor Stretch - Left Hip",
               "start": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
-              "sub": "Undo sitting — open the front of the left hip",
+              "sub": "Undo the damage of sitting — open the front of the hip",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -2595,7 +2595,7 @@
               "id": "604-R",
               "name": "Supine Figure Four - Right Hip",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Figure four lying down — right glute and hip mellow out",
+              "sub": "Ankle over knee — ease the hip open, breathe into it",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -2627,7 +2627,7 @@
               "id": "604-L",
               "name": "Supine Figure Four - Left Hip",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Figure four lying down — left glute and hip mellow out",
+              "sub": "Ankle over knee — ease the hip open, breathe into it",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -2659,7 +2659,7 @@
               "id": 605,
               "name": "Butterfly Stretch",
               "start": "Sit on the floor. Bring the bottoms of your feet together.",
-              "sub": "Soles together, sit tall — let the hips open, don't push",
+              "sub": "Soles together, sit tall — let gravity open the hips",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2691,7 +2691,7 @@
               "id": "606-R",
               "name": "Lateral Hip Opener - Right Hip",
               "start": "Lie on your right side. Stack your left leg on top of your right leg.",
-              "sub": "Side-lying opener — space for the right hip",
+              "sub": "Open the hip from the side — stay in a comfortable range",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2723,7 +2723,7 @@
               "id": "606-L",
               "name": "Lateral Hip Opener - Left Hip",
               "start": "Lie on your right side. Stack your left leg on top of your right leg.",
-              "sub": "Side-lying opener — space for the left hip",
+              "sub": "Open the hip from the side — stay in a comfortable range",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2755,7 +2755,7 @@
               "id": 607,
               "name": "Standing Hip Circles",
               "start": "Stand with your feet apart and hands on your hips.",
-              "sub": "Hands on hips, circle the pelvis — low back lubrication",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -2803,7 +2803,7 @@
               "id": 701,
               "name": "Knee Hugs",
               "start": "Lie flat on your back.",
-              "sub": "Hug knees to chest — easy compression, happy low back",
+              "sub": "Pull the knees in — give your low back a gentle squeeze",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -2835,7 +2835,7 @@
               "id": 702,
               "name": "Supine Pelvic Tilts",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Rock the pelvis lying down — low back remembers neutral",
+              "sub": "Tiny tilts lying down — wake up your low back without strain",
               "type": "reps",
               "reps": "10–12 reps",
               "steps": [
@@ -2931,7 +2931,7 @@
               "id": 705,
               "name": "Windshield Wipers",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Knees sway side to side — low back stays easy on the mat",
+              "sub": "Rock the knees side to side — let the low back soften",
               "type": "flow",
               "seconds": 45,
               "steps": [
@@ -3027,7 +3027,7 @@
               "id": 707,
               "name": "Legs Up the Wall",
               "start": "Sit on the floor close to a wall.",
-              "sub": "Legs vertical on the wall — drain the legs, slow the mind",
+              "sub": "Rest the legs up the wall — let heaviness drain from your legs",
               "type": "time",
               "seconds": 120,
               "steps": [
@@ -3075,7 +3075,7 @@
               "id": 801,
               "name": "Weight Shifts",
               "start": "Stand with your feet apart. Stand near a wall if you need it for balance.",
-              "sub": "Rock side to side standing — ankles and hips feel the floor",
+              "sub": "Gentle side-to-side sway — arms stay heavy and relaxed",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -3107,7 +3107,7 @@
               "id": "802-R",
               "name": "Single-Leg Stance - Right Leg",
               "start": "Stand near a wall or a sturdy chair.",
-              "sub": "Stand on the right foot — steady gaze, relaxed hands",
+              "sub": "Stand on one foot — find a steady spot to look at, breathe easy",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -3139,7 +3139,7 @@
               "id": "802-L",
               "name": "Single-Leg Stance - Left Leg",
               "start": "Stand near a wall or a sturdy chair.",
-              "sub": "Stand on the left foot — steady gaze, relaxed hands",
+              "sub": "Stand on one foot — find a steady spot to look at, breathe easy",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -3178,7 +3178,7 @@
               "id": 803,
               "name": "Tandem Walking",
               "start": "Stand tall with a clear path in front of you.",
-              "sub": "Heel-to-toe line walk — balance and concentration together",
+              "sub": "Stand on one foot — find a steady spot to look at, breathe easy",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -3210,7 +3210,7 @@
               "id": 804,
               "name": "Grapevine Walk",
               "start": "Stand tall with your feet together. Make sure you have space to step sideways.",
-              "sub": "Cross-steps for coordination — take your time",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -3249,7 +3249,7 @@
               "id": "805-R",
               "name": "Lateral Step-Downs - Right Side",
               "start": "Stand sideways on a low step or curb. Let one foot hang off the edge.",
-              "sub": "Slow step down on the right — control beats speed",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "reps",
               "reps": "8–10 reps each side",
               "steps": [
@@ -3281,7 +3281,7 @@
               "id": "805-L",
               "name": "Lateral Step-Downs - Left Side",
               "start": "Stand sideways on a low step or curb. Let one foot hang off the edge.",
-              "sub": "Slow step down on the left — control beats speed",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "reps",
               "reps": "8–10 reps each side",
               "steps": [
@@ -3368,7 +3368,7 @@
               "id": 902,
               "name": "Neck CARs",
               "start": "Sit or stand tall.",
-              "sub": "Explore every inch of motion your neck allows — patiently, never rushed",
+              "sub": "Slow controlled neck circles — small range, no forcing",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -3400,7 +3400,7 @@
               "id": 903,
               "name": "Shoulder CARs",
               "start": "Stand tall with your arms at your sides.",
-              "sub": "Huge slow circles with straight arms — shoulders map full range",
+              "sub": "Slow controlled neck circles — small range, no forcing",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3432,7 +3432,7 @@
               "id": 904,
               "name": "Wrist CARs",
               "start": "Sit or stand. Reach both arms straight out in front of you.",
-              "sub": "Slow controlled wrist laps — floss the joint calmly",
+              "sub": "Slow controlled neck circles — small range, no forcing",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -3471,7 +3471,7 @@
               "id": "905-R",
               "name": "Hip CARs - Right Hip",
               "start": "Stand on one leg. Rest one hand lightly on a wall.",
-              "sub": "Big slow circle with the right leg — hip learns every angle",
+              "sub": "Slow controlled neck circles — small range, no forcing",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3503,7 +3503,7 @@
               "id": "905-L",
               "name": "Hip CARs - Left Hip",
               "start": "Stand on one leg. Rest one hand lightly on a wall.",
-              "sub": "Big slow circle with the left leg — hip learns every angle",
+              "sub": "Slow controlled neck circles — small range, no forcing",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3535,7 +3535,7 @@
               "id": 906,
               "name": "Ankle CARs",
               "start": "Sit in a chair. Lift one foot off the floor.",
-              "sub": "Slow circles in the ankle — hit the spots you usually skip",
+              "sub": "Slow controlled neck circles — small range, no forcing",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -3709,9 +3709,9 @@
             },
             {
               "id": 1102,
-              "name": "Seated Cat-Cow",
+              "name": "Cat–Cow",
               "start": "Sit at the front edge of your seat with your hands on your knees.",
-              "sub": "Hands on thighs — same spine rhythm, seated and subtle",
+              "sub": "Loosen the spine, one vertebra at a time",
               "type": "flow",
               "seconds": 60,
               "steps": [
@@ -3972,7 +3972,7 @@
             },
             {
               "id": 1108,
-              "name": "Doorway Pec Stretch",
+              "name": "Doorway Chest Stretch",
               "start": "Stand in a doorway.",
               "sub": "Open the chest, pull the shoulders back where they belong",
               "type": "flow",
@@ -4116,9 +4116,9 @@
             },
             {
               "id": 1102,
-              "name": "Seated Cat-Cow",
+              "name": "Cat–Cow",
               "start": "Sit at the front edge of your seat with your hands on your knees.",
-              "sub": "Hands on thighs — same spine rhythm, seated and subtle",
+              "sub": "Loosen the spine, one vertebra at a time",
               "type": "flow",
               "seconds": 60,
               "steps": [
@@ -4379,7 +4379,7 @@
             },
             {
               "id": 1108,
-              "name": "Doorway Pec Stretch",
+              "name": "Doorway Chest Stretch",
               "start": "Stand in a doorway.",
               "sub": "Open the chest, pull the shoulders back where they belong",
               "type": "flow",
@@ -4487,7 +4487,7 @@
               "id": 3022,
               "name": "Glute Activation Drive",
               "start": "Stand tall with your feet apart.",
-              "sub": "Drive the knee up — wake the glutes for walking",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4513,7 +4513,7 @@
               "id": 3023,
               "name": "Controlled Arm Swings",
               "start": "Stand tall with your shoulders relaxed down.",
-              "sub": "Natural walking arms — rhythm, not effort",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4546,7 +4546,7 @@
               "id": "3024-R",
               "name": "Calf Release - Right Leg",
               "start": "Stand facing a wall.",
-              "sub": "Easy work on the right calf — stay with your breath",
+              "sub": "Easy pressure on the calf — keep it tolerable and breathe",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4572,7 +4572,7 @@
               "id": "3024-L",
               "name": "Calf Release - Left Leg",
               "start": "Stand facing a wall.",
-              "sub": "Easy work on the left calf — stay with your breath",
+              "sub": "Easy pressure on the calf — keep it tolerable and breathe",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4650,7 +4650,7 @@
               "id": 3026,
               "name": "Foot Arch Massage",
               "start": "Stand or sit in a chair.",
-              "sub": "Roll and press the arch — feet carry you all day",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4692,7 +4692,7 @@
               "id": 3031,
               "name": "Pogo Hops",
               "start": "Stand tall with your feet apart.",
-              "sub": "Small quick hops — springy calves and ankles",
+              "sub": "Light bouncy movement — wake up circulation without strain",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4855,7 +4855,7 @@
               "id": 3036,
               "name": "Legs Up the Wall",
               "start": "Lie on your back. Move your hips as close to a wall as you can.",
-              "sub": "Legs vertical on the wall — drain the legs, slow the mind",
+              "sub": "Rest the legs up the wall — let heaviness drain from your legs",
               "type": "time",
               "seconds": 120,
               "steps": [
@@ -4897,7 +4897,7 @@
               "id": 3001,
               "name": "Standing Club Rotations",
               "start": "Stand tall with your feet wide.",
-              "sub": "Hands clasped twists — torso turns, hips stay aimed forward",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4923,7 +4923,7 @@
               "id": 3002,
               "name": "Leg Swings",
               "start": "Stand tall near a wall or chair for balance.",
-              "sub": "Swing the leg loose — hips stay quiet, motion is easy",
+              "sub": "Smooth torso turns — feet stay planted, shoulders stay easy",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -4949,7 +4949,7 @@
               "id": 3003,
               "name": "Active Wrist Circles",
               "start": "Stand tall and reach your arms straight out in front of you.",
-              "sub": "Easy circles — keep the grip out of it",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -5076,7 +5076,7 @@
               "id": "3011-R",
               "name": "Lateral Lunges with Reach - Right Side",
               "start": "Stand tall with your feet wide apart.",
-              "sub": "Step wide to the side, reach long — hips and ribs move together",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -5102,7 +5102,7 @@
               "id": "3011-L",
               "name": "Lateral Lunges with Reach - Left Side",
               "start": "Stand tall with your feet wide apart.",
-              "sub": "Step wide to the side, reach long — hips and ribs move together",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -5154,7 +5154,7 @@
               "id": 3013,
               "name": "Ankle Hops",
               "start": "Stand tall with your feet close together.",
-              "sub": "Light hops — calves and feet wake up fast",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -5371,7 +5371,7 @@
               "id": 2002,
               "name": "Thoracic Rotation",
               "start": "Sit tall in a chair or kneel on the floor.",
-              "sub": "Turn the torso — ribs move like a revolving door",
+              "sub": "Turn through the mid-back — keep the hips quiet",
               "type": "reps",
               "reps": "5–10 per side",
               "steps": [
@@ -5529,7 +5529,7 @@
               "id": 2010,
               "name": "Wrist Flexor Stretch",
               "start": "Sit or stand. Reach one arm straight out in front of you.",
-              "sub": "Fingers toward you, elbow straight — loosen the underside of the forearm",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "time",
               "seconds": 30,
               "steps": [
@@ -5558,7 +5558,7 @@
               "id": 2011,
               "name": "Wrist Extensor Stretch",
               "start": "Sit or stand. Reach one arm straight out in front of you.",
-              "sub": "Fingers toward floor, elbow straight — undo typing tension on top",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "time",
               "seconds": 30,
               "steps": [
@@ -5616,7 +5616,7 @@
               "id": 2013,
               "name": "Prayer Stretch",
               "start": "Sit or stand tall.",
-              "sub": "Hands tucked under — easy stretch across the wrists and forearms",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "time",
               "seconds": 20,
               "steps": [
@@ -5645,7 +5645,7 @@
               "id": 2014,
               "name": "Shakeout & Fist Pumps",
               "start": "Sit or stand tall.",
-              "sub": "Shake the arms loose — shrug off stiffness",
+              "sub": "Light bouncy movement — wake up circulation without strain",
               "type": "time",
               "seconds": 30,
               "steps": [
@@ -5722,7 +5722,7 @@
               "id": 2002,
               "name": "Legs Up the Wall",
               "start": "Sit on the floor close to a wall.",
-              "sub": "Legs vertical on the wall — drain the legs, slow the mind",
+              "sub": "Rest the legs up the wall — let heaviness drain from your legs",
               "type": "time",
               "seconds": 120,
               "steps": [
@@ -5825,7 +5825,7 @@
               "id": 2005,
               "name": "Grounding Roots",
               "start": "Stand tall with your feet apart.",
-              "sub": "Feel feet on the floor — simple contact, calmer mind",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -5889,7 +5889,7 @@
               "id": 2007,
               "name": "Hand on Heart",
               "start": "Sit or lie down in a comfortable position.",
-              "sub": "Hand on chest, slow breath — soften the stress response",
+              "sub": "Easy circles and bends — give your hands a break from typing",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -6001,7 +6001,7 @@
               "id": 2102,
               "name": "Rhythmic Walking",
               "start": "Stand tall. Make sure you have room to walk or march in place.",
-              "sub": "Walk with rhythm — breathe like you mean it",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "time",
               "seconds": 120,
               "steps": [
@@ -6065,7 +6065,7 @@
               "id": 2104,
               "name": "The Shake-Out",
               "start": "Stand tall with your feet apart and knees slightly bent.",
-              "sub": "Shake every limb loose — leftover tension shakes off",
+              "sub": "Light bouncy movement — wake up circulation without strain",
               "type": "time",
               "seconds": 120,
               "steps": [
@@ -6168,7 +6168,7 @@
               "id": 2107,
               "name": "Wall Pushes",
               "start": "Stand facing a wall, one arm's length away.",
-              "sub": "Push into the wall like a plank — shoulders stay packed",
+              "sub": "Press hard into the wall — burn off tension with a short max effort",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -6200,7 +6200,7 @@
               "id": 2108,
               "name": "Butterfly Hug",
               "start": "Sit or stand tall.",
-              "sub": "Cross your arms — steady pressure that steadies you",
+              "sub": "Soles together, sit tall — let gravity open the hips",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -6248,7 +6248,7 @@
               "id": 1001,
               "name": "Plantar Fascia Stretch",
               "start": "Sit in a chair.",
-              "sub": "Toes elevated, heel down — bottoms of the feet drink it in",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -6415,7 +6415,7 @@
               "id": 1005,
               "name": "Toe Splay",
               "start": "Sit or stand barefoot with your feet flat on the floor.",
-              "sub": "Spread the toes wide — simple foot agility",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "reps",
               "reps": "10–12 reps",
               "steps": [
@@ -6479,7 +6479,7 @@
               "id": 1007,
               "name": "Big Toe Extension",
               "start": "Sit in a chair with your feet flat on the floor.",
-              "sub": "Lift the big toe alone — simple control, big payoff",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "reps",
               "reps": "10 reps each side",
               "steps": [
@@ -6518,7 +6518,7 @@
               "id": "1008-R",
               "name": "Eccentric Heel Drops - Right Side",
               "start": "Stand on the edge of a step with both heels hanging off the back.",
-              "sub": "Rise on the toes, lower the right heel with control",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "reps",
               "reps": "15 reps, 3 sets",
               "steps": [
@@ -6550,7 +6550,7 @@
               "id": "1008-L",
               "name": "Eccentric Heel Drops - Left Side",
               "start": "Stand on the edge of a step with both heels hanging off the back.",
-              "sub": "Rise on the toes, lower the left heel with control",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "reps",
               "reps": "15 reps, 3 sets",
               "steps": [
@@ -6646,7 +6646,7 @@
               "id": "1010-R",
               "name": "Towel Scrunches - Right Side",
               "start": "Sit barefoot with a small towel flat on the floor under one foot.",
-              "sub": "Grab towel with toes on the right — foot strength tidy-up",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "reps",
               "reps": "3 sets of 20 seconds",
               "steps": [
@@ -6678,7 +6678,7 @@
               "id": "1010-L",
               "name": "Towel Scrunches - Left Side",
               "start": "Sit barefoot with a small towel flat on the floor under one foot.",
-              "sub": "Grab towel with toes on the left — foot strength tidy-up",
+              "sub": "Small foot movements — wake up the muscles that hold you up",
               "type": "reps",
               "reps": "3 sets of 20 seconds",
               "steps": [
@@ -6950,7 +6950,7 @@
               "id": 2207,
               "name": "Low Box Step-Ups",
               "start": "Stand tall facing a low step or the bottom stair.",
-              "sub": "Step up, step down — simple strength for stairs and sidewalks",
+              "sub": "Easy stepping — keep rhythm relaxed and natural",
               "type": "reps",
               "reps": "8–10 each leg",
               "steps": [

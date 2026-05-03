@@ -16352,7 +16352,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const listScrollRef = useRef(0);
   const prevTabRef = useRef(tab);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
-  const [guidedPurposeOpenBySection, setGuidedPurposeOpenBySection] = useState(() => ({}));
+  const [purposeOpenBySection, setPurposeOpenBySection] = useState(() => ({}));
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
   const [homeSection, setHomeSection] = useState(() => {
     const v = storageGet("axis_home_section", null);
@@ -17686,10 +17686,16 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => done[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
     ),
     sec.purpose && /*#__PURE__*/
-    React.createElement("div", { className: "purpose-note purpose-note--list" }, /*#__PURE__*/
-    React.createElement("div", { className: "purpose-label" }, "Purpose"), /*#__PURE__*/
-    React.createElement("div", { className: "purpose-text" }, sec.purpose)
-    ),
+    React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "purpose-disclosure-hit",
+      "aria-expanded": purposeOpenBySection[sec.label] ? "true" : "false",
+      onClick: (e) => {e.preventDefault();axisHapticTick();setPurposeOpenBySection((m) => ({ ...m, [sec.label]: !m[sec.label] }));}
+    }, /*#__PURE__*/
+    React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "Purpose"), /*#__PURE__*/
+    React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a")),
+    purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null),
 
     sec.exercises.map((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;
@@ -17747,12 +17753,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("button", {
       type: "button",
       className: "purpose-disclosure-hit",
-      "aria-expanded": guidedPurposeOpenBySection[sec.label] ? "true" : "false",
-      onClick: (e) => {e.preventDefault();axisHapticTick();setGuidedPurposeOpenBySection((m) => ({ ...m, [sec.label]: !m[sec.label] }));}
+      "aria-expanded": purposeOpenBySection[sec.label] ? "true" : "false",
+      onClick: (e) => {e.preventDefault();axisHapticTick();setPurposeOpenBySection((m) => ({ ...m, [sec.label]: !m[sec.label] }));}
     }, /*#__PURE__*/
     React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "Purpose"), /*#__PURE__*/
-    React.createElement("span", { className: "purpose-disclosure-hit__chev" + (guidedPurposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a")),
-    guidedPurposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null),
+    React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a")),
+    purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null),
 
     sec.exercises.map((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;
