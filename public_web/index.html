@@ -635,7 +635,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
     className: "exercise-carousel__body" + (sessionChrome ? " exercise-carousel__body--session" : ""),
     style: bodyStyle
   }, formatInstructionBodyText(tier.body));
-  const instructionBlock = sessionChrome ? /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__instruction-sheet" }, labelEl, bodyEl, navEl) : /*#__PURE__*/React.createElement(React.Fragment, null, labelEl, bodyEl, navEl);
+  const instructionBlock = /*#__PURE__*/React.createElement(React.Fragment, null, labelEl, bodyEl, navEl);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "exercise-carousel" + (className ? " " + className : "") + " exercise-carousel--" + size + (sessionChrome ? " exercise-carousel--session-card" : ""),
     role: "region",
@@ -4441,7 +4441,7 @@ const css = `
     border: none !important;
     border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
     box-shadow: none !important;
-    padding: 12px 16px 16px !important;
+    padding: 12px 16px 24px !important;
     margin-top: 0 !important;
     animation: axisSessionExpandedPanelIn 0.2s ease forwards;
   }
@@ -4538,15 +4538,6 @@ const css = `
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }
-  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__instruction-sheet,
-  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__instruction-sheet {
-    margin-top: 14px;
-    padding: 16px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-sizing: border-box;
-  }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__label--session,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__label--session {
     font-family: "DM Mono", var(--font-data), ui-monospace, monospace !important;
@@ -4555,7 +4546,9 @@ const css = `
     letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
     color: #C97D3A !important;
-    margin: 0 0 10px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 16px 0 10px 0 !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__body--session,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__body--session {
@@ -4565,7 +4558,9 @@ const css = `
     line-height: 1.55 !important;
     color: #ffffff !important;
     min-height: 56px !important;
-    margin: 0 0 16px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
     letter-spacing: 0 !important;
     opacity: 1 !important;
   }
@@ -4576,7 +4571,9 @@ const css = `
     align-items: center !important;
     justify-content: space-between !important;
     gap: 10px !important;
-    margin-top: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 16px !important;
     margin-bottom: 0 !important;
     min-height: 0 !important;
   }
@@ -4654,11 +4651,6 @@ const css = `
     line-height: 1 !important;
     font-weight: 400 !important;
     font-family: var(--font-ui), system-ui, sans-serif !important;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__instruction-sheet,
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__instruction-sheet {
-    background: rgba(15, 30, 46, 0.04);
-    border-color: rgba(15, 30, 46, 0.08);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .panel.protocol-panel,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .panel.protocol-panel {
