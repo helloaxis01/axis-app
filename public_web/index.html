@@ -480,7 +480,7 @@ function tierIndexToInstructionFrameIndex(tierIndex, frameCount, tierKey = "", a
 /**
  * Horizontal instruction carousel: static pose per step, tap halves / swipe, step count + prev/next. graphicMode matches exerciseAnimationModeFromTheme.
  */
-function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "medium", graphicMode = "dark", theme = "dark", ultraNight = false, bodyColorOverride = null, moveOpacity = 1, className = "", trackId = "", allowBaselineMediaExpand = false, sessionExerciseCardExpanded = false }) {
+function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "medium", graphicMode = "dark", theme = "dark", ultraNight = false, bodyColorOverride = null, moveOpacity = 1, className = "", trackId = "", allowBaselineMediaExpand = false, sessionExerciseCardExpanded = false, guidedFlowFrame = false, guidedFlowVideoSoonIfNoVideo = false }) {
   const [idx, setIdx] = useState(0);
   const cardRef = useRef(null);
   const touchStartX = useRef(null);
@@ -651,7 +651,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   }, formatInstructionBodyText(tier.body));
   const instructionBlock = /*#__PURE__*/React.createElement(React.Fragment, null, labelEl, bodyEl, navEl);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "exercise-carousel" + (className ? " " + className : "") + " exercise-carousel--" + size + (sessionChrome ? " exercise-carousel--session-card" : ""),
+    className: "exercise-carousel" + (className ? " " + className : "") + " exercise-carousel--" + size + (sessionChrome ? " exercise-carousel--session-card" : "") + (guidedFlowFrame ? " exercise-carousel--guided-flow-frame" : ""),
     role: "region",
     "aria-label": "Exercise instructions"
   }, /*#__PURE__*/React.createElement("div", {
@@ -687,7 +687,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
     style: { color: graphicColor },
     dangerouslySetInnerHTML: { __html: svgHtml },
     "aria-hidden": true
-  }), sessionChrome && !videoSrc ? /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__video-soon", "aria-hidden": true }, "VIDEO COMING SOON") : null,
+  }), ((sessionChrome && !videoSrc) || (guidedFlowFrame && !videoSrc && (fc === 0 || guidedFlowVideoSoonIfNoVideo))) ? /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__video-soon", "aria-hidden": true }, "VIDEO COMING SOON") : null,
   /* Expand: Baseline Protocol LIST / guided session only (allowBaselineMediaExpand); not used on intro — no carousel there. */
   showBaselineExpand ? /*#__PURE__*/React.createElement("button", {
     type: "button",
@@ -3396,7 +3396,7 @@ const css = `
     margin-bottom: 8px;
   }
   .tab-subbar-rule--above-session-filters {
-    margin-top: 8px;
+    margin-top: 6px;
     margin-bottom: 6px;
   }
   .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-subbar-rule {
@@ -4495,8 +4495,7 @@ const css = `
     outline: none !important;
     box-shadow: none !important;
   }
-  /* Make START TIMER CTA less dominant in LIST / GUIDED preview expanded state */
-  .content--session-list .panel.protocol-panel .session-timer-cta-wrap .mark-btn,
+  /* Make START TIMER CTA less dominant in GUIDED preview expanded state (LIST uses full-width START TIMER styling). */
   .content--session-guided .panel.protocol-panel .session-timer-cta-wrap .mark-btn {
     width: auto !important;
     padding: 10px 22px !important;
@@ -4508,6 +4507,71 @@ const css = `
   .content--session-guided .er-card.er-card--open .protocol-panel.panel .session-timer-cta-wrap {
     padding-inline: 16px !important;
     padding-bottom: 0 !important;
+  }
+  /* LIST expanded: timer + PAUSE/RESET/START align with START TIMER (display font, 12px radius); strip + panel padding balanced. */
+  .content--session-list .er-card.er-card--open .panel.protocol-panel {
+    padding: 0 0 20px !important;
+  }
+  .content--session-list .er-card.er-card--open .protocol-panel.panel .session-timer-cta-wrap {
+    padding-inline: var(--er-panel-pad-inline) !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    margin-top: 6px !important;
+  }
+  .content--session-list .er-card.er-card--open .protocol-panel.panel .session-timer-cta-wrap > .timer-wrap {
+    margin-inline: 0 !important;
+    padding-top: 8px !important;
+    padding-bottom: 0 !important;
+    gap: 12px !important;
+  }
+  .content--session-list .session-timer-cta-wrap .timer-val {
+    font-family: var(--font-display) !important;
+    font-size: clamp(36px, 10vw, 48px) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.03em !important;
+    font-variant-numeric: tabular-nums !important;
+    line-height: 1 !important;
+  }
+  .content--session-list .session-timer-cta-wrap .timer-btns .tb {
+    border-radius: 12px !important;
+    padding: 12px 10px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    font-size: var(--text-sm) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    box-shadow:
+      0 4px 16px color-mix(in srgb, var(--accent) 28%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .content--session-list .session-timer-cta-wrap .timer-btns .tb-g {
+    border-radius: 12px !important;
+    padding: 12px 10px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    font-size: var(--text-sm) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .content--session-list .panel.protocol-panel .session-timer-cta-wrap .mark-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    align-self: stretch !important;
+    margin-top: 12px !important;
+    padding: 13px 16px !important;
+    font-size: var(--text-sm) !important;
+    letter-spacing: 0.18em !important;
+    border-radius: 12px !important;
+    line-height: 1.25 !important;
+    box-sizing: border-box !important;
   }
   /* Prevent stacking/overflow issues and ensure expanded content stacks vertically */
   .content--session-list .er-card,
@@ -4708,6 +4772,24 @@ const css = `
     line-height: 1 !important;
     font-weight: 400 !important;
     font-family: var(--font-ui), system-ui, sans-serif !important;
+  }
+  /* GUIDED expanded preview: no timer / Mark Done — instruction + 1/N step row only; even bottom rhythm vs card shell */
+  .content--session-guided .er-card.er-card--open .panel.protocol-panel {
+    padding: 0 0 20px !important;
+  }
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__label--session {
+    margin: 14px 0 8px 0 !important;
+  }
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__body--session {
+    min-height: 76px !important;
+    padding-bottom: 2px !important;
+  }
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session {
+    margin-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__card:not(:has(.exercise-carousel__nav--session)) {
+    padding-bottom: 12px !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .panel.protocol-panel,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .panel.protocol-panel {
@@ -5807,6 +5889,40 @@ const css = `
   .app[data-night="true"] .guided-overlay .exercise-carousel__graphic-frame {
     background: #050505 !important;
     box-shadow: inset 0 0 0 1px rgba(255, 59, 48, 0.22) !important;
+  }
+  /* START GUIDED instruction screen: media slot matches LIST/GUIDED cards — square corners, no outline, optional VIDEO COMING SOON */
+  .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__graphic-frame {
+    border-radius: 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: #070b11 !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__graphic-frame {
+    background: #0c1018 !important;
+  }
+  .app[data-night="true"] .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__graphic-frame {
+    background: #050508 !important;
+    box-shadow: none !important;
+  }
+  .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__graphic-frame .exercise-carousel__video-soon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: auto;
+    font-family: var(--font-data), ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.22);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 2;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__graphic-frame .exercise-carousel__video-soon {
+    color: rgba(15, 30, 46, 0.28);
   }
   /* LIST / GUIDED expanded card: thumbnail sits inset with carousel padding — fill frame horizontally inside padded column */
   .content--session .protocol-panel .exercise-carousel__graphic-frame {
@@ -9245,7 +9361,7 @@ const css = `
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
-    margin: 0 0 2px;
+    margin: 0 0 10px;
     padding: 0;
     gap: 0;
     min-height: 32px;
@@ -9253,7 +9369,7 @@ const css = `
     opacity: 1;
   }
   .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util {
-    margin-top: 10px;
+    margin-top: 0;
     padding-top: 0;
     border-top: none;
   }
@@ -13185,7 +13301,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       flex: 1,
       minWidth: 0,
       minHeight: 56,
-      borderRadius: 999,
+      borderRadius: 12,
       background: "transparent",
       border: `1px solid ${gA}`,
       color: gA,
@@ -13198,7 +13314,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       opacity: guidedPrevDisabled ? 0.38 : 1
     }
   }, "\u2190 PREV");
-  const guidedSkipFooterHint = fi > 0 && cur ? phase === "exercise" ? "\u2190 Prev through setup, then last pose" : phase === "instruction" || phase === "rest" ? "Prev: back one screen; from Instructions \u2192 last pose" : null : null;
   const guidedPhaseBody = (phase === "instruction" || phase === "rest" || phase === "exercise") && cur ? /*#__PURE__*/React.createElement("div", {
     style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column", position: "relative", zIndex: 2, overflow: "hidden" }
   }, [
@@ -13273,7 +13388,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       maxWidth: 220,
       minHeight: 40,
       padding: "0 22px",
-      borderRadius: 999,
+      borderRadius: 12,
       background: "transparent",
       border: `1px dashed ${isNight ? "rgba(255,59,48,0.55)" : isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.2)"}`,
       color: gA,
@@ -13313,7 +13428,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     bodyColorOverride: guidedBodyText,
     moveOpacity: guidedMoveOpacity,
     trackId: activeTrackId,
-    allowBaselineMediaExpand: true }) : null,
+    allowBaselineMediaExpand: true,
+    guidedFlowFrame: true }) : null,
   phase === "rest" ? /*#__PURE__*/React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, textAlign: "center", lineHeight: 1.5, padding: "8px 0 0" } }, "Next exercise starts automatically after the countdown.") : null)), /*#__PURE__*/
   React.createElement("div", { "aria-hidden": true, style: {
       position: "absolute",
@@ -13359,7 +13475,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       minWidth: 0,
       minHeight: 56,
       height: 56,
-      borderRadius: 999,
+      borderRadius: 12,
       background: gA,
       border: nightMode ? "1px solid #FF3B30" : "none",
       color: isNight ? "#000000" : guidedFilledText,
@@ -13378,7 +13494,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       flex: 1,
       minWidth: 0,
       minHeight: 56,
-      borderRadius: 999,
+      borderRadius: 12,
       background: "transparent",
       border: `1px solid ${gA}`,
       color: gA,
@@ -13393,7 +13509,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       flex: 1,
       minWidth: 0,
       minHeight: 56,
-      borderRadius: 999,
+      borderRadius: 12,
       background: gA,
       border: nightMode ? "1px solid #FF3B30" : "none",
       color: isNight ? "#000000" : guidedFilledText,
@@ -13423,7 +13539,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       minWidth: 0,
       minHeight: 56,
       height: 56,
-      borderRadius: 999,
+      borderRadius: 12,
       background: gA,
       border: nightMode ? "1px solid #FF3B30" : "none",
       color: isNight ? "#000000" : guidedFilledText,
@@ -13444,27 +13560,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       minHeight: 22,
       display: "flex",
       flexDirection: "row",
-      justifyContent: guidedSkipFooterHint ? "space-between" : "center",
-      alignItems: "flex-start",
+      justifyContent: "center",
+      alignItems: "center",
       gap: 10,
       paddingLeft: 2,
       paddingRight: 2,
       boxSizing: "border-box"
-    } }, guidedSkipFooterHint ? /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontFamily: "var(--font-meta)",
-        fontSize: 10,
-        fontWeight: 400,
-        letterSpacing: "0.04em",
-        color: D,
-        lineHeight: 1.3,
-        flex: "1 1 0%",
-        minWidth: 0,
-        opacity: 0.92,
-        paddingRight: 8,
-        paddingTop: 1
-      }
-    }, guidedSkipFooterHint) : null, /*#__PURE__*/
+    } }, /*#__PURE__*/
   React.createElement("button", { type: "button", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);handleSkip();}, style: {
       background: "none",
       border: "none",
@@ -13478,7 +13580,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       opacity: 0.74,
       flexShrink: 0,
       whiteSpace: "nowrap",
-      paddingTop: 1
+      textAlign: "center"
     } }, "SKIP EXERCISE"))])]) : null;
 
   // No exercises: show message and exit (avoids cur.id / cur.name access on undefined)
@@ -13494,7 +13596,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       React.createElement("div", { style: { fontSize: "var(--text-lg)", fontWeight: 600, marginBottom: 12, color: W } }, "No exercises in this flow"), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-sm)", color: S, marginBottom: 24 } }, "Add exercises or clear filters and try again."), /*#__PURE__*/
       React.createElement("button", { ref: guidedCloseBtnRef, type: "button", className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn", onClick: onExit, "aria-label": "Close", style: {
-          padding: "14px 40px", borderRadius: 28, cursor: "pointer",
+          padding: "14px 40px", borderRadius: 12, cursor: "pointer",
           background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : guidedFilledText,
           WebkitTextFillColor: isNight ? "#000000" : guidedFilledText,
           fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 600,
@@ -13608,14 +13710,11 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
         textShadow: NAME_SHAD } }, "GUIDED COMPLETE"
 
     ), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-base)", color: S, marginBottom: 24, maxWidth: 300, lineHeight: 1.6 } }, "Take a few moments to breathe or rest."
-
-    ), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-xs)", color: D, marginBottom: 40, maxWidth: 280, lineHeight: 1.6 } }, "Click Exit to return to the main menu."
+    React.createElement("div", { style: { fontSize: "var(--text-base)", color: S, marginBottom: 32, maxWidth: 300, lineHeight: 1.6 } }, "Take a few moments to breathe or rest."
 
     ), /*#__PURE__*/
     React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn", onClick: onExit, "aria-label": "Close", style: {
-        padding: "16px 48px", borderRadius: 28, cursor: "pointer",
+        padding: "16px 48px", borderRadius: 12, cursor: "pointer",
         background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : guidedFilledText,
         WebkitTextFillColor: isNight ? "#000000" : guidedFilledText,
         fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", fontWeight: 600,
@@ -13690,7 +13789,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       triggerHaptic(HAPTIC_LIGHT_TAP);
       }, className: exerciseDurationSeconds === sec ? "ultra-filled-btn" : undefined, style: {
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase",
-        padding: "8px 14px", borderRadius: 8, border: "1px solid",
+        padding: "8px 14px", borderRadius: 12, border: "1px solid",
         borderColor: isNight ? "#FF3B30" : exerciseDurationSeconds === sec ? "var(--accent)" : (isDark ? "rgba(255,255,255,0.42)" : "rgba(18,28,42,0.55)"),
         background: isNight ? exerciseDurationSeconds === sec ? "#FF3B30" : "#000000" : exerciseDurationSeconds === sec ? "var(--accent)" : "var(--glass-bg)",
         color: isNight ? exerciseDurationSeconds === sec ? "#000000" : "#FF3B30" : exerciseDurationSeconds === sec ? guidedFilledText : "var(--text-secondary)",
@@ -13701,7 +13800,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
     ))), /*#__PURE__*/
     React.createElement("div", { style: { fontSize: "var(--text-xs)", color: S, opacity: 0.92, maxWidth: 320, lineHeight: 1.5, marginTop: 16, marginBottom: 14, textAlign: "center" } }, "No equipment? You can modify \u2014 use a towel instead of a strap, a book instead of a block, or skip props and focus on range of motion."), /*#__PURE__*/
     React.createElement("button", { className: (isNight ? "guided-cta-fill ultra-filled-btn " : "ultra-filled-btn ") + "axis-session-primary-cta", onClick: () => {primeAudio();beep(880, 0.3);triggerHaptic(HAPTIC_LIGHT_TAP);setPaused(false);goToPrepPhaseAt(0);}, style: {
-        padding: "14px 48px", borderRadius: 999, cursor: "pointer",
+        padding: "14px 48px", borderRadius: 12, cursor: "pointer",
         background: A, border: nightMode ? "1px solid #FF3B30" : "none", color: isNight ? "#000000" : guidedFilledText,
         WebkitTextFillColor: isNight ? "#000000" : guidedFilledText,
         fontFamily: "var(--font-display)", fontSize: "var(--text-xs)", fontWeight: 700,
@@ -13746,7 +13845,9 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       bodyColorOverride: guidedBodyText,
       moveOpacity: 1,
       trackId: activeTrackId,
-      allowBaselineMediaExpand: true }) : /*#__PURE__*/React.createElement("div", { style: { fontSize: "var(--text-sm)", color: S, textAlign: "center" } }, "No instructions for this exercise."))),
+      allowBaselineMediaExpand: true,
+      guidedFlowFrame: true,
+      guidedFlowVideoSoonIfNoVideo: true }) : /*#__PURE__*/React.createElement("div", { style: { fontSize: "var(--text-sm)", color: S, textAlign: "center" } }, "No instructions for this exercise."))),
     /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: isNight ? "guided-cta-fill ultra-filled-btn" : "ultra-filled-btn",
@@ -13754,7 +13855,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       style: {
         width: "100%",
         minHeight: 52,
-        borderRadius: 999,
+        borderRadius: 12,
         background: gA,
         border: nightMode ? "1px solid #FF3B30" : "none",
         color: isNight ? "#000000" : guidedFilledText,
@@ -13801,7 +13902,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       style: {
         flex: 1,
         minHeight: 48,
-        borderRadius: 999,
+        borderRadius: 12,
         border: `1px solid ${gA}`,
         background: "transparent",
         color: gA,
@@ -13819,7 +13920,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       style: {
         flex: 1,
         minHeight: 48,
-        borderRadius: 999,
+        borderRadius: 12,
         background: gA,
         border: nightMode ? "1px solid #FF3B30" : "none",
         color: isNight ? "#000000" : guidedFilledText,
