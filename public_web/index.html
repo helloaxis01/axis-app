@@ -2307,13 +2307,17 @@ const css = `
     animation: guidedRefresherSlideUp 0.25s ease-out forwards;
     overflow: hidden;
   }
+  /* Height follows content up to max — avoids a dead flex gap under the step row */
   .guided-refresher-scroll {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-height: 0;
     max-height: min(48vh, 520px);
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+  }
+  .guided-overlay .guided-refresher-scroll .exercise-carousel {
+    padding-bottom: 0 !important;
   }
   /* Same *material* as expanded protocol panel, but nearly opaque so the phase footer never shows through */
   .guided-overlay[data-night="true"] .guided-refresher-sheet {
@@ -4703,7 +4707,7 @@ const css = `
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    padding: 0 0 24px !important;
+    padding: 0 0 12px !important;
     margin-top: 0 !important;
     animation: axisSessionExpandedPanelIn 0.2s ease forwards;
   }
@@ -5009,23 +5013,23 @@ const css = `
     font-weight: 400 !important;
     font-family: var(--font-ui), system-ui, sans-serif !important;
   }
-  /* GUIDED expanded preview: no timer / Mark Done — instruction + 1/N step row only; even bottom rhythm vs card shell */
+  /* GUIDED expanded preview: no timer / Mark Done — instruction + 1/N step row only; tight bottom rhythm vs card shell */
   .content--session-guided .er-card.er-card--open .panel.protocol-panel {
-    padding: 0 0 20px !important;
+    padding: 0 0 6px !important;
   }
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__label--session {
     margin: 14px 0 8px 0 !important;
   }
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__body--session {
-    min-height: 76px !important;
-    padding-bottom: 2px !important;
+    min-height: 52px !important;
+    padding-bottom: 0 !important;
   }
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session {
-    margin-top: 12px !important;
-    padding-bottom: 12px !important;
+    margin-top: 8px !important;
+    padding-bottom: 0 !important;
   }
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__card:not(:has(.exercise-carousel__nav--session)) {
-    padding-bottom: 12px !important;
+    padding-bottom: 4px !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .panel.protocol-panel,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .panel.protocol-panel {
@@ -13099,7 +13103,7 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
 
 }
 
-function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, done, totalDone, sessionSecs,
+function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45, activeTrackId = "" }) {
 
   const isNight = nightMode;
@@ -13441,19 +13445,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp, TOTAL, d
       if (onSessionComplete) onSessionComplete();
       return;
     }
-    const nextTotal = totalDone + 1;
-    if (nextTotal >= listTotal) {
-      setPhase("closing");
-      if (onSessionComplete) onSessionComplete();
-      return;
-    }
+    const flowDone = fi + 1;
     const at25 = Math.ceil(listTotal * 0.25);
     const at50 = Math.ceil(listTotal * 0.5);
     const at75 = Math.ceil(listTotal * 0.75);
-    if (nextTotal === at25 || nextTotal === at50 || nextTotal === at75) {
+    if (flowDone === at25 || flowDone === at50 || flowDone === at75) {
       setGuidedTransitioning(true);
       setPaused(false);
-      const msg = nextTotal === at25 ? "Quarter done" : nextTotal === at50 ? "Halfway there" : "Almost there";
+      const msg = flowDone === at25 ? "Quarter done" : flowDone === at50 ? "Halfway there" : "Almost there";
       setMilestoneMessage(msg);
       setPhase("milestone");
       const advanceTo = Math.min(fi + 1, list.length - 1);
@@ -18023,8 +18022,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // SESSION — render Guided overlay via portal to document.body so position:fixed is viewport-relative (parent has transform)
   const guidedOverlayEl = guidedActive ? /*#__PURE__*/
   React.createElement(GuidedOverlay, {
-    theme: theme, activePeriod: activePeriod, activeAll: filteredAll, TOTAL: filteredAll.length,
-    done: done, totalDone: totalDone, sessionSecs: sessionSecs,
+    theme: theme, activePeriod: activePeriod, activeAll: filteredAll,
     onExit: () => {setGuidedActive(false);setSessionComplete(false);},
     onToggle: toggle,
     onSkip: toggleSkip,
@@ -18226,10 +18224,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "sh sh--session-ex-head" }, /*#__PURE__*/
     React.createElement("span", { className: "sh-tag" }, sec.tag), /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
-    React.createElement("span", { className: "sh-ct" + (sec.exercises.length > 0 && sec.exercises.filter((e) => done[e.id]).length === sec.exercises.length ? " sh-ct--all-done" : "") }, sec.exercises.filter((e) => done[e.id]).length, "/", sec.exercises.length)
+    React.createElement("span", { className: "sh-ct", title: "Checklist progress is on the LIST tab" }, sec.exercises.length, " ", "steps")
     ), /*#__PURE__*/
     React.createElement("div", { className: "sh-progress", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => done[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
+    React.createElement("div", { className: "sh-progress__fill", style: { width: "0%", transition: "width 0.4s ease" } }))
     ),
     sec.purpose && /*#__PURE__*/
     React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
@@ -18248,7 +18246,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const nextEx = sec.exercises[idx + 1] || null;
       return (/*#__PURE__*/
         React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: !!done[ex.id], onToggle: () => toggle(ex.id),
+          done: false, onToggle: () => toggle(ex.id),
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
