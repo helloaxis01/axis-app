@@ -15461,7 +15461,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const iGuideDashArray = `${iCircumferenceProgress} ${iCircumferenceProgress}`;
   // Plain seconds only — no 0: prefix (e.g. 30 not 0:30)
   const formatSecondsOnly = (s) => String(s);
-  // Roboto Mono Medium for interval timer numerals; main countdown and stepper values
+  // Roboto Mono Medium for interval timer numerals; main countdown (Breathe duplicates with its own light color)
   const intervalDigitStyle = {
     fontFamily: "var(--font-data)",
     fontWeight: 500,
@@ -15469,10 +15469,14 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     minWidth: 72,
     textAlign: "center",
     fontSize: 120,
-    color: nightMode ? "#FF3B30" : isDark ? "var(--text-white)" : "#1D1D1F",
+    color: nightMode ? "#FF3B30" : isDark ? "var(--text-white)" : "#252525",
     lineHeight: 1,
     fontVariantNumeric: "tabular-nums",
     textShadow: "none"
+  };
+  const breatheHeroDigitStyle = {
+    ...intervalDigitStyle,
+    color: nightMode ? "#FF3B30" : isDark ? "var(--text-white)" : "#1D1D1F"
   };
   /** Hero ring idle label (Ready) — reuse for Done so typography matches */
   const TIMER_HERO_READY_STYLE = {
@@ -16465,7 +16469,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement(React.Fragment, null, /*#__PURE__*/
 
     React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
-    React.createElement("div", { style: { ...intervalDigitStyle, opacity: countdownLabelOpacity, transition: "none" } }, formatSecondsOnly(bTime))
+    React.createElement("div", { style: { ...breatheHeroDigitStyle, opacity: countdownLabelOpacity, transition: "none" } }, formatSecondsOnly(bTime))
     )
     ),
 
