@@ -224,6 +224,34 @@ function getCircadianPeriod() {
   return "rest";
 }
 
+/** Next boundary time (today or tomorrow), period key immediately after crossing, millis until crossing. */
+function axisNextCircadianBoundary(nowMs = Date.now()) {
+  const now = new Date(nowMs);
+  const t = now.getTime();
+  const boundaries = [{ hr: 5, p: "dawn" }, { hr: 11, p: "midday" }, { hr: 17, p: "prime" }, { hr: 22, p: "rest" }];
+  let bestTs = Infinity;
+  let nextPeriod = "dawn";
+  for (let i = 0; i < boundaries.length; i++) {
+    const { hr, p } = boundaries[i];
+    const cand = new Date(now);
+    cand.setHours(hr, 0, 0, 0);
+    if (cand.getTime() <= t) cand.setDate(cand.getDate() + 1);
+    const ts = cand.getTime();
+    if (ts < bestTs) {
+      bestTs = ts;
+      nextPeriod = p;
+    }
+  }
+  return { msUntil: Math.max(0, bestTs - t), nextPeriod: nextPeriod, at: bestTs };
+}
+
+function axisFormatHhMmCountdown(ms) {
+  const s = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor(s % 3600 / 60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+
 /** Locked mood from storage, or time-of-day when Auto — ignores invalid keys so theme data always exists. */
 function axisResolveMoodPeriod(period) {
   if (period && CIRCADIAN_THEMES[period]) return period;
@@ -10622,151 +10650,467 @@ const css = `
     color: var(--text-secondary);
     line-height: 1.45;
   }
-  /* System gateway: cards rail sits under title inside .home > .track-cards-outer (same rail as Metrics / Favorites); horizontal gutter is on the outer */
+  /* System gateway: dashboard (rail = .track-cards-outer) */
+  .app--system-gateway .home-welcome.metrics-page-title {
+    margin-bottom: 0 !important;
+  }
   .system-gateway {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 0;
-    padding: 4px 0 16px;
+    padding: 0 0 40px;
     box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
   }
-  .system-gateway__title-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 14px;
+  .sys-dash__hdr {
+    padding-top: 20px;
+    padding-bottom: 28px;
+    transition: color 0.3s ease;
+  }
+  .sys-dash__ver {
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__ver {
+    color: var(--text-white);
+    -webkit-text-fill-color: var(--text-white);
+  }
+  .sys-dash__stat {
+    display: block;
     margin-top: 6px;
-    margin-bottom: 0;
-    font-family: var(--font-meta), var(--font-data);
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--text-dimmer);
+    transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease;
   }
-  .system-gateway__title-meta .system-gateway__version {
-    font-variant-numeric: tabular-nums;
+  .sys-dash__stat--ok {
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
   }
-  .system-gateway__cards {
+  .sys-dash__stat--warn {
+    color: #ffb020;
+    -webkit-text-fill-color: #ffb020;
+  }
+  .sys-dash__eyebrow {
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__eyebrow {
+    color: rgba(30, 30, 40, 0.45);
+    -webkit-text-fill-color: rgba(30, 30, 40, 0.45);
+  }
+  .sys-dash__next {
+    margin-top: 8px;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.35);
+    transition: color 0.3s ease;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__next {
+    color: rgba(15, 20, 34, 0.5);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.5);
+  }
+  .sys-dash__mood-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 14px;
+    row-gap: 4px;
+    align-items: start;
+  }
+  .sys-dash__mood-copy {
+    min-width: 0;
+    grid-column: 1;
+  }
+  .sys-dash__mood-name {
+    margin-top: 6px;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    transition: color 0.3s ease;
+    line-height: 1.2;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mood-name {
+    color: var(--text-white);
+    -webkit-text-fill-color: var(--text-white);
+  }
+  .sys-dash__mood-desc {
+    margin-top: 6px;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.4);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.4);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mood-desc {
+    color: rgba(15, 20, 34, 0.55);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.55);
+  }
+  .sys-dash__mood-time {
+    margin-top: 4px;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.28);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.28);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mood-time {
+    color: rgba(15, 20, 34, 0.44);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.44);
+  }
+  .sys-dash__mood-swatch {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: start;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 4px 28px rgba(0, 0, 0, 0.32);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-sizing: border-box;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mood-swatch {
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 22px rgba(15, 30, 46, 0.12);
+  }
+  .sys-dash__circ-head {
+    margin-top: 16px;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__circ-head {
+    color: rgba(30, 30, 40, 0.45);
+    -webkit-text-fill-color: rgba(30, 30, 40, 0.45);
+  }
+  .sys-dash__auto {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .sys-dash__auto-lbl {
+    flex: 1;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.32);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.32);
+    line-height: 1.35;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__auto-lbl {
+    color: rgba(30, 30, 40, 0.48);
+    -webkit-text-fill-color: rgba(30, 30, 40, 0.48);
+  }
+  .sys-dash__mood-cards {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 10px;
-    align-items: stretch;
-    margin-top: 14px;
-    min-height: 0;
-    width: 100%;
-    max-width: min(100%, 340px);
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
+    gap: 6px;
+    margin-top: 8px;
   }
-  .system-gateway__cards > .system-gateway-card.track-card {
-    flex: 0 0 auto;
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-  }
-  /* System gateway: same liquid shell as Home workout cards + mood-wash accent (see .home-smart-card__hit--now) */
-  .app--system-gateway .system-gateway__cards > .system-gateway-card.track-card {
-    flex-direction: row;
+  .sys-dash__mcard {
+    display: flex;
     align-items: center;
-    min-height: 0;
-    border: 1px solid color-mix(in srgb, var(--glass-border) 68%, transparent);
-    background: color-mix(in srgb, var(--glass-bg) 90%, transparent);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.11), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 54%, transparent);
-    backdrop-filter: blur(14px) saturate(1.15);
-    -webkit-backdrop-filter: blur(14px) saturate(1.15);
-    border-radius: 12px;
-    padding: 0;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: 100%;
     margin: 0;
+    cursor: pointer;
+    text-align: left;
     font: inherit;
     color: inherit;
-    text-align: left;
-    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    gap: 0;
-    isolation: isolate;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: border-color 0.3s ease, background 0.3s ease, opacity 0.3s ease;
   }
-  .app--system-gateway .system-gateway-card .track-card-home-chevron {
-    position: static;
-    top: auto;
-    right: auto;
-    order: 2;
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mcard {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  .sys-dash__mcard--active {
+    background: color-mix(in srgb, var(--mood-color) 9%, rgba(255, 255, 255, 0.04));
+    border-color: color-mix(in srgb, var(--mood-color) 50%, rgba(255, 255, 255, 0.08));
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mcard--active {
+    background: color-mix(in srgb, var(--mood-color) 14%, rgba(255, 255, 255, 0.88));
+    border-color: color-mix(in srgb, var(--mood-color) 45%, rgba(0, 0, 0, 0.12));
+  }
+  .sys-dash__mcard--dim {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+  }
+  .sys-dash__mcard-ico {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    margin: 0 12px 0 8px;
-    align-self: center;
+    transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
   }
-  .app--system-gateway .system-gateway-card .track-card-home-body {
-    order: 1;
+  .sys-dash__mcard-meta {
     flex: 1;
     min-width: 0;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    padding-left: 14px;
-    padding-right: 4px;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .app--system-gateway .system-gateway__cards > .system-gateway-card.track-card {
-    box-shadow: 0 8px 26px rgba(15, 30, 46, 0.1), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 58%, transparent);
+  .sys-dash__mcard-name {
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-white);
   }
-  .app[data-night="true"] .app--system-gateway .system-gateway__cards > .system-gateway-card.track-card {
-    border-color: rgba(255, 59, 48, 0.38) !important;
-    box-shadow: 0 0 0 1px rgba(255, 59, 48, 0.12), 0 14px 36px rgba(0, 0, 0, 0.5) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+  .sys-dash__mcard-span {
+    display: block;
+    margin-top: 3px;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.25);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
   }
-  .app--system-gateway .system-gateway__cards > .system-gateway-card.track-card::before {
-    display: none;
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mcard-span {
+    color: rgba(15, 20, 34, 0.44);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.44);
   }
-  .app--system-gateway .system-gateway-card--mood::after {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 5px;
-    height: 100%;
-    border-radius: 12px 0 0 12px;
-    pointer-events: none;
-    z-index: 0;
-    background: linear-gradient(180deg,
-      color-mix(in srgb, var(--mood-color) 72%, transparent) 0%,
-      color-mix(in srgb, var(--mood-color) 22%, transparent) 100%);
+  .sys-dash__sep {
+    margin-top: 24px;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
   }
-  .app--system-gateway .system-gateway-card--settings::after {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 5px;
-    height: 100%;
-    border-radius: 12px 0 0 12px;
-    pointer-events: none;
-    z-index: 0;
-    background: linear-gradient(180deg,
-      color-mix(in srgb, var(--mood-accent) 55%, transparent) 0%,
-      color-mix(in srgb, var(--mood-color) 28%, transparent) 100%);
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__sep {
+    color: rgba(30, 30, 40, 0.45);
+    -webkit-text-fill-color: rgba(30, 30, 40, 0.45);
   }
-  .app--system-gateway .system-gateway-card .track-card-title-stack,
-  .app--system-gateway .system-gateway-card .track-card-left {
+  .sys-dash__segment {
+    display: flex;
+    gap: 3px;
+    margin-top: 12px;
+    padding: 3px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.07);
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__segment {
+    border-color: rgba(15, 30, 46, 0.12);
+    background: rgba(15, 30, 46, 0.06);
+  }
+  .sys-dash__segment-btn {
+    flex: 1;
+    margin: 0;
+    min-height: 44px;
+    height: 44px;
+    padding: 0 10px;
+    cursor: pointer;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.45);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.45);
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, -webkit-text-fill-color 0.3s ease;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__segment-btn {
+    background: transparent;
+    color: rgba(15, 20, 34, 0.42);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.42);
+  }
+  .sys-dash__segment-btn--active {
+    background: var(--mood-color);
+    color: var(--accent-btn-text, #141414);
+    -webkit-text-fill-color: var(--accent-btn-text, #141414);
+    border-color: transparent;
+    box-shadow: none;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__segment-btn--active {
+    background: var(--mood-color);
+    color: var(--accent-btn-text, #141414);
+    -webkit-text-fill-color: var(--accent-btn-text, #141414);
+  }
+  .app[data-night="true"] .sys-dash__segment-btn--active {
+    background: var(--mood-color);
+    color: #000000;
+    -webkit-text-fill-color: #000000;
+  }
+  .sys-dash__ultra-block {
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .sys-dash__ultra-copy {
+    flex: 1;
+    min-width: 0;
+  }
+  .sys-dash__ultra-lbl {
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.3);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__ultra-lbl {
+    color: rgba(30, 30, 40, 0.45);
+    -webkit-text-fill-color: rgba(30, 30, 40, 0.45);
+  }
+  .sys-dash__ultra-sub {
+    margin-top: 5px;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.38;
+    color: rgba(255, 255, 255, 0.25);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
+    max-width: 100%;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__ultra-sub {
+    color: rgba(15, 20, 34, 0.48);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.48);
+  }
+  .sys-dash__toggle-ios {
+    flex-shrink: 0;
+    width: 46px;
+    height: 28px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    cursor: pointer;
     position: relative;
-    z-index: 1;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    background: rgba(255, 255, 255, 0.08);
   }
-  .app--system-gateway .system-gateway-card .track-card-name {
-    font-weight: 400;
-    font-size: calc(var(--text-lg) - 3px);
-    color: color-mix(in srgb, var(--text-white) 96%, transparent);
+  .sys-dash__toggle-ios--on {
+    border-color: color-mix(in srgb, var(--mood-color) 72%, transparent);
+    background: var(--mood-color);
   }
-  .app--system-gateway .system-gateway-card .track-card-purpose {
-    margin-top: 6px;
-    line-height: 1.45;
-    font-size: calc(var(--text-base) * 0.85) !important;
-    font-weight: 400 !important;
-    color: var(--mood-color) !important;
-    -webkit-text-fill-color: var(--mood-color) !important;
+  .sys-dash__toggle-ios[disabled] {
+    opacity: 0.45;
+    pointer-events: none;
   }
-  .system-gateway__status-optimal {
-    color: #22c55e;
-    -webkit-text-fill-color: #22c55e;
-    letter-spacing: 0.16em;
+  .sys-dash__toggle-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+    transition: left 0.3s ease, background 0.3s ease;
+  }
+  .sys-dash__toggle-ios--on .sys-dash__toggle-knob {
+    left: 23px;
+    background: #000000;
+  }
+  .sys-dash__settings {
+    margin-top: 32px;
+    padding: 16px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    font: inherit;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__settings {
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  .sys-dash__settings-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 56px;
+    min-height: 44px;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.4);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.4);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__settings-svg {
+    color: rgba(15, 20, 34, 0.42);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.42);
+  }
+  .sys-dash__settings-mid {
+    flex: 1;
+    min-width: 0;
+  }
+  .sys-dash__settings-title {
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__settings-title {
+    color: var(--text-white);
+    -webkit-text-fill-color: var(--text-white);
+  }
+  .sys-dash__settings-sub {
+    margin-top: 3px;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.28);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.28);
+    line-height: 1.3;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__settings-sub {
+    color: rgba(15, 20, 34, 0.5);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.5);
+  }
+  .sys-dash__settings-sync {
+    color: #34c759;
+    -webkit-text-fill-color: #34c759;
+  }
+  .sys-dash__chev {
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.15);
   }
   .favorites-empty {
     padding: 32px 16px;
@@ -17452,6 +17796,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [metricsStepsToday, setMetricsStepsToday] = useState(null);
   const [metricsHealthHint, setMetricsHealthHint] = useState("");
   const [healthConnectSyncMsg, setHealthConnectSyncMsg] = useState("");
+  const [systemDashTick, setSystemDashTick] = useState(0);
   const [welcomeName, setWelcomeName] = useState(() => axisWelcomeDisplayNameFromStorage());
   const manifestBlobUrlRef = useRef(null);
   const prevMoodBgRef = useRef(null);
@@ -17670,6 +18015,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       setSettingsAccountOpen(true);
     }
   }, [view, systemPanel]);
+  useEffect(() => {
+    if (view !== "system" || systemPanel !== "gateway") return undefined;
+    const id = setInterval(() => {
+      setSystemDashTick((x) => x + 1);
+    }, 15000);
+    return () => clearInterval(id);
+  }, [view, systemPanel]);
   useEffect(() => {storageSet("axis_done", done);}, [done]);
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
@@ -17798,34 +18150,84 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, onSystemTab: goSystemGateway, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
   }
   if (view === "system" && systemPanel === "gateway") {
+    void systemDashTick;
+    const nowGw = getCircadianPeriod();
+    const effGw = axisResolveMoodPeriod(activePeriod);
+    const nbGw = axisNextCircadianBoundary(Date.now());
+    const lblGw = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
+    const autoGw = activePeriod === null;
+    const hcGw = `${metricsHealthHint || ""} ${healthConnectSyncMsg || ""}`;
+    const healthSyncAvailGw = /synced|updated|connected/i.test(hcGw);
+    const warnGw = /error|fail|denied|unable/i.test(String(hcGw).toLowerCase()) && !healthSyncAvailGw;
+    const okGw = !warnGw;
+    const SvgRiseGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M4 16 A 8 8 0 0 1 20 16" }), /*#__PURE__*/React.createElement("line", { x1: "0", y1: "16", x2: "24", y2: "16" }));
+    const SvgMidGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "2", x2: "12", y2: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "19", x2: "12", y2: "22" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "4.22", x2: "6.34", y2: "6.34" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "17.66", x2: "19.78", y2: "19.78" }), /*#__PURE__*/React.createElement("line", { x1: "2", y1: "12", x2: "5", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "19", y1: "12", x2: "22", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "19.78", x2: "6.34", y2: "17.66" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "6.34", x2: "19.78", y2: "4.22" }));
+    const SvgPrimeGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }));
+    const SvgRestGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z" }));
+    const rowsGw = [
+    { p: "dawn", label: "Rise", time: "5–11am", desc: "Warm amber. Morning energy.", icon: SvgRiseGw },
+    { p: "midday", label: "Midday", time: "11am–5pm", desc: "Cool mint. Crisp and focused.", icon: SvgMidGw },
+    { p: "prime", label: "Prime", time: "5–10pm", desc: "Deep blue. Winding down.", icon: SvgPrimeGw },
+    { p: "rest", label: "Rest", time: "10pm–5am", desc: "Soft violet. Calm and dim.", icon: SvgRestGw }];
+    const heroRw = rowsGw.find((r) => r.p === effGw) || rowsGw[1];
+    const ctH = nightMode ? { accent: "#FF3B30" } : CIRCADIAN_THEMES[effGw][theme === "dark" ? "dark" : "light"];
+    const nextLineGw = autoGw ? `Next: ${lblGw[nbGw.nextPeriod]} in ${axisFormatHhMmCountdown(nbGw.msUntil)}` : "";
+    const cardElsGw = rowsGw.map((rowGw) => {
+      const ctC = nightMode ? { accent: "#FF3B30" } : CIRCADIAN_THEMES[rowGw.p][theme === "dark" ? "dark" : "light"];
+      const selGw = effGw === rowGw.p;
+      const lockedGw = !!(nightMode || autoGw);
+      return /*#__PURE__*/React.createElement("button", { key: rowGw.p, type: "button", disabled: lockedGw, className: "sys-dash__mcard" + (selGw ? " sys-dash__mcard--active" : "") + (autoGw ? " sys-dash__mcard--dim" : ""), "aria-disabled": lockedGw ? "true" : "false", onClick: lockedGw ? undefined : () => {axisHapticTick();setActivePeriod(rowGw.p);storageSet("axis_period", rowGw.p);}, "aria-pressed": selGw ? "true" : "false" }, /*#__PURE__*/React.createElement("div", { className: "sys-dash__mcard-ico", style: { border: `1px solid ${ctC.accent}`, color: ctC.accent, background: nightMode ? "#000000" : `color-mix(in srgb, ${ctC.accent} 14%, transparent)` } }, rowGw.icon), /*#__PURE__*/React.createElement("div", { className: "sys-dash__mcard-meta" }, /*#__PURE__*/React.createElement("div", { className: "sys-dash__mcard-name" }, rowGw.label), /*#__PURE__*/React.createElement("span", { className: "sys-dash__mcard-span" }, rowGw.time)));
+    });
     return (/*#__PURE__*/
       React.createElement("div", { key: "system-gateway", className: "app app--system-gateway", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
-      React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
+      React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.35s ease" } }), /*#__PURE__*/
       React.createElement("div", { className: "app-body axis-app-scroll-root" }, /*#__PURE__*/
       dashboardHeaderEl, /*#__PURE__*/
       React.createElement("div", { className: "home" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-system-welcome" }, "System"), /*#__PURE__*/
-      React.createElement("div", { className: "system-gateway__title-meta", "aria-label": "System status" }, /*#__PURE__*/
-      React.createElement("span", { className: "system-gateway__version" }, APP_VERSION_DISPLAY), /*#__PURE__*/
-      React.createElement("span", { className: "system-gateway__status-optimal" }, "STATUS: OPTIMAL")), /*#__PURE__*/
       React.createElement("div", { className: "system-gateway" }, /*#__PURE__*/
-      React.createElement("div", { className: "system-gateway__cards" }, /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "track-card session-card glass-card home-routine-track-card track-card--home-browse system-gateway-card system-gateway-card--mood", onClick: () => {axisHapticTick();setSystemPanel("mood");} }, /*#__PURE__*/
-      React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": true }, "\u203a"), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
-      React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
-      React.createElement("div", { className: "track-card-name" }, "Mood"), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, "Circadian calibration, base theme, Ultra mode.")))), /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "track-card session-card glass-card home-routine-track-card track-card--home-browse system-gateway-card system-gateway-card--settings", onClick: () => {axisHapticTick();setSystemPanel("settings");} }, /*#__PURE__*/
-      React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": true }, "\u203a"), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
-      React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
-      React.createElement("div", { className: "track-card-name" }, "Settings"), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, "Goals, session timers, health sync, data, account.")))))))), /*#__PURE__*/
-      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
+      React.createElement("div", { className: "sys-dash__hdr" }, /*#__PURE__*/
+      React.createElement("span", { className: "sys-dash__ver" }, APP_VERSION_DISPLAY), /*#__PURE__*/
+      React.createElement("span", { className: "sys-dash__stat" + (okGw ? " sys-dash__stat--ok" : " sys-dash__stat--warn") }, okGw ? "STATUS: OPTIMAL" : "STATUS: CHECK SETTINGS")), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-hero", role: "region", "aria-label": "Current mood" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-copy" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__eyebrow" }, "CURRENT MOOD"), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-name" }, heroRw.label), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-desc" }, heroRw.desc), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-time" }, heroRw.time), autoGw ? /*#__PURE__*/React.createElement("div", { className: "sys-dash__next" }, nextLineGw) : null), /*#__PURE__*/
+      /*#__PURE__*/React.createElement("div", { className: "sys-dash__mood-swatch", style: { background: ctH.accent }, "aria-hidden": true })),
+      /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__auto", role: "group", "aria-label": "Circadian auto" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__auto-lbl" }, "Auto follows time of day"), /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "switch", disabled: !!nightMode, className: "sys-dash__toggle-ios" + (autoGw ? " sys-dash__toggle-ios--on" : ""), "aria-checked": autoGw ? "true" : "false", onClick: nightMode ? undefined : () => {axisHapticTick();var nxt = activePeriod === null ? nowGw : null;setActivePeriod(nxt);storageSet("axis_period", nxt);} }, /*#__PURE__*/React.createElement("span", { className: "sys-dash__toggle-knob" }))),
+      /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__circ-head" }, "CIRCADIAN CYCLE"),
+      /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-cards" }, cardElsGw),
+      /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__sep" }, "BASE THEME"),
+      /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__segment", style: nightMode ? { opacity: 0.45, pointerEvents: "none" } : {} },
+      [["dark", "DARK"], ["light", "LIGHT"]].map(([valGw, lbGw]) => /*#__PURE__*/React.createElement("button", { key: valGw, type: "button", className: "sys-dash__segment-btn" + (theme === valGw ? " sys-dash__segment-btn--active" : ""), onClick: nightMode ? undefined : () => {if (theme !== valGw) {axisHapticTick();toggleTheme();}} }, lbGw))),
+      /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__ultra-block", role: "group", "aria-label": "Ultra mode" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__ultra-copy" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__ultra-lbl" }, "ULTRA MODE"), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__ultra-sub" }, "Pure black + mood color. Maximum contrast.")), /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "switch", className: "sys-dash__toggle-ios" + (nightMode ? " sys-dash__toggle-ios--on" : ""), "aria-checked": nightMode ? "true" : "false", onClick: () => {axisHapticTick();toggleNight();} }, /*#__PURE__*/React.createElement("span", { className: "sys-dash__toggle-knob" }))),
+      /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "sys-dash__settings", onClick: () => {axisHapticTick();setSystemPanel("settings");}, "aria-label": "Open settings" }, /*#__PURE__*/
+      React.createElement("span", { className: "sys-dash__settings-svg" }, /*#__PURE__*/React.createElement("svg", { width: "28", height: "28", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /*#__PURE__*/React.createElement("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" }))), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__settings-mid" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__settings-title" }, "Settings"), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__settings-sub" }, healthSyncAvailGw && /*#__PURE__*/React.createElement("span", { className: "sys-dash__settings-sync" }, "Synced: ✓ "), "Goals, timers, health sync, account")), /*#__PURE__*/
+      /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", className: "sys-dash__chev", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }))))),
+      /*#__PURE__*/
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })),
+      /*#__PURE__*/
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway }))
       ));
   }
   if (view === "system" && systemPanel === "settings") {
