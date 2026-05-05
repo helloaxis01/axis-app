@@ -10674,13 +10674,13 @@ const css = `
     font-size: 14px;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: #ffffff;
-    -webkit-text-fill-color: #ffffff;
+    color: rgba(255, 255, 255, 0.38);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.38);
     transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease;
   }
   .app[data-theme="light"]:not([data-night="true"]) .sys-dash__ver {
-    color: var(--text-white);
-    -webkit-text-fill-color: var(--text-white);
+    color: rgba(15, 20, 34, 0.45);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.45);
   }
   .sys-dash__stat {
     display: block;
@@ -10725,15 +10725,50 @@ const css = `
     -webkit-text-fill-color: rgba(15, 20, 34, 0.5);
   }
   .sys-dash__mood-hero {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 14px;
-    row-gap: 4px;
-    align-items: start;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
-  .sys-dash__mood-copy {
+  .sys-dash__mood-card {
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mood-card {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+  .sys-dash__mood-card-main {
+    flex: 1;
     min-width: 0;
-    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .sys-dash__mood-card-main > .sys-dash__eyebrow {
+    margin: 0 0 2px;
+  }
+  .sys-dash__mood-card-main > .sys-dash__mood-name,
+  .sys-dash__mood-card-main > .sys-dash__mood-desc,
+  .sys-dash__mood-card-main > .sys-dash__mood-time {
+    margin-top: 0;
+  }
+  .sys-dash__mood-card-main > .sys-dash__next {
+    margin-top: 4px;
+  }
+  .sys-dash__mood-card > .sys-dash__mood-swatch {
+    flex-shrink: 0;
+    align-self: center;
   }
   .sys-dash__mood-name {
     margin-top: 6px;
@@ -10775,11 +10810,8 @@ const css = `
     -webkit-text-fill-color: rgba(15, 20, 34, 0.44);
   }
   .sys-dash__mood-swatch {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-    align-self: start;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     flex-shrink: 0;
     box-shadow: 0 4px 28px rgba(0, 0, 0, 0.32);
@@ -10975,6 +11007,10 @@ const css = `
     align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
+    background: #000000;
+    border-radius: 12px;
+    padding: 16px;
+    box-sizing: border-box;
   }
   .sys-dash__ultra-copy {
     flex: 1;
@@ -10987,10 +11023,6 @@ const css = `
     color: rgba(255, 255, 255, 0.3);
     -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__ultra-lbl {
-    color: rgba(30, 30, 40, 0.45);
-    -webkit-text-fill-color: rgba(30, 30, 40, 0.45);
-  }
   .sys-dash__ultra-sub {
     margin-top: 5px;
     font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
@@ -10999,10 +11031,6 @@ const css = `
     color: rgba(255, 255, 255, 0.25);
     -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
     max-width: 100%;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__ultra-sub {
-    color: rgba(15, 20, 34, 0.48);
-    -webkit-text-fill-color: rgba(15, 20, 34, 0.48);
   }
   .sys-dash__toggle-ios {
     flex-shrink: 0;
@@ -18196,12 +18224,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("span", { className: "sys-dash__ver" }, APP_VERSION_DISPLAY), /*#__PURE__*/
       React.createElement("span", { className: "sys-dash__stat" + (okGw ? " sys-dash__stat--ok" : " sys-dash__stat--warn") }, okGw ? "STATUS: OPTIMAL" : "STATUS: CHECK SETTINGS")), /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__mood-hero", role: "region", "aria-label": "Current mood" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-copy" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-card" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-card-main" }, /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__eyebrow" }, "CURRENT MOOD"), /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__mood-name" }, heroRw.label), /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__mood-desc" }, heroRw.desc), /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__mood-time" }, heroRw.time), autoGw ? /*#__PURE__*/React.createElement("div", { className: "sys-dash__next" }, nextLineGw) : null), /*#__PURE__*/
-      /*#__PURE__*/React.createElement("div", { className: "sys-dash__mood-swatch", style: { background: ctH.accent }, "aria-hidden": true })),
+      React.createElement("div", { className: "sys-dash__mood-swatch", style: { background: ctH.accent }, "aria-hidden": true }))),
       /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__auto", role: "group", "aria-label": "Circadian auto" }, /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__auto-lbl" }, "Auto follows time of day"), /*#__PURE__*/
@@ -18219,7 +18248,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "sys-dash__ultra-block", role: "group", "aria-label": "Ultra mode" }, /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__ultra-copy" }, /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__ultra-lbl" }, "ULTRA MODE"), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__ultra-sub" }, "Pure black + mood color. Maximum contrast.")), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__ultra-sub" }, "Pure black + bright red. Maximum contrast.")), /*#__PURE__*/
       React.createElement("button", { type: "button", role: "switch", className: "sys-dash__toggle-ios" + (nightMode ? " sys-dash__toggle-ios--on" : ""), "aria-checked": nightMode ? "true" : "false", onClick: () => {axisHapticTick();toggleNight();} }, /*#__PURE__*/React.createElement("span", { className: "sys-dash__toggle-knob" }))),
       /*#__PURE__*/
       React.createElement("button", { type: "button", className: "sys-dash__settings", onClick: () => {axisHapticTick();setSystemPanel("settings");}, "aria-label": "Open settings" }, /*#__PURE__*/
