@@ -1732,7 +1732,7 @@ const css = `
   [data-night="true"] .app { background: #000000 !important; --mood-color: #FF3B30 !important; }
   [data-night="true"] .app-orbs { background: none !important; display: none !important; }
   [data-night="true"] .app-body { background: #000000 !important; }
-  [data-night="true"] .hdr-wrap,
+  [data-night="true"] .hdr-wrap > .hdr,
   [data-night="true"] .tab-subbar,
   [data-night="true"] .tab-bar-spacer { background: #000000 !important; border-color: #FF3B30 !important; }
   [data-night="true"] .tab-bar,
@@ -1836,7 +1836,7 @@ const css = `
   .app[data-night="true"] .content,
   .app[data-night="true"] .home,
   .app[data-night="true"] .app-page-header,
-  .app[data-night="true"] .hdr-wrap,
+  .app[data-night="true"] .hdr-wrap > .hdr,
   .app[data-night="true"] .dashboard-header,
   .app[data-night="true"] .tab-subbar,
   .app[data-night="true"] .tab-bar,
@@ -2191,6 +2191,9 @@ const css = `
     -webkit-text-fill-color: rgba(255, 59, 48, 0.92) !important;
   }
   .app[data-night="true"] .content--session .er-card {
+    background: transparent !important;
+  }
+  .app[data-night="true"] .content.content--session {
     background: transparent !important;
   }
 
@@ -2864,6 +2867,13 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .app-orbs {
     opacity: 0.38;
   }
+  /* LIST/GUIDED: pre–full-bleed hdr-wrap, frosted backdrop carried this glow; boost orbs slightly when session is open */
+  .app:not([data-night="true"]):has(.hdr-wrap) .app-orbs {
+    opacity: 0.26;
+  }
+  .app[data-theme="light"]:not([data-night="true"]):has(.hdr-wrap) .app-orbs {
+    opacity: 0.46;
+  }
   .app-orbs::after {
     content:''; position:absolute; inset:0; pointer-events:none;
     background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.02) 60%, transparent 100%);
@@ -2931,13 +2941,24 @@ const css = `
 
   /* ── HEADER ── */
   .hdr-wrap {
-    position:fixed; top:var(--axis-session-hdr-top); left:0; right:0; z-index:200; width:100%;
+    position:fixed; top:var(--axis-session-hdr-top); bottom:0; left:0; right:0; z-index:200; width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    background: transparent;
+    box-sizing:border-box;
+  }
+  /* Session: frosted strip is only the chrome row; scroll area stays transparent so app/orbs match other tabs */
+  .hdr-wrap > .hdr {
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
     background: var(--hdr-bg);
     backdrop-filter: blur(40px) saturate(2.0);
     -webkit-backdrop-filter: blur(40px) saturate(2.0);
     border-bottom: 1px solid var(--glass-border);
     box-shadow: 0 1px 0 var(--glass-specular), 0 4px 20px rgba(0,0,0,0.15);
-    box-sizing:border-box;
   }
   /* Shared with guided overlay top bar: safe-area + back row (matches Guided flow). */
   .app-hdr-topbar {
@@ -3770,8 +3791,8 @@ const css = `
     box-shadow: 0 0 8px color-mix(in srgb, var(--mood-color) 45%, transparent);
   }
 
-  /* Session LIST/GUIDED (dark circadian): mood orbs stay visible; frosted dim layer ≈ dashboard + tab bar — no flat hdr strip */
-  .app[data-theme="dark"]:not([data-night="true"]) .hdr-wrap {
+  /* Session LIST/GUIDED (dark circadian): mood orbs stay visible; frosted dim layer on header strip only */
+  .app[data-theme="dark"]:not([data-night="true"]) .hdr-wrap > .hdr {
     background: color-mix(in srgb, var(--tab-bg) 58%, transparent);
     backdrop-filter: blur(32px) saturate(1.4);
     -webkit-backdrop-filter: blur(32px) saturate(1.4);
@@ -3809,10 +3830,13 @@ const css = `
   /* ── CONTENT ── */
   .content { padding:0 var(--page-gutter) 24px; max-width:100%; position:relative; z-index:1; }
   .content.content--session {
-    padding-bottom: 12px;
+    /* Breathing room below fixed hdr chrome; LIST CTA must clear fixed tab bar (do not zero on .content--session-list) */
+    padding-top: 14px;
+    padding-bottom: calc(24px + var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 12px);
     flex: 1; min-height: 0;
     overflow-y: auto; overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    background: transparent !important;
   }
   .summary-main-stack {
     width: 100%;
@@ -4050,12 +4074,9 @@ const css = `
     color: inherit;
     letter-spacing: 0.04em;
   }
-  .content.content--session.content--session-list {
-    padding-bottom: 0;
-  }
   /* LIST + GUIDED: session tab-bar spacer ends the scroll stack */
   .session-cta-pad { margin-bottom: 0; padding-bottom: 12px; }
-  .session-cta-pad--guided { margin-bottom: 0; padding-bottom: 0; padding-top: 0; }
+  .session-cta-pad--guided { margin-bottom: 0; padding-bottom: 0; padding-top: 20px; }
   .session-guided-preview {
     opacity: 1;
   }
@@ -4074,7 +4095,7 @@ const css = `
     padding: calc(var(--page-gutter) + 12px) var(--page-gutter) 18px;
   }
   .content--session-list > .sg.sg--session-sheet:first-child {
-    margin-top: 0;
+    margin-top: 16px;
   }
   .content--session-guided .session-guided-preview > .sg.sg--session-sheet:first-child {
     margin-top: calc(var(--page-gutter) + 14px);
@@ -4320,8 +4341,8 @@ const css = `
     flex: 0 0 auto;
     min-height: 0;
   }
-  .content--session .er-list-main .en,
-  .content--session-list .er-body--list-rail .es {
+  .content--session .er-list-center .er-list-title,
+  .content--session .er-list-center .er-list-desc {
     text-align: left;
     align-self: stretch;
     width: 100%;
@@ -4360,9 +4381,6 @@ const css = `
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-  }
-  .content--session-list .er-body--list-rail .es {
-    margin-top: 4px;
   }
 
   /* LIST tab + GUIDED preview — exercise cards (Option A shell) */
@@ -4475,14 +4493,16 @@ const css = `
     gap: 0;
     text-align: left;
   }
+  /* Match Home .track-card--home-browse: display title + instructional purpose body */
   .content--session .er-list-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: calc(var(--text-lg) - 3px);
+    font-weight: 400;
+    color: color-mix(in srgb, var(--text-white) 96%, transparent);
     letter-spacing: -0.02em;
     line-height: 1.25;
     width: 100%;
-    margin: 0 0 4px 0;
+    margin: 0 0 6px 0;
   }
   .content--session .er-list-title.er-list-title--done {
     color: rgba(255, 255, 255, 0.4);
@@ -4494,13 +4514,13 @@ const css = `
     text-decoration: line-through;
   }
   .content--session .er-list-desc {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.4;
-    color: rgba(255, 255, 255, 0.42);
-    width: 100%;
-    margin: 0 0 6px 0;
     font-family: var(--font-ui), system-ui, sans-serif !important;
+    font-size: calc(var(--text-base) * 0.85);
+    font-weight: 400;
+    line-height: 1.45;
+    color: color-mix(in srgb, var(--text-primary) 88%, transparent);
+    width: 100%;
+    margin: 8px 0 6px 0;
   }
   .content--session .er-list-desc.er-list-desc--done {
     color: rgba(255, 255, 255, 0.22);
@@ -4515,11 +4535,12 @@ const css = `
     width: 100%;
   }
   .content--session .er-list-meta-dur {
-    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
-    font-size: 11px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.26);
-    letter-spacing: 0.02em;
+    font-family: var(--font-meta), var(--font-data), ui-monospace, monospace;
+    font-size: calc(var(--text-xs) + 2px);
+    font-weight: 500;
+    color: var(--text-dimmer);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
   .content--session .er-list-meta-dot {
     font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
@@ -4611,14 +4632,14 @@ const css = `
     border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-title {
-    color: rgba(15, 30, 46, 0.96);
+    color: color-mix(in srgb, var(--text-primary) 94%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-title.er-list-title--done {
     color: rgba(15, 30, 46, 0.4);
     text-decoration-color: rgba(15, 30, 46, 0.22);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-desc {
-    color: rgba(15, 30, 46, 0.52);
+    color: color-mix(in srgb, var(--text-primary) 78%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-desc.er-list-desc--done {
     color: rgba(15, 30, 46, 0.28);
@@ -4866,6 +4887,12 @@ const css = `
   .content--session-guided .er-card.er-card--open .er-list-title {
     flex: 0 1 auto !important;
     margin: 0 0 4px 0 !important;
+    font-weight: 700 !important;
+    color: var(--text-white) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .er-list-title,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .er-list-title {
+    color: color-mix(in srgb, var(--text-primary) 96%, transparent) !important;
   }
   .content--session-list .er-card.er-card--open .er-list-rail-actions,
   .content--session-guided .er-card.er-card--open .er-list-rail-actions {
@@ -5605,8 +5632,7 @@ const css = `
     transform-origin: center;
   }
 
-  /* Session exercise copy — match Home browse card body (Roboto Mono) */
-  .content--session .es,
+  /* Session exercise copy — list subtitles follow Home track-card-purpose (Inter); mono for cues / purpose blocks */
   .content--session .purpose-text,
   .content--session .purpose-text--guided-body,
   .content--session .purpose-note,
@@ -5620,33 +5646,33 @@ const css = `
   .content--session .ei { display:flex; flex-direction:column; align-items:flex-start; gap:0; flex:1; min-width:0; }
   .en { font-size: var(--text-lg); font-weight:700; color:var(--text-primary); letter-spacing:-0.02em; transition:all 0.2s; }
   .content--session .en { font-size: calc(var(--text-lg) - 3px); font-weight: 500; }
-  .content--session .er.open .en { font-weight: 500; }
+  .content--session .er.open .en { font-weight: 700; }
   .er.open .en { color:var(--text-white); font-weight: 700; }
   .en.done { color:var(--text-done); text-decoration:line-through; }
   .en.skipped { color:var(--text-done); text-decoration:line-through; }
   .es { margin-top:4px; }
   .content--session .es {
-    margin-top:2px;
-    font-size:calc(var(--text-sm) - 2px);
-    line-height:1.38;
-    color:var(--text-dimmer);
+    margin-top: 2px;
+    font-size: calc(var(--text-sm) - 2px);
+    line-height: 1.38;
+    color: var(--text-dimmer);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .es {
-    color:rgba(15,30,46,0.58);
+    color: rgba(15, 30, 46, 0.58);
   }
 
   .ereps { font-size: var(--text-sm); font-weight:500; font-family:var(--font-ui); color:var(--text-secondary); letter-spacing:0.08em; margin-top:8px; text-transform:uppercase; font-variant-numeric: tabular-nums; }
   .content--session .ereps {
-    font-family:'Roboto Mono', ui-monospace, var(--font-ui), sans-serif !important;
-    font-size:var(--text-xs);
-    font-weight:500;
-    letter-spacing:0.1em;
-    margin-top:5px;
-    font-variant:normal;
+    font-family: var(--font-meta), var(--font-data), ui-monospace, monospace !important;
+    font-size: calc(var(--text-xs) + 2px);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    margin-top: 4px;
+    font-variant: normal;
     font-variant-numeric: tabular-nums;
-    opacity:0.85;
-    color:var(--text-dimmer);
-    text-transform:uppercase;
+    opacity: 1;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
   }
   .npill {
     font-family:var(--font-ui); font-weight:600; font-size: var(--text-sm); letter-spacing:0.16em; text-transform:uppercase; padding:2px 9px; border-radius:20px;
@@ -9719,18 +9745,40 @@ const css = `
     padding-top: 0;
     border-top: none;
   }
-  /* Session utility row -> first section: keep tight handoff */
-  .content--session .fav-filter.fav-filter--session-util + .sg.sg--session-sheet {
-    margin-top: 4px !important;
-  }
+  /* (.fav-filter--session-util lives in .hdr, not .content — spacing from reset row handled via .content padding-top + first .sg margin) */
   .fav-filter.fav-filter--session-util .fav-filter__cluster--left {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
     gap: 8px;
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     min-width: 0;
+  }
+  /* Session bookmark hint: Roboto Mono, body copy (not uppercase eyebrow) */
+  .fav-filter.fav-filter--session-util .fav-filter__session-hint {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto Mono", var(--font-meta), ui-monospace, monospace !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: none !important;
+    line-height: 1.35 !important;
+    color: var(--text-dimmer) !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 88px);
+    -webkit-text-fill-color: var(--text-dimmer) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-filter__session-hint {
+    color: rgba(15, 30, 46, 0.62) !important;
+    -webkit-text-fill-color: rgba(15, 30, 46, 0.62) !important;
+  }
+  .app[data-night="true"] .fav-filter.fav-filter--session-util .fav-filter__session-hint {
+    color: rgba(255, 59, 48, 0.72) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.72) !important;
   }
   .fav-filter.fav-filter--session-util .fav-toggle__icon {
     width: 12px;
@@ -9783,7 +9831,7 @@ const css = `
     background: transparent !important;
     box-shadow: none !important;
   }
-  /* Session row (Favorites / Skipped / Reset) — light: stronger default vs “on” */
+  /* Session util row (Reset pill) — light */
   .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle {
     color: rgba(15,30,46,0.74) !important;
     border-color: rgba(15,30,46,0.228) !important;
@@ -9803,48 +9851,6 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.reset-pill:hover {
     color: rgba(15,30,46,0.87) !important;
-  }
-
-  /* GUIDED — Pinned / Skipped only: remove pill border box (LIST + Reset unchanged) */
-  .content--session-guided .fav-filter.fav-filter--session-util .fav-filter__cluster--left .fav-toggle {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    min-height: 0 !important;
-    height: auto !important;
-    padding: 2px 4px !important;
-  }
-  .content--session-guided .fav-filter.fav-filter--session-util .fav-filter__cluster--left .fav-toggle:hover {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-  .content--session-guided .fav-filter.fav-filter--session-util .fav-filter__cluster--left .fav-toggle.on {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .fav-filter.fav-filter--session-util .fav-filter__cluster--left .fav-toggle.on {
-    background: transparent !important;
-    color: rgba(15,30,46,0.98) !important;
-    border: none !important;
-    font-weight: 600 !important;
-  }
-  .app[data-night="true"] .content--session-guided .fav-filter.fav-filter--session-util .fav-filter__cluster--left .fav-toggle,
-  .app[data-night="true"] .content--session-guided .fav-filter.fav-filter--session-util .fav-filter__cluster--left .fav-toggle.on {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    min-height: 0 !important;
-    height: auto !important;
-    padding: 2px 4px !important;
-    color: #FF3B30 !important;
-  }
-  .app[data-night="true"] .content--session-guided .fav-filter.fav-filter--session-util .fav-filter__cluster--left .fav-toggle.on {
-    opacity: 1 !important;
-    font-weight: 600 !important;
   }
 
   .reset-pill { margin-left:auto; }
@@ -9893,7 +9899,7 @@ const css = `
   .notes-input:focus { border-color:var(--glass-border-strong); background:var(--glass-bg-hover); }
   .notes-input::placeholder { color:var(--text-dim); }
 
-  /* ── TAB BAR ── */
+  /* ── TAB BAR (5-tab: HOME METRICS TIMER FAVORITES SYSTEM) ── */
   .tab-bar {
     position:fixed; bottom:0; left:0; right:0;
     min-height: var(--axis-tab-h);
@@ -9901,18 +9907,25 @@ const css = `
     backdrop-filter: blur(20px) saturate(1.25); -webkit-backdrop-filter: blur(20px) saturate(1.25);
     border-top: 1px solid var(--border);
     display:flex; align-items:center; justify-content:space-around;
-    padding: 5px 10px calc(10px + env(safe-area-inset-bottom,0px));
+    padding: 6px 4px calc(8px + env(safe-area-inset-bottom,0px));
     z-index:300;
     box-sizing:border-box;
   }
   .tab-btn {
     display:flex; flex-direction: column; align-items:center; justify-content:center;
     gap:0;
-    min-width:46px; min-height:46px; width:auto; height:auto;
-    padding:0; border:none; cursor:pointer; border-radius:999px;
-    background:transparent; color: rgba(225,236,252,0.68);
-    transition:color 0.15s, transform var(--motion-fast), opacity var(--motion-fast); position:relative; flex:0 0 auto;
+    min-width:0; flex:1 1 0; max-width:80px; min-height:48px; width:auto; height:auto;
+    padding:2px 2px 0; border:none; cursor:pointer; border-radius:12px;
+    background:transparent;
+    color: rgba(255,255,255,0.3);
+    transition:color 0.15s, transform var(--motion-fast), opacity var(--motion-fast); position:relative;
     -webkit-tap-highlight-color: transparent;
+  }
+  .tab-bar[data-theme="light"][data-night="false"] .tab-btn:not(.active) {
+    color: rgba(0,0,0,0.30);
+  }
+  .tab-btn.active {
+    color: var(--mood-color);
   }
   .tab-btn-stack {
     --tab-icon-size: 30px;
@@ -9920,24 +9933,26 @@ const css = `
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:5px;
+    gap:2px;
     flex-shrink:0;
+  }
+  .tab-btn-label {
+    font-family: 'Roboto Mono', var(--font-meta), ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: none;
   }
   .tab-btn:not(.active) .nav-tab-indicator {
     pointer-events: none;
   }
   .tab-btn:active { transform: scale(0.95); opacity: 0.88; }
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn { color: color-mix(in srgb, var(--axis-black) 46%, transparent); }
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active { color: #1D1D1F; }
-
-  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn { color: color-mix(in srgb, var(--axis-white) 38%, transparent); }
-  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn.active { color: #F4F7FF; }
-
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn:hover:not(.active) { color: color-mix(in srgb, var(--axis-black) 47%, transparent); }
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active:hover { color: #1D1D1F; }
-
-  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn:hover { color: color-mix(in srgb, var(--axis-white) 25%, transparent); }
-  .tab-bar[data-night="false"][data-theme="dark"] .tab-btn.active:hover { color: var(--axis-white); }
   .tab-icon-shell {
     position:relative; display:flex; align-items:center; justify-content:center;
     width:var(--tab-icon-size, 30px); height:var(--tab-icon-size, 30px);
@@ -9945,21 +9960,14 @@ const css = `
   .tab-btn svg {
     stroke: currentColor;
     fill: none;
-    transition: color 0.15s, opacity 0.15s, stroke-width 0.15s;
-    width: var(--tab-icon-size, 30px);
-    height: var(--tab-icon-size, 30px);
-    stroke-width: 1.75;
+    transition: color 0.15s, opacity 0.15s;
+    width: var(--tab-icon-size, 24px);
+    height: var(--tab-icon-size, 24px);
+    stroke-width: 1;
     stroke-linecap: round;
     stroke-linejoin: round;
     opacity: 1;
-  }
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn:not(.active) svg {
-    stroke-width: 1.45;
-    opacity: 0.79;
-  }
-  .tab-bar[data-night="false"][data-theme="light"] .tab-btn.active svg {
-    stroke-width: 2.05;
-    opacity: 1;
+    vector-effect: non-scaling-stroke;
   }
   .tab-btn.active .tab-icon-shell::before { content:none; }
   /* No legacy glow/dot under icons — only .nav-tab-indicator above (all themes) */
@@ -9972,6 +9980,12 @@ const css = `
     background: none !important;
   }
   .tab-btn .tab-icon-shell svg { position:relative; z-index:1; }
+  /* Bookmarks + System: match Home/Timer stroke icons (24×24 viewBox, same shell footprint) */
+  .tab-btn--nav-bookmarks .tab-icon-shell svg,
+  .tab-btn--nav-system .tab-icon-shell svg {
+    width: 24px;
+    height: 24px;
+  }
   /* Pill above icon: 20% wider than icon; gap to icon via .tab-btn-stack */
   .nav-tab-indicator {
     box-sizing: border-box;
@@ -10005,10 +10019,15 @@ const css = `
     height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 8px);
   }
 
-  /* SESSION (LIST/GUIDED): scroll-end inset inside .content — keep a short tail above the tab strip */
+  /* SESSION: tab clearance lives in .content padding-bottom — spacer stays 0 so no solid strip above the tab bar */
   .tab-bar-spacer--session {
-    height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 8px);
-    min-height: 0;
+    height: 0 !important;
+    min-height: 0 !important;
+    flex-shrink: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: transparent !important;
+    border: none !important;
   }
   /* Metrics: spacer kept at 0 — scroll clearance is padding on .home-track-cards-outer--summary (see below) so it isn’t negated by overflow:hidden on the flex column */
   .tab-bar-spacer--metrics {
@@ -10538,6 +10557,206 @@ const css = `
     color: var(--text-secondary);
     line-height: 1.45;
   }
+  /* System gateway + sub-views */
+  .system-subnav {
+    padding: 8px var(--page-padding) 0;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .system-subnav__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    margin: 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-meta), var(--font-data);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .system-subnav__back:active { opacity: 0.75; }
+  .system-gateway {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    padding: 8px var(--page-padding) 16px;
+    box-sizing: border-box;
+  }
+  .system-gateway__cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    min-height: 42vh;
+    align-content: stretch;
+  }
+  @media (max-width: 360px) {
+    .system-gateway__cards { grid-template-columns: 1fr; min-height: 36vh; }
+  }
+  .system-gateway-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 20px 18px;
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-specular);
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    min-height: 120px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .system-gateway-card:active { transform: scale(0.98); }
+  .system-gateway-card__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-white);
+  }
+  .system-gateway-card__sub {
+    font-size: var(--text-xs);
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+  }
+  .system-gateway__status {
+    margin-top: auto;
+    padding: 28px 4px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-meta), var(--font-data);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+  }
+  .system-gateway__status-optimal {
+    color: #22c55e;
+    -webkit-text-fill-color: #22c55e;
+    letter-spacing: 0.16em;
+  }
+  /* Favorites: exercise rows use Home track-card shell when inside .home (see JSX) */
+  .home .track-card.favorites-ex-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text-primary);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .favorites-ex-row {
+    border: none;
+    font: inherit;
+  }
+  .favorites-ex-row:active { transform: scale(0.99); }
+  .favorites-ex-row__body { flex: 1; min-width: 0; }
+  .home .favorites-ex-row__name {
+    font-weight: 400;
+    font-size: calc(var(--text-lg) - 3px);
+    color: color-mix(in srgb, var(--text-white) 96%, transparent);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .home .favorites-ex-row__target {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-top: 4px;
+    line-height: 1.35;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  .home .favorites-ex-row__track {
+    font-size: var(--text-xs);
+    color: var(--text-dimmer);
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .favorites-empty {
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--text-dimmer);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  /* INTERVAL/BREATHE + TRACKS/EXERCISES — global (Favorites does not mount timerFlatCss) */
+  .axis-seg-toggle-wrap.timer-mode-outer-pill.timer-glass-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 92%, transparent);
+    border-radius: 12px;
+    padding: 0;
+    gap: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+  }
+  .axis-seg-toggle-wrap.timer-mode-outer-pill .timer-glass-toggle-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-family: var(--font-meta), var(--font-data);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    background: transparent;
+    color: var(--text-dim);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .axis-seg-toggle-wrap.timer-mode-outer-pill .timer-glass-toggle-btn.active {
+    background: color-mix(in srgb, var(--mood-color) 16%, transparent);
+    color: var(--mood-color);
+    border-color: transparent;
+    box-shadow: none;
+  }
+  [data-theme="light"] .axis-seg-toggle-wrap.timer-mode-outer-pill.timer-glass-wrap {
+    background: rgba(255,255,255,0.35);
+    border-color: rgba(15, 30, 46, 0.14);
+  }
+  [data-theme="light"] .axis-seg-toggle-wrap.timer-mode-outer-pill .timer-glass-toggle-btn:not(.active) {
+    color: var(--text-dim);
+  }
+  [data-theme="light"] .axis-seg-toggle-wrap.timer-mode-outer-pill .timer-glass-toggle-btn.active {
+    background: color-mix(in srgb, var(--mood-color) 16%, transparent);
+    color: var(--mood-color);
+    box-shadow: none;
+  }
+  [data-night="true"] .axis-seg-toggle-wrap.timer-mode-outer-pill.timer-glass-wrap {
+    background: transparent !important;
+    border: 1px solid rgba(255, 59, 48, 0.22) !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+  }
+  [data-night="true"] .axis-seg-toggle-wrap.timer-mode-outer-pill .timer-glass-toggle-btn { color: rgba(255, 59, 48, 0.65) !important; }
+  [data-night="true"] .axis-seg-toggle-wrap.timer-mode-outer-pill .timer-glass-toggle-btn.active { color: #000000 !important; background: #FF3B30 !important; }
   .tab-bar-spacer--settings {
     height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 6px);
     min-height: 0;
@@ -10881,10 +11100,6 @@ const css = `
   }
   .app[data-night="true"] .dashboard-header__streak-cell:not(.dashboard-header__streak-cell--on) {
     background:rgba(255, 59, 48, 0.3) !important;
-  }
-  /* Scroll inset under fixed bookmarks row (breathing room before Start Guided / first sheet) */
-  .app-body > .dashboard-header + .hdr-wrap + .content.content--session {
-    padding-top: calc(var(--axis-session-hdr-top) + var(--axis-session-fixed-h) + 2 * var(--page-gutter) + 8px);
   }
   /* Left edge aligns with TODAY card — only .track-cards-outer supplies horizontal gutter */
   .home-welcome {
@@ -12027,10 +12242,14 @@ const css = `
     fill: currentColor !important;
     stroke: none !important;
   }
-  /* LIST/GUIDED pushpin: solid when pinned / filter on — no stroke */
-  .content--session .ra-btn.fav-on .axis-pushpin-glyph-svg,
-  .fav-filter.fav-filter--session-util .fav-toggle.on .fav-toggle__icon {
-    color: inherit;
+  /* LIST/GUIDED exercise row: filled bookmark — no stroke clash */
+  .content--session .ra-btn.fav-on .axis-bookmark-glyph-svg {
+    fill: currentColor !important;
+    stroke: none !important;
+  }
+  .content--session .er-list-pin-btn.er-list-pin-btn--pinned .axis-bookmark-glyph-svg {
+    fill: currentColor !important;
+    stroke: none !important;
   }
   .track-card-right { display:flex; align-items:center; justify-content:space-between; width:100%; }
   .track-card-dur {
@@ -12351,6 +12570,88 @@ function axisIsBilateralExercise(ex) {
   return true;
 }
 
+/** Step `focus` codes to skip for list-card meta (positional / non-target). */
+const AXIS_EX_META_FOCUS_SKIP = new Set(["SETUP"]);
+
+/** Human-facing labels for step `focus` — list meta next to duration (scan targets, not pose names). */
+const AXIS_EX_META_FOCUS_LABELS = {
+  SPINE: "Spine",
+  FLEX: "Spine flexion",
+  EXT: "Back extension",
+  CORE: "Core",
+  GLUTES: "Glutes",
+  HIPS: "Hips",
+  HAMSTRINGS: "Hamstrings",
+  QUADS: "Quads",
+  CALVES: "Calves",
+  SHOULDERS: "Shoulders",
+  CHEST: "Chest",
+  BACK: "Back",
+  NECK: "Neck",
+  CERVICAL: "Neck",
+  LATS: "Lats",
+  ADDUCTORS: "Adductors",
+  OBLIQUES: "Obliques",
+  ANKLES: "Ankles",
+  WRISTS: "Wrists",
+  FOREARMS: "Forearms",
+  STRETCH: "Stretch",
+  RELEASE: "Release",
+  STABILITY: "Stability",
+  CONTROL: "Control",
+  MOBILITY: "Mobility",
+  ROTATE: "Rotation",
+  TWIST: "Rotation",
+  FORWARD: "Forward",
+  BACKWARD: "Backward",
+  HOLD: "Hold",
+  ISO: "Isometric hold",
+  ECCENTRIC: "Eccentric",
+  PUSH: "Push",
+  PULL: "Pull",
+  RAISE: "Raise",
+  LOWER: "Lower",
+  RETRACT: "Neck retraction",
+  DECOMPRESS: "Decompress",
+  THORACIC: "Thoracic spine",
+  LUMBAR: "Low back",
+  SCAPULAR: "Shoulder blade",
+  HIP: "Hip"
+};
+
+function axisTitleCaseToken(raw) {
+  const s = String(raw || "").trim().replace(/_/g, " ").toLowerCase();
+  if (!s) return "";
+  return s.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/**
+ * Short line for exercise list meta (beside duration) + Bookmarks: body-area overview (1–2 concepts).
+ * `ex.area` / `ex.targets` when set in data; else up to two unique step `focus` labels; else section label.
+ */
+function axisExerciseTargetMetaLine(ex, sectionFallback) {
+  if (!ex) return String(sectionFallback || "").trim();
+  const a = ex.area != null && String(ex.area).trim() || "";
+  const t = ex.targets != null && String(ex.targets).trim() || "";
+  if (a || t) return a || t;
+  const steps = Array.isArray(ex.steps) ? ex.steps : [];
+  const seen = new Set();
+  const parts = [];
+  for (const s of steps) {
+    const raw = s && s.focus != null && String(s.focus).trim();
+    if (!raw) continue;
+    const key = raw.toUpperCase();
+    if (AXIS_EX_META_FOCUS_SKIP.has(key)) continue;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const label = AXIS_EX_META_FOCUS_LABELS[key] || axisTitleCaseToken(key);
+    if (label && parts.indexOf(label) === -1) parts.push(label);
+    if (parts.length >= 2) break;
+  }
+  if (parts.length) return parts.join(" \u00b7 ");
+  return String(sectionFallback || "").trim();
+}
+
 function axisNormalizeTracks(rawTracks) {
   const src = rawTracks && typeof rawTracks === "object" ? rawTracks : {};
   const out = {};
@@ -12657,10 +12958,10 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   })();
   const durationEl = sessionDurRaw ? /*#__PURE__*/React.createElement("div", { className: "ereps" }, String(sessionDurRaw)) : null;
   const metaZonePlain = String(listSectionLabel || "").trim();
-  const listMetaSecondary = (ex.steps && ex.steps[0] && String(ex.steps[0].label || "").trim()) || metaZonePlain || "";
+  const listMetaSecondary = axisExerciseTargetMetaLine(ex, metaZonePlain);
   /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
   const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
-  !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Unpin exercise" : "Pin exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "13", height: "13", viewBox: "0 0 100 100", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M96.5290909,35.1649246L64.8351212,3.4707718c-1.2946167-1.2943726-3.3917236-1.2943726-4.6861572,0l-5.8534546,5.852417c-2.2157593,2.2146606-3.4346924,5.1596069-3.4346924,8.2923584c0,1.9943848,0.494751,3.9123535,1.4255981,5.6143799L34.7818375,40.7345047c-9.986145-1.8803101-20.0767822,1.199646-27.3088379,8.4326782c-1.2944946,1.2944946-1.2944946,3.3927002,0,4.6862183l38.6737061,38.6735229c0.6212158,0.6213379,1.4638062,0.9708862,2.3430176,0.9708862s1.7217407-0.3495483,2.3430176-0.9708862c7.2330322-7.2341309,10.3151245-17.3217163,8.4316406-27.3088379l17.5082397-17.5083008c1.7427979,0.9481201,3.6767578,1.4228516,5.6107178,1.4228516c3.0032349,0,6.0065308-1.142395,8.2923584-3.4282227l5.8533936-5.8533936C97.8236465,38.5575027,97.8236465,36.4583817,96.5290909,35.1649246z" }), /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M18.9984512,76.3142776L3.4708633,91.8430252c-1.2944946,1.2944946-1.2944946,3.3927002,0,4.6860962c0.6472778,0.6471558,1.4951172,0.9708862,2.3430176,0.9708862s1.6958618-0.3237305,2.3430176-0.9708862l15.52771-15.5287476c1.2945557-1.2944946,1.2945557-3.3928223,0-4.6860962C22.3901138,75.0196609,20.2930069,75.0196609,18.9984512,76.3142776z" })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "6", d: "M96.5290909,35.1649246L64.8351212,3.4707718c-1.2946167-1.2943726-3.3917236-1.2943726-4.6861572,0l-5.8534546,5.852417c-2.2157593,2.2146606-3.4346924,5.1596069-3.4346924,8.2923584c0,1.9943848,0.494751,3.9123535,1.4255981,5.6143799L34.7818375,40.7345047c-9.986145-1.8803101-20.0767822,1.199646-27.3088379,8.4326782c-1.2944946,1.2944946-1.2944946,3.3927002,0,4.6862183l38.6737061,38.6735229c0.6212158,0.6213379,1.4638062,0.9708862,2.3430176,0.9708862s1.7217407-0.3495483,2.3430176-0.9708862c7.2330322-7.2341309,10.3151245-17.3217163,8.4316406-27.3088379l17.5082397-17.5083008c1.7427979,0.9481201,3.6767578,1.4228516,5.6107178,1.4228516c3.0032349,0,6.0065308-1.142395,8.2923584-3.4282227l5.8533936-5.8533936C97.8236465,38.5575027,97.8236465,36.4583817,96.5290909,35.1649246z" }), /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "6", d: "M18.9984512,76.3142776L3.4708633,91.8430252c-1.2944946,1.2944946-1.2944946,3.3927002,0,4.6860962c0.6472778,0.6471558,1.4951172,0.9708862,2.3430176,0.9708862s1.6958618-0.3237305,2.3430176-0.9708862l15.52771-15.5287476c1.2945557-1.2944946,1.2945557-3.3928223,0-4.6860962C22.3901138,75.0196609,20.2930069,75.0196609,18.9984512,76.3142776z" })))),
+  !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
   /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, /*#__PURE__*/React.createElement("span", { className: "ra-btn__dash", "aria-hidden": true }, "\u2014")));
   const unicodeChevronEl = /*#__PURE__*/React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: guidedPreviewLayout ? {} : { marginLeft: 2 } }, "\u25BE");
   const listRailPinskipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row", onClick: (e) => e.stopPropagation() },
@@ -12668,9 +12969,9 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     type: "button",
     className: "er-list-icon-btn er-list-pin-btn" + (faved ? " er-list-pin-btn--pinned" : ""),
     onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();},
-    "aria-label": faved ? "Unpin exercise" : "Pin exercise",
+    "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
     "aria-pressed": faved ? "true" : "false"
-  }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/AxisSessionThumbtackGlyph({ pinned: faved }))),
+  }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 22, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
   /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "er-list-icon-btn er-list-skip-btn" + (skipped ? " er-list-skip-btn--skipped" : ""),
@@ -12915,14 +13216,19 @@ function DashboardHeader({ progressFillPct = 0, progressOverdrive = false, histo
 }
 
 // ─────────────────────────────────────────────────────────────
-//  TAB BAR
+//  TAB BAR — 5 tabs: HOME · METRICS · TIMER · BOOKMARKS · SYSTEM
 // ─────────────────────────────────────────────────────────────
-function TabBar({ view, setView, theme, nightMode = false }) {
-  const HomeIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" }));
-  const MetricsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("polyline", { points: "8 12.5 11 15.5 16.5 9" }));
-  const MoodIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "1.5", x2: "12", y2: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "20", x2: "12", y2: "22.5" }), /*#__PURE__*/React.createElement("line", { x1: "1.5", y1: "12", x2: "4", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "20", y1: "12", x2: "22.5", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.6", y1: "4.6", x2: "6.35", y2: "6.35" }), /*#__PURE__*/React.createElement("line", { x1: "17.65", y1: "17.65", x2: "19.4", y2: "19.4" }), /*#__PURE__*/React.createElement("line", { x1: "4.6", y1: "19.4", x2: "6.35", y2: "17.65" }), /*#__PURE__*/React.createElement("line", { x1: "17.65", y1: "6.35", x2: "19.4", y2: "4.6" }));
-  const TimerIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("path", { d: "M12 7.5 L12 12 L17 12" }));
-  const SettingsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "30", height: "30", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /*#__PURE__*/React.createElement("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" }));
+function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
+  const gotoSystem = () => {
+    axisHapticTick();
+    if (typeof onSystemTab === "function") onSystemTab();
+    else setView("system");
+  };
+  const HomeIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" }));
+  const MetricsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("polyline", { points: "8 12.5 11 15.5 16.5 9" }));
+  const TimerIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("path", { d: "M12 7.5 L12 12 L17 12" }));
+  const BookmarkTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("g", { transform: "translate(12 12) scale(1.14) translate(-12 -12)" }, /*#__PURE__*/React.createElement("path", { d: "M7.25 3.5h9.5c.97 0 1.75.78 1.75 1.75v14.67L12 14.89l-6.5 5.03V5.25c0-.97.78-1.75 1.75-1.75Z" })));
+  const SystemMatrixTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "14", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "14", width: "6.5", height: "6.5", rx: "0.75" }));
 
   const bar = /*#__PURE__*/
   React.createElement("div", { className: "tab-bar", "data-theme": theme, "data-night": nightMode ? "true" : "false", role: "navigation", "aria-label": "Main" }, /*#__PURE__*/
@@ -12968,27 +13274,27 @@ function TabBar({ view, setView, theme, nightMode = false }) {
   ), /*#__PURE__*/
   React.createElement("button", {
     type: "button",
-    className: `tab-btn ${view === "mood" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("mood");},
-    "aria-label": "Mood Focus",
-    "aria-current": view === "mood" ? "page" : undefined }, /*#__PURE__*/
+    className: `tab-btn tab-btn--nav-bookmarks ${view === "favorites" ? "active" : ""}`,
+    onClick: () => {axisHapticTick();setView("favorites");},
+    "aria-label": "Bookmarks",
+    "aria-current": view === "favorites" ? "page" : undefined }, /*#__PURE__*/
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MoodIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(BookmarkTabIcon, null))
   )
 
   ), /*#__PURE__*/
   React.createElement("button", {
     type: "button",
-    className: `tab-btn ${view === "settings" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("settings");},
-    "aria-label": "Settings",
-    "aria-current": view === "settings" ? "page" : undefined }, /*#__PURE__*/
+    className: `tab-btn tab-btn--nav-system ${view === "system" ? "active" : ""}`,
+    onClick: gotoSystem,
+    "aria-label": "System",
+    "aria-current": view === "system" ? "page" : undefined }, /*#__PURE__*/
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SettingsIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SystemMatrixTabIcon, null))
   )
 
   )
@@ -14338,7 +14644,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
 // ─────────────────────────────────────────────────────────────
 //  TIMER VIEW — standalone interval timer
 // ─────────────────────────────────────────────────────────────
-function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null, dashboardHeader = null }) {
+function TimerView({ theme, view, setView, css, nightMode = false, activePeriod = null, dashboardHeader = null, onSystemTab }) {
   const [mode, setMode] = useState("interval"); // "interval" | "breathe"
   // derive dark flag early so all uses below are safe
   const isDark = typeof nightMode === "boolean" && nightMode || theme === "dark";
@@ -14807,38 +15113,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     background: transparent;
     border-radius: 999px;
     position: relative;
-  }
-  /* INTERVAL / BREATHE: segmented control — no mood fill on active pill (mood reserved for primary CTAs) */
-  .timer-view-body .timer-mode-outer-pill.timer-glass-wrap {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 3px;
-    gap: 3px;
-    box-sizing: border-box;
-  }
-  .timer-view-body .timer-glass-toggle-btn {
-    flex: 1 1 0;
-    min-width: 0;
-    max-width: none;
-    padding: 9px 12px;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.35);
-    -webkit-tap-highlight-color: transparent;
-  }
-  .timer-view-body .timer-glass-toggle-btn.active {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border-color: transparent;
-    box-shadow: none;
   }
   .timer-view-body .timer-settings-disclosure {
     width: 100%;
@@ -15372,18 +15646,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-theme="light"] .timer-view-body .timer-interval-row-value .timer-instrument-val {
     color: rgba(15, 30, 46, 0.72);
   }
-  [data-theme="light"] .timer-view-body .timer-mode-outer-pill.timer-glass-wrap {
-    background: rgba(15, 30, 46, 0.06);
-    border: 1px solid rgba(15, 30, 46, 0.1);
-  }
-  [data-theme="light"] .timer-view-body .timer-glass-toggle-btn:not(.active) {
-    color: rgba(15, 30, 46, 0.35);
-  }
-  [data-theme="light"] .timer-view-body .timer-glass-toggle-btn.active {
-    background: rgba(15, 30, 46, 0.1);
-    color: #1d1d1f;
-    box-shadow: none;
-  }
   [data-theme="light"] .timer-view-body .timer-glass-stepper {
     background: rgba(0,0,0,0.04);
     border: 1px solid rgba(0,0,0,0.1);
@@ -15455,12 +15717,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  [data-night="true"] .timer-view-body .timer-mode-outer-pill.timer-glass-wrap {
-    background: #000000 !important;
-    border: 1px solid rgba(255, 59, 48, 0.35) !important;
-    border-radius: 12px !important;
-    box-shadow: none !important;
-  }
   [data-night="true"] .timer-view-body .timer-glass-panel,
   [data-night="true"] .timer-view-body .timer-glass-pattern-btn {
     background: #000000 !important;
@@ -15491,8 +15747,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     color: #FF3B30 !important;
     border: 1px solid #FF3B30 !important;
   }
-  [data-night="true"] .timer-view-body .timer-glass-toggle-btn { color: rgba(255, 59, 48, 0.65) !important; }
-  [data-night="true"] .timer-view-body .timer-glass-toggle-btn.active { color: #000000 !important; background: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-interval-row-label { color: #FF3B30 !important; }
   [data-night="true"] .timer-view-body .timer-instrument-val {
     color: #FF3B30 !important;
@@ -15598,7 +15852,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 380, flex: 1, minHeight: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: { flexShrink: 0, height: TIMER_TOGGLE_SPACER_TOP, width: "100%" }, "aria-hidden": true }), /*#__PURE__*/
-    React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap", style: TIMER_TOGGLE_WRAP },
+    React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", style: TIMER_TOGGLE_WRAP },
     ["interval", "breathe"].map((m) => /*#__PURE__*/
     React.createElement("button", { key: m, type: "button", onClick: () => switchMode(m), className: "timer-glass-toggle-btn" + (mode === m ? " active" : "") }, m === "interval" ? "Interval" : "Breathe")
     )
@@ -15855,7 +16109,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     )
     )
     ), /*#__PURE__*/
-    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: onSystemTab })
     ));
 
 }
@@ -16985,6 +17239,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   { id: "rest", label: "Rest", src: "./app-icons/icon-rest.png" }];
 
   const [view, setView] = useState("home");
+  /** system tab: gateway picks Mood vs Settings; full-screen mood/settings keep view===system */
+  const [systemPanel, setSystemPanel] = useState("gateway");
+  const [favoritesSegment, setFavoritesSegment] = useState("tracks");
+  const APP_VERSION_DISPLAY = "v1.0.0";
   const [metricsFactsCycle, setMetricsFactsCycle] = useState(-1);
   const [activePeriod, setActivePeriod] = useState(() => storageGet("axis_period", null)); // null = auto
   const [hasActiveSession, setHasActiveSession] = useState(false);
@@ -17001,8 +17259,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const prevViewRef = useRef(null);
   const [fi, setFi] = useState(0);
   const [openId, setOpenId] = useState(null);
-  const [showFavOnly, setShowFavOnly] = useState(false);
-  const [showSkipOnly, setShowSkipOnly] = useState(false);
   const [resting, setResting] = useState(false);
   const [guidedActive, setGuidedActive] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
@@ -17309,13 +17565,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     if (view === "home" && hasActiveSession) storageSet("axis_last_session_tab", tab);
   }, [tab, view, hasActiveSession]);
   useEffect(() => {
-    if (view === "settings") {
+    if (view === "system" && systemPanel === "settings") {
       setSettingsHealthOpen(true);
       setSettingsDataOpen(true);
       setSettingsAboutOpen(true);
       setSettingsAccountOpen(true);
     }
-  }, [view]);
+  }, [view, systemPanel]);
   useEffect(() => {storageSet("axis_done", done);}, [done]);
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
@@ -17337,11 +17593,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const SECTIONS = getSections(track);
   const ALL = getAll(track);
   const activeAll = ALL.filter((e) => !skipped[e.id]);
-  const filteredAll = activeAll.filter((e) => {
-    if (showFavOnly) return favs[e.id];
-    if (showSkipOnly) return skipped[e.id]; // skipped already excluded above, so this shows none — intentional
-    return true;
-  });
+  const filteredAll = activeAll;
   const TOTAL = activeAll.length;
   const totalDone = activeAll.filter((e) => done[e.id]).length;
   const perMoveSeconds = exerciseDuration || 45;
@@ -17379,6 +17631,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     setFavoriteTrackIds((prev) =>
     prev.indexOf(trackId) !== -1 ? prev.filter((id) => id !== trackId) : [trackId, ...prev.filter((id) => id !== trackId)].slice(0, 24)
     );
+  };
+  const getTrackDisplayDurationForFavorites = (trackId) => {
+    const sections = getSections(trackId);
+    const perMove = exerciseDuration || 45;
+    const activeCount = (sections || []).reduce((n, sec) => n + (sec.exercises || []).filter((e) => !skipped[e.id]).length, 0);
+    const sessionSecs = activeCount * perMove;
+    const mins = Math.round(sessionSecs / 60) || 0;
+    return axisFormatDurationMinUpper(mins);
   };
   const setNote = (id, val) => setNotes((n) => ({ ...n, [id]: val }));
   const switchTrack = (t) => {setTrack(t);setFi(0);setOpenId(null);};
@@ -17418,9 +17678,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const weeklyBarFillPct = weeklyTargetMin > 0 ? Math.min(100, weeklyGoalBarMinutesCurrent / weeklyTargetMin * 100) : 0;
   const weeklyBarOverdrive = weeklyTargetMin > 0 && weeklyGoalBarMinutesCurrent > weeklyTargetMin;
   const dashboardHeaderEl = /*#__PURE__*/React.createElement(DashboardHeader, { progressFillPct: dailyBarFillPct, progressOverdrive: dailyBarOverdrive, history: history });
-  const favCount = Object.values(favs).filter(Boolean).length;
-  const skippedCount = Object.values(skipped).filter(Boolean).length;
-  const visibleSections = SECTIONS.map((s) => ({ ...s, exercises: s.exercises.filter((e) => {if (showFavOnly) return favs[e.id];if (showSkipOnly) return skipped[e.id];return true;}) })).filter((s) => s.exercises.length > 0);
+  const goSystemGateway = () => {
+    setView("system");
+    setSystemPanel("gateway");
+  };
+  const systemSubBackEl = /*#__PURE__*/React.createElement("div", { className: "system-subnav" }, /*#__PURE__*/React.createElement("button", { type: "button", className: "system-subnav__back", onClick: () => {axisHapticTick();setSystemPanel("gateway");} }, "\u2190 System"));
+  const visibleSections = SECTIONS.map((s) => ({ ...s, exercises: s.exercises })).filter((s) => s.exercises.length > 0);
   const SunIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "2", x2: "12", y2: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "20", x2: "12", y2: "22" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }), /*#__PURE__*/React.createElement("line", { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }), /*#__PURE__*/React.createElement("line", { x1: "2", y1: "12", x2: "4", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "20", y1: "12", x2: "22", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }), /*#__PURE__*/React.createElement("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" }));
   const MoonIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }));
   const GearIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /*#__PURE__*/React.createElement("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" }));
@@ -17428,12 +17691,28 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // SETTINGS
   // TIMER VIEW (key forces fresh mount to avoid blank on first open)
   if (view === "timer") {
-    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
+    return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, onSystemTab: goSystemGateway, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
   }
-  if (view === "settings") {
+  if (view === "system" && systemPanel === "gateway") {
+    return (/*#__PURE__*/
+      React.createElement("div", { key: "system-gateway", className: "app app--system-gateway", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
+      React.createElement("style", null, css), /*#__PURE__*/
+      React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
+      React.createElement("div", { className: "app-body axis-app-scroll-root", style: { display: "flex", flexDirection: "column", minHeight: 0 } }, /*#__PURE__*/
+      dashboardHeaderEl, /*#__PURE__*/
+      React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/React.createElement("div", { className: "app-screen-title metrics-page-title" }, "System")), /*#__PURE__*/
+      React.createElement("div", { className: "system-gateway" }, /*#__PURE__*/
+      React.createElement("div", { className: "system-gateway__cards" }, /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "system-gateway-card", onClick: () => {axisHapticTick();setSystemPanel("mood");} }, /*#__PURE__*/React.createElement("span", { className: "system-gateway-card__title" }, "MOOD"), /*#__PURE__*/React.createElement("span", { className: "system-gateway-card__sub" }, "Circadian calibration, base theme, Ultra mode.")), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "system-gateway-card", onClick: () => {axisHapticTick();setSystemPanel("settings");} }, /*#__PURE__*/React.createElement("span", { className: "system-gateway-card__title" }, "SETTINGS"), /*#__PURE__*/React.createElement("span", { className: "system-gateway-card__sub" }, "Goals, session timers, health sync, data, account."))), /*#__PURE__*/
+      React.createElement("div", { className: "system-gateway__status", "aria-label": "System status" }, /*#__PURE__*/React.createElement("span", null, APP_VERSION_DISPLAY), /*#__PURE__*/React.createElement("span", { className: "system-gateway__status-optimal" }, "STATUS: OPTIMAL"))), /*#__PURE__*/
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })), /*#__PURE__*/
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
+      ));
+  }
+  if (view === "system" && systemPanel === "settings") {
     const hasHealthData = Boolean(metricsHealthHint && /synced|updated|connected/i.test(metricsHealthHint + " " + healthConnectSyncMsg));
     const accountEmail = typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.email ? String(window.AXIS_auth.currentUser.email) : storageGet("axis_user_email", null) || "Not signed in";
-    const appVersion = "v1.0.0";
     const RowChevron = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }));
     const DisclosureChevron = ({ open }) => /*#__PURE__*/React.createElement("svg", { className: "settings-ios-disclosure-chevron" + (open ? " is-open" : ""), width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" }));
     const MailIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" }), /*#__PURE__*/React.createElement("polyline", { points: "22,6 12,13 2,6" }));
@@ -17443,6 +17722,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("style", null, css), /*#__PURE__*/
       React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
       React.createElement("div", { className: "app-body app-body--settings-pad settings-density" }, /*#__PURE__*/
+      systemSubBackEl, /*#__PURE__*/
       dashboardHeaderEl, /*#__PURE__*/
       React.createElement("div", { className: "settings-page-rail settings-ios-page" }, /*#__PURE__*/
       React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
@@ -17499,7 +17779,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "settings-ios-group" },
       React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => { try { const uid = axisActiveUidForStorage(); if (uid) storageSet("axis_onboarded:" + uid, false); else storageSet("axis_onboarded", false); } catch (e) {} try { localStorage.setItem("hasCompletedOnboarding", "false"); } catch (e) {} window.location.href = window.axisOnboardingHref(); } }, React.createElement("span", { className: "settings-ios-label" }, "View Onboarding"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
       React.createElement("a", { href: "mailto:hello@adamlorber.com", className: "settings-ios-row settings-ios-link-row" }, React.createElement("span", { className: "settings-ios-label" }, "Send Feedback"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(MailIcon, null), React.createElement(RowChevron, null))),
-      React.createElement("div", { className: "settings-ios-row" }, React.createElement("span", { className: "settings-ios-label" }, "App Version"), React.createElement("span", { className: "settings-ios-meta" }, appVersion)),
+      React.createElement("div", { className: "settings-ios-row" }, React.createElement("span", { className: "settings-ios-label" }, "App Version"), React.createElement("span", { className: "settings-ios-meta" }, APP_VERSION_DISPLAY)),
       React.createElement("div", { className: "settings-ios-row settings-ios-row--stack", style: { alignItems: "stretch" } },
       React.createElement("span", { className: "settings-ios-label", style: { marginBottom: 8 } }, "Custom App Icon"),
       React.createElement("div", { className: "ultra-icon-grid", style: { display: "grid", width: "100%", maxWidth: "100%", boxSizing: "border-box", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 10 } },
@@ -17532,13 +17812,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         weightArchive: metricsWeightArchive,
         painArchive: metricsPainArchive
       }), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
       ));
   }
 
 
   // MOOD
-  if (view === "mood") {
+  if (view === "system" && systemPanel === "mood") {
     const MOOD_PERIODS = [
     { p: "dawn", label: "Rise", time: "5–11am", desc: "Warm amber. Morning energy.",
       icon: /*#__PURE__*/React.createElement("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M4 16 A 8 8 0 0 1 20 16" }), /*#__PURE__*/React.createElement("line", { x1: "0", y1: "16", x2: "24", y2: "16" })) },
@@ -17559,9 +17839,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("style", null, css), /*#__PURE__*/
       React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
       React.createElement("div", { className: "app-body app-body--list-pad axis-app-scroll-root" }, /*#__PURE__*/
+      systemSubBackEl, /*#__PURE__*/
       dashboardHeaderEl, /*#__PURE__*/
       React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
-      React.createElement("div", { className: "app-screen-title" }, "Mood"), /*#__PURE__*/
+      React.createElement("div", { className: "app-screen-title metrics-page-title" }, "Mood"), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-sm)", color: "var(--text-secondary)", marginBottom: 16, lineHeight: 1.45 } }, "Auto follows the time of day. Or lock it to match how you feel right now."
 
       ), /*#__PURE__*/
@@ -17643,9 +17924,68 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ), /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--mood" })
       ), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
       ));
 
+  }
+
+  if (view === "favorites") {
+    const favTracksResolved = favoriteTrackIds.filter((id) => TRACKS && TRACKS[id]);
+    const pinnedExerciseRows = [];
+    if (TRACKS) {
+      for (const tid of Object.keys(TRACKS)) {
+        const tlabel = TRACKS[tid].label || tid;
+        for (const ex of getAll(tid)) {
+          if (favs[ex.id]) pinnedExerciseRows.push({ ex, trackId: tid, trackLabel: tlabel });
+        }
+      }
+    }
+    const FAVORITES_SEG_WRAP = { flexShrink: 0, display: "flex", gap: 5, marginBottom: 16, padding: 3, minHeight: 40, alignItems: "center", boxSizing: "border-box", width: "100%", maxWidth: 380, marginLeft: "auto", marginRight: "auto", justifyContent: "center" };
+    const favoritesEmptyTracksEl = /*#__PURE__*/React.createElement("div", { className: "favorites-empty" }, "No bookmarked tracks yet. Tap the bookmark on a track card on Home to add it.");
+    const favoritesEmptyExEl = /*#__PURE__*/React.createElement("div", { className: "favorites-empty" }, "No pinned exercises yet. Pin exercises from a session list with the pin control.");
+    const favoritesTracksPanelEl = favTracksResolved.length === 0 ? favoritesEmptyTracksEl : favTracksResolved.map((tid) => {
+      const t = TRACKS[tid];
+      const isFav = favoriteTrackIds.indexOf(t.id) !== -1;
+      const footerDurLine = getTrackDisplayDurationForFavorites(t.id);
+      const ariaDur = footerDurLine.replace(/\s+/g, " ").trim();
+      return /*#__PURE__*/React.createElement("div", { className: "track-card session-card track-card--home-browse glass-card home-routine-track-card home-browse-card--favorites", key: "fav-tab-" + t.id, "data-category": TRACK_CATEGORY_BY_ID[tid] || "", onClick: () => {openTrackDetail(t.id);}, role: "button", tabIndex: 0, onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();openTrackDetail(t.id);}}, "aria-label": `View workout, ${t.label}, ${ariaDur}` }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
+      React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      ))));
+    });
+    const favoritesExPanelEl = pinnedExerciseRows.length === 0 ? favoritesEmptyExEl : pinnedExerciseRows.map(({ ex, trackId, trackLabel }) => {
+      const tline = axisExerciseTargetMetaLine(ex, "");
+      return /*#__PURE__*/React.createElement("button", { key: "pin-" + trackId + "-" + ex.id, type: "button", className: "track-card session-card glass-card home-routine-track-card favorites-ex-row", onClick: () => {openTrackDetail(trackId);} }, /*#__PURE__*/
+      React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/React.createElement(AxisSessionThumbtackGlyph, { pinned: true })), /*#__PURE__*/
+      React.createElement("div", { className: "favorites-ex-row__body" }, /*#__PURE__*/React.createElement("div", { className: "favorites-ex-row__name" }, ex.name), tline ? /*#__PURE__*/React.createElement("div", { className: "favorites-ex-row__target" }, tline) : null, /*#__PURE__*/React.createElement("div", { className: "favorites-ex-row__track" }, trackLabel)));
+    });
+    const favoritesCardsEl = favoritesSegment === "tracks" ? favoritesTracksPanelEl : favoritesExPanelEl;
+    return (/*#__PURE__*/
+      React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
+      React.createElement("style", null, css), /*#__PURE__*/
+      React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
+      React.createElement("div", { className: "app-body axis-app-scroll-root" }, /*#__PURE__*/
+      dashboardHeaderEl, /*#__PURE__*/
+      React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/React.createElement("div", { className: "app-screen-title metrics-page-title" }, "Favorites")), /*#__PURE__*/
+      React.createElement("div", { className: "home" }, /*#__PURE__*/
+      React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", role: "tablist", "aria-label": "Favorites scope", style: FAVORITES_SEG_WRAP }, /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "timer-glass-toggle-btn" + (favoritesSegment === "tracks" ? " active" : ""), role: "tab", "aria-selected": favoritesSegment === "tracks" ? "true" : "false", onClick: () => {axisHapticTick();setFavoritesSegment("tracks");} }, "TRACKS"), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "timer-glass-toggle-btn" + (favoritesSegment === "exercises" ? " active" : ""), role: "tab", "aria-selected": favoritesSegment === "exercises" ? "true" : "false", onClick: () => {axisHapticTick();setFavoritesSegment("exercises");} }, "EXERCISES")), /*#__PURE__*/
+      React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-cards" }, favoritesCardsEl)
+      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--today" })), /*#__PURE__*/
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
+      ));
   }
 
   // METRICS (activity + weight + pain)
@@ -17725,7 +18065,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       /*#__PURE__*/React.createElement("button", {
         type: "button",
         className: "metrics-goals-toolbar__link",
-        onClick: () => { if (navigator.vibrate) navigator.vibrate(10); axisHapticTick(); setView("settings"); }
+        onClick: () => { if (navigator.vibrate) navigator.vibrate(10); axisHapticTick(); setView("system"); setSystemPanel("settings"); }
       }, "Adjust in Settings")
       ),
       goalsInfoOpen && /*#__PURE__*/React.createElement("div", {
@@ -17950,7 +18290,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       , /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--metrics" })
       ), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
       ));
   }
 
@@ -18187,7 +18527,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     , /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--today" })
     ), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
       )));
 
   }
@@ -18288,23 +18628,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     (tab === "list" || tab === "guided") && /*#__PURE__*/React.createElement("hr", { className: "tab-subbar-rule tab-subbar-rule--above-session-filters", "aria-hidden": true }),
     (tab === "list" || tab === "guided") && /*#__PURE__*/React.createElement("div", { className: "fav-filter fav-filter--session-util" }, /*#__PURE__*/
     React.createElement("div", { className: "fav-filter__cluster--left" }, /*#__PURE__*/
-    React.createElement("button", { type: "button", className: `fav-toggle ${showFavOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowFavOnly((f) => !f);setShowSkipOnly(false);}, "aria-pressed": showFavOnly ? "true" : "false", "aria-label": showFavOnly ? "Show all exercises" : "Show pinned exercises only" }, /*#__PURE__*/
-    React.createElement("svg", { className: "fav-toggle__icon", viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/AxisSessionThumbtackGlyph({ pinned: showFavOnly })),
-    "PINNED"), /*#__PURE__*/
-    React.createElement("button", { type: "button", className: `fav-toggle ${showSkipOnly ? "on" : ""}`, onClick: () => {axisHapticTick();setShowSkipOnly((f) => !f);setShowFavOnly(false);}, "aria-pressed": showSkipOnly ? "true" : "false", "aria-label": showSkipOnly ? "Show all exercises" : "Show skipped exercises only" }, /*#__PURE__*/
-    React.createElement("svg", { className: "fav-toggle__icon", viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/AxisSessionSkipForwardGlyph()),
-    "SKIPPED"), /*#__PURE__*/
+    React.createElement("span", { className: "fav-filter__session-hint" }, "Click the bookmark icon on tracks and exercises to save. They'll appear in the Bookmarks tab.")
     ), /*#__PURE__*/
     React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: () => {
         axisHapticTick();
         setDone({});setSkipped({});setOpenId(null);setFi(0);setResting(false);
         storageSet("axis_done", {});storageSet("axis_skipped", {});
-        setShowFavOnly(false);setShowSkipOnly(false);
-      } }, /*#__PURE__*/
-    React.createElement("svg", { className: "fav-toggle__icon", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("path", { d: "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" })),
-    "Reset")
-    )
+      } }, "Reset")
     )
     )
     )
@@ -18450,6 +18780,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     })
     )
     )
+    )
     ),
 
 
@@ -18457,7 +18788,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--session" })
     )
     ), /*#__PURE__*/
-    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode })
+    React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
     )
     ));
 
