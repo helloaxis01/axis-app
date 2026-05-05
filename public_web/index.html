@@ -5491,6 +5491,10 @@ const css = `
     border-top: 1px solid color-mix(in srgb, var(--color-border-tertiary) 72%, transparent);
     box-sizing: border-box;
   }
+  .home-smart-card__rule,
+  .home-smart-card__hit--last {
+    display: none !important;
+  }
   .home-smart-card__last-main {
     display: flex;
     flex-wrap: nowrap;
@@ -13718,14 +13722,14 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
   ), /*#__PURE__*/
   React.createElement("button", {
     type: "button",
-    className: `tab-btn ${view === "metrics" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("metrics");},
-    "aria-label": "Metrics",
-    "aria-current": view === "metrics" ? "page" : undefined },
+    className: `tab-btn tab-btn--nav-bookmarks ${view === "favorites" ? "active" : ""}`,
+    onClick: () => {axisHapticTick();setView("favorites");},
+    "aria-label": "Bookmarks",
+    "aria-current": view === "favorites" ? "page" : undefined }, /*#__PURE__*/
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MetricsIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(BookmarkTabIcon, null))
   )
 
   ), /*#__PURE__*/
@@ -13744,14 +13748,14 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
   ), /*#__PURE__*/
   React.createElement("button", {
     type: "button",
-    className: `tab-btn tab-btn--nav-bookmarks ${view === "favorites" ? "active" : ""}`,
-    onClick: () => {axisHapticTick();setView("favorites");},
-    "aria-label": "Bookmarks",
-    "aria-current": view === "favorites" ? "page" : undefined }, /*#__PURE__*/
+    className: `tab-btn ${view === "metrics" ? "active" : ""}`,
+    onClick: () => {axisHapticTick();setView("metrics");},
+    "aria-label": "Metrics",
+    "aria-current": view === "metrics" ? "page" : undefined },
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(BookmarkTabIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MetricsIcon, null))
   )
 
   ), /*#__PURE__*/
@@ -18890,7 +18894,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const homeSectionIsRoutine = homeSection === "routine";
     const homeSectionIsExplore = homeSection === "explore";
     const recentResolvedHome = recentTracks.filter((id) => TRACKS && TRACKS[id]);
-    const favResolvedHome = favoriteTrackIds.filter((id) => TRACKS && TRACKS[id]);
     const lastGlobalHist = axisLatestHistoryEntryGlobal(history);
     const lastMovementFromHist = axisResolveTrackIdFromHistoryEntry(lastGlobalHist);
     const lastMovementTrackId = lastMovementFromHist || (recentResolvedHome.length ? recentResolvedHome[0] : null);
@@ -18898,7 +18901,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const lastMovementEntry = lastMovementFromHist ? lastGlobalHist : axisLatestHistoryEntryForTrack(lastMovementTrackId, history);
     const lastSessionLoggedDate = axisDateFromHistoryEntry(lastMovementEntry);
     const lastSessionDayUpper = lastSessionLoggedDate ? axisFormatLastSessionDayUpper(lastSessionLoggedDate) : "";
-    const routineRecentsHome = recentResolvedHome.filter((id) => favResolvedHome.indexOf(id) === -1 && id !== lastMovementTrackId);
+    const routineRecentsHome = recentResolvedHome.filter((id) => id !== lastMovementTrackId);
     const lastSessionDurDateLine = lastMovementTrackId ?
     lastSessionDayUpper ?
     `${getTrackDisplayDuration(lastMovementTrackId)} \u00b7 ${lastSessionDayUpper}` :
@@ -19018,27 +19021,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-nav-anchor", role: "tablist", "aria-label": "Home content sections" }, /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsRoutine ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("routine");} }, "ROUTINE"), /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("explore");} }, "EXPLORE")
+      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("explore");} }, "EXPLORE"), /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsRoutine ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("routine");} }, "RECENTS")
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-slide-shell" }, /*#__PURE__*/
       React.createElement("div", { className: "home-slide-track" + (homeSectionIsExplore ? " home-slide-track--explore" : "") }, /*#__PURE__*/
       React.createElement("div", { className: "home-slide-view home-slide-view--routine" + (homeSectionIsRoutine ? " home-slide-view--active" : "") }, /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Favorite tracks" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-head-row" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-head" }, "FAVORITES")
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-tracks" }, /*#__PURE__*/
-      React.createElement("div", { className: "track-cards" },
-      favResolvedHome.length ? favResolvedHome.map((id) => renderHomeBrowseTrackCard(id, "fav", "favorites")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Bookmark a track in Explore to show it here.")
-      )
-      )
-      ), /*#__PURE__*/
       React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-head-row" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-routine-head" }, "RECENTS")
-      ), /*#__PURE__*/
       React.createElement("div", { className: "home-routine-tracks" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
       routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", "recent")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
