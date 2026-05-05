@@ -11727,60 +11727,6 @@ const css = `
     z-index:50;
     background:transparent;
   }
-  .home-nav-anchor {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:4px;
-    margin:22px auto 12px;
-    width:fit-content;
-    border-radius:999px;
-    border:1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
-    background:color-mix(in srgb, var(--glass-bg) 82%, transparent);
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 56%, transparent);
-  }
-  .home-nav-anchor-btn {
-    border:1px solid transparent;
-    background:transparent;
-    padding:4px 12px;
-    margin:0;
-    cursor:pointer;
-    font-family:'Roboto Mono', ui-monospace, monospace;
-    font-size:11px;
-    font-weight:500;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:#fff;
-    opacity:0.48;
-    transition:opacity 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-    -webkit-tap-highlight-color:transparent;
-    position:relative;
-    padding:4px 12px;
-    border-radius:999px;
-    min-width: 106px;
-    min-height: 30px;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .home-nav-anchor-btn[aria-selected="true"] {
-    opacity:1;
-    border:1px solid color-mix(in srgb, var(--mood-color) 64%, rgba(255,255,255,0.35));
-    background:color-mix(in srgb, var(--mood-color) 16%, transparent);
-    color: color-mix(in srgb, var(--text-white) 96%, transparent);
-  }
-  [data-theme="light"] .home-nav-anchor-btn {
-    color: var(--axis-black);
-    opacity: 0.45;
-  }
-  [data-theme="light"] .home-nav-anchor-btn[aria-selected="true"] {
-    opacity: 1;
-    border-color: color-mix(in srgb, var(--mood-color) 62%, rgba(0,0,0,0.28));
-    background: color-mix(in srgb, var(--mood-color) 18%, rgba(255,255,255,0.34));
-  }
   /* AXIS — light mode rule/line contrast + control visibility */
   [data-theme="light"] {
     --border: rgba(37,37,37,0.30);
@@ -11867,7 +11813,7 @@ const css = `
     min-width:0;
     flex:0 0 auto;
     box-sizing:border-box;
-    padding:12px 0 0;
+    padding:8px 0 0;
     height:auto;
     overflow-y:visible;
     overflow:visible;
@@ -11887,7 +11833,7 @@ const css = `
     padding-left:0;
     padding-right:0;
   }
-  .home-slide-view--explore { padding-top:12px; }
+  .home-slide-view--explore { padding-top:8px; }
   .home-slide-view--routine .home-routine-section:last-child { padding-bottom: 16px; }
   .home-slide-view--routine {
     height:auto;
@@ -18902,6 +18848,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const lastSessionLoggedDate = axisDateFromHistoryEntry(lastMovementEntry);
     const lastSessionDayUpper = lastSessionLoggedDate ? axisFormatLastSessionDayUpper(lastSessionLoggedDate) : "";
     const routineRecentsHome = recentResolvedHome.filter((id) => id !== lastMovementTrackId);
+    const HOME_SECTION_SEG_WRAP = { flexShrink: 0, display: "flex", gap: 5, marginTop: 0, marginBottom: 8, padding: 3, minHeight: 40, alignItems: "center", boxSizing: "border-box", width: "100%", maxWidth: 380, marginLeft: "auto", marginRight: "auto", justifyContent: "center" };
     const lastSessionDurDateLine = lastMovementTrackId ?
     lastSessionDayUpper ?
     `${getTrackDisplayDuration(lastMovementTrackId)} \u00b7 ${lastSessionDayUpper}` :
@@ -18970,7 +18917,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         className: "home-smart-card home-smart-card--unified track-card session-card track-card--home-browse glass-card",
         role: "region",
         "aria-label": "Now and start last session",
-        style: { marginBottom: 16 }
+        style: { marginBottom: 26 }
       }, /*#__PURE__*/
       React.createElement("div", {
         className: "home-smart-card__hit home-smart-card__hit--now",
@@ -19020,9 +18967,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("p", { className: "home-smart-card__empty home-smart-card__empty--sessions" }, "No sessions yet — start one below")))
       )
       ), /*#__PURE__*/
-      React.createElement("div", { className: "home-nav-anchor", role: "tablist", "aria-label": "Home content sections" }, /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("explore");} }, "EXPLORE"), /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "tab", className: "home-nav-anchor-btn", "aria-selected": homeSectionIsRoutine ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("routine");} }, "RECENTS")
+      React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", role: "tablist", "aria-label": "Home content sections", style: HOME_SECTION_SEG_WRAP }, /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "tab", className: "timer-glass-toggle-btn" + (homeSectionIsExplore ? " active" : ""), "aria-selected": homeSectionIsExplore ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("explore");} }, "EXPLORE"), /*#__PURE__*/
+      React.createElement("button", { type: "button", role: "tab", className: "timer-glass-toggle-btn" + (homeSectionIsRoutine ? " active" : ""), "aria-selected": homeSectionIsRoutine ? "true" : "false", onClick: () => {axisHapticTick();setHomeSection("routine");} }, "RECENTS")
       )
       ), /*#__PURE__*/
       React.createElement("div", { className: "home-slide-shell" }, /*#__PURE__*/
