@@ -4473,8 +4473,26 @@ const css = `
     border: none;
     border-radius: 14px;
   }
-  .content--session-guided .er-card > .er--list-card-a {
-    padding-left: 18px;
+  /* GUIDED list rail: same meta stack as LIST (duration under description); slightly smaller type for ~2 lines */
+  .content--session .er-list-sheet--guided .er-list-meta-row--guided {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 3px 6px;
+    max-width: 100%;
+    font-size: calc(var(--text-xs) + 0.5px);
+    line-height: 1.32;
+  }
+  .content--session .er-list-sheet--guided .er-list-meta-row--guided .er-list-meta-dur,
+  .content--session .er-list-sheet--guided .er-list-meta-row--guided .er-list-meta-zone {
+    font-size: inherit !important;
+    letter-spacing: 0.08em;
+    line-height: inherit;
+  }
+  .content--session .er-list-sheet--guided .er-list-meta-row--guided .er-list-meta-dot {
+    font-size: calc(var(--text-xs) * 0.95);
+    line-height: inherit;
+    transform: translateY(-0.02em);
   }
   .content--session-list .er-list-complete {
     flex-shrink: 0;
@@ -6695,6 +6713,18 @@ const css = `
     color: var(--color-text-secondary);
     margin: 0 0 1rem;
     font-family: var(--font-display);
+  }
+  /* Metrics / Favorites / System gateway: title uses .home-welcome + .metrics-page-title — .home-welcome is defined later; force Metrics typography */
+  .home-welcome.metrics-page-title {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: none !important;
+    color: var(--color-text-secondary) !important;
+    -webkit-text-fill-color: var(--color-text-secondary) !important;
+    font-family: var(--font-display) !important;
+    margin: 0 0 1rem !important;
+    text-align: left !important;
   }
   .metrics-quick-glance {
     width: 100%;
@@ -9793,21 +9823,24 @@ const css = `
     flex: 1 1 auto;
     min-width: 0;
   }
-  /* Session bookmark hint: Roboto Mono, body copy (not uppercase eyebrow) */
+  /* Session bookmark hint: Roboto Mono, body copy; plain text — left-aligned in cluster, vertically centered with Reset via .fav-filter flex */
   .fav-filter.fav-filter--session-util .fav-filter__session-hint {
     display: block;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: "Roboto Mono", var(--font-meta), ui-monospace, monospace !important;
     font-size: 10px !important;
     font-weight: 400 !important;
     letter-spacing: 0.02em !important;
     text-transform: none !important;
-    line-height: 1.35 !important;
+    text-align: left !important;
+    line-height: 1.38 !important;
     color: var(--text-dimmer) !important;
     flex: 1 1 auto;
     min-width: 0;
-    max-width: calc(100% - 88px);
+    max-width: calc(100% - 62px);
+    align-self: center;
     -webkit-text-fill-color: var(--text-dimmer) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-filter__session-hint {
@@ -10589,13 +10622,13 @@ const css = `
     color: var(--text-secondary);
     line-height: 1.45;
   }
-  /* System gateway + sub-views: Mood/Settings use LIST/GUIDED .back-btn circle via .app-hdr-topbar */
+  /* System gateway: cards rail sits under title inside .home > .track-cards-outer (same rail as Metrics / Favorites); horizontal gutter is on the outer */
   .system-gateway {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 0;
-    padding: 4px var(--page-padding) 16px;
+    padding: 4px 0 16px;
     box-sizing: border-box;
   }
   .system-gateway__title-meta {
@@ -10734,46 +10767,6 @@ const css = `
     color: #22c55e;
     -webkit-text-fill-color: #22c55e;
     letter-spacing: 0.16em;
-  }
-  /* Favorites: exercise rows use Home track-card shell when inside .home (see JSX) */
-  .home .track-card.favorites-ex-row {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: left;
-    cursor: pointer;
-    color: var(--text-primary);
-    -webkit-tap-highlight-color: transparent;
-  }
-  .favorites-ex-row {
-    border: none;
-    font: inherit;
-  }
-  .favorites-ex-row:active { transform: scale(0.99); }
-  .favorites-ex-row__body { flex: 1; min-width: 0; }
-  .home .favorites-ex-row__name {
-    font-weight: 400;
-    font-size: calc(var(--text-lg) - 3px);
-    color: color-mix(in srgb, var(--text-white) 96%, transparent);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-  }
-  .home .favorites-ex-row__target {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    margin-top: 4px;
-    line-height: 1.35;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-  }
-  .home .favorites-ex-row__track {
-    font-size: var(--text-xs);
-    color: var(--text-dimmer);
-    margin-top: 4px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
   }
   .favorites-empty {
     padding: 32px 16px;
@@ -13053,13 +13046,14 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     // Re-arm instructions when opening a different exercise.
     setArmed(false);
   }, [ex && ex.id, open]);
-  const sessionDurRaw = skipped || hideDone ? null : (() => {
+  const listDurationLabel = skipped ? null : (() => {
     const effectiveSeconds = exerciseDurationSeconds != null ? exerciseDurationSeconds : ex.seconds || 0;
     const useOverride = exerciseDurationSeconds != null;
     return useOverride ?
     effectiveSeconds === 60 ? "1 MIN" : `${effectiveSeconds} SEC` :
     ex.reps || null;
   })();
+  const sessionDurRaw = listDurationLabel;
   const durationEl = sessionDurRaw ? /*#__PURE__*/React.createElement("div", { className: "ereps" }, String(sessionDurRaw)) : null;
   const metaZonePlain = String(listSectionLabel || "").trim();
   const listMetaSecondary = axisExerciseTargetMetaLine(ex, metaZonePlain);
@@ -13105,7 +13099,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     /*#__PURE__*/React.createElement("div", { className: "er-list-center" },
     /*#__PURE__*/React.createElement("div", { className: `er-list-title ${done && !skipped ? "er-list-title--done" : ""} ${skipped ? "er-list-title--skipped" : ""}` }, ex.name),
     /*#__PURE__*/React.createElement("div", { className: `er-list-desc${done && !skipped ? " er-list-desc--done" : ""}` }, ex.sub),
-    sessionDurRaw || listMetaSecondary ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" },
+    sessionDurRaw || listMetaSecondary ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" + (hideDone ? " er-list-meta-row--guided" : "") },
     sessionDurRaw ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-dur" }, String(sessionDurRaw)) : null,
     sessionDurRaw && listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-dot", "aria-hidden": true }, "\u00B7") : null,
     listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-zone" }, listMetaSecondary) : null
@@ -13331,7 +13325,7 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
   const HomeIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" }));
   const MetricsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("polyline", { points: "8 12.5 11 15.5 16.5 9" }));
   const TimerIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("path", { d: "M12 7.5 L12 12 L17 12" }));
-  const BookmarkTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M7.25 4.25h9.5c.83 0 1.5.67 1.5 1.5v14.42l-6.25-4.83L5.75 20.17V5.75c0-.83.67-1.5 1.5-1.5Z" }));
+  const BookmarkTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M6.5 3.5h11c.83 0 1.5.67 1.5 1.5v15.28l-7-5.42-7 5.42V5c0-.83.67-1.5 1.5-1.5Z" }));
   const SystemMatrixTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "14", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "14", width: "6.5", height: "6.5", rx: "0.75" }));
 
   const bar = /*#__PURE__*/
@@ -17808,13 +17802,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { key: "system-gateway", className: "app app--system-gateway", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
       React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
-      React.createElement("div", { className: "app-body axis-app-scroll-root", style: { display: "flex", flexDirection: "column", minHeight: 0 } }, /*#__PURE__*/
+      React.createElement("div", { className: "app-body axis-app-scroll-root" }, /*#__PURE__*/
       dashboardHeaderEl, /*#__PURE__*/
-      React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/
-      React.createElement("div", { className: "app-screen-title metrics-page-title" }, "System"), /*#__PURE__*/
+      React.createElement("div", { className: "home" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-system-welcome" }, "System"), /*#__PURE__*/
       React.createElement("div", { className: "system-gateway__title-meta", "aria-label": "System status" }, /*#__PURE__*/
       React.createElement("span", { className: "system-gateway__version" }, APP_VERSION_DISPLAY), /*#__PURE__*/
-      React.createElement("span", { className: "system-gateway__status-optimal" }, "STATUS: OPTIMAL"))), /*#__PURE__*/
+      React.createElement("span", { className: "system-gateway__status-optimal" }, "STATUS: OPTIMAL")), /*#__PURE__*/
       React.createElement("div", { className: "system-gateway" }, /*#__PURE__*/
       React.createElement("div", { className: "system-gateway__cards" }, /*#__PURE__*/
       React.createElement("button", { type: "button", className: "track-card session-card glass-card home-routine-track-card track-card--home-browse system-gateway-card system-gateway-card--mood", onClick: () => {axisHapticTick();setSystemPanel("mood");} }, /*#__PURE__*/
@@ -17828,7 +17823,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, "Settings"), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, "Goals, session timers, health sync, data, account.")))))), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-purpose" }, "Goals, session timers, health sync, data, account.")))))))), /*#__PURE__*/
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })), /*#__PURE__*/
       React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
       ));
@@ -18060,7 +18055,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     }
     const FAVORITES_SEG_WRAP = { flexShrink: 0, display: "flex", gap: 5, marginBottom: 16, padding: 3, minHeight: 40, alignItems: "center", boxSizing: "border-box", width: "100%", maxWidth: 380, marginLeft: "auto", marginRight: "auto", justifyContent: "center" };
     const favoritesEmptyTracksEl = /*#__PURE__*/React.createElement("div", { className: "favorites-empty" }, "No bookmarked tracks yet. Tap the bookmark on a track card on Home to add it.");
-    const favoritesEmptyExEl = /*#__PURE__*/React.createElement("div", { className: "favorites-empty" }, "No pinned exercises yet. Pin exercises from a session list with the pin control.");
+    const favoritesEmptyExEl = /*#__PURE__*/React.createElement("div", { className: "favorites-empty" }, "No bookmarked exercises yet. Tap the bookmark on an exercise in a session list on Home to add it.");
     const favoritesTracksPanelEl = favTracksResolved.length === 0 ? favoritesEmptyTracksEl : favTracksResolved.map((tid) => {
       const t = TRACKS[tid];
       const isFav = favoriteTrackIds.indexOf(t.id) !== -1;
@@ -18081,9 +18076,28 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     });
     const favoritesExPanelEl = pinnedExerciseRows.length === 0 ? favoritesEmptyExEl : pinnedExerciseRows.map(({ ex, trackId, trackLabel }) => {
       const tline = axisExerciseTargetMetaLine(ex, "");
-      return /*#__PURE__*/React.createElement("button", { key: "pin-" + trackId + "-" + ex.id, type: "button", className: "track-card session-card glass-card home-routine-track-card favorites-ex-row", onClick: () => {openTrackDetail(trackId);} }, /*#__PURE__*/
-      React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/React.createElement(AxisSessionThumbtackGlyph, { pinned: true })), /*#__PURE__*/
-      React.createElement("div", { className: "favorites-ex-row__body" }, /*#__PURE__*/React.createElement("div", { className: "favorites-ex-row__name" }, ex.name), tline ? /*#__PURE__*/React.createElement("div", { className: "favorites-ex-row__target" }, tline) : null, /*#__PURE__*/React.createElement("div", { className: "favorites-ex-row__track" }, trackLabel)));
+      const exBookmarked = !!favs[ex.id];
+      const trackTitle = TRACKS && TRACKS[trackId] ? TRACKS[trackId].label || trackLabel : trackLabel;
+      return /*#__PURE__*/React.createElement("div", {
+        key: "fav-ex-" + trackId + "-" + ex.id,
+        className: "track-card session-card track-card--home-browse glass-card home-routine-track-card home-browse-card--favorites",
+        role: "button",
+        tabIndex: 0,
+        onClick: () => {openTrackDetail(trackId);},
+        onKeyDown: (e) => {if (e.key === "Enter" || e.key === " ") {e.preventDefault();openTrackDetail(trackId);}},
+        "aria-label": `Open workout, ${trackTitle}, ${ex.name}`
+      }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": true }, "\u203a"), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-name" }, ex.name), /*#__PURE__*/
+      tline ? /*#__PURE__*/React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, tline)) : null, /*#__PURE__*/
+      ex.sub ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, ex.sub) : null), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, trackTitle), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": exBookmarked ? "true" : "false", "aria-label": exBookmarked ? "Remove exercise bookmark" : "Bookmark exercise", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFav(ex.id);} }, /*#__PURE__*/
+      React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, exBookmarked ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      ))));
     });
     const favoritesCardsEl = favoritesSegment === "tracks" ? favoritesTracksPanelEl : favoritesExPanelEl;
     return (/*#__PURE__*/
@@ -18092,12 +18106,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
       React.createElement("div", { className: "app-body axis-app-scroll-root" }, /*#__PURE__*/
       dashboardHeaderEl, /*#__PURE__*/
-      React.createElement("div", { className: "app-page-header" }, /*#__PURE__*/React.createElement("div", { className: "app-screen-title metrics-page-title" }, "Favorites")), /*#__PURE__*/
       React.createElement("div", { className: "home" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
+      React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-favorites-welcome" }, "Favorites"), /*#__PURE__*/
       React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", role: "tablist", "aria-label": "Favorites scope", style: FAVORITES_SEG_WRAP }, /*#__PURE__*/
       React.createElement("button", { type: "button", className: "timer-glass-toggle-btn" + (favoritesSegment === "tracks" ? " active" : ""), role: "tab", "aria-selected": favoritesSegment === "tracks" ? "true" : "false", onClick: () => {axisHapticTick();setFavoritesSegment("tracks");} }, "TRACKS"), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "timer-glass-toggle-btn" + (favoritesSegment === "exercises" ? " active" : ""), role: "tab", "aria-selected": favoritesSegment === "exercises" ? "true" : "false", onClick: () => {axisHapticTick();setFavoritesSegment("exercises");} }, "EXERCISES")), /*#__PURE__*/
-      React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" }, favoritesCardsEl)
       )
       ), /*#__PURE__*/
@@ -18888,9 +18902,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           nextName: nextEx ? nextEx.name : null,
           hideTimer: true,
           hideDone: true,
-          listRailLayout: false,
-          guidedPreviewLayout: true,
+          listRailLayout: true,
           listSectionLabel: sec.label,
+          exerciseDurationSeconds: exerciseDuration,
           theme: theme,
           ultraNight: nightMode,
           trackId: track }
