@@ -13,15 +13,22 @@
   </style>
   <script>
   (function () {
+    /** Keep in sync with index.html axisOnboardingHref (cache-bust after onboarding edits). */
     window.axisOnboardingHref = function () {
+      var OND = "20260513b";
       try {
-        if (!window.location.protocol || window.location.protocol === "file:") return "./onboarding.html";
-        var p = window.location.pathname || "/";
-        var d = p.replace(/[^/]*$/, "");
-        if (d.slice(-1) !== "/") d += "/";
-        return window.location.origin + d + "onboarding.html";
+        var path = "./onboarding.html";
+        if (window.location.protocol && window.location.protocol !== "file:") {
+          var p = window.location.pathname || "/";
+          var d = p.replace(/[^/]*$/, "");
+          if (d.slice(-1) !== "/") d += "/";
+          path = window.location.origin + d + "onboarding.html";
+        }
+        var u = new URL(path, window.location.href);
+        u.searchParams.set("axis_ob", OND);
+        return u.href;
       } catch (e) {
-        return "./onboarding.html";
+        return "./onboarding.html?axis_ob=" + OND;
       }
     };
   })();

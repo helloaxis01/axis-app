@@ -3,15 +3,22 @@
 <head>
   <script>
   (function () {
+    /** Bump axis_ob when onboarding.html changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
+      var OND = "20260513b";
       try {
-        if (!window.location.protocol || window.location.protocol === "file:") return "./onboarding.html";
-        var p = window.location.pathname || "/";
-        var d = p.replace(/[^/]*$/, "");
-        if (d.slice(-1) !== "/") d += "/";
-        return window.location.origin + d + "onboarding.html";
+        var path = "./onboarding.html";
+        if (window.location.protocol && window.location.protocol !== "file:") {
+          var p = window.location.pathname || "/";
+          var d = p.replace(/[^/]*$/, "");
+          if (d.slice(-1) !== "/") d += "/";
+          path = window.location.origin + d + "onboarding.html";
+        }
+        var u = new URL(path, window.location.href);
+        u.searchParams.set("axis_ob", OND);
+        return u.href;
       } catch (e) {
-        return "./onboarding.html";
+        return "./onboarding.html?axis_ob=" + OND;
       }
     };
   })();
@@ -994,6 +1001,37 @@ function axisActiveUidForStorage() {
     }
   } catch (e) {}
   return "";
+}
+
+/** Matches auth-bundle `isOnboarded2`: localStorage value must be JSON `true`. */
+function axisLocalOnboardingComplete() {
+  try {
+    if (typeof localStorage === "undefined") return false;
+    const uid = axisActiveUidForStorage();
+    const key = uid ? "axis_onboarded:" + uid : "axis_onboarded";
+    const raw = localStorage.getItem(key);
+    if (raw === null) return false;
+    return JSON.parse(raw) === true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/** If onboarding key is unset but the user already has history, avoid forcing onboarding once. */
+function axisMigrateOnboardingLegacy() {
+  try {
+    if (typeof localStorage === "undefined") return;
+    const uid = axisActiveUidForStorage();
+    const key = uid ? "axis_onboarded:" + uid : "axis_onboarded";
+    if (localStorage.getItem(key) !== null) return;
+    const hist = storageGet("axis_history", []);
+    const done = storageGet("axis_done", {});
+    const hasHist = Array.isArray(hist) && hist.length > 0;
+    const hasDone = done && typeof done === "object" && Object.keys(done).length > 0;
+    if (hasHist || hasDone) {
+      localStorage.setItem(key, JSON.stringify(true));
+    }
+  } catch (e) {}
 }
 
 function axisScopedStorageGet(baseKey) {
@@ -11024,16 +11062,16 @@ const css = `
     font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
     font-size: 10px;
     letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.3);
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.45);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.45);
   }
   .sys-dash__ultra-sub {
     margin-top: 5px;
     font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
     font-size: 12px;
     line-height: 1.38;
-    color: rgba(255, 255, 255, 0.25);
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.375);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.375);
     max-width: 100%;
   }
   .sys-dash__toggle-ios {
@@ -19300,7 +19338,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 }
 
 // ─────────────────────────────────────────────────────────────
-//  ROOT — main dashboard only (onboarding in index-onboarding-rebuild.html)
+//  ROOT — onboarding: public_web/onboarding.html (gate in bootstrapAxisApp); ?noboard=1 skips redirect
 // ─────────────────────────────────────────────────────────────
 function App() {
   const [theme, setTheme] = useState(() => storageGet("axis_theme", "dark"));
@@ -19440,6 +19478,19 @@ function EolMarker() {
 async function bootstrapAxisApp() {
   console.log("BASE REVERT SUCCESSFUL");
   window.__AXIS_DATA_LOAD_ERROR = "";
+  try {
+    if (typeof location !== "undefined" && !/[?&]noboard=1(?:&|$)/.test(String(location.search || ""))) {
+      axisMigrateOnboardingLegacy();
+      if (!axisLocalOnboardingComplete()) {
+        let ob = "./onboarding.html";
+        try {
+          ob = typeof window.axisOnboardingHref === "function" ? window.axisOnboardingHref() : "./onboarding.html";
+        } catch (e) {}
+        window.location.replace(ob);
+        return;
+      }
+    }
+  } catch (e) {}
   try {
     const res = await fetch("./axis_data.json", { cache: "no-store" });
     if (!res.ok) throw new Error("axis_data.json: HTTP " + res.status);
