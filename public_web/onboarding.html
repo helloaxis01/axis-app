@@ -626,6 +626,17 @@ body { font-family: var(--font-ui), sans-serif !important; }
 
   /* Mood screen parity (System → Mood in main app) */
   .ob-wrap .ob-appearance-mood-rail {
+    /* Make the eyebrow + heading span the full pad width so they align with other pages */
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .ob-wrap .ob-appearance-mood-rail .ob-mood-inner {
+    /* Constrain the mood cards and inner surface to the same readable measure as other pages */
     box-sizing: border-box;
     width: 100%;
     max-width: 560px;
@@ -2636,11 +2647,12 @@ function Onboarding({ theme, onComplete }) {
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
                 <div className="ob-appearance-mood-rail">
-                  <div className="ob-mood-page-title">Mood</div>
-                  <div className="ob-mood-page-header__sub">
+                  <div className="ob-eyebrow">Appearance</div>
+                  <div className="ob-heading">Mood</div>
+                  <div className="ob-mood-page-header__sub" style={{ marginBottom: 12 }}>
                     Auto follows the time of day. Or lock it to match how you feel right now.
                   </div>
-
+                  <div className="ob-mood-inner">
                   <div
                     className="axis-surface-tmt ob-mood-auto-card"
                     style={{ transition: "all 0.2s", gap: 0, ["--mood-color"]: cardAccent }}
@@ -2968,7 +2980,7 @@ function Onboarding({ theme, onComplete }) {
               >{"<"}</button>
             )}
             {cur === 0 ? (
-              <>
+              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', minWidth: 0 }}>
                   <button
                     type="button"
@@ -2983,7 +2995,7 @@ function Onboarding({ theme, onComplete }) {
                   </button>
                 </div>
                 <div style={{ width: 52, minWidth: 52, flexShrink: 0 }} aria-hidden={true} />
-              </>
+              </div>
             ) : (
               <button
                 type="button"
