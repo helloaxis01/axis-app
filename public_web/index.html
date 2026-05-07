@@ -5,7 +5,7 @@
   (function () {
     /** Bump axis_ob when onboarding.html changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
-      var OND = "20260514f";
+      var OND = "20260514g";
       try {
         var path = "./onboarding.html";
         if (window.location.protocol && window.location.protocol !== "file:") {
@@ -18297,7 +18297,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
       React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "About"), React.createElement(DisclosureChevron, null)),
       React.createElement("div", { className: "settings-ios-group" },
-      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => { try { const uid = axisActiveUidForStorage(); if (uid) storageSet("axis_onboarded:" + uid, false); else storageSet("axis_onboarded", false); } catch (e) {} try { localStorage.setItem("hasCompletedOnboarding", "false"); } catch (e) {} window.location.href = typeof window.axisOnboardingHref === "function" ? window.axisOnboardingHref() : "./onboarding.html"; } }, React.createElement("span", { className: "settings-ios-label" }, "Replay introduction"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
+      React.createElement("a", { href: (typeof window !== "undefined" && typeof window.axisOnboardingHref === "function") ? window.axisOnboardingHref() : "./onboarding.html", className: "settings-ios-row settings-ios-link-row", onClick: () => { try { axisHapticTick(); } catch (e) {} try { const uid = axisActiveUidForStorage(); if (uid) storageSet("axis_onboarded:" + uid, false); else storageSet("axis_onboarded", false); } catch (e) {} try { localStorage.setItem("hasCompletedOnboarding", "false"); } catch (e) {} } }, React.createElement("span", { className: "settings-ios-label" }, "Replay introduction"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
       React.createElement("a", { href: "mailto:hello@adamlorber.com", className: "settings-ios-row settings-ios-link-row" }, React.createElement("span", { className: "settings-ios-label" }, "Send Feedback"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(MailIcon, null), React.createElement(RowChevron, null))),
       React.createElement("div", { className: "settings-ios-row" }, React.createElement("span", { className: "settings-ios-label" }, "App Version"), React.createElement("span", { className: "settings-ios-meta" }, APP_VERSION_DISPLAY)),
       React.createElement("div", { className: "settings-ios-row settings-ios-row--stack", style: { alignItems: "stretch" } },
