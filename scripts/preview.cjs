@@ -63,7 +63,11 @@ async function main() {
     process.env.PREVIEW_PUBLIC_WEB === "1" || /^true$/i.test(String(process.env.PREVIEW_PUBLIC_WEB || ""));
   const fullRoot = forcePublicWeb ? null : findFullAxisRoot(rebuildRoot);
   const publicWeb = path.join(rebuildRoot, "public_web");
-  const hasStaticShell = fs.existsSync(path.join(publicWeb, "index.html"));
+  const publicWebIndex = path.join(publicWeb, "index.html");
+  const distRoot = path.join(rebuildRoot, "dist");
+  const distIndex = path.join(distRoot, "index.html");
+  const hasStaticShell = fs.existsSync(publicWebIndex);
+  const hasDistBuild = fs.existsSync(distIndex);
 
   if (fullRoot) {
     console.log("axis-app root:", fullRoot);
@@ -93,8 +97,26 @@ async function main() {
       "No parent axis-app repo found (expected a folder above this one with package.json name \"axis-app\", build.js, and scripts/sync-main-index.cjs).\n" +
         "Serving public_web/ only (no Babel dist build). For full preview run from the complete AXIS clone or restore package.json at the repo root.\n"
     );
+    // Run serve with cwd = public_web so ./serve.json is picked up (Cache-Control / rewrites).
+    // Serving "public_web" from repo root often ignores nested serve.json → stale HTML/JS in browsers.
     const npx = process.platform === "win32" ? "npx.cmd" : "npx";
-    const child = spawn(npx, ["--yes", "serve", "-l", String(PORT), "public_web"], {
+    const child = spawn(npx, ["--yes", "serve", "-l", String(PORT), "."], {
+      cwd: publicWeb,
+      stdio: "inherit",
+      env: process.env,
+    });
+    child.on("exit", (code) => process.exit(code ?? 0));
+    return;
+  }
+
+  if (hasDistBuild) {
+    console.warn(
+      `Serving dist/ (built bundle): ${distRoot}\n` +
+        `  public_web/index.html was missing; using ${distIndex}\n` +
+        "  Run npm run cap:sync or sync-main-index from your full axis-app clone to refresh public_web/index.html.\n"
+    );
+    const npx = process.platform === "win32" ? "npx.cmd" : "npx";
+    const child = spawn(npx, ["--yes", "serve", "-l", String(PORT), "dist"], {
       cwd: rebuildRoot,
       stdio: "inherit",
       env: process.env,
@@ -105,9 +127,13 @@ async function main() {
 
   console.error(
     "Cannot start preview.\n" +
-      "  • From 031726 REBUILD: add public_web/index.html (run sync from full repo), or\n" +
-      "  • Clone / restore the full AXIS repo so a parent folder contains package.json (\"name\": \"axis-app\"), build.js, and scripts/sync-main-index.cjs.\n" +
-      `  • This folder: ${rebuildRoot}\n`
+      `  Repo root: ${rebuildRoot}\n` +
+      `  Missing: ${publicWebIndex}\n` +
+      `  Missing: ${distIndex}\n` +
+      "\nFix:\n" +
+      "  • From the full AXIS repo that has build.js + scripts/sync-main-index.cjs, run npm run build && npm run cap:sync (or your sync script) so public_web/index.html is copied here.\n" +
+      "  • Or run npm from this folder only: cd \"…/031726 REBUILD\" && npm run preview\n" +
+      "    (npm commands must run where package.json exists — not from ~ or a parent folder without package.json.)\n"
   );
   process.exit(1);
 }

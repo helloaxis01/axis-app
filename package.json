@@ -5,8 +5,8 @@
   "scripts": {
     "build": "node scripts/verify-inline-syntax.cjs",
     "preview": "node scripts/preview.cjs",
-    "preview:static": "npx --yes serve -l 4173 public_web",
-    "preview:4188": "npx --yes serve -l 4188 public_web",
+    "preview:static": "cd public_web && npx --yes serve -l 4173 .",
+    "preview:4188": "cd public_web && npx --yes serve -l 4188 .",
     "sync:onboarding-dist": "node scripts/sync-onboarding-to-dist.cjs"
   }
 }
