@@ -279,10 +279,9 @@
   color: var(--axis-black) !important;
 }
 
-/* Mood buttons: dark semi-transparent look, rounded corners */
+/* Mood picker rows only — do NOT use `.ob-pad button` (would override mood-base-theme + period buttons). */
 .ob-pad button.mood-btn,
-.ob-pad .mood-option,
-.ob-pad button {
+.ob-pad .mood-option {
   background: rgba(255,255,255,0.05) !important;
   border: 1px solid rgba(255,255,255,0.10) !important;
   color: var(--ob-text-head) !important;

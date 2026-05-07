@@ -5,7 +5,7 @@
   (function () {
     /** Bump axis_ob when onboarding.html changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
-      var OND = "20260514c";
+      var OND = "20260514d";
       try {
         var path = "./onboarding.html";
         if (window.location.protocol && window.location.protocol !== "file:") {
@@ -11226,8 +11226,8 @@ const css = `
     font-family: var(--font-display), Inter, system-ui, sans-serif;
     font-weight: 400;
   }
-  /* Recents empty sits under .home mono rules for cards — force prose stack like Bookmarks empty */
-  .home-slide-view--routine .track-cards > .favorites-empty {
+  /* Recents empty: isolate from home browse mono — match Bookmarks `.favorites-empty` */
+  .home-slide-view--routine .track-cards > .favorites-empty.home-recents-empty {
     font-family: var(--font-display), Inter, system-ui, sans-serif !important;
     font-weight: 400 !important;
     letter-spacing: normal !important;
@@ -12879,6 +12879,16 @@ const css = `
   .track-card-dur,
   .fv-top-prog {
     letter-spacing: -0.02em;
+  }
+
+  /* Late win over any home/track-card mono rules — Recents tab empty state */
+  .home .home-slide-view--routine .track-cards > .favorites-empty.home-recents-empty {
+    font-family: var(--font-display), Inter, system-ui, sans-serif !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    font-variant-numeric: normal !important;
+    font-style: normal !important;
   }
 `;
 
@@ -19008,7 +19018,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
       React.createElement("div", { className: "home-routine-tracks" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", "recent")) : /*#__PURE__*/React.createElement("div", { className: "favorites-empty" }, "Your recent sessions will appear here after you start a track.")
+      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", "recent")) : /*#__PURE__*/React.createElement("div", { className: "favorites-empty home-recents-empty" }, "Your recent sessions will appear here after you start a track.")
       )
       )
       )

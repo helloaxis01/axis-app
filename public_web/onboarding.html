@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514c -->
-<html lang="en" data-axis-ob-live="20260514c">
+<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514d -->
+<html lang="en" data-axis-ob-live="20260514d">
 <head>
   <meta charset="UTF-8" />
-  <script>window.AXIS_ONBOARD_BUILD="20260514c";</script>
+  <script>window.AXIS_ONBOARD_BUILD="20260514d";</script>
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
-  <script>(function(){var V='20260514c';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
+  <script>(function(){var V='20260514d';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
   <base href="/" />
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" type="image/png" href="/axis-icon.png" sizes="180x180" />
-  <title>AXIS · Onboarding OB-20260514c</title>
+  <title>AXIS · Onboarding OB-20260514d</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css?v=20260514c" />
+  <link rel="stylesheet" href="/onboarding.css?v=20260514d" />
   <script>
     (function () {
       fetch("./axis_data.json", { cache: "no-store" })
@@ -478,7 +478,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   .ob-screen.ob-screen-upper-bar .ob-upper-bar-demo {
     margin-top: 0;
     margin-bottom: 6px;
-    padding: 8px var(--page-gutter, 16px);
+    padding: 6px 14px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: color-mix(in srgb, var(--ob-box-bg) 88%, rgba(8, 12, 18, 0.92));
@@ -496,7 +496,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: 4px;
-    min-height: 36px;
+    min-height: 32px;
     width: 100%;
     box-sizing: border-box;
   }
@@ -1068,8 +1068,14 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   /* Disclosure / CTA: extra scroll space under Let's Go — matches .ob-pad bottom */
   .ob-pad-after-cta { min-height:calc(env(safe-area-inset-bottom, 0px) + 70px); flex-shrink:0; width:100%; pointer-events:none; }
-  .ob-s0 { }
-  .ob-s0-bottom { width: 100%; text-align: center; padding-top: 24px; }
+  .ob-screen.ob-screen-upper-bar .ob-pad { flex: 0 1 auto !important; }
+  .ob-screen.ob-screen-upper-bar .ob-screen-body { flex: 0 1 auto !important; }
+  .ob-s0 {
+    display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center;
+    padding:calc(80px + env(safe-area-inset-top, 0px)) 24px calc(40px + env(safe-area-inset-bottom, 0px)); box-sizing:border-box; overflow:hidden;
+  }
+  .ob-s0-top { flex:1; display:flex; align-items:flex-end; justify-content:center; width:100%; min-height:0; padding-bottom:24px; }
+  .ob-s0-bottom { flex:1; display:flex; align-items:center; justify-content:center; width:100%; min-height:0; padding-top:24px; }
   .ob-splash-icon {
     width:110px; height:110px; border-radius:16px; margin-bottom:32px;
     background:var(--ob-nav-bg); border-top:1px solid var(--ob-box-border);
@@ -1427,6 +1433,8 @@ body { font-family: var(--font-ui), sans-serif !important; }
   .ob-logo-wrap { align-self: center !important; width: 100%; text-align: center !important; }
   /* Disclosure / CTA: extra scroll space under Let's Go — matches .ob-pad bottom */
   .ob-pad-after-cta { min-height:calc(env(safe-area-inset-bottom, 0px) + 70px); flex-shrink:0; width:100%; pointer-events:none; }
+  .ob-screen.ob-screen-upper-bar .ob-pad { flex: 0 1 auto !important; }
+  .ob-screen.ob-screen-upper-bar .ob-screen-body { flex: 0 1 auto !important; }
   .ob-s0 {
     display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center;
     padding:calc(80px + env(safe-area-inset-top, 0px)) 24px calc(40px + env(safe-area-inset-bottom, 0px)); box-sizing:border-box; overflow:hidden;
@@ -1716,7 +1724,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   </style>
 </head>
 <body>
-  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514c -->
+  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514d -->
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
@@ -1850,6 +1858,8 @@ const obCss = `
   .ob-logo-wrap { align-self: center !important; width: 100%; text-align: center !important; }
   /* Disclosure / CTA: extra scroll space under Let's Go — matches .ob-pad bottom */
   .ob-pad-after-cta { min-height:calc(env(safe-area-inset-bottom, 0px) + 70px); flex-shrink:0; width:100%; pointer-events:none; }
+  .ob-screen.ob-screen-upper-bar .ob-pad { flex: 0 1 auto !important; }
+  .ob-screen.ob-screen-upper-bar .ob-screen-body { flex: 0 1 auto !important; }
   .ob-s0 {
     display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center;
     padding:calc(80px + env(safe-area-inset-top, 0px)) 24px calc(40px + env(safe-area-inset-bottom, 0px)); box-sizing:border-box; overflow:hidden;
@@ -2633,7 +2643,7 @@ function Onboarding({ theme, onComplete }) {
               textTransform: "uppercase",
               color: "var(--ob-text-sec)",
               opacity: 0.72,
-            }}>OB-20260514c</div>
+            }}>OB-20260514d</div>
             <div className="ob-intro-hero__inner">
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
               <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
