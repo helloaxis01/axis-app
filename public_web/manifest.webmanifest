@@ -1,0 +1,13 @@
+{
+  "name": "AXIS",
+  "short_name": "AXIS",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080d18",
+  "theme_color": "#080d18",
+  "icons": [
+    { "src": "./axis-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
+
