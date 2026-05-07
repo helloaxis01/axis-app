@@ -5,7 +5,7 @@
   (function () {
     /** Bump axis_ob when onboarding.html changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
-      var OND = "20260514a";
+      var OND = "20260514b";
       try {
         var path = "./onboarding.html";
         if (window.location.protocol && window.location.protocol !== "file:") {
@@ -11973,7 +11973,6 @@ const css = `
   .home-recent-row-text { flex:1; min-width:0; }
   .home-recent-row-title { font-family:var(--font-display); font-size:var(--text-base); font-weight:600; line-height:1.2; margin-bottom:2px; }
   .home-recent-row-meta,
-  .home-routine-empty,
   .home-slide-view--explore .track-card-dur {
     font-family:'Roboto Mono', ui-monospace, monospace !important; font-weight:500 !important;
   }
@@ -17787,8 +17786,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [homeSection, setHomeSection] = useState(() => {
     const v = storageGet("axis_home_section", null);
     if (v === "routine" || v === "explore") return v;
-    const legacy = storageGet("axis_home_pivot", "routine");
-    return legacy === "explore" ? "explore" : "routine";
+    const legacy = storageGet("axis_home_pivot", null);
+    if (legacy === "explore") return "explore";
+    if (legacy === "routine") return "routine";
+    return "explore";
   });
   const [favoriteTrackIds, setFavoriteTrackIds] = useState(() => {
     const raw = storageGet("axis_favorite_tracks", []);
@@ -17873,6 +17874,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       if (typeof sessionStorage === "undefined" || sessionStorage.getItem("axis_boot_home") !== "1") return;
       sessionStorage.removeItem("axis_boot_home");
       setView("home");
+      setHomeSection("explore");
       setSystemPanel("mood");
       setHasActiveSession(false);
       setTab("guided");
@@ -18076,8 +18078,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const last = storageGet("axis_last_session_tab", null);
       setTab(last || "guided");
     }
-    if (view === "metrics" && prevViewRef.current !== "metrics") {
+    const prev = prevViewRef.current;
+    if (view === "metrics" && prev !== "metrics") {
       setMetricsFactsCycle((n) => n + 1);
+    }
+    if (view === "home" && prev !== null && prev !== "home") {
+      setHomeSection("explore");
     }
     prevViewRef.current = view;
   }, [view, hasActiveSession]);
@@ -18177,7 +18183,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     }
     switchTrack(t);setHasActiveSession(true);setView("home");
   };
-  const goHome = () => {setHasActiveSession(false);setView("home");setTab("list");};
+  const goHome = () => {setHasActiveSession(false);setHomeSection("explore");setView("home");setTab("list");};
   const playBeep = (freq = 880) => beep(freq);
   const formatTime = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   const weekMomentumWindow = axisWeekMomentumFromHistory(history);
@@ -18992,7 +18998,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home-routine-section", role: "region", "aria-label": "Recent tracks" }, /*#__PURE__*/
       React.createElement("div", { className: "home-routine-tracks" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards" },
-      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", "recent")) : /*#__PURE__*/React.createElement("p", { className: "home-routine-empty" }, "Your recent sessions will appear here after you start a track.")
+      routineRecentsHome.length ? routineRecentsHome.map((id) => renderHomeBrowseTrackCard(id, "recent", "recent")) : /*#__PURE__*/React.createElement("div", { className: "favorites-empty" }, "Your recent sessions will appear here after you start a track.")
       )
       )
       )
