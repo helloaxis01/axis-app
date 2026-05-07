@@ -2869,7 +2869,7 @@ const css = `
   }
   /* ── BASE ── */
   .app {
-    --axis-tab-h: 118px;
+    --axis-tab-h: 96px;
     --axis-tab-clearance: 24px;
     --axis-bottom-content-inset: 56px;
     min-height:100vh;
@@ -10094,19 +10094,17 @@ const css = `
     gap:2px;
     flex-shrink:0;
   }
+  /* Icon-only tab bar: names stay for screen readers (buttons keep aria-label). */
   .tab-btn-label {
-    font-family: 'Roboto Mono', var(--font-meta), ui-monospace, monospace;
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    line-height: 1.1;
-    max-width: 100%;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
     overflow: hidden;
-    text-overflow: ellipsis;
+    clip: rect(0, 0, 0, 0);
     white-space: nowrap;
-    display: block;
-    margin-top: 1px;
+    border: 0;
   }
   .tab-btn:not(.active) .nav-tab-indicator {
     pointer-events: none;
@@ -17746,8 +17744,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   { id: "rest", label: "Rest", src: "./app-icons/icon-rest.png" }];
 
   const [view, setView] = useState("home");
-  /** system tab: gateway picks Mood vs Settings; full-screen mood/settings keep view===system */
-  const [systemPanel, setSystemPanel] = useState("gateway");
+  /** system tab: Mood is default; Settings opens from bottom control on Mood or full settings panel */
+  const [systemPanel, setSystemPanel] = useState("mood");
   const [favoritesSegment, setFavoritesSegment] = useState("tracks");
   const APP_VERSION_DISPLAY = "v1.0.0";
   const [metricsFactsCycle, setMetricsFactsCycle] = useState(-1);
@@ -17871,7 +17869,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       if (typeof sessionStorage === "undefined" || sessionStorage.getItem("axis_boot_home") !== "1") return;
       sessionStorage.removeItem("axis_boot_home");
       setView("home");
-      setSystemPanel("gateway");
+      setSystemPanel("mood");
       setHasActiveSession(false);
       setTab("guided");
     } catch (e) {}
@@ -18216,38 +18214,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   // TIMER VIEW (key forces fresh mount to avoid blank on first open)
   if (view === "timer") {
     return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, onSystemTab: goSystemGateway, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
-  }
-  if (view === "system" && systemPanel === "gateway") {
-    const hcGw = `${metricsHealthHint || ""} ${healthConnectSyncMsg || ""}`;
-    const healthSyncAvailGw = /synced|updated|connected/i.test(hcGw);
-    const SvgMoodGateway = /*#__PURE__*/React.createElement("svg", { width: "28", height: "28", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "2", x2: "12", y2: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "19", x2: "12", y2: "22" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "4.22", x2: "6.34", y2: "6.34" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "17.66", x2: "19.78", y2: "19.78" }), /*#__PURE__*/React.createElement("line", { x1: "2", y1: "12", x2: "5", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "19", y1: "12", x2: "22", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "19.78", x2: "6.34", y2: "17.66" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "6.34", x2: "19.78", y2: "4.22" }));
-    const ChevRightGateway = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", className: "sys-dash__chev", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }));
-    return (/*#__PURE__*/
-      React.createElement("div", { key: "system-gateway", className: "app app--system-gateway", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
-      React.createElement("style", null, css), /*#__PURE__*/
-      React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.35s ease" } }), /*#__PURE__*/
-      React.createElement("div", { className: "app-body axis-app-scroll-root" }, /*#__PURE__*/
-      dashboardHeaderEl, /*#__PURE__*/
-      React.createElement("div", { className: "home" }, /*#__PURE__*/
-      React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
-      React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-system-welcome" }, "System"), /*#__PURE__*/
-      React.createElement("div", { className: "system-gateway system-gateway--simple" }, /*#__PURE__*/
-      React.createElement("p", { className: "system-gateway__lead" }, "Mood and Settings live here—tap where you want to go."), /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "sys-dash__settings", onClick: () => {axisHapticTick();setSystemPanel("mood");}, "aria-label": "Open Mood" }, /*#__PURE__*/
-      React.createElement("span", { className: "sys-dash__settings-svg" }, SvgMoodGateway), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__settings-mid" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__settings-title" }, "Mood"), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__settings-sub" }, "Theme, circadian rhythm, Ultra Mode")), /*#__PURE__*/
-      ChevRightGateway), /*#__PURE__*/
-      React.createElement("button", { type: "button", className: "sys-dash__settings", onClick: () => {axisHapticTick();setSystemPanel("settings");}, "aria-label": "Open settings" }, /*#__PURE__*/
-      React.createElement("span", { className: "sys-dash__settings-svg" }, /*#__PURE__*/React.createElement("svg", { width: "28", height: "28", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /*#__PURE__*/React.createElement("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" }))), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__settings-mid" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__settings-title" }, "Settings"), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__settings-sub" }, healthSyncAvailGw && /*#__PURE__*/React.createElement("span", { className: "sys-dash__settings-sync" }, "Synced: ✓ "), "Goals, timers, health sync, account")), /*#__PURE__*/
-      ChevRightGateway)), /*#__PURE__*/
-      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" }))), /*#__PURE__*/
-      React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway }))
-      ));
   }
   if (view === "system" && systemPanel === "settings") {
     const hasHealthData = Boolean(metricsHealthHint && /synced|updated|connected/i.test(metricsHealthHint + " " + healthConnectSyncMsg));
