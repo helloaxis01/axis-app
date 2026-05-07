@@ -1752,6 +1752,17 @@ body { font-family: var(--font-ui), sans-serif !important; }
       if (el) { el.style.display = 'block'; el.textContent = msg; }
     }
     window.onerror = function(msg, src, line, col, err) {
+      var s = String(msg || "");
+      if ((s === "Script error." || s === "Script error") && (line == null || line === 0)) {
+        try {
+          console.warn(
+            "[AXIS onboarding] Opaque script error (browser hid details). Source:",
+            src,
+            "— see console; check localStorage axis_errors if set."
+          );
+        } catch (e) {}
+        return false;
+      }
       showLoadErr('Error: ' + msg + (err && err.stack ? '\n' + err.stack : ''));
       return true;
     };

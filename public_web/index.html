@@ -82,7 +82,21 @@
       if (el) { el.style.display = 'block'; el.textContent = msg; }
     }
     window.onerror = function(msg, src, line, col, err) {
-      showLoadErr('Error: ' + msg + (err && err.stack ? '\n' + err.stack : ''));
+      var s = String(msg || "");
+      // Browsers use the literal "Script error." when the real error is hidden (cross-origin
+      // script without CORS, extension-injected code, or iOS/Safari masking). Do not replace the
+      // whole UI in that case — it looks like a broken app but the real message is in Web Inspector.
+      if ((s === "Script error." || s === "Script error") && (line == null || line === 0)) {
+        try {
+          console.warn(
+            "[AXIS] Opaque script error (line/column hidden by browser). Source:",
+            src,
+            "— open the console or disable extensions; check localStorage axis_errors if capture ran."
+          );
+        } catch (e) {}
+        return false;
+      }
+      showLoadErr("Error: " + msg + (err && err.stack ? "\n" + err.stack : ""));
       return true;
     };
   </script>
