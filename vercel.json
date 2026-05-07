@@ -2,6 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "public_web",
+  "rewrites": [
+    { "source": "/onboarding", "destination": "/onboarding.html" },
+    { "source": "/onboarding/", "destination": "/onboarding.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)\\.html",

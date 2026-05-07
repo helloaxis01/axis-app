@@ -95,7 +95,11 @@ async function main() {
   if (hasStaticShell) {
     console.warn(
       "No parent axis-app repo found (expected a folder above this one with package.json name \"axis-app\", build.js, and scripts/sync-main-index.cjs).\n" +
-        "Serving public_web/ only (no Babel dist build). For full preview run from the complete AXIS clone or restore package.json at the repo root.\n"
+        "Serving public_web/ only (no Babel dist build). For full preview run from the complete AXIS clone or restore package.json at the repo root.\n" +
+        "LAN preview: on a phone, use http://<this-machine-LAN-IP>:" +
+        PORT +
+        "/… — localhost on the phone points at the phone, not your Mac.\n" +
+        "If you use python http.server, open onboarding.html directly; it does not apply serve.json rewrites for /onboarding.\n"
     );
     // Run serve with cwd = public_web so ./serve.json is picked up (Cache-Control / rewrites).
     // Serving "public_web" from repo root often ignores nested serve.json → stale HTML/JS in browsers.
