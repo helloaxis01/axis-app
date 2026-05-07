@@ -243,24 +243,40 @@
   margin-bottom: 24px;
 }
 
-/* --- Strong onboarding overrides to persist visual styles --- */
-/* Back & Next: circular buttons in bottom left & right corners */
+/* --- Strong onboarding overrides (public_web/onboarding.html footer uses these classes only) --- */
+/* Back & Next: pill CTAs aligned with in-app primary / secondary buttons */
 .ob-nav-next,
 .ob-nav-back {
-  width: 48px !important;
-  height: 48px !important;
-  min-width: 48px !important;
-  min-height: 48px !important;
-  padding: 0 !important;
-  border-radius: 50% !important;
-  background: rgba(255,255,255,0.08) !important;
-  border: 1px solid rgba(255,255,255,0.12) !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
+  width: auto !important;
+  min-width: 52px !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 0 20px !important;
+  border-radius: 12px !important;
+  font-family: var(--font-display), Inter, system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
   box-shadow: none !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+.ob-nav-next {
+  background: var(--ob-accent, #ffbf65) !important;
+  border: 1px solid color-mix(in srgb, var(--ob-accent, #ffbf65) 70%, transparent) !important;
+  color: var(--ob-accent-btn-text, #0d0f14) !important;
+}
+.ob-nav-back {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+.ob-wrap[data-theme="light"] .ob-nav-back {
+  background: rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(15, 30, 46, 0.14) !important;
+  color: var(--axis-black) !important;
 }
 
 /* Mood buttons: dark semi-transparent look, rounded corners */

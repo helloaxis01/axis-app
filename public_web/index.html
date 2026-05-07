@@ -5,7 +5,7 @@
   (function () {
     /** Bump axis_ob when onboarding.html changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
-      var OND = "20260514b";
+      var OND = "20260514c";
       try {
         var path = "./onboarding.html";
         if (window.location.protocol && window.location.protocol !== "file:") {
@@ -11223,6 +11223,16 @@ const css = `
     color: var(--text-dimmer);
     font-size: var(--text-sm);
     line-height: 1.5;
+    font-family: var(--font-display), Inter, system-ui, sans-serif;
+    font-weight: 400;
+  }
+  /* Recents empty sits under .home mono rules for cards — force prose stack like Bookmarks empty */
+  .home-slide-view--routine .track-cards > .favorites-empty {
+    font-family: var(--font-display), Inter, system-ui, sans-serif !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    font-variant-numeric: normal !important;
   }
   /* INTERVAL/BREATHE + TRACKS/EXERCISES — global (Favorites does not mount timerFlatCss) */
   .axis-seg-toggle-wrap.timer-mode-outer-pill.timer-glass-wrap {

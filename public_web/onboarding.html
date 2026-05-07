@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514b -->
-<html lang="en" data-axis-ob-live="20260514b">
+<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514c -->
+<html lang="en" data-axis-ob-live="20260514c">
 <head>
   <meta charset="UTF-8" />
-  <script>window.AXIS_ONBOARD_BUILD="20260514b";</script>
+  <script>window.AXIS_ONBOARD_BUILD="20260514c";</script>
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
-  <script>(function(){var V='20260514b';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
+  <script>(function(){var V='20260514c';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
   <base href="/" />
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" type="image/png" href="/axis-icon.png" sizes="180x180" />
-  <title>AXIS · Onboarding OB-20260514b</title>
+  <title>AXIS · Onboarding OB-20260514c</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css?v=20260514b" />
+  <link rel="stylesheet" href="/onboarding.css?v=20260514c" />
   <script>
     (function () {
       fetch("./axis_data.json", { cache: "no-store" })
@@ -474,17 +474,18 @@ body { font-family: var(--font-ui), sans-serif !important; }
     background: rgba(0, 0, 0, 0.12) !important;
   }
 
-  /* The Upper Bar — preview strip (mirrors main app dashboard header; keep vertical rhythm tight vs fixed header) */
+  /* The Upper Bar — preview strip (dashboard header is fixed in-app; do not add safe-area inside this card or it doubles vertical gap) */
   .ob-screen.ob-screen-upper-bar .ob-upper-bar-demo {
     margin-top: 0;
-    margin-bottom: 4px;
-    padding: 6px var(--page-gutter, 16px);
-    padding-top: calc(4px + env(safe-area-inset-top, 0px));
-    padding-bottom: 6px;
+    margin-bottom: 6px;
+    padding: 8px var(--page-gutter, 16px);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: color-mix(in srgb, var(--ob-box-bg) 88%, rgba(8, 12, 18, 0.92));
     box-sizing: border-box;
+    width: 100%;
+    flex: 0 0 auto;
+    align-self: flex-start;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-screen-upper-bar .ob-upper-bar-demo {
     border-color: rgba(0, 0, 0, 0.1);
@@ -564,6 +565,13 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-wrap[data-theme="light"] .ob-upper-bar-demo__cell:not(.ob-upper-bar-demo__cell--on) {
     background: #9f9fa5;
+  }
+  /* Upper Bar slide: don't stretch .ob-pad vertically — removes dead space inside the preview card */
+  .ob-screen.ob-screen-upper-bar .ob-pad {
+    flex: 0 1 auto !important;
+  }
+  .ob-screen.ob-screen-upper-bar .ob-screen-body {
+    flex: 0 1 auto !important;
   }
 
   .ob-screen.ob-content-only .ob-benefit {
@@ -855,56 +863,9 @@ body { font-family: var(--font-ui), sans-serif !important; }
     color: rgba(15, 30, 46, 0.35);
   }
   .ob-wrap[data-theme="light"] .mood-base-theme-btn--active {
-    background: rgba(15, 30, 46, 0.1);
-    color: #1d1d1f;
-  }
-  /* Appearance only: BASE THEME segmented control — warm orange pill, mono caps */
-  .ob-wrap .ob-appearance .mood-base-theme__label {
-    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace;
-    color: color-mix(in srgb, var(--ob-text-sec) 72%, transparent);
-  }
-  .ob-wrap .ob-appearance .mood-base-theme__toggle--full {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    padding: 4px;
-    gap: 0;
-    background: rgba(22, 24, 30, 0.96);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  }
-  .ob-wrap[data-theme="light"] .ob-appearance .mood-base-theme__toggle--full {
-    border-color: rgba(15, 23, 42, 0.12);
-    background: rgba(236, 239, 245, 0.98);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  }
-  .ob-wrap .ob-appearance .mood-base-theme-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    min-height: 40px;
-    border-radius: 10px;
-    border: none !important;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.42);
-    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace;
-    font-size: 11px;
+    background: #f6f7f8 !important;
+    color: #0d0f14 !important;
     font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    transition: background 0.22s ease, color 0.22s ease;
-  }
-  .ob-wrap .ob-appearance .mood-base-theme-btn--active {
-    background: var(--ob-accent, #ffa556) !important;
-    color: #121418 !important;
-    font-weight: 700;
-    box-shadow: none;
-  }
-  .ob-wrap[data-theme="light"] .ob-appearance .mood-base-theme-btn {
-    color: rgba(29, 29, 31, 0.42);
-  }
-  .ob-wrap[data-theme="light"] .ob-appearance .mood-base-theme-btn--active {
-    background: var(--ob-accent, #ffa556) !important;
-    color: #121418 !important;
   }
   .ob-wrap .ob-appearance .ob-appearance-base-theme {
     display: flex;
@@ -1045,13 +1006,28 @@ body { font-family: var(--font-ui), sans-serif !important; }
     .ob-wrap .ob-screen:not(.ob-content-only) .ob-heading { font-size: var(--text-xl); }
     .ob-splash-name { font-size: 40px; }
   }
-  /* Liquid Glass footer buttons — hover/active fill effect */
+  /* Footer BACK/NEXT: pills from onboarding.css — scoped hovers so Next keeps accent */
+  .ob-nav-footer .ob-nav-next.ob-nav-glass-btn:hover {
+    background: color-mix(in srgb, var(--ob-accent, #ffbf65) 88%, #000) !important;
+    box-shadow: none !important;
+  }
+  .ob-nav-footer .ob-nav-back.ob-nav-glass-btn:hover {
+    background: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1) !important;
+  }
+  /* Liquid Glass footer buttons — generic fallback (non-footer rarely uses these classes) */
   .ob-nav-glass-btn:hover { background: rgba(255,255,255,0.15) !important; box-shadow: inset 0 0 12px rgba(255,255,255,0.12) !important; }
   .ob-nav-glass-btn:active { background: rgba(255,255,255,0.2) !important; box-shadow: inset 0 0 14px rgba(255,255,255,0.15) !important; }
   /* Light footer: BACK/NEXT readable (brand black); glass hover uses slate tint not white wash */
-  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-glass-btn { color: var(--axis-black) !important; }
-  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-glass-btn:hover { color: var(--axis-black) !important; background: rgba(15,23,42,0.08) !important; box-shadow: inset 0 0 12px rgba(15,23,42,0.06) !important; }
-  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-glass-btn:active { color: var(--axis-black) !important; background: rgba(15,23,42,0.12) !important; }
+  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-back.ob-nav-glass-btn { color: var(--axis-black) !important; }
+  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-next.ob-nav-glass-btn { color: var(--ob-accent-btn-text, #0d0f14) !important; }
+  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-back.ob-nav-glass-btn:hover { color: var(--axis-black) !important; background: rgba(15,23,42,0.08) !important; box-shadow: inset 0 0 12px rgba(15,23,42,0.06) !important; }
+  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-next.ob-nav-glass-btn:hover {
+    background: color-mix(in srgb, var(--ob-accent, #ffbf65) 92%, #fff) !important;
+    color: var(--ob-accent-btn-text, #0d0f14) !important;
+    box-shadow: none !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-nav-footer .ob-nav-back.ob-nav-glass-btn:active { color: var(--axis-black) !important; background: rgba(15,23,42,0.12) !important; }
   .ob-btn-tier1 {
     background: var(--ob-accent);
     color: var(--ob-accent-btn-text, #0d0f14);
@@ -1740,7 +1716,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   </style>
 </head>
 <body>
-  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514b -->
+  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514c -->
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
@@ -2657,7 +2633,7 @@ function Onboarding({ theme, onComplete }) {
               textTransform: "uppercase",
               color: "var(--ob-text-sec)",
               opacity: 0.72,
-            }}>OB-20260514b</div>
+            }}>OB-20260514c</div>
             <div className="ob-intro-hero__inner">
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
               <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
@@ -3192,7 +3168,7 @@ function Onboarding({ theme, onComplete }) {
         {cur !== 11 && (
           <div className="ob-footer-nav-locked">
             {cur === 0 ? (
-              <div style={{ width: 52, minWidth: 52, flexShrink: 0 }} aria-hidden={true} />
+              <div style={{ width: 72, minWidth: 72, flexShrink: 0 }} aria-hidden={true} />
             ) : (
               <button
                 type="button"
@@ -3200,18 +3176,7 @@ function Onboarding({ theme, onComplete }) {
                 aria-label="Go Back"
                 onClick={() => go(Math.max(0, cur - 1))}
                 style={{
-                  background: obTheme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)',
-                  border: obTheme === 'dark' ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
-                  borderRadius: 12,
-                  padding: 0,
-                  boxSizing: 'border-box',
-                  color: obTheme === 'dark' ? 'rgba(255,255,255,0.92)' : 'var(--axis-black)',
-                  cursor: 'pointer', pointerEvents: 'auto',
-                  fontFamily: "var(--font-display),Inter,system-ui,sans-serif", fontSize: 22, fontWeight: 500, letterSpacing: '0',
-                  minWidth: 52,
-                  width: 52,
-                  height: 52,
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1,
+                  pointerEvents: 'auto',
                   flexShrink: 0,
                 }}
               >{"<"}</button>
@@ -3234,19 +3199,8 @@ function Onboarding({ theme, onComplete }) {
               disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
               style={{
                 pointerEvents: 'auto',
-                background: obTheme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)',
-                border: obTheme === 'dark' ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
-                borderRadius: 12,
-                padding: 0,
-                boxSizing: 'border-box',
-                color: obTheme === 'dark' ? 'rgba(255,255,255,0.92)' : 'var(--axis-black)',
-                fontFamily: "var(--font-display),Inter,system-ui,sans-serif", fontSize: 22, fontWeight: 500, letterSpacing: '0',
-                minWidth: 52,
-                width: 52,
-                height: 52,
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1,
                 flexShrink: 0,
-                opacity: cur === 5 && !disclaimerChecked ? 0.3 : 1,
+                opacity: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 0.3 : 1,
                 cursor: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 'not-allowed' : 'pointer',
               }}
               aria-disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
