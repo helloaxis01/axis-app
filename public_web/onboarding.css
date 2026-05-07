@@ -1,6 +1,10 @@
 :root {
-  --font-display: 'Barlow', sans-serif;
+  --font-display: 'Inter', sans-serif;
   --font-ui: 'Inter', sans-serif;
+  --font-body: var(--font-ui);
+  --font-data: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-meta: var(--font-data);
+  --font-editorial: 'Lora', Georgia, 'Times New Roman', serif;
   --text-xs: 12px;
   --text-sm: 14px;
   --text-base: 16px;
@@ -74,7 +78,7 @@
   font-family: var(--font-display), sans-serif;
   font-size: var(--text-xl);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
   color: var(--ob-text-head);
   margin-bottom: 16px;

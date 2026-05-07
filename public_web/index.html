@@ -5,7 +5,7 @@
   (function () {
     /** Bump axis_ob when onboarding.html changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
-      var OND = "20260513b";
+      var OND = "20260514f";
       try {
         var path = "./onboarding.html";
         if (window.location.protocol && window.location.protocol !== "file:") {
@@ -2852,7 +2852,7 @@ const css = `
   }
   /* ── BASE ── */
   .app {
-    --axis-tab-h: 100px;
+    --axis-tab-h: 118px;
     --axis-tab-clearance: 24px;
     --axis-bottom-content-inset: 56px;
     min-height:100vh;
@@ -10040,7 +10040,7 @@ const css = `
   .notes-input:focus { border-color:var(--glass-border-strong); background:var(--glass-bg-hover); }
   .notes-input::placeholder { color:var(--text-dim); }
 
-  /* ── TAB BAR (5-tab: HOME METRICS TIMER FAVORITES SYSTEM) ── */
+  /* ── TAB BAR (5-tab: HOME BOOKMARKS TIMER METRICS SYSTEM) ── */
   .tab-bar {
     position:fixed; bottom:0; left:0; right:0;
     min-height: var(--axis-tab-h);
@@ -10055,7 +10055,7 @@ const css = `
   .tab-btn {
     display:flex; flex-direction: column; align-items:center; justify-content:center;
     gap:0;
-    min-width:0; flex:1 1 0; max-width:80px; min-height:48px; width:auto; height:auto;
+    min-width:0; flex:1 1 0; max-width:92px; min-height:48px; width:auto; height:auto;
     padding:2px 2px 0; border:none; cursor:pointer; border-radius:12px;
     background:transparent;
     color: rgba(255,255,255,0.3);
@@ -10081,14 +10081,15 @@ const css = `
     font-family: 'Roboto Mono', var(--font-meta), ui-monospace, monospace;
     font-size: 9px;
     font-weight: 500;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     line-height: 1.1;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    display: none;
+    display: block;
+    margin-top: 1px;
   }
   .tab-btn:not(.active) .nav-tab-indicator {
     pointer-events: none;
@@ -10705,6 +10706,25 @@ const css = `
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
+  }
+  .system-gateway--simple {
+    gap: 12px;
+    padding-bottom: 28px;
+  }
+  .system-gateway__lead {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .mood-ultra-eye {
+    flex-shrink: 0;
+    color: var(--text-dimmer);
+    transition: color 0.2s ease, filter 0.2s ease;
+  }
+  .app[data-night="true"] .mood-ultra-eye {
+    color: #FF3B30 !important;
+    filter: drop-shadow(0 0 8px rgba(255, 59, 48, 0.48));
   }
   .sys-dash__hdr {
     padding-top: 20px;
@@ -11375,9 +11395,11 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .mood-base-theme-btn {
     color: rgba(15, 30, 46, 0.35);
   }
+  /* Light theme selected — solid shelf highlight (readable on gray track) */
   .app[data-theme="light"]:not([data-night="true"]) .mood-base-theme-btn--active {
-    background: rgba(15, 30, 46, 0.1);
-    color: #1d1d1f;
+    background: #f6f7f8 !important;
+    color: #0d0f14 !important;
+    font-weight: 600;
   }
   .mood-period-badge {
     display:inline-flex;
@@ -11612,6 +11634,7 @@ const css = `
   .app[data-night="true"] .dashboard-header__streak-cell:not(.dashboard-header__streak-cell--on) {
     background:rgba(255, 59, 48, 0.3) !important;
   }
+
   /* Left edge aligns with TODAY card — only .track-cards-outer supplies horizontal gutter */
   .home-welcome {
     padding:max(6px, calc(var(--app-title-after-dashboard) - 24px)) 0 12px;
@@ -13674,7 +13697,7 @@ function DashboardHeader({ progressFillPct = 0, progressOverdrive = false, histo
 }
 
 // ─────────────────────────────────────────────────────────────
-//  TAB BAR — 5 tabs: HOME · METRICS · TIMER · BOOKMARKS · SYSTEM
+//  TAB BAR — 5 tabs: HOME · BOOKMARKS · TIMER · METRICS · SYSTEM
 // ─────────────────────────────────────────────────────────────
 function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
   const gotoSystem = () => {
@@ -13700,7 +13723,8 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(HomeIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(HomeIcon, null)), /*#__PURE__*/
+  React.createElement("span", { className: "tab-btn-label" }, "Home")
   )
 
   ), /*#__PURE__*/
@@ -13713,7 +13737,8 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(BookmarkTabIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(BookmarkTabIcon, null)), /*#__PURE__*/
+  React.createElement("span", { className: "tab-btn-label" }, "Bookmarks")
   )
 
   ), /*#__PURE__*/
@@ -13726,7 +13751,8 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(TimerIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(TimerIcon, null)), /*#__PURE__*/
+  React.createElement("span", { className: "tab-btn-label" }, "Timer")
   )
 
   ), /*#__PURE__*/
@@ -13739,7 +13765,8 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MetricsIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(MetricsIcon, null)), /*#__PURE__*/
+  React.createElement("span", { className: "tab-btn-label" }, "Metrics")
   )
 
   ), /*#__PURE__*/
@@ -13752,7 +13779,8 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
 
   React.createElement("span", { className: "tab-btn-stack" }, /*#__PURE__*/
   React.createElement("span", { className: "nav-tab-indicator", "aria-hidden": true }), /*#__PURE__*/
-  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SystemMatrixTabIcon, null))
+  React.createElement("span", { className: "tab-icon-shell", "aria-hidden": true }, /*#__PURE__*/React.createElement(SystemMatrixTabIcon, null)), /*#__PURE__*/
+  React.createElement("span", { className: "tab-btn-label" }, "System")
   )
 
   )
@@ -17816,11 +17844,21 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [metricsStepsToday, setMetricsStepsToday] = useState(null);
   const [metricsHealthHint, setMetricsHealthHint] = useState("");
   const [healthConnectSyncMsg, setHealthConnectSyncMsg] = useState("");
-  const [systemDashTick, setSystemDashTick] = useState(0);
   const [welcomeName, setWelcomeName] = useState(() => axisWelcomeDisplayNameFromStorage());
   const manifestBlobUrlRef = useRef(null);
   const prevMoodBgRef = useRef(null);
   const moodXfadeTimerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    try {
+      if (typeof sessionStorage === "undefined" || sessionStorage.getItem("axis_boot_home") !== "1") return;
+      sessionStorage.removeItem("axis_boot_home");
+      setView("home");
+      setSystemPanel("gateway");
+      setHasActiveSession(false);
+      setTab("guided");
+    } catch (e) {}
+  }, []);
 
   const applySelectedAppIcon = async (iconHref) => {
     if (typeof document === "undefined" || !iconHref) return;
@@ -18035,13 +18073,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       setSettingsAccountOpen(true);
     }
   }, [view, systemPanel]);
-  useEffect(() => {
-    if (view !== "system" || systemPanel !== "gateway") return undefined;
-    const id = setInterval(() => {
-      setSystemDashTick((x) => x + 1);
-    }, 15000);
-    return () => clearInterval(id);
-  }, [view, systemPanel]);
   useEffect(() => {storageSet("axis_done", done);}, [done]);
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
@@ -18170,34 +18201,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, onSystemTab: goSystemGateway, css: css, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
   }
   if (view === "system" && systemPanel === "gateway") {
-    void systemDashTick;
-    const nowGw = getCircadianPeriod();
-    const effGw = axisResolveMoodPeriod(activePeriod);
-    const nbGw = axisNextCircadianBoundary(Date.now());
-    const lblGw = { dawn: "Rise", midday: "Midday", prime: "Prime", rest: "Rest" };
-    const autoGw = activePeriod === null;
     const hcGw = `${metricsHealthHint || ""} ${healthConnectSyncMsg || ""}`;
     const healthSyncAvailGw = /synced|updated|connected/i.test(hcGw);
-    const warnGw = /error|fail|denied|unable/i.test(String(hcGw).toLowerCase()) && !healthSyncAvailGw;
-    const okGw = !warnGw;
-    const SvgRiseGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M4 16 A 8 8 0 0 1 20 16" }), /*#__PURE__*/React.createElement("line", { x1: "0", y1: "16", x2: "24", y2: "16" }));
-    const SvgMidGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "2", x2: "12", y2: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "19", x2: "12", y2: "22" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "4.22", x2: "6.34", y2: "6.34" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "17.66", x2: "19.78", y2: "19.78" }), /*#__PURE__*/React.createElement("line", { x1: "2", y1: "12", x2: "5", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "19", y1: "12", x2: "22", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "19.78", x2: "6.34", y2: "17.66" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "6.34", x2: "19.78", y2: "4.22" }));
-    const SvgPrimeGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }));
-    const SvgRestGw = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z" }));
-    const rowsGw = [
-    { p: "dawn", label: "Rise", time: "5–11am", desc: "Warm amber. Morning energy.", icon: SvgRiseGw },
-    { p: "midday", label: "Midday", time: "11am–5pm", desc: "Cool mint. Crisp and focused.", icon: SvgMidGw },
-    { p: "prime", label: "Prime", time: "5–10pm", desc: "Deep blue. Winding down.", icon: SvgPrimeGw },
-    { p: "rest", label: "Rest", time: "10pm–5am", desc: "Soft violet. Calm and dim.", icon: SvgRestGw }];
-    const heroRw = rowsGw.find((r) => r.p === effGw) || rowsGw[1];
-    const ctH = nightMode ? { accent: "#FF3B30" } : CIRCADIAN_THEMES[effGw][theme === "dark" ? "dark" : "light"];
-    const nextLineGw = autoGw ? `Next: ${lblGw[nbGw.nextPeriod]} in ${axisFormatHhMmCountdown(nbGw.msUntil)}` : "";
-    const cardElsGw = rowsGw.map((rowGw) => {
-      const ctC = nightMode ? { accent: "#FF3B30" } : CIRCADIAN_THEMES[rowGw.p][theme === "dark" ? "dark" : "light"];
-      const selGw = effGw === rowGw.p;
-      const lockedGw = !!(nightMode || autoGw);
-      return /*#__PURE__*/React.createElement("button", { key: rowGw.p, type: "button", disabled: lockedGw, className: "sys-dash__mcard" + (selGw ? " sys-dash__mcard--active" : "") + (autoGw ? " sys-dash__mcard--dim" : ""), "aria-disabled": lockedGw ? "true" : "false", onClick: lockedGw ? undefined : () => {axisHapticTick();setActivePeriod(rowGw.p);storageSet("axis_period", rowGw.p);}, "aria-pressed": selGw ? "true" : "false" }, /*#__PURE__*/React.createElement("div", { className: "sys-dash__mcard-ico", style: { border: `1px solid ${ctC.accent}`, color: ctC.accent, background: nightMode ? "#000000" : `color-mix(in srgb, ${ctC.accent} 14%, transparent)` } }, rowGw.icon), /*#__PURE__*/React.createElement("div", { className: "sys-dash__mcard-meta" }, /*#__PURE__*/React.createElement("div", { className: "sys-dash__mcard-name" }, rowGw.label), /*#__PURE__*/React.createElement("span", { className: "sys-dash__mcard-span" }, rowGw.time)));
-    });
+    const SvgMoodGateway = /*#__PURE__*/React.createElement("svg", { width: "28", height: "28", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "2", x2: "12", y2: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "19", x2: "12", y2: "22" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "4.22", x2: "6.34", y2: "6.34" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "17.66", x2: "19.78", y2: "19.78" }), /*#__PURE__*/React.createElement("line", { x1: "2", y1: "12", x2: "5", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "19", y1: "12", x2: "22", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "19.78", x2: "6.34", y2: "17.66" }), /*#__PURE__*/React.createElement("line", { x1: "17.66", y1: "6.34", x2: "19.78", y2: "4.22" }));
+    const ChevRightGateway = /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", className: "sys-dash__chev", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }));
     return (/*#__PURE__*/
       React.createElement("div", { key: "system-gateway", className: "app app--system-gateway", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
@@ -18207,47 +18214,21 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home" }, /*#__PURE__*/
       React.createElement("div", { className: "track-cards-outer home-track-cards-outer--top" }, /*#__PURE__*/
       React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-system-welcome" }, "System"), /*#__PURE__*/
-      React.createElement("div", { className: "system-gateway" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__hdr" }, /*#__PURE__*/
-      React.createElement("span", { className: "sys-dash__ver" }, APP_VERSION_DISPLAY), /*#__PURE__*/
-      React.createElement("span", { className: "sys-dash__stat" + (okGw ? " sys-dash__stat--ok" : " sys-dash__stat--warn") }, okGw ? "STATUS: OPTIMAL" : "STATUS: CHECK SETTINGS")), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-hero", role: "region", "aria-label": "Current mood" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-card" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-card-main" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__eyebrow" }, "CURRENT MOOD"), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-name" }, heroRw.label), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-desc" }, heroRw.desc), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-time" }, heroRw.time), autoGw ? /*#__PURE__*/React.createElement("div", { className: "sys-dash__next" }, nextLineGw) : null), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-swatch", style: { background: ctH.accent }, "aria-hidden": true }))),
-      /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__auto", role: "group", "aria-label": "Circadian auto" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__auto-lbl" }, "Auto follows time of day"), /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "switch", disabled: !!nightMode, className: "sys-dash__toggle-ios" + (autoGw ? " sys-dash__toggle-ios--on" : ""), "aria-checked": autoGw ? "true" : "false", onClick: nightMode ? undefined : () => {axisHapticTick();var nxt = activePeriod === null ? nowGw : null;setActivePeriod(nxt);storageSet("axis_period", nxt);} }, /*#__PURE__*/React.createElement("span", { className: "sys-dash__toggle-knob" }))),
-      /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__circ-head" }, "CIRCADIAN CYCLE"),
-      /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__mood-cards" }, cardElsGw),
-      /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__sep" }, "BASE THEME"),
-      /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__segment", style: nightMode ? { opacity: 0.45, pointerEvents: "none" } : {} },
-      [["dark", "DARK"], ["light", "LIGHT"]].map(([valGw, lbGw]) => /*#__PURE__*/React.createElement("button", { key: valGw, type: "button", className: "sys-dash__segment-btn" + (theme === valGw ? " sys-dash__segment-btn--active" : ""), onClick: nightMode ? undefined : () => {if (theme !== valGw) {axisHapticTick();toggleTheme();}} }, lbGw))),
-      /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__ultra-block", role: "group", "aria-label": "Ultra mode" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__ultra-copy" }, /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__ultra-lbl" }, "ULTRA MODE"), /*#__PURE__*/
-      React.createElement("div", { className: "sys-dash__ultra-sub" }, "Pure black + bright red. Maximum contrast.")), /*#__PURE__*/
-      React.createElement("button", { type: "button", role: "switch", className: "sys-dash__toggle-ios" + (nightMode ? " sys-dash__toggle-ios--on" : ""), "aria-checked": nightMode ? "true" : "false", onClick: () => {axisHapticTick();toggleNight();} }, /*#__PURE__*/React.createElement("span", { className: "sys-dash__toggle-knob" }))),
-      /*#__PURE__*/
+      React.createElement("div", { className: "system-gateway system-gateway--simple" }, /*#__PURE__*/
+      React.createElement("p", { className: "system-gateway__lead" }, "Mood and Settings live here—tap where you want to go."), /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "sys-dash__settings", onClick: () => {axisHapticTick();setSystemPanel("mood");}, "aria-label": "Open Mood" }, /*#__PURE__*/
+      React.createElement("span", { className: "sys-dash__settings-svg" }, SvgMoodGateway), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__settings-mid" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__settings-title" }, "Mood"), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__settings-sub" }, "Theme, circadian rhythm, Ultra Mode")), /*#__PURE__*/
+      ChevRightGateway), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "sys-dash__settings", onClick: () => {axisHapticTick();setSystemPanel("settings");}, "aria-label": "Open settings" }, /*#__PURE__*/
       React.createElement("span", { className: "sys-dash__settings-svg" }, /*#__PURE__*/React.createElement("svg", { width: "28", height: "28", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /*#__PURE__*/React.createElement("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" }))), /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__settings-mid" }, /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__settings-title" }, "Settings"), /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__settings-sub" }, healthSyncAvailGw && /*#__PURE__*/React.createElement("span", { className: "sys-dash__settings-sync" }, "Synced: ✓ "), "Goals, timers, health sync, account")), /*#__PURE__*/
-      /*#__PURE__*/React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", className: "sys-dash__chev", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }))))),
-      /*#__PURE__*/
-      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })),
-      /*#__PURE__*/
+      ChevRightGateway)), /*#__PURE__*/
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" }))), /*#__PURE__*/
       React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway }))
       ));
   }
@@ -18316,7 +18297,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
       React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "About"), React.createElement(DisclosureChevron, null)),
       React.createElement("div", { className: "settings-ios-group" },
-      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => { try { const uid = axisActiveUidForStorage(); if (uid) storageSet("axis_onboarded:" + uid, false); else storageSet("axis_onboarded", false); } catch (e) {} try { localStorage.setItem("hasCompletedOnboarding", "false"); } catch (e) {} window.location.href = window.axisOnboardingHref(); } }, React.createElement("span", { className: "settings-ios-label" }, "View Onboarding"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
+      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => { try { const uid = axisActiveUidForStorage(); if (uid) storageSet("axis_onboarded:" + uid, false); else storageSet("axis_onboarded", false); } catch (e) {} try { localStorage.setItem("hasCompletedOnboarding", "false"); } catch (e) {} window.location.href = typeof window.axisOnboardingHref === "function" ? window.axisOnboardingHref() : "./onboarding.html"; } }, React.createElement("span", { className: "settings-ios-label" }, "Replay introduction"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(RowChevron, null))),
       React.createElement("a", { href: "mailto:hello@adamlorber.com", className: "settings-ios-row settings-ios-link-row" }, React.createElement("span", { className: "settings-ios-label" }, "Send Feedback"), React.createElement("span", { className: "settings-ios-right" }, React.createElement(MailIcon, null), React.createElement(RowChevron, null))),
       React.createElement("div", { className: "settings-ios-row" }, React.createElement("span", { className: "settings-ios-label" }, "App Version"), React.createElement("span", { className: "settings-ios-meta" }, APP_VERSION_DISPLAY)),
       React.createElement("div", { className: "settings-ios-row settings-ios-row--stack", style: { alignItems: "stretch" } },
@@ -18450,7 +18431,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { style: { fontSize: "var(--text-xs)", letterSpacing: "0.20em", textTransform: "uppercase", color: "var(--text-dimmer)", marginBottom: 10, fontWeight: 600 } }, "Display"), /*#__PURE__*/
       React.createElement("div", { style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, marginBottom: 0 } }, /*#__PURE__*/
       React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)", marginBottom: 4 } }, "Ultra Mode"), /*#__PURE__*/
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 } }, /*#__PURE__*/
+      React.createElement("div", { style: { fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-white)" } }, "Ultra Mode"), /*#__PURE__*/
+      React.createElement("svg", { className: "mood-ultra-eye", width: 22, height: 22, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M1.5 12s3.8-6 10.5-6 10.5 6 10.5 6-3.8 6-10.5 6S1.5 12 1.5 12z" }), /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "2.5" }))), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: "var(--text-xs)", fontWeight: 400, color: "var(--text-secondary)", lineHeight: 1.45, width: "100%", maxWidth: "100%" } }, "Pure black OLED background with AXIS red accents. Optimized for low light.")
       ), /*#__PURE__*/
       React.createElement("button", { onClick: () => {axisHapticTick();toggleNight();}, style: { flexShrink: 0, marginTop: 2, width: 44, height: 26, border: "1px solid", borderColor: nightMode ? "var(--mood-color)" : "var(--glass-border-strong)", borderRadius: 13, background: nightMode ? "var(--mood-color)" : "var(--glass-bg)", cursor: "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
@@ -19343,9 +19326,31 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 function App() {
   const [theme, setTheme] = useState(() => storageGet("axis_theme", "dark"));
   const [nightMode, setNightMode] = useState(() => storageGet("axis_night", false));
+  const [obCrossfade, setObCrossfade] = useState(() => {
+    try {
+      return typeof sessionStorage !== "undefined" && sessionStorage.getItem("axis_ob_visual_handoff") === "1";
+    } catch (e) {
+      return false;
+    }
+  });
 
   const toggleNight = () => setNightMode((n) => {const v = !n;storageSet("axis_night", v);return v;});
   const toggleTheme = () => setTheme((t) => {const n = t === "dark" ? "light" : "dark";storageSet("axis_theme", n);return n;});
+
+  useEffect(() => {
+    axisMigrateOnboardingLegacy();
+  }, []);
+
+  useEffect(() => {
+    if (!obCrossfade) return;
+    try {
+      sessionStorage.removeItem("axis_ob_visual_handoff");
+    } catch (e) {}
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setObCrossfade(false));
+    });
+    return () => cancelAnimationFrame(id);
+  }, [obCrossfade]);
 
   // Tab bar “end of scroll” affordance: slightly more transparent pill + shimmer when nothing is hidden beneath
   useEffect(() => {
@@ -19402,7 +19407,9 @@ function App() {
     flexDirection: "column",
     overflow: "hidden",
     position: "relative",
-    background: "var(--bg-gradient)"
+    background: "var(--bg-gradient)",
+    opacity: obCrossfade ? 0 : 1,
+    transition: obCrossfade ? "opacity 0ms" : "opacity 300ms ease"
   };
 
   const appContentStyle = {

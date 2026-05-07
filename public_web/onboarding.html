@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260513b -->
+<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514f -->
 <html lang="en" data-axis-ob-live="PW-13a-public_web-onboarding-html">
 <head>
   <meta charset="UTF-8" />
-  <script>window.AXIS_ONBOARD_BUILD="20260513b";</script>
+  <script>window.AXIS_ONBOARD_BUILD="20260514f";</script>
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
-  <script>(function(){var V='20260513b';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
+  <script>(function(){var V='20260514f';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
   <base href="/" />
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" type="image/png" href="/axis-icon.png" sizes="180x180" />
-  <title>AXIS · Onboarding OB-20260513b</title>
+  <title>AXIS · Onboarding OB-20260514f</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css?v=20260513b" />
+  <link rel="stylesheet" href="/onboarding.css?v=20260514f" />
   <script>
     (function () {
       fetch("./axis_data.json", { cache: "no-store" })
@@ -135,26 +135,43 @@ body { font-family: var(--font-ui), sans-serif !important; }
     min-height: 0;
     padding: 24px 0 32px;
   }
-  .ob-intro-hero__wordmark {
+  /* AXIS wordmark — scaled copy of app .dashboard-header__brand */
+  .ob-intro-hero__wordmark,
+  .ob-launch-wordmark {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 32px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-    margin: 0;
+    font-size: clamp(22px, 6vw, 32px);
+    font-weight: 300 !important;
+    letter-spacing: 0.42em !important;
+    text-transform: uppercase !important;
+    line-height: 1.15 !important;
+    margin: 0 !important;
+    padding: 0 4px !important;
+    text-align: center !important;
   }
-  .ob-wrap[data-theme="light"] .ob-intro-hero__wordmark { color: #1a1d24; }
+  .ob-wrap[data-theme="light"] .ob-intro-hero__wordmark,
+  .ob-wrap[data-theme="light"] .ob-launch-wordmark {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+  .ob-wrap[data-theme="dark"] .ob-intro-hero__wordmark,
+  .ob-wrap[data-theme="dark"] .ob-launch-wordmark {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
   .ob-intro-hero__sub {
-    margin-top: 32px;
-    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.5);
-    line-height: 1.45;
+    margin-top: 28px;
+    max-width: min(100%, 360px);
+    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace !important;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.5;
     margin-bottom: 0;
+    text-wrap: balance;
   }
-  .ob-wrap[data-theme="light"] .ob-intro-hero__sub { color: rgba(29, 29, 31, 0.55); }
+  .ob-wrap[data-theme="light"] .ob-intro-hero__sub { color: rgba(29, 29, 31, 0.5); }
   .ob-intro-hero__accent-bar {
     margin-top: 18px;
     width: 16px;
@@ -202,6 +219,8 @@ body { font-family: var(--font-ui), sans-serif !important; }
     margin-bottom: 12px !important;
   }
   .ob-screen.ob-content-only .ob-pad > .ob-eyebrow:first-child { margin-top: 0 !important; }
+  /* Appearance: eyebrow sits inside .ob-appearance-mood-rail, not direct .ob-pad child — match other screens’ title stack */
+  .ob-screen.ob-content-only .ob-pad > .ob-appearance-mood-rail > .ob-eyebrow:first-child { margin-top: 0 !important; }
 
   .ob-screen.ob-content-only .ob-heading {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
@@ -398,7 +417,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-card {
     display: flex !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     gap: 12px !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 12px !important;
@@ -413,9 +432,17 @@ body { font-family: var(--font-ui), sans-serif !important; }
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    flex-shrink: 0 !important;
     background: color-mix(in srgb, var(--ob-accent) 15%, transparent) !important;
     color: var(--ob-accent) !important;
     border: 1px solid color-mix(in srgb, var(--ob-accent) 26%, transparent) !important;
+  }
+  .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-divider {
+    align-self: stretch !important;
+    width: 1px !important;
+    flex-shrink: 0 !important;
+    margin: 2px 0 !important;
+    background: rgba(255, 255, 255, 0.16) !important;
   }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
@@ -441,6 +468,101 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-desc {
     color: rgba(29, 29, 31, 0.55) !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-divider {
+    background: rgba(0, 0, 0, 0.12) !important;
+  }
+
+  /* The Upper Bar — preview strip (mirrors main app dashboard header) */
+  .ob-screen.ob-screen-upper-bar .ob-upper-bar-demo {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 14px var(--page-gutter, 16px);
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    padding-bottom: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: color-mix(in srgb, var(--ob-box-bg) 88%, rgba(8, 12, 18, 0.92));
+    box-sizing: border-box;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-screen-upper-bar .ob-upper-bar-demo {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.72);
+  }
+  .ob-upper-bar-demo__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .ob-upper-bar-demo__progress-track {
+    --ob-u-streak-size: 6px;
+    --ob-u-streak-gap: 4px;
+    --ob-u-streak-strip: calc(7 * var(--ob-u-streak-size) + 6 * var(--ob-u-streak-gap));
+    height: var(--ob-u-streak-size);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--mood-color, var(--ob-accent)) 23%, transparent);
+    overflow: hidden;
+    justify-self: start;
+    width: var(--ob-u-streak-strip);
+    max-width: var(--ob-u-streak-strip);
+  }
+  .ob-wrap[data-theme="light"] .ob-upper-bar-demo__progress-track {
+    background: #9f9fa5;
+  }
+  .ob-upper-bar-demo__progress-fill {
+    height: 100%;
+    border-radius: inherit;
+    width: 62%;
+    background: var(--mood-color, var(--ob-accent));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--mood-color, var(--ob-accent)) 56%, transparent),
+      0 0 7px color-mix(in srgb, var(--mood-color, var(--ob-accent)) 48%, transparent);
+  }
+  .ob-wrap[data-theme="light"] .ob-upper-bar-demo__progress-fill {
+    background: var(--mood-color, var(--ob-accent));
+  }
+  .ob-upper-bar-demo__brand {
+    font-family: var(--font-display), Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--ob-text-head) 78%, transparent);
+    text-align: center;
+    justify-self: center;
+    padding: 0 4px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .ob-wrap[data-theme="light"] .ob-upper-bar-demo__brand {
+    color: #000000;
+  }
+  .ob-upper-bar-demo__streak {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-self: end;
+    width: calc(7 * 6px + 6 * 4px);
+    flex-shrink: 0;
+    justify-content: flex-start;
+  }
+  .ob-upper-bar-demo__cell {
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    background: color-mix(in srgb, var(--mood-color, var(--ob-accent)) 23%, transparent);
+    box-sizing: border-box;
+  }
+  .ob-upper-bar-demo__cell--on {
+    background: var(--mood-color, var(--ob-accent));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--mood-color, var(--ob-accent)) 48%, transparent);
+  }
+  .ob-wrap[data-theme="light"] .ob-upper-bar-demo__cell:not(.ob-upper-bar-demo__cell--on) {
+    background: #9f9fa5;
   }
 
   .ob-screen.ob-content-only .ob-benefit {
@@ -536,6 +658,10 @@ body { font-family: var(--font-ui), sans-serif !important; }
     line-height: 1.65 !important;
     color: rgba(255, 59, 48, 0.92) !important;
   }
+  .ob-screen.ob-ultra-content.ob-content-only .ob-ultra-eye-mark {
+    color: #ff3b30 !important;
+    filter: drop-shadow(0 0 10px rgba(255, 59, 48, 0.52));
+  }
 
   /* Launch: same horizontal rhythm, centered hero */
   .ob-screen.ob-content-only.ob-launch-screen {
@@ -554,18 +680,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
   .ob-screen.ob-content-only.ob-launch-screen .ob-pad *,
   .ob-screen.ob-content-only.ob-launch-screen .ob-intro-hero__sub {
     text-align: center !important;
-  }
-  .ob-screen.ob-content-only.ob-launch-screen .ob-launch-wordmark {
-    margin: 0;
-    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 32px !important;
-    font-weight: 700 !important;
-    line-height: 1.15 !important;
-    letter-spacing: -0.02em !important;
-    color: rgba(255, 255, 255, 0.98) !important;
-  }
-  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-launch-screen .ob-launch-wordmark {
-    color: rgba(29, 29, 31, 0.95) !important;
   }
   .ob-screen.ob-content-only.ob-launch-screen .ob-launch-headline {
     margin-top: 28px !important;
@@ -593,7 +707,11 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-screen.ob-content-only.ob-launch-screen .ob-launch-cta {
     margin-top: 34px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
     min-height: 52px !important;
     height: 52px !important;
     border: none !important;
@@ -636,14 +754,14 @@ body { font-family: var(--font-ui), sans-serif !important; }
     padding-right: 0;
   }
   .ob-wrap .ob-appearance-mood-rail .ob-mood-inner {
-    /* Constrain the mood cards and inner surface to the same readable measure as other pages */
+    /* Match width of eyebrow / heading / subcopy above (same rail; ob-pad already handles horizontal inset) */
     box-sizing: border-box;
     width: 100%;
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: max(20px, env(safe-area-inset-left, 0px));
-    padding-right: max(20px, env(safe-area-inset-right, 0px));
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
   .ob-wrap .ob-mood-page-title {
     font-family: var(--font-display), Inter, system-ui, sans-serif;
@@ -699,7 +817,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   .ob-wrap .mood-base-theme__toggle--full {
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    align-items: center;
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
@@ -722,20 +840,85 @@ body { font-family: var(--font-ui), sans-serif !important; }
     font-family: var(--font-ui), sans-serif;
     font-size: 13px;
     letter-spacing: 0.02em;
+    text-transform: none;
     font-weight: 500;
     cursor: pointer;
   }
   .ob-wrap .mood-base-theme-btn--active {
+    border-color: transparent;
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
     font-weight: 600;
   }
   .ob-wrap[data-theme="light"] .mood-base-theme-btn {
-    color: rgba(15, 23, 42, 0.35);
+    color: rgba(15, 30, 46, 0.35);
   }
   .ob-wrap[data-theme="light"] .mood-base-theme-btn--active {
-    background: rgba(15, 23, 42, 0.1);
+    background: rgba(15, 30, 46, 0.1);
     color: #1d1d1f;
+  }
+  /* Appearance only: BASE THEME segmented control — warm orange pill, mono caps */
+  .ob-wrap .ob-appearance .mood-base-theme__label {
+    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace;
+    color: color-mix(in srgb, var(--ob-text-sec) 72%, transparent);
+  }
+  .ob-wrap .ob-appearance .mood-base-theme__toggle--full {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 4px;
+    gap: 0;
+    background: rgba(22, 24, 30, 0.96);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  .ob-wrap[data-theme="light"] .ob-appearance .mood-base-theme__toggle--full {
+    border-color: rgba(15, 23, 42, 0.12);
+    background: rgba(236, 239, 245, 0.98);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  .ob-wrap .ob-appearance .mood-base-theme-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 40px;
+    border-radius: 10px;
+    border: none !important;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.42);
+    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: background 0.22s ease, color 0.22s ease;
+  }
+  .ob-wrap .ob-appearance .mood-base-theme-btn--active {
+    background: var(--ob-accent, #ffa556) !important;
+    color: #121418 !important;
+    font-weight: 700;
+    box-shadow: none;
+  }
+  .ob-wrap[data-theme="light"] .ob-appearance .mood-base-theme-btn {
+    color: rgba(29, 29, 31, 0.42);
+  }
+  .ob-wrap[data-theme="light"] .ob-appearance .mood-base-theme-btn--active {
+    background: var(--ob-accent, #ffa556) !important;
+    color: #121418 !important;
+  }
+  .ob-wrap .ob-appearance .ob-appearance-base-theme {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .ob-wrap .ob-appearance .ob-appearance-base-theme .mood-base-theme__label {
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+  }
+  .ob-wrap .ob-appearance .ob-appearance-base-theme .mood-base-theme__toggle--full {
+    width: 100%;
+    max-width: 340px;
   }
   .ob-wrap .ob-mood-period-btn {
     display: flex;
@@ -884,21 +1067,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
     transition: background-color 0.2s ease, transform 0.2s ease;
   }
   .ob-btn-tier1:active { transform: scale(0.98); }
-  /* Intro: compact accent chevron — avoid .ob-btn-tier1 full-bleed width */
-  .ob-nav-footer .ob-footer-nav-locked .ob-nav-letsgo.ob-nav-begin-chevron {
-    width: 52px !important;
-    min-width: 52px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    border-radius: 12px !important;
-    background: var(--ob-accent) !important;
-    color: var(--ob-accent-btn-text, #252525) !important;
-    box-shadow: none !important;
-  }
-  .ob-nav-begin-chevron svg {
-    display: block;
-  }
   /* Footer nav: 44px min touch targets + safe-area padding token */
   .ob-nav-footer .ob-footer-nav-locked .ob-nav-glass-btn {
     min-height: 52px !important;
@@ -936,30 +1104,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
 .ob-splash-tag { margin-top:24px; font-family:var(--font-meta), ui-monospace, monospace !important; font-size:12px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--ob-text-sec); white-space:nowrap; display:block; text-align:center; }
   .ob-eyebrow { font-family: var(--font-meta), ui-monospace, monospace !important; font-size: var(--text-sm); font-weight: 600; letter-spacing:0.26em; text-transform:uppercase; color:var(--ob-accent); margin-bottom:16px; flex-shrink:0; }
   .ob-heading { font-size: 42px; font-weight:600; letter-spacing:-0.02em; line-height:1.05; color:var(--ob-text-head); margin-bottom:18px; flex-shrink:0; }
-/* Make onboarding wordmarks match the compact AXIS wordmark in the app header */
-.ob-intro-hero__wordmark,
-.ob-launch-wordmark {
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--ob-text-dim, rgba(255,255,255,0.38)) 78%, transparent);
-  text-align: center;
-  padding: 0 4px;
-  line-height: 1;
-  margin: 0;
-}
-.ob-wrap[data-theme="light"] .ob-intro-hero__wordmark,
-.ob-wrap[data-theme="light"] .ob-launch-wordmark {
-  color: #000000;
-  -webkit-text-fill-color: #000000;
-}
-.ob-wrap[data-theme="dark"] .ob-intro-hero__wordmark,
-.ob-wrap[data-theme="dark"] .ob-launch-wordmark {
-  color: #ffffff;
-  -webkit-text-fill-color: #ffffff;
-}
   .ob-heading em { font-style:italic; font-weight: 400; color:var(--ob-accent); }
   .ob-body { font-size: var(--text-base); line-height:1.52; color:var(--ob-text-body); font-weight:400; flex-shrink:0; }
   /* Small UI tags / pills */
@@ -2027,26 +2171,42 @@ const obCss = `
     min-height: 0;
     padding: 24px 0 32px;
   }
-  .ob-intro-hero__wordmark {
+  .ob-intro-hero__wordmark,
+  .ob-launch-wordmark {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 32px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-    margin: 0;
+    font-size: clamp(22px, 6vw, 32px);
+    font-weight: 300 !important;
+    letter-spacing: 0.42em !important;
+    text-transform: uppercase !important;
+    line-height: 1.15 !important;
+    margin: 0 !important;
+    padding: 0 4px !important;
+    text-align: center !important;
   }
-  .ob-wrap[data-theme="light"] .ob-intro-hero__wordmark { color: #1a1d24; }
+  .ob-wrap[data-theme="light"] .ob-intro-hero__wordmark,
+  .ob-wrap[data-theme="light"] .ob-launch-wordmark {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+  .ob-wrap[data-theme="dark"] .ob-intro-hero__wordmark,
+  .ob-wrap[data-theme="dark"] .ob-launch-wordmark {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
   .ob-intro-hero__sub {
-    margin-top: 32px;
-    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.5);
-    line-height: 1.45;
+    margin-top: 28px;
+    max-width: min(100%, 360px);
+    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace !important;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.5;
     margin-bottom: 0;
+    text-wrap: balance;
   }
-  .ob-wrap[data-theme="light"] .ob-intro-hero__sub { color: rgba(29, 29, 31, 0.55); }
+  .ob-wrap[data-theme="light"] .ob-intro-hero__sub { color: rgba(29, 29, 31, 0.5); }
   .ob-intro-hero__accent-bar {
     margin-top: 18px;
     width: 16px;
@@ -2125,6 +2285,22 @@ function storageGet(key, def) {
 }
 function storageSet(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+}
+
+/** Mirrors index.html axisActiveUidForStorage — scoped onboarding key must match main app gate. */
+function axisOnboardingActiveUid() {
+  try {
+    if (typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.uid) {
+      return String(window.AXIS_auth.currentUser.uid);
+    }
+  } catch (e) {}
+  try {
+    if (typeof localStorage !== "undefined") {
+      const c = localStorage.getItem("axis_auth_uid");
+      if (c && String(c).trim()) return String(c).trim();
+    }
+  } catch (e) {}
+  return "";
 }
 
 function getCircadianPeriod() {
@@ -2267,12 +2443,12 @@ function Onboarding({ theme, onComplete }) {
     { id: "rest", label: "Rest", src: "./app-icons/icon-rest.png" }
   ];
   const [cur, setCur] = useState(0);
-  const total = 11; // Intro, Why (2-6), How (7-9), Ultra (10), Launch (11)
+  const total = 12; // Intro…Safety, Appearance, LIST & GUIDED, Lower Tab Menu, Upper Bar, Ultra, Launch
   const [disclaimerName, setDisclaimerName] = useState("");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
   const [disclaimerWarning, setDisclaimerWarning] = useState(false);
   const consentPersistedRef = useRef(false);
-  const DOT_COUNT = 11;
+  const DOT_COUNT = 12;
   const todayStr = new Date().toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" });
   const go = n => setCur(Math.max(0, Math.min(total - 1, n)));
   // Live circadian — onboarding matches the app color at time of signup
@@ -2422,9 +2598,30 @@ function Onboarding({ theme, onComplete }) {
     storageSet("axis_period", obAutoTime ? null : (obPeriod ?? getCircadianPeriod()));
     storageSet("axis_theme", obTheme);
     storageSet("axis_onboarded", true);
-    try { localStorage.setItem("hasCompletedOnboarding", "true"); } catch(e) {}
+    try {
+      const uid = axisOnboardingActiveUid();
+      if (uid) storageSet("axis_onboarded:" + uid, true);
+    } catch (e) {}
+    try { localStorage.setItem("hasCompletedOnboarding", "true"); } catch (e) {}
     onComplete({ period: periodForTheme, theme: obTheme });
-    window.location.href = "./index.html";
+    try {
+      sessionStorage.setItem("axis_ob_visual_handoff", "1");
+      sessionStorage.setItem("axis_boot_home", "1");
+    } catch (e) {}
+    const el = typeof document !== "undefined" ? (document.querySelector(".ob-wrap") || document.body) : null;
+    if (el) {
+      el.style.transition = "opacity 300ms ease";
+      el.style.opacity = "0";
+    }
+    window.setTimeout(() => {
+      try {
+        const base = "./index.html";
+        const url = typeof window.location !== "undefined" && window.location.pathname ? new URL(base, window.location.href).href : base;
+        window.location.href = url;
+      } catch (e2) {
+        window.location.href = "./index.html";
+      }
+    }, 300);
   };
 
   return (
@@ -2434,7 +2631,7 @@ function Onboarding({ theme, onComplete }) {
         background:`${t.orb1}, ${t.orb2}, ${t.orb3}`,
         transition: "background var(--motion-slow, 800ms ease-in-out)",
       }} />
-      <div ref={obShellRef} className="ob-shell" onClick={e => { if (cur === 0 || cur === 5 || cur === 6 || cur === 9) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
+      <div ref={obShellRef} className="ob-shell" onClick={e => { if (cur === 0 || cur === 5 || cur === 6 || cur === 10) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
         {cur === 0 && (
           <div className="ob-screen ob-intro-hero" style={{ position: "relative" }}>
             <div style={{
@@ -2451,9 +2648,9 @@ function Onboarding({ theme, onComplete }) {
             }}>OB-13a PW</div>
             <div className="ob-intro-hero__inner">
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
-              <p className="ob-intro-hero__sub">Move. Mend. Maintain.</p>
+              <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
               <span className="ob-intro-hero__accent-bar" aria-hidden="true" />
-              <p className="ob-intro-hero__body">Physical therapy and mobility, personalized to your day.</p>
+              <p className="ob-intro-hero__body">Personalized mobility for exactly where you are right now.</p>
             </div>
           </div>
         )}
@@ -2716,10 +2913,10 @@ function Onboarding({ theme, onComplete }) {
                       </button>
                     </div>
 
-                    <div style={{ marginBottom: 12 }}>
-                      <div className="mood-base-theme__label" style={{ marginBottom: 8 }}>Base theme</div>
+                    <div className="ob-appearance-base-theme" style={{ marginBottom: 12 }}>
+                      <div className="mood-base-theme__label" style={{ marginBottom: 8 }}>BASE THEME</div>
                       <div className="mood-base-theme__toggle mood-base-theme__toggle--full" role="tablist" aria-label="Dark or light base theme">
-                        {[{ val: "dark", label: "Dark" }, { val: "light", label: "Light" }].map(({ val, label }) => (
+                        {[{ val: "dark", label: "DARK" }, { val: "light", label: "LIGHT" }].map(({ val, label }) => (
                           <button
                             key={val}
                             type="button"
@@ -2812,8 +3009,8 @@ function Onboarding({ theme, onComplete }) {
             );
           })()}
 
-          {/* 10: ULTRA MODE */}
-          {cur === 9 && <div className="ob-screen ob-content-only ob-ultra-content" style={{ background:"#000000", color:"#FF3B30" }}>
+          {/* 11: ULTRA MODE */}
+          {cur === 10 && <div className="ob-screen ob-content-only ob-ultra-content" style={{ background:"#000000", color:"#FF3B30" }}>
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
                 <div className="ob-eyebrow">Ultra Mode</div>
@@ -2825,10 +3022,10 @@ function Onboarding({ theme, onComplete }) {
                   Best for late-night sessions when you want to minimize glare, reduce eye fatigue, and keep your surroundings visible.
                 </div>
                 <div className="ob-body" style={{ marginTop:12 }}>
-                  Enable this option in the Mood tab.
+                  Enable this option from System, then Mood.
                 </div>
                 <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ color: obTheme === "light" ? "rgba(29,29,31,0.35)" : "rgba(255,255,255,0.3)" }}>
+                  <svg className="ob-ultra-eye-mark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M1.5 12s3.8-6 10.5-6 10.5 6 10.5 6-3.8 6-10.5 6S1.5 12 1.5 12z" />
                     <circle cx="12" cy="12" r="2.5" />
                   </svg>
@@ -2871,21 +3068,22 @@ function Onboarding({ theme, onComplete }) {
           {cur === 8 && <div className="ob-screen ob-content-only ob-screen-tab-guide">
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
-                <div className="ob-eyebrow">Know Every Tab</div>
-                <div className="ob-heading">Know every tab.</div>
+                <div className="ob-eyebrow">The Lower Tab Menu</div>
+                <div className="ob-heading">What each tab does.</div>
                 <div className="ob-body" style={{ marginBottom:22 }}>
                   Same five tabs as the main app (left to right):
                 </div>
                 <div className="ob-tab-guide-list">
                   {[
-                    ["HOME", "Recommendations, your library, and circadian-aware picks.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" /></svg>],
-                    ["BOOKMARKS", "Saved sessions and tracks you've starred.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M6.5 3.5h11c.83 0 1.5.67 1.5 1.5v15.28l-7-5.42-7 5.42V5c0-.83.67-1.5 1.5-1.5Z" /></svg>],
-                    ["TIMER", "Interval and breathe timers — destress, focus, or cool down.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 7.5 L12 12 L17 12" /></svg>],
-                    ["METRICS", "Streaks, progress, and session insights.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="8 12.5 11 15.5 16.5 9" /></svg>],
-                    ["SYSTEM", "Theme, mood, haptics, and defaults — the same gateway as on Home.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="3.5" y="14" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="14" width="6.5" height="6.5" rx="0.75" /></svg>],
+                    ["HOME", "Your main library and daily suggestions that change based on the time of day and what you're doing.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" /></svg>],
+                    ["BOOKMARKS", "Everything you've saved, from full routines down to the specific exercises you like most.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M6.5 3.5h11c.83 0 1.5.67 1.5 1.5v15.28l-7-5.42-7 5.42V5c0-.83.67-1.5 1.5-1.5Z" /></svg>],
+                    ["TIMER", "Simple timers for breathing or your own workouts—use these to de-stress, focus, or just cool down.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 7.5 L12 12 L17 12" /></svg>],
+                    ["METRICS", "A quick look at how you're doing this week and notes on your recent sessions.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="8 12.5 11 15.5 16.5 9" /></svg>],
+                    ["SYSTEM", "The spot to tweak your theme, mood, and how the app feels, plus all your other settings.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="3.5" y="14" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="14" width="6.5" height="6.5" rx="0.75" /></svg>],
                   ].map(([label, body, icon]) => (
                     <div key={label} className="ob-tab-guide-card">
                       <div className="ob-tab-guide-icon">{icon}</div>
+                      <span className="ob-tab-guide-divider" aria-hidden="true" />
                       <div style={{ minWidth:0, flex:1 }}>
                         <div className="ob-tab-guide-title">{label}</div>
                         <div className="ob-tab-guide-desc">{body}</div>
@@ -2897,8 +3095,34 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 11: LAUNCH */}
-          {cur === 10 && (
+          {/* 10: THE UPPER BAR */}
+          {cur === 9 && <div className="ob-screen ob-content-only ob-screen-upper-bar">
+            <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
+              <div className="ob-pad">
+                <div className="ob-eyebrow">The Upper Bar</div>
+                <div className="ob-heading">Your daily snapshot.</div>
+                <div className="ob-body" style={{ marginBottom: 16 }}>
+                  The bar stays at the top everywhere in the app. The pill on the left is your progress toward today&apos;s movement goal. The seven squares on the right are the last seven days—lit when you logged a workout that day.
+                </div>
+                <div className="ob-upper-bar-demo" aria-hidden="true">
+                  <div className="ob-upper-bar-demo__row">
+                    <div className="ob-upper-bar-demo__progress-track">
+                      <div className="ob-upper-bar-demo__progress-fill" />
+                    </div>
+                    <div className="ob-upper-bar-demo__brand">AXIS</div>
+                    <div className="ob-upper-bar-demo__streak">
+                      {[true, true, true, false, true, false, false].map((on, i) => (
+                        <span key={i} className={"ob-upper-bar-demo__cell" + (on ? " ob-upper-bar-demo__cell--on" : "")} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>}
+
+          {/* 12: LAUNCH */}
+          {cur === 11 && (
             <div className="ob-screen ob-cta-screen ob-launch-screen ob-content-only" style={{ color: "var(--ob-text-head)", transition: "color 0.6s ease" }}>
               <div className="ob-screen-body">
                 <div className="ob-pad">
@@ -2914,10 +3138,10 @@ function Onboarding({ theme, onComplete }) {
       </div>
 
       <div className="ob-ext-nav">
-        {["Intro","Perspective","Foundation","Science · Method","Ethics","Safety","Appearance","LIST & GUIDED","Know Every Tab","Ultra Mode","Launch"].map((l, i) => (
+        {["Intro","Perspective","Foundation","Science · Method","Ethics","Safety","Appearance","LIST & GUIDED","The Lower Tab Menu","The Upper Bar","Ultra Mode","Launch"].map((l, i) => (
           <button key={l} className="ob-en-btn" onClick={() => go(i)}>{l}</button>
         ))}
-        <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={() => go(10)}>→ Launch Screen</button>
+        <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={() => go(11)}>→ Launch Screen</button>
       </div>
       <div className="ob-label">Tap screen or use controls · Begin buttons launch the app</div>
       {/* Fixed footer — pointer-events: none; buttons have pointer-events: auto */}
@@ -2953,7 +3177,7 @@ function Onboarding({ theme, onComplete }) {
             })}
           </div>
         </div>
-        {cur !== 10 && (
+        {cur !== 11 && (
           <div className="ob-footer-nav-locked">
             {cur === 0 ? (
               <div style={{ width: 52, minWidth: 52, flexShrink: 0 }} aria-hidden={true} />
@@ -2980,59 +3204,41 @@ function Onboarding({ theme, onComplete }) {
                 }}
               >{"<"}</button>
             )}
-            {cur === 0 ? (
-              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', minWidth: 0 }}>
-                  <button
-                    type="button"
-                    className="ob-nav-letsgo ob-nav-begin-chevron"
-                    aria-label="Let's begin"
-                    onClick={() => go(1)}
-                    style={{ pointerEvents: 'auto', cursor: 'pointer', transition: 'all 0.25s ease', flexShrink: 0 }}
-                  >
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M9 6l6 6-6 6" />
-                    </svg>
-                  </button>
-                </div>
-                <div style={{ width: 52, minWidth: 52, flexShrink: 0 }} aria-hidden={true} />
-              </div>
-            ) : (
-              <button
-                type="button"
-                className="ob-nav-next ob-nav-glass-btn"
-                aria-label="Continue"
-                onClick={() => {
-                  if (cur === 5) { doSafetyNext(); return; }
-                  if (cur === 6) {
-                    setHasChosenMood(true);
-                    if (!obAutoTime && obPeriod == null) setObPeriod(getCircadianPeriod());
-                    go(7);
-                    return;
-                  }
-                  if (cur < total - 1) go(cur + 1);
-                }}
-                disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
-                style={{
-                  pointerEvents: 'auto',
-                  background: obTheme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)',
-                  border: obTheme === 'dark' ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
-                  borderRadius: 12,
-                  padding: 0,
-                  boxSizing: 'border-box',
-                  color: obTheme === 'dark' ? 'rgba(255,255,255,0.92)' : 'var(--axis-black)',
-                  fontFamily: "var(--font-display),Inter,system-ui,sans-serif", fontSize: 22, fontWeight: 500, letterSpacing: '0',
-                  minWidth: 52,
-                  width: 52,
-                  height: 52,
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1,
-                  flexShrink: 0,
-                  opacity: cur === 5 && !disclaimerChecked ? 0.3 : 1,
-                  cursor: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 'not-allowed' : 'pointer',
-                }}
-                aria-disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
-              >{">"}</button>
-            )}
+            <button
+              type="button"
+              className="ob-nav-next ob-nav-glass-btn"
+              aria-label="Continue"
+              onClick={() => {
+                if (cur === 0) { go(1); return; }
+                if (cur === 5) { doSafetyNext(); return; }
+                if (cur === 6) {
+                  setHasChosenMood(true);
+                  if (!obAutoTime && obPeriod == null) setObPeriod(getCircadianPeriod());
+                  go(7);
+                  return;
+                }
+                if (cur < total - 1) go(cur + 1);
+              }}
+              disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
+              style={{
+                pointerEvents: 'auto',
+                background: obTheme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)',
+                border: obTheme === 'dark' ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
+                borderRadius: 12,
+                padding: 0,
+                boxSizing: 'border-box',
+                color: obTheme === 'dark' ? 'rgba(255,255,255,0.92)' : 'var(--axis-black)',
+                fontFamily: "var(--font-display),Inter,system-ui,sans-serif", fontSize: 22, fontWeight: 500, letterSpacing: '0',
+                minWidth: 52,
+                width: 52,
+                height: 52,
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1,
+                flexShrink: 0,
+                opacity: cur === 5 && !disclaimerChecked ? 0.3 : 1,
+                cursor: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 'not-allowed' : 'pointer',
+              }}
+              aria-disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
+            >{">"}</button>
           </div>
         )}
       </div>

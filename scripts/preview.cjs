@@ -59,7 +59,9 @@ async function main() {
     process.exit(1);
   }
 
-  const fullRoot = findFullAxisRoot(rebuildRoot);
+  const forcePublicWeb =
+    process.env.PREVIEW_PUBLIC_WEB === "1" || /^true$/i.test(String(process.env.PREVIEW_PUBLIC_WEB || ""));
+  const fullRoot = forcePublicWeb ? null : findFullAxisRoot(rebuildRoot);
   const publicWeb = path.join(rebuildRoot, "public_web");
   const hasStaticShell = fs.existsSync(path.join(publicWeb, "index.html"));
 
@@ -78,6 +80,10 @@ async function main() {
       stdio: "inherit",
       env: process.env,
     });
+    console.warn(
+      "\nNote: Serving the parent axis-app dist/ folder, not public_web/. " +
+        "Onboarding edits in public_web won’t appear until you run npm run sync:onboarding-dist here (or PREVIEW_PUBLIC_WEB=1 npm run preview to force public_web).\n"
+    );
     child.on("exit", (code) => process.exit(code ?? 0));
     return;
   }

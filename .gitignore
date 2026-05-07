@@ -5,3 +5,6 @@ node_modules
 
 # Local full snapshots before axis-static mirrors (do not commit)
 .axis-sync-archive/
+
+# Local-only onboarding preview folders (git-show extractions; do not commit)
+preview-*-onboarding/
