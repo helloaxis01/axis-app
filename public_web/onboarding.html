@@ -1841,7 +1841,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load Babel. Check your connection and try again.')"></script>
   <script type="text/babel" data-presets="react">
-const { useState, useEffect, useLayoutEffect, useRef } = React;
+const { useState, useEffect, useLayoutEffect, useRef, useCallback } = React;
 
 /**
  * Persists tester consent to Supabase (RPC save_consent).
@@ -2363,6 +2363,45 @@ const OB_GREY = {
   },
 };
 
+const MOODS = [
+  {
+    id: "rise",
+    label: "Rise",
+    time: "5–11am",
+    desc: "Warm amber. Morning energy.",
+    accent: "#E8A045",
+    icon: "◐",
+    bg: "radial-gradient(ellipse at 30% 20%, rgba(232,160,69,0.12) 0%, transparent 60%)",
+  },
+  {
+    id: "midday",
+    label: "Midday",
+    time: "11am–5pm",
+    desc: "Cool mint. Crisp and focused.",
+    accent: "#3EC9A7",
+    icon: "◎",
+    bg: "radial-gradient(ellipse at 70% 20%, rgba(62,201,167,0.12) 0%, transparent 60%)",
+  },
+  {
+    id: "prime",
+    label: "Prime",
+    time: "5–10pm",
+    desc: "Deep blue. Winding down.",
+    accent: "#5B8FF9",
+    icon: "◑",
+    bg: "radial-gradient(ellipse at 30% 80%, rgba(91,143,249,0.12) 0%, transparent 60%)",
+  },
+  {
+    id: "rest",
+    label: "Rest",
+    time: "10pm–5am",
+    desc: "Soft violet. Calm and dim.",
+    accent: "#9B6DFF",
+    icon: "✦",
+    bg: "radial-gradient(ellipse at 70% 80%, rgba(155,109,255,0.12) 0%, transparent 60%)",
+  },
+];
+
 
 function storageGet(key, def) {
   try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : def; } catch { return def; }
@@ -2516,6 +2555,12 @@ function applyCircadianTheme(isDark, period) {
 }
 
 function Onboarding({ theme, onComplete }) {
+  const MOOD_AMBIENT_BG = {
+    dawn: "radial-gradient(ellipse at 50% 0%, rgba(255, 191, 101, 0.24) 0%, rgba(255, 191, 101, 0.08) 34%, transparent 64%)",
+    midday: "radial-gradient(ellipse at 50% 0%, rgba(86, 196, 170, 0.24) 0%, rgba(86, 196, 170, 0.08) 34%, transparent 64%)",
+    prime: "radial-gradient(ellipse at 50% 0%, rgba(77, 168, 255, 0.24) 0%, rgba(77, 168, 255, 0.08) 34%, transparent 64%)",
+    rest: "radial-gradient(ellipse at 50% 0%, rgba(160, 96, 255, 0.24) 0%, rgba(160, 96, 255, 0.08) 34%, transparent 64%)"
+  };
   const APP_ICON_OPTIONS = [
     { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
     { id: "light", label: "Light", src: "./app-icons/icon-light.png" },
@@ -2527,6 +2572,8 @@ function Onboarding({ theme, onComplete }) {
     { id: "rest", label: "Rest", src: "./app-icons/icon-rest.png" }
   ];
   const [cur, setCur] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const [direction, setDirection] = useState(1);
   const total = 12; // Intro…Safety, Appearance, LIST & GUIDED, Lower Tab Menu, Upper Bar, Ultra, Launch
   const [disclaimerName, setDisclaimerName] = useState("");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
@@ -2534,7 +2581,22 @@ function Onboarding({ theme, onComplete }) {
   const consentPersistedRef = useRef(false);
   const DOT_COUNT = 12;
   const todayStr = new Date().toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" });
-  const go = n => setCur(Math.max(0, Math.min(total - 1, n)));
+  const transitionTimerRef = useRef(null);
+  const go = useCallback((n) => {
+    const target = Math.max(0, Math.min(total - 1, n));
+    if (target === cur) return;
+    if (transitionTimerRef.current) {
+      clearTimeout(transitionTimerRef.current);
+      transitionTimerRef.current = null;
+    }
+    setDirection(target > cur ? 1 : -1);
+    setVisible(false);
+    transitionTimerRef.current = setTimeout(() => {
+      setCur(target);
+      setVisible(true);
+      transitionTimerRef.current = null;
+    }, 220);
+  }, [cur, total]);
   // Live circadian — onboarding matches the app color at time of signup
   const [obPeriod, setObPeriod] = useState(null); // null = none selected; first mood user picks lights up
   const [obTheme, setObTheme] = useState(theme || "dark");
@@ -2543,6 +2605,7 @@ function Onboarding({ theme, onComplete }) {
   const [obArea, setObArea] = useState(null); // back / neck / hips / knees / feet / general
   const [obTime, setObTime] = useState(null); // 5 | 10 | 15 | 20 (minutes) for calibration
   const [hasChosenMood, setHasChosenMood] = useState(false); // Grey until user picks a mood on Appearance
+  const [selectedMood, setSelectedMood] = useState(null);
   const [selectedAppIcon, setSelectedAppIcon] = useState(() => storageGet("axis_app_icon", "./app-icons/icon-classic.png"));
   const manifestBlobUrlRef = useRef(null);
   const iconColor = obTheme === "dark" ? "var(--axis-white)" : "var(--axis-black)";
@@ -2552,17 +2615,21 @@ function Onboarding({ theme, onComplete }) {
   const t = useGrey
     ? OB_GREY[obTheme === "dark" ? "dark" : "light"]
     : { ...ct, bg: MAIN_APP_BG[obTheme === "dark" ? "dark" : "light"] };
+  const selectedAccent = selectedMood && selectedMood.accent ? selectedMood.accent : "#6B7280";
+  const selectedAccentDim = selectedMood && selectedMood.accentDim ? selectedMood.accentDim : "rgba(107,114,128,0.24)";
+  const selectedAccentGlow = selectedMood && selectedMood.accentGlow ? selectedMood.accentGlow : "rgba(107,114,128,0.38)";
+  const selectedAccentBtnText = selectedMood && selectedMood.accentBtnText ? selectedMood.accentBtnText : "#0d0f14";
   const vars = `
     --ob-page-bg: ${t.bg};
     --current-bg: ${t.bg};
     --ob-orb1: ${t.orb1};
     --ob-orb2: ${t.orb2};
     --ob-orb3: ${t.orb3};
-    --ob-accent: ${t.accent};
-    --mood-accent: ${t.accent};
-    --ob-accent-dim: ${t.accentDim};
-    --ob-accent-glow: ${t.accentGlow};
-    --ob-accent-btn-text: ${t.accentBtnText || "#0a0e1a"};
+    --ob-accent: ${selectedAccent};
+    --mood-accent: ${selectedAccent};
+    --ob-accent-dim: ${selectedAccentDim};
+    --ob-accent-glow: ${selectedAccentGlow};
+    --ob-accent-btn-text: ${selectedAccentBtnText};
     --ob-text-head: ${t.textPrimary || (obTheme === "dark" ? "#ffffff" : "var(--axis-black)")};
     --ob-text-body: ${obTheme === "dark" ? "rgba(255,255,255,0.78)" : "rgba(26,26,26,0.88)"};
     --ob-text-sec: ${obTheme === "dark" ? "rgba(255,255,255,0.52)" : "rgba(26,26,26,0.72)"};
@@ -2571,7 +2638,7 @@ function Onboarding({ theme, onComplete }) {
     --ob-nav-bg: ${t.tabBg || (obTheme === "dark" ? "rgba(8,12,18,0.82)" : "rgba(255,255,255,0.80)")};
     --ob-box-bg: ${obTheme === "dark" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"};
     --ob-box-border: ${obTheme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"};
-    --mood-color: ${t.accent};
+    --mood-color: ${selectedAccent};
     --font-ui: "Inter", system-ui, -apple-system, sans-serif;
     --font-display: "Inter", system-ui, -apple-system, sans-serif;
     --font-data: "Roboto Mono", ui-monospace, "SF Mono", "SFMono-Regular", Menlo, monospace;
@@ -2628,6 +2695,9 @@ function Onboarding({ theme, onComplete }) {
   useEffect(() => () => {
     if (manifestBlobUrlRef.current) URL.revokeObjectURL(manifestBlobUrlRef.current);
   }, []);
+  useEffect(() => () => {
+    if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+  }, []);
 
   useLayoutEffect(() => {
     const reset = () => {
@@ -2679,7 +2749,13 @@ function Onboarding({ theme, onComplete }) {
   };
 
   const doLaunch = () => {
-    storageSet("axis_period", obAutoTime ? null : (obPeriod ?? getCircadianPeriod()));
+    const selectedMoodPeriod = selectedMood && selectedMood.id ? mapMoodIdToPeriod(selectedMood.id) : null;
+    const launchPeriod = obAutoTime ? null : (obPeriod ?? selectedMoodPeriod ?? getCircadianPeriod());
+    storageSet("axis_period", launchPeriod);
+    try {
+      if (obAutoTime) localStorage.setItem("selectedMood", "auto");
+      else if (launchPeriod) localStorage.setItem("selectedMood", launchPeriod);
+    } catch (e) {}
     storageSet("axis_theme", obTheme);
     storageSet("axis_onboarded", true);
     try {
@@ -2687,7 +2763,7 @@ function Onboarding({ theme, onComplete }) {
       if (uid) storageSet("axis_onboarded:" + uid, true);
     } catch (e) {}
     try { localStorage.setItem("hasCompletedOnboarding", "true"); } catch (e) {}
-    onComplete({ period: periodForTheme, theme: obTheme });
+    onComplete({ period: launchPeriod || getCircadianPeriod(), theme: obTheme });
     try {
       sessionStorage.setItem("axis_ob_visual_handoff", "1");
       sessionStorage.setItem("axis_boot_home", "1");
@@ -2707,6 +2783,187 @@ function Onboarding({ theme, onComplete }) {
       }
     }, 300);
   };
+  const goTo = (i) => go(i);
+  const currentSlide = cur;
+  const TOTAL_SLIDES = DOT_COUNT;
+  const accent = selectedMood ? selectedMood.accent : "#6B7280";
+  const mapMoodIdToPeriod = (id) => id === "rise" ? "dawn" : id;
+  function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+      : "255, 255, 255";
+  }
+
+  function NavBtn({ onClick, disabled, accent, label, filled }) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={disabled}
+        style={{
+          width: 48,
+          height: 48,
+          borderRadius: 14,
+          border: filled ? "none" : "1px solid rgba(255,255,255,0.1)",
+          background: disabled
+            ? "rgba(255,255,255,0.04)"
+            : filled
+            ? accent
+            : "rgba(255,255,255,0.06)",
+          color: disabled ? "rgba(255,255,255,0.2)" : filled ? "#000" : "#fff",
+          fontSize: 22,
+          fontWeight: 300,
+          cursor: disabled ? "default" : "pointer",
+          transition: "all 0.2s ease",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          pointerEvents: "auto",
+          flexShrink: 0
+        }}
+      >
+        {label}
+      </button>
+    );
+  }
+
+  function SlideShell({ children }) {
+    return (
+      <div className="ob-screen ob-content-only">
+        <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
+          <div className="ob-pad">{children}</div>
+        </div>
+      </div>
+    );
+  }
+
+  function Tag({ children, accent }) {
+    return (
+      <div
+        style={{
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: "0.18em",
+          color: accent || "rgba(255,255,255,0.35)",
+          marginBottom: 10,
+          transition: "color 0.4s ease"
+        }}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  function Headline({ children }) {
+    return <div className="ob-heading">{children}</div>;
+  }
+
+  function Body({ children }) {
+    return <div className="ob-body" style={{ marginBottom: 18 }}>{children}</div>;
+  }
+
+  function MoodSelectSlide({ accent, selectedMood, onSelect }) {
+    return (
+      <SlideShell>
+        <Tag accent={accent}>APPEARANCE</Tag>
+        <Headline>Pick your Mood.</Headline>
+        <Body>
+          AXIS shifts its color with the time of day - or lock it to match how
+          you feel right now. Pick one to preview it through the rest of onboarding.
+        </Body>
+        {MOODS.map((m) => {
+          const active = selectedMood && selectedMood.id === m.id;
+          return (
+            <div
+              key={m.id}
+              onClick={() => onSelect(m)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                padding: "14px 16px",
+                borderRadius: 14,
+                border: active
+                  ? `1.5px solid ${m.accent}`
+                  : "1px solid rgba(255,255,255,0.08)",
+                background: active
+                  ? `rgba(${hexToRgb(m.accent)}, 0.1)`
+                  : "rgba(255,255,255,0.04)",
+                cursor: "pointer",
+                transition: "all 0.25s ease",
+                marginBottom: 10
+              }}
+            >
+              <div
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: 11,
+                  background: `rgba(${hexToRgb(m.accent)}, 0.15)`,
+                  border: `1.5px solid ${m.accent}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 18,
+                  color: m.accent,
+                  flexShrink: 0
+                }}
+              >
+                {m.icon}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: "#fff" }}>
+                    {m.label}
+                  </span>
+                  <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+                    {m.time}
+                  </span>
+                </div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
+                  {m.desc}
+                </div>
+              </div>
+              {active && (
+                <div
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: m.accent,
+                    flexShrink: 0
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </SlideShell>
+    );
+  }
+
+  function ModeCard({ accent, label, desc }) {
+    return (
+      <div
+        style={{
+          padding: "16px",
+          borderRadius: 14,
+          border: `1px solid ${accent}55`,
+          background: `rgba(${hexToRgb(accent)}, 0.05)`,
+          borderLeft: `3px solid ${accent}`,
+          marginBottom: 10
+        }}
+      >
+        <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 6, letterSpacing: "0.05em" }}>
+          {label}
+        </div>
+        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
+          {desc}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="ob-wrap" data-theme={obTheme} style={{ background: t.bg, color: obTheme === "dark" ? "var(--axis-white)" : "var(--axis-black)", transition: "background 0.45s ease, color 0.45s ease" }}>
@@ -2715,7 +2972,31 @@ function Onboarding({ theme, onComplete }) {
         background:`${t.orb1}, ${t.orb2}, ${t.orb3}`,
         transition: "background var(--motion-slow, 800ms ease-in-out)",
       }} />
-      <div ref={obShellRef} className="ob-shell" onClick={e => { if (cur === 0 || cur === 5 || cur === 6 || cur === 10) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}>
+      <div
+        ref={obShellRef}
+        className="ob-shell"
+        style={{ position: "relative" }}
+        onClick={e => { if (cur === 0 || cur === 5 || cur === 6 || cur === 10) return; if (!e.target.closest("button") && !e.target.closest("input") && !e.target.closest(".ob-disclaimer-check")) go(cur + 1); }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: selectedMood && selectedMood.bg ? selectedMood.bg : "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 60%)",
+            transition: "background 0.8s ease",
+            pointerEvents: "none",
+            zIndex: 0
+          }}
+        />
+        <div
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateX(0)" : `translateX(${direction * 24}px)`,
+            transition: "opacity 0.22s ease, transform 0.22s ease",
+            position: "relative",
+            zIndex: 1
+          }}
+        >
         {cur === 0 && (
           <div className="ob-screen ob-intro-hero" style={{ position: "relative" }}>
             <div style={{
@@ -2734,7 +3015,7 @@ function Onboarding({ theme, onComplete }) {
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
               <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
               <span className="ob-intro-hero__accent-bar" aria-hidden="true" />
-              <p className="ob-intro-hero__body">Personalized mobility for exactly where you are right now.</p>
+              <p className="ob-intro-hero__body">Personalized mobility for exactly<br />where you are right now.</p>
             </div>
           </div>
         )}
@@ -2907,184 +3188,19 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 7: APPEARANCE — mirrors System → Mood (main app) */}
-          {cur === 6 && (() => {
-            const themeKey = obTheme === "dark" ? "dark" : "light";
-            const nowPeriod = getCircadianPeriod();
-            const cardAccent = CIRCADIAN_THEMES[periodForTheme][themeKey].accent;
-            const useMoodGlass = obTheme === "light";
-            const MOOD_ROWS = [
-              { p: "dawn", label: "Rise", time: "5–11am", desc: "Warm amber. Morning energy.",
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 16 A 8 8 0 0 1 20 16"/><line x1="0" y1="16" x2="24" y2="16"/></svg> },
-              { p: "midday", label: "Midday", time: "11am–5pm", desc: "Cool mint. Crisp and focused.",
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg> },
-              { p: "prime", label: "Prime", time: "5–10pm", desc: "Deep blue. Winding down.",
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> },
-              { p: "rest", label: "Rest", time: "10pm–5am", desc: "Soft violet. Calm and dim.",
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z"/></svg> },
-            ];
-            return (
-          <div className="ob-screen ob-appearance ob-content-only" style={{ transition: "background-color 0.6s ease, color 0.6s ease" }}>
-            <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
-              <div className="ob-pad">
-                <div className="ob-appearance-mood-rail">
-                  <div className="ob-eyebrow">Appearance</div>
-                  <div className="ob-heading">Mood</div>
-                  <div className="ob-mood-inner">
-                  <div
-                    className="axis-surface-tmt ob-mood-auto-card"
-                    style={{ transition: "all 0.2s", gap: 0, ["--mood-color"]: cardAccent }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                      <div>
-                        <div
-                          className="mood-auto-card__label"
-                          style={{ color: obAutoTime ? "var(--mood-color)" : "var(--ob-text-head)" }}
-                        >Auto</div>
-                        <div className="mood-auto-card__meta">
-                          {obAutoTime ? (
-                            <span><span style={{ color: "var(--mood-color)", fontWeight: 600 }}>{AUTO_MOOD_LABELS[nowPeriod] || "Auto"}</span></span>
-                          ) : (
-                            "Follows time of day"
-                          )}
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        aria-label={obAutoTime ? "Turn off automatic mood" : "Match colors to time of day"}
-                        onClick={() => {
-                          if (obAutoTime) {
-                            setObAutoTime(false);
-                            setObPeriod(nowPeriod);
-                          } else {
-                            setObAutoTime(true);
-                          }
-                        }}
-                        style={{
-                          flexShrink: 0,
-                          width: 44,
-                          height: 26,
-                          border: "1px solid",
-                          borderColor: obAutoTime ? "var(--mood-color)" : (obTheme === "light" ? "rgba(15,30,46,0.22)" : "rgba(255,255,255,0.14)"),
-                          borderRadius: 13,
-                          background: obAutoTime ? "var(--mood-color)" : "var(--ob-box-bg)",
-                          cursor: "pointer",
-                          position: "relative",
-                          transition: "all 0.2s",
-                          boxSizing: "border-box",
-                        }}
-                      >
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: 3,
-                            left: obAutoTime ? 22 : 3,
-                            width: 18,
-                            height: 18,
-                            borderRadius: "50%",
-                            background: obTheme === "light" ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.95)",
-                            transition: "left 0.2s",
-                            boxShadow: "0 1px 4px rgba(0,0,0,0.3)",
-                          }}
-                          aria-hidden
-                        />
-                      </button>
-                    </div>
-                    <div className="mood-auto-card__caption">Auto follows the time of day. Or lock it to match how you feel right now.</div>
-                  </div>
-
-                    <div style={{ marginBottom: 12 }}>
-                      <div className="mood-base-theme__label" style={{ marginBottom: 8 }}>BASE THEME</div>
-                      <div className="mood-base-theme__toggle mood-base-theme__toggle--full">
-                        {[{ val: "dark", label: "Dark" }, { val: "light", label: "Light" }].map(({ val, label }) => (
-                          <button
-                            key={val}
-                            type="button"
-                            className={"mood-base-theme-btn" + (obTheme === val ? " mood-base-theme-btn--active" : "")}
-                            onClick={() => setObTheme(val)}
-                          >{label}</button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 4 }}>
-                      {MOOD_ROWS.map(({ p, label, time, desc, icon }) => {
-                        const rowCt = CIRCADIAN_THEMES[p][themeKey];
-                        const isSelected = !obAutoTime && obPeriod === p;
-                        const isNow = nowPeriod === p;
-                        const iconStroke = (isSelected || (obAutoTime && isNow)) ? rowCt.accent : (obTheme === "light" ? "#1e293b" : rowCt.accent);
-                        const iconNode = React.cloneElement(icon, {
-                          stroke: iconStroke,
-                          strokeWidth: obTheme === "light" ? 1.75 : 1.25,
-                          fill: "none",
-                          style: { overflow: "hidden", flexShrink: 0 },
-                        });
-                        return (
-                          <button
-                            key={p}
-                            type="button"
-                            aria-disabled={obAutoTime ? "true" : "false"}
-                            tabIndex={obAutoTime ? -1 : 0}
-                            className={"ob-mood-period-btn" + (isSelected ? " ob-mood-period-btn--selected" : "")}
-                            style={{
-                              ["--mood-color"]: rowCt.accent,
-                              pointerEvents: obAutoTime ? "none" : "auto",
-                              cursor: obAutoTime ? "default" : "pointer",
-                              backdropFilter: useMoodGlass && !isSelected ? "blur(20px)" : "none",
-                              WebkitBackdropFilter: useMoodGlass && !isSelected ? "blur(20px)" : "none",
-                              border: isSelected ? `1.5px solid ${rowCt.accent}` : undefined,
-                              background: isSelected
-                                ? (useMoodGlass ? `color-mix(in srgb, ${rowCt.accentDim} 60%, rgba(255,255,255,0.88))` : rowCt.accentDim)
-                                : (useMoodGlass ? "rgba(255,255,255,0.82)" : undefined),
-                              boxShadow: isSelected && !obAutoTime ? `0 0 16px ${rowCt.accentGlow}` : "none",
-                            }}
-                            onClick={() => { if (obAutoTime) return; setObPeriod(p); setObAutoTime(false); setHasChosenMood(true); }}
-                          >
-                            <div style={{
-                              width: 44,
-                              height: 44,
-                              borderRadius: 12,
-                              flexShrink: 0,
-                              background: rowCt.bg && String(rowCt.bg).includes("gradient") ? rowCt.bg : rowCt.accentDim,
-                              border: `1px solid ${rowCt.accent}`,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              color: rowCt.accent,
-                              boxShadow: isSelected && !obAutoTime ? `0 0 16px ${rowCt.accentGlow}` : "none",
-                              transition: "box-shadow 0.2s",
-                              overflow: "hidden",
-                            }}>{iconNode}</div>
-                            <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 3 }}>
-                                <span style={{
-                                  fontSize: "var(--text-base)",
-                                  fontWeight: 600,
-                                  color: isSelected ? rowCt.accent : "var(--ob-text-head)",
-                                  fontFamily: "var(--font-display), Inter, system-ui, sans-serif",
-                                  letterSpacing: "-0.01em",
-                                }}>{label}</span>
-                                <span style={{ fontSize: "var(--text-xs)", color: "var(--ob-text-sec)" }}>{time}</span>
-                                {obAutoTime && isNow && (
-                                  <span className="mood-period-badge" style={{ background: rowCt.accent, color: obTheme === "light" ? "#111" : "#111" }}>Active</span>
-                                )}
-                                {!obAutoTime && isSelected && (
-                                  <span className="mood-period-badge mood-period-badge--locked">Locked</span>
-                                )}
-                              </div>
-                              <div style={{ fontSize: "var(--text-sm)", color: "var(--ob-text-sec)", lineHeight: 1.45 }}>{desc}</div>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-            );
-          })()}
+          {/* 7: APPEARANCE — interactive mood selector */}
+          {cur === 6 && (
+            <MoodSelectSlide
+              accent={accent}
+              selectedMood={selectedMood}
+              onSelect={(m) => {
+                setSelectedMood(m);
+                setHasChosenMood(true);
+                setObAutoTime(false);
+                setObPeriod(mapMoodIdToPeriod(m.id));
+              }}
+            />
+          )}
 
           {/* 11: ULTRA MODE */}
           {cur === 10 && <div className="ob-screen ob-content-only ob-ultra-content" style={{ background: "#000000", color: "#FF3B30" }}>
@@ -3115,24 +3231,22 @@ function Onboarding({ theme, onComplete }) {
           {cur === 7 && <div className="ob-screen ob-content-only ob-screen-session-modes">
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
-                <div className="ob-eyebrow">Session modes</div>
+                <Tag accent={accent}>SESSION MODES</Tag>
                 <div className="ob-heading">LIST vs GUIDED</div>
                 <div className="ob-body" style={{ marginBottom: 22 }}>
                   On the sessions tab you pick how you want to move—browse on your own, or follow a timed flow.
                 </div>
                 <div className="ob-mode-cards">
-                  <div className="ob-mode-card ob-mode-card--list">
-                    <div className="ob-mode-title">LIST</div>
-                    <div className="ob-mode-copy">
-                      Self-paced. Scroll the exercise list, set each move (e.g. 30–60s), skip freely, and control your own pace—great when you want flexibility or a quick pick-up.
-                    </div>
-                  </div>
-                  <div className="ob-mode-card ob-mode-card--guided">
-                    <div className="ob-mode-title">GUIDED</div>
-                    <div className="ob-mode-copy">
-                      Hands-free. Auto-timed. Rest for :15 between moves.
-                    </div>
-                  </div>
+                  <ModeCard
+                    accent={accent}
+                    label="LIST"
+                    desc="Self-paced. Scroll the exercise list, set each move (e.g. 30-60s), skip freely, and control your own pace-great when you want flexibility or a quick pick-up."
+                  />
+                  <ModeCard
+                    accent={accent}
+                    label="GUIDED"
+                    desc="Hands-free. Auto-timed. Rest for :15 between moves."
+                  />
                 </div>
                 <div className="ob-body" style={{ marginTop: 18, lineHeight: 1.5 }}>
                   Switch LIST / GUIDED from the session header whenever you like.
@@ -3159,7 +3273,15 @@ function Onboarding({ theme, onComplete }) {
                     ["SYSTEM", "The spot to tweak your theme, mood, and how the app feels, plus all your other settings.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="3.5" y="14" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="14" width="6.5" height="6.5" rx="0.75" /></svg>],
                   ].map(([label, body, icon]) => (
                     <div key={label} className="ob-tab-guide-card">
-                      <div className="ob-tab-guide-icon">{icon}</div>
+                      <div
+                        className="ob-tab-guide-icon"
+                        style={{
+                          background: `rgba(${hexToRgb(accent)}, 0.12)`,
+                          border: `1px solid ${accent}44`,
+                          color: accent,
+                          transition: "all 0.4s ease"
+                        }}
+                      >{icon}</div>
                       <span className="ob-tab-guide-divider" aria-hidden="true" />
                       <div style={{ minWidth:0, flex:1 }}>
                         <div className="ob-tab-guide-title">{label}</div>
@@ -3202,15 +3324,34 @@ function Onboarding({ theme, onComplete }) {
           {cur === 11 && (
             <div className="ob-screen ob-cta-screen ob-launch-screen ob-content-only" style={{ color: "var(--ob-text-head)", transition: "color 0.6s ease" }}>
               <div className="ob-screen-body">
-                <div className="ob-pad">
+                <div className="ob-pad" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: 420, marginLeft: "auto", marginRight: "auto" }}>
                   <h1 className="ob-launch-wordmark">AXIS</h1>
                   <p className="ob-launch-headline">You&apos;re ready.</p>
-                  <p className="ob-launch-support">Your journey starts now. Move with intention.</p>
-                  <button type="button" className="ob-launch-cta ob-btn-tier1" onClick={doLaunch}>Let&apos;s go</button>
+                  <p className="ob-launch-support">Pick a track and start feeling better.</p>
+                  <button
+                    type="button"
+                    onClick={doLaunch}
+                    style={{
+                      width: "100%",
+                      marginTop: 28,
+                      padding: "18px 0",
+                      borderRadius: 16,
+                      border: "none",
+                      background: accent,
+                      color: "#000",
+                      fontSize: 16,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      transition: "background 0.4s ease"
+                    }}
+                  >
+                    LET&apos;S GO
+                  </button>
                 </div>
               </div>
             </div>
           )}
+        </div>
 
       </div>
 
@@ -3239,67 +3380,57 @@ function Onboarding({ theme, onComplete }) {
       >
         <div className="ob-footer-row">
           <div className="ob-footer-side ob-footer-side--left">
-            {cur > 0 && cur !== 11 ? (
-              <button
-                type="button"
-                className="ob-nav-back ob-nav-glass-btn"
-                aria-label="Go Back"
-                onClick={() => go(Math.max(0, cur - 1))}
-                style={{
-                  pointerEvents: 'auto',
-                  flexShrink: 0,
-                }}
-              >{"<"}</button>
-            ) : (
-              <div className="ob-footer-side-placeholder" aria-hidden />
-            )}
+            <NavBtn
+              onClick={() => go(Math.max(0, cur - 1))}
+              disabled={cur <= 0}
+              accent="var(--ob-accent)"
+              label="‹"
+              filled={false}
+            />
           </div>
           <div className="ob-footer-center">
-            <div className="ob-footer-dots">
-              {Array.from({ length: DOT_COUNT }).map((_, i) => {
-                const active = i === cur;
-                return (
-                  <div key={i} className="ob-footer-dot-slot" aria-hidden>
-                    <div
-                      className="ob-footer-dot-inner"
-                      style={{
-                        background: active ? 'var(--ob-accent)' : obDotInactive,
-                      }}
-                    />
-                  </div>
-                );
-              })}
+            <div className="ob-footer-dots" style={{ pointerEvents: "auto" }}>
+              {Array.from({ length: TOTAL_SLIDES }).map((_, i) => (
+                <div
+                  key={i}
+                  onClick={() => goTo(i)}
+                  style={{
+                    width: i === currentSlide ? 20 : 6,
+                    height: 6,
+                    borderRadius: 3,
+                    background:
+                      i === currentSlide
+                        ? accent
+                        : i < currentSlide
+                        ? "color-mix(in srgb, var(--ob-accent) 35%, transparent)"
+                        : "rgba(255,255,255,0.15)",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer",
+                    pointerEvents: "auto",
+                    flexShrink: 0
+                  }}
+                />
+              ))}
             </div>
           </div>
           <div className="ob-footer-side ob-footer-side--right">
-            {cur !== 11 ? (
-              <button
-                type="button"
-                className="ob-nav-next ob-nav-glass-btn"
-                aria-label="Continue"
-                onClick={() => {
-                  if (cur === 0) { go(1); return; }
-                  if (cur === 5) { doSafetyNext(); return; }
-                  if (cur === 6) {
-                    setHasChosenMood(true);
-                    if (!obAutoTime && obPeriod == null) setObPeriod(getCircadianPeriod());
-                    go(7);
-                    return;
-                  }
-                  if (cur < total - 1) go(cur + 1);
-                }}
-                disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
-                style={{
-                  pointerEvents: 'auto',
-                  flexShrink: 0,
-                  opacity: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 0.3 : 1,
-                  cursor: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 'not-allowed' : 'pointer',
-                }}
-                aria-disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
-              >{">"}</button>
-            ) : (
-              <div className="ob-footer-side-placeholder" aria-hidden />
-            )}
+            <NavBtn
+              onClick={() => {
+                if (cur === 0) { go(1); return; }
+                if (cur === 5) { doSafetyNext(); return; }
+                if (cur === 6) {
+                  setHasChosenMood(true);
+                  if (!obAutoTime && obPeriod == null) setObPeriod(getCircadianPeriod());
+                  go(7);
+                  return;
+                }
+                if (cur < total - 1) go(cur + 1);
+              }}
+              disabled={cur >= total - 1 || (cur === 5 && (!disclaimerName.trim() || !disclaimerChecked))}
+              accent="var(--ob-accent)"
+              label="›"
+              filled={true}
+            />
           </div>
         </div>
       </div>
