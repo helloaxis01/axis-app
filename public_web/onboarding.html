@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514e -->
-<html lang="en" data-axis-ob-live="20260514e">
+<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514c -->
+<html lang="en" data-axis-ob-live="20260514c">
 <head>
   <meta charset="UTF-8" />
-  <script>window.AXIS_ONBOARD_BUILD="20260514e";</script>
+  <script>window.AXIS_ONBOARD_BUILD="20260514c";</script>
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
-  <script>(function(){var V='20260514e';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
+  <script>(function(){var V='20260514c';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
   <base href="/" />
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" type="image/png" href="/axis-icon.png" sizes="180x180" />
-  <title>AXIS · Onboarding OB-20260514e</title>
+  <title>AXIS · Onboarding OB-20260514c</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css?v=20260514e" />
+  <link rel="stylesheet" href="/onboarding.css?v=20260514c" />
   <script>
     (function () {
       fetch("./axis_data.json", { cache: "no-store" })
@@ -654,7 +654,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
     color: #ff3b30 !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-body {
-    color: rgba(255, 59, 48, 0.88) !important;
+    color: color-mix(in srgb, rgba(255, 59, 48, 0.88) 75%, #ffffff 25%) !important;
     line-height: 1.7 !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-ultra-note {
@@ -665,7 +665,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
     font-size: 14px !important;
     line-height: 1.65 !important;
-    color: rgba(255, 59, 48, 0.92) !important;
+    color: color-mix(in srgb, rgba(255, 59, 48, 0.92) 75%, #ffffff 25%) !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-ultra-eye-mark {
     color: #ff3b30 !important;
@@ -791,29 +791,50 @@ body { font-family: var(--font-ui), sans-serif !important; }
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 16px 18px 14px;
-    border-radius: 22px;
+    gap: 0;
+    padding: 11px 14px 10px;
+    border-radius: 16px;
     margin-bottom: 12px;
     box-sizing: border-box;
     width: 100%;
-    border: 1px solid color-mix(in srgb, var(--mood-color, var(--ob-accent)) 34%, rgba(255, 255, 255, 0.1));
-    background:
-      linear-gradient(180deg,
-        color-mix(in srgb, var(--mood-color, var(--ob-accent)) 22%, transparent) 0%,
-        color-mix(in srgb, var(--mood-color, var(--ob-accent)) 12%, transparent) 28%,
-        transparent 72%),
-      color-mix(in srgb, var(--ob-box-bg) 92%, #121822);
-    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    border: 1px solid color-mix(in srgb, var(--mood-color, var(--ob-accent)) 14%, rgba(255, 255, 255, 0.1));
+    background: color-mix(in srgb, var(--ob-box-bg) 97%, #121822);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
   .ob-wrap[data-theme="light"] .axis-surface-tmt.ob-mood-auto-card {
-    border-color: color-mix(in srgb, var(--mood-color, var(--ob-accent)) 28%, rgba(15, 30, 46, 0.14));
-    background:
-      linear-gradient(180deg,
-        color-mix(in srgb, var(--mood-color, var(--ob-accent)) 20%, transparent) 0%,
-        color-mix(in srgb, var(--mood-color, var(--ob-accent)) 10%, transparent) 28%,
-        transparent 72%),
-      color-mix(in srgb, rgba(255, 255, 255, 0.88) 96%, #eef2f7);
-    box-shadow: 0 14px 38px rgba(15, 30, 46, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    border-color: color-mix(in srgb, var(--mood-color, var(--ob-accent)) 12%, rgba(15, 30, 46, 0.1));
+    background: color-mix(in srgb, rgba(255, 255, 255, 0.88) 97%, #eef2f7);
+    box-shadow: 0 6px 16px rgba(15, 30, 46, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  .ob-wrap .mood-auto-card__label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: 2px;
+    font-family: var(--font-display), Inter, system-ui, sans-serif;
+  }
+  .ob-wrap .mood-auto-card__meta {
+    font-size: 11px;
+    line-height: 1.35;
+    color: var(--ob-text-sec);
+  }
+  .ob-wrap .axis-surface-tmt.ob-mood-auto-card .mood-auto-card__caption {
+    margin: 10px 0 0;
+    padding: 0;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 13px !important;
+    font-weight: 400;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.4);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.4);
+  }
+  .ob-wrap[data-theme="light"] .axis-surface-tmt.ob-mood-auto-card .mood-auto-card__caption {
+    color: rgba(15, 20, 34, 0.55);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.55);
+  }
+  .ob-wrap .ob-appearance-mood-rail .mood-base-theme__label {
+    text-align: center;
+    display: block;
+    width: 100%;
   }
   .ob-wrap .mood-base-theme__label {
     font-family: var(--font-display), Inter, system-ui, sans-serif;
@@ -840,6 +861,9 @@ body { font-family: var(--font-ui), sans-serif !important; }
     background: rgba(15, 30, 46, 0.06);
   }
   .ob-wrap .mood-base-theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 1;
     min-height: 36px;
     border-radius: 10px;
@@ -851,6 +875,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
     letter-spacing: 0.02em;
     text-transform: none;
     font-weight: 500;
+    text-align: center;
     cursor: pointer;
   }
   .ob-wrap .mood-base-theme-btn--active {
@@ -866,21 +891,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
     background: #f6f7f8 !important;
     color: #0d0f14 !important;
     font-weight: 600;
-  }
-  .ob-wrap .ob-appearance .ob-appearance-base-theme {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  .ob-wrap .ob-appearance .ob-appearance-base-theme .mood-base-theme__label {
-    width: 100%;
-    max-width: 340px;
-    text-align: center;
-  }
-  .ob-wrap .ob-appearance .ob-appearance-base-theme .mood-base-theme__toggle--full {
-    width: 100%;
-    max-width: 340px;
   }
   .ob-wrap .ob-mood-period-btn {
     display: flex;
@@ -1724,7 +1734,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   </style>
 </head>
 <body>
-  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514e -->
+  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514c -->
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
@@ -2643,7 +2653,7 @@ function Onboarding({ theme, onComplete }) {
               textTransform: "uppercase",
               color: "var(--ob-text-sec)",
               opacity: 0.72,
-            }}>OB-20260514e</div>
+            }}>OB-20260514c</div>
             <div className="ob-intro-hero__inner">
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
               <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
@@ -2844,24 +2854,18 @@ function Onboarding({ theme, onComplete }) {
                 <div className="ob-appearance-mood-rail">
                   <div className="ob-eyebrow">Appearance</div>
                   <div className="ob-heading">Mood</div>
-                  <div className="ob-mood-page-header__sub" style={{ marginBottom: 12 }}>
-                    Auto follows the time of day. Or lock it to match how you feel right now.
-                  </div>
                   <div className="ob-mood-inner">
                   <div
                     className="axis-surface-tmt ob-mood-auto-card"
                     style={{ transition: "all 0.2s", gap: 0, ["--mood-color"]: cardAccent }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                       <div>
-                        <div style={{
-                          fontSize: "var(--text-base)",
-                          fontWeight: 600,
-                          color: obAutoTime ? "var(--mood-color)" : "var(--ob-text-head)",
-                          marginBottom: 3,
-                          fontFamily: "var(--font-display), Inter, system-ui, sans-serif",
-                        }}>Auto</div>
-                        <div style={{ fontSize: "var(--text-xs)", color: "var(--ob-text-sec)" }}>
+                        <div
+                          className="mood-auto-card__label"
+                          style={{ color: obAutoTime ? "var(--mood-color)" : "var(--ob-text-head)" }}
+                        >Auto</div>
+                        <div className="mood-auto-card__meta">
                           {obAutoTime ? (
                             <span><span style={{ color: "var(--mood-color)", fontWeight: 600 }}>{AUTO_MOOD_LABELS[nowPeriod] || "Auto"}</span></span>
                           ) : (
@@ -2910,16 +2914,16 @@ function Onboarding({ theme, onComplete }) {
                         />
                       </button>
                     </div>
+                    <div className="mood-auto-card__caption">Auto follows the time of day. Or lock it to match how you feel right now.</div>
+                  </div>
 
-                    <div className="ob-appearance-base-theme" style={{ marginBottom: 12 }}>
+                    <div style={{ marginBottom: 12 }}>
                       <div className="mood-base-theme__label" style={{ marginBottom: 8 }}>BASE THEME</div>
-                      <div className="mood-base-theme__toggle mood-base-theme__toggle--full" role="tablist" aria-label="Dark or light base theme">
-                        {[{ val: "dark", label: "DARK" }, { val: "light", label: "LIGHT" }].map(({ val, label }) => (
+                      <div className="mood-base-theme__toggle mood-base-theme__toggle--full">
+                        {[{ val: "dark", label: "Dark" }, { val: "light", label: "Light" }].map(({ val, label }) => (
                           <button
                             key={val}
                             type="button"
-                            role="tab"
-                            aria-selected={obTheme === val ? "true" : "false"}
                             className={"mood-base-theme-btn" + (obTheme === val ? " mood-base-theme-btn--active" : "")}
                             onClick={() => setObTheme(val)}
                           >{label}</button>
@@ -3002,7 +3006,6 @@ function Onboarding({ theme, onComplete }) {
                 </div>
               </div>
             </div>
-          </div>
           </div>
             );
           })()}

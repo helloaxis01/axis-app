@@ -1,11 +1,12 @@
 {
   "name": "axis-031726-rebuild",
   "private": true,
-  "description": "AXIS web shell (public_web). npm run preview works from this folder even when the parent axis-app repo is missing — uses public_web/ or walks up to find the full build.",
+  "description": "AXIS web shell (public_web). npm run preview serves public_web on :4173 by default (same as preview:static). Use npm run preview:axis-dist when you need parent axis-app dist/ built and served.",
   "scripts": {
     "build": "node scripts/verify-inline-syntax.cjs",
     "cap:sync": "node scripts/cap-sync-delegate.cjs",
     "preview": "node scripts/preview.cjs",
+    "preview:axis-dist": "PREVIEW_AXIS_DIST=1 node scripts/preview.cjs",
     "preview:static": "cd public_web && npx --yes serve -l 4173 .",
     "preview:4188": "cd public_web && npx --yes serve -l 4188 .",
     "sync:onboarding-dist": "node scripts/sync-onboarding-to-dist.cjs"

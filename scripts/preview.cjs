@@ -59,9 +59,13 @@ async function main() {
     process.exit(1);
   }
 
+  /** Default: serve public_web/ on :4173 so index + onboarding edits match localhost preview (031726 REBUILD workflow). Set PREVIEW_AXIS_DIST=1 to build parent axis-app and serve its dist/ instead. */
+  const useAxisDist =
+    process.env.PREVIEW_AXIS_DIST === "1" || /^true$/i.test(String(process.env.PREVIEW_AXIS_DIST || ""));
   const forcePublicWeb =
     process.env.PREVIEW_PUBLIC_WEB === "1" || /^true$/i.test(String(process.env.PREVIEW_PUBLIC_WEB || ""));
-  const fullRoot = forcePublicWeb ? null : findFullAxisRoot(rebuildRoot);
+  const fullRoot =
+    forcePublicWeb || !useAxisDist ? null : findFullAxisRoot(rebuildRoot);
   const publicWeb = path.join(rebuildRoot, "public_web");
   const publicWebIndex = path.join(publicWeb, "index.html");
   const distRoot = path.join(rebuildRoot, "dist");
@@ -85,8 +89,7 @@ async function main() {
       env: process.env,
     });
     console.warn(
-      "\nNote: Serving the parent axis-app dist/ folder, not public_web/. " +
-        "Onboarding edits in public_web won’t appear until you run npm run sync:onboarding-dist here (or PREVIEW_PUBLIC_WEB=1 npm run preview to force public_web).\n"
+      "\nServing parent axis-app dist/ (PREVIEW_AXIS_DIST=1). For public_web only: omit PREVIEW_AXIS_DIST or run npm run preview:static.\n"
     );
     child.on("exit", (code) => process.exit(code ?? 0));
     return;
@@ -94,8 +97,13 @@ async function main() {
 
   if (hasStaticShell) {
     console.warn(
-      "No parent axis-app repo found (expected a folder above this one with package.json name \"axis-app\", build.js, and scripts/sync-main-index.cjs).\n" +
-        "Serving public_web/ only (no Babel dist build). For full preview run from the complete AXIS clone or restore package.json at the repo root.\n" +
+      "Serving public_web/ at http://localhost:" +
+        PORT +
+        "/ (same as npm run preview:static). Main app: /  · Onboarding: /onboarding\n" +
+        "To preview parent axis-app dist instead: PREVIEW_AXIS_DIST=1 npm run preview\n" +
+        (!findFullAxisRoot(rebuildRoot)
+          ? "No parent axis-app repo found — axis-app dist preview unavailable from this folder layout.\n"
+          : "") +
         "LAN preview: on a phone, use http://<this-machine-LAN-IP>:" +
         PORT +
         "/… — localhost on the phone points at the phone, not your Mac.\n" +

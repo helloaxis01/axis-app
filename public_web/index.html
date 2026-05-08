@@ -5,7 +5,7 @@
   (function () {
     /** Bump axis_ob when onboarding.html changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
-      var OND = "20260514e";
+      var OND = "20260514c";
       try {
         var path = "./onboarding.html";
         if (window.location.protocol && window.location.protocol !== "file:") {
@@ -9662,7 +9662,8 @@ const css = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border-radius: 0;
-    padding: 24px 0 48px;
+    /* .metrics-rail__rule--gap-md supplies gap above; no extra top padding */
+    padding: 0 0 40px;
     margin-top: 0;
     width: 100%;
     box-sizing: border-box;
@@ -10179,12 +10180,6 @@ const css = `
     pointer-events: none;
     background: transparent !important;
     border: none !important;
-  }
-  /* Metrics: spacer kept at 0 — scroll clearance is padding on .home-track-cards-outer--summary (see below) so it isn’t negated by overflow:hidden on the flex column */
-  .tab-bar-spacer--metrics {
-    height: 0 !important;
-    min-height: 0 !important;
-    flex-shrink: 0;
   }
   .tab-bar-spacer--summary {
     height: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 48px);
@@ -10820,6 +10815,23 @@ const css = `
     justify-content: space-between;
     gap: 16px;
   }
+  .sys-dash__mood-card.sys-dash__mood-card--prominent {
+    padding: 18px;
+    border-radius: 16px;
+    border-color: color-mix(in srgb, var(--mood-color) 42%, rgba(255, 255, 255, 0.12));
+    background: color-mix(in srgb, var(--mood-color) 10%, rgba(255, 255, 255, 0.04));
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mood-card.sys-dash__mood-card--prominent {
+    border-color: color-mix(in srgb, var(--mood-color) 38%, rgba(15, 30, 46, 0.12));
+    background: color-mix(in srgb, var(--mood-color) 9%, rgba(255, 255, 255, 0.92));
+    box-shadow: 0 10px 36px rgba(15, 30, 46, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+  .app[data-night="true"] .sys-dash__mood-card.sys-dash__mood-card--prominent {
+    border-color: rgba(255, 59, 48, 0.42);
+    background: rgba(255, 59, 48, 0.06);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 59, 48, 0.12);
+  }
   .app[data-theme="light"]:not([data-night="true"]) .sys-dash__mood-card {
     background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
@@ -10846,6 +10858,7 @@ const css = `
   .sys-dash__mood-card > .sys-dash__mood-swatch {
     flex-shrink: 0;
     align-self: center;
+    margin-left: auto;
   }
   .sys-dash__mood-name {
     margin-top: 6px;
@@ -11105,8 +11118,8 @@ const css = `
     font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
     font-size: 12px;
     line-height: 1.38;
-    color: rgba(255, 255, 255, 0.375);
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.375);
+    color: color-mix(in srgb, rgba(255, 255, 255, 0.375) 75%, #ffffff 25%);
+    -webkit-text-fill-color: color-mix(in srgb, rgba(255, 255, 255, 0.375) 75%, #ffffff 25%);
     max-width: 100%;
   }
   .sys-dash__toggle-ios {
@@ -11368,6 +11381,57 @@ const css = `
   .mood-auto-card {
     box-sizing: border-box;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    transition: all 0.2s;
+  }
+  /* Flat fill — no mood gradient (period rows carry accent) */
+  .axis-surface-tmt.mood-auto-card {
+    padding: 11px 14px 10px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    border: 1px solid color-mix(in srgb, var(--mood-color) 14%, var(--glass-border));
+    background: color-mix(in srgb, var(--glass-bg) 97%, #121822);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .axis-surface-tmt.mood-auto-card {
+    border-color: color-mix(in srgb, var(--mood-color) 12%, rgba(15, 30, 46, 0.1));
+    background: color-mix(in srgb, var(--glass-bg) 97%, #eef2f7);
+    box-shadow: 0 6px 16px rgba(15, 30, 46, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  .app[data-night="true"] .axis-surface-tmt.mood-auto-card {
+    padding: 11px 14px 10px;
+    border-radius: 16px;
+    border-color: rgba(255, 59, 48, 0.22) !important;
+    background: #0a0303 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 59, 48, 0.05) !important;
+  }
+  .mood-auto-card__label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .mood-auto-card__meta {
+    font-size: 11px;
+    line-height: 1.35;
+    color: var(--text-secondary);
+  }
+  /* Same typography as Current mood hero description (.sys-dash__mood-desc): 13px DM Sans */
+  .app .axis-surface-tmt.mood-auto-card .mood-auto-card__caption {
+    margin: 10px 0 0;
+    padding: 0;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 13px !important;
+    font-weight: 400;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.4);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.4);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .axis-surface-tmt.mood-auto-card .mood-auto-card__caption {
+    color: rgba(15, 20, 34, 0.55);
+    -webkit-text-fill-color: rgba(15, 20, 34, 0.55);
   }
   .mood-base-theme__label {
     font-family: var(--font-display);
@@ -12056,11 +12120,13 @@ const css = `
     border-color:var(--mood-color);
     background:var(--accent-dim);
   }
-  /* Metrics: bottom inset on this scroll child (not the zero-height spacer) so “Start Another Session” clears fixed tab bar + home indicator */
+  /* Metrics rail: same bottom inset model as Home — .track-cards-outer gets light padding; tab bar + safe area via .tab-bar-spacer--today */
   .home .track-cards-outer.home-track-cards-outer--top.home-track-cards-outer--summary {
     margin-bottom: 0;
     overflow: visible;
-    padding-bottom: calc(var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + clamp(140px, 28vh, 280px));
+    padding-bottom: 8px;
+    display: flex;
+    flex-direction: column;
   }
   /* Browse results: horizontal gutter; top gap from Browse tabs uses margin (edge-to-edge), not padding stack */
   .home-browse-scroll-mask {
@@ -18370,6 +18436,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const hcSys = `${metricsHealthHint || ""} ${healthConnectSyncMsg || ""}`;
     const healthSyncAvailSys = /synced|updated|connected/i.test(hcSys);
     const warnSys = /error|fail|denied|unable/i.test(String(hcSys).toLowerCase()) && !healthSyncAvailSys;
+    const effectivePeriodSys = activePeriod !== null ? activePeriod : nowPeriod;
+    const currentMoodRow = MOOD_PERIODS.find((row) => row.p === effectivePeriodSys) || MOOD_PERIODS[0];
+    const ctMoodHero = nightMode
+      ? { accent: "#FF3B30" }
+      : CIRCADIAN_THEMES[effectivePeriodSys][theme === "dark" ? "dark" : "light"];
+    const moodHeroTitle = nightMode ? "Ultra" : currentMoodRow.label;
+    const moodHeroDesc = nightMode ? "Pure black + bright red. Maximum contrast." : currentMoodRow.desc;
+    const moodHeroMeta = nightMode ? "Circadian palette paused" : activePeriod === null ? `Auto · ${currentMoodRow.time}` : `Locked · ${currentMoodRow.time}`;
     const okSys = !warnSys;
     return (/*#__PURE__*/
       React.createElement("div", { className: "app app--nav-gap-tight", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
@@ -18382,21 +18456,43 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home-welcome metrics-page-title", id: "axis-system-welcome" }, "System"), /*#__PURE__*/
       React.createElement("div", { className: "sys-dash__hdr" }, /*#__PURE__*/
       React.createElement("span", { className: "sys-dash__ver" }, APP_VERSION_DISPLAY), /*#__PURE__*/
-      React.createElement("span", { className: "sys-dash__stat" + (okSys ? " sys-dash__stat--ok" : " sys-dash__stat--warn") }, okSys ? "STATUS: OPTIMAL" : "STATUS: CHECK SETTINGS")), /*#__PURE__*/
-      React.createElement("div", { className: "mood-page-header__sub", style: { fontSize: "var(--text-sm)", color: "var(--text-secondary)", marginBottom: 16, lineHeight: 1.45 } }, "Auto follows the time of day. Or lock it to match how you feel right now.")), /*#__PURE__*/
+      React.createElement("span", { className: "sys-dash__stat" + (okSys ? " sys-dash__stat--ok" : " sys-dash__stat--warn") }, okSys ? "STATUS: OPTIMAL" : "STATUS: CHECK SETTINGS"))), /*#__PURE__*/
 
-      React.createElement("div", { className: "axis-surface-tmt mood-auto-card", style: { display: "flex", flexDirection: "column", alignItems: "stretch", padding: "16px 18px 14px", borderRadius: 22, marginBottom: 12, transition: "all 0.2s", gap: 0 } }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-hero", style: { marginBottom: 26 } }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-card sys-dash__mood-card--prominent", role: "region", "aria-label": "Current mood" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-card-main" }, /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__eyebrow" }, "Current mood"), /*#__PURE__*/
+      React.createElement("div", {
+        className: "sys-dash__mood-name",
+        style: nightMode ? { color: "#FF3B30", WebkitTextFillColor: "#FF3B30" } : { color: ctMoodHero.accent, WebkitTextFillColor: ctMoodHero.accent }
+      }, moodHeroTitle), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-desc" }, moodHeroDesc), /*#__PURE__*/
+      React.createElement("div", { className: "sys-dash__mood-time" }, moodHeroMeta)
+      ), /*#__PURE__*/
+      React.createElement("div", {
+        className: "sys-dash__mood-swatch",
+        style: {
+          background: ctMoodHero.accent,
+          boxShadow: nightMode ? "0 4px 26px rgba(255, 59, 48, 0.42)" : `0 6px 28px color-mix(in srgb, ${ctMoodHero.accent} 50%, transparent)`
+        },
+        "aria-hidden": true
+      })
+      )
+      ), /*#__PURE__*/
+
+      React.createElement("div", { className: "axis-surface-tmt mood-auto-card" }, /*#__PURE__*/
       React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 } }, /*#__PURE__*/
       React.createElement("div", null, /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-base)", fontWeight: 600, color: activePeriod === null ? "var(--mood-color)" : "var(--text-white)", marginBottom: 3 } }, "Auto"), /*#__PURE__*/
-      React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)" } },
+      React.createElement("div", { className: "mood-auto-card__label", style: { color: activePeriod === null ? "var(--mood-color)" : "var(--text-white)" } }, "Auto"), /*#__PURE__*/
+      React.createElement("div", { className: "mood-auto-card__meta" },
       activePeriod === null ? /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", { style: { color: "var(--mood-color)", fontWeight: 600 } }, AUTO_MOOD_LABELS[nowPeriod] || "Auto")) : "Follows time of day"
       )
       ), /*#__PURE__*/
       React.createElement("button", { onClick: nightMode ? undefined : () => {axisHapticTick();const n = activePeriod === null ? nowPeriod : null;setActivePeriod(n);storageSet("axis_period", n);}, style: { flexShrink: 0, width: 44, height: 26, border: "1px solid", borderColor: activePeriod === null ? "var(--mood-color)" : "var(--glass-border-strong)", borderRadius: 13, background: activePeriod === null ? "var(--mood-color)" : "var(--glass-bg)", cursor: nightMode ? "default" : "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
       React.createElement("div", { style: { position: "absolute", top: 3, left: activePeriod === null ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: nightMode ? "#000000" : "rgba(255,255,255,0.95)", transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" } })
       )
-      )
+      ), /*#__PURE__*/
+      React.createElement("div", { className: "mood-auto-card__caption" }, "Auto follows the time of day. Or lock it to match how you feel right now.")
       ), /*#__PURE__*/
 
       React.createElement("div", { style: { marginBottom: 12 } }, /*#__PURE__*/
@@ -18845,7 +18941,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       )
       , /*#__PURE__*/
-      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--metrics" })
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--today" })
       ), /*#__PURE__*/
       React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
       ));
