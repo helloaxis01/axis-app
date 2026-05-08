@@ -1586,7 +1586,7 @@
       "id": "prime",
       "label": "Night Ease",
       "subtitle": "Decompress, Calm, Sleep",
-      "purpose": "Better sleep stretches and breathing to help you wind down for the night.",
+      "purpose": "Lower cortisol, decompress the spine, prepare for sleep.",
       "sections": [
         {
           "label": "Better Sleep Stretch",
@@ -1785,7 +1785,7 @@
       "id": "desk",
       "label": "Desk Undo",
       "subtitle": "Posture, Sitting, Refresh",
-      "purpose": "A quick desk break to open your chest and release your hips and wrists.",
+      "purpose": "Six movements to undo an hour of sitting. Stand up. Do it now.",
       "sections": [
         {
           "label": "The Desk Break",
@@ -2074,7 +2074,7 @@
       "id": "screen",
       "label": "Tech Neck Release",
       "subtitle": "Neck, Shoulder, Screen",
-      "purpose": "A digital detox for your neck and shoulders to reverse screen strain.",
+      "purpose": "Undo the forward pull of screen time. Seven targeted releases for the neck and shoulder girdle.",
       "sections": [
         {
           "label": "Digital Detox",
@@ -2392,7 +2392,7 @@
       "id": "hip",
       "label": "Hip Freedom",
       "subtitle": "Open, Mobilize, Rotators",
-      "purpose": "Movements for happy hips that improve mobility and open up tight joints.",
+      "purpose": "Open the hips, free the lower back, restore the range that sitting steals.",
       "sections": [
         {
           "label": "Happy Hips",
@@ -2792,7 +2792,7 @@
       "id": "back",
       "label": "Lumbar Relief",
       "subtitle": "Decompress, Release, Strengthen",
-      "purpose": "A lower back soother using gentle stretches to ease tension and find relief.",
+      "purpose": "For days when the lower back needs care, not challenge. Gentle traction and release.",
       "sections": [
         {
           "label": "Lower Back Soother",
@@ -3064,7 +3064,7 @@
       "id": "steady",
       "label": "Stay Steady",
       "subtitle": "Stability, Balance, Coordination",
-      "purpose": "Foundation and balance work to keep you feeling stable and controlled.",
+      "purpose": "Train the systems that prevent falls. Simple movements that are deceptively hard to do well.",
       "sections": [
         {
           "label": "Foundation",
@@ -3318,7 +3318,7 @@
       "id": "freely",
       "label": "Joint Glide",
       "subtitle": "CARS, Mobility, Freedom",
-      "purpose": "Full body mobility focusing on spine and joint health for easier movement.",
+      "purpose": "Controlled Articular Rotations and mobility work for every major joint.",
       "sections": [
         {
           "label": "Spine",
@@ -3636,7 +3636,7 @@
       "id": "transit",
       "label": "In Transit",
       "subtitle": "Seated, Circulation, Calm",
-      "purpose": "Seated movements and vision softening to keep you mobile while traveling.",
+      "purpose": "Four exercises designed for your seat. Keep circulation moving and the nervous system calm during any long journey.",
       "sections": [
         {
           "label": "In-Transit",
@@ -4043,7 +4043,7 @@
       "id": "travel",
       "label": "Arrival Unwind",
       "subtitle": "Travel, Decompress, Reset",
-      "purpose": "Reset your body after travel with movements that release tension and psoas.",
+      "purpose": "Six movements to undo the posture of travel. Do these as soon as you arrive.",
       "sections": [
         {
           "label": "In-Transit",
@@ -4450,7 +4450,7 @@
       "id": "walking",
       "label": "Walk Ease",
       "subtitle": "Pre-Walk, Post-Walk, Reset",
-      "purpose": "Gait prep for your walk and a structural decompression for when you finish.",
+      "purpose": "Wake the gait system before the miles, then decompress calves, quads, and arches after.",
       "sections": [
         {
           "label": "Pre-Walk: The Gait Prep",
@@ -4681,7 +4681,7 @@
       "id": "running",
       "label": "Run Reboot",
       "subtitle": "Impact, Hips, Recovery",
-      "purpose": "Get impact ready before your run and use a structural reset to recover.",
+      "purpose": "Prime tendons and hips before impact, then restore structure and circulation post-run.",
       "sections": [
         {
           "label": "Pre-Run: The Impact Ready",
@@ -4886,7 +4886,7 @@
       "id": "golf",
       "label": "Swing Sync",
       "subtitle": "Golf, Rotation, Ready",
-      "purpose": "Dynamic prep for the fairway and recovery stretches for after your game.",
+      "purpose": "Prepare rotation, wrists, and hips before the first tee, then decompress after the final putt.",
       "sections": [
         {
           "label": "Pre-Game: The Dynamic Drive",
@@ -5065,7 +5065,7 @@
       "id": "tennis",
       "label": "Court Prep",
       "subtitle": "Racket, Shoulders, Hips",
-      "purpose": "Court readiness for your shoulders and ankles with a post-game decompression.",
+      "purpose": "Ready the lateral base and shoulders for court work, then release forearms, hips, and side body after play.",
       "sections": [
         {
           "label": "Pre-Game: The Court Readiness",
@@ -5296,7 +5296,7 @@
       "id": "thoracic",
       "label": "Thoracic Chest Reset",
       "subtitle": "Mobility, Upper Back, Chest",
-      "purpose": "A thoracic flow to open your chest and improve upper back mobility.",
+      "purpose": "A guided 7–10 minute flow to restore thoracic mobility and reduce upper back tension.",
       "sections": [
         {
           "label": "Thoracic Flow",
@@ -5518,7 +5518,7 @@
       "id": "wrist",
       "label": "Carpal Tunnel Release",
       "subtitle": "Glides, Stretches, Nerves",
-      "purpose": "A wrist and hand reset to ease strain and glide the median nerve.",
+      "purpose": "Short PT-style routine for wrist and hand mobility — perfect for keyboard users.",
       "sections": [
         {
           "label": "Wrist & Hand Reset",
@@ -5679,7 +5679,7 @@
       "id": "anxiety",
       "label": "Calm Circuit",
       "subtitle": "Breathe, Ground, Focus",
-      "purpose": "Immediate nervous system resets and grounding to help you feel settled.",
+      "purpose": "Evidence-based techniques that directly shift the nervous system from fight-or-flight to rest and digest.",
       "sections": [
         {
           "label": "Immediate Nervous System Reset",
@@ -5958,7 +5958,7 @@
       "id": "stress",
       "label": "Tension Release",
       "subtitle": "Stress, Relax, Unwind",
-      "purpose": "Physical discharge and muscle relaxation to help your body downshift.",
+      "purpose": "Complete the stress cycle the body started. Move the cortisol through. Then downshift.",
       "sections": [
         {
           "label": "Physical Discharge",
@@ -6237,7 +6237,7 @@
       "id": "feet",
       "label": "Feet First",
       "subtitle": "Fascia, Load, Release",
-      "purpose": "Release and strengthen your feet to improve resilience and arch support.",
+      "purpose": "PT-backed protocol for plantar fasciitis and foot pain. Release the tissue, wake the muscles, load the chain.",
       "sections": [
         {
           "label": "Release",
@@ -6715,7 +6715,7 @@
       "id": "knee",
       "label": "Knee Resilience",
       "subtitle": "Knee, Mobility, Strength",
-      "purpose": "Targeted stability and strengthening to build long-term support for your knees.",
+      "purpose": "Bulletproof the joint: strengthen the muscles that support it and use low-load movements to lubricate and offload pressure.",
       "sections": [
         {
           "label": "Knee Resilience",
