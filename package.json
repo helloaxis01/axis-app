@@ -9,6 +9,10 @@
     "preview:axis-dist": "PREVIEW_AXIS_DIST=1 node scripts/preview.cjs",
     "preview:static": "cd public_web && npx --yes serve -l 4173 .",
     "preview:4188": "cd public_web && npx --yes serve -l 4188 .",
-    "sync:onboarding-dist": "node scripts/sync-onboarding-to-dist.cjs"
+    "sync:onboarding-dist": "node scripts/sync-onboarding-to-dist.cjs",
+    "icons:generate": "node scripts/generate-axis-icon-png.cjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }
