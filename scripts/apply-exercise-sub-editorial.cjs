@@ -77,6 +77,14 @@ function subForName(name) {
   return null;
 }
 
+function ensureTerminalPeriod(s) {
+  if (s == null || typeof s !== "string") return s;
+  const t = s.trim();
+  if (!t) return s;
+  if (/[.!?…]$/.test(t)) return t;
+  return t + ".";
+}
+
 function main() {
   const raw = fs.readFileSync(DATA, "utf8");
   const data = JSON.parse(raw);
@@ -86,7 +94,7 @@ function main() {
       for (const ex of sec.exercises || []) {
         const sub = subForName(ex.name);
         if (sub) {
-          ex.sub = sub;
+          ex.sub = ensureTerminalPeriod(sub);
           n++;
         }
       }
