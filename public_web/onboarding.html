@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514h -->
-<html lang="en" data-axis-ob-live="20260514h">
+<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514k -->
+<html lang="en" data-axis-ob-live="20260514k">
 <head>
   <meta charset="UTF-8" />
-  <script>window.AXIS_ONBOARD_BUILD="20260514h";</script>
+  <script>window.AXIS_ONBOARD_BUILD="20260514k";</script>
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
-  <script>(function(){var V='20260514h';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
+  <script>(function(){var V='20260514k';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
   <base href="/" />
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" type="image/png" href="/axis-icon.png" sizes="180x180" />
-  <title>AXIS · Onboarding OB-20260514h</title>
+  <title>AXIS · Onboarding OB-20260514k</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css?v=20260514h" />
+  <link rel="stylesheet" href="/onboarding.css?v=20260514k" />
   <script>
     (function () {
       fetch("./axis_data.json", { cache: "no-store" })
@@ -418,25 +418,28 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-card {
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     gap: 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 12px !important;
-    padding: 12px 14px !important;
-    background: transparent !important;
+    border: 1px solid color-mix(in srgb, var(--ob-accent) 34%, transparent) !important;
+    border-left: 3px solid var(--ob-accent) !important;
+    border-radius: 14px !important;
+    padding: 16px !important;
+    background: color-mix(in srgb, var(--ob-accent) 8%, transparent) !important;
+    margin-bottom: 10px !important;
   }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-icon {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
-    border-radius: 999px !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    border-radius: 0 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     flex-shrink: 0 !important;
-    background: color-mix(in srgb, var(--ob-accent) 15%, transparent) !important;
+    background: transparent !important;
     color: var(--ob-accent) !important;
-    border: 1px solid color-mix(in srgb, var(--ob-accent) 26%, transparent) !important;
+    border: none !important;
+    padding: 0 !important;
   }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-divider {
     align-self: stretch !important;
@@ -448,30 +451,32 @@ body { font-family: var(--font-ui), sans-serif !important; }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
     font-size: 14px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     line-height: 1.35 !important;
+    letter-spacing: -0.02em !important;
     color: rgba(255, 255, 255, 0.95) !important;
     margin-bottom: 4px !important;
   }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-desc {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-weight: 400 !important;
-    line-height: 1.55 !important;
-    color: rgba(255, 255, 255, 0.35) !important;
+    line-height: 1.7 !important;
+    color: rgba(255, 255, 255, 0.5) !important;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-card {
-    border-color: rgba(0, 0, 0, 0.1) !important;
-    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(37, 37, 37, 0.16) !important;
+    border-left: 3px solid var(--ob-accent) !important;
+    background: rgba(37, 37, 37, 0.04) !important;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title {
-    color: rgba(29, 29, 31, 0.9) !important;
+    color: #252525 !important;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-desc {
-    color: rgba(29, 29, 31, 0.55) !important;
+    color: #252525 !important;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-divider {
-    background: rgba(0, 0, 0, 0.12) !important;
+    background: rgba(37, 37, 37, 0.22) !important;
   }
 
   /* The Upper Bar — preview strip (dashboard header is fixed in-app; do not add safe-area inside this card or it doubles vertical gap) */
@@ -488,8 +493,9 @@ body { font-family: var(--font-ui), sans-serif !important; }
     align-self: flex-start;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-screen-upper-bar .ob-upper-bar-demo {
-    border-color: rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(37, 37, 37, 0.16) !important;
+    border-left: 3px solid var(--ob-accent) !important;
+    background: rgba(37, 37, 37, 0.04) !important;
   }
   .ob-upper-bar-demo__row {
     display: grid;
@@ -541,6 +547,17 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-wrap[data-theme="light"] .ob-upper-bar-demo__brand {
     color: #000000;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-screen-upper-bar .ob-eyebrow,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-screen-upper-bar .ob-heading,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-screen-upper-bar .ob-body {
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-upper-bar .ob-pad,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-upper-bar .ob-pad *:not(.ob-upper-bar-demo):not(.ob-upper-bar-demo *) {
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
   }
   .ob-upper-bar-demo__streak {
     display: flex;
@@ -649,20 +666,31 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-eyebrow,
   .ob-screen.ob-ultra-content.ob-content-only .ob-pad > .ob-eyebrow:first-child {
+    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    line-height: 1.35 !important;
     color: var(--ob-ultra-red) !important;
     margin-top: 0 !important;
     -webkit-text-fill-color: var(--ob-ultra-red) !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-heading,
   .ob-screen.ob-ultra-content.ob-content-only .ob-heading em {
+    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
+    font-size: clamp(21px, 4.9vw, 24px) !important;
+    font-weight: 700 !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.02em !important;
     color: var(--ob-ultra-red) !important;
     -webkit-text-fill-color: var(--ob-ultra-red) !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-body {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
     font-weight: 400 !important;
-    line-height: 1.65 !important;
+    line-height: 1.7 !important;
     color: var(--ob-ultra-red) !important;
     -webkit-text-fill-color: var(--ob-ultra-red) !important;
   }
@@ -677,8 +705,8 @@ body { font-family: var(--font-ui), sans-serif !important; }
     padding: 16px !important;
     background: rgba(255, 59, 48, 0.07) !important;
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 15px !important;
-    line-height: 1.65 !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
     font-weight: 400 !important;
     color: var(--ob-ultra-red) !important;
     -webkit-text-fill-color: var(--ob-ultra-red) !important;
@@ -1810,7 +1838,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   </style>
 </head>
 <body>
-  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514h -->
+  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514k -->
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
@@ -2309,6 +2337,132 @@ const obCss = `
     max-width: 320px;
   }
   .ob-wrap[data-theme="light"] .ob-intro-hero__body { color: rgba(29, 29, 31, 0.48); }
+  /* Final light-mode text overrides after mood selection (exclude Ultra). */
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-appearance .ob-eyebrow,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-appearance .ob-heading,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-appearance .ob-body,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-eyebrow,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-heading,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-body,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-eyebrow,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-heading,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-body,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-desc,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card-label,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card-desc,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-upper-bar .ob-eyebrow,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-upper-bar .ob-heading,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-upper-bar .ob-body,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-launch-screen .ob-launch-headline,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-launch-screen .ob-launch-support {
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
+  }
+  /* Slide tag strip: metrics = .ob-eyebrow; dark = same dim as Lower Tab eyebrow; light = #252525 */
+  .ob-screen.ob-content-only.ob-screen-appearance .ob-slide-tag,
+  .ob-screen.ob-content-only.ob-screen-session-modes .ob-slide-tag {
+    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    line-height: 1.35 !important;
+  }
+  .ob-wrap[data-theme="dark"] .ob-screen.ob-content-only.ob-screen-appearance .ob-slide-tag,
+  .ob-wrap[data-theme="dark"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-slide-tag {
+    color: rgba(255, 255, 255, 0.3) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.3) !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-appearance .ob-slide-tag,
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-slide-tag {
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
+  }
+  /* LIST/GUIDED + tab rows: same Inter body scale as .ob-body (14/400/1.7); titles 14/700 */
+  .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card-label,
+  .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title {
+    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.02em !important;
+  }
+  .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card-desc,
+  .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-desc {
+    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.7 !important;
+  }
+  .ob-wrap[data-theme="dark"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card-label,
+  .ob-wrap[data-theme="dark"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title {
+    color: rgba(255, 255, 255, 0.95) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.95) !important;
+  }
+  .ob-wrap[data-theme="dark"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card-desc,
+  .ob-wrap[data-theme="dark"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-desc {
+    color: rgba(255, 255, 255, 0.5) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+  }
+  /* Ultra: same metrics as other content sheets; color stays red via earlier rules */
+  .ob-screen.ob-ultra-content.ob-content-only .ob-eyebrow,
+  .ob-screen.ob-ultra-content.ob-content-only .ob-pad > .ob-eyebrow:first-child {
+    font-family: var(--font-meta), "Roboto Mono", ui-monospace, monospace !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    line-height: 1.35 !important;
+  }
+  .ob-screen.ob-ultra-content.ob-content-only .ob-heading,
+  .ob-screen.ob-ultra-content.ob-content-only .ob-heading em {
+    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
+    font-size: clamp(21px, 4.9vw, 24px) !important;
+    font-weight: 700 !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.02em !important;
+  }
+  .ob-screen.ob-ultra-content.ob-content-only .ob-body {
+    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.7 !important;
+  }
+  .ob-screen.ob-ultra-content.ob-content-only .ob-ultra-note {
+    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.7 !important;
+  }
+  .ob-wrap .ob-launch-submit {
+    color: #f6f7f8 !important;
+    -webkit-text-fill-color: #f6f7f8 !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-card {
+    background: rgba(37, 37, 37, 0.04) !important;
+    border: 1px solid rgba(37, 37, 37, 0.16) !important;
+    border-left: 3px solid var(--ob-accent) !important;
+    border-radius: 14px !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-upper-bar .ob-upper-bar-demo {
+    background: rgba(37, 37, 37, 0.04) !important;
+    border: 1px solid rgba(37, 37, 37, 0.16) !important;
+    border-left: 1px solid rgba(37, 37, 37, 0.16) !important;
+    border-radius: 14px !important;
+  }
+  .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-icon {
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
   .ob-ext-nav { display:none; }
   .ob-en-btn { display:none; }
 `;
@@ -2369,7 +2523,7 @@ const MOODS = [
     label: "Rise",
     time: "5–11am",
     desc: "Warm amber. Morning energy.",
-    accent: "#E8A045",
+    accent: "#C85A00",
     icon: "◐",
     bg: "radial-gradient(ellipse at 30% 20%, rgba(232,160,69,0.12) 0%, transparent 60%)",
   },
@@ -2378,7 +2532,7 @@ const MOODS = [
     label: "Midday",
     time: "11am–5pm",
     desc: "Cool mint. Crisp and focused.",
-    accent: "#3EC9A7",
+    accent: "#007A6A",
     icon: "◎",
     bg: "radial-gradient(ellipse at 70% 20%, rgba(62,201,167,0.12) 0%, transparent 60%)",
   },
@@ -2387,7 +2541,7 @@ const MOODS = [
     label: "Prime",
     time: "5–10pm",
     desc: "Deep blue. Winding down.",
-    accent: "#5B8FF9",
+    accent: "#1060C0",
     icon: "◑",
     bg: "radial-gradient(ellipse at 30% 80%, rgba(91,143,249,0.12) 0%, transparent 60%)",
   },
@@ -2396,7 +2550,7 @@ const MOODS = [
     label: "Rest",
     time: "10pm–5am",
     desc: "Soft violet. Calm and dim.",
-    accent: "#9B6DFF",
+    accent: "#6030B0",
     icon: "✦",
     bg: "radial-gradient(ellipse at 70% 80%, rgba(155,109,255,0.12) 0%, transparent 60%)",
   },
@@ -2796,6 +2950,12 @@ function Onboarding({ theme, onComplete }) {
   }
 
   function NavBtn({ onClick, disabled, accent, label, filled }) {
+    const isLight = obTheme === "light";
+    const baseBorder = isLight ? "1px solid rgba(37,37,37,0.18)" : "1px solid rgba(255,255,255,0.1)";
+    const baseBg = isLight ? "rgba(37,37,37,0.06)" : "rgba(255,255,255,0.06)";
+    const disabledBg = isLight ? "rgba(37,37,37,0.05)" : "rgba(255,255,255,0.04)";
+    const disabledFg = isLight ? "rgba(37,37,37,0.35)" : "rgba(255,255,255,0.2)";
+    const textFg = isLight ? "#252525" : "#fff";
     return (
       <button
         type="button"
@@ -2805,13 +2965,11 @@ function Onboarding({ theme, onComplete }) {
           width: 48,
           height: 48,
           borderRadius: 14,
-          border: filled ? "none" : "1px solid rgba(255,255,255,0.1)",
+          border: baseBorder,
           background: disabled
-            ? "rgba(255,255,255,0.04)"
-            : filled
-            ? accent
-            : "rgba(255,255,255,0.06)",
-          color: disabled ? "rgba(255,255,255,0.2)" : filled ? "#000" : "#fff",
+            ? disabledBg
+            : baseBg,
+          color: disabled ? disabledFg : textFg,
           fontSize: 22,
           fontWeight: 300,
           cursor: disabled ? "default" : "pointer",
@@ -2828,9 +2986,9 @@ function Onboarding({ theme, onComplete }) {
     );
   }
 
-  function SlideShell({ children }) {
+  function SlideShell({ children, className = "" }) {
     return (
-      <div className="ob-screen ob-content-only">
+      <div className={`ob-screen ob-content-only ${className}`.trim()}>
         <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
           <div className="ob-pad">{children}</div>
         </div>
@@ -2841,10 +2999,11 @@ function Onboarding({ theme, onComplete }) {
   function Tag({ children, accent }) {
     return (
       <div
+        className="ob-slide-tag"
         style={{
           fontSize: 10,
           fontWeight: 600,
-          letterSpacing: "0.18em",
+          letterSpacing: "0.12em",
           color: accent || "rgba(255,255,255,0.35)",
           marginBottom: 10,
           transition: "color 0.4s ease"
@@ -2863,21 +3022,93 @@ function Onboarding({ theme, onComplete }) {
     return <div className="ob-body" style={{ marginBottom: 18 }}>{children}</div>;
   }
 
-  function MoodSelectSlide({ accent, selectedMood, onSelect }) {
+  function MoodSelectSlide({ accent, selectedMood, onSelect, obAutoTime, setObAutoTime, obTheme, setObTheme }) {
+    const nowPeriod = getCircadianPeriod();
+    const isLight = obTheme === "light";
+    const moodCopyPrimary = obTheme === "light" ? "#252525" : "#fff";
+    const moodCopySecondary = obTheme === "light" ? "#252525" : "rgba(255,255,255,0.45)";
+    const moodCopyMeta = obTheme === "light" ? "#252525" : "rgba(255,255,255,0.3)";
+    const moodIcon = (id, color) => {
+      if (id === "rise") {
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 16 A 8 8 0 0 1 20 16" /><line x1="0" y1="16" x2="24" y2="16" /></svg>;
+      }
+      if (id === "midday") {
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><line x1="12" y1="2" x2="12" y2="5" /><line x1="12" y1="19" x2="12" y2="22" /><line x1="4.22" y1="4.22" x2="6.34" y2="6.34" /><line x1="17.66" y1="17.66" x2="19.78" y2="19.78" /><line x1="2" y1="12" x2="5" y2="12" /><line x1="19" y1="12" x2="22" y2="12" /><line x1="4.22" y1="19.78" x2="6.34" y2="17.66" /><line x1="17.66" y1="6.34" x2="19.78" y2="4.22" /></svg>;
+      }
+      if (id === "prime") {
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>;
+      }
+      return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z" /></svg>;
+    };
     return (
-      <SlideShell>
+      <SlideShell className="ob-screen-appearance">
         <Tag accent={accent}>APPEARANCE</Tag>
         <Headline>Pick your Mood.</Headline>
         <Body>
           AXIS shifts its color with the time of day - or lock it to match how
           you feel right now. Pick one to preview it through the rest of onboarding.
         </Body>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "12px 14px", borderRadius: 12, background: isLight ? "rgba(37,37,37,0.04)" : "rgba(255,255,255,0.04)", border: isLight ? "1px solid rgba(37,37,37,0.16)" : "1px solid rgba(255,255,255,0.08)", marginBottom: 12 }}>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: moodCopyPrimary }}>Auto</div>
+            <div style={{ fontSize: 12, fontWeight: 400, color: moodCopySecondary }}>{obAutoTime ? "Follows time of day" : "Lock to a mood"}</div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setObAutoTime((v) => !v)}
+            style={{
+              flexShrink: 0,
+              width: 44,
+              height: 26,
+              border: "1px solid",
+              borderColor: obAutoTime ? accent : (isLight ? "rgba(37,37,37,0.2)" : "rgba(255,255,255,0.14)"),
+              borderRadius: 13,
+              background: obAutoTime ? accent : (isLight ? "rgba(37,37,37,0.08)" : "rgba(255,255,255,0.06)"),
+              cursor: "pointer",
+              position: "relative",
+              transition: "all 0.2s",
+              boxSizing: "border-box"
+            }}
+            aria-label={obAutoTime ? "Turn off automatic mood" : "Turn on automatic mood"}
+          >
+            <span style={{ position: "absolute", top: 3, left: obAutoTime ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: "rgba(255,255,255,0.95)", transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" }} />
+          </button>
+        </div>
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.18em", color: "var(--ob-text-sec)", marginBottom: 8 }}>BASE THEME</div>
+          <div style={{ display: "flex", gap: 6, padding: 3, border: isLight ? "1px solid rgba(37,37,37,0.16)" : "1px solid rgba(255,255,255,0.12)", borderRadius: 12 }}>
+            {[{ val: "dark", label: "Dark" }, { val: "light", label: "Light" }].map(({ val, label }) => (
+              <button
+                key={val}
+                type="button"
+                onClick={() => setObTheme(val)}
+                style={{
+                  flex: 1,
+                  padding: "10px 8px",
+                  borderRadius: 10,
+                  border: "1px solid transparent",
+                  background: obTheme === val ? "color-mix(in srgb, var(--ob-accent) 16%, transparent)" : "transparent",
+                  color: obTheme === val ? "var(--ob-accent)" : "var(--text-dim)",
+                  cursor: "pointer",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center"
+                }}
+              >{label}</button>
+            ))}
+          </div>
+        </div>
         {MOODS.map((m) => {
-          const active = selectedMood && selectedMood.id === m.id;
+          const active = obAutoTime ? mapMoodIdToPeriod(m.id) === nowPeriod : (selectedMood && selectedMood.id === m.id);
           return (
             <div
               key={m.id}
-              onClick={() => onSelect(m)}
+              onClick={() => { if (obAutoTime) return; onSelect(m); }}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -2886,13 +3117,14 @@ function Onboarding({ theme, onComplete }) {
                 borderRadius: 14,
                 border: active
                   ? `1.5px solid ${m.accent}`
-                  : "1px solid rgba(255,255,255,0.08)",
+                  : (isLight ? "1px solid rgba(37,37,37,0.16)" : "1px solid rgba(255,255,255,0.08)"),
                 background: active
                   ? `rgba(${hexToRgb(m.accent)}, 0.1)`
-                  : "rgba(255,255,255,0.04)",
-                cursor: "pointer",
+                  : (isLight ? "rgba(37,37,37,0.04)" : "rgba(255,255,255,0.04)"),
+                cursor: obAutoTime ? "default" : "pointer",
                 transition: "all 0.25s ease",
-                marginBottom: 10
+                marginBottom: 10,
+                pointerEvents: obAutoTime ? "none" : "auto"
               }}
             >
               <div
@@ -2905,23 +3137,22 @@ function Onboarding({ theme, onComplete }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: 18,
                   color: m.accent,
                   flexShrink: 0
                 }}
               >
-                {m.icon}
+                {moodIcon(m.id, m.accent)}
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: "#fff" }}>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: moodCopyPrimary }}>
                     {m.label}
                   </span>
-                  <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+                  <span style={{ fontSize: 12, color: moodCopyMeta }}>
                     {m.time}
                   </span>
                 </div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
+                <div style={{ fontSize: 13, fontWeight: 400, color: moodCopySecondary, marginTop: 2 }}>
                   {m.desc}
                 </div>
               </div>
@@ -2944,21 +3175,22 @@ function Onboarding({ theme, onComplete }) {
   }
 
   function ModeCard({ accent, label, desc }) {
+    const isLight = obTheme === "light";
     return (
       <div
         style={{
           padding: "16px",
           borderRadius: 14,
-          border: `1px solid ${accent}55`,
-          background: `rgba(${hexToRgb(accent)}, 0.05)`,
+          border: isLight ? "1px solid rgba(37,37,37,0.16)" : `1px solid ${accent}55`,
+          background: isLight ? "rgba(37,37,37,0.04)" : `rgba(${hexToRgb(accent)}, 0.05)`,
           borderLeft: `3px solid ${accent}`,
           marginBottom: 10
         }}
       >
-        <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 6, letterSpacing: "0.05em" }}>
+        <div className="ob-mode-card-label" style={{ marginBottom: 6 }}>
           {label}
         </div>
-        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
+        <div className="ob-mode-card-desc">
           {desc}
         </div>
       </div>
@@ -3010,7 +3242,7 @@ function Onboarding({ theme, onComplete }) {
               textTransform: "uppercase",
               color: "var(--ob-text-sec)",
               opacity: 0.72,
-            }}>OB-20260514h</div>
+            }}>OB-20260514k</div>
             <div className="ob-intro-hero__inner">
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
               <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
@@ -3193,6 +3425,10 @@ function Onboarding({ theme, onComplete }) {
             <MoodSelectSlide
               accent={accent}
               selectedMood={selectedMood}
+              obAutoTime={obAutoTime}
+              setObAutoTime={setObAutoTime}
+              obTheme={obTheme}
+              setObTheme={setObTheme}
               onSelect={(m) => {
                 setSelectedMood(m);
                 setHasChosenMood(true);
@@ -3248,7 +3484,7 @@ function Onboarding({ theme, onComplete }) {
                     desc="Hands-free. Auto-timed. Rest for :15 between moves."
                   />
                 </div>
-                <div className="ob-body" style={{ marginTop: 18, lineHeight: 1.5 }}>
+                <div className="ob-body" style={{ marginTop: 18 }}>
                   Switch LIST / GUIDED from the session header whenever you like.
                 </div>
               </div>
@@ -3259,9 +3495,9 @@ function Onboarding({ theme, onComplete }) {
           {cur === 8 && <div className="ob-screen ob-content-only ob-screen-tab-guide">
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
-                <div className="ob-eyebrow">The Lower Tab Menu</div>
-                <div className="ob-heading">What each tab does.</div>
-                <div className="ob-body" style={{ marginBottom:22 }}>
+                <div className="ob-eyebrow" style={{ color: obTheme === "light" ? "#252525" : undefined }}>The Lower Tab Menu</div>
+                <div className="ob-heading" style={{ color: obTheme === "light" ? "#252525" : undefined }}>What each tab does.</div>
+                <div className="ob-body" style={{ marginBottom:22, color: obTheme === "light" ? "#252525" : undefined }}>
                   Same five tabs as the main app (left to right):
                 </div>
                 <div className="ob-tab-guide-list">
@@ -3272,20 +3508,36 @@ function Onboarding({ theme, onComplete }) {
                     ["METRICS", "A quick look at how you're doing this week and notes on your recent sessions.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="8 12.5 11 15.5 16.5 9" /></svg>],
                     ["SYSTEM", "The spot to tweak your theme, mood, and how the app feels, plus all your other settings.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="3.5" y="14" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="14" width="6.5" height="6.5" rx="0.75" /></svg>],
                   ].map(([label, body, icon]) => (
-                    <div key={label} className="ob-tab-guide-card">
+                    <div
+                      key={label}
+                      className="ob-tab-guide-card"
+                      style={{
+                        padding: "16px",
+                        borderRadius: 14,
+                        border: obTheme === "light" ? "1px solid rgba(37,37,37,0.16)" : `1px solid ${accent}55`,
+                        background: obTheme === "light" ? "rgba(37,37,37,0.04)" : `rgba(${hexToRgb(accent)}, 0.05)`,
+                        borderLeft: `3px solid ${accent}`,
+                        marginBottom: 10,
+                        alignItems: "flex-start",
+                        gap: 12
+                      }}
+                    >
                       <div
                         className="ob-tab-guide-icon"
                         style={{
-                          background: `rgba(${hexToRgb(accent)}, 0.12)`,
-                          border: `1px solid ${accent}44`,
+                          background: "transparent",
+                          border: "none",
                           color: accent,
-                          transition: "all 0.4s ease"
+                          transition: "all 0.4s ease",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
                         }}
                       >{icon}</div>
-                      <span className="ob-tab-guide-divider" aria-hidden="true" />
+                      <span className="ob-tab-guide-divider" aria-hidden="true" style={{ background: obTheme === "light" ? "rgba(37,37,37,0.22)" : "rgba(255,255,255,0.16)" }} />
                       <div style={{ minWidth:0, flex:1 }}>
-                        <div className="ob-tab-guide-title">{label}</div>
-                        <div className="ob-tab-guide-desc">{body}</div>
+                        <div className="ob-tab-guide-title" style={{ color: obTheme === "light" ? "#252525" : undefined }}>{label}</div>
+                        <div className="ob-tab-guide-desc" style={{ color: obTheme === "light" ? "#252525" : undefined }}>{body}</div>
                       </div>
                     </div>
                   ))}
@@ -3298,12 +3550,22 @@ function Onboarding({ theme, onComplete }) {
           {cur === 9 && <div className="ob-screen ob-content-only ob-screen-upper-bar">
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
-                <div className="ob-eyebrow">The Upper Bar</div>
-                <div className="ob-heading">Your daily snapshot.</div>
-                <div className="ob-body" style={{ marginBottom: 10 }}>
+                <div className="ob-eyebrow" style={{ color: obTheme === "light" ? "#252525" : undefined }}>The Upper Bar</div>
+                <div className="ob-heading" style={{ color: obTheme === "light" ? "#252525" : undefined }}>Your daily snapshot.</div>
+                <div className="ob-body" style={{ marginBottom: 18, color: obTheme === "light" ? "#252525" : undefined }}>
                   The bar stays at the top everywhere in the app. The pill on the left is your progress toward today&apos;s movement goal. The seven squares on the right are the last seven days—lit when you logged a workout that day.
                 </div>
-                <div className="ob-upper-bar-demo" aria-hidden="true">
+                <div
+                  className="ob-upper-bar-demo"
+                  aria-hidden="true"
+                  style={{
+                    padding: "16px",
+                    borderRadius: 14,
+                    border: obTheme === "light" ? "1px solid rgba(37,37,37,0.16)" : `1px solid ${accent}55`,
+                    background: obTheme === "light" ? "rgba(37,37,37,0.04)" : `rgba(${hexToRgb(accent)}, 0.05)`,
+                    borderLeft: `3px solid ${accent}`
+                  }}
+                >
                   <div className="ob-upper-bar-demo__row">
                     <div className="ob-upper-bar-demo__progress-track">
                       <div className="ob-upper-bar-demo__progress-fill" />
@@ -3330,6 +3592,7 @@ function Onboarding({ theme, onComplete }) {
                   <p className="ob-launch-support">Pick a track and start feeling better.</p>
                   <button
                     type="button"
+                    className="ob-launch-submit"
                     onClick={doLaunch}
                     style={{
                       width: "100%",
@@ -3338,7 +3601,7 @@ function Onboarding({ theme, onComplete }) {
                       borderRadius: 16,
                       border: "none",
                       background: accent,
-                      color: "#000",
+                      color: "#f6f7f8",
                       fontSize: 16,
                       fontWeight: 700,
                       cursor: "pointer",
@@ -3403,7 +3666,7 @@ function Onboarding({ theme, onComplete }) {
                         ? accent
                         : i < currentSlide
                         ? "color-mix(in srgb, var(--ob-accent) 35%, transparent)"
-                        : "rgba(255,255,255,0.15)",
+                        : (obTheme === "light" ? "rgba(37,37,37,0.28)" : "rgba(255,255,255,0.15)"),
                     transition: "all 0.3s ease",
                     cursor: "pointer",
                     pointerEvents: "auto",
