@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514c -->
-<html lang="en" data-axis-ob-live="20260514c">
+<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: 20260514h -->
+<html lang="en" data-axis-ob-live="20260514h">
 <head>
   <meta charset="UTF-8" />
-  <script>window.AXIS_ONBOARD_BUILD="20260514c";</script>
+  <script>window.AXIS_ONBOARD_BUILD="20260514h";</script>
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
-  <script>(function(){var V='20260514c';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
+  <script>(function(){var V='20260514h';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
   <base href="/" />
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" type="image/png" href="/axis-icon.png" sizes="180x180" />
-  <title>AXIS · Onboarding OB-20260514c</title>
+  <title>AXIS · Onboarding OB-20260514h</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css?v=20260514c" />
+  <link rel="stylesheet" href="/onboarding.css?v=20260514h" />
   <script>
     (function () {
       fetch("./axis_data.json", { cache: "no-store" })
@@ -32,8 +32,8 @@
  
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body, #root { margin: 0; min-height: 100%; min-height: 100dvh; }
-  /* auto: avoids a persistent gutter on desktop preview (stable looked like a “frame” beside the page) */
-  html { width: 100%; max-width: 100vw; overflow-x: hidden; -webkit-text-size-adjust: 100%; touch-action: auto; scrollbar-gutter: auto; }
+  /* stable: prevents horizontal jump when vertical scrollbar appears/disappears between onboarding screens */
+  html { width: 100%; max-width: 100vw; overflow-x: hidden; -webkit-text-size-adjust: 100%; touch-action: auto; scrollbar-gutter: stable; }
   body { width: 100%; max-width: 100vw; min-height: 100vh; min-height: 100dvh; padding: 0; overflow-x: hidden; background: var(--ob-page-bg, var(--current-bg, radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%))); transition: background 0.45s ease, color 0.45s ease; touch-action: auto; }
   #root { width: 100%; max-width: 100vw; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; }
   /* Ensure ob-wrap fills viewport and background extends (onboarding.css sets transparent) */
@@ -640,36 +640,59 @@ body { font-family: var(--font-ui), sans-serif !important; }
     color: rgba(29, 29, 31, 0.52) !important;
   }
 
-  /* Ultra overrides red sheet */
+  /* Ultra — single accent #FF3B30 (same as app Ultra / night mode) on pure black */
+  .ob-screen.ob-ultra-content.ob-content-only {
+    --ob-ultra-red: #ff3b30;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    color: var(--ob-ultra-red) !important;
+  }
   .ob-screen.ob-ultra-content.ob-content-only .ob-eyebrow,
   .ob-screen.ob-ultra-content.ob-content-only .ob-pad > .ob-eyebrow:first-child {
-    color: rgba(255, 59, 48, 0.7) !important;
+    color: var(--ob-ultra-red) !important;
     margin-top: 0 !important;
-    -webkit-text-fill-color: rgba(255, 59, 48, 0.7) !important;
+    -webkit-text-fill-color: var(--ob-ultra-red) !important;
   }
-  .ob-screen.ob-ultra-content.ob-content-only .ob-heading {
-    color: #ff3b30 !important;
-  }
+  .ob-screen.ob-ultra-content.ob-content-only .ob-heading,
   .ob-screen.ob-ultra-content.ob-content-only .ob-heading em {
-    color: #ff3b30 !important;
+    color: var(--ob-ultra-red) !important;
+    -webkit-text-fill-color: var(--ob-ultra-red) !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-body {
-    color: color-mix(in srgb, rgba(255, 59, 48, 0.88) 75%, #ffffff 25%) !important;
-    line-height: 1.7 !important;
+    font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.65 !important;
+    color: var(--ob-ultra-red) !important;
+    -webkit-text-fill-color: var(--ob-ultra-red) !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-ultra-content.ob-content-only .ob-body,
+  .ob-wrap[data-theme="dark"] .ob-screen.ob-ultra-content.ob-content-only .ob-body {
+    color: var(--ob-ultra-red) !important;
+    -webkit-text-fill-color: var(--ob-ultra-red) !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-ultra-note {
-    border: 1px solid rgba(255, 59, 48, 0.42) !important;
+    border: 1px solid color-mix(in srgb, var(--ob-ultra-red) 55%, transparent) !important;
     border-radius: 12px !important;
     padding: 16px !important;
-    background: #000000 !important;
+    background: rgba(255, 59, 48, 0.07) !important;
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     line-height: 1.65 !important;
-    color: color-mix(in srgb, rgba(255, 59, 48, 0.92) 75%, #ffffff 25%) !important;
+    font-weight: 400 !important;
+    color: var(--ob-ultra-red) !important;
+    -webkit-text-fill-color: var(--ob-ultra-red) !important;
+  }
+  .ob-wrap[data-theme="light"] .ob-screen.ob-ultra-content.ob-content-only .ob-ultra-note {
+    color: var(--ob-ultra-red) !important;
+    -webkit-text-fill-color: var(--ob-ultra-red) !important;
   }
   .ob-screen.ob-ultra-content.ob-content-only .ob-ultra-eye-mark {
-    color: #ff3b30 !important;
+    color: var(--ob-ultra-red) !important;
     filter: drop-shadow(0 0 10px rgba(255, 59, 48, 0.52));
+  }
+  .ob-screen.ob-ultra-content.ob-content-only .ob-pad {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   /* Launch: same horizontal rhythm, centered hero */
@@ -955,32 +978,85 @@ body { font-family: var(--font-ui), sans-serif !important; }
     background: var(--ob-page-bg); font-family: var(--font-ui), sans-serif; font-weight: 500;
     transition: color 0.45s ease, background 0.45s ease;
   }
-  /* Footer progress dots */
-  .ob-footer-dots { display: flex; gap: 8px; align-items: center; justify-content: center; flex-shrink: 0; pointer-events: none; }
-  /* Footer: row 1 = progress dots, row 2 = BACK / NEXT (dots are never position:fixed — avoids overlap) */
-  .ob-footer-pager {
+  /* Footer: dots pinned to exact horizontal center of bar — independent of < > widths (no grid reflow) */
+  .ob-footer-row {
+    position: relative;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    flex-shrink: 0;
-    padding-bottom: 2px;
-  }
-  .ob-footer-nav-locked {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    min-width: 0;
     min-height: 52px;
     box-sizing: border-box;
-    gap: 12px;
   }
-  .ob-footer-dot-slot { width: 6px; height: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ob-footer-dot-inner { width: 6px; height: 6px; border-radius: 50%; transition: background-color 0.2s ease, transform 0.2s ease; }
+  .ob-footer-side {
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    pointer-events: none;
+    backface-visibility: hidden;
+  }
+  .ob-footer-side--left {
+    left: 0;
+    justify-content: flex-start;
+  }
+  .ob-footer-side--right {
+    right: 0;
+    justify-content: flex-end;
+  }
+  .ob-footer-side .ob-nav-glass-btn {
+    pointer-events: auto;
+  }
+  .ob-footer-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 1;
+    pointer-events: none;
+    width: 160px;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+  }
+  /* Same footprint as glass nav pills */
+  .ob-footer-side-placeholder {
+    width: 72px;
+    min-width: 72px;
+    min-height: 52px;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+  /* 12×6px dots + 11×8px gaps = 160px — fixed width avoids flex measurement jitter */
+  .ob-footer-dots {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+  .ob-footer-dot-slot {
+    width: 6px;
+    height: 6px;
+    min-width: 6px;
+    min-height: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ob-footer-dot-inner {
+    width: 6px;
+    height: 6px;
+    min-width: 6px;
+    min-height: 6px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease;
+  }
   .ob-wrap .ob-heading, .ob-wrap .ob-body, .ob-wrap .ob-eyebrow, .ob-wrap .ob-splash-tag,
   .ob-wrap .ob-cta-head, .ob-wrap .ob-cta-sub, .ob-wrap .ob-sci-text { transition: color 0.6s ease; }
   /* Ensure mood variables are available on the root/body so JS can update them */
@@ -1055,7 +1131,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-btn-tier1:active { transform: scale(0.98); }
   /* Footer nav: 44px min touch targets + safe-area padding token */
-  .ob-nav-footer .ob-footer-nav-locked .ob-nav-glass-btn {
+  .ob-nav-footer .ob-footer-row .ob-nav-glass-btn {
     min-height: 52px !important;
     padding: 12px 18px !important;
     display: inline-flex !important;
@@ -1064,7 +1140,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
     box-sizing: border-box !important;
     transition: transform var(--motion-fast), opacity var(--motion-fast), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
   }
-  .ob-nav-footer .ob-footer-nav-locked .ob-nav-letsgo {
+  .ob-nav-footer .ob-footer-row .ob-nav-letsgo {
     min-height: 52px !important;
     padding: 12px 28px !important;
     display: inline-flex !important;
@@ -1073,8 +1149,8 @@ body { font-family: var(--font-ui), sans-serif !important; }
     box-sizing: border-box !important;
   }
   @media (prefers-reduced-motion: reduce) {
-    .ob-nav-footer .ob-footer-nav-locked .ob-nav-glass-btn:active,
-    .ob-nav-footer .ob-footer-nav-locked .ob-nav-letsgo:active { transform: none; }
+    .ob-nav-footer .ob-footer-row .ob-nav-glass-btn:active,
+    .ob-nav-footer .ob-footer-row .ob-nav-letsgo:active { transform: none; }
   }
   /* Disclosure / CTA: extra scroll space under Let's Go — matches .ob-pad bottom */
   .ob-pad-after-cta { min-height:calc(env(safe-area-inset-bottom, 0px) + 70px); flex-shrink:0; width:100%; pointer-events:none; }
@@ -1734,7 +1810,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   </style>
 </head>
 <body>
-  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514c -->
+  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-20260514h -->
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
@@ -2653,7 +2729,7 @@ function Onboarding({ theme, onComplete }) {
               textTransform: "uppercase",
               color: "var(--ob-text-sec)",
               opacity: 0.72,
-            }}>OB-20260514c</div>
+            }}>OB-20260514h</div>
             <div className="ob-intro-hero__inner">
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
               <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
@@ -3011,7 +3087,7 @@ function Onboarding({ theme, onComplete }) {
           })()}
 
           {/* 11: ULTRA MODE */}
-          {cur === 10 && <div className="ob-screen ob-content-only ob-ultra-content" style={{ background:"#000000", color:"#FF3B30" }}>
+          {cur === 10 && <div className="ob-screen ob-content-only ob-ultra-content" style={{ background: "#000000", color: "#FF3B30" }}>
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
                 <div className="ob-eyebrow">Ultra Mode</div>
@@ -3154,35 +3230,16 @@ function Onboarding({ theme, onComplete }) {
           paddingBottom: 'var(--axis-safe-bottom)', paddingTop: 10, paddingLeft: 24, paddingRight: 24,
           zIndex: 1000, pointerEvents: 'none',
           display: 'flex', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-end', boxSizing: 'border-box',
-          gap: 6,
+          gap: 0,
           backdropFilter: 'blur(18px) saturate(1.15)', WebkitBackdropFilter: 'blur(18px) saturate(1.15)',
           background: 'var(--ob-nav-bg)',
           borderTop: obTheme === 'dark' ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
           transition: 'background 0.45s ease',
         }}
       >
-        <div className="ob-footer-pager">
-          <div className="ob-footer-dots">
-            {Array.from({ length: DOT_COUNT }).map((_, i) => {
-              const active = i === cur;
-              return (
-                <div key={i} className="ob-footer-dot-slot" aria-hidden>
-                  <div
-                    className="ob-footer-dot-inner"
-                    style={{
-                      background: active ? 'var(--ob-accent)' : obDotInactive,
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        {cur !== 11 && (
-          <div className="ob-footer-nav-locked">
-            {cur === 0 ? (
-              <div style={{ width: 72, minWidth: 72, flexShrink: 0 }} aria-hidden={true} />
-            ) : (
+        <div className="ob-footer-row">
+          <div className="ob-footer-side ob-footer-side--left">
+            {cur > 0 && cur !== 11 ? (
               <button
                 type="button"
                 className="ob-nav-back ob-nav-glass-btn"
@@ -3193,33 +3250,58 @@ function Onboarding({ theme, onComplete }) {
                   flexShrink: 0,
                 }}
               >{"<"}</button>
+            ) : (
+              <div className="ob-footer-side-placeholder" aria-hidden />
             )}
-            <button
-              type="button"
-              className="ob-nav-next ob-nav-glass-btn"
-              aria-label="Continue"
-              onClick={() => {
-                if (cur === 0) { go(1); return; }
-                if (cur === 5) { doSafetyNext(); return; }
-                if (cur === 6) {
-                  setHasChosenMood(true);
-                  if (!obAutoTime && obPeriod == null) setObPeriod(getCircadianPeriod());
-                  go(7);
-                  return;
-                }
-                if (cur < total - 1) go(cur + 1);
-              }}
-              disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
-              style={{
-                pointerEvents: 'auto',
-                flexShrink: 0,
-                opacity: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 0.3 : 1,
-                cursor: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 'not-allowed' : 'pointer',
-              }}
-              aria-disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
-            >{">"}</button>
           </div>
-        )}
+          <div className="ob-footer-center">
+            <div className="ob-footer-dots">
+              {Array.from({ length: DOT_COUNT }).map((_, i) => {
+                const active = i === cur;
+                return (
+                  <div key={i} className="ob-footer-dot-slot" aria-hidden>
+                    <div
+                      className="ob-footer-dot-inner"
+                      style={{
+                        background: active ? 'var(--ob-accent)' : obDotInactive,
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="ob-footer-side ob-footer-side--right">
+            {cur !== 11 ? (
+              <button
+                type="button"
+                className="ob-nav-next ob-nav-glass-btn"
+                aria-label="Continue"
+                onClick={() => {
+                  if (cur === 0) { go(1); return; }
+                  if (cur === 5) { doSafetyNext(); return; }
+                  if (cur === 6) {
+                    setHasChosenMood(true);
+                    if (!obAutoTime && obPeriod == null) setObPeriod(getCircadianPeriod());
+                    go(7);
+                    return;
+                  }
+                  if (cur < total - 1) go(cur + 1);
+                }}
+                disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
+                style={{
+                  pointerEvents: 'auto',
+                  flexShrink: 0,
+                  opacity: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 0.3 : 1,
+                  cursor: cur === 5 && (!disclaimerName.trim() || !disclaimerChecked) ? 'not-allowed' : 'pointer',
+                }}
+                aria-disabled={cur === 5 && (!disclaimerName.trim() || !disclaimerChecked)}
+              >{">"}</button>
+            ) : (
+              <div className="ob-footer-side-placeholder" aria-hidden />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
