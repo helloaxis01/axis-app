@@ -1,27 +1,27 @@
 AXIS — Copy shown on exercise cards within a track (LIST / session list)
 Per exercise: card description = JSON `sub`; meta line = small text beside duration in app.
 Source: public_web/axis_data.json · Regenerate: node scripts/export-exercise-card-copy.cjs
-Generated: 2026-05-08T20:59:59.243Z
+Generated: 2026-05-08T21:38:57.239Z
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Warm-up & Mobility
 Exercise: Cat–Cow  [exercise id: 1]
-Card description (sub): Loosen the spine, one vertebra at a time
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
 Meta line (beside duration): Spine · Spine flexion
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Warm-up & Mobility
 Exercise: Sphinx Pose  [exercise id: 2]
-Card description (sub): Gentle compression to wake up the low back
+Card description (sub): Supports the natural curve of your lower back after long periods of sitting.
 Meta line (beside duration): Back extension
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Warm-up & Mobility
 Exercise: Child's Pose  [exercise id: 3]
-Card description (sub): Full reset — breathe and let the spine lengthen
+Card description (sub): Encourages the spine to lengthen and helps your back muscles finally let go.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
@@ -42,49 +42,49 @@ Meta line (beside duration): Backward
 Track: The Baseline Protocol  [daily]
 Section: Core & Posterior Chain
 Exercise: Pelvic Tilts  [exercise id: 5]
-Card description (sub): Tiny tilts lying down — wake up your low back without strain
+Card description (sub): Works on your lower back alignment to help you find a more comfortable posture.
 Meta line (beside duration): Core · Release
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Core & Posterior Chain
 Exercise: Glute Bridge  [exercise id: 6]
-Card description (sub): Wake up the glutes, take pressure off the low back
+Card description (sub): Activates your glutes to help take some of the load off your lower back.
 Meta line (beside duration): Glutes
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Core & Posterior Chain
 Exercise: Marching Bridge  [exercise id: 7]
-Card description (sub): Lift one foot at a time — keep your hips level and steady
+Card description (sub): Targets hip stability to keep your pelvis level and well supported.
 Meta line (beside duration): Stability · Control
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Core & Posterior Chain
 Exercise: Dead Bug  [exercise id: 8]
-Card description (sub): Train your core to stay still while everything else moves
+Card description (sub): Helps protect your spine by teaching your core how to stay steady and strong.
 Meta line (beside duration): Core · Control
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Core & Posterior Chain
 Exercise: Bird Dog  [exercise id: 9]
-Card description (sub): Balance and control — opposite arm, opposite leg
+Card description (sub): Focuses on balance and spinal stability to help you feel more resilient.
 Meta line (beside duration): Stability · Control
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Upper Body
 Exercise: High Plank  [exercise id: 10]
-Card description (sub): Hold a straight line — core tight, shoulders steady
+Card description (sub): Works on total body tension and shoulder stability for better daily support.
 Meta line (beside duration): Hold
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Upper Body
 Exercise: Wall Push-Ups  [exercise id: 11]
-Card description (sub): Lean into the wall — easy push-ups for chest and shoulders
+Card description (sub): Builds chest and arm strength while keeping things easy on your joints.
 Meta line (beside duration): Eccentric · Push
 
 ------------------------------------------------------------------------------
@@ -98,14 +98,14 @@ Meta line (beside duration): Isometric hold
 Track: The Baseline Protocol  [daily]
 Section: Upper Body
 Exercise: Resistance Band Row  [exercise id: 13]
-Card description (sub): Draw the elbows back — open the chest and strengthen the upper back
+Card description (sub): Supports better posture by strengthening the muscles between your shoulder blades.
 Meta line (beside duration): Pull · Release
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Upper Body
 Exercise: Wall Angels  [exercise id: 14]
-Card description (sub): Retrain your shoulders to move the way they're supposed to
+Card description (sub): Helps with shoulder mobility and opens up a tight or closed chest.
 Meta line (beside duration): Raise · Lower
 
 ------------------------------------------------------------------------------
@@ -126,21 +126,21 @@ Meta line (beside duration): Stretch
 Track: The Baseline Protocol  [daily]
 Section: Lower Body & Rotation
 Exercise: Figure Four Stretch - Right Hip  [exercise id: 16-R]
-Card description (sub): Ankle over knee — ease the hip open, breathe into it
+Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Lower Body & Rotation
 Exercise: Figure Four Stretch - Left Hip  [exercise id: 16-L]
-Card description (sub): Ankle over knee — ease the hip open, breathe into it
+Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Lower Body & Rotation
 Exercise: Windshield Wipers  [exercise id: 17]
-Card description (sub): Rock the knees side to side — let the low back soften
+Card description (sub): Helps loosen up sticky hip joints and a tight lower back.
 Meta line (beside duration): Rotation
 
 ------------------------------------------------------------------------------
@@ -161,21 +161,21 @@ Meta line (beside duration): Rotation
 Track: The Baseline Protocol  [daily]
 Section: Finish
 Exercise: Seated Forward Fold  [exercise id: 19]
-Card description (sub): Lengthen the whole back chain, no forcing required
+Card description (sub): Targets tight hamstrings to reduce the constant pull on your lower back.
 Meta line (beside duration): Release
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Finish
 Exercise: Chin Tucks  [exercise id: 20]
-Card description (sub): Nudge the head straight back — neck finds a calmer line
+Card description (sub): Focuses on neck alignment to help counteract the strain from looking at screens.
 Meta line (beside duration): Neck
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Finish
 Exercise: Neck Rolls  [exercise id: 21]
-Card description (sub): Slow and controlled — let gravity do the work
+Card description (sub): Gently works through stiffness in the sides and back of your neck.
 Meta line (beside duration): Lateral
 
 ------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ Meta line (beside duration): Circulate · Flow
 Track: Lymph & Flow  [restorative]
 Section: Full Reset
 Exercise: Body Waves  [exercise id: 102]
-Card description (sub): Let the whole spine flow in one smooth wave
+Card description (sub): Promotes natural flow and eases tension in a tight or restricted spine.
 Meta line (beside duration): Mobilize · Flow
 
 ------------------------------------------------------------------------------
@@ -273,42 +273,42 @@ Meta line (beside duration): Lift · Drain
 Track: Lymph & Flow  [restorative]
 Section: Full Reset
 Exercise: Doorway Chest Stretch  [exercise id: 107]
-Card description (sub): Open the chest, pull the shoulders back where they belong
+Card description (sub): Encourages a deep opening in the chest to help with slumped shoulders.
 Meta line (beside duration): Stretch · Release
 
 ------------------------------------------------------------------------------
 Track: Lymph & Flow  [restorative]
 Section: Full Reset
 Exercise: Wall Pushups  [exercise id: 115]
-Card description (sub): Standing push practice — shoulders and chest stay coordinated
+Card description (sub): Builds chest and arm strength while keeping things easy on your joints.
 Meta line (beside duration): Push · Extend
 
 ------------------------------------------------------------------------------
 Track: Sunrise Stretch  [morning]
 Section: Morning Refresh
 Exercise: Supine Knee Hugs  [exercise id: 201]
-Card description (sub): Pull the knees in — give your low back a gentle squeeze
+Card description (sub): Provides a gentle release for the lower back and opens up the hips.
 Meta line (beside duration): Decompress
 
 ------------------------------------------------------------------------------
 Track: Sunrise Stretch  [morning]
 Section: Morning Refresh
 Exercise: Supine Twist - Right Side  [exercise id: 202-R]
-Card description (sub): Wring out the spine, one side at a time
+Card description (sub): Helps with mid back stiffness and encourages better spinal rotation.
 Meta line (beside duration): Rotation
 
 ------------------------------------------------------------------------------
 Track: Sunrise Stretch  [morning]
 Section: Morning Refresh
 Exercise: Supine Twist - Left Side  [exercise id: 202-L]
-Card description (sub): Wring out the spine, one side at a time
+Card description (sub): Helps with mid back stiffness and encourages better spinal rotation.
 Meta line (beside duration): Rotation
 
 ------------------------------------------------------------------------------
 Track: Sunrise Stretch  [morning]
 Section: Morning Refresh
 Exercise: Cat–Cow  [exercise id: 203]
-Card description (sub): Loosen the spine, one vertebra at a time
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
 Meta line (beside duration): Spine flexion · Back extension
 
 ------------------------------------------------------------------------------
@@ -329,14 +329,14 @@ Meta line (beside duration): Anterior · Posterior
 Track: Sunrise Stretch  [morning]
 Section: Morning Refresh
 Exercise: Sun Breath  [exercise id: 206]
-Card description (sub): Arms sweep with breathing — inhale lifts, exhale lowers
+Card description (sub): Helps open up your chest and lungs so you can breathe a little deeper.
 Meta line (beside duration): Expand · Ground
 
 ------------------------------------------------------------------------------
 Track: Night Ease  [prime]
 Section: Better Sleep Stretch
 Exercise: Legs Up the Wall  [exercise id: 301]
-Card description (sub): Rest the legs up the wall — let heaviness drain from your legs
+Card description (sub): Supports circulation and helps your legs feel refreshed after a long day.
 Meta line (beside duration): Restore
 
 ------------------------------------------------------------------------------
@@ -357,35 +357,35 @@ Meta line (beside duration): Massage
 Track: Night Ease  [prime]
 Section: Better Sleep Stretch
 Exercise: Supine Twist - Right Side  [exercise id: 304-R]
-Card description (sub): Wring out the spine, one side at a time
+Card description (sub): Helps with mid back stiffness and encourages better spinal rotation.
 Meta line (beside duration): Rotation
 
 ------------------------------------------------------------------------------
 Track: Night Ease  [prime]
 Section: Better Sleep Stretch
 Exercise: Supine Twist - Left Side  [exercise id: 304-L]
-Card description (sub): Wring out the spine, one side at a time
+Card description (sub): Helps with mid back stiffness and encourages better spinal rotation.
 Meta line (beside duration): Rotation
 
 ------------------------------------------------------------------------------
 Track: Night Ease  [prime]
 Section: Better Sleep Stretch
 Exercise: Diaphragmatic Breathing  [exercise id: 305]
-Card description (sub): Reset your nervous system before you finish
+Card description (sub): Helps settle a racing mind and brings your heart rate back to a calm baseline.
 Meta line (beside duration): Inhale · Exhale
 
 ------------------------------------------------------------------------------
 Track: Desk Undo  [desk]
 Section: The Desk Break
 Exercise: Standing Chest Opener  [exercise id: 401]
-Card description (sub): Open the arms wide — undo rounded shoulders from sitting
+Card description (sub): Works to reverse the hunch from desk work by stretching your pectorals.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: Desk Undo  [desk]
 Section: The Desk Break
 Exercise: Chin Tucks  [exercise id: 402]
-Card description (sub): Nudge the head straight back — neck finds a calmer line
+Card description (sub): Focuses on neck alignment to help counteract the strain from looking at screens.
 Meta line (beside duration): Neck
 
 ------------------------------------------------------------------------------
@@ -406,21 +406,21 @@ Meta line (beside duration): Thoracic spine
 Track: Desk Undo  [desk]
 Section: The Desk Break
 Exercise: Standing Hip Flexor Stretch - Right Hip  [exercise id: 404-R]
-Card description (sub): Undo the damage of sitting — open the front of the hip
+Card description (sub): Releases the front of your hips after you have been sitting all day.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: Desk Undo  [desk]
 Section: The Desk Break
 Exercise: Standing Hip Flexor Stretch - Left Hip  [exercise id: 404-L]
-Card description (sub): Undo the damage of sitting — open the front of the hip
+Card description (sub): Releases the front of your hips after you have been sitting all day.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: Desk Undo  [desk]
 Section: The Desk Break
 Exercise: Wrist & Forearm Release  [exercise id: 405]
-Card description (sub): Easy circles and bends — give your hands a break from typing
+Card description (sub): Helps manage the repetitive strain that comes from typing or scrolling.
 Meta line (beside duration): Forearm
 
 ------------------------------------------------------------------------------
@@ -441,7 +441,7 @@ Meta line (beside duration): Stretch
 Track: Tech Neck Release  [screen]
 Section: Digital Detox
 Exercise: Chin Tucks  [exercise id: 501]
-Card description (sub): Nudge the head straight back — neck finds a calmer line
+Card description (sub): Focuses on neck alignment to help counteract the strain from looking at screens.
 Meta line (beside duration): Neck
 
 ------------------------------------------------------------------------------
@@ -476,7 +476,7 @@ Meta line (beside duration): Deepen
 Track: Tech Neck Release  [screen]
 Section: Digital Detox
 Exercise: Upper Trap Release  [exercise id: 504]
-Card description (sub): Gently side-bend away from a light hold — shrug tension melts
+Card description (sub): Targets the top of your shoulders to help melt away the stress you carry in your neck.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
@@ -511,14 +511,14 @@ Meta line (beside duration): Expand
 Track: Hip Freedom  [hip]
 Section: Happy Hips
 Exercise: 90/90 Hip Stretch - Right Hip  [exercise id: 601-R]
-Card description (sub): Find your range — don't force it
+Card description (sub): Focuses on hip mobility to help improve how you walk and move.
 Meta line (beside duration): Internal · Deepen
 
 ------------------------------------------------------------------------------
 Track: Hip Freedom  [hip]
 Section: Happy Hips
 Exercise: 90/90 Hip Stretch - Left Hip  [exercise id: 601-L]
-Card description (sub): Find your range — don't force it
+Card description (sub): Focuses on hip mobility to help improve how you walk and move.
 Meta line (beside duration): Internal · Deepen
 
 ------------------------------------------------------------------------------
@@ -539,14 +539,14 @@ Meta line (beside duration): Stretch · Deepen
 Track: Hip Freedom  [hip]
 Section: Happy Hips
 Exercise: Pigeon Pose - Right Hip  [exercise id: 603-R]
-Card description (sub): Front-folded hip stretch — respect the knee, soften the hips
+Card description (sub): Provides a deep release for your psoas and glutes to help unlock your lower body.
 Meta line (beside duration): Align · Release
 
 ------------------------------------------------------------------------------
 Track: Hip Freedom  [hip]
 Section: Happy Hips
 Exercise: Pigeon Pose - Left Hip  [exercise id: 603-L]
-Card description (sub): Front-folded hip stretch — respect the knee, soften the hips
+Card description (sub): Provides a deep release for your psoas and glutes to help unlock your lower body.
 Meta line (beside duration): Align · Release
 
 ------------------------------------------------------------------------------
@@ -609,21 +609,21 @@ Meta line (beside duration): Core · Release
 Track: Lumbar Relief  [back]
 Section: Lower Back Soother
 Exercise: Cat–Cow  [exercise id: 703]
-Card description (sub): Loosen the spine, one vertebra at a time
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
 Meta line (beside duration): Spine flexion · Back extension
 
 ------------------------------------------------------------------------------
 Track: Lumbar Relief  [back]
 Section: Lower Back Soother
 Exercise: Child's Pose  [exercise id: 704]
-Card description (sub): Full reset — breathe and let the spine lengthen
+Card description (sub): Encourages the spine to lengthen and helps your back muscles finally let go.
 Meta line (beside duration): Decompress · Lateral
 
 ------------------------------------------------------------------------------
 Track: Lumbar Relief  [back]
 Section: Lower Back Soother
 Exercise: Windshield Wipers  [exercise id: 705]
-Card description (sub): Rock the knees side to side — let the low back soften
+Card description (sub): Helps loosen up sticky hip joints and a tight lower back.
 Meta line (beside duration): Rotation
 
 ------------------------------------------------------------------------------
@@ -644,7 +644,7 @@ Meta line (beside duration): Rotation
 Track: Lumbar Relief  [back]
 Section: Lower Back Soother
 Exercise: Legs Up the Wall  [exercise id: 707]
-Card description (sub): Rest the legs up the wall — let heaviness drain from your legs
+Card description (sub): Supports circulation and helps your legs feel refreshed after a long day.
 Meta line (beside duration): Restore · Release
 
 ------------------------------------------------------------------------------
@@ -658,14 +658,14 @@ Meta line (beside duration): Ankle · Proprioception
 Track: Stay Steady  [steady]
 Section: Foundation
 Exercise: Single-Leg Stance - Right Leg  [exercise id: 802-R]
-Card description (sub): Stand on one foot — find a steady spot to look at, breathe easy
+Card description (sub): Strengthens your ankles and helps you feel more stable on your feet.
 Meta line (beside duration): Balance · Vestibular
 
 ------------------------------------------------------------------------------
 Track: Stay Steady  [steady]
 Section: Foundation
 Exercise: Single-Leg Stance - Left Leg  [exercise id: 802-L]
-Card description (sub): Stand on one foot — find a steady spot to look at, breathe easy
+Card description (sub): Strengthens your ankles and helps you feel more stable on your feet.
 Meta line (beside duration): Balance · Vestibular
 
 ------------------------------------------------------------------------------
@@ -700,14 +700,14 @@ Meta line (beside duration): Eccentric · Control
 Track: Joint Glide  [freely]
 Section: Spine
 Exercise: Thoracic Extension  [exercise id: 901]
-Card description (sub): Lift your chest, restore the curve your desk takes away
+Card description (sub): Focuses on upper back mobility to help you stand taller and move easier.
 Meta line (beside duration): Extend · Mobilize
 
 ------------------------------------------------------------------------------
 Track: Joint Glide  [freely]
 Section: Upper Body
 Exercise: Neck CARs  [exercise id: 902]
-Card description (sub): Slow controlled neck circles — small range, no forcing
+Card description (sub): Gently works through stiffness in the sides and back of your neck.
 Meta line (beside duration): Cars · End-Range
 
 ------------------------------------------------------------------------------
@@ -777,7 +777,7 @@ Meta line (beside duration): Activate · Reset
 Track: In Transit  [transit]
 Section: In-Transit
 Exercise: Cat–Cow  [exercise id: 1102]
-Card description (sub): Loosen the spine, one vertebra at a time
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
 Meta line (beside duration): Back extension · Spine flexion
 
 ------------------------------------------------------------------------------
@@ -826,21 +826,21 @@ Meta line (beside duration): Rotation · Release
 Track: In Transit  [transit]
 Section: Post-Arrival
 Exercise: Physiological Sigh  [exercise id: 1107]
-Card description (sub): Double inhale, long sigh out — quickest reset breathing
+Card description (sub): Works to lower your stress levels by quickly resetting your nervous system.
 Meta line (beside duration): Co2 Offload · Downregulate
 
 ------------------------------------------------------------------------------
 Track: In Transit  [transit]
 Section: Post-Arrival
 Exercise: Doorway Chest Stretch  [exercise id: 1108]
-Card description (sub): Open the chest, pull the shoulders back where they belong
+Card description (sub): Encourages a deep opening in the chest to help with slumped shoulders.
 Meta line (beside duration): Stretch · Release
 
 ------------------------------------------------------------------------------
 Track: In Transit  [transit]
 Section: Post-Arrival
 Exercise: Glute Bridge  [exercise id: 1109]
-Card description (sub): Wake up the glutes, take pressure off the low back
+Card description (sub): Activates your glutes to help take some of the load off your lower back.
 Meta line (beside duration): Engage · Control
 
 ------------------------------------------------------------------------------
@@ -861,7 +861,7 @@ Meta line (beside duration): Activate · Reset
 Track: Arrival Unwind  [travel]
 Section: In-Transit
 Exercise: Cat–Cow  [exercise id: 1102]
-Card description (sub): Loosen the spine, one vertebra at a time
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
 Meta line (beside duration): Back extension · Spine flexion
 
 ------------------------------------------------------------------------------
@@ -910,21 +910,21 @@ Meta line (beside duration): Rotation · Release
 Track: Arrival Unwind  [travel]
 Section: Post-Arrival
 Exercise: Physiological Sigh  [exercise id: 1107]
-Card description (sub): Double inhale, long sigh out — quickest reset breathing
+Card description (sub): Works to lower your stress levels by quickly resetting your nervous system.
 Meta line (beside duration): Co2 Offload · Downregulate
 
 ------------------------------------------------------------------------------
 Track: Arrival Unwind  [travel]
 Section: Post-Arrival
 Exercise: Doorway Chest Stretch  [exercise id: 1108]
-Card description (sub): Open the chest, pull the shoulders back where they belong
+Card description (sub): Encourages a deep opening in the chest to help with slumped shoulders.
 Meta line (beside duration): Stretch · Release
 
 ------------------------------------------------------------------------------
 Track: Arrival Unwind  [travel]
 Section: Post-Arrival
 Exercise: Glute Bridge  [exercise id: 1109]
-Card description (sub): Wake up the glutes, take pressure off the low back
+Card description (sub): Activates your glutes to help take some of the load off your lower back.
 Meta line (beside duration): Engage · Control
 
 ------------------------------------------------------------------------------
@@ -952,28 +952,28 @@ Meta line (beside duration): Swing · Relax
 Track: Walk Ease  [walking]
 Section: Post-Walk: The Decompression
 Exercise: Calf Release - Right Leg  [exercise id: 3024-R]
-Card description (sub): Easy pressure on the calf — keep it tolerable and breathe
+Card description (sub): Targets tightness in the lower legs to help with foot and heel discomfort.
 Meta line (beside duration): Press · Bend
 
 ------------------------------------------------------------------------------
 Track: Walk Ease  [walking]
 Section: Post-Walk: The Decompression
 Exercise: Calf Release - Left Leg  [exercise id: 3024-L]
-Card description (sub): Easy pressure on the calf — keep it tolerable and breathe
+Card description (sub): Targets tightness in the lower legs to help with foot and heel discomfort.
 Meta line (beside duration): Press · Bend
 
 ------------------------------------------------------------------------------
 Track: Walk Ease  [walking]
 Section: Post-Walk: The Decompression
 Exercise: Standing Quad Stretch - Right Leg  [exercise id: 3025-R]
-Card description (sub): Foot to glute standing — thigh stretch, knees together
+Card description (sub): Releases the front of your thigh to help take pressure off your knees.
 Meta line (beside duration): Align · Switch
 
 ------------------------------------------------------------------------------
 Track: Walk Ease  [walking]
 Section: Post-Walk: The Decompression
 Exercise: Standing Quad Stretch - Left Leg  [exercise id: 3025-L]
-Card description (sub): Foot to glute standing — thigh stretch, knees together
+Card description (sub): Releases the front of your thigh to help take pressure off your knees.
 Meta line (beside duration): Align · Switch
 
 ------------------------------------------------------------------------------
@@ -1029,7 +1029,7 @@ Meta line (beside duration): Lift · Extend
 Track: Run Reboot  [running]
 Section: Post-Run: The Structural Reset
 Exercise: Legs Up the Wall  [exercise id: 3036]
-Card description (sub): Rest the legs up the wall — let heaviness drain from your legs
+Card description (sub): Supports circulation and helps your legs feel refreshed after a long day.
 Meta line (beside duration): Relax · Breathe
 
 ------------------------------------------------------------------------------
@@ -1078,14 +1078,14 @@ Meta line (beside duration): Rotation · Breath
 Track: Court Prep  [tennis]
 Section: Pre-Game: The Court Readiness
 Exercise: Lateral Lunges with Reach - Right Side  [exercise id: 3011-R]
-Card description (sub): Easy stepping — keep rhythm relaxed and natural
+Card description (sub): Builds side to side stability to help protect your knees and hips.
 Meta line (beside duration): Reach · Switch
 
 ------------------------------------------------------------------------------
 Track: Court Prep  [tennis]
 Section: Pre-Game: The Court Readiness
 Exercise: Lateral Lunges with Reach - Left Side  [exercise id: 3011-L]
-Card description (sub): Easy stepping — keep rhythm relaxed and natural
+Card description (sub): Builds side to side stability to help protect your knees and hips.
 Meta line (beside duration): Reach · Switch
 
 ------------------------------------------------------------------------------
@@ -1134,14 +1134,14 @@ Meta line (beside duration): Reach · Switch
 Track: Thoracic Chest Reset  [thoracic]
 Section: Thoracic Flow
 Exercise: Thoracic Extension (foam roller)  [exercise id: 2000]
-Card description (sub): Lift your chest, restore the curve your desk takes away
+Card description (sub): Focuses on upper back mobility to help you stand taller and move easier.
 Meta line (beside duration): Extend · Variation
 
 ------------------------------------------------------------------------------
 Track: Thoracic Chest Reset  [thoracic]
 Section: Thoracic Flow
 Exercise: Cat–Cow  [exercise id: 2001]
-Card description (sub): Loosen the spine, one vertebra at a time
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
 Meta line (beside duration): Spine flexion · Extend
 
 ------------------------------------------------------------------------------
@@ -1155,14 +1155,14 @@ Meta line (beside duration): Rotation
 Track: Thoracic Chest Reset  [thoracic]
 Section: Thoracic Flow
 Exercise: Wall Angels  [exercise id: 2003]
-Card description (sub): Retrain your shoulders to move the way they're supposed to
+Card description (sub): Helps with shoulder mobility and opens up a tight or closed chest.
 Meta line (beside duration): Activate
 
 ------------------------------------------------------------------------------
 Track: Thoracic Chest Reset  [thoracic]
 Section: Thoracic Flow
 Exercise: Chin Tucks  [exercise id: 2004]
-Card description (sub): Nudge the head straight back — neck finds a calmer line
+Card description (sub): Focuses on neck alignment to help counteract the strain from looking at screens.
 Meta line (beside duration): Neck
 
 ------------------------------------------------------------------------------
@@ -1176,7 +1176,7 @@ Meta line (beside duration): Release
 Track: Thoracic Chest Reset  [thoracic]
 Section: Thoracic Flow
 Exercise: Child's Pose  [exercise id: 2006]
-Card description (sub): Full reset — breathe and let the spine lengthen
+Card description (sub): Encourages the spine to lengthen and helps your back muscles finally let go.
 Meta line (beside duration): Thoracic Flow
 
 ------------------------------------------------------------------------------
@@ -1197,7 +1197,7 @@ Meta line (beside duration): Stretch
 Track: Carpal Tunnel Release  [wrist]
 Section: Wrist & Hand Reset
 Exercise: Median Nerve Glide  [exercise id: 2012]
-Card description (sub): Floss the arm nerve — tingling means slow down
+Card description (sub): Helps manage hand and wrist discomfort by gently stretching the nerves.
 Meta line (beside duration): Glide
 
 ------------------------------------------------------------------------------
@@ -1218,14 +1218,14 @@ Meta line (beside duration): Release · Activate
 Track: Calm Circuit  [anxiety]
 Section: Immediate Nervous System Reset
 Exercise: Cold Shock (Dive Reflex)  [exercise id: 2001]
-Card description (sub): Quick cool on the face — a shortcut to feeling calmer
+Card description (sub): Helps snap you out of high stress or anxiety by triggering a natural cooling reflex.
 Meta line (beside duration): Activate · Integrate
 
 ------------------------------------------------------------------------------
 Track: Calm Circuit  [anxiety]
 Section: Immediate Nervous System Reset
 Exercise: Legs Up the Wall  [exercise id: 2002]
-Card description (sub): Rest the legs up the wall — let heaviness drain from your legs
+Card description (sub): Supports circulation and helps your legs feel refreshed after a long day.
 Meta line (beside duration): Rest · Restore
 
 ------------------------------------------------------------------------------
@@ -1239,7 +1239,7 @@ Meta line (beside duration): Tone · Integrate
 Track: Calm Circuit  [anxiety]
 Section: Immediate Nervous System Reset
 Exercise: 5-4-3-2-1 Sensory Scan  [exercise id: 2004]
-Card description (sub): Count backward and name what you notice, one sense at a time
+Card description (sub): Grounds you in the present moment when you start to feel overwhelmed.
 Meta line (beside duration): Visual · Sensory
 
 ------------------------------------------------------------------------------
@@ -1288,49 +1288,49 @@ Meta line (beside duration): Bilateral · Discharge
 Track: Tension Release  [stress]
 Section: Physical Discharge
 Exercise: Thoracic Extension  [exercise id: 2103]
-Card description (sub): Lift your chest, restore the curve your desk takes away
+Card description (sub): Focuses on upper back mobility to help you stand taller and move easier.
 Meta line (beside duration): Open · Mobilize
 
 ------------------------------------------------------------------------------
 Track: Tension Release  [stress]
 Section: Physical Discharge
 Exercise: The Shake-Out  [exercise id: 2104]
-Card description (sub): Light bouncy movement — wake up circulation without strain
+Card description (sub): Helps your body physically discharge stress so it doesn't stay stuck in your muscles.
 Meta line (beside duration): Discharge · Integrate
 
 ------------------------------------------------------------------------------
 Track: Tension Release  [stress]
 Section: Release & Downshift
 Exercise: Child's Pose  [exercise id: 2105]
-Card description (sub): Full reset — breathe and let the spine lengthen
+Card description (sub): Encourages the spine to lengthen and helps your back muscles finally let go.
 Meta line (beside duration): Compress · Restore
 
 ------------------------------------------------------------------------------
 Track: Tension Release  [stress]
 Section: Release & Downshift
 Exercise: Chin Tucks  [exercise id: 2106]
-Card description (sub): Nudge the head straight back — neck finds a calmer line
+Card description (sub): Focuses on neck alignment to help counteract the strain from looking at screens.
 Meta line (beside duration): Neck retraction · Decompress
 
 ------------------------------------------------------------------------------
 Track: Tension Release  [stress]
 Section: Release & Downshift
 Exercise: Wall Pushes  [exercise id: 2107]
-Card description (sub): Press hard into the wall — burn off tension with a short max effort
+Card description (sub): Builds chest and arm strength while keeping things easy on your joints.
 Meta line (beside duration): Exert · Complete
 
 ------------------------------------------------------------------------------
 Track: Tension Release  [stress]
 Section: Release & Downshift
 Exercise: Butterfly Hug  [exercise id: 2108]
-Card description (sub): Soles together, sit tall — let gravity open the hips
+Card description (sub): Provides a gentle sense of comfort and safety when you feel anxious.
 Meta line (beside duration): Bilateral · Integrate
 
 ------------------------------------------------------------------------------
 Track: Feet First  [feet]
 Section: Release
 Exercise: Plantar Fascia Stretch  [exercise id: 1001]
-Card description (sub): Small foot movements — wake up the muscles that hold you up
+Card description (sub): Targets the bottom of your feet to help with heel and arch discomfort.
 Meta line (beside duration): Stretch · Release
 
 ------------------------------------------------------------------------------
@@ -1365,14 +1365,14 @@ Meta line (beside duration): Stretch · Bilateral
 Track: Feet First  [feet]
 Section: Activation
 Exercise: Toe Splay  [exercise id: 1005]
-Card description (sub): Small foot movements — wake up the muscles that hold you up
+Card description (sub): Focuses on foot alignment to give you a more natural and stable base.
 Meta line (beside duration): Activate · Control
 
 ------------------------------------------------------------------------------
 Track: Feet First  [feet]
 Section: Activation
 Exercise: Arch Doming  [exercise id: 1006]
-Card description (sub): Lift the arch, put it down — train the small foot muscles
+Card description (sub): Strengthens the arches of your feet to help prevent fatigue and flat feet.
 Meta line (beside duration): Activate · Progress
 
 ------------------------------------------------------------------------------
@@ -1414,14 +1414,14 @@ Meta line (beside duration): Eccentric · Reset
 Track: Feet First  [feet]
 Section: Strengthening
 Exercise: Towel Scrunches - Right Side  [exercise id: 1010-R]
-Card description (sub): Small foot movements — wake up the muscles that hold you up
+Card description (sub): Works the small muscles in your feet to help with balance and support.
 Meta line (beside duration): Strengthen · Endurance
 
 ------------------------------------------------------------------------------
 Track: Feet First  [feet]
 Section: Strengthening
 Exercise: Towel Scrunches - Left Side  [exercise id: 1010-L]
-Card description (sub): Small foot movements — wake up the muscles that hold you up
+Card description (sub): Works the small muscles in your feet to help with balance and support.
 Meta line (beside duration): Strengthen · Endurance
 
 ------------------------------------------------------------------------------
@@ -1449,7 +1449,7 @@ Meta line (beside duration): Strengthen · Eccentric
 Track: Knee Resilience  [knee]
 Section: Knee Resilience
 Exercise: Isometric Wall Sits  [exercise id: 2203]
-Card description (sub): Wall sit hold — legs work, spine stays tall
+Card description (sub): Focuses on knee strength and endurance for activities like stairs or hiking.
 Meta line (beside duration): Hold · Release
 
 ------------------------------------------------------------------------------
@@ -1477,7 +1477,7 @@ Meta line (beside duration): Extend · Control
 Track: Knee Resilience  [knee]
 Section: Knee Resilience
 Exercise: Low Box Step-Ups  [exercise id: 2207]
-Card description (sub): Easy stepping — keep rhythm relaxed and natural
+Card description (sub): Improves functional support for your knees during daily walking.
 Meta line (beside duration): Concentric · Eccentric
 
 ------------------------------------------------------------------------------
