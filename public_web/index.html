@@ -6483,19 +6483,32 @@ const css = `
   /* Guided full-screen exercise intro (INSTRUCTIONS phase): ~10% smaller type for more copy above the fold */
   .guided-overlay[data-phase="instruction"] .exercise-carousel--guided-flow-frame.exercise-carousel--large .exercise-carousel__label {
     font-size: 11px !important;
-    margin-top: 13px !important;
+    margin-top: 22px !important;
   }
   .guided-overlay[data-phase="instruction"] .exercise-carousel--guided-flow-frame.exercise-carousel--large .exercise-carousel__body {
     font-size: clamp(21.5px, 3.6vw, 27px) !important;
-    min-height: 144px !important;
-    line-height: 1.48 !important;
+    min-height: 120px !important;
+    line-height: 1.42 !important;
   }
   .guided-overlay[data-phase="instruction"] .exercise-carousel--guided-flow-frame.exercise-carousel--large .exercise-carousel__nav {
-    margin-top: 13px !important;
+    margin-top: 10px !important;
     min-height: 40px !important;
+    display: grid !important;
+    grid-template-columns: minmax(7.5ch, auto) 1fr !important;
+    gap: 10px !important;
+    align-items: center !important;
+    justify-content: unset !important;
   }
   .guided-overlay[data-phase="instruction"] .exercise-carousel--guided-flow-frame.exercise-carousel--large .exercise-carousel__step-count {
     font-size: 11px !important;
+    justify-self: start !important;
+    min-width: 7.5ch !important;
+    text-align: left !important;
+  }
+  .guided-overlay[data-phase="instruction"] .exercise-carousel--guided-flow-frame.exercise-carousel--large .exercise-carousel__nav-arrows {
+    justify-self: end !important;
+    min-width: 92px !important;
+    flex-shrink: 0 !important;
   }
   /* Lock nav position by enforcing a minimum body height (keeps arrows / step-count stable) */
   .exercise-carousel--large .exercise-carousel__body {
@@ -13353,8 +13366,7 @@ function Steps({ steps, small, start: startText, exerciseId, exerciseName, theme
 
 function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, paused = false, onComplete }) {
   const [remainingSeconds, setRemainingSeconds] = useState(seconds);
-  const [progressPct, setProgressPct] = useState(0);
-  const intervalRef = useRef(null);
+  const fillRef = useRef(null);
   const completedRef = useRef(false);
   const threeBeatTriggeredRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
@@ -13362,35 +13374,60 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
     onCompleteRef.current = onComplete;
   }, [onComplete]);
   useEffect(() => {
-    clearInterval(intervalRef.current);
-    setRemainingSeconds(seconds);
-    setProgressPct(0);
     completedRef.current = false;
     threeBeatTriggeredRef.current = false;
-  }, [seconds]);
-  useEffect(() => {
-    clearInterval(intervalRef.current);
-    if (paused || completedRef.current) return () => clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      setRemainingSeconds((prev) => {
-        const next = prev - 1;
-        const clamped = Math.max(0, next);
-        const pct = seconds > 0 ? (seconds - clamped) / seconds * 100 : 100;
-        setProgressPct(pct);
-        if (clamped === 3 && !threeBeatTriggeredRef.current) {
-          threeBeatTriggeredRef.current = true;
-          triggerHaptic(HAPTIC_TRIPLE_TAP);
-        }
-        if (clamped <= 0 && !completedRef.current) {
-          completedRef.current = true;
-          clearInterval(intervalRef.current);
-          triggerHaptic(HAPTIC_TRIPLE_TAP);
-          requestAnimationFrame(() => onCompleteRef.current && onCompleteRef.current());
-        }
-        return clamped;
-      });
-    }, 1000);
-    return () => clearInterval(intervalRef.current);
+    const totalMs = Math.max(0, seconds * 1000);
+    let deadline = performance.now() + totalMs;
+    let pausedAt = null;
+    let rafId = 0;
+    let lastCeil = seconds;
+    const applyFill = (t) => {
+      const el = fillRef.current;
+      if (!el) return;
+      const x = Math.min(1, Math.max(0, t));
+      el.style.transform = `scaleX(${x})`;
+    };
+    const step = (now) => {
+      if (completedRef.current) return;
+      if (paused) {
+        if (pausedAt == null) pausedAt = now;
+        rafId = requestAnimationFrame(step);
+        return;
+      }
+      if (pausedAt != null) {
+        deadline += now - pausedAt;
+        pausedAt = null;
+      }
+      const remainingMs = Math.max(0, deadline - now);
+      const frac = totalMs > 0 ? (totalMs - remainingMs) / totalMs : 1;
+      applyFill(frac);
+      const ceilSec = remainingMs <= 0 ? 0 : Math.ceil(remainingMs / 1000);
+      if (ceilSec !== lastCeil) {
+        lastCeil = ceilSec;
+        setRemainingSeconds(ceilSec);
+      }
+      if (!threeBeatTriggeredRef.current && ceilSec === 3 && remainingMs > 0) {
+        threeBeatTriggeredRef.current = true;
+        triggerHaptic(HAPTIC_TRIPLE_TAP);
+      }
+      if (remainingMs <= 0 && !completedRef.current) {
+        completedRef.current = true;
+        applyFill(1);
+        setRemainingSeconds(0);
+        triggerHaptic(HAPTIC_TRIPLE_TAP);
+        requestAnimationFrame(() => onCompleteRef.current && onCompleteRef.current());
+        return;
+      }
+      rafId = requestAnimationFrame(step);
+    };
+    setRemainingSeconds(seconds);
+    applyFill(0);
+    lastCeil = seconds;
+    rafId = requestAnimationFrame(step);
+    return () => {
+      cancelAnimationFrame(rafId);
+      applyFill(0);
+    };
   }, [seconds, paused]);
   const display = `0:${Math.max(0, remainingSeconds).toString().padStart(2, "0")}`;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
@@ -13408,27 +13445,30 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
     React.createElement("div", { style: {
         marginTop: 10,
         width: "100%",
-        height: 2,
-        borderRadius: 1,
+        height: 4,
+        borderRadius: 2,
         background: trackColor,
         overflow: "hidden",
         opacity: hidden ? 0 : 1,
         transition: "opacity 0.12s ease-out"
       } }, /*#__PURE__*/
-    React.createElement("div", { style: {
-        height: 2,
-        borderRadius: 1,
+    React.createElement("div", {
+      ref: fillRef,
+      style: {
+        height: 4,
+        width: "100%",
+        borderRadius: 2,
         background: accent,
-        width: `${progressPct}%`,
-        transition: "width 1s linear",
-        willChange: "width"
-      } }))));
+        transformOrigin: "left center",
+        transform: "scaleX(0)",
+        willChange: "transform"
+      }
+    }))));
 }
 
 function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, paused = false, onComplete, hapticMidpoint = false, initialRemainingSeconds, onRemainingSecondsChange }) {
   const [remainingSeconds, setRemainingSeconds] = useState(seconds);
-  const [progressPct, setProgressPct] = useState(0);
-  const intervalRef = useRef(null);
+  const fillRef = useRef(null);
   const completedRef = useRef(false);
   const midpointTriggeredRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
@@ -13436,52 +13476,76 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
     onCompleteRef.current = onComplete;
   }, [onComplete]);
   useEffect(() => {
-    clearInterval(intervalRef.current);
-    let start = seconds;
-    if (typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0 && initialRemainingSeconds <= seconds) {
-      start = Math.floor(initialRemainingSeconds);
-    }
-    setRemainingSeconds(start);
-    setProgressPct(seconds > 0 ? (seconds - start) / seconds * 100 : 100);
-    completedRef.current = false;
-    midpointTriggeredRef.current = false;
-    if (hapticMidpoint && typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0) {
-      const midpointThreshold = Math.ceil(seconds / 2);
-      if (start < midpointThreshold) {
-        midpointTriggeredRef.current = true;
-      }
-    }
-  }, [seconds, hapticMidpoint, initialRemainingSeconds]);
-  useEffect(() => {
     if (typeof onRemainingSecondsChange === "function") {
       onRemainingSecondsChange(remainingSeconds);
     }
   }, [remainingSeconds, onRemainingSecondsChange]);
   useEffect(() => {
-    clearInterval(intervalRef.current);
-    if (paused || completedRef.current) return () => clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      setRemainingSeconds((prev) => {
-        const next = prev - 1;
-        const clamped = Math.max(0, next);
-        const pct = seconds > 0 ? (seconds - clamped) / seconds * 100 : 100;
-        setProgressPct(pct);
-        const midpointThreshold = Math.ceil(seconds / 2);
-        if (hapticMidpoint && !midpointTriggeredRef.current && clamped === midpointThreshold) {
-          midpointTriggeredRef.current = true;
-          triggerHaptic(HAPTIC_MEDIUM);
-        }
-        if (clamped <= 0 && !completedRef.current) {
-          completedRef.current = true;
-          clearInterval(intervalRef.current);
-          triggerHaptic(HAPTIC_TRIPLE_TAP);
-          requestAnimationFrame(() => onCompleteRef.current && onCompleteRef.current());
-        }
-        return clamped;
-      });
-    }, 1000);
-    return () => clearInterval(intervalRef.current);
-  }, [paused, seconds, hapticMidpoint]);
+    completedRef.current = false;
+    midpointTriggeredRef.current = false;
+    let startSec = seconds;
+    if (typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0 && initialRemainingSeconds <= seconds) {
+      startSec = Math.floor(initialRemainingSeconds);
+    }
+    const totalMs = Math.max(0, seconds * 1000);
+    const midpointThreshold = Math.ceil(seconds / 2);
+    if (hapticMidpoint && typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0) {
+      if (startSec < midpointThreshold) {
+        midpointTriggeredRef.current = true;
+      }
+    }
+    let deadline = performance.now() + startSec * 1000;
+    let pausedAt = null;
+    let rafId = 0;
+    let lastIntegerSec = startSec;
+    const applyFill = (t) => {
+      const el = fillRef.current;
+      if (!el) return;
+      const x = Math.min(1, Math.max(0, t));
+      el.style.transform = `scaleX(${x})`;
+    };
+    const step = (now) => {
+      if (completedRef.current) return;
+      if (paused) {
+        if (pausedAt == null) pausedAt = now;
+        rafId = requestAnimationFrame(step);
+        return;
+      }
+      if (pausedAt != null) {
+        deadline += now - pausedAt;
+        pausedAt = null;
+      }
+      const remainingMs = Math.max(0, deadline - now);
+      const frac = totalMs > 0 ? (totalMs - remainingMs) / totalMs : 1;
+      applyFill(frac);
+      const intSec = remainingMs <= 0 ? 0 : Math.ceil(remainingMs / 1000);
+      if (intSec !== lastIntegerSec) {
+        lastIntegerSec = intSec;
+        setRemainingSeconds(intSec);
+      }
+      if (hapticMidpoint && !midpointTriggeredRef.current && intSec === midpointThreshold && remainingMs > 0) {
+        midpointTriggeredRef.current = true;
+        triggerHaptic(HAPTIC_MEDIUM);
+      }
+      if (remainingMs <= 0 && !completedRef.current) {
+        completedRef.current = true;
+        applyFill(1);
+        setRemainingSeconds(0);
+        triggerHaptic(HAPTIC_TRIPLE_TAP);
+        requestAnimationFrame(() => onCompleteRef.current && onCompleteRef.current());
+        return;
+      }
+      rafId = requestAnimationFrame(step);
+    };
+    setRemainingSeconds(startSec);
+    applyFill(seconds > 0 ? (seconds - startSec) / seconds : 1);
+    lastIntegerSec = startSec;
+    rafId = requestAnimationFrame(step);
+    return () => {
+      cancelAnimationFrame(rafId);
+      applyFill(0);
+    };
+  }, [paused, seconds, hapticMidpoint, initialRemainingSeconds]);
   const display = `${Math.floor(Math.max(0, remainingSeconds) / 60)}:${(Math.max(0, remainingSeconds) % 60).toString().padStart(2, "0")}`;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "guided-rest-timer__column" }, /*#__PURE__*/
@@ -13498,21 +13562,25 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
     React.createElement("div", { style: {
         marginTop: 10,
         width: "100%",
-        height: 2,
-        borderRadius: 1,
+        height: 4,
+        borderRadius: 2,
         background: trackColor,
         overflow: "hidden",
         opacity: hidden ? 0 : 1,
         transition: "opacity 0.12s ease-out"
       } }, /*#__PURE__*/
-    React.createElement("div", { style: {
-        height: 2,
-        borderRadius: 1,
+    React.createElement("div", {
+      ref: fillRef,
+      style: {
+        height: 4,
+        width: "100%",
+        borderRadius: 2,
         background: accent,
-        width: `${progressPct}%`,
-        transition: paused ? "none" : "width 1s linear",
-        willChange: "width"
-      } }))));
+        transformOrigin: "left center",
+        transform: "scaleX(0)",
+        willChange: "transform"
+      }
+    }))));
 }
 
 function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onFav, note, onNote, nextName, hideTimer = false, hideDone = false, exerciseDurationSeconds, theme = "dark", ultraNight = false, trackId, listRailLayout = false, guidedPreviewLayout = false, listSectionLabel = "" }) {
@@ -14228,11 +14296,9 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
 
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
-  const [phase, setPhase] = useState("intro"); // "intro" | "instruction" | "rest" | "exercise" | "milestone" | "closing"
+  const [phase, setPhase] = useState("intro"); // "intro" | "instruction" | "rest" | "exercise" | "closing"
   const GETREADY_SECONDS = 15;
   const [paused, setPaused] = useState(false);
-  const [milestoneMessage, setMilestoneMessage] = useState("");
-  const milestoneRef = useRef(null);
   const wakeLockRef = useRef(null);
   const titleRef = useRef(null);
   const guidedDialogRef = useRef(null);
@@ -14458,31 +14524,11 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       if (onSessionComplete) onSessionComplete();
       return;
     }
-    const flowDone = fi + 1;
-    const at25 = Math.ceil(listTotal * 0.25);
-    const at50 = Math.ceil(listTotal * 0.5);
-    const at75 = Math.ceil(listTotal * 0.75);
-    if (flowDone === at25 || flowDone === at50 || flowDone === at75) {
-      setGuidedTransitioning(true);
-      setPaused(false);
-      const msg = flowDone === at25 ? "Quarter done" : flowDone === at50 ? "Halfway there" : "Almost there";
-      setMilestoneMessage(msg);
-      setPhase("milestone");
-      const advanceTo = Math.min(fi + 1, list.length - 1);
-      if (milestoneRef.current) clearTimeout(milestoneRef.current);
-      milestoneRef.current = setTimeout(() => {
-        setFi(advanceTo);
-        goToPrepPhaseAt(advanceTo);
-        setMilestoneMessage("");
-        milestoneRef.current = null;
-      }, 2200);
-    } else {
-      setGuidedTransitioning(true);
-      setPaused(false);
-      const nextFi = Math.min(fi + 1, list.length - 1);
-      setFi(nextFi);
-      goToPrepPhaseAt(nextFi);
-    }
+    setGuidedTransitioning(true);
+    setPaused(false);
+    const nextFi = Math.min(fi + 1, list.length - 1);
+    setFi(nextFi);
+    goToPrepPhaseAt(nextFi);
   };
 
   const handleTimerDone = () => {
@@ -14565,6 +14611,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const guidedPrepRecord0 = guidedPrepIncludedInstructionRef.current[0];
   const guidedPrepHadInstr0 = guidedPrepRecord0 === undefined ? showDetailedInstructions : !!guidedPrepRecord0;
   const guidedPrevDisabled = guidedTransitioning || (phase === "instruction" && fi === 0) || (phase === "rest" && fi === 0 && !guidedPrepHadInstr0);
+  const hadInstructionBeforeThisRest = !!guidedPrepIncludedInstructionRef.current[fi];
   const guidedPrevFooterButton = () => /*#__PURE__*/React.createElement("button", {
     type: "button",
     disabled: guidedPrevDisabled,
@@ -14688,7 +14735,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       overflowY: "auto",
       overflowX: "hidden",
       WebkitOverflowScrolling: "touch",
-      padding: "6px 0 20px",
+      padding: "4px 0 16px",
       scrollbarWidth: "none",
       msOverflowStyle: "none"
     }
@@ -14747,7 +14794,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       minHeight: 52,
       opacity: phase === "rest" && cur && !guidedTransitioning ? 1 : 0,
       pointerEvents: phase === "rest" && cur && !guidedTransitioning ? "auto" : "none"
-    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();}, style: {
+    } }, /*#__PURE__*/guidedPrevFooterButton(), hadInstructionBeforeThisRest ? /*#__PURE__*/React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();}, style: {
       flex: 2,
       minWidth: 0,
       minHeight: 52,
@@ -14764,7 +14811,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       textTransform: "uppercase",
       cursor: "pointer",
       boxShadow: "none"
-    } }, "START")),
+    } }, "START") : null),
   /*#__PURE__*/React.createElement("div", { key: "exercise-actions", style: { position: "absolute", top: 0, left: 0, right: 0, display: "flex", gap: 8, flexWrap: "nowrap", minHeight: 52, opacity: phase === "exercise" && cur ? 1 : 0, pointerEvents: phase === "exercise" && cur ? "auto" : "none" } }, /*#__PURE__*/
   guidedPrevFooterButton(), /*#__PURE__*/
   React.createElement("button", { type: "button", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setPaused((p) => !p);}, style: {
@@ -14978,17 +15025,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     ),
 
 
-    phase === "milestone" && /*#__PURE__*/
-    React.createElement("div", { style: {
-        position: "absolute", inset: 0, zIndex: 10, display: "flex", alignItems: "center", justifyContent: "center",
-        background: "transparent", pointerEvents: "none"
-      } }, /*#__PURE__*/
-    React.createElement("div", { style: {
-        fontFamily: guidedSansDisplay, fontSize: "var(--text-xl)", fontWeight: 600, letterSpacing: "-0.02em", color: guidedExerciseTitleColor,
-        textShadow: "none", opacity: 0, animation: "flowFadeIn 0.35s ease forwards"
-      } }, milestoneMessage)
-    ),
-
 
 
     phase === "closing" && /*#__PURE__*/
@@ -15028,7 +15064,8 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     ), /*#__PURE__*/
     React.createElement("div", { style: { fontFamily: guidedSansDisplay, fontSize: 16, fontWeight: 400, marginBottom: 24, color: guidedMetaLine, textAlign: "center", lineHeight: 1.4 } }, /*#__PURE__*/React.createElement("span", null, filteredCount, " exercises \u00b7 "), /*#__PURE__*/React.createElement("span", { className: "axis-duration-label" }, axisNormalizeDurationLabelToMin(trackDuration)))
     ), /*#__PURE__*/
-    React.createElement("div", { style: { width: "100%", maxWidth: 380, marginBottom: 32, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "nowrap", boxSizing: "border-box" } }, /*#__PURE__*/
+    React.createElement("div", { style: { width: "100%", maxWidth: 380, marginBottom: 32, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, boxSizing: "border-box" } }, /*#__PURE__*/
+    React.createElement("div", { style: { display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "nowrap", width: "100%" } }, /*#__PURE__*/
     React.createElement("span", { style: { fontFamily: guidedMonoUi, fontSize: 10, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: guidedLabelCaps, lineHeight: 1.35, whiteSpace: "nowrap" } }, "Show Detailed Instructions"),
     React.createElement("button", {
       type: "button",
@@ -15064,6 +15101,17 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
         transition: "left 0.2s",
         boxShadow: "0 1px 4px rgba(0,0,0,0.2)"
       } }))),
+    React.createElement("p", { style: {
+        margin: 0,
+        padding: "0 12px",
+        maxWidth: 360,
+        fontFamily: guidedSansDisplay,
+        fontSize: 13,
+        fontWeight: 400,
+        lineHeight: 1.45,
+        textAlign: "center",
+        color: guidedMetaLine
+      } }, "Turn off for a more hands-free flow", /*#__PURE__*/React.createElement("br", null), "(timers advance automatically).")),
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: 8 } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: 10, fontFamily: guidedMonoUi, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: guidedLabelCaps, marginBottom: 10 } }, "Exercise duration"), /*#__PURE__*/
     React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", width: "100%", maxWidth: 360, marginTop: 4, marginBottom: 12 } },
