@@ -954,10 +954,10 @@ function axisExerciseNameForHistoryEntry(entry) {
   return "";
 }
 
-/** TODAY browse: 7 categories × 22 tracks — single source for filter + tagging */
+/** TODAY browse: 7 categories × 24 tracks — single source for filter + tagging */
 const HOME_TRACK_GROUPS = [
   { id: "foundation", label: "Foundation", ids: ["daily", "restorative"] },
-  { id: "timeOfDay", label: "Time of Day", ids: ["morning", "prime"] },
+  { id: "timeOfDay", label: "Time of Day", ids: ["morning", "prime", "structural_mend", "ultimate_reset"] },
   { id: "targeted", label: "Targeted", ids: ["desk", "screen", "hip", "back", "thoracic"] },
   { id: "bodyMaintenance", label: "Body Maintenance", ids: ["steady", "freely", "feet", "knee", "wrist"] },
   { id: "mentalWellness", label: "Mental Wellness", ids: ["anxiety", "stress"] },
@@ -971,6 +971,97 @@ const HOME_CATEGORY_FILTERS = [
 const TRACK_CATEGORY_BY_ID = Object.fromEntries(
   HOME_TRACK_GROUPS.flatMap((g) => g.ids.map((id) => [id, g.id]))
 );
+
+/** Shown above exercise copy in session detail + guided instruction overlay / sheet. */
+const AXIS_SAFETY_COPY_NERVE = "\u26A0\uFE0F NERVE SAFETY: Skip this exercise if you are experiencing active nerve pain, tingling, or traveling sharp sensations.";
+const AXIS_SAFETY_COPY_CAUTION = "\u26A0\uFE0F USE CAUTION: This is a high-intensity movement. Ensure proper form and stop immediately if you feel sharp joint pain.";
+
+function axisNormalizeExerciseSafetyText(s) {
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function axisInferNerveRiskExercise(ex) {
+  const name = String(ex && ex.name != null ? ex.name : "").trim();
+  const nameL = axisNormalizeExerciseSafetyText(name);
+  const blob = axisNormalizeExerciseSafetyText(`${name} ${ex && ex.sub != null ? ex.sub : ""}`);
+  if (/^glute\s+bridge$/i.test(name)) return false;
+  if (/^gentle\s+neck/i.test(name)) return false;
+  if (/ballet\s+squat/i.test(blob)) return false;
+  if (/diaphragmatic|legs\s+up|reclined\s+butterfly|butterfly\s+hug/i.test(nameL)) return false;
+  if (/^child'?s?\s+pose$/i.test(name) && !/side|reach/i.test(blob)) return false;
+  const needles = [
+    "plank", "dead bug", "bird dog", "bird-dog", "modified bird",
+    "thread the needle", "twist", "crunch", "hollow", "superman",
+    "cobra", "sphinx", "marching bridge", "windshield",
+    "thoracic rotation", "torso rotation", "thoracic extension", "open book", "roll-up", "roll up",
+    "leg raise", "straight leg raise", "v-up", "v up", "russian twist", "bicycle crunch",
+    "bicycle", "swimming", "cat-cow", "cat–cow", "wall sit", "box squat",
+    "forearm plank", "high plank", "side plank", "eagle arm", "neck roll",
+    "median nerve", "nerve glide", "inchworm", "push-up", "push up",
+    "pull-up", "pull up", "lunge", "active hang", "camel", "wheel", "bow pose",
+    "boat pose", "shoulder stand", "headstand", "handstand", "figure four", "figure-4",
+    "deadlift", "good morning", "burpee", "mountain climber",
+    "kettlebell", "turkish get", "get-up", "snatch", "clean and", "thruster",
+    "bear crawl", "crab walk", "jackknife", "toes to bar", "hanging", "roll over"
+  ];
+  return needles.some((w) => blob.includes(w));
+}
+
+function axisInferCautionRiskExercise(ex) {
+  const blob = axisNormalizeExerciseSafetyText(`${ex && ex.name != null ? ex.name : ""} ${ex && ex.sub != null ? ex.sub : ""}`);
+  const cautionNeedles = [
+    "jump", "hop", "burpee", "plyo", "sprint", "explosive", "skipping", "skip rope",
+    "high knee", "skater", "bound", "star jump", "tuck jump", "box jump", "broad jump",
+    "snatch", "clean and jerk", "thruster", "kettlebell swing", "battle rope",
+    "advanced", "power ", " slam", "ball slam"
+  ];
+  if (/ballet\s+squat/i.test(blob)) return false;
+  return cautionNeedles.some((w) => blob.includes(w));
+}
+
+function axisResolveExerciseSafetyFlags(ex) {
+  let nerve = axisInferNerveRiskExercise(ex);
+  let caution = axisInferCautionRiskExercise(ex);
+  if (ex && Array.isArray(ex.axisSafetyTags)) {
+    for (const raw of ex.axisSafetyTags) {
+      const t = String(raw).toLowerCase();
+      if (t === "nerve") nerve = true;
+      if (t === "caution") caution = true;
+      if (t === "no-nerve") nerve = false;
+      if (t === "no-caution") caution = false;
+    }
+  }
+  if (ex && Array.isArray(ex.axisSafetyExclude)) {
+    for (const raw of ex.axisSafetyExclude) {
+      const t = String(raw).toLowerCase();
+      if (t === "nerve") nerve = false;
+      if (t === "caution") caution = false;
+    }
+  }
+  return { nerve, caution };
+}
+
+function axisTrackTagChips(track) {
+  const tags = track && Array.isArray(track.axisTrackTags) ? track.axisTrackTags : null;
+  if (!tags || !tags.length) return null;
+  return /*#__PURE__*/React.createElement("div", { className: "axis-track-tag-row", role: "list", "aria-label": "Track tags" }, tags.map((tag) => /*#__PURE__*/React.createElement("span", { key: String(tag), className: "axis-track-tag-chip", role: "listitem" }, tag)));
+}
+
+function AxisExerciseSafetyCallouts({ exercise, ultraNight, layout }) {
+  if (!exercise) return null;
+  const { nerve, caution } = axisResolveExerciseSafetyFlags(exercise);
+  if (!nerve && !caution) return null;
+  const wrapClass = "axis-exercise-safety-wrap" + (layout === "overlay" ? " axis-exercise-safety-wrap--overlay" : " axis-exercise-safety-wrap--detail");
+  return /*#__PURE__*/React.createElement("div", { className: wrapClass, role: "region", "aria-label": "Exercise safety" },
+    nerve ? /*#__PURE__*/React.createElement("div", { className: "axis-exercise-safety axis-exercise-safety--nerve" + (ultraNight ? " axis-exercise-safety--ultra" : "") }, AXIS_SAFETY_COPY_NERVE) : null,
+    caution ? /*#__PURE__*/React.createElement("div", { className: "axis-exercise-safety axis-exercise-safety--caution" + (ultraNight ? " axis-exercise-safety--ultra" : "") }, AXIS_SAFETY_COPY_CAUTION) : null
+  );
+}
 
 function exerciseSeconds(ex, fallbackSec) {
   const s = ex.seconds;
@@ -4470,6 +4561,88 @@ const css = `
   .purpose-text--guided-body {
     margin-top: 10px;
     padding-bottom: 0;
+  }
+  .session-safety-strip {
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: calc(var(--text-xs) + 0px);
+    line-height: 1.45;
+    color: var(--text-secondary);
+    background: color-mix(in srgb, var(--mood-color) 7%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 88%, var(--mood-color) 12%);
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  .app[data-night="true"] .session-safety-strip {
+    border-color: rgba(255, 59, 48, 0.32);
+    background: rgba(0, 0, 0, 0.32);
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .axis-exercise-safety-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .axis-exercise-safety-wrap--overlay { padding: 0 2px; }
+  .axis-exercise-safety {
+    font-family: var(--font-ui);
+    font-size: calc(var(--text-xs) + 0px);
+    line-height: 1.45;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 190, 70, 0.55);
+    background: rgba(255, 200, 90, 0.14);
+    color: var(--text-white);
+    box-sizing: border-box;
+  }
+  .axis-exercise-safety--caution {
+    border-color: rgba(255, 120, 50, 0.6);
+    background: rgba(255, 130, 70, 0.16);
+  }
+  .axis-exercise-safety--ultra {
+    border-color: #FF3B30;
+    color: rgba(255, 240, 235, 0.96);
+    background: rgba(0, 0, 0, 0.45);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .axis-exercise-safety:not(.axis-exercise-safety--ultra) {
+    color: #1a1a1a;
+    border-color: rgba(200, 120, 0, 0.45);
+    background: rgba(255, 210, 120, 0.22);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .axis-exercise-safety--caution:not(.axis-exercise-safety--ultra) {
+    border-color: rgba(200, 80, 20, 0.5);
+    background: rgba(255, 170, 100, 0.22);
+  }
+  .axis-track-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    max-width: 100%;
+  }
+  .axis-track-tag-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid color-mix(in srgb, var(--border) 70%, var(--mood-color) 30%);
+    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
+    color: var(--text-secondary);
+  }
+  [data-night="true"] .axis-track-tag-chip {
+    border-color: rgba(255, 59, 48, 0.45);
+    color: rgba(255, 200, 190, 0.88);
+    background: rgba(0, 0, 0, 0.35);
   }
   .purpose-label { font-size: var(--text-xs); font-family:var(--font-ui); font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-secondary); margin-bottom:4px; }
 
@@ -13477,9 +13650,10 @@ function Steps({ steps, small, start: startText, exerciseId, exerciseName, theme
   const animKey = exercise ? resolveExerciseAnimationKey(trackId, exercise.id, exercise.name) : resolveExerciseAnimationKey(trackId, exerciseId, exerciseName);
   const animMode = exerciseAnimationModeFromTheme(theme, ultraNight);
   const frameArr = instructionFrameArrayForCarousel(animKey);
+  const safetyEl = exercise ? /*#__PURE__*/React.createElement(AxisExerciseSafetyCallouts, { exercise, ultraNight, layout: "detail" }) : null;
   if (tiers.length === 0 && !animKey) return null;
   if (tiers.length > 0) {
-    return /*#__PURE__*/React.createElement("div", { className: small ? "steps" : "fc-steps" }, /*#__PURE__*/React.createElement(ExerciseCarousel, {
+    return /*#__PURE__*/React.createElement("div", { className: small ? "steps" : "fc-steps" }, safetyEl, /*#__PURE__*/React.createElement(ExerciseCarousel, {
       tiers: tiers,
       frameSvgHtml: frameArr,
       animationKey: animKey,
@@ -13493,7 +13667,7 @@ function Steps({ steps, small, start: startText, exerciseId, exerciseName, theme
       sessionExerciseCardExpanded: sessionExerciseCardExpanded
     }));
   }
-  return /*#__PURE__*/React.createElement("div", { className: small ? "steps" : "fc-steps" }, /*#__PURE__*/React.createElement(ExerciseAnimation, { animationKey: animKey, mode: animMode, variant: "default" }));
+  return /*#__PURE__*/React.createElement("div", { className: small ? "steps" : "fc-steps" }, safetyEl, /*#__PURE__*/React.createElement(ExerciseAnimation, { animationKey: animKey, mode: animMode, variant: "default" }));
 }
 
 function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, paused = false, onComplete }) {
@@ -14872,6 +15046,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       msOverflowStyle: "none"
     }
   }, /*#__PURE__*/React.createElement(React.Fragment, null,
+  (phase === "instruction" || phase === "exercise") && cur ? /*#__PURE__*/React.createElement(AxisExerciseSafetyCallouts, { key: `g-safe-${fi}-${cur.id}`, exercise: cur, ultraNight: isNight, layout: "overlay" }) : null,
   phase === "instruction" && guidedStepTotal > 0 ? /*#__PURE__*/React.createElement(ExerciseCarousel, {
     key: `g-carousel-${fi}-${(cur && cur.id)}`,
     tiers: guidedInstructionTiersFiltered,
@@ -15311,6 +15486,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     }, /*#__PURE__*/
     React.createElement("div", { className: "guided-refresher-scroll" },
     /*#__PURE__*/React.createElement(React.Fragment, null,
+    cur ? /*#__PURE__*/React.createElement(AxisExerciseSafetyCallouts, { key: `ref-safe-${fi}-${cur.id}`, exercise: cur, ultraNight: isNight, layout: "overlay" }) : null,
     guidedStepTotal > 0 ? /*#__PURE__*/React.createElement(ExerciseCarousel, {
       tiers: guidedInstructionTiersFiltered,
       frameSvgHtml: instructionFrameArrayForCarousel(guidedAnimKey),
@@ -18769,7 +18945,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
       React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
+      axisTrackTagChips(t)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
@@ -19199,7 +19376,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
       React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-purpose" }, t.purpose), /*#__PURE__*/
+      axisTrackTagChips(t)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
@@ -19468,6 +19646,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           listScrollRef.current = e.currentTarget.scrollTop || 0;
         }
       } }, /*#__PURE__*/
+    React.createElement("div", {
+      className: "session-safety-strip",
+      role: "note",
+      "aria-label": "Movement safety"
+    }, "Stop if you feel sharp pain, dizziness, numbness, tingling into the limbs, or shortness of breath. AXIS is wellness movement guidance—not medical advice; see a clinician for injuries or new symptoms."),
 
     tab === "guided" && /*#__PURE__*/
     React.createElement("div", { className: "session-cta-pad session-cta-pad--guided" }, /*#__PURE__*/

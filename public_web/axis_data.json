@@ -1347,251 +1347,346 @@
     },
     "morning": {
       "id": "morning",
-      "label": "Sunrise Stretch",
-      "subtitle": "Wake, Spine, Energy",
-      "purpose": "Seven movements to wake the spine before you look at your phone.",
+      "label": "The Foundation Reset",
+      "subtitle": "Corrective strength · Core · Post-cardio",
+      "purpose": "A corrective strength sequence to decompress the spine, stabilize the deep core, and build lean muscle quality. Use after light cardio or as a standalone morning reset. Optimizes how your body feels heading into the day—never force ranges that create sharp pain.",
+      "duration": "~22 min",
+      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
       "sections": [
         {
-          "label": "Morning Refresh",
+          "label": "Foundation sequence",
           "tag": "AM",
-          "purpose": "Wake the spine and nervous system gently. These seven movements take under 8 minutes and set the tone for how your body moves all day. Do them before you look at your phone.",
+          "purpose": "Move in order. If you are new to any pattern, reduce reps or range and prioritize smooth breathing. Stop if you feel sharp pain, numbness, or dizziness.",
           "exercises": [
             {
-              "id": 201,
-              "name": "Supine Knee Hugs",
-              "start": "Lie on your back with your legs straight.",
-              "sub": "Provides a gentle release for the lower back and opens up the hips.",
-              "type": "flow",
-              "seconds": 45,
-              "steps": [
-                {
-                  "pos": "A",
-                  "label": "Flat on Back",
-                  "focus": "SETUP",
-                  "cue": "Lie on your back. Let the body be completely heavy. Take two slow breaths before moving."
-                },
-                {
-                  "pos": "B",
-                  "label": "Hug Both Knees",
-                  "focus": "DECOMPRESS",
-                  "cue": "Draw both knees to chest. Wrap arms around shins. Rock gently side to side 5–8 times. Release lower back."
-                },
-                {
-                  "cue": "Keep the movement small and gentle. This is decompression, not a stretch."
-                }
-              ],
-              "position": "Lie on your back with your legs straight.",
-              "next": "Relax your body completely. Take two slow breaths.",
-              "then": "Pull both knees to your chest. Wrap your arms around your shins.",
-              "tip": "Rock gently from left to right. Keep the movement small."
-            },
-            {
-              "id": "202-R",
-              "name": "Supine Twist - Right Side",
+              "id": 2110,
+              "name": "Pelvic Tilts",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Helps with mid back stiffness and encourages better spinal rotation.",
-              "type": "flow",
-              "seconds": 45,
+              "sub": "Works on your lower back alignment to help you find a more comfortable posture.",
+              "reps": "15 reps",
+              "type": "reps",
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Knees to Chest",
+                  "label": "Supine Neutral",
                   "focus": "SETUP",
-                  "cue": "Lie on back, knees bent and together. Arms out in a T. Shoulders heavy."
+                  "cue": "Gently tighten your abs and press your lower back flat into the floor. Hold 2 seconds."
                 },
                 {
                   "pos": "B",
-                  "label": "Drop Right",
-                  "focus": "ROTATE",
-                  "cue": "Let both knees fall to the right. Turn gaze left if comfortable. Breathe and let gravity do the work for 30 seconds."
+                  "label": "Posterior Tilt",
+                  "focus": "CORE",
+                  "cue": "Relax and let the lower back arch slightly away from the floor. Then press flat again. Repeat slowly."
                 },
                 {
                   "pos": "C",
-                  "label": "Drop Left",
-                  "focus": "ROTATE",
-                  "cue": "Return knees through center, drop left. Hold another 30 seconds. No forcing — just releasing."
+                  "label": "Anterior Tilt",
+                  "focus": "RELEASE",
+                  "cue": "The movement is small and subtle. Do not hold your breath."
                 }
               ],
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Reach your arms straight out to the sides. Keep your shoulders flat on the floor.",
-              "then": "Let both knees drop to the right side. Turn your head to the left. Hold for 30 seconds.",
-              "tip": "Bring your knees back to the middle, then let them drop to the left side. Hold for 30 seconds."
+              "next": "Keep a small gap between your lower back and the floor. Rest your arms at your sides.",
+              "then": "Squeeze your stomach muscles and press your lower back flat against the floor. Hold for 2 seconds.",
+              "tip": "Relax your stomach muscles and let your lower back lift again. Move slowly."
             },
             {
-              "id": "202-L",
-              "name": "Supine Twist - Left Side",
-              "start": "Lie on your back with your knees bent and feet flat on the floor.",
-              "sub": "Helps with mid back stiffness and encourages better spinal rotation.",
-              "type": "flow",
-              "seconds": 45,
+              "id": 2111,
+              "name": "Chin Tucks",
+              "start": "Sit or stand tall. Look straight ahead.",
+              "sub": "Focuses on neck alignment to help counteract the strain from looking at screens.",
+              "type": "reps",
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Knees to Chest",
+                  "label": "Neutral Head",
                   "focus": "SETUP",
-                  "cue": "Lie on back, knees bent and together. Arms out in a T. Shoulders heavy."
+                  "cue": "Draw your chin straight back — not down — as if making a double chin. The movement is purely horizontal."
                 },
                 {
                   "pos": "B",
-                  "label": "Drop Right",
-                  "focus": "ROTATE",
-                  "cue": "Let both knees fall to the right. Turn gaze left if comfortable. Breathe and let gravity do the work for 30 seconds."
+                  "label": "Retract",
+                  "focus": "CERVICAL",
+                  "cue": "Hold for 2 seconds. Release fully. Complete 10 smooth reps—stop if you feel dizziness or sharp neck pain."
                 },
                 {
-                  "pos": "C",
-                  "label": "Drop Left",
-                  "focus": "ROTATE",
-                  "cue": "Return knees through center, drop left. Hold another 30 seconds. No forcing — just releasing."
+                  "cue": "You should feel a gentle stretch at the base of your skull. No tilting up or down."
                 }
               ],
-              "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Reach your arms straight out to the sides. Keep your shoulders flat on the floor.",
-              "then": "Let both knees drop to the right side. Turn your head to the left. Hold for 30 seconds.",
-              "tip": "Bring your knees back to the middle, then let them drop to the left side. Hold for 30 seconds."
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+              "position": "Sit or stand tall. Look straight ahead.",
+              "next": "Relax your shoulders down. Keep your eyes level.",
+              "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds.",
+              "tip": "Keep your head level. Do not point your chin up or down.",
+              "reps": "10 reps"
             },
             {
-              "id": 203,
-              "name": "Cat–Cow",
+              "id": 2112,
+              "name": "Modified Bird-Dog",
               "start": "Start on all fours, hands and knees on the floor.",
-              "sub": "Brings movement to each vertebra to help with a stiff or rigid back.",
-              "type": "flow",
-              "seconds": 45,
+              "sub": "Shorter range of motion, optional knee stay down. Builds cross-pattern stability without loading a sensitive back.",
+              "reps": "8 per side, slow",
+              "type": "reps",
               "steps": [
                 {
                   "pos": "A",
                   "label": "Neutral Tabletop",
                   "focus": "SETUP",
-                  "cue": "Hands under shoulders, knees under hips. Spine flat. Take one breath here before moving."
+                  "cue": "Hands under shoulders, knees under hips. Draw navel in. If needed, keep the moving-side knee on the floor (bird-dog with tap)."
                 },
                 {
                   "pos": "B",
-                  "label": "Cat",
-                  "focus": "FLEX",
-                  "cue": "Round spine to ceiling, tuck pelvis and chin. Full exhale."
+                  "label": "Extend & Pause",
+                  "focus": "STABILITY",
+                  "cue": "Draw elbow to knee beneath your body. Return to neutral. Switch sides and repeat."
                 },
                 {
                   "pos": "C",
-                  "label": "Cow",
-                  "focus": "EXT",
-                  "cue": "Let belly drop, lift gaze and tailbone gently. Full inhale. 8–10 slow cycles."
+                  "label": "Return Controlled",
+                  "focus": "CONTROL",
+                  "cue": "Opposite arm and leg — not the same side. Keep hips level and do not rotate."
                 }
               ],
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
               "position": "Start on all fours, hands and knees on the floor.",
-              "next": "INHALE: Let your belly drop toward the floor. Lift your head and tailbone up.",
-              "then": "EXHALE: Push your back up toward the ceiling. Tuck your chin toward your chest.",
-              "tip": "Return to a neutral tabletop with your back flat. Move slowly."
+              "next": "Keep your back flat and look down at the floor.",
+              "then": "Reach your right arm straight forward. Reach your left leg straight backward. Hold for 2 seconds.",
+              "tip": "Lower your hand and knee back to the floor. Switch sides."
             },
             {
-              "id": 204,
-              "name": "Standing Hip Circles",
-              "start": "Stand with your feet apart and hands on your hips.",
-              "sub": "Easy circles and bends. Give your hands a break from typing.",
-              "type": "flow",
+              "id": 2113,
+              "name": "Wall Slides (W to Y)",
+              "start": "Stand with your back flat against a wall.",
+              "sub": "Slide arms up the wall. Upper back learns to steer the shoulders.",
+              "type": "reps",
+              "reps": "12 slow reps",
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Wall Contact",
+                  "focus": "SETUP",
+                  "cue": "Stand with head, upper back, and glutes touching the wall. Arms in a W shape — elbows bent, backs of hands against the wall. This is your baseline."
+                },
+                {
+                  "pos": "B",
+                  "label": "Slide to Y",
+                  "focus": "ACTIVATE",
+                  "cue": "Keeping the backs of hands and elbows touching the wall, slowly slide arms upward until they form a Y overhead. If contact is lost, reduce range. The lower trapezius must fire to keep the shoulder blades down and in."
+                },
+                {
+                  "pos": "C",
+                  "label": "Slow Return",
+                  "focus": "CONTROL",
+                  "cue": "Lower arms back to W in 3 seconds. Do not shrug or let shoulders elevate. 10 reps. This directly reverses the upper trap dominance that carrying luggage creates."
+                }
+              ],
+              "position": "Stand with your back flat against a wall.",
+              "next": "Press your head, upper back, and hips into the wall. Bend your elbows and press the backs of your hands against the wall in a W shape.",
+              "then": "Slide your arms slowly up the wall until they form a Y shape above your head. Keep your hands on the wall.",
+              "tip": "Slide your arms back down to a W shape. Do 10 times."
+            },
+            {
+              "id": 2114,
+              "name": "Box Squats",
+              "start": "Stand with a sturdy chair or box touching the backs of your legs.",
+              "sub": "Hinge and sit back until you lightly touch the surface, then stand tall. Builds legs and glutes with a clear depth target.",
+              "type": "reps",
+              "reps": "15 slow reps",
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Setup",
+                  "focus": "SETUP",
+                  "cue": "Feet hip-width, toes forward. Brace your core. Imagine sitting into a tall chair behind you."
+                },
+                {
+                  "pos": "B",
+                  "label": "Sit Back",
+                  "focus": "HIP HINGE",
+                  "cue": "Send hips back first. Lower until you graze the box or chair without collapsing. Knees track over toes."
+                },
+                {
+                  "pos": "C",
+                  "label": "Stand",
+                  "focus": "DRIVE",
+                  "cue": "Press evenly through mid-foot and heel to stand. Stop if knees or sharp back pain appears—reduce depth or skip."
+                }
+              ],
+              "position": "Stand with a sturdy chair or box touching the backs of your legs.",
+              "next": "Place your feet hip-width apart. Brace your stomach lightly.",
+              "then": "Push your hips back and bend your knees to sit toward the chair. Touch lightly, then stand.",
+              "tip": "Move slowly. If balance feels unsure, use a higher surface or hand support on a wall."
+            },
+            {
+              "id": 2115,
+              "name": "Isometric Wall Sits",
+              "start": "Stand with your back flat against a wall.",
+              "sub": "Focuses on knee strength and endurance for activities like stairs or hiking.",
+              "type": "time",
               "seconds": 45,
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Stand Tall",
+                  "label": "Wall Contact",
                   "focus": "SETUP",
-                  "cue": "Feet hip-width. Hands on hips. Soft knees. Eyes forward or closed."
+                  "cue": "Stand with back flat against a wall. Feet shoulder-width, about 12 inches in front."
                 },
                 {
                   "pos": "B",
-                  "label": "Circle Right",
-                  "focus": "MOBILIZE",
-                  "cue": "Make slow, large circles with the pelvis — forward, right, back, left. 6 circles clockwise."
+                  "label": "Slide Down",
+                  "focus": "HOLD",
+                  "cue": "Slide down into a partial squat. Hold. Isometric holds have a pain-numbing effect on joints."
                 },
                 {
                   "pos": "C",
-                  "label": "Circle Left",
-                  "focus": "MOBILIZE",
-                  "cue": "Reverse direction. 6 circles counter-clockwise. Let the hips move freely without rushing."
+                  "label": "Breathe",
+                  "focus": "RELEASE",
+                  "cue": "Hold 45 seconds. Breathe normally."
                 }
               ],
-              "position": "Stand with your feet apart and hands on your hips.",
-              "next": "Bend your knees slightly. Look straight ahead.",
-              "then": "Move your hips in slow, large circles to the right 6 times.",
-              "tip": "Move your hips in circles to the left 6 times. Move slowly."
+              "position": "Stand with your back flat against a wall.",
+              "next": "Step your feet forward about one foot. Keep your feet apart.",
+              "then": "Slide your back slowly down the wall until your knees are bent. Hold this position.",
+              "tip": "Keep your back flat against the wall. Hold for 45 seconds."
             },
             {
-              "id": 205,
-              "name": "Shoulder Rolls",
-              "start": "Stand or sit tall.",
-              "sub": "Roll the shoulders smooth. Forward then backward.",
-              "type": "flow",
+              "id": 2116,
+              "name": "The Dead Bug",
+              "start": "Lie on your back.",
+              "sub": "Helps protect your spine by teaching your core how to stay steady and strong.",
+              "reps": "10 per side, slow",
+              "type": "reps",
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Supine Tabletop",
+                  "focus": "SETUP",
+                  "cue": "Slowly lower your right arm overhead and extend your left leg toward the floor simultaneously. Keep your lower back pressed into the floor."
+                },
+                {
+                  "pos": "B",
+                  "label": "Extend Opposite Limbs",
+                  "focus": "CORE",
+                  "cue": "Return to start. Repeat with your left arm and right leg. Move in slow 4-second counts each way."
+                },
+                {
+                  "pos": "C",
+                  "label": "Return & Switch",
+                  "focus": "CONTROL",
+                  "cue": "Opposite arm and leg always move together. Control matters more than range."
+                }
+              ],
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+              "position": "Lie on your back.",
+              "next": "Reach your arms straight up to the ceiling. Lift your feet off the floor and bend your knees.",
+              "then": "Reach your right arm straight back over your head. Straighten your left leg down toward the floor at the same time.",
+              "tip": "Bring your arm and leg back up. Switch sides. Move very slowly."
+            },
+            {
+              "id": 2117,
+              "name": "Forearm Plank",
+              "start": "Lie face down, then prop on forearms with elbows under shoulders.",
+              "sub": "Isometric core brace on the forearms. Easier on wrists than a high plank.",
+              "type": "time",
               "seconds": 45,
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Arms at Sides",
+                  "label": "Forearm Setup",
                   "focus": "SETUP",
-                  "cue": "Stand or sit tall. Arms completely relaxed. Jaw soft."
+                  "cue": "Elbows under shoulders, forearms parallel. Tuck toes and lift knees so the body forms one line from head to heels."
                 },
                 {
                   "pos": "B",
-                  "label": "Roll Forward",
-                  "focus": "ANTERIOR",
-                  "cue": "Shrug shoulders up toward ears, then roll them forward and down. 6 slow rolls."
+                  "label": "Brace",
+                  "focus": "CORE",
+                  "cue": "Pull belly button up, squeeze glutes gently, breathe in the ribs. Do not hold breath."
                 },
                 {
-                  "pos": "C",
-                  "label": "Roll Back",
-                  "focus": "POSTERIOR",
-                  "cue": "Reverse — shrug up, roll back and down. 6 rolls. Feel the shoulder blades move and the chest open."
+                  "cue": "If form breaks or you feel sharp low-back pain, lower knees to the floor and hold a shorter lever, or end the set."
                 }
               ],
-              "position": "Stand or sit tall.",
-              "next": "Let your arms hang loose at your sides. Relax your jaw. Keep your arms completely still.",
-              "then": "Lift your shoulders up to your ears, then roll them forward and down. Do this 6 times.",
-              "tip": "Lift your shoulders up, then roll them backward and down. Do this 6 times."
+              "position": "Lie face down, then prop on forearms with elbows under shoulders.",
+              "next": "Lift your body so only your forearms and toes touch the floor.",
+              "then": "Keep your hips level with your shoulders. Hold steady breathing.",
+              "tip": "Drop to knees for a shorter hold if needed. Quality over duration."
             },
             {
-              "id": 206,
-              "name": "Sun Breath",
-              "start": "Stand with your feet apart and arms at your sides.",
-              "sub": "Helps open up your chest and lungs so you can breathe a little deeper.",
-              "type": "flow",
-              "seconds": 45,
+              "id": "2118-R",
+              "name": "Figure Four Stretch - Right Hip",
+              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
+              "type": "time",
+              "seconds": 60,
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Stand Grounded",
+                  "label": "Cross Leg Over Knee",
                   "focus": "SETUP",
-                  "cue": "Feet hip-width. Arms at sides. Close the eyes. Feel the weight of the body through the soles of the feet."
+                  "cue": "Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip."
                 },
                 {
                   "pos": "B",
-                  "label": "Inhale & Rise",
-                  "focus": "EXPAND",
-                  "cue": "Breathe in slowly for 4 counts as arms sweep out to the sides and overhead. Palms meet or stay wide."
+                  "label": "Draw In",
+                  "focus": "STRETCH",
+                  "cue": "Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued."
                 },
                 {
-                  "pos": "C",
-                  "label": "Exhale & Lower",
-                  "focus": "GROUND",
-                  "cue": "Breathe out for 6 counts as arms float back down. Feel the chest and ribcage expand on the inhale. 6 full cycles."
+                  "cue": "You should feel this in the outer hip and glute of the crossed leg."
                 }
               ],
-              "position": "Stand with your feet apart and arms at your sides.",
-              "next": "Press your feet firmly into the floor.",
-              "then": "Breathe in slowly. Reach your arms out to the sides and up to the ceiling.",
-              "tip": "Breathe out slowly and lower your arms back to your sides. Do this 6 times."
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+              "position": "Lie on your back with your knees bent and feet flat on the floor.",
+              "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
+              "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
+              "tip": "Push your right knee gently away from your body to feel a deeper stretch."
+            },
+            {
+              "id": "2118-L",
+              "name": "Figure Four Stretch - Left Hip",
+              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Cross Leg Over Knee",
+                  "focus": "SETUP",
+                  "cue": "Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip."
+                },
+                {
+                  "pos": "B",
+                  "label": "Draw In",
+                  "focus": "STRETCH",
+                  "cue": "Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued."
+                },
+                {
+                  "cue": "You should feel this in the outer hip and glute of the crossed leg."
+                }
+              ],
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+              "position": "Lie on your back with your knees bent and feet flat on the floor.",
+              "next": "Cross your left ankle over your right knee. Pull your left toes back toward your shin.",
+              "then": "Grab the back of your right thigh with both hands. Pull your right leg toward your chest.",
+              "tip": "Push your left knee gently away from your body to feel a deeper stretch."
             }
           ]
         }
-      ],
-      "duration": "8 min"
+      ]
     },
     "prime": {
       "id": "prime",
       "label": "Night Ease",
       "subtitle": "Decompress, Calm, Sleep",
-      "purpose": "Lower cortisol, decompress the spine, prepare for sleep.",
+      "purpose": "Neurological recovery. Uses gentle, parasympathetic-friendly positions to lower stress tone and prepare the body for deep sleep—not a substitute for medical care if you have unresolved pain or insomnia.",
+      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
       "sections": [
         {
           "label": "Better Sleep Stretch",
           "tag": "PM",
-          "purpose": "A deliberate transition from doing to being. These movements lower cortisol, decompress the spine after a day of load, and prepare the nervous system for sleep. Move slowly. There is nothing left to do.",
+          "purpose": "Slow transitions only. These positions support down-regulation after a demanding day. Avoid forcing stretches; use pillows for support.",
           "exercises": [
             {
               "id": 301,
@@ -1599,7 +1694,7 @@
               "start": "Sit on the floor close to a wall.",
               "sub": "Supports circulation and helps your legs feel refreshed after a long day.",
               "type": "time",
-              "seconds": 120,
+              "seconds": 180,
               "steps": [
                 {
                   "pos": "A",
@@ -1625,10 +1720,10 @@
             {
               "id": 302,
               "name": "Reclined Butterfly",
-              "start": "Lie on your back with your feet flat on the floor.",
-              "sub": "Soles together, sit tall. Let gravity open the hips.",
+              "start": "Lie on your back.",
+              "sub": "Soles of the feet together, knees fall wide. Let gravity open the inner thighs and hips.",
               "type": "flow",
-              "seconds": 90,
+              "seconds": 120,
               "steps": [
                 {
                   "pos": "A",
@@ -1640,15 +1735,15 @@
                   "pos": "B",
                   "label": "Gravity Hold",
                   "focus": "RELEASE",
-                  "cue": "Let the inner thighs and groin soften completely. Do not push. Hold 60–90s."
+                  "cue": "Let the inner thighs and groin soften completely. Do not push. Hold for the full duration with easy breathing."
                 },
                 {
                   "cue": "Support the outer thighs with pillows if the stretch feels too intense."
                 }
               ],
-              "position": "Lie on your back with your feet flat on the floor.",
+              "position": "Lie on your back.",
               "next": "Bring the bottoms of your feet together. Let your knees drop open to the sides.",
-              "then": "Place your hands on your belly or out to the sides. Hold for 60 to 90 seconds.",
+              "then": "Place your hands on your belly or out to the sides. Hold for the full duration.",
               "tip": "Place pillows under your knees if the stretch is too intense."
             },
             {
@@ -1657,7 +1752,7 @@
               "start": "Lie flat on your back.",
               "sub": "Rock gently. Low back gets a soothing massage.",
               "type": "flow",
-              "seconds": 45,
+              "seconds": 60,
               "steps": [
                 {
                   "pos": "A",
@@ -1686,7 +1781,7 @@
               "start": "Lie on your back with your legs straight.",
               "sub": "Helps with mid back stiffness and encourages better spinal rotation.",
               "type": "flow",
-              "seconds": 45,
+              "seconds": 60,
               "steps": [
                 {
                   "pos": "A",
@@ -1718,7 +1813,7 @@
               "start": "Lie on your back with your legs straight.",
               "sub": "Helps with mid back stiffness and encourages better spinal rotation.",
               "type": "flow",
-              "seconds": 45,
+              "seconds": 60,
               "steps": [
                 {
                   "pos": "A",
@@ -1748,9 +1843,9 @@
               "id": 305,
               "name": "Diaphragmatic Breathing",
               "start": "Sit or lie down in a comfortable position.",
-              "sub": "Helps settle a racing mind and brings your heart rate back to a calm baseline.",
+              "sub": "Slow nasal inhales and long exhales. If your clinician has advised a different breathing pattern, follow their guidance.",
               "type": "time",
-              "seconds": 90,
+              "seconds": 120,
               "steps": [
                 {
                   "pos": "A",
@@ -1774,12 +1869,12 @@
               "position": "Sit or lie down in a comfortable position.",
               "next": "Close your eyes. Place one hand on your chest and one hand on your belly.",
               "then": "Breathe in through your nose for 4 seconds. Feel your belly lift before your chest.",
-              "tip": "Hold your breath for 7 seconds. Breathe out through your mouth for 8 seconds. Repeat 4 times."
+              "tip": "If holding breath after inhale feels uncomfortable, skip the hold and use a simple 4-count in, 6-count out instead."
             }
           ]
         }
       ],
-      "duration": "12 min"
+      "duration": "10 min"
     },
     "desk": {
       "id": "desk",
@@ -6982,6 +7077,438 @@
         }
       ],
       "duration": "18 min"
+    },
+    "structural_mend": {
+      "id": "structural_mend",
+      "label": "Structural Mend",
+      "subtitle": "Decompress · Nerve-friendly mobility",
+      "purpose": "Mechanical decompression. Gentle spinal motion and side-body opening to ease the stiffness of daily compression and asymmetry. Move slowly; tingling or sharp nerve symptoms mean you should stop and get medical guidance.",
+      "duration": "~6 min",
+      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
+      "sections": [
+        {
+          "label": "Evening structural pass",
+          "tag": "PM",
+          "purpose": "Floss tissues gently—never aggressive stretching. Use pillows for knees or head support as needed.",
+          "exercises": [
+            {
+              "id": 2130,
+              "name": "Cat–Cow",
+              "start": "Start on all fours, hands and knees on the floor.",
+              "sub": "Brings movement to each vertebra to help with a stiff or rigid back.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Neutral Tabletop",
+                  "focus": "SPINE",
+                  "cue": "Inhale — let your belly drop toward the floor. Lift your gaze and tailbone gently."
+                },
+                {
+                  "pos": "B",
+                  "label": "Cat — Exhale",
+                  "focus": "FLEX",
+                  "cue": "Exhale — round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
+                },
+                {
+                  "pos": "C",
+                  "label": "Cow — Inhale",
+                  "focus": "EXT",
+                  "cue": "Move with your breath. Don't force the lower back on the inhale."
+                }
+              ],
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+              "position": "Start on all fours, hands and knees on the floor.",
+              "next": "INHALE: Drop your belly toward the floor. Lift your head and tailbone toward the ceiling.",
+              "then": "EXHALE: Push your back up toward the ceiling. Tuck your chin toward your chest.",
+              "tip": "Return to a neutral tabletop with your back flat. Repeat slow cycles."
+            },
+            {
+              "id": "2131-R",
+              "name": "Thread the Needle - Right Side",
+              "start": "Start on all fours, hands and knees on the floor.",
+              "sub": "Rotate through the upper back, one side at a time.",
+              "type": "time",
+              "seconds": 30,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Tabletop",
+                  "focus": "SETUP",
+                  "cue": "Hands under shoulders, knees under hips. Spine neutral. Take a breath before moving."
+                },
+                {
+                  "pos": "B",
+                  "label": "Thread Right",
+                  "focus": "ROTATE",
+                  "cue": "Slide right arm along the floor under the left arm. Right shoulder and ear rest on floor. Hold 30s. Feel the mid-back open."
+                },
+                {
+                  "pos": "C",
+                  "label": "Thread Left",
+                  "focus": "ROTATE",
+                  "cue": "Return to tabletop. Left arm threads under right. Hold 30s each side. This releases the thoracic spine that screen time locks up."
+                }
+              ],
+              "position": "Start on all fours, hands and knees on the floor.",
+              "next": "Place your hands under your shoulders and your knees under your hips. Keep your back flat.",
+              "then": "Slide your right arm under your left arm. Rest your right shoulder and the right side of your head on the floor. Hold for 30 seconds.",
+              "tip": "Push back up to your hands and knees. Slide your left arm under your right arm. Hold for 30 seconds."
+            },
+            {
+              "id": "2131-L",
+              "name": "Thread the Needle - Left Side",
+              "start": "Start on all fours, hands and knees on the floor.",
+              "sub": "Rotate through the upper back, one side at a time.",
+              "type": "time",
+              "seconds": 30,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Tabletop",
+                  "focus": "SETUP",
+                  "cue": "Hands under shoulders, knees under hips. Spine neutral. Take a breath before moving."
+                },
+                {
+                  "pos": "B",
+                  "label": "Thread Right",
+                  "focus": "ROTATE",
+                  "cue": "Slide right arm along the floor under the left arm. Right shoulder and ear rest on floor. Hold 30s. Feel the mid-back open."
+                },
+                {
+                  "pos": "C",
+                  "label": "Thread Left",
+                  "focus": "ROTATE",
+                  "cue": "Return to tabletop. Left arm threads under right. Hold 30s each side. This releases the thoracic spine that screen time locks up."
+                }
+              ],
+              "position": "Start on all fours, hands and knees on the floor.",
+              "next": "Place your hands under your shoulders and your knees under your hips. Keep your back flat.",
+              "then": "Slide your right arm under your left arm. Rest your right shoulder and the right side of your head on the floor. Hold for 30 seconds.",
+              "tip": "Push back up to your hands and knees. Slide your left arm under your right arm. Hold for 30 seconds."
+            },
+            {
+              "id": 2132,
+              "name": "Child's Pose with Side Reach",
+              "start": "Kneel on the floor. Sit your hips back onto your heels.",
+              "sub": "Rest in child's pose, then reach long to one side.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "focus": "SETUP",
+                  "cue": "Fold forward and rest your forehead on the floor with arms extended in front of you."
+                },
+                {
+                  "focus": "REACH",
+                  "cue": "Walk both hands to the right until you feel a stretch along your left side and lat."
+                },
+                {
+                  "focus": "SWITCH",
+                  "cue": "Walk hands back to center, then over to the left side and repeat."
+                }
+              ],
+              "position": "Kneel on the floor. Sit your hips back onto your heels.",
+              "next": "Reach your arms straight out in front of you on the floor. Rest your forehead on the floor.",
+              "then": "Walk both hands to the right side until you feel a pull along your left side.",
+              "tip": "Walk your hands back to the middle, then walk them to the left side."
+            },
+            {
+              "id": 2133,
+              "name": "Gentle Neck Glides",
+              "start": "Sit or stand tall with shoulders relaxed.",
+              "sub": "Small, controlled motions only—no full head rolls backward.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Chin Glide",
+                  "focus": "CERVICAL",
+                  "cue": "Draw the chin straight back (retraction). Hold 2 seconds. Release. Repeat 4–6 times."
+                },
+                {
+                  "pos": "B",
+                  "label": "Side Glide",
+                  "focus": "MOBILITY",
+                  "cue": "Ear toward shoulder in a small lateral tilt, both shoulders down—3–4 each side. Never roll the head backward in a circle."
+                },
+                {
+                  "cue": "Stop if you feel dizziness, radiating arm pain, or sharp neck pain—seek professional evaluation if those persist."
+                }
+              ],
+              "position": "Sit or stand tall with shoulders relaxed.",
+              "next": "Keep your eyes level and shoulders heavy.",
+              "then": "Pull your chin straight back, hold briefly, and release.",
+              "tip": "Keep ranges small. Avoid snapping or forcing end range."
+            },
+            {
+              "id": 2134,
+              "name": "Pelvic Tilts",
+              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "sub": "Works on your lower back alignment to help you find a more comfortable posture.",
+              "reps": "10 reps",
+              "type": "reps",
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Supine Neutral",
+                  "focus": "SETUP",
+                  "cue": "Gently tighten your abs and press your lower back flat into the floor. Hold 2 seconds."
+                },
+                {
+                  "pos": "B",
+                  "label": "Posterior Tilt",
+                  "focus": "CORE",
+                  "cue": "Relax and let the lower back arch slightly away from the floor. Then press flat again. Repeat slowly."
+                },
+                {
+                  "pos": "C",
+                  "label": "Anterior Tilt",
+                  "focus": "RELEASE",
+                  "cue": "The movement is small and subtle. Do not hold your breath."
+                }
+              ],
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+              "position": "Lie on your back with your knees bent and feet flat on the floor.",
+              "next": "Keep a small gap between your lower back and the floor. Rest your arms at your sides.",
+              "then": "Squeeze your stomach muscles and press your lower back flat against the floor. Hold for 2 seconds.",
+              "tip": "Relax your stomach muscles and let your lower back lift again. Move slowly."
+            }
+          ]
+        }
+      ]
+    },
+    "ultimate_reset": {
+      "id": "ultimate_reset",
+      "label": "The Ultimate Reset",
+      "subtitle": "Structure · Fluids · Calm",
+      "purpose": "Systemic recovery. Combines gentle structural opening with positions that support circulation and calm after high stress or heavy days. Not for acute injury flare-ups—rest and professional care come first if pain is worsening.",
+      "duration": "~11 min",
+      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
+      "sections": [
+        {
+          "label": "Full unwind",
+          "tag": "PM",
+          "purpose": "Follow the order: finish spinal mobility before longer holds. Props are encouraged.",
+          "exercises": [
+            {
+              "id": 2140,
+              "name": "Cat–Cow",
+              "start": "Start on all fours, hands and knees on the floor.",
+              "sub": "Brings movement to each vertebra to help with a stiff or rigid back.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Neutral Tabletop",
+                  "focus": "SPINE",
+                  "cue": "Inhale — let your belly drop toward the floor. Lift your gaze and tailbone gently."
+                },
+                {
+                  "pos": "B",
+                  "label": "Cat — Exhale",
+                  "focus": "FLEX",
+                  "cue": "Exhale — round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
+                },
+                {
+                  "pos": "C",
+                  "label": "Cow — Inhale",
+                  "focus": "EXT",
+                  "cue": "Move with your breath. Don't force the lower back on the inhale."
+                }
+              ],
+              "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+              "position": "Start on all fours, hands and knees on the floor.",
+              "next": "INHALE: Drop your belly toward the floor. Lift your head and tailbone toward the ceiling.",
+              "then": "EXHALE: Push your back up toward the ceiling. Tuck your chin toward your chest.",
+              "tip": "Return to a neutral tabletop with your back flat. Repeat slow cycles."
+            },
+            {
+              "id": "2141-R",
+              "name": "Thread the Needle - Right Side",
+              "start": "Start on all fours, hands and knees on the floor.",
+              "sub": "Rotate through the upper back, one side at a time.",
+              "type": "time",
+              "seconds": 30,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Tabletop",
+                  "focus": "SETUP",
+                  "cue": "Hands under shoulders, knees under hips. Spine neutral. Take a breath before moving."
+                },
+                {
+                  "pos": "B",
+                  "label": "Thread Right",
+                  "focus": "ROTATE",
+                  "cue": "Slide right arm along the floor under the left arm. Right shoulder and ear rest on floor. Hold 30s. Feel the mid-back open."
+                },
+                {
+                  "pos": "C",
+                  "label": "Thread Left",
+                  "focus": "ROTATE",
+                  "cue": "Return to tabletop. Left arm threads under right. Hold 30s each side. This releases the thoracic spine that screen time locks up."
+                }
+              ],
+              "position": "Start on all fours, hands and knees on the floor.",
+              "next": "Place your hands under your shoulders and your knees under your hips. Keep your back flat.",
+              "then": "Slide your right arm under your left arm. Rest your right shoulder and the right side of your head on the floor. Hold for 30 seconds.",
+              "tip": "Push back up to your hands and knees. Slide your left arm under your right arm. Hold for 30 seconds."
+            },
+            {
+              "id": "2142-L",
+              "name": "Thread the Needle - Left Side",
+              "start": "Start on all fours, hands and knees on the floor.",
+              "sub": "Rotate through the upper back, one side at a time.",
+              "type": "time",
+              "seconds": 30,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Tabletop",
+                  "focus": "SETUP",
+                  "cue": "Hands under shoulders, knees under hips. Spine neutral. Take a breath before moving."
+                },
+                {
+                  "pos": "B",
+                  "label": "Thread Right",
+                  "focus": "ROTATE",
+                  "cue": "Slide right arm along the floor under the left arm. Right shoulder and ear rest on floor. Hold 30s. Feel the mid-back open."
+                },
+                {
+                  "pos": "C",
+                  "label": "Thread Left",
+                  "focus": "ROTATE",
+                  "cue": "Return to tabletop. Left arm threads under right. Hold 30s each side. This releases the thoracic spine that screen time locks up."
+                }
+              ],
+              "position": "Start on all fours, hands and knees on the floor.",
+              "next": "Place your hands under your shoulders and your knees under your hips. Keep your back flat.",
+              "then": "Slide your right arm under your left arm. Rest your right shoulder and the right side of your head on the floor. Hold for 30 seconds.",
+              "tip": "Push back up to your hands and knees. Slide your left arm under your right arm. Hold for 30 seconds."
+            },
+            {
+              "id": 2143,
+              "name": "Child's Pose with Side Reach",
+              "start": "Kneel on the floor. Sit your hips back onto your heels.",
+              "sub": "Rest in child's pose, then reach long to one side.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "focus": "SETUP",
+                  "cue": "Fold forward and rest your forehead on the floor with arms extended in front of you."
+                },
+                {
+                  "focus": "REACH",
+                  "cue": "Walk both hands to the right until you feel a stretch along your left side and lat."
+                },
+                {
+                  "focus": "SWITCH",
+                  "cue": "Walk hands back to center, then over to the left side and repeat."
+                }
+              ],
+              "position": "Kneel on the floor. Sit your hips back onto your heels.",
+              "next": "Reach your arms straight out in front of you on the floor. Rest your forehead on the floor.",
+              "then": "Walk both hands to the right side until you feel a pull along your left side.",
+              "tip": "Walk your hands back to the middle, then walk them to the left side."
+            },
+            {
+              "id": 2144,
+              "name": "Reclined Butterfly",
+              "start": "Lie on your back.",
+              "sub": "Soles of the feet together, knees fall wide. Let gravity open the inner thighs and hips.",
+              "type": "flow",
+              "seconds": 120,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Soles Together",
+                  "focus": "SETUP",
+                  "cue": "Lie on back. Bring the soles of your feet together and let knees fall wide. Place hands on belly or out at sides."
+                },
+                {
+                  "pos": "B",
+                  "label": "Gravity Hold",
+                  "focus": "RELEASE",
+                  "cue": "Let the inner thighs and groin soften completely. Do not push. Hold for the full duration with easy breathing."
+                },
+                {
+                  "cue": "Support the outer thighs with pillows if the stretch feels too intense."
+                }
+              ],
+              "position": "Lie on your back.",
+              "next": "Bring the bottoms of your feet together. Let your knees drop open to the sides.",
+              "then": "Place your hands on your belly or out to the sides. Hold for the full duration.",
+              "tip": "Place pillows under your knees if the stretch is too intense."
+            },
+            {
+              "id": 2145,
+              "name": "Legs Up the Wall",
+              "start": "Sit on the floor close to a wall.",
+              "sub": "Supports circulation and helps your legs feel refreshed after a long day.",
+              "type": "time",
+              "seconds": 180,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Setup",
+                  "focus": "SETUP",
+                  "cue": "Sit sideways against the wall, then swing legs up. Hips as close to the wall as comfortable. Arms out at sides, palms up."
+                },
+                {
+                  "pos": "B",
+                  "label": "Hold & Breathe",
+                  "focus": "RESTORE",
+                  "cue": "Let gravity drain the legs. Close the eyes. Breathe naturally. This posture reverses venous pooling and calms the nervous system."
+                },
+                {
+                  "cue": "Place a folded blanket under your hips if your lower back is tight. Stay as long as feels good."
+                }
+              ],
+              "position": "Sit on the floor close to a wall.",
+              "next": "Lie on your back and swing your legs up the wall. Move your hips close to the wall.",
+              "then": "Reach your arms out to the sides with your palms facing up. Close your eyes.",
+              "tip": "Place a folded blanket under your hips if your lower back feels tight."
+            },
+            {
+              "id": 2146,
+              "name": "Diaphragmatic Breathing",
+              "start": "Remain in Legs Up the Wall, or lie on your back with legs supported.",
+              "sub": "Continue slow belly-led breathing for two minutes while the legs are elevated (or switch to a comfortable recline if needed).",
+              "type": "time",
+              "seconds": 120,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Comfortable Position",
+                  "focus": "SETUP",
+                  "cue": "Prefer staying in legs-up from the previous step if it still feels good; otherwise lie on your back with knees supported. Eyes soft. Hands on belly and chest optional."
+                },
+                {
+                  "pos": "B",
+                  "label": "Inhale 4",
+                  "focus": "INHALE",
+                  "cue": "Breathe in through the nose for 4 slow counts. Feel the belly rise before the chest."
+                },
+                {
+                  "pos": "C",
+                  "label": "Hold 7, Exhale 8",
+                  "focus": "EXHALE",
+                  "cue": "If a breath-hold feels uneasy in this position, skip the hold and use a simple 4-count in, 6-count out. Otherwise exhale fully through the mouth for 8 counts. Repeat easy cycles."
+                }
+              ],
+              "position": "Remain in Legs Up the Wall if comfortable, or lie on your back.",
+              "next": "Keep one hand on the belly, one on the chest if helpful.",
+              "then": "Breathe in through the nose, letting the belly rise first.",
+              "tip": "If breath-holds feel stressful, use steady in-out pacing only. Stop if you feel lightheaded."
+            }
+          ]
+        }
+      ]
     }
   }
 }
