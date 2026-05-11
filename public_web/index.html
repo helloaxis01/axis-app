@@ -972,6 +972,137 @@ const TRACK_CATEGORY_BY_ID = Object.fromEntries(
   HOME_TRACK_GROUPS.flatMap((g) => g.ids.map((id) => [id, g.id]))
 );
 
+/** Section `tag` on routines (axis_data.json) → rollover / long-press plain label (title case; UI uppercases). */
+const SESSION_TAG_REVEALS = {
+  LX: "Joint laxity",
+  SA: "Shock absorber",
+  XP: "Expand volume",
+  UC: "Un-click",
+  LD: "Load bearer",
+  UP: "Un-plug",
+  V1: "Volley ready",
+  V2: "Vantage point",
+  X1: "X-factor drive",
+  X2: "X-out recovery",
+  K1: "Kinetic impact",
+  A0: "Alpha state",
+  B1: "Baseline sequence",
+  B2: "Baseline sequence",
+  B3: "Baseline sequence",
+  B4: "Baseline sequence",
+  B5: "Baseline sequence",
+  X7: "Seventh inning",
+  GP: "Gait prep",
+  GD: "Gait decompression",
+  G0: "Ground zero",
+  G1: "Ground zero",
+  G2: "Ground zero",
+  HZ: "Low frequency",
+  GR: "Ground state",
+  DC: "Physical discharge",
+  DS: "Neural downshift",
+  "3R": "Total restore",
+  "3U": "Total unwind",
+  Z0: "Zero state",
+  T1: "Transit",
+  T2: "Arrival",
+  U1: "Unpack",
+  U2: "Unwind",
+  F1: "Foundation",
+  D1: "Dynamic",
+  RF: "Reset flow",
+  EM: "Structural mend",
+  // Aliases / legacy keys still referenced elsewhere
+  RM: "Reset flow",
+  QR: "Seventh inning",
+  AM: "Alpha state"
+};
+
+/** When the same `tag` string means different reveals on different tracks (e.g. S1). */
+const SESSION_TAG_REVEAL_BY_TRACK = {
+  "running|S1": "Structural reset",
+  "steady|S1": "Strength",
+  "freely|01": "Spine glide",
+  "freely|02": "Upper chain",
+  "freely|03": "Lower chain"
+};
+
+function getSessionLabel(code, trackId) {
+  const k = code == null ? "" : String(code).trim();
+  if (!k) return "";
+  const t = trackId == null ? "" : String(trackId).trim();
+  if (t) {
+    const c = SESSION_TAG_REVEAL_BY_TRACK[t + "|" + k];
+    if (c) return c;
+  }
+  return SESSION_TAG_REVEALS[k] ?? k;
+}
+
+/** Session section code pill: long-press expands plain-language label (CSS), then auto-collapses. */
+function SessionSectionTagBadge({ code, trackId }) {
+  const [expanded, setExpanded] = useState(false);
+  const pressRef = useRef(null);
+  const collapseRef = useRef(null);
+  useEffect(() => () => {
+    if (pressRef.current != null) {
+      clearTimeout(pressRef.current);
+      pressRef.current = null;
+    }
+    if (collapseRef.current != null) {
+      clearTimeout(collapseRef.current);
+      collapseRef.current = null;
+    }
+  }, []);
+  const clearPress = () => {
+    if (pressRef.current != null) {
+      clearTimeout(pressRef.current);
+      pressRef.current = null;
+    }
+  };
+  const fireLongPress = () => {
+    try {triggerHaptic(HAPTIC_LIGHT_TAP);} catch (e) {}
+    if (collapseRef.current != null) {
+      clearTimeout(collapseRef.current);
+      collapseRef.current = null;
+    }
+    setExpanded(true);
+    collapseRef.current = window.setTimeout(() => {
+      collapseRef.current = null;
+      setExpanded(false);
+    }, 2200);
+  };
+  const plainUpper = getSessionLabel(code, trackId).toUpperCase();
+  const codeStr = String(code || "");
+  return /*#__PURE__*/React.createElement("span", { className: "sh-tag-wrap" }, /*#__PURE__*/
+  React.createElement("span", {
+    className: "sh-tag-pill" + (expanded ? " sh-tag-pill--expanded" : ""),
+    role: "button",
+    tabIndex: 0,
+    "aria-expanded": expanded ? "true" : "false",
+    "aria-label": "Session code " + codeStr + ". Long-press or press Enter to expand label.",
+    onPointerDown: (e) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      clearPress();
+      pressRef.current = window.setTimeout(() => {
+        pressRef.current = null;
+        fireLongPress();
+      }, 400);
+    },
+    onPointerUp: clearPress,
+    onPointerCancel: clearPress,
+    onPointerLeave: clearPress,
+    onKeyDown: (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        fireLongPress();
+      }
+    }
+  }, /*#__PURE__*/
+  React.createElement("span", { className: "sh-tag-pill__code" }, codeStr), /*#__PURE__*/
+  React.createElement("span", { className: "sh-tag-pill__grow" }, /*#__PURE__*/
+  React.createElement("span", { className: "sh-tag-pill__plain" }, plainUpper))));
+}
+
 /** Shown above exercise copy in session detail + guided instruction overlay / sheet. */
 const AXIS_SAFETY_COPY_NERVE = "\u26A0\uFE0F NERVE SAFETY: Skip this exercise if you are experiencing active nerve pain, tingling, or traveling sharp sensations.";
 const AXIS_SAFETY_COPY_CAUTION = "\u26A0\uFE0F USE CAUTION: This is a high-intensity movement. Ensure proper form and stop immediately if you feel sharp joint pain.";
@@ -4402,16 +4533,77 @@ const css = `
     margin-bottom: 0;
     border-bottom: none;
   }
-  .sg.sg--session-sheet > .sh--session-ex-head .sh-tag {
+  .sg.sg--session-sheet > .sh--session-ex-head .sh-tag-wrap {
     grid-column: 1;
     grid-row: 1;
+    align-self: center;
+    min-width: 0;
+    max-width: 100%;
+    touch-action: manipulation;
+  }
+  .sh-tag-pill {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1px 8px;
+    line-height: 1.25;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--mood-color) 16%, transparent);
+    overflow: hidden;
+    box-sizing: border-box;
+    max-width: 100%;
+    cursor: default;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+  }
+  .sh-tag-pill:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--mood-color) 65%, transparent);
+    outline-offset: 2px;
+  }
+  .sh-tag-pill__code {
+    flex: 0 0 auto;
     font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
     font-size: 10px;
-    font-weight: 500;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.25);
-    text-align: left;
+    color: var(--mood-color);
+  }
+  .sh-tag-pill__grow {
+    display: inline-block;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    vertical-align: middle;
+    transition: max-width 200ms ease, opacity 200ms ease;
+    will-change: max-width, opacity;
+  }
+  .sh-tag-pill--expanded .sh-tag-pill__grow {
+    max-width: 200px;
+    opacity: 1;
+  }
+  .sh-tag-pill__plain {
+    display: block;
+    padding-left: 6px;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mood-color);
+    white-space: nowrap;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .sh-tag-pill {
+    background: color-mix(in srgb, var(--mood-color) 12%, rgba(15, 30, 46, 0.04));
+  }
+  .sg-session-ex-hairline {
+    display: block;
+    border: 0;
+    height: 1px;
+    margin: 0 0 12px;
+    padding: 0;
+    background: var(--border);
+    opacity: 0.95;
   }
   .sg.sg--session-sheet > .sh--session-ex-head .sh-name {
     grid-column: 1 / -1;
@@ -4430,12 +4622,14 @@ const css = `
   .sg.sg--session-sheet > .sh--session-ex-head .sh-ct {
     grid-column: 2;
     grid-row: 1;
+    align-self: center;
     justify-self: end;
     margin-left: 0;
     text-align: right;
     font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
     font-size: 10px;
     font-weight: 500;
+    line-height: 1.25;
     letter-spacing: 0.06em;
     color: rgba(255, 255, 255, 0.25);
   }
@@ -4458,7 +4652,6 @@ const css = `
     border-radius: inherit;
     transition: width 0.4s ease;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .sg.sg--session-sheet > .sh--session-ex-head .sh-tag,
   .app[data-theme="light"]:not([data-night="true"]) .sg.sg--session-sheet > .sh--session-ex-head .sh-ct {
     color: rgba(15, 30, 46, 0.35);
   }
@@ -4484,26 +4677,35 @@ const css = `
     border-bottom:1px solid var(--border);
   }
   .purpose-note.purpose-note--guided {
-    margin-top: 2px;
-    margin-bottom: 12px;
+    margin-top: 4px;
+    margin-bottom: 0;
     padding: 0;
     border: none;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
     box-sizing: border-box;
   }
-  /* LIST/GUIDED: hairlines on outer shell; equal vertical padding so “Purpose” sits centered when body is hidden */
+  /* LIST/GUIDED: purpose sits inline under title; single rhythm with exercise hairline below */
   .sg.sg--session-sheet > .purpose-note--guided > .purpose-note__rail {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     box-sizing: border-box;
-    padding: 14px 0 14px 0;
+    padding: 4px 0 8px;
   }
   .purpose-note--guided .purpose-disclosure-hit {
     border-bottom: none !important;
     padding: 0 !important;
+  }
+  .purpose-disclosure-hit.purpose-disclosure-hit--session {
+    color: var(--mood-color) !important;
+    opacity: 1 !important;
+  }
+  .purpose-disclosure-hit.purpose-disclosure-hit--session .purpose-disclosure-hit__chev {
+    color: var(--mood-color);
+    opacity: 0.85;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .purpose-disclosure-hit.purpose-disclosure-hit--session {
+    color: var(--mood-color) !important;
   }
   .purpose-disclosure-hit {
     display: inline-flex;
@@ -19784,7 +19986,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       "aria-label": "Session exercises completed"
     }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } }))
     ),
-    (tab === "list" || tab === "guided") && /*#__PURE__*/React.createElement("hr", { className: "tab-subbar-rule tab-subbar-rule--above-session-filters", "aria-hidden": true }),
     (tab === "list" || tab === "guided") && /*#__PURE__*/React.createElement("div", { className: "fav-filter fav-filter--session-util" }, /*#__PURE__*/
     React.createElement("div", { className: "fav-filter__cluster--left" }, /*#__PURE__*/
     React.createElement("span", { className: "fav-filter__session-hint" }, "Click the bookmark icon on tracks and exercises to save. They'll appear in the Bookmarks tab.")
@@ -19834,7 +20035,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "sh sh--session-ex-head" }, /*#__PURE__*/
-    React.createElement("span", { className: "sh-tag" }, sec.tag), /*#__PURE__*/
+    React.createElement(SessionSectionTagBadge, { key: "sec-tag-" + sec.label, code: sec.tag, trackId: track }), /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
     React.createElement("span", { className: "sh-ct" + (sec.exercises.length > 0 && sec.exercises.filter((e) => done[e.id]).length === sec.exercises.length ? " sh-ct--all-done" : "") }, sec.exercises.filter((e) => done[e.id]).length, "/", sec.exercises.length)
     ), /*#__PURE__*/
@@ -19846,13 +20047,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "purpose-note__rail" }, /*#__PURE__*/
     React.createElement("button", {
       type: "button",
-      className: "purpose-disclosure-hit",
+      className: "purpose-disclosure-hit purpose-disclosure-hit--session",
       "aria-expanded": purposeOpenBySection[sec.label] ? "true" : "false",
       onClick: (e) => {e.preventDefault();axisHapticTick();setPurposeOpenBySection((m) => ({ ...m, [sec.label]: !m[sec.label] }));}
     }, /*#__PURE__*/
     React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "Purpose"), /*#__PURE__*/
     React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a")),
     purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null)),
+    /*#__PURE__*/React.createElement("hr", { className: "sg-session-ex-hairline", "aria-hidden": true }),
 
     sec.exercises.map((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;
@@ -19902,7 +20104,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "sh sh--session-ex-head" }, /*#__PURE__*/
-    React.createElement("span", { className: "sh-tag" }, sec.tag), /*#__PURE__*/
+    React.createElement(SessionSectionTagBadge, { key: "sec-tag-g-" + sec.label, code: sec.tag, trackId: track }), /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
     React.createElement("span", { className: "sh-ct", title: "Checklist progress is on the LIST tab" }, sec.exercises.length, " ", "steps")
     ), /*#__PURE__*/
@@ -19914,13 +20116,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "purpose-note__rail" }, /*#__PURE__*/
     React.createElement("button", {
       type: "button",
-      className: "purpose-disclosure-hit",
+      className: "purpose-disclosure-hit purpose-disclosure-hit--session",
       "aria-expanded": purposeOpenBySection[sec.label] ? "true" : "false",
       onClick: (e) => {e.preventDefault();axisHapticTick();setPurposeOpenBySection((m) => ({ ...m, [sec.label]: !m[sec.label] }));}
     }, /*#__PURE__*/
     React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "Purpose"), /*#__PURE__*/
     React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a")),
     purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null)),
+    /*#__PURE__*/React.createElement("hr", { className: "sg-session-ex-hairline", "aria-hidden": true }),
 
     sec.exercises.map((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;

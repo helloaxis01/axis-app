@@ -172,7 +172,7 @@ T.morning = {
   sections: [
     {
       label: "Foundation sequence",
-      tag: "AM",
+      tag: "A0",
       purpose:
         "Follow the list in order after cardio or on its own. Reduce reps or range if you are new to a move, and stop if you feel sharp pain, numbness, or dizziness.",
       exercises: [
@@ -328,7 +328,7 @@ T.ultimate_reset = {
   sections: [
     {
       label: "360 unwind",
-      tag: "PM",
+      tag: "3U",
       purpose:
         "Mobility first, then longer restorative holds. Stay in legs-up for the final breath block when it feels right.",
       exercises: [cat2140, thR2141, thL2142, child2143, butterfly, legsUp, breath]

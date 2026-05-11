@@ -8,7 +8,7 @@
       "sections": [
         {
           "label": "Warm-up & Mobility",
-          "tag": "01",
+          "tag": "B1",
           "purpose": "Prepare the spine and joints for load. These movements are not a formality. They set the neurological tone for everything that follows. Move slowly and with full attention.",
           "exercises": [
             {
@@ -176,7 +176,7 @@
         },
         {
           "label": "Core & Posterior Chain",
-          "tag": "02",
+          "tag": "B2",
           "purpose": "Build the deep stability that protects the spine under load. Quality over quantity. Slow, controlled reps with full awareness of position do more than fast repetitions ever will.",
           "exercises": [
             {
@@ -345,7 +345,7 @@
         },
         {
           "label": "Upper Body",
-          "tag": "03",
+          "tag": "B3",
           "purpose": "Restore strength and control to the shoulder girdle and chest. These movements rebuild the pushing and pulling patterns that daily life often imbalances. Keep the neck and jaw soft throughout.",
           "exercises": [
             {
@@ -513,7 +513,7 @@
         },
         {
           "label": "Lower Body & Rotation",
-          "tag": "04",
+          "tag": "B4",
           "purpose": "Release tension accumulated in the hips, hamstrings, and lumbar spine. Let gravity and breath do the work. These are passive holds. There is nothing to push through.",
           "exercises": [
             {
@@ -733,7 +733,7 @@
         },
         {
           "label": "Finish",
-          "tag": "05",
+          "tag": "B5",
           "purpose": "Signal to the nervous system that the work is done. These are decompression movements: not stretches to force, but positions to rest in. Take your time. There is no next thing.",
           "exercises": [
             {
@@ -842,7 +842,7 @@
       "sections": [
         {
           "label": "Full Reset",
-          "tag": "RM",
+          "tag": "RF",
           "purpose": "Warm-up, circulation, and mobility. Each movement is 1 minute. This should feel easy, not tiring. Let the body move, not the mind.",
           "exercises": [
             {
@@ -1354,7 +1354,7 @@
       "sections": [
         {
           "label": "Foundation sequence",
-          "tag": "AM",
+          "tag": "A0",
           "purpose": "Follow the list in order after cardio or on its own. Reduce reps or range if you are new to a move, and stop if you feel sharp pain, numbness, or dizziness.",
           "exercises": [
             {
@@ -1683,7 +1683,7 @@
       "sections": [
         {
           "label": "Better Sleep Stretch",
-          "tag": "PM",
+          "tag": "Z0",
           "purpose": "Slow transitions only. These positions support down-regulation after a demanding day. Avoid forcing stretches; use pillows for support.",
           "exercises": [
             {
@@ -1882,7 +1882,7 @@
       "sections": [
         {
           "label": "The Desk Break",
-          "tag": "QR",
+          "tag": "X7",
           "purpose": "Six movements to undo an hour of sitting. Stand up and do it now — don't wait for a better time.",
           "exercises": [
             {
@@ -2171,7 +2171,7 @@
       "sections": [
         {
           "label": "Digital Detox",
-          "tag": "SR",
+          "tag": "UP",
           "purpose": "The neck and upper traps absorb everything — hours of screen time, stress, poor posture, shallow breathing. This session undoes it. Move slowly and without urgency. This area responds to patience, not force.",
           "exercises": [
             {
@@ -2489,7 +2489,7 @@
       "sections": [
         {
           "label": "Happy Hips",
-          "tag": "HM",
+          "tag": "LX",
           "purpose": "The hips are the body's centre of power — and the first thing to tighten from sitting. Restricted hips pull on the lower back, destabilise the knees, and shorten the stride. These holds release the hip flexors, rotators, and adductors. Stay in each position. Let gravity and breath do the work.",
           "exercises": [
             {
@@ -2889,7 +2889,7 @@
       "sections": [
         {
           "label": "Lower Back Soother",
-          "tag": "BP",
+          "tag": "LD",
           "purpose": "For days when the lower back is tight, achy, or recovering. These movements decompress, not strengthen — gravity and breath do the work. Nothing here should hurt. If something does, skip it and rest in Child's Pose. This is not the session to push through.",
           "exercises": [
             {
@@ -3161,7 +3161,7 @@
       "sections": [
         {
           "label": "Foundation",
-          "tag": "01",
+          "tag": "F1",
           "purpose": "Train the systems your body uses to prevent falls — the vestibular system, ankle strategy, and glute activation. These movements feel simple and are deceptively hard to do well. Slow down.",
           "exercises": [
             {
@@ -3264,7 +3264,7 @@
         },
         {
           "label": "Dynamic Balance",
-          "tag": "02",
+          "tag": "D1",
           "purpose": "Moving balance is harder than standing still. These patterns train the brain to manage balance during locomotion — the context where most real-world stumbles happen.",
           "exercises": [
             {
@@ -3335,7 +3335,7 @@
         },
         {
           "label": "Strength & Control",
-          "tag": "03",
+          "tag": "S1",
           "purpose": "Eccentric control — the ability to decelerate your own bodyweight — is the single most important physical factor in fall prevention for adults over 40. Most injuries happen on the way down, not up.",
           "exercises": [
             {
@@ -3733,7 +3733,7 @@
       "sections": [
         {
           "label": "In-Transit",
-          "tag": "01",
+          "tag": "T1",
           "purpose": "Designed for a seat. Zero equipment, minimal space. These four movements keep circulation moving, prevent stiffness, and down-regulate the nervous system during long flights or drives.",
           "exercises": [
             {
@@ -3868,7 +3868,7 @@
         },
         {
           "label": "Post-Arrival",
-          "tag": "02",
+          "tag": "T2",
           "purpose": "Do these as soon as you reach your hotel or home. They undo the posture of travel — compressed hip flexors, locked thoracic spine, forward shoulders — and signal the body that you have arrived.",
           "exercises": [
             {
@@ -4140,7 +4140,7 @@
       "sections": [
         {
           "label": "In-Transit",
-          "tag": "01",
+          "tag": "U1",
           "purpose": "Designed for a seat. Zero equipment, minimal space. These four movements keep circulation moving, prevent stiffness, and down-regulate the nervous system during long flights or drives.",
           "exercises": [
             {
@@ -4275,7 +4275,7 @@
         },
         {
           "label": "Post-Arrival",
-          "tag": "02",
+          "tag": "U2",
           "purpose": "Do these as soon as you reach your hotel or home. They undo the posture of travel — compressed hip flexors, locked thoracic spine, forward shoulders — and signal the body that you have arrived.",
           "exercises": [
             {
@@ -4547,7 +4547,7 @@
       "sections": [
         {
           "label": "Pre-Walk: The Gait Prep",
-          "tag": "W1",
+          "tag": "GP",
           "purpose": "Wake ankles, hips, and arms before a long walk.",
           "exercises": [
             {
@@ -4632,7 +4632,7 @@
         },
         {
           "label": "Post-Walk: The Decompression",
-          "tag": "W2",
+          "tag": "GD",
           "purpose": "Release calves, quads, and foot arches after the miles.",
           "exercises": [
             {
@@ -4778,7 +4778,7 @@
       "sections": [
         {
           "label": "Pre-Run: The Impact Ready",
-          "tag": "R1",
+          "tag": "K1",
           "purpose": "Prime tendons, hips, and hamstrings before impact.",
           "exercises": [
             {
@@ -4889,7 +4889,7 @@
         },
         {
           "label": "Post-Run: The Structural Reset",
-          "tag": "R2",
+          "tag": "S1",
           "purpose": "Open hips, front body, and assist venous return after the run.",
           "exercises": [
             {
@@ -4983,7 +4983,7 @@
       "sections": [
         {
           "label": "Pre-Game: The Dynamic Drive",
-          "tag": "G1",
+          "tag": "X1",
           "purpose": "Prime rotation, wrists, and hips before stepping onto the first tee.",
           "exercises": [
             {
@@ -5068,7 +5068,7 @@
         },
         {
           "label": "Post-Game: The Fairway Recovery",
-          "tag": "G2",
+          "tag": "X2",
           "purpose": "Decompress the spine, hips, and shoulders after a full round.",
           "exercises": [
             {
@@ -5162,7 +5162,7 @@
       "sections": [
         {
           "label": "Pre-Game: The Court Readiness",
-          "tag": "T1",
+          "tag": "V1",
           "purpose": "Prepare hips, shoulders, and ankles for multi-directional court work.",
           "exercises": [
             {
@@ -5273,7 +5273,7 @@
         },
         {
           "label": "Post-Game: The Decompression",
-          "tag": "T2",
+          "tag": "V2",
           "purpose": "Release forearms, hips, and side body after play.",
           "exercises": [
             {
@@ -5393,7 +5393,7 @@
       "sections": [
         {
           "label": "Thoracic Flow",
-          "tag": "TC",
+          "tag": "XP",
           "purpose": "A short guided sequence to restore thoracic mobility, reduce upper back tension, and relieve chest/arm referral. Works well before/after sitting or anxious states.",
           "exercises": [
             {
@@ -5615,7 +5615,7 @@
       "sections": [
         {
           "label": "Wrist & Hand Reset",
-          "tag": "WH",
+          "tag": "UC",
           "purpose": "Short PT-style routine: glides, stretches and nerve glides for wrist and hand health — great for keyboard users.",
           "exercises": [
             {
@@ -5776,7 +5776,7 @@
       "sections": [
         {
           "label": "Immediate Nervous System Reset",
-          "tag": "01",
+          "tag": "HZ",
           "purpose": "Anxiety floods the system with adrenaline and cortisol, shifting the nervous system into sympathetic overdrive. These first four techniques work fast — each one has a direct, measurable effect on heart rate, vagal tone, or the threat-detection centers of the brain. Use them as soon as you feel the activation rising.",
           "exercises": [
             {
@@ -5911,7 +5911,7 @@
         },
         {
           "label": "Somatic Grounding & Release",
-          "tag": "02",
+          "tag": "GR",
           "purpose": "Once the initial spike is addressed, these four techniques work deeper — using body awareness, gentle movement, and self-touch to consolidate the shift from fight-or-flight to safety. Each one communicates directly with the nervous system through proprioception, the breath, or social engagement cues.",
           "exercises": [
             {
@@ -6055,7 +6055,7 @@
       "sections": [
         {
           "label": "Physical Discharge",
-          "tag": "01",
+          "tag": "DC",
           "purpose": "Stress primes the body to fight or flee — cortisol and adrenaline flood the bloodstream, muscles tense, heart rate climbs. But modern stressors rarely let us move. These four exercises complete the stress cycle the body started: they give the nervous system the physical discharge it was primed for, which is the only pathway through — not around — the stress response.",
           "exercises": [
             {
@@ -6190,7 +6190,7 @@
         },
         {
           "label": "Release & Downshift",
-          "tag": "02",
+          "tag": "DS",
           "purpose": "After physical discharge, the nervous system is receptive to deep parasympathetic recovery. These four movements work through compression, posture, breath, and bilateral stimulation to consolidate the shift from reactive to resting — from stress to safety.",
           "exercises": [
             {
@@ -6334,7 +6334,7 @@
       "sections": [
         {
           "label": "Release",
-          "tag": "01",
+          "tag": "G0",
           "purpose": "Start here, especially on pain days. The plantar fascia and calf complex are often tight and compressed before you've taken your first step. These movements soften the tissue and restore blood flow before asking anything of it.",
           "exercises": [
             {
@@ -6501,7 +6501,7 @@
         },
         {
           "label": "Activation",
-          "tag": "02",
+          "tag": "G1",
           "purpose": "Years of supportive footwear have switched off the intrinsic muscles of the foot — the small muscles that create and maintain the arch. These exercises wake them back up. This is not quick or dramatic work. It is foundational.",
           "exercises": [
             {
@@ -6604,7 +6604,7 @@
         },
         {
           "label": "Strengthening",
-          "tag": "03",
+          "tag": "G2",
           "purpose": "Eccentric loading — slow, controlled lengthening under tension — has the strongest evidence base of any intervention for plantar fasciitis and Achilles tendinopathy. These are not stretches. The calf-heel complex must work under load to remodel the tissue.",
           "exercises": [
             {
@@ -6812,7 +6812,7 @@
       "sections": [
         {
           "label": "Knee Resilience",
-          "tag": "KR",
+          "tag": "SA",
           "purpose": "Bulletproof the joint by strengthening the muscles that support it while using low-load, high-precision movements to lubricate the joint and offload pressure. Motion is lotion — it's normal for arthritic or cranky knees to feel stiff for the first few repetitions; as the joint warms up and synovial fluid flows, discomfort usually gives way to ease.",
           "exercises": [
             {
@@ -7085,7 +7085,7 @@
       "sections": [
         {
           "label": "Evening structural pass",
-          "tag": "PM",
+          "tag": "EM",
           "purpose": "Floss tissues gently—never aggressive stretching. Use pillows for knees or head support as needed.",
           "exercises": [
             {
@@ -7286,7 +7286,7 @@
       "sections": [
         {
           "label": "360 unwind",
-          "tag": "PM",
+          "tag": "3U",
           "purpose": "Mobility first, then longer restorative holds. Stay in legs-up for the final breath block when it feels right.",
           "exercises": [
             {
