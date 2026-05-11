@@ -1348,14 +1348,14 @@
     "morning": {
       "id": "morning",
       "label": "The Foundation Reset",
-      "subtitle": "Strength · Core · Reset",
-      "purpose": "A strength-focused reset for the spine and deep core. Use after light cardio or as a simple morning tune-up.",
+      "subtitle": "Chest · Core · Spine",
+      "purpose": "A post-cardio strength and alignment sequence. It firms the chest and core while stabilizing the spine to support weight loss goals and structural integrity.",
       "duration": "~22 min",
       "sections": [
         {
           "label": "Foundation sequence",
           "tag": "AM",
-          "purpose": "Move in order. If you are new to any pattern, reduce reps or range and prioritize smooth breathing. Stop if you feel sharp pain, numbness, or dizziness.",
+          "purpose": "Follow the list in order after cardio or on its own. Reduce reps or range if you are new to a move, and stop if you feel sharp pain, numbness, or dizziness.",
           "exercises": [
             {
               "id": 2110,
@@ -1477,13 +1477,13 @@
                   "pos": "C",
                   "label": "Slow Return",
                   "focus": "CONTROL",
-                  "cue": "Lower arms back to W in 3 seconds. Do not shrug or let shoulders elevate. 10 reps. This directly reverses the upper trap dominance that carrying luggage creates."
+                  "cue": "Lower arms back to W in 3 seconds. Do not shrug or let shoulders elevate. 12 reps. This directly reverses the upper trap dominance that carrying luggage creates."
                 }
               ],
               "position": "Stand with your back flat against a wall.",
               "next": "Press your head, upper back, and hips into the wall. Bend your elbows and press the backs of your hands against the wall in a W shape.",
               "then": "Slide your arms slowly up the wall until they form a Y shape above your head. Keep your hands on the wall.",
-              "tip": "Slide your arms back down to a W shape. Do 10 times."
+              "tip": "Slide your arms back down to a W shape. Do 12 slow reps."
             },
             {
               "id": 2114,
@@ -1519,9 +1519,9 @@
             },
             {
               "id": 2115,
-              "name": "Isometric Wall Sits",
+              "name": "Wall Sit",
               "start": "Stand with your back flat against a wall.",
-              "sub": "Focuses on knee strength and endurance for activities like stairs or hiking.",
+              "sub": "Isometric legs and core while the back stays supported on the wall. Builds endurance for daily strength.",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -1586,9 +1586,9 @@
               "id": 2117,
               "name": "Forearm Plank",
               "start": "Lie face down, then prop on forearms with elbows under shoulders.",
-              "sub": "Isometric core brace on the forearms. Easier on wrists than a high plank.",
+              "sub": "Hold 30–60 seconds as tolerated. Easier on wrists than a high plank—knees down shortens the lever.",
               "type": "time",
-              "seconds": 45,
+              "seconds": 60,
               "steps": [
                 {
                   "pos": "A",
@@ -1613,7 +1613,7 @@
             },
             {
               "id": "2118-R",
-              "name": "Figure Four Stretch - Right Hip",
+              "name": "Figure-4 Stretch — Right",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
@@ -1643,7 +1643,7 @@
             },
             {
               "id": "2118-L",
-              "name": "Figure Four Stretch - Left Hip",
+              "name": "Figure-4 Stretch — Left",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
@@ -1679,7 +1679,7 @@
       "id": "prime",
       "label": "Night Ease",
       "subtitle": "Decompress · Calm · Sleep",
-      "purpose": "Gentle evening positions to relax the body and ease into sleep. Move slowly and use pillows wherever a stretch feels too strong.",
+      "purpose": "Neurological recovery for sleep induction. Gentle positions and slow breathing cue the body toward rest.",
       "sections": [
         {
           "label": "Better Sleep Stretch",
@@ -7080,7 +7080,7 @@
       "id": "structural_mend",
       "label": "Structural Mend",
       "subtitle": "Spine · Mobility · Ease",
-      "purpose": "Light spinal mobility and side-body opening to undo the stiffness of long days. Keep every range easy and pain-free.",
+      "purpose": "Targeted mechanical decompression to reverse daily spinal compression. Small ranges, slow breathing, no forcing.",
       "duration": "~6 min",
       "sections": [
         {
@@ -7187,7 +7187,7 @@
             },
             {
               "id": 2132,
-              "name": "Child's Pose with Side Reach",
+              "name": "Child's Pose + Side Reach",
               "start": "Kneel on the floor. Sit your hips back onto your heels.",
               "sub": "Rest in child's pose, then reach long to one side.",
               "type": "time",
@@ -7279,15 +7279,15 @@
     },
     "ultimate_reset": {
       "id": "ultimate_reset",
-      "label": "The Ultimate Reset",
-      "subtitle": "Structure · Fluids · Calm",
-      "purpose": "Open through the spine and hips, then settle into longer holds that support circulation and calm. Ideal after a heavy or high-stress day.",
+      "label": "360 Restore",
+      "subtitle": "Alignment · Circulation · Calm",
+      "purpose": "Systemic reset combining alignment with lymphatic drainage to reduce physical bloating and inflammation.",
       "duration": "~11 min",
       "sections": [
         {
-          "label": "Full unwind",
+          "label": "360 unwind",
           "tag": "PM",
-          "purpose": "Follow the order: finish spinal mobility before longer holds. Props are encouraged.",
+          "purpose": "Mobility first, then longer restorative holds. Stay in legs-up for the final breath block when it feels right.",
           "exercises": [
             {
               "id": 2140,
@@ -7388,7 +7388,7 @@
             },
             {
               "id": 2143,
-              "name": "Child's Pose with Side Reach",
+              "name": "Child's Pose + Side Reach",
               "start": "Kneel on the floor. Sit your hips back onto your heels.",
               "sub": "Rest in child's pose, then reach long to one side.",
               "type": "time",

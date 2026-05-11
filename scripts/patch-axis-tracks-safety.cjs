@@ -1,6 +1,6 @@
 /**
- * One-shot content patch: Foundation Reset (morning), Night Ease (prime) timings/copy,
- * Structural Mend + Ultimate Reset tracks. Run: node scripts/patch-axis-tracks-safety.cjs
+ * One-shot content patch: The Foundation Reset (morning), Night Ease (prime) timings/copy,
+ * Structural Mend + 360 Restore (ultimate_reset id) tracks. Run: node scripts/patch-axis-tracks-safety.cjs
  */
 const fs = require("fs");
 const path = require("path");
@@ -65,6 +65,14 @@ if (exBirdMod.steps[0]) {
 const exWallSlides = mustEx(travel, (e) => e.id === 1105, "Wall Slides");
 exWallSlides.id = 2113;
 exWallSlides.reps = "12 slow reps";
+for (const st of exWallSlides.steps || []) {
+  if (st && typeof st.cue === "string" && st.cue.includes("10 reps")) {
+    st.cue = st.cue.replace("10 reps", "12 reps");
+  }
+}
+if (typeof exWallSlides.tip === "string") {
+  exWallSlides.tip = exWallSlides.tip.replace("10 times", "12 slow reps");
+}
 
 const exBoxSquat = {
   id: 2114,
@@ -101,6 +109,9 @@ const exBoxSquat = {
 
 const exWallSit = mustEx(knee, (e) => e.id === 2203, "Wall Sit");
 exWallSit.id = 2115;
+exWallSit.name = "Wall Sit";
+exWallSit.sub =
+  "Isometric legs and core while the back stays supported on the wall. Builds endurance for daily strength.";
 
 const exDeadBug = mustEx(daily, (e) => e.id === 8, "Dead Bug");
 exDeadBug.id = 2116;
@@ -111,9 +122,9 @@ const exForearmPlank = {
   id: 2117,
   name: "Forearm Plank",
   start: "Lie face down, then prop on forearms with elbows under shoulders.",
-  sub: "Isometric core brace on the forearms. Easier on wrists than a high plank.",
+  sub: "Hold 30–60 seconds as tolerated. Easier on wrists than a high plank—knees down shortens the lever.",
   type: "time",
-  seconds: 45,
+  seconds: 60,
   steps: [
     {
       pos: "A",
@@ -139,12 +150,14 @@ const exForearmPlank = {
 
 const exFigR = mustEx(daily, (e) => e.id === "16-R", "Figure Four R");
 exFigR.id = "2118-R";
+exFigR.name = "Figure-4 Stretch — Right";
 exFigR.type = "time";
 exFigR.seconds = 60;
 delete exFigR.reps;
 
 const exFigL = mustEx(daily, (e) => e.id === "16-L", "Figure Four L");
 exFigL.id = "2118-L";
+exFigL.name = "Figure-4 Stretch — Left";
 exFigL.type = "time";
 exFigL.seconds = 60;
 delete exFigL.reps;
@@ -152,16 +165,16 @@ delete exFigL.reps;
 T.morning = {
   id: "morning",
   label: "The Foundation Reset",
-  subtitle: "Corrective strength · Core · Post-cardio",
+  subtitle: "Chest · Core · Spine",
   purpose:
-    "A corrective strength sequence to decompress the spine, stabilize the deep core, and build lean muscle quality. Use after light cardio or as a standalone morning reset. Optimizes how your body feels heading into the day—never force ranges that create sharp pain.",
+    "A post-cardio strength and alignment sequence. It firms the chest and core while stabilizing the spine to support weight loss goals and structural integrity.",
   duration: "~22 min",
   sections: [
     {
       label: "Foundation sequence",
       tag: "AM",
       purpose:
-        "Move in order. If you are new to any pattern, reduce reps or range and prioritize smooth breathing. Stop if you feel sharp pain, numbness, or dizziness.",
+        "Follow the list in order after cardio or on its own. Reduce reps or range if you are new to a move, and stop if you feel sharp pain, numbness, or dizziness.",
       exercises: [
         exPelvic15,
         exChin10,
@@ -180,7 +193,7 @@ T.morning = {
 
 const prime = T.prime;
 prime.purpose =
-  "Neurological recovery. Uses gentle, parasympathetic-friendly positions to lower stress tone and prepare the body for deep sleep—not a substitute for medical care if you have unresolved pain or insomnia.";
+  "Neurological recovery for sleep induction. Gentle positions and slow breathing cue the body toward rest.";
 const pmSec = prime.sections[0];
 pmSec.purpose =
   "Slow transitions only. These positions support down-regulation after a demanding day. Avoid forcing stretches; use pillows for support.";
@@ -217,6 +230,7 @@ threadL.type = "time";
 
 const childSide = mustEx(tennis, (e) => e.id === 3016, "Child side reach");
 childSide.id = 2132;
+childSide.name = "Child's Pose + Side Reach";
 childSide.seconds = 60;
 childSide.type = "time";
 
@@ -257,9 +271,9 @@ pelvic10.reps = "10 reps";
 T.structural_mend = {
   id: "structural_mend",
   label: "Structural Mend",
-  subtitle: "Decompress · Nerve-friendly mobility",
+  subtitle: "Spine · Mobility · Ease",
   purpose:
-    "Mechanical decompression. Gentle spinal motion and side-body opening to ease the stiffness of daily compression and asymmetry. Move slowly; tingling or sharp nerve symptoms mean you should stop and get medical guidance.",
+    "Targeted mechanical decompression to reverse daily spinal compression. Small ranges, slow breathing, no forcing.",
   duration: "~6 min",
   sections: [
     {
@@ -282,6 +296,7 @@ thL2142.id = "2142-L";
 
 const child2143 = clone(childSide);
 child2143.id = 2143;
+child2143.name = "Child's Pose + Side Reach";
 
 const butterfly = mustEx(prime, (e) => e.id === 302, "Reclined butterfly");
 butterfly.id = 2144;
@@ -305,17 +320,17 @@ breath.tip =
 
 T.ultimate_reset = {
   id: "ultimate_reset",
-  label: "The Ultimate Reset",
-  subtitle: "Structure · Fluids · Calm",
+  label: "360 Restore",
+  subtitle: "Alignment · Circulation · Calm",
   purpose:
-    "Systemic recovery. Combines gentle structural opening with positions that support circulation and calm after high stress or heavy days. Not for acute injury flare-ups—rest and professional care come first if pain is worsening.",
+    "Systemic reset combining alignment with lymphatic drainage to reduce physical bloating and inflammation.",
   duration: "~11 min",
   sections: [
     {
-      label: "Full unwind",
+      label: "360 unwind",
       tag: "PM",
       purpose:
-        "Follow the order: finish spinal mobility before longer holds. Props are encouraged.",
+        "Mobility first, then longer restorative holds. Stay in legs-up for the final breath block when it feels right.",
       exercises: [cat2140, thR2141, thL2142, child2143, butterfly, legsUp, breath]
     }
   ]

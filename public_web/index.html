@@ -13489,6 +13489,133 @@ const AXIS_EX_META_FOCUS_LABELS = {
   HIP: "Hip"
 };
 
+/**
+ * One target word for track list cards (next to duration). Keys match step `focus` (trimmed, uppercased, spaces collapsed).
+ */
+const AXIS_EX_META_FOCUS_TRACK_ONE_WORD = {
+  "HIP HINGE": "Hips",
+  "CO2 OFFLOAD": "Breath",
+  "END-RANGE": "Mobility",
+  "LOWER BODY": "Legs",
+  "MID BODY": "Core",
+  "UPPER BODY": "Shoulders",
+  "T-RAISE": "Shoulders",
+  "Y-RAISE": "Shoulders",
+  ABDUCTOR: "Hips",
+  ACTIVATE: "Shoulders",
+  ALIGN: "Posture",
+  ANCHOR: "Stability",
+  ANKLE: "Ankles",
+  ANKLES: "Ankles",
+  BACKWARD: "Mobility",
+  BALANCE: "Balance",
+  BEND: "Mobility",
+  BILATERAL: "Symmetry",
+  BOUNCE: "Mobility",
+  BREATH: "Breath",
+  BREATHE: "Breath",
+  CALM: "Calm",
+  CARS: "Mobility",
+  CERVICAL: "Neck",
+  CIRCLE: "Mobility",
+  CIRCULATE: "Circulation",
+  COMPLETE: "Control",
+  CONCENTRIC: "Power",
+  CONNECT: "Mobility",
+  CONTROL: "Control",
+  COORDINATE: "Control",
+  CORE: "Core",
+  DECOMPRESS: "Release",
+  DEEPEN: "Breath",
+  DISCHARGE: "Release",
+  DOWNREGULATE: "Calm",
+  DRAIN: "Circulation",
+  DRIVE: "Legs",
+  ECCENTRIC: "Control",
+  ENDURANCE: "Endurance",
+  ENGAGE: "Core",
+  EXERT: "Strength",
+  EXHALE: "Breath",
+  EXPAND: "Breath",
+  EXT: "Spine",
+  EXTEND: "Mobility",
+  FASCIAL: "Mobility",
+  FLEX: "Spine",
+  FLOW: "Mobility",
+  FOCUS: "Focus",
+  FOREARM: "Arms",
+  FORWARD: "Mobility",
+  GLIDE: "Mobility",
+  GLUTES: "Glutes",
+  GROUND: "Stability",
+  HAMSTRINGS: "Hamstrings",
+  HIPS: "Hips",
+  HOP: "Power",
+  INHALE: "Breath",
+  INTEGRATE: "Control",
+  INTERNAL: "Core",
+  INVERT: "Circulation",
+  ISO: "Hold",
+  ISOLATE: "Control",
+  LATERAL: "Mobility",
+  LATS: "Back",
+  LIFT: "Glutes",
+  LOWER: "Control",
+  LUMBAR: "Back",
+  MASSAGE: "Release",
+  MOBILITY: "Mobility",
+  MOBILIZE: "Mobility",
+  MOMENTUM: "Power",
+  NECK: "Neck",
+  OPEN: "Mobility",
+  PRESS: "Chest",
+  PROGRESS: "Strength",
+  PROPRIOCEPTION: "Balance",
+  PULL: "Back",
+  PUSH: "Chest",
+  QUADS: "Quads",
+  RAISE: "Shoulders",
+  REACH: "Mobility",
+  RELAX: "Release",
+  RELEASE: "Release",
+  REPEAT: "Endurance",
+  RESET: "Recovery",
+  REST: "Release",
+  RESTORE: "Restore",
+  RETRACT: "Neck",
+  REVERSE: "Mobility",
+  RHYTHM: "Breath",
+  ROLL: "Mobility",
+  ROTATE: "Twist",
+  SCOOP: "Core",
+  SENSORY: "Calm",
+  ADDUCTORS: "Hips",
+  BACK: "Back",
+  CALVES: "Calves",
+  CHEST: "Chest",
+  COMPRESS: "Control",
+  HOLD: "Hold",
+  OBLIQUES: "Core",
+  SCAPULAR: "Shoulders",
+  SOFTEN: "Release",
+  SHOULDERS: "Shoulders",
+  SPINE: "Spine",
+  STABILITY: "Stability",
+  STIMULATE: "Activation",
+  STRETCH: "Stretch",
+  STRENGTHEN: "Strength",
+  SWING: "Mobility",
+  SWITCH: "Mobility",
+  THORACIC: "Back",
+  TONE: "Core",
+  TUCK: "Core",
+  TWIST: "Twist",
+  VARIATION: "Mobility",
+  VESTIBULAR: "Balance",
+  VISUAL: "Focus",
+  WRISTS: "Wrists"
+};
+
 function axisTitleCaseToken(raw) {
   const s = String(raw || "").trim().replace(/_/g, " ").toLowerCase();
   if (!s) return "";
@@ -13520,6 +13647,71 @@ function axisExerciseTargetMetaLine(ex, sectionFallback) {
   }
   if (parts.length) return parts.join(" \u00b7 ");
   return String(sectionFallback || "").trim();
+}
+
+/** Normalize step `focus` for meta lookups (trim, collapse spaces, upper case). */
+function axisFocusCanonicalForMeta(raw) {
+  return String(raw || "").trim().replace(/\s+/g, " ").toUpperCase();
+}
+
+/** Single token shown beside duration on in-track exercise cards. */
+function axisFocusKeyToTrackOneWord(canonicalKey) {
+  const k = canonicalKey;
+  if (!k) return "";
+  if (AXIS_EX_META_FOCUS_TRACK_ONE_WORD[k]) return AXIS_EX_META_FOCUS_TRACK_ONE_WORD[k];
+  const lab = AXIS_EX_META_FOCUS_LABELS[k];
+  if (lab && String(lab).trim()) {
+    return String(lab).trim().split(/\s+/)[0];
+  }
+  const parts = k.split(/\s+/);
+  if (parts.length === 1) return axisTitleCaseToken(parts[0]);
+  return axisTitleCaseToken(parts[parts.length - 1]);
+}
+
+/** Priority order: first match among step focuses wins (best primary target for the card). */
+const AXIS_EX_TRACK_META_ONE_WORD_PRIORITY = [
+  "CORE", "RELEASE", "STRETCH", "DECOMPRESS", "GLUTES", "HIPS", "HAMSTRINGS", "QUADS", "CALVES",
+  "SHOULDERS", "CHEST", "BACK", "THORACIC", "LUMBAR", "LATS", "ADDUCTORS", "OBLIQUES",
+  "CERVICAL", "NECK", "SPINE", "MOBILITY", "STABILITY", "TWIST", "ROTATE", "CONTROL",
+  "HOLD", "ISO", "HIP HINGE", "RESTORE", "CALM", "DOWNREGULATE", "BREATHE", "BREATH", "INHALE", "EXHALE",
+  "DRAIN", "CIRCULATE", "MASSAGE", "RELAX", "REST", "ACTIVATE", "ENGAGE", "STRENGTHEN", "ENDURANCE",
+  "DRIVE", "ECCENTRIC", "PUSH", "PULL", "RAISE", "LOWER", "PRESS", "LIFT", "REACH", "GLIDE",
+  "FOREARM", "WRISTS", "ANKLES", "ANKLE", "PROPRIOCEPTION", "VESTIBULAR", "BALANCE", "ALIGN",
+  "GROUND", "ANCHOR", "TONE", "INTERNAL", "SCOOP", "TUCK", "FLEX", "EXT", "EXPAND", "DEEPEN",
+  "RHYTHM", "FLOW", "FORWARD", "BACKWARD", "LATERAL", "EXTEND", "ROLL", "SWING", "SWITCH",
+  "BOUNCE", "CARS", "CIRCLE", "VARIATION", "RESET", "REPEAT", "COMPLETE", "PROGRESS", "MOMENTUM",
+  "CONCENTRIC", "HOP", "EXERT", "DISCHARGE", "STIMULATE", "COORDINATE", "INTEGRATE", "ISOLATE",
+  "BEND", "OPEN", "SOFTEN", "REVERSE", "BILATERAL", "ABDUCTOR", "SENSORY", "VISUAL", "FOCUS",
+  "CONNECT", "FASCIAL", "MOBILIZE", "INVERT", "COMPRESS", "RETRACT", "SCAPULAR"
+];
+
+function axisExerciseTrackMetaOneWord(ex) {
+  if (!ex) return "";
+  const a = ex.area != null && String(ex.area).trim() || "";
+  const t = ex.targets != null && String(ex.targets).trim() || "";
+  if (a || t) {
+    const blob = (a || t).replace(/\s*·\s*/g, " ").trim();
+    const first = blob.split(/\s+/).filter(Boolean)[0];
+    return first ? axisTitleCaseToken(first) : "";
+  }
+  const steps = Array.isArray(ex.steps) ? ex.steps : [];
+  const orderedKeys = [];
+  const seenK = new Set();
+  for (const s of steps) {
+    const raw = s && s.focus != null && String(s.focus).trim();
+    if (!raw) continue;
+    const canon = axisFocusCanonicalForMeta(raw);
+    if (AXIS_EX_META_FOCUS_SKIP.has(canon)) continue;
+    if (seenK.has(canon)) continue;
+    seenK.add(canon);
+    orderedKeys.push(canon);
+  }
+  if (!orderedKeys.length) return "";
+  const set = new Set(orderedKeys);
+  for (const p of AXIS_EX_TRACK_META_ONE_WORD_PRIORITY) {
+    if (set.has(p)) return axisFocusKeyToTrackOneWord(p);
+  }
+  return axisFocusKeyToTrackOneWord(orderedKeys[0]);
 }
 
 function axisNormalizeTracks(rawTracks) {
@@ -13885,7 +14077,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   const sessionDurRaw = listDurationLabel;
   const durationEl = sessionDurRaw ? /*#__PURE__*/React.createElement("div", { className: "ereps" }, String(sessionDurRaw)) : null;
   const metaZonePlain = String(listSectionLabel || "").trim();
-  const listMetaSecondary = axisExerciseTargetMetaLine(ex, metaZonePlain);
+  const listMetaSecondary = listRailLayout ? axisExerciseTrackMetaOneWord(ex) : axisExerciseTargetMetaLine(ex, metaZonePlain);
   /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
   const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
   !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
@@ -19616,7 +19808,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       className: "session-safety-strip",
       role: "note",
       "aria-label": "Movement safety"
-    }, "Stop if you feel sharp pain, dizziness, numbness, tingling into the limbs, or shortness of breath. AXIS is wellness movement guidance—not medical advice; see a clinician for injuries or new symptoms."),
+    }, "Stop if you feel sharp pain, dizziness, numbness, tingling into the limbs, or shortness of breath. AXIS is wellness movement guidance, not medical advice. See a clinician regarding injuries or new symptoms."),
 
     tab === "guided" && /*#__PURE__*/
     React.createElement("div", { className: "session-cta-pad session-cta-pad--guided" }, /*#__PURE__*/
