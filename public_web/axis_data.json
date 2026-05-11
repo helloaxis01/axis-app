@@ -3,7 +3,7 @@
     "daily": {
       "id": "daily",
       "label": "The Baseline Protocol",
-      "subtitle": "Spine, Core, Posterior",
+      "subtitle": "Spine · Core · Posterior",
       "purpose": "Spine, core, and posterior chain. The foundation session.",
       "sections": [
         {
@@ -837,7 +837,7 @@
     "restorative": {
       "id": "restorative",
       "label": "Lymph & Flow",
-      "subtitle": "Circulation, Mobility, Recovery",
+      "subtitle": "Circulation · Mobility · Recovery",
       "purpose": "Gentle continuous movement for circulation, joint lubrication, and recovery.",
       "sections": [
         {
@@ -1348,10 +1348,9 @@
     "morning": {
       "id": "morning",
       "label": "The Foundation Reset",
-      "subtitle": "Corrective strength · Core · Post-cardio",
+      "subtitle": "Strength · Core · Reset",
       "purpose": "A corrective strength sequence to decompress the spine, stabilize the deep core, and build lean muscle quality. Use after light cardio or as a standalone morning reset. Optimizes how your body feels heading into the day—never force ranges that create sharp pain.",
       "duration": "~22 min",
-      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
       "sections": [
         {
           "label": "Foundation sequence",
@@ -1679,9 +1678,8 @@
     "prime": {
       "id": "prime",
       "label": "Night Ease",
-      "subtitle": "Decompress, Calm, Sleep",
+      "subtitle": "Decompress · Calm · Sleep",
       "purpose": "Neurological recovery. Uses gentle, parasympathetic-friendly positions to lower stress tone and prepare the body for deep sleep—not a substitute for medical care if you have unresolved pain or insomnia.",
-      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
       "sections": [
         {
           "label": "Better Sleep Stretch",
@@ -1879,7 +1877,7 @@
     "desk": {
       "id": "desk",
       "label": "Desk Undo",
-      "subtitle": "Posture, Sitting, Refresh",
+      "subtitle": "Posture · Sitting · Refresh",
       "purpose": "Six movements to undo an hour of sitting. Stand up. Do it now.",
       "sections": [
         {
@@ -2168,7 +2166,7 @@
     "screen": {
       "id": "screen",
       "label": "Tech Neck Release",
-      "subtitle": "Neck, Shoulder, Screen",
+      "subtitle": "Neck · Shoulder · Screen",
       "purpose": "Undo the forward pull of screen time. Seven targeted releases for the neck and shoulder girdle.",
       "sections": [
         {
@@ -2486,7 +2484,7 @@
     "hip": {
       "id": "hip",
       "label": "Hip Freedom",
-      "subtitle": "Open, Mobilize, Rotators",
+      "subtitle": "Open · Mobilize · Rotators",
       "purpose": "Open the hips, free the lower back, restore the range that sitting steals.",
       "sections": [
         {
@@ -2886,7 +2884,7 @@
     "back": {
       "id": "back",
       "label": "Lumbar Relief",
-      "subtitle": "Decompress, Release, Strengthen",
+      "subtitle": "Decompress · Release · Strength",
       "purpose": "For days when the lower back needs care, not challenge. Gentle traction and release.",
       "sections": [
         {
@@ -3158,7 +3156,7 @@
     "steady": {
       "id": "steady",
       "label": "Stay Steady",
-      "subtitle": "Stability, Balance, Coordination",
+      "subtitle": "Stability · Balance · Control",
       "purpose": "Train the systems that prevent falls. Simple movements that are deceptively hard to do well.",
       "sections": [
         {
@@ -3412,7 +3410,7 @@
     "freely": {
       "id": "freely",
       "label": "Joint Glide",
-      "subtitle": "CARS, Mobility, Freedom",
+      "subtitle": "Joints · Mobility · Freedom",
       "purpose": "Controlled Articular Rotations and mobility work for every major joint.",
       "sections": [
         {
@@ -3730,7 +3728,7 @@
     "transit": {
       "id": "transit",
       "label": "In Transit",
-      "subtitle": "Seated, Circulation, Calm",
+      "subtitle": "Seated · Circulation · Calm",
       "purpose": "Four exercises designed for your seat. Keep circulation moving and the nervous system calm during any long journey.",
       "sections": [
         {
@@ -4137,7 +4135,7 @@
     "travel": {
       "id": "travel",
       "label": "Arrival Unwind",
-      "subtitle": "Travel, Decompress, Reset",
+      "subtitle": "Travel · Decompress · Reset",
       "purpose": "Six movements to undo the posture of travel. Do these as soon as you arrive.",
       "sections": [
         {
@@ -4544,7 +4542,7 @@
     "walking": {
       "id": "walking",
       "label": "Walk Ease",
-      "subtitle": "Pre-Walk, Post-Walk, Reset",
+      "subtitle": "Walk · Hips · Reset",
       "purpose": "Wake the gait system before the miles, then decompress calves, quads, and arches after.",
       "sections": [
         {
@@ -4775,7 +4773,7 @@
     "running": {
       "id": "running",
       "label": "Run Reboot",
-      "subtitle": "Impact, Hips, Recovery",
+      "subtitle": "Impact · Hips · Recovery",
       "purpose": "Prime tendons and hips before impact, then restore structure and circulation post-run.",
       "sections": [
         {
@@ -4980,7 +4978,7 @@
     "golf": {
       "id": "golf",
       "label": "Swing Sync",
-      "subtitle": "Golf, Rotation, Ready",
+      "subtitle": "Golf · Rotation · Ready",
       "purpose": "Prepare rotation, wrists, and hips before the first tee, then decompress after the final putt.",
       "sections": [
         {
@@ -5159,7 +5157,7 @@
     "tennis": {
       "id": "tennis",
       "label": "Court Prep",
-      "subtitle": "Racket, Shoulders, Hips",
+      "subtitle": "Racket · Shoulders · Hips",
       "purpose": "Ready the lateral base and shoulders for court work, then release forearms, hips, and side body after play.",
       "sections": [
         {
@@ -5390,7 +5388,7 @@
     "thoracic": {
       "id": "thoracic",
       "label": "Thoracic Chest Reset",
-      "subtitle": "Mobility, Upper Back, Chest",
+      "subtitle": "Mobility · Thoracic · Chest",
       "purpose": "A guided 7–10 minute flow to restore thoracic mobility and reduce upper back tension.",
       "sections": [
         {
@@ -5612,7 +5610,7 @@
     "wrist": {
       "id": "wrist",
       "label": "Carpal Tunnel Release",
-      "subtitle": "Glides, Stretches, Nerves",
+      "subtitle": "Glides · Stretches · Nerves",
       "purpose": "Short PT-style routine for wrist and hand mobility — perfect for keyboard users.",
       "sections": [
         {
@@ -5773,7 +5771,7 @@
     "anxiety": {
       "id": "anxiety",
       "label": "Calm Circuit",
-      "subtitle": "Breathe, Ground, Focus",
+      "subtitle": "Breathe · Ground · Focus",
       "purpose": "Evidence-based techniques that directly shift the nervous system from fight-or-flight to rest and digest.",
       "sections": [
         {
@@ -6052,7 +6050,7 @@
     "stress": {
       "id": "stress",
       "label": "Tension Release",
-      "subtitle": "Stress, Relax, Unwind",
+      "subtitle": "Stress · Relax · Unwind",
       "purpose": "Complete the stress cycle the body started. Move the cortisol through. Then downshift.",
       "sections": [
         {
@@ -6331,7 +6329,7 @@
     "feet": {
       "id": "feet",
       "label": "Feet First",
-      "subtitle": "Fascia, Load, Release",
+      "subtitle": "Fascia · Load · Release",
       "purpose": "PT-backed protocol for plantar fasciitis and foot pain. Release the tissue, wake the muscles, load the chain.",
       "sections": [
         {
@@ -6809,7 +6807,7 @@
     "knee": {
       "id": "knee",
       "label": "Knee Resilience",
-      "subtitle": "Knee, Mobility, Strength",
+      "subtitle": "Knee · Mobility · Strength",
       "purpose": "Bulletproof the joint: strengthen the muscles that support it and use low-load movements to lubricate and offload pressure.",
       "sections": [
         {
@@ -7081,10 +7079,9 @@
     "structural_mend": {
       "id": "structural_mend",
       "label": "Structural Mend",
-      "subtitle": "Decompress · Nerve-friendly mobility",
+      "subtitle": "Spine · Mobility · Ease",
       "purpose": "Mechanical decompression. Gentle spinal motion and side-body opening to ease the stiffness of daily compression and asymmetry. Move slowly; tingling or sharp nerve symptoms mean you should stop and get medical guidance.",
       "duration": "~6 min",
-      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
       "sections": [
         {
           "label": "Evening structural pass",
@@ -7286,7 +7283,6 @@
       "subtitle": "Structure · Fluids · Calm",
       "purpose": "Systemic recovery. Combines gentle structural opening with positions that support circulation and calm after high stress or heavy days. Not for acute injury flare-ups—rest and professional care come first if pain is worsening.",
       "duration": "~11 min",
-      "axisTrackTags": ["Mend", "Maintain", "Low Impact", "No Equipment"],
       "sections": [
         {
           "label": "Full unwind",
