@@ -4407,13 +4407,14 @@ const css = `
   }
   .content--session-list > .session-safety-strip,
   .content--session-guided > .session-safety-strip {
-    text-align: center;
+    text-align: left;
     margin: 0 0 8px;
-    min-height: var(--session-notice-block-min-h);
+    min-height: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     box-sizing: border-box;
+    width: 100%;
   }
   .sh { display:flex; align-items:baseline; gap:8px; padding-bottom:16px; border-bottom:1px solid var(--border); margin-bottom:8px; }
   .sh-tag { font-size: var(--text-xs); font-family: var(--font-data); font-weight: 500; color:var(--text-dimmer); letter-spacing:0.12em; text-transform:uppercase; }
@@ -15704,11 +15705,20 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     React.createElement("div", { style: { fontFamily: guidedSansDisplay, fontWeight: 700, fontSize: 36, letterSpacing: "-0.02em", lineHeight: 1.05, color: guidedExerciseTitleColor, marginBottom: 16, textShadow: "none" } },
     trackLabel
     ), /*#__PURE__*/
-    React.createElement("div", { style: { fontFamily: guidedSansDisplay, fontSize: 16, fontWeight: 400, marginBottom: 0, color: guidedMetaLine, textAlign: "center", lineHeight: 1.4, textTransform: "none" } }, `${filteredCount} exercises \u00b7 ${String(axisNormalizeDurationLabelToMin(trackDuration)).toLowerCase()}`)
+    React.createElement("div", { style: { fontFamily: guidedSansDisplay, fontSize: 16, fontWeight: 400, marginBottom: 20, color: guidedMetaLine, textAlign: "center", lineHeight: 1.4, textTransform: "none" } }, `${filteredCount} exercises \u00b7 ${String(axisNormalizeDurationLabelToMin(trackDuration)).toLowerCase()}`)
     ), /*#__PURE__*/
-    React.createElement("div", { style: { width: "100%", maxWidth: "100%", marginBottom: 32, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, boxSizing: "border-box" } }, /*#__PURE__*/
-    React.createElement("div", { style: { display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "nowrap", width: "100%", margin: "32px 0 10px" } }, /*#__PURE__*/
-    React.createElement("span", { style: { fontFamily: guidedMonoUi, fontSize: 10, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: guidedLabelCaps, lineHeight: 1.35, whiteSpace: "nowrap" } }, "Show Detailed Instructions"),
+    React.createElement("div", { style: {
+        width: "100%",
+        maxWidth: "100%",
+        marginTop: 32,
+        marginBottom: 32,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 16,
+        boxSizing: "border-box"
+      } }, /*#__PURE__*/
+    React.createElement("span", { style: { fontFamily: guidedSansDisplay, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: guidedExerciseTitleColor, lineHeight: 1.35, whiteSpace: "normal", textAlign: "center", WebkitTextFillColor: guidedExerciseTitleColor, width: "100%", maxWidth: 320 } }, "Show Detailed Instructions"),
     React.createElement("button", {
       type: "button",
       role: "switch",
@@ -15742,21 +15752,23 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
         background: "#ffffff",
         transition: "left 0.2s",
         boxShadow: "0 1px 4px rgba(0,0,0,0.2)"
-      } }))),
+      } })),
     React.createElement("p", { style: {
         margin: 0,
         padding: 0,
         width: "100%",
-        maxWidth: "100%",
+        maxWidth: 320,
         boxSizing: "border-box",
         fontFamily: guidedSansDisplay,
-        fontSize: 17,
-        fontWeight: 500,
-        lineHeight: 1.55,
-        minHeight: 100,
+        fontSize: 10,
+        fontWeight: 400,
+        letterSpacing: "0.02em",
+        lineHeight: 1.45,
+        minHeight: 0,
         textAlign: "center",
-        color: guidedIntroInstructionBody,
-        WebkitTextFillColor: guidedIntroInstructionBody
+        textTransform: "none",
+        color: guidedMetaLine,
+        WebkitTextFillColor: guidedMetaLine
       } }, "Turn off for a more hands-free flow", /*#__PURE__*/React.createElement("br", null), "(timers advance automatically).")),
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: 8 } }, /*#__PURE__*/
     React.createElement("div", { style: { fontSize: 10, fontFamily: guidedMonoUi, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: guidedLabelCaps, marginBottom: 10 } }, "Exercise duration"), /*#__PURE__*/
@@ -19979,7 +19991,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       className: "session-safety-strip",
       role: "note",
       "aria-label": "Movement safety"
-    }, "Stop if you feel sharp pain, dizziness, numbness, tingling into the limbs, or shortness of breath. AXIS is wellness movement guidance, not medical advice. See a clinician regarding injuries or new symptoms."),
+    }, "Stop if you feel sharp pain, dizziness, numbness, tingling, or shortness of breath. AXIS is wellness guidance, not medical advice. See a clinician for injuries or new symptoms."),
 
     tab === "guided" && /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
@@ -19987,7 +19999,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       className: "session-safety-strip",
       role: "note",
       "aria-label": "Movement safety"
-    }, "Stop if you feel sharp pain, dizziness, numbness, tingling into the limbs, or shortness of breath. AXIS is wellness movement guidance, not medical advice. See a clinician regarding injuries or new symptoms."),
+    }, "Stop if you feel sharp pain, dizziness, numbness, tingling, or shortness of breath. AXIS is wellness guidance, not medical advice. See a clinician for injuries or new symptoms."),
     React.createElement("div", { className: "session-cta-pad session-cta-pad--guided" }, /*#__PURE__*/
     React.createElement("button", {
       className: "fv-cta ultra-filled-btn axis-session-primary-cta",
