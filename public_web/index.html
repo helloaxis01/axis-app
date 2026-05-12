@@ -474,7 +474,7 @@ const EXERCISE_ASSET_SVGS = {
 };
 /** Baseline demo media paths — add keys with matching resolveExerciseAnimationKey + assets; LIST/GUIDED enlargement is centralized in ExerciseCarousel (native FS for video, portal for gif/webp). */
 const EXERCISE_ASSET_VIDEOS = {
-  CatCow: "./assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
+  CatCow: "./assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
   SphinxPose: "./assets/exercise-animations/sphinx-pose/Sphinx_Pose.mp4"
 };
 /** document.body while carousel portal enlarge is open; portrait-lock CSS must exclude this (all such demos share one path — add new videos here, not a separate fullscreen UI). */
@@ -12214,8 +12214,9 @@ const css = `
     -webkit-text-fill-color:#f6f7f8 !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) #axis-home-welcome {
-    color:var(--accent, var(--mood-accent, #252525)) !important;
-    -webkit-text-fill-color:var(--accent, var(--mood-accent, #252525)) !important;
+    color: #252525 !important;
+    -webkit-text-fill-color: #252525 !important;
+    opacity: 1;
   }
   .app[data-night="true"] #axis-home-welcome {
     color:#FF3B30 !important;
