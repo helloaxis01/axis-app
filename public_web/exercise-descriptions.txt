@@ -1,7 +1,7 @@
 AXIS — Copy shown on exercise cards within a track (LIST / session list)
 Per exercise: card description = JSON `sub`; meta line = small text beside duration in app.
 Source: public_web/axis_data.json · Regenerate: node scripts/export-exercise-card-copy.cjs
-Generated: 2026-05-08T22:43:00.364Z
+Generated: 2026-05-12T22:55:39.854Z
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
@@ -284,53 +284,74 @@ Card description (sub): Builds chest and arm strength while keeping things easy 
 Meta line (beside duration): Push · Extend
 
 ------------------------------------------------------------------------------
-Track: Sunrise Stretch  [morning]
-Section: Morning Refresh
-Exercise: Supine Knee Hugs  [exercise id: 201]
-Card description (sub): Provides a gentle release for the lower back and opens up the hips.
-Meta line (beside duration): Decompress
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Pelvic Tilts  [exercise id: 2110]
+Card description (sub): Works on your lower back alignment to help you find a more comfortable posture.
+Meta line (beside duration): Core · Release
 
 ------------------------------------------------------------------------------
-Track: Sunrise Stretch  [morning]
-Section: Morning Refresh
-Exercise: Supine Twist - Right Side  [exercise id: 202-R]
-Card description (sub): Helps with mid back stiffness and encourages better spinal rotation.
-Meta line (beside duration): Rotation
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Chin Tucks  [exercise id: 2111]
+Card description (sub): Focuses on neck alignment to help counteract the strain from looking at screens.
+Meta line (beside duration): Neck
 
 ------------------------------------------------------------------------------
-Track: Sunrise Stretch  [morning]
-Section: Morning Refresh
-Exercise: Supine Twist - Left Side  [exercise id: 202-L]
-Card description (sub): Helps with mid back stiffness and encourages better spinal rotation.
-Meta line (beside duration): Rotation
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Modified Bird-Dog  [exercise id: 2112]
+Card description (sub): Quadruped hip extension with a quiet spine. Alternate sides.
+Meta line (beside duration): Extend · Stability
 
 ------------------------------------------------------------------------------
-Track: Sunrise Stretch  [morning]
-Section: Morning Refresh
-Exercise: Cat–Cow  [exercise id: 203]
-Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
-Meta line (beside duration): Spine flexion · Back extension
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Wall Slides (W to Y)  [exercise id: 2113]
+Card description (sub): Slide arms up the wall. Upper back learns to steer the shoulders.
+Meta line (beside duration): Activate · Control
 
 ------------------------------------------------------------------------------
-Track: Sunrise Stretch  [morning]
-Section: Morning Refresh
-Exercise: Standing Hip Circles  [exercise id: 204]
-Card description (sub): Easy circles and bends. Give your hands a break from typing.
-Meta line (beside duration): Mobilize
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Box Squats  [exercise id: 2114]
+Card description (sub): Hinge and sit back until you lightly touch the surface, then stand tall. Builds legs and glutes with a clear depth target.
+Meta line (beside duration): Hip Hinge · Drive
 
 ------------------------------------------------------------------------------
-Track: Sunrise Stretch  [morning]
-Section: Morning Refresh
-Exercise: Shoulder Rolls  [exercise id: 205]
-Card description (sub): Roll the shoulders smooth. Forward then backward.
-Meta line (beside duration): Anterior · Posterior
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Wall Sit  [exercise id: 2115]
+Card description (sub): Isometric legs and core while the back stays supported on the wall. Builds endurance for daily strength.
+Meta line (beside duration): Hold · Release
 
 ------------------------------------------------------------------------------
-Track: Sunrise Stretch  [morning]
-Section: Morning Refresh
-Exercise: Sun Breath  [exercise id: 206]
-Card description (sub): Helps open up your chest and lungs so you can breathe a little deeper.
-Meta line (beside duration): Expand · Ground
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Dead Bug  [exercise id: 2116]
+Card description (sub): Helps protect your spine by teaching your core how to stay steady and strong.
+Meta line (beside duration): Core · Control
+
+------------------------------------------------------------------------------
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Forearm Plank  [exercise id: 2117]
+Card description (sub): Hold 30–60 seconds as tolerated. Easier on wrists than a high plank—knees down shortens the lever.
+Meta line (beside duration): Core
+
+------------------------------------------------------------------------------
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Figure-4 Stretch — Right  [exercise id: 2118-R]
+Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
+Meta line (beside duration): Stretch
+
+------------------------------------------------------------------------------
+Track: The Foundation Reset  [morning]
+Section: Foundation sequence
+Exercise: Figure-4 Stretch — Left  [exercise id: 2118-L]
+Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
+Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: Night Ease  [prime]
@@ -343,7 +364,7 @@ Meta line (beside duration): Restore
 Track: Night Ease  [prime]
 Section: Better Sleep Stretch
 Exercise: Reclined Butterfly  [exercise id: 302]
-Card description (sub): Soles together, sit tall. Let gravity open the hips.
+Card description (sub): Soles of the feet together, knees fall wide. Let gravity open the inner thighs and hips.
 Meta line (beside duration): Release
 
 ------------------------------------------------------------------------------
@@ -371,7 +392,7 @@ Meta line (beside duration): Rotation
 Track: Night Ease  [prime]
 Section: Better Sleep Stretch
 Exercise: Diaphragmatic Breathing  [exercise id: 305]
-Card description (sub): Helps settle a racing mind and brings your heart rate back to a calm baseline.
+Card description (sub): Slow nasal inhales and long exhales. If your clinician has advised a different breathing pattern, follow their guidance.
 Meta line (beside duration): Inhale · Exhale
 
 ------------------------------------------------------------------------------
@@ -714,35 +735,35 @@ Meta line (beside duration): Cars · End-Range
 Track: Joint Glide  [freely]
 Section: Upper Body
 Exercise: Shoulder CARs  [exercise id: 903]
-Card description (sub): Slow controlled neck circles. Small range, no forcing.
+Card description (sub): Slow controlled shoulder circles through full range, one arm at a time.
 Meta line (beside duration): Cars · End-Range
 
 ------------------------------------------------------------------------------
 Track: Joint Glide  [freely]
 Section: Upper Body
 Exercise: Wrist CARs  [exercise id: 904]
-Card description (sub): Slow controlled neck circles. Small range, no forcing.
+Card description (sub): Slow controlled wrist circles through full range, both arms.
 Meta line (beside duration): Cars · End-Range
 
 ------------------------------------------------------------------------------
 Track: Joint Glide  [freely]
 Section: Lower Body
 Exercise: Hip CARs - Right Hip  [exercise id: 905-R]
-Card description (sub): Slow controlled neck circles. Small range, no forcing.
+Card description (sub): Slow hip circles with a still pelvis — controlled range on the right leg.
 Meta line (beside duration): Cars · End-Range
 
 ------------------------------------------------------------------------------
 Track: Joint Glide  [freely]
 Section: Lower Body
 Exercise: Hip CARs - Left Hip  [exercise id: 905-L]
-Card description (sub): Slow controlled neck circles. Small range, no forcing.
+Card description (sub): Slow hip circles with a still pelvis — controlled range on the left leg.
 Meta line (beside duration): Cars · End-Range
 
 ------------------------------------------------------------------------------
 Track: Joint Glide  [freely]
 Section: Lower Body
 Exercise: Ankle CARs  [exercise id: 906]
-Card description (sub): Slow controlled neck circles. Small range, no forcing.
+Card description (sub): Slow controlled ankle circles through full range, foot by foot.
 Meta line (beside duration): Cars · End-Range
 
 ------------------------------------------------------------------------------
@@ -1294,7 +1315,7 @@ Meta line (beside duration): Open · Mobilize
 ------------------------------------------------------------------------------
 Track: Tension Release  [stress]
 Section: Physical Discharge
-Exercise: The Shake-Out  [exercise id: 2104]
+Exercise: Shake-Out  [exercise id: 2104]
 Card description (sub): Helps your body physically discharge stress so it doesn't stay stuck in your muscles.
 Meta line (beside duration): Discharge · Integrate
 
@@ -1479,6 +1500,97 @@ Section: Knee Resilience
 Exercise: Low Box Step-Ups  [exercise id: 2207]
 Card description (sub): Improves functional support for your knees during daily walking.
 Meta line (beside duration): Concentric · Eccentric
+
+------------------------------------------------------------------------------
+Track: Structural Mend  [structural_mend]
+Section: Evening structural pass
+Exercise: Cat–Cow  [exercise id: 2130]
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
+Meta line (beside duration): Spine · Spine flexion
+
+------------------------------------------------------------------------------
+Track: Structural Mend  [structural_mend]
+Section: Evening structural pass
+Exercise: Thread the Needle - Right Side  [exercise id: 2131-R]
+Card description (sub): Rotate through the upper back, one side at a time.
+Meta line (beside duration): Rotation
+
+------------------------------------------------------------------------------
+Track: Structural Mend  [structural_mend]
+Section: Evening structural pass
+Exercise: Thread the Needle - Left Side  [exercise id: 2131-L]
+Card description (sub): Rotate through the upper back, one side at a time.
+Meta line (beside duration): Rotation
+
+------------------------------------------------------------------------------
+Track: Structural Mend  [structural_mend]
+Section: Evening structural pass
+Exercise: Child's Pose + Side Reach  [exercise id: 2132]
+Card description (sub): Rest in child's pose, then reach long to one side.
+Meta line (beside duration): Reach · Switch
+
+------------------------------------------------------------------------------
+Track: Structural Mend  [structural_mend]
+Section: Evening structural pass
+Exercise: Gentle Neck Glides  [exercise id: 2133]
+Card description (sub): Small, controlled motions only—no full head rolls backward.
+Meta line (beside duration): Neck · Mobility
+
+------------------------------------------------------------------------------
+Track: Structural Mend  [structural_mend]
+Section: Evening structural pass
+Exercise: Pelvic Tilts  [exercise id: 2134]
+Card description (sub): Works on your lower back alignment to help you find a more comfortable posture.
+Meta line (beside duration): Core · Release
+
+------------------------------------------------------------------------------
+Track: 360 Restore  [ultimate_reset]
+Section: 360 unwind
+Exercise: Cat–Cow  [exercise id: 2140]
+Card description (sub): Brings movement to each vertebra to help with a stiff or rigid back.
+Meta line (beside duration): Spine · Spine flexion
+
+------------------------------------------------------------------------------
+Track: 360 Restore  [ultimate_reset]
+Section: 360 unwind
+Exercise: Thread the Needle - Right Side  [exercise id: 2141-R]
+Card description (sub): Rotate through the upper back, one side at a time.
+Meta line (beside duration): Rotation
+
+------------------------------------------------------------------------------
+Track: 360 Restore  [ultimate_reset]
+Section: 360 unwind
+Exercise: Thread the Needle - Left Side  [exercise id: 2142-L]
+Card description (sub): Rotate through the upper back, one side at a time.
+Meta line (beside duration): Rotation
+
+------------------------------------------------------------------------------
+Track: 360 Restore  [ultimate_reset]
+Section: 360 unwind
+Exercise: Child's Pose + Side Reach  [exercise id: 2143]
+Card description (sub): Rest in child's pose, then reach long to one side.
+Meta line (beside duration): Reach · Switch
+
+------------------------------------------------------------------------------
+Track: 360 Restore  [ultimate_reset]
+Section: 360 unwind
+Exercise: Reclined Butterfly  [exercise id: 2144]
+Card description (sub): Soles of the feet together, knees fall wide. Let gravity open the inner thighs and hips.
+Meta line (beside duration): Release
+
+------------------------------------------------------------------------------
+Track: 360 Restore  [ultimate_reset]
+Section: 360 unwind
+Exercise: Legs Up the Wall  [exercise id: 2145]
+Card description (sub): Supports circulation and helps your legs feel refreshed after a long day.
+Meta line (beside duration): Restore
+
+------------------------------------------------------------------------------
+Track: 360 Restore  [ultimate_reset]
+Section: 360 unwind
+Exercise: Diaphragmatic Breathing  [exercise id: 2146]
+Card description (sub): Continue slow belly-led breathing for two minutes while the legs are elevated (or switch to a comfortable recline if needed).
+Meta line (beside duration): Inhale · Exhale
 
 ------------------------------------------------------------------------------
 End of list.

@@ -117,13 +117,13 @@
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Reach your right arm straight out to the side at shoulder height. Shoulders relaxed down."
+                  "cue": "Reach both arms straight out to your sides at shoulder height. Shoulders relaxed down."
                 },
                 {
                   "pos": "B",
                   "label": "Forward Circles",
                   "focus": "FORWARD",
-                  "cue": "Make small controlled circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down."
+                  "cue": "Both arms make small controlled circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down."
                 },
                 {
                   "pos": "C",
@@ -134,8 +134,8 @@
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
               "position": "Stand tall with your feet apart.",
-              "next": "Reach your right arm straight out to the side at shoulder height.",
-              "then": "Move your right arm in slow circles forward only. Start small and grow the circles. Do 10 reps.",
+              "next": "Reach both arms straight out to your sides at shoulder height.",
+              "then": "Move both arms in slow circles forward only. Start small and grow the circles. Do 10 reps.",
               "tip": "Stay in the forward direction the whole time; increase range gradually."
             },
             {
@@ -151,13 +151,13 @@
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Reach your left arm straight out to the side at shoulder height. Shoulders relaxed down."
+                  "cue": "Reach both arms straight out to your sides at shoulder height. Shoulders relaxed down."
                 },
                 {
                   "pos": "B",
                   "label": "Backward Circles",
                   "focus": "BACKWARD",
-                  "cue": "Make small controlled circles moving backward. Gradually increase to full arm sweeps. Keep shoulders down."
+                  "cue": "Both arms make small controlled circles moving backward. Gradually increase to full arm sweeps. Keep shoulders down."
                 },
                 {
                   "pos": "C",
@@ -168,8 +168,8 @@
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
               "position": "Stand tall with your feet apart.",
-              "next": "Reach your left arm straight out to the side at shoulder height.",
-              "then": "Move your left arm in slow circles backward only. Start small and grow the circles. Do 10 reps.",
+              "next": "Reach both arms straight out to your sides at shoulder height.",
+              "then": "Move both arms in slow circles backward only. Start small and grow the circles. Do 10 reps.",
               "tip": "Stay in the backward direction the whole time; increase range gradually."
             }
           ]
@@ -1074,7 +1074,7 @@
               "position": "Stand with your feet wide.",
               "next": "Let your arms hang loose at your sides. Keep your back straight but not stiff. Bend your knees slightly.",
               "then": "Turn your chest to the right. Let your left arm wrap across your front and your right arm swing behind you.",
-              "tip": "Turn your chest to the left. Let your right arm wrap across your front. Find a steady rhythm."
+              "tip": "Rotate back through center, then turn your chest to the left. Let your right arm wrap across your front and your left arm swing behind. Alternate sides in a steady rhythm."
             },
             {
               "id": 111,
@@ -3499,7 +3499,7 @@
               "id": 903,
               "name": "Shoulder CARs",
               "start": "Stand tall with your arms at your sides.",
-              "sub": "Slow controlled neck circles. Small range, no forcing.",
+              "sub": "Slow controlled shoulder circles through full range, one arm at a time.",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3523,15 +3523,15 @@
                 }
               ],
               "position": "Stand tall with your arms at your sides.",
-              "next": "Squeeze the muscles under your right armpit. Keep your right arm perfectly straight.",
-              "then": "Lift your right arm straight in front of you and up to the ceiling. Turn your palm to face backward, then reach your arm behind you and down to your side in a large circle.",
+              "next": "Squeeze the muscles under your working-side armpit. Keep that arm perfectly straight.",
+              "then": "Lift that arm straight in front of you and up to the ceiling. Turn your palm to face backward, then reach your arm behind you and down to your side in a large circle.",
               "tip": "Move very slowly. Reverse the circle. Switch arms."
             },
             {
               "id": 904,
               "name": "Wrist CARs",
               "start": "Sit or stand. Reach both arms straight out in front of you.",
-              "sub": "Slow controlled neck circles. Small range, no forcing.",
+              "sub": "Slow controlled wrist circles through full range, both arms.",
               "type": "time",
               "seconds": 45,
               "steps": [
@@ -3570,7 +3570,7 @@
               "id": "905-R",
               "name": "Hip CARs - Right Hip",
               "start": "Stand on one leg. Rest one hand lightly on a wall.",
-              "sub": "Slow controlled neck circles. Small range, no forcing.",
+              "sub": "Slow hip circles with a still pelvis — controlled range on the right leg.",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3602,7 +3602,7 @@
               "id": "905-L",
               "name": "Hip CARs - Left Hip",
               "start": "Stand on one leg. Rest one hand lightly on a wall.",
-              "sub": "Slow controlled neck circles. Small range, no forcing.",
+              "sub": "Slow hip circles with a still pelvis — controlled range on the left leg.",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3634,7 +3634,7 @@
               "id": 906,
               "name": "Ankle CARs",
               "start": "Sit in a chair. Lift one foot off the floor.",
-              "sub": "Slow controlled neck circles. Small range, no forcing.",
+              "sub": "Slow controlled ankle circles through full range, foot by foot.",
               "type": "time",
               "seconds": 45,
               "steps": [

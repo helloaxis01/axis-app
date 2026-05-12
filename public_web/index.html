@@ -5272,9 +5272,14 @@ const css = `
   .content--session-guided .er-card.er-card--open .protocol-panel.panel .steps {
     margin-top: 0 !important;
   }
-  .content--session-list .er-card.er-card--open .protocol-panel.panel .steps > .exercise-carousel.exercise-carousel--session-card,
+  .content--session-list .er-card.er-card--open .protocol-panel.panel .steps > .exercise-carousel.exercise-carousel--session-card {
+    padding-inline: 0 !important;
+    /* Global .exercise-carousel { padding-bottom: 14px } sat under the nav row — stacked with CTA strip and read as a huge gap above START TIMER */
+    padding-bottom: 6px !important;
+  }
   .content--session-guided .er-card.er-card--open .protocol-panel.panel .steps > .exercise-carousel.exercise-carousel--session-card {
     padding-inline: 0 !important;
+    padding-bottom: 8px !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel__graphic-frame,
   .content--session-list .panel.protocol-panel .exercise-animation__media,
@@ -5307,13 +5312,14 @@ const css = `
   }
   /* LIST expanded: timer + PAUSE/RESET/START align with START TIMER (display font, 12px radius); strip + panel padding balanced. */
   .content--session-list .er-card.er-card--open .panel.protocol-panel {
-    padding: 0 0 20px !important;
+    /* One bottom gutter = same token as CTA strip side inset (no extra wrap padding-bottom stacking under the button). */
+    padding: 0 0 var(--er-panel-pad-inline) !important;
   }
   .content--session-list .er-card.er-card--open .protocol-panel.panel .session-timer-cta-wrap {
     padding-inline: var(--er-panel-pad-inline) !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-    margin-top: 6px !important;
+    padding-top: 6px !important;
+    padding-bottom: 0 !important;
+    margin-top: 2px !important;
   }
   .content--session-list .er-card.er-card--open .protocol-panel.panel .session-timer-cta-wrap > .timer-wrap {
     margin-inline: 0 !important;
@@ -5362,7 +5368,7 @@ const css = `
     width: 100% !important;
     max-width: 100% !important;
     align-self: stretch !important;
-    margin-top: 12px !important;
+    margin-top: 6px !important;
     padding: 13px 16px !important;
     font-size: var(--text-sm) !important;
     letter-spacing: 0.18em !important;
@@ -5480,7 +5486,6 @@ const css = `
     font-weight: 500 !important;
     line-height: 1.55 !important;
     color: #ffffff !important;
-    min-height: 100px !important;
     width: 100% !important;
     box-sizing: border-box !important;
     margin: 0 !important;
@@ -5488,6 +5493,10 @@ const css = `
     opacity: 1 !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
+    padding-bottom: 14px !important;
+  }
+  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__body--session {
+    padding-bottom: 8px !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session {
@@ -5503,6 +5512,9 @@ const css = `
     min-height: 0 !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
+  }
+  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session {
+    margin-top: 10px !important;
   }
   .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__step-count,
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__step-count {
@@ -5581,14 +5593,13 @@ const css = `
   }
   /* GUIDED expanded preview: no timer / Mark Done — instruction + 1/N step row only; tight bottom rhythm vs card shell */
   .content--session-guided .er-card.er-card--open .panel.protocol-panel {
-    padding: 0 0 6px !important;
+    padding: 0 0 12px !important;
   }
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__label--session {
     margin: 14px 0 8px 0 !important;
   }
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__body--session {
-    min-height: 52px !important;
-    padding-bottom: 0 !important;
+    padding-bottom: 12px !important;
   }
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session {
     margin-top: 8px !important;
