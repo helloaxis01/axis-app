@@ -2430,7 +2430,6 @@ const css = `
   .app[data-night="true"] .content--session .purpose-note.purpose-note--guided {
     background: transparent !important;
     border-top: none !important;
-    border-bottom-color: rgba(255, 255, 255, 0.14) !important;
   }
   .app[data-night="true"] .content--session .purpose-disclosure-hit.purpose-disclosure-hit--session,
   .app[data-night="true"] .content--session .purpose-disclosure-hit.purpose-disclosure-hit--session .purpose-disclosure-hit__chev {
@@ -4488,12 +4487,12 @@ const css = `
     border-bottom:1px solid var(--border);
   }
   .purpose-note.purpose-note--guided {
-    margin-top: 4px;
-    margin-bottom: 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
     padding: 0;
     border: none;
     border-top: none;
-    border-bottom: 1px solid var(--border);
+    border-bottom: none;
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
@@ -4515,7 +4514,7 @@ const css = `
     box-sizing: border-box;
     flex-shrink: 0;
     border-bottom: none;
-    padding: 12px 0;
+    padding: 6px 0 2px;
     min-height: 0;
   }
   .purpose-note--guided .purpose-disclosure-hit.purpose-disclosure-hit--session {
@@ -4569,7 +4568,7 @@ const css = `
   }
   .purpose-note.purpose-note--guided > .purpose-note__rail--session > .purpose-text--guided-body {
     margin: 0;
-    padding: 10px 10px 10px 0;
+    padding: 4px 10px 8px 0;
     text-align: left;
     width: 100%;
     max-width: 100%;
@@ -4652,6 +4651,11 @@ const css = `
   }
   .axis-exercise-safety--caution .axis-exercise-safety__body {
     color: var(--text-secondary);
+  }
+  /* Nerve callout: no frame — mood wash only */
+  .axis-exercise-safety.axis-exercise-safety--nerve {
+    border: none !important;
+    outline: none;
   }
   .axis-exercise-safety--ultra {
     border-color: #FF3B30;
@@ -4901,7 +4905,7 @@ const css = `
   .content--session .er--list-card-a {
     position: relative;
   }
-  /* LIST rail: title + pin/skip row, full-width desc, meta row aligned with expand chevron */
+  /* LIST rail: title + pin/skip row — pin/skip optically centered to first line of title */
   .content--session .er-list-title-row {
     display: flex;
     flex-direction: row;
@@ -4909,7 +4913,7 @@ const css = `
     justify-content: space-between;
     gap: 10px;
     width: 100%;
-    margin: 0 0 6px 0;
+    margin: 0 0 4px 0;
     box-sizing: border-box;
   }
   .content--session .er-list-title-row .er-list-title {
@@ -4921,6 +4925,10 @@ const css = `
     flex-shrink: 0;
     align-self: flex-start;
     margin: 0;
+    /* Match title font metrics so margin-top em = title line box; centers row to ~first line */
+    font-size: calc(var(--text-lg) - 3px);
+    line-height: 1.25;
+    margin-top: calc(0.625em - 22px);
   }
   .content--session .er-list-desc--rail {
     width: 100%;
@@ -4977,7 +4985,7 @@ const css = `
     letter-spacing: -0.02em;
     line-height: 1.25;
     width: 100%;
-    margin: 0 0 6px 0;
+    margin: 0 0 4px 0;
   }
   .content--session .er-list-title.er-list-title--done {
     color: rgba(255, 255, 255, 0.4);
@@ -4995,7 +5003,7 @@ const css = `
     line-height: 1.45;
     color: color-mix(in srgb, var(--text-primary) 88%, transparent);
     width: 100%;
-    margin: 8px 0 6px 0;
+    margin: 3px 0 6px 0;
   }
   .content--session .er-list-desc.er-list-desc--done {
     color: rgba(255, 255, 255, 0.22);
@@ -13974,6 +13982,8 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
   const completedRef = useRef(false);
   const threeBeatTriggeredRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
@@ -13993,7 +14003,7 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
     };
     const step = (now) => {
       if (completedRef.current) return;
-      if (paused) {
+      if (pausedRef.current) {
         if (pausedAt == null) pausedAt = now;
         rafId = requestAnimationFrame(step);
         return;
@@ -14032,7 +14042,7 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
       cancelAnimationFrame(rafId);
       applyFill(0);
     };
-  }, [seconds, paused]);
+  }, [seconds]);
   const display = `0:${Math.max(0, remainingSeconds).toString().padStart(2, "0")}`;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "guided-rest-timer__column" }, /*#__PURE__*/
@@ -14076,6 +14086,8 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
   const completedRef = useRef(false);
   const midpointTriggeredRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
@@ -14110,7 +14122,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
     };
     const step = (now) => {
       if (completedRef.current) return;
-      if (paused) {
+      if (pausedRef.current) {
         if (pausedAt == null) pausedAt = now;
         rafId = requestAnimationFrame(step);
         return;
@@ -14149,7 +14161,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
       cancelAnimationFrame(rafId);
       applyFill(0);
     };
-  }, [paused, seconds, hapticMidpoint, initialRemainingSeconds]);
+  }, [seconds, hapticMidpoint, initialRemainingSeconds]);
   const display = `${Math.floor(Math.max(0, remainingSeconds) / 60)}:${(Math.max(0, remainingSeconds) % 60).toString().padStart(2, "0")}`;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", { className: "guided-rest-timer__column" }, /*#__PURE__*/
@@ -19991,7 +20003,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "Purpose"), /*#__PURE__*/
     React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a"))),
     purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null)),
-    /*#__PURE__*/React.createElement("hr", { className: "sg-session-ex-hairline", "aria-hidden": true }),
 
     sec.exercises.map((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;
@@ -20060,7 +20071,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "Purpose"), /*#__PURE__*/
     React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a"))),
     purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null)),
-    /*#__PURE__*/React.createElement("hr", { className: "sg-session-ex-hairline", "aria-hidden": true }),
 
     sec.exercises.map((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;

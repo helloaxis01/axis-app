@@ -769,7 +769,7 @@
             {
               "id": 20,
               "name": "Chin Tucks",
-              "start": "Sit or stand tall. Look straight ahead.",
+              "start": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "sub": "Focuses on neck alignment to help counteract the strain from looking at screens.",
               "type": "flow",
               "seconds": 45,
@@ -791,7 +791,7 @@
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
-              "position": "Sit or stand tall. Look straight ahead.",
+              "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds.",
               "tip": "Keep your head level. Do not point your chin up or down."
@@ -1393,7 +1393,7 @@
             {
               "id": 2111,
               "name": "Chin Tucks",
-              "start": "Sit or stand tall. Look straight ahead.",
+              "start": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "sub": "Focuses on neck alignment to help counteract the strain from looking at screens.",
               "type": "reps",
               "steps": [
@@ -1414,7 +1414,7 @@
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
-              "position": "Sit or stand tall. Look straight ahead.",
+              "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds.",
               "tip": "Keep your head level. Do not point your chin up or down.",
@@ -1423,35 +1423,41 @@
             {
               "id": 2112,
               "name": "Modified Bird-Dog",
-              "start": "Start on all fours, hands and knees on the floor.",
-              "sub": "Shorter range of motion, optional knee stay down. Builds cross-pattern stability without loading a sensitive back.",
+              "start": "Start on your hands and knees on the floor.",
+              "sub": "Quadruped hip extension with a quiet spine. Alternate sides.",
               "reps": "8 per side, slow",
               "type": "reps",
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Neutral Tabletop",
+                  "label": "1/4",
                   "focus": "SETUP",
-                  "cue": "Hands under shoulders, knees under hips. Draw navel in. If needed, keep the moving-side knee on the floor (bird-dog with tap)."
+                  "cue": "Start on your hands and knees on the floor."
                 },
                 {
                   "pos": "B",
-                  "label": "Extend & Pause",
-                  "focus": "STABILITY",
-                  "cue": "Draw elbow to knee beneath your body. Return to neutral. Switch sides and repeat."
+                  "label": "2/4",
+                  "focus": "EXTEND",
+                  "cue": "Slowly extend one leg straight back behind you."
                 },
                 {
                   "pos": "C",
-                  "label": "Return Controlled",
-                  "focus": "CONTROL",
-                  "cue": "Opposite arm and leg — not the same side. Keep hips level and do not rotate."
+                  "label": "3/4",
+                  "focus": "STABILITY",
+                  "cue": "Keep your lower back still and your pelvis parallel to the ground."
+                },
+                {
+                  "pos": "D",
+                  "label": "4/4",
+                  "focus": "SWITCH",
+                  "cue": "Lower your leg and repeat the movement with the other side."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/Peloton_CatCow.mp4",
-              "position": "Start on all fours, hands and knees on the floor.",
+              "position": "Start on your hands and knees on the floor.",
               "next": "Keep your back flat and look down at the floor.",
-              "then": "Reach your right arm straight forward. Reach your left leg straight backward. Hold for 2 seconds.",
-              "tip": "Lower your hand and knee back to the floor. Switch sides."
+              "then": "Extend one leg straight back, keep your pelvis level, then lower and switch sides.",
+              "tip": "Move slowly. If the low back arches, reduce how high you lift the leg."
             },
             {
               "id": 2113,
@@ -1917,7 +1923,7 @@
             {
               "id": 402,
               "name": "Chin Tucks",
-              "start": "Sit or stand tall. Look straight ahead.",
+              "start": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "sub": "Focuses on neck alignment to help counteract the strain from looking at screens.",
               "type": "flow",
               "seconds": 45,
@@ -1938,7 +1944,7 @@
                   "cue": "You should feel a gentle stretch at the base of your skull. No tilting up or down."
                 }
               ],
-              "position": "Sit or stand tall. Look straight ahead.",
+              "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds. Do 10 times.",
               "tip": "Do not look up or down. Keep your head level."
@@ -2177,16 +2183,16 @@
             {
               "id": 501,
               "name": "Chin Tucks",
-              "start": "Sit tall with your eyes looking straight ahead.",
+              "start": "Sit, stand, or lie on your back with knees bent. Keep your eyes level with the horizon.",
               "sub": "Focuses on neck alignment to help counteract the strain from looking at screens.",
               "type": "flow",
               "seconds": 45,
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Sit or Stand Tall",
+                  "label": "Supported Posture",
                   "focus": "SETUP",
-                  "cue": "Eyes level with horizon. Shoulders relaxed down. Jaw soft. This is the single most important correction for forward head posture."
+                  "cue": "Eyes level with horizon in sitting, standing, or lying on your back with knees bent. Shoulders relaxed down. Jaw soft. This is the single most important correction for forward head posture."
                 },
                 {
                   "pos": "B",
@@ -2198,7 +2204,7 @@
                   "cue": "You should feel a gentle stretch at the base of the skull, not the front of the throat."
                 }
               ],
-              "position": "Sit tall with your eyes looking straight ahead.",
+              "position": "Sit, stand, or lie on your back with knees bent. Keep your eyes level with the horizon.",
               "next": "Relax your shoulders down. Relax your jaw.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds. Slowly release. Do 10 times.",
               "tip": "Keep your head level. Do not point your chin up or down."
@@ -5521,7 +5527,7 @@
             {
               "id": 2004,
               "name": "Chin Tucks",
-              "start": "Sit or stand tall. Look straight ahead.",
+              "start": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "sub": "Focuses on neck alignment to help counteract the strain from looking at screens.",
               "type": "reps",
               "reps": "10 reps",
@@ -5530,7 +5536,7 @@
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Sit or stand tall, eyes forward."
+                  "cue": "Sit, stand, or lie on your back with knees bent — eyes forward, head level."
                 },
                 {
                   "pos": "B",
@@ -5542,7 +5548,7 @@
                   "cue": "You should feel a gentle stretch at the base of the skull. No tilting up or down."
                 }
               ],
-              "position": "Sit or stand tall. Look straight ahead.",
+              "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 3 to 5 seconds, then release.",
               "tip": "Do not look up or down. Keep your head level."
@@ -6228,7 +6234,7 @@
             {
               "id": 2106,
               "name": "Chin Tucks",
-              "start": "Sit or stand tall. Look straight ahead.",
+              "start": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "sub": "Focuses on neck alignment to help counteract the strain from looking at screens.",
               "type": "time",
               "seconds": 45,
@@ -6252,7 +6258,7 @@
                   "cue": "Release and repeat — 10 slow, deliberate reps. Each one creates traction in the upper cervical joints, decompresses the C1-C2 region, and releases the muscles that clamp tight under stress. Combined with slow nasal breathing throughout, this produces a rapid drop in perceived tension."
                 }
               ],
-              "position": "Sit or stand tall. Look straight ahead.",
+              "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 3 to 5 seconds. Slowly release.",
               "tip": "Keep your head level. Do not point your chin up or down. Do 10 times."
