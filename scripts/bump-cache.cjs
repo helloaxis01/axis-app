@@ -1,7 +1,7 @@
 "use strict";
 /**
  * Bump shared onboarding / axis_ob cache token in public_web HTML.
- * Run via npm prebuild before verify-inline-syntax.
+ * Run manually: npm run bump-cache (same token string is also used for app.js?cb= in index.html).
  */
 const fs = require("fs");
 const path = require("path");
