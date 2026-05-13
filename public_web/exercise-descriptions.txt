@@ -1,7 +1,7 @@
 AXIS — Copy shown on exercise cards within a track (LIST / session list)
 Per exercise: card description = JSON `sub`; meta line = small text beside duration in app.
 Source: public_web/axis_data.json · Regenerate: node scripts/export-exercise-card-copy.cjs
-Generated: 2026-05-12T22:55:39.854Z
+Generated: 2026-05-12T22:59:47.254Z
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
@@ -27,14 +27,14 @@ Meta line (beside duration): Stretch
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Warm-up & Mobility
-Exercise: Arm Circles (Forwards)  [exercise id: 4-R]
+Exercise: Arm Circles (Forwards)  [exercise id: 4-FWD]
 Card description (sub): Open the shoulders before they have to work.
 Meta line (beside duration): Forward
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Warm-up & Mobility
-Exercise: Arm Circles (Backwards)  [exercise id: 4-L]
+Exercise: Arm Circles (Backwards)  [exercise id: 4-BWD]
 Card description (sub): Reverse the pattern, finish what you started.
 Meta line (beside duration): Backward
 
