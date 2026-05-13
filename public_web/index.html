@@ -4695,6 +4695,11 @@ const css = `
     color: rgba(15, 30, 46, 0.48) !important;
     -webkit-text-fill-color: rgba(15, 30, 46, 0.48) !important;
   }
+  .app[data-theme="dark"]:not([data-night="true"]) .purpose-note.purpose-note--guided > .purpose-note__rail--session > .purpose-text--guided-body,
+  .app[data-theme="dark"]:not([data-night="true"]) .purpose-note.purpose-note--guided > .purpose-note__rail--session > .purpose-text--guided-body * {
+    color: rgba(237, 237, 237, 0.74) !important;
+    -webkit-text-fill-color: rgba(237, 237, 237, 0.74) !important;
+  }
   .axis-video-player {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -5331,15 +5336,21 @@ const css = `
   .content--session .er-list-expand-chev:not(.er-list-expand-chev--open) svg polyline {
     transition: stroke 0.15s ease;
   }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet {
+    background: rgba(255, 255, 255, 0.66);
+    border-color: rgba(15, 30, 46, 0.1);
+    box-shadow: 0 4px 22px rgba(15, 30, 46, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
-    background: rgba(15, 30, 46, 0.04);
-    border-color: rgba(15, 30, 46, 0.08);
+    background: rgba(15, 30, 46, 0.1);
+    border-color: rgba(15, 30, 46, 0.16);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
-    background: rgba(15, 30, 46, 0.06) !important;
-    border-color: rgba(15, 30, 46, 0.12) !important;
+    background: rgba(15, 30, 46, 0.13) !important;
+    border-color: rgba(15, 30, 46, 0.22) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
@@ -5360,7 +5371,8 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
-    background: rgba(15, 30, 46, 0.025);
+    background: rgba(15, 30, 46, 0.072);
+    border-color: rgba(15, 30, 46, 0.14);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-dur {
     color: color-mix(in srgb, rgba(15, 30, 46, 0.42) 75%, #ffffff 25%);
@@ -5388,11 +5400,13 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open {
-    border-color: rgba(15, 30, 46, 0.13) !important;
+    background: rgba(15, 30, 46, 0.11) !important;
+    border-color: rgba(15, 30, 46, 0.24) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open.er-card--complete,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open.er-card--complete {
-    background: rgba(15, 30, 46, 0.025) !important;
+    background: rgba(15, 30, 46, 0.085) !important;
+    border-color: rgba(15, 30, 46, 0.2) !important;
   }
   .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open),
   .app[data-night="true"] .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
@@ -13452,8 +13466,8 @@ const css = `
     font-size: calc(var(--text-base) * 0.82) !important;
   }
   .app[data-theme="dark"]:not([data-night="true"]) .home .track-card--home-browse .track-card-purpose {
-    color: rgba(237, 237, 237, 0.5) !important;
-    -webkit-text-fill-color: rgba(237, 237, 237, 0.5) !important;
+    color: rgba(237, 237, 237, 0.64) !important;
+    -webkit-text-fill-color: rgba(237, 237, 237, 0.64) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .home .track-card--home-browse .track-card-purpose {
     color: rgba(36, 40, 48, 0.5) !important;
