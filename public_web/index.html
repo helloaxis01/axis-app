@@ -4186,6 +4186,20 @@ const css = `
     border-bottom-color: color-mix(in srgb, var(--glass-border) 80%, transparent);
     box-shadow: 0 1px 0 color-mix(in srgb, var(--glass-specular) 22%, transparent);
   }
+  /* LIST/GUIDED: chrome strip a touch more see-through so scroll/motion below tints through */
+  .app[data-theme="dark"]:not([data-night="true"]):has(.content--session-list) .hdr-wrap > .hdr,
+  .app[data-theme="dark"]:not([data-night="true"]):has(.content--session-guided) .hdr-wrap > .hdr {
+    background: color-mix(in srgb, var(--tab-bg) 48%, transparent);
+    backdrop-filter: blur(28px) saturate(1.32);
+    -webkit-backdrop-filter: blur(28px) saturate(1.32);
+  }
+  .app[data-theme="light"]:not([data-night="true"]):has(.content--session-list) .hdr-wrap > .hdr,
+  .app[data-theme="light"]:not([data-night="true"]):has(.content--session-guided) .hdr-wrap > .hdr {
+    background: rgba(242, 244, 246, 0.58);
+    backdrop-filter: blur(36px) saturate(1.65);
+    -webkit-backdrop-filter: blur(36px) saturate(1.65);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--glass-specular) 50%, transparent), 0 4px 16px rgba(15, 30, 46, 0.06);
+  }
   .app[data-theme="dark"]:not([data-night="true"]) .tab-subbar {
     background: transparent;
     backdrop-filter: none;
@@ -5152,7 +5166,7 @@ const css = `
     /* Match title font metrics so margin-top em = title line box; centers row to ~first line */
     font-size: calc(var(--text-lg) - 3px);
     line-height: 1.25;
-    margin-top: calc(0.625em - 22px);
+    margin-top: calc(0.625em - 24px);
   }
   .content--session .er-list-desc--rail {
     width: 100%;
@@ -5533,10 +5547,10 @@ const css = `
     gap: 12px !important;
   }
   .content--session-list .session-timer-cta-wrap .timer-val {
-    font-family: var(--font-display) !important;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace !important;
     font-size: clamp(36px, 10vw, 48px) !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.03em !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.04em !important;
     font-variant-numeric: tabular-nums !important;
     line-height: 1 !important;
   }
@@ -6485,9 +6499,16 @@ const css = `
   }
   .content--session-list .ra-btn svg,
   .content--session-guided .ra-btn svg {
-    width:18px;
-    height:18px;
+    width:24px;
+    height:24px;
     display:block;
+  }
+  .content--session-list .ra-btn .ra-btn__dash,
+  .content--session-guided .ra-btn .ra-btn__dash {
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 300;
+    display: block;
   }
   .content--session-list .ra-btn:focus,
   .content--session-list .ra-btn:focus-visible,
@@ -13369,7 +13390,7 @@ const css = `
     right: 14px;
   }
   .home .home-slide-shell .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .track-card-home-body {
-    padding-right: 42px;
+    padding-right: 44px;
   }
   .track-card-home-body {
     padding-right: 14px;
@@ -14351,8 +14372,16 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
     }))));
 }
 
+function axisGuidedExerciseTimerStartSec(seconds, initialRemainingSeconds) {
+  let startSec = seconds;
+  if (typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0 && initialRemainingSeconds <= seconds) {
+    startSec = Math.floor(initialRemainingSeconds);
+  }
+  return startSec;
+}
+
 function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, paused = false, onComplete, hapticMidpoint = false, initialRemainingSeconds, onRemainingSecondsChange }) {
-  const [remainingSeconds, setRemainingSeconds] = useState(seconds);
+  const [remainingSeconds, setRemainingSeconds] = useState(() => axisGuidedExerciseTimerStartSec(seconds, initialRemainingSeconds));
   const fillRef = useRef(null);
   const completedRef = useRef(false);
   const midpointTriggeredRef = useRef(false);
@@ -14370,10 +14399,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
   useEffect(() => {
     completedRef.current = false;
     midpointTriggeredRef.current = false;
-    let startSec = seconds;
-    if (typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0 && initialRemainingSeconds <= seconds) {
-      startSec = Math.floor(initialRemainingSeconds);
-    }
+    let startSec = axisGuidedExerciseTimerStartSec(seconds, initialRemainingSeconds);
     const totalMs = Math.max(0, seconds * 1000);
     const midpointThreshold = Math.ceil(seconds / 2);
     if (hapticMidpoint && typeof initialRemainingSeconds === "number" && initialRemainingSeconds > 0) {
@@ -14501,7 +14527,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   const listMetaSecondary = listRailLayout ? axisExerciseTrackMetaOneWord(ex) : axisExerciseTargetMetaLine(ex, metaZonePlain);
   /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
   const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
-  !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
+  !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
   /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, /*#__PURE__*/React.createElement("span", { className: "ra-btn__dash", "aria-hidden": true }, "\u2014")));
   const unicodeChevronEl = /*#__PURE__*/React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: guidedPreviewLayout ? {} : { marginLeft: 2 } }, "\u25BE");
   const listRailPinskipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row", onClick: (e) => e.stopPropagation() },
@@ -14511,7 +14537,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();},
     "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
     "aria-pressed": faved ? "true" : "false"
-  }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 22, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
+  }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
   /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "er-list-icon-btn er-list-skip-btn" + (skipped ? " er-list-skip-btn--skipped" : ""),
@@ -19576,7 +19602,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
-      React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
       ))));
     });
     const favoritesExPanelEl = pinnedExerciseRows.length === 0 ? favoritesEmptyExEl : pinnedExerciseRows.map(({ ex, trackId, trackLabel }) => {
@@ -19601,7 +19627,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, trackTitle), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": exBookmarked ? "true" : "false", "aria-label": exBookmarked ? "Remove exercise bookmark" : "Bookmark exercise", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFav(ex.id);} }, /*#__PURE__*/
-      React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, exBookmarked ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, exBookmarked ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
       ))));
     });
     const favoritesCardsEl = favoritesSegment === "tracks" ? favoritesTracksPanelEl : favoritesExPanelEl;
@@ -20006,7 +20032,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
-      React.createElement("svg", { width: "22", height: "22", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
       ))));
     };
 
