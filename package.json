@@ -3,6 +3,7 @@
   "private": true,
   "description": "AXIS web shell (public_web). npm run preview serves public_web on :4173 by default (same as preview:static). Use npm run preview:axis-dist when you need parent axis-app dist/ built and served.",
   "scripts": {
+    "prebuild": "node scripts/bump-cache.cjs",
     "build": "node scripts/verify-inline-syntax.cjs",
     "cap:sync": "node scripts/cap-sync-delegate.cjs",
     "preview": "node scripts/preview.cjs",

@@ -7511,6 +7511,167 @@
           ]
         }
       ]
+    },
+    "hourly-practice": {
+      "id": "hourly-practice",
+      "label": "The Hourly Practice",
+      "subtitle": "MOVE · RESET · REPEAT",
+      "purpose": "Five standing moves you can do anywhere, anytime. No mat, no warmup, no excuse. Built for the gaps in your day.",
+      "duration": "5 MIN",
+      "sections": [
+        {
+          "label": "The Hourly Practice",
+          "tag": "HP",
+          "purpose": "Five standing moves you can do anywhere, anytime. No mat, no warmup, no excuse. Built for the gaps in your day.",
+          "exercises": [
+            {
+              "id": 9601,
+              "name": "Sit to Stands",
+              "start": "Stand in front of a sturdy chair, feet about hip-width.",
+              "sub": "Wakes up the legs and hips after extended sitting. Builds the foundational strength you use every time you get up.",
+              "type": "flow",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Lower with control",
+                  "focus": "SETUP",
+                  "cue": "Hinge hips back; lightly touch the chair or squat to a depth you own without it."
+                },
+                {
+                  "pos": "B",
+                  "label": "Drive up tall",
+                  "focus": "QUADS",
+                  "cue": "Press through mid-foot; stand tall without snapping the knees straight."
+                },
+                {
+                  "cue": "Keep ribs stacked over pelvis; stop if knees or hips complain."
+                }
+              ],
+              "position": "Stand in front of a sturdy chair, feet about hip-width.",
+              "next": "Hinge back and lower until you barely touch the seat, then stand.",
+              "then": "Move slowly for balance; breathe steadily through each rep.",
+              "tip": "Use the chair for balance only; work at a depth you can control."
+            },
+            {
+              "id": 9602,
+              "name": "Overhead Reaches",
+              "start": "Stand tall, feet hip-width, ribs relaxed.",
+              "sub": "Opens the chest and decompresses the spine. Counters the forward collapse that builds up over hours at a desk.",
+              "type": "flow",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Arms wide",
+                  "focus": "SETUP",
+                  "cue": "Reach arms to a Y or W shape without shrugging; shoulder blades glide down."
+                },
+                {
+                  "pos": "B",
+                  "label": "Tall reach",
+                  "focus": "SHOULDERS",
+                  "cue": "Float hands overhead if range allows; lengthen the spine as you breathe in."
+                },
+                {
+                  "cue": "Keep jaw soft; do not flare the lower ribs forward."
+                }
+              ],
+              "position": "Stand tall, feet hip-width, ribs relaxed.",
+              "next": "Sweep arms out and up in a smooth arc.",
+              "then": "Lower with control; repeat at a steady rhythm.",
+              "tip": "Smaller range is fine — prioritize length through the spine, not height."
+            },
+            {
+              "id": 9603,
+              "name": "Step Outs",
+              "start": "Stand tall with feet together, core lightly engaged.",
+              "sub": "Activates the glutes and outer hips. Restores lateral movement your body loses when you're parked in a chair all day.",
+              "type": "flow",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Step wide",
+                  "focus": "HIPS",
+                  "cue": "Step one foot sideways into a small lateral stance; keep knees tracking over toes."
+                },
+                {
+                  "pos": "B",
+                  "label": "Return center",
+                  "focus": "GLUTES",
+                  "cue": "Press the floor away to bring feet together; switch lead foot each rep if it feels natural."
+                },
+                {
+                  "cue": "Stay tall through the crown; avoid leaning the torso sideways."
+                }
+              ],
+              "position": "Stand tall with feet together, core lightly engaged.",
+              "next": "Take a controlled side step, pause, then return to center.",
+              "then": "Alternate sides or repeat on one side — keep tempo smooth.",
+              "tip": "Keep steps modest so balance stays easy."
+            },
+            {
+              "id": 9604,
+              "name": "Standing Twists",
+              "start": "Stand with feet hip-width, arms relaxed or hands at chest height.",
+              "sub": "Mobilizes the thoracic spine and releases tension through the mid-back. Keeps rotation available when you need it.",
+              "type": "flow",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Anchor hips",
+                  "focus": "SETUP",
+                  "cue": "Let hips face forward; soften knees slightly."
+                },
+                {
+                  "pos": "B",
+                  "label": "Rotate upper body",
+                  "focus": "THORACIC",
+                  "cue": "Turn ribcage left and right like a lighthouse beam — small to medium range."
+                },
+                {
+                  "cue": "Let head follow the ribcage naturally; do not crank the neck."
+                }
+              ],
+              "position": "Stand with feet hip-width, arms relaxed or hands at chest height.",
+              "next": "Rotate the ribcage side to side while hips stay quiet.",
+              "then": "Keep breath even; smooth out any jerky motion.",
+              "tip": "If balance wobbles, narrow your stance slightly."
+            },
+            {
+              "id": 9605,
+              "name": "Chest & Neck Release",
+              "start": "Stand or sit tall; shoulders dropped away from ears.",
+              "sub": "Softens the upper traps and chest. The move your shoulders have been waiting for since your last break.",
+              "type": "flow",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Open chest",
+                  "focus": "CHEST",
+                  "cue": "Interlace fingers behind back or reach arms wide; gently lift the sternum."
+                },
+                {
+                  "pos": "B",
+                  "label": "Chin glide",
+                  "focus": "NECK",
+                  "cue": "Draw chin straight back for a light double-chin; hold a breath or two, then release."
+                },
+                {
+                  "cue": "No forcing the neck; keep jaw unclenched."
+                }
+              ],
+              "position": "Stand or sit tall; shoulders dropped away from ears.",
+              "next": "Ease the chest open while shoulder blades slide down the back.",
+              "then": "Add slow chin retractions between openers.",
+              "tip": "Tiny ranges feel best after long screen time."
+            }
+          ]
+        }
+      ]
     }
   }
 }
