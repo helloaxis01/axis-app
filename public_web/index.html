@@ -13037,7 +13037,7 @@ const css = `
     opacity: 0.88;
   }
   .track-card-name { letter-spacing: -0.02em; }
-  .track-card-sub { letter-spacing: 0.08em; }
+  .track-card-sub { letter-spacing: 0.05em; }
   [data-theme="light"] .home-category-tab:not([aria-selected="true"]) {
     color:color-mix(in srgb, var(--mood-color) 50%, #ffffff);
     -webkit-text-fill-color:color-mix(in srgb, var(--mood-color) 50%, #ffffff);
@@ -13313,7 +13313,7 @@ const css = `
   .track-card:active { transform:scale(0.98); }
   .track-card-left { flex:1; min-width:0; width:100%; }
   .track-card-name { font-size: var(--text-lg); font-weight:700; color:var(--text-white); margin-bottom:6px; letter-spacing:-0.02em; }
-  .track-card-sub { font-size: var(--text-sm); color:var(--accent-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; line-height:1.4; }
+  .track-card-sub { font-size: var(--text-sm); color:var(--accent-secondary); letter-spacing:0.045em; text-transform:uppercase; margin-bottom:6px; line-height:1.4; }
   .track-card-sub .glass-label {
     background: none;
     border: none;
@@ -13325,7 +13325,7 @@ const css = `
     color: var(--mood-accent);
     font-family: var(--font-data);
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.055em;
     text-transform: uppercase;
     white-space: normal;
     display: block;
@@ -14112,6 +14112,12 @@ function axisExerciseTrackMetaOneWord(ex) {
     if (set.has(p)) return axisFocusKeyToTrackOneWord(p);
   }
   return axisFocusKeyToTrackOneWord(orderedKeys[0]);
+}
+
+/** Track card subtitle: tighter rhythm around middots (axis_data uses " · "). */
+function axisTrackCardSubtitleDisplay(s) {
+  if (s == null || s === "") return s;
+  return String(s).replace(/\s*·\s*/g, "\u2009·\u2009");
 }
 
 function axisNormalizeTracks(rawTracks) {
@@ -19565,7 +19571,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(t.subtitle))), /*#__PURE__*/
       React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
@@ -19590,7 +19596,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, ex.name), /*#__PURE__*/
-      tline ? /*#__PURE__*/React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, tline)) : null, /*#__PURE__*/
+      tline ? /*#__PURE__*/React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(tline))) : null, /*#__PURE__*/
       ex.sub ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, ex.sub) : null), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, trackTitle), /*#__PURE__*/
@@ -19995,7 +20001,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, t.subtitle)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(t.subtitle))), /*#__PURE__*/
       React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
