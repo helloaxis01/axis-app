@@ -6130,6 +6130,8 @@ const css = `
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     font: inherit;
     color: inherit;
     background: color-mix(in srgb, var(--glass-bg) 20%, transparent);
@@ -6173,37 +6175,53 @@ const css = `
     min-width: 0;
     width: 100%;
   }
+  /* Match .home-smart-card__eyebrow (“NOW”) for label + duration */
   .home-hourly-practice-cta__kicker {
     flex: 1 1 auto;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-family: var(--font-meta), var(--font-data);
-    font-size: calc(var(--text-xs) + 2px);
+    font-family: "Roboto Mono", ui-monospace, monospace;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     line-height: 1.2;
-    color: var(--mood-color) !important;
-    -webkit-text-fill-color: var(--mood-color) !important;
+    margin: 0;
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
+    opacity: 0.88;
   }
   .home-hourly-practice-cta__head-row .home-hourly-practice-cta__dur {
-    margin-left: 6px;
+    margin: 0 0 0 6px;
     flex-shrink: 0;
     text-align: right;
     white-space: nowrap;
     max-width: none;
-    font-size: calc(var(--text-xs) + 2px);
+    font-family: "Roboto Mono", ui-monospace, monospace;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--mood-color) !important;
-    -webkit-text-fill-color: var(--mood-color) !important;
+    line-height: 1.2;
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
+    opacity: 0.88;
+  }
+  /* Matches NOW suggestion line optically (under large title midday reads smaller than same px in this row) */
+  .home-hourly-practice-cta__tagline {
+    display: block;
   }
   .home-hourly-practice-cta .home-smart-card__desc {
     margin: 6px 0 0;
     max-width: 40em;
+    padding: 0;
+    font-family: var(--font-ui), system-ui, sans-serif;
+    font-size: calc(var(--text-sm) - 1px);
+    font-weight: 400;
+    line-height: 1.42;
+    color: var(--text-secondary);
   }
   .app[data-night="true"] .home-smart-card__desc,
   .app[data-night="true"] .home-smart-card__empty {
@@ -20148,8 +20166,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home-hourly-practice-cta__body" }, /*#__PURE__*/
       React.createElement("div", { className: "home-hourly-practice-cta__head-row" }, /*#__PURE__*/
       React.createElement("span", { className: "home-hourly-practice-cta__kicker" }, "HOURLY PRACTICE"), /*#__PURE__*/
-      React.createElement("span", { className: "home-hourly-practice-cta__dur axis-duration-label" }, getTrackDisplayDuration(HOURLY_PRACTICE_TRACK_ID))), /*#__PURE__*/
-      React.createElement("p", { className: "home-hourly-practice-cta__tagline home-smart-card__desc" }, "One tap into a guided reset.")))
+      React.createElement("span", { className: "home-hourly-practice-cta__dur" }, getTrackDisplayDuration(HOURLY_PRACTICE_TRACK_ID))), /*#__PURE__*/
+      React.createElement("span", { className: "home-hourly-practice-cta__tagline home-smart-card__desc" }, "One tap into a guided reset.")))
       : null
       ), /*#__PURE__*/
       React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", role: "tablist", "aria-label": "Home content sections", style: HOME_SECTION_SEG_WRAP }, /*#__PURE__*/
