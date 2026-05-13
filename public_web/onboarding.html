@@ -2717,6 +2717,7 @@ function Onboarding({ theme, onComplete }) {
     rest: "radial-gradient(ellipse at 50% 0%, rgba(160, 96, 255, 0.24) 0%, rgba(160, 96, 255, 0.08) 34%, transparent 64%)"
   };
   const APP_ICON_OPTIONS = [
+    { id: "wordmark", label: "Wordmark", src: "./axis-icon.png" },
     { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
     { id: "light", label: "Light", src: "./app-icons/icon-light.png" },
     { id: "dark", label: "Dark", src: "./app-icons/icon-dark.png" },
@@ -2761,7 +2762,16 @@ function Onboarding({ theme, onComplete }) {
   const [obTime, setObTime] = useState(null); // 5 | 10 | 15 | 20 (minutes) for calibration
   const [hasChosenMood, setHasChosenMood] = useState(false); // Grey until user picks a mood on Appearance
   const [selectedMood, setSelectedMood] = useState(null);
-  const [selectedAppIcon, setSelectedAppIcon] = useState(() => storageGet("axis_app_icon", "./app-icons/icon-classic.png"));
+  const [selectedAppIcon, setSelectedAppIcon] = useState(() => {
+    const fallback = "./axis-icon.png";
+    try {
+      const v = storageGet("axis_app_icon", fallback);
+      if (v === "./app-icons/icon-classic.png" || v === "/app-icons/icon-classic.png") return fallback;
+      return v || fallback;
+    } catch (e) {
+      return fallback;
+    }
+  });
   const manifestBlobUrlRef = useRef(null);
   const iconColor = obTheme === "dark" ? "var(--axis-white)" : "var(--axis-black)";
   const periodForTheme = obAutoTime ? getCircadianPeriod() : (obPeriod ?? getCircadianPeriod());
@@ -2817,7 +2827,12 @@ function Onboarding({ theme, onComplete }) {
       link.setAttribute("href", href);
     };
     upsertLink("link[rel='apple-touch-icon']", "apple-touch-icon", iconHref);
-    upsertLink("link[rel='icon']", "icon", iconHref, "image/png");
+    const raw = String(iconHref);
+    const base = raw.split("?")[0].split("#")[0];
+    const favIsAxisPng = /axis-icon\.png$/i.test(base);
+    const favHref = favIsAxisPng ? raw.replace(/axis-icon\.png/i, "axis-icon.svg") : raw;
+    const favType = favIsAxisPng ? "image/svg+xml" : "image/png";
+    upsertLink("link[rel='icon']", "icon", favHref, favType);
 
     const manifestLink = document.querySelector("link[rel='manifest']");
     if (!manifestLink) return;

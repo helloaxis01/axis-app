@@ -18778,6 +18778,7 @@ function axisExportAxisLocalData() {
 
 function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () => {}, onGuidedOpen }) {
   const APP_ICON_OPTIONS = [
+  { id: "wordmark", label: "Wordmark", src: "./axis-icon.png" },
   { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
   { id: "light", label: "Light", src: "./app-icons/icon-light.png" },
   { id: "dark", label: "Dark", src: "./app-icons/icon-dark.png" },
@@ -18859,7 +18860,16 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     }
     return arr;
   });
-  const [selectedAppIcon, setSelectedAppIcon] = useState(() => storageGet("axis_app_icon", "./app-icons/icon-classic.png"));
+  const [selectedAppIcon, setSelectedAppIcon] = useState(() => {
+    const fallback = "./axis-icon.png";
+    try {
+      const v = storageGet("axis_app_icon", fallback);
+      if (v === "./app-icons/icon-classic.png" || v === "/app-icons/icon-classic.png") return fallback;
+      return v || fallback;
+    } catch (e) {
+      return fallback;
+    }
+  });
   const [dailyGoalMinutes, setDailyGoalMinutes] = useState(() => {
     const v = Number(storageGet("axis_daily_goal_minutes", 30));
     return Math.min(90, Math.max(1, Number.isFinite(v) ? v : 30));
@@ -18935,9 +18945,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       link.setAttribute("href", href);
     };
 
-    // Live favicon + iOS home icon updates.
+    // Live favicon + iOS home icon updates (tab favicon uses SVG when the install/touch asset is axis-icon.png).
     upsertLink("link[rel='apple-touch-icon']", "apple-touch-icon", iconHref);
-    upsertLink("link[rel='icon']", "icon", iconHref, "image/png");
+    const raw = String(iconHref);
+    const base = raw.split("?")[0].split("#")[0];
+    const favIsAxisPng = /axis-icon\.png$/i.test(base);
+    const favHref = favIsAxisPng ? raw.replace(/axis-icon\.png/i, "axis-icon.svg") : raw;
+    const favType = favIsAxisPng ? "image/svg+xml" : "image/png";
+    upsertLink("link[rel='icon']", "icon", favHref, favType);
 
     // Best-effort manifest icon remap (PWA install often requires re-adding to homescreen).
     const manifestLink = document.querySelector("link[rel='manifest']");
