@@ -3,13 +3,13 @@
   <!-- Center wordmark full white; top/bottom at 75% white strength -->
   <g
     font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    font-size="17"
+    font-size="22.3125"
     font-weight="300"
     letter-spacing="0.42em"
     text-anchor="middle"
   >
-    <text x="90" y="58" dominant-baseline="middle" fill="rgba(255,255,255,0.75)">AXIS</text>
+    <text x="90" y="48" dominant-baseline="middle" fill="rgba(255,255,255,0.75)">AXIS</text>
     <text x="90" y="90" dominant-baseline="middle" fill="#ffffff">AXIS</text>
-    <text x="90" y="122" dominant-baseline="middle" fill="rgba(255,255,255,0.75)">AXIS</text>
+    <text x="90" y="132" dominant-baseline="middle" fill="rgba(255,255,255,0.75)">AXIS</text>
   </g>
 </svg>

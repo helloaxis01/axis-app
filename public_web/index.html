@@ -18777,16 +18777,12 @@ function axisExportAxisLocalData() {
 }
 
 function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () => {}, onGuidedOpen }) {
+  const AXIS_APP_ICON_BLANK = "data:image/svg+xml," + encodeURIComponent("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"180\" height=\"180\" viewBox=\"0 0 180 180\"><rect width=\"180\" height=\"180\" fill=\"#080d18\"/></svg>");
   const APP_ICON_OPTIONS = [
   { id: "wordmark", label: "Wordmark", src: "./axis-icon.png" },
-  { id: "classic", label: "Classic", src: "./app-icons/icon-classic.png" },
-  { id: "light", label: "Light", src: "./app-icons/icon-light.png" },
-  { id: "dark", label: "Dark", src: "./app-icons/icon-dark.png" },
-  { id: "ultra", label: "Ultra", src: "./app-icons/icon-ultra.png" },
-  { id: "rise", label: "Rise", src: "./app-icons/icon-rise.png" },
-  { id: "midday", label: "Midday", src: "./app-icons/icon-midday.png" },
-  { id: "prime", label: "Prime", src: "./app-icons/icon-prime.png" },
-  { id: "rest", label: "Rest", src: "./app-icons/icon-rest.png" }];
+  { id: "classic", label: "Classic", src: AXIS_APP_ICON_BLANK },
+  { id: "light", label: "Light", src: AXIS_APP_ICON_BLANK },
+  { id: "dark", label: "Dark", src: AXIS_APP_ICON_BLANK }];
 
   const [view, setView] = useState("home");
   /** system tab: Mood is default; Settings opens from bottom control on Mood or full settings panel */
@@ -18862,9 +18858,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   });
   const [selectedAppIcon, setSelectedAppIcon] = useState(() => {
     const fallback = "./axis-icon.png";
+    const removedFive = { "./app-icons/icon-ultra.png": 1, "/app-icons/icon-ultra.png": 1, "./app-icons/icon-rise.png": 1, "/app-icons/icon-rise.png": 1, "./app-icons/icon-midday.png": 1, "/app-icons/icon-midday.png": 1, "./app-icons/icon-prime.png": 1, "/app-icons/icon-prime.png": 1, "./app-icons/icon-rest.png": 1, "/app-icons/icon-rest.png": 1 };
     try {
       const v = storageGet("axis_app_icon", fallback);
-      if (v === "./app-icons/icon-classic.png" || v === "/app-icons/icon-classic.png") return fallback;
+      if (!v) return fallback;
+      if (removedFive[v]) return fallback;
+      if (v === "./app-icons/icon-classic.png" || v === "/app-icons/icon-classic.png") return AXIS_APP_ICON_BLANK;
+      if (v === "./app-icons/icon-light.png" || v === "/app-icons/icon-light.png") return AXIS_APP_ICON_BLANK;
+      if (v === "./app-icons/icon-dark.png" || v === "/app-icons/icon-dark.png") return AXIS_APP_ICON_BLANK;
       return v || fallback;
     } catch (e) {
       return fallback;
@@ -18949,9 +18950,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     upsertLink("link[rel='apple-touch-icon']", "apple-touch-icon", iconHref);
     const raw = String(iconHref);
     const base = raw.split("?")[0].split("#")[0];
-    const favIsAxisPng = /axis-icon\.png$/i.test(base);
-    const favHref = favIsAxisPng ? raw.replace(/axis-icon\.png/i, "axis-icon.svg") : raw;
-    const favType = favIsAxisPng ? "image/svg+xml" : "image/png";
+    let favHref = raw;
+    let favType = "image/png";
+    if (/axis-icon\.png$/i.test(base)) {
+      favHref = raw.replace(/axis-icon\.png/i, "axis-icon.svg");
+      favType = "image/svg+xml";
+    } else if (/^data:image\/svg\+xml/i.test(raw)) {
+      favHref = raw;
+      favType = "image/svg+xml";
+    }
     upsertLink("link[rel='icon']", "icon", favHref, favType);
 
     // Best-effort manifest icon remap (PWA install often requires re-adding to homescreen).
@@ -19363,7 +19370,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           style: { position: "relative", borderRadius: "var(--border-radius-md)", border: nightMode ? "1px solid rgba(255, 59, 48, 0.22)" : "1px solid var(--glass-border)", background: nightMode ? "#000000" : "var(--glass-bg)", padding: 6, cursor: "default", display: "flex", alignItems: "center", justifyContent: "center", overflow: "visible", opacity: 0.42, filter: "grayscale(1)", WebkitFilter: "grayscale(1)", pointerEvents: "none" },
           "aria-label": opt.label + " app icon (coming soon)",
           "aria-disabled": "true"
-        }, /*#__PURE__*/React.createElement("img", { src: opt.src, alt: "", style: { width: "100%", aspectRatio: "1 / 1", borderRadius: 10, display: "block", objectFit: "cover", opacity: 0.95 } }));
+        }, opt.id === "wordmark" ? /*#__PURE__*/React.createElement("img", { src: opt.src, alt: "", style: { width: "100%", aspectRatio: "1 / 1", borderRadius: 10, display: "block", objectFit: "cover", opacity: 0.95 } }) : /*#__PURE__*/React.createElement("div", { "aria-hidden": "true", style: { width: "100%", aspectRatio: "1 / 1", borderRadius: 10, display: "block", background: "#080d18", boxSizing: "border-box" } }));
       })
       ))),
 
