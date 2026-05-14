@@ -1,0 +1,50 @@
+# Deploy only public_web/ to GitHub Pages (static). Avoids the legacy branch
+# builder that fails on messy gh-pages trees (unicode paths, .cursor/, etc.).
+#
+# One-time repo setup (admin):
+#   Settings → Pages → Build and deployment → Source: GitHub Actions
+#   (Turn off “Deploy from a branch” / gh-pages if it was selected.)
+#
+# Optional: stop pushing to gh-pages or delete that branch so old “pages build
+# and deployment” runs on gh-pages no longer clutter Actions.
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "public_web/**"
+      - ".github/workflows/deploy-github-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public_web
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
