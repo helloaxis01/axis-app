@@ -1128,9 +1128,25 @@ function axisMigrateOnboardingLegacy() {
     const key = uid ? "axis_onboarded:" + uid : "axis_onboarded";
     if (localStorage.getItem(key) !== null) return;
     const hist = storageGet("axis_history", []);
-    const done = storageGet("axis_done", {});
+    const legacyDone = storageGet("axis_done", {});
+    let listDoneM = {};
+    let guidedDoneM = {};
+    try {
+      const rawL = localStorage.getItem(AXIS_SESSION_LIST_DONE_KEY);
+      if (rawL !== null) {
+        const p = JSON.parse(rawL);
+        listDoneM = p && typeof p === "object" && !Array.isArray(p) ? p : {};
+      }
+    } catch (e) {}
+    try {
+      const rawG = localStorage.getItem(AXIS_SESSION_GUIDED_DONE_KEY);
+      if (rawG !== null) {
+        const p = JSON.parse(rawG);
+        guidedDoneM = p && typeof p === "object" && !Array.isArray(p) ? p : {};
+      }
+    } catch (e) {}
     const hasHist = Array.isArray(hist) && hist.length > 0;
-    const hasDone = done && typeof done === "object" && Object.keys(done).length > 0;
+    const hasDone = Boolean(legacyDone && typeof legacyDone === "object" && Object.keys(legacyDone).length > 0 || listDoneM && typeof listDoneM === "object" && !Array.isArray(listDoneM) && Object.keys(listDoneM).length > 0 || guidedDoneM && typeof guidedDoneM === "object" && !Array.isArray(guidedDoneM) && Object.keys(guidedDoneM).length > 0);
     if (hasHist || hasDone) {
       localStorage.setItem(key, JSON.stringify(true));
     }
@@ -1170,6 +1186,33 @@ function axisWelcomeDisplayNameFromStorage() {
 
 const AXIS_GUIDED_DETAILED_INSTRUCTIONS_KEY = "axis_guided_detailed_instructions";
 const AXIS_EVER_BOOKMARKED_EXERCISE_KEY = "axis_ever_bookmarked_exercise";
+const AXIS_SESSION_LIST_DONE_KEY = "axis_session_list_done";
+const AXIS_SESSION_GUIDED_DONE_KEY = "axis_session_guided_done";
+
+function axisLoadSessionListDone() {
+  try {
+    const raw = typeof localStorage !== "undefined" ? localStorage.getItem(AXIS_SESSION_LIST_DONE_KEY) : null;
+    if (raw !== null) {
+      const p = JSON.parse(raw);
+      if (p && typeof p === "object" && !Array.isArray(p)) return p;
+      return {};
+    }
+  } catch (e) {}
+  const legacy = storageGet("axis_done", {});
+  return legacy && typeof legacy === "object" && !Array.isArray(legacy) ? { ...legacy } : {};
+}
+
+function axisLoadSessionGuidedDone() {
+  try {
+    const raw = typeof localStorage !== "undefined" ? localStorage.getItem(AXIS_SESSION_GUIDED_DONE_KEY) : null;
+    if (raw !== null) {
+      const p = JSON.parse(raw);
+      if (p && typeof p === "object" && !Array.isArray(p)) return p;
+      return {};
+    }
+  } catch (e) {}
+  return {};
+}
 
 /** Weekly goal minutes: clamped 5–500, snapped to step 5. */
 function axisSnapWeeklyGoalMinutes(m) {
@@ -4433,6 +4476,7 @@ const css = `
     opacity: 1;
     width: 100%;
     box-sizing: border-box;
+    overflow: visible;
   }
   .sg {
     margin-top:24px;
@@ -4447,6 +4491,7 @@ const css = `
   .content--session .sg.sg--session-sheet {
     margin-top: 28px;
     padding: calc(var(--page-gutter) + 4px) var(--page-gutter) 12px;
+    overflow: visible;
   }
   .content--session-list > .session-list-preview > .sg.sg--session-sheet:first-child,
   .content--session-guided .session-guided-preview > .sg.sg--session-sheet:first-child {
@@ -4981,12 +5026,7 @@ const css = `
     box-sizing: border-box;
   }
 
-  /* LIST tab + GUIDED preview — exercise cards (Option A shell) */
-  .content--session-list .sg.sg--session-sheet > .er-card,
-  .content--session-guided .sg.sg--session-sheet > .er-card {
-    border-bottom: none !important;
-    background: transparent;
-  }
+  /* LIST tab + GUIDED preview — exercise cards: full border on all sides comes from :not(.er-card--open) / .er-card--open rules below (no border-bottom strip). */
   .content--session-list .sg.sg--session-sheet > .er-card + .er-card {
     margin-top: 5px;
   }
@@ -5875,7 +5915,7 @@ const css = `
   }
   /* LIST/GUIDED: match expanded panel inset when closed so the header row doesn’t shift on open */
   /* (padding-inline inherited from rule above) */
-  .content--session .sg.sg--session-sheet > .er-card:last-of-type:not(.er-card--open) {
+  .content--session:not(.content--session-list):not(.content--session-guided) .sg.sg--session-sheet > .er-card:last-of-type:not(.er-card--open) {
     border-bottom: none;
   }
   .content--session:not(.content--session-list):not(.content--session-guided):not([data-night="true"]) .er-card:hover:not(.er-card--open) {
@@ -18967,7 +19007,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [resting, setResting] = useState(false);
   const [guidedActive, setGuidedActive] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
-  const [done, setDone] = useState(() => storageGet("axis_done", {}));
+  const [listDone, setListDone] = useState(() => axisLoadSessionListDone());
+  const [guidedDone, setGuidedDone] = useState(() => axisLoadSessionGuidedDone());
   const [skipped, setSkipped] = useState(() => storageGet("axis_skipped", {}));
   const [favs, setFavs] = useState(() => storageGet("axis_favs", {}));
   const [notes, setNotes] = useState(() => storageGet("axis_notes", {}));
@@ -19320,7 +19361,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       setSettingsAccountOpen(true);
     }
   }, [view, systemPanel]);
-  useEffect(() => {storageSet("axis_done", done);}, [done]);
+  useEffect(() => {storageSet(AXIS_SESSION_LIST_DONE_KEY, listDone);}, [listDone]);
+  useEffect(() => {storageSet(AXIS_SESSION_GUIDED_DONE_KEY, guidedDone);}, [guidedDone]);
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
   useEffect(() => {storageSet("axis_notes", notes);}, [notes]);
@@ -19348,18 +19390,20 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const activeAll = ALL.filter((e) => !skipped[e.id]);
   const filteredAll = activeAll;
   const TOTAL = activeAll.length;
-  const totalDone = activeAll.filter((e) => done[e.id]).length;
+  const listTotalDone = activeAll.filter((e) => listDone[e.id]).length;
+  const guidedTotalDone = activeAll.filter((e) => guidedDone[e.id]).length;
+  const totalDone = tab === "guided" ? guidedTotalDone : listTotalDone;
   const perMoveSeconds = exerciseDuration || 45;
   const activeCount = filteredAll.length;
   const sessionSeconds = activeCount * perMoveSeconds;
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
   const sessionDurationLabel = axisFormatDurationMinUpper(sessionMinutes);
-  const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
+  const pct = TOTAL > 0 ? Math.round(listTotalDone / TOTAL * 100) : 0;
   const cur = activeAll[Math.min(fi, activeAll.length - 1)];
   const showSessionBookmarkExerciseHint = !storageGet(AXIS_EVER_BOOKMARKED_EXERCISE_KEY, false) && !Object.values(favs).some((v) => v);
 
-  const toggle = (id) => {
-    setDone((d) => {
+  const applySessionDoneToggle = (setState, id) => {
+    setState((d) => {
       const wasDone = !!d[id];
       const next = { ...d, [id]: !d[id] };
       if (next[id] && !wasDone && !sessionExerciseLoggedRef.current.has(id)) {
@@ -19377,6 +19421,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       return next;
     });
   };
+  const toggleList = (id) => applySessionDoneToggle(setListDone, id);
+  const toggleGuided = (id) => applySessionDoneToggle(setGuidedDone, id);
 
   const toggleSkip = (id) => setSkipped((s) => ({ ...s, [id]: !s[id] }));
   const toggleFav = (id) => setFavs((f) => ({ ...f, [id]: !f[id] }));
@@ -20041,7 +20087,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       }, "Go to Home")
       )
       ),
-      (track === "anxiety" || track === "stress") && totalDone > 0 && /*#__PURE__*/
+      (track === "anxiety" || track === "stress") && (listTotalDone > 0 || guidedTotalDone > 0) && /*#__PURE__*/
       React.createElement("div", { style: { marginTop: 20, padding: "18px", borderRadius: 24, border: "1px solid var(--glass-border)", background: "var(--glass-bg)" } }, /*#__PURE__*/
       React.createElement("div", { style: { fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--mood-color)", marginBottom: 8 } }, "Continue the Reset"), /*#__PURE__*/
       React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", marginBottom: 14, lineHeight: 1.45 } },
@@ -20357,7 +20403,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   React.createElement(GuidedOverlay, {
     theme: theme, activePeriod: activePeriod, activeAll: filteredAll,
     onExit: () => {setGuidedActive(false);setSessionComplete(false);},
-    onToggle: toggle,
+    onToggle: toggleGuided,
     onSkip: toggleSkip,
     formatTime: formatTime,
     trackLabel: TRACKS[track].label,
@@ -20430,17 +20476,23 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     ), /*#__PURE__*/
     (tab === "list" || tab === "guided") ? /*#__PURE__*/React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: () => {
         axisHapticTick();
-        setDone({});setSkipped({});setOpenId(null);setFi(0);setResting(false);
-        storageSet("axis_done", {});storageSet("axis_skipped", {});
+        if (tab === "list") {
+          setListDone({});
+          storageSet(AXIS_SESSION_LIST_DONE_KEY, {});
+        } else {
+          setGuidedDone({});
+          storageSet(AXIS_SESSION_GUIDED_DONE_KEY, {});
+        }
+        setOpenId(null);
       } }, "Reset") : null), /*#__PURE__*/
-    React.createElement("div", {
+    tab === "list" ? /*#__PURE__*/React.createElement("div", {
       className: "prog-bar",
       role: "progressbar",
       "aria-valuemin": 0,
       "aria-valuemax": Math.max(1, TOTAL),
-      "aria-valuenow": Math.min(Math.round(totalDone), Math.max(1, TOTAL)),
+      "aria-valuenow": Math.min(Math.round(listTotalDone), Math.max(1, TOTAL)),
       "aria-label": "Session exercises completed"
-    }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } }))
+    }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })) : null
     )
     )
     )
@@ -20478,12 +20530,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => done[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
+    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => listDone[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
     React.createElement("span", { className: "sh-sec-id" }, sec.exercises.length === 1 ? "1 move" : `${sec.exercises.length} moves`))
     , /*#__PURE__*/
     React.createElement("div", { className: "sh-progress", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => done[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
+    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => listDone[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
     ),
     sec.purpose && /*#__PURE__*/
     React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
@@ -20503,7 +20555,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const nextEx = sec.exercises[idx + 1] || null;
       return (/*#__PURE__*/
         React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: !!done[ex.id], onToggle: () => toggle(ex.id),
+          done: !!listDone[ex.id], onToggle: () => toggleList(ex.id),
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
@@ -20544,12 +20596,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.length} moves` }, /*#__PURE__*/
+    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => guidedDone[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
     React.createElement("span", { className: "sh-sec-id" }, sec.exercises.length === 1 ? "1 move" : `${sec.exercises.length} moves`))
     , /*#__PURE__*/
     React.createElement("div", { className: "sh-progress", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress__fill", style: { width: "0%", transition: "width 0.4s ease" } }))
+    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => guidedDone[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
     ),
     sec.purpose && /*#__PURE__*/
     React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
@@ -20569,7 +20621,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const nextEx = sec.exercises[idx + 1] || null;
       return (/*#__PURE__*/
         React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: !!done[ex.id], onToggle: () => toggle(ex.id),
+          done: !!guidedDone[ex.id], onToggle: () => toggleGuided(ex.id),
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
