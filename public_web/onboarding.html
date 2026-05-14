@@ -1844,6 +1844,15 @@ body { font-family: var(--font-ui), sans-serif !important; }
     /* Supabase → Project Settings → API (override via window.* before this script if needed) */
     window.AXIS_SUPABASE_URL = window.AXIS_SUPABASE_URL || 'https://gndgtmwuxsotqgdwbata.supabase.co';
     window.AXIS_SUPABASE_ANON_KEY = window.AXIS_SUPABASE_ANON_KEY || 'sb_publishable_0oSSNdUlLJdZfdwga7zJeg_2rGnpBR7';
+    (function () {
+      try {
+        var base = String(window.AXIS_SUPABASE_URL).replace(/\/$/, '');
+        var key = window.AXIS_SUPABASE_ANON_KEY;
+        if (!key) return;
+        var u = base + '/rest/v1/user_favorites?select=track_id&limit=1';
+        fetch(u, { method: 'GET', headers: { apikey: key, Authorization: 'Bearer ' + key, Accept: 'application/json' }, cache: 'no-store' }).catch(function () {});
+      } catch (e) {}
+    })();
     function showLoadErr(msg) {
       var el = document.getElementById('load-err');
       if (el) { el.style.display = 'block'; el.textContent = msg; }

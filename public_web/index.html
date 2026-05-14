@@ -118,6 +118,20 @@
     } catch (e) {}
   })();
   </script>
+  <script>
+  (function () {
+    /* Same defaults as onboarding.html — override via window.* before this block if needed. */
+    try {
+      window.AXIS_SUPABASE_URL = window.AXIS_SUPABASE_URL || "https://gndgtmwuxsotqgdwbata.supabase.co";
+      window.AXIS_SUPABASE_ANON_KEY = window.AXIS_SUPABASE_ANON_KEY || "sb_publishable_0oSSNdUlLJdZfdwga7zJeg_2rGnpBR7";
+      var base = String(window.AXIS_SUPABASE_URL).replace(/\/$/, "");
+      var key = window.AXIS_SUPABASE_ANON_KEY;
+      if (!key) return;
+      var u = base + "/rest/v1/user_favorites?select=track_id&limit=1";
+      fetch(u, { method: "GET", headers: { apikey: key, Authorization: "Bearer " + key, Accept: "application/json" }, cache: "no-store" }).catch(function () {});
+    } catch (e) {}
+  })();
+  </script>
   <script src="./vendor/babel.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load Babel. Check your connection and try again.')"></script>
   <script type="text/babel" src="./app.js?cb=mp4j80tp"></script>
 </body>

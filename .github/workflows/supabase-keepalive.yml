@@ -1,0 +1,36 @@
+# Hits Supabase REST on a schedule so the free-tier project is not flagged as inactive.
+# Optional: set repository secrets SUPABASE_URL and SUPABASE_ANON_KEY to override defaults
+# (same values as public_web/onboarding.html — rotate keys in both places when you rotate in Supabase).
+name: Supabase keep-alive
+
+on:
+  schedule:
+    # Daily ~15:00 UTC — well under Supabase’s typical 7-day inactivity window
+    - cron: "15 15 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: REST ping (user_favorites, limit 1)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          BASE="${SUPABASE_URL:-https://gndgtmwuxsotqgdwbata.supabase.co}"
+          KEY="${SUPABASE_ANON_KEY:-sb_publishable_0oSSNdUlLJdZfdwga7zJeg_2rGnpBR7}"
+          BASE="${BASE%/}"
+          url="${BASE}/rest/v1/user_favorites?select=track_id&limit=1"
+          code="$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "apikey: ${KEY}" \
+            -H "Authorization: Bearer ${KEY}" \
+            -H "Accept: application/json" \
+            "${url}")"
+          echo "HTTP ${code}"
+          case "${code}" in 200|206) exit 0 ;; *)
+            echo "::error::Supabase ping failed (expected 200). Check URL, anon key, and RLS on user_favorites."
+            exit 1
+            ;;
+          esac
