@@ -336,7 +336,10 @@ function resolveExerciseAnimationKey(trackId, exerciseId, exerciseName) {
   void trackId;
   void exerciseId;
   const compact = String(exerciseName || "").toLowerCase().replace(/[^a-z]/g, "");
-  if (compact.includes("catcow") && (EXERCISE_ASSET_VIDEOS.CatCow || EXERCISE_ASSET_SVGS.CatCow || EXERCISE_ANIMATION_SVGS.CatCow)) return "CatCow";
+  if (compact.includes("catcow")) {
+    if (compact.includes("seated")) return null;
+    if (EXERCISE_ASSET_VIDEOS.CatCow || EXERCISE_ASSET_SVGS.CatCow || EXERCISE_ANIMATION_SVGS.CatCow) return "CatCow";
+  }
   if (compact.includes("sphinx") && EXERCISE_ASSET_VIDEOS.SphinxPose) return "SphinxPose";
   return null;
 }
@@ -372,6 +375,10 @@ const EXERCISE_ASSET_VIDEOS = {
 const AXIS_BODY_CLASS_MEDIA_EXPAND_ACTIVE = "axis-media-expand-active";
 function exerciseAssetIsVideo(src) {
   return /\.(mp4|mov|webm|m4v)(\?|#|$)/i.test(String(src || ""));
+}
+/** Only Cat-Cow (tabletop) and Sphinx Pose ship working MP4s; all other exercises use the grey “VIDEO COMING SOON” placeholder. */
+function exerciseHasShippedBundledMp4(animationKey) {
+  return animationKey === "CatCow" || animationKey === "SphinxPose";
 }
 /** True when carousel should offer fullscreen for Baseline demo URL (video or animated/static raster). */
 function exerciseCarouselExpandableDemoSrc(src) {
@@ -525,9 +532,11 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   const fallbackDemo = typeof fallbackDemoVideo === "string" ? fallbackDemoVideo.trim() : "";
   const animationAssetSrc = animationKey ? EXERCISE_ASSET_VIDEOS[animationKey] : "";
   let videoSrc = "";
-  if (exerciseAssetIsVideo(animationAssetSrc)) videoSrc = animationAssetSrc;
-  else if (exerciseAssetIsVideo(loopS)) videoSrc = loopS;
-  else if (exerciseAssetIsVideo(fallbackDemo)) videoSrc = fallbackDemo;
+  if (exerciseHasShippedBundledMp4(animationKey)) {
+    if (exerciseAssetIsVideo(animationAssetSrc)) videoSrc = animationAssetSrc;
+    else if (exerciseAssetIsVideo(loopS)) videoSrc = loopS;
+    else if (exerciseAssetIsVideo(fallbackDemo)) videoSrc = fallbackDemo;
+  }
   const hasVideoSrc = exerciseAssetIsVideo(videoSrc);
   const loopPoster = typeof loopVideoPoster === "string" ? loopVideoPoster.trim() : "";
   const showBaselineExpand = !!sessionExerciseCardExpanded && allowBaselineMediaExpand && exerciseCarouselExpandableDemoSrc(videoSrc);
@@ -771,7 +780,8 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
 /** mode: dark | light | ultra — fill via #F6F7F8 / #252525 / #FF3B30 (ultra). variant: default | timer | preview */
 function ExerciseAnimation({ animationKey, mode = "dark", variant = "default", className = "" }) {
   const frames = animationKey ? EXERCISE_ASSET_SVGS[animationKey] || EXERCISE_ANIMATION_SVGS[animationKey] : null;
-  const videoSrc = animationKey ? EXERCISE_ASSET_VIDEOS[animationKey] : "";
+  const rawVideo = animationKey && exerciseHasShippedBundledMp4(animationKey) ? EXERCISE_ASSET_VIDEOS[animationKey] : "";
+  const videoSrc = typeof rawVideo === "string" ? rawVideo : "";
   const hasVideoSrc = exerciseAssetIsVideo(videoSrc);
   const animKeyRef = useRef(animationKey);
   const loopTimerRef = useRef(null);
@@ -907,6 +917,20 @@ function axisExerciseNameForHistoryEntry(entry) {
     if (found && found.name) return String(found.name);
   }
   return "";
+}
+
+/** LIST tab exercise title: trailing "Name (Qualifier)" → "Name — Qualifier" (ids unchanged). Normalizes Forwards/Backwards → Forward/Backward. */
+function axisExerciseListParenDirectionDisplayName(raw) {
+  const s = String(raw || "").trim();
+  const m = /^(.+?)\s*\(([^()]+)\)\s*$/.exec(s);
+  if (!m) return s;
+  const base = m[1].trim();
+  let dir = m[2].trim();
+  if (!base || !dir) return s;
+  const low = dir.toLowerCase();
+  if (low === "forwards") dir = "Forward";
+  else if (low === "backwards") dir = "Backward";
+  return `${base} — ${dir}`;
 }
 
 /** TODAY browse: 7 categories × 24 tracks — single source for filter + tagging */
@@ -1145,6 +1169,7 @@ function axisWelcomeDisplayNameFromStorage() {
 }
 
 const AXIS_GUIDED_DETAILED_INSTRUCTIONS_KEY = "axis_guided_detailed_instructions";
+const AXIS_EVER_BOOKMARKED_EXERCISE_KEY = "axis_ever_bookmarked_exercise";
 
 /** Weekly goal minutes: clamped 5–500, snapped to step 5. */
 function axisSnapWeeklyGoalMinutes(m) {
@@ -2298,7 +2323,8 @@ const css = `
   [data-night="true"] .prog-fill { background: #FF3B30 !important; box-shadow: none !important; }
   [data-night="true"] .prog-bar { height: 4px !important; background: #000000 !important; border: none !important; border-radius: 4px !important; }
   /* Session utility pills — Ultra: red label, hairline border */
-  [data-night="true"] .fav-filter.fav-filter--session-util .fav-toggle {
+  [data-night="true"] .fav-filter.fav-filter--session-util .fav-toggle,
+  [data-night="true"] .tab-subbar .tab-prog-row__top .fav-toggle {
     background: transparent !important;
     border: 1px solid color-mix(in srgb, #FF3B30 15%, transparent) !important;
     color: #FF3B30 !important;
@@ -2318,7 +2344,8 @@ const css = `
     align-items: center !important;
     justify-content: center !important;
   }
-  [data-night="true"] .fav-filter.fav-filter--session-util .fav-toggle.on {
+  [data-night="true"] .fav-filter.fav-filter--session-util .fav-toggle.on,
+  [data-night="true"] .tab-subbar .tab-prog-row__top .fav-toggle.on {
     background: rgba(211, 47, 47, 0.12) !important;
     border: 1px solid color-mix(in srgb, #FF3B30 28%, transparent) !important;
     color: #FF3B30 !important;
@@ -3817,7 +3844,7 @@ const css = `
   }
   .back-btn:active { transform: scale(0.97); opacity: 0.9; }
   .hdr-title { font-size: var(--text-xl); font-weight: 700; font-family: var(--font-display); letter-spacing:-0.02em; line-height:1.2; color:var(--text-white); }
-  .hdr-session-head .hdr-title { font-size: calc(var(--text-xl) - 3px); }
+  .hdr-session-head .hdr-title { font-size: calc(var(--text-xl) - 7px); }
   .hdr-meta { display:flex; gap:8px; margin-top:0; align-items:center; flex-wrap:wrap; }
   .hdr-subtitle { font-size: var(--text-sm); font-family: var(--font-ui); color:var(--text-secondary); font-style:italic; font-weight:400; line-height:1.4; }
   .hdr-dur {
@@ -3990,7 +4017,17 @@ const css = `
     opacity: 0.4;
   }
   .app[data-theme="light"]:not([data-night="true"]) .tab-desc-line--dual .tab-desc-col--inactive {
-    opacity: 0.5;
+    opacity: 0.4;
+  }
+  .hdr-wrap .tab-desc-line--dual .tab-desc-col--active {
+    color: var(--text-primary);
+    -webkit-text-fill-color: var(--text-primary);
+    opacity: 1;
+  }
+  .app[data-night="true"] .hdr-wrap .tab-desc-line--dual .tab-desc-col--active {
+    color: rgba(211, 47, 47, 1) !important;
+    -webkit-text-fill-color: rgba(211, 47, 47, 1) !important;
+    opacity: 1 !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .hdr-wrap .tab-desc-line--under-tabs {
     color: #252525;
@@ -4006,18 +4043,32 @@ const css = `
     -webkit-text-fill-color: rgba(211, 47, 47, 0.82) !important;
   }
   .tab-prog-row {
-    display:flex; align-items:center; justify-content:flex-start;
-    gap: 12px;
-    margin-bottom:6px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 6px;
     font-family: var(--font-display);
     font-weight: 500;
     min-width: 0;
   }
-  .tab-subbar .tab-prog-row > .prog-bar {
-    flex: 1 1 0%;
-    min-width: 56px;
+  .tab-prog-row__top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    gap: 10px;
+    box-sizing: border-box;
+  }
+  .tab-subbar .tab-prog-row .prog-bar {
+    width: 100%;
+    flex: 0 0 auto;
+    min-width: 0;
     margin: 0;
-    align-self: center;
+    align-self: stretch;
   }
   .tab-prog-row__line {
     flex: 0 0 auto;
@@ -4029,6 +4080,19 @@ const css = `
   .tab-prog-row__done {
     font-weight: 600;
     color: var(--mood-color);
+  }
+  .tab-prog-row__done--zero {
+    font-weight: 500;
+    color: var(--text-dimmer);
+    -webkit-text-fill-color: var(--text-dimmer);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__done--zero {
+    color: rgba(15, 30, 46, 0.74);
+    -webkit-text-fill-color: rgba(15, 30, 46, 0.74);
+  }
+  .app[data-night="true"] .tab-subbar .tab-prog-row__done--zero {
+    color: rgba(255, 59, 48, 0.72) !important;
+    -webkit-text-fill-color: rgba(255, 59, 48, 0.72) !important;
   }
   .tab-prog-row__suffix {
     color: var(--text-dimmer);
@@ -4923,7 +4987,9 @@ const css = `
     border-bottom: none !important;
     background: transparent;
   }
-  .content--session-list .sg.sg--session-sheet > .er-card + .er-card,
+  .content--session-list .sg.sg--session-sheet > .er-card + .er-card {
+    margin-top: 5px;
+  }
   .content--session-guided .sg.sg--session-sheet > .er-card + .er-card {
     margin-top: 8px;
   }
@@ -5231,16 +5297,18 @@ const css = `
     -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
-    background: rgba(15, 30, 46, 0.1);
-    border-color: rgba(15, 30, 46, 0.16);
+    background: #ffffff;
+    border-color: var(--border-card);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.04) 6%) !important;
     border-color: var(--color-border-primary) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
-    background: rgba(15, 30, 46, 0.13) !important;
-    border-color: rgba(15, 30, 46, 0.22) !important;
+    background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.04) 6%) !important;
+    border-color: var(--color-border-primary) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
@@ -5266,8 +5334,10 @@ const css = `
     -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
-    background: rgba(15, 30, 46, 0.072);
-    border-color: rgba(15, 30, 46, 0.14);
+    background: color-mix(in srgb, #ffffff 90%, rgba(15, 30, 46, 0.06) 10%);
+    border-color: var(--border-card);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-dur {
     color: color-mix(in srgb, rgba(15, 30, 46, 0.42) 75%, #ffffff 25%);
@@ -5300,8 +5370,10 @@ const css = `
     -webkit-backdrop-filter: none !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open {
-    background: rgba(15, 30, 46, 0.11) !important;
-    border-color: rgba(15, 30, 46, 0.24) !important;
+    background: #ffffff !important;
+    border-color: var(--color-border-primary) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open.er-card--complete {
     background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.05) 6%) !important;
@@ -5310,8 +5382,10 @@ const css = `
     -webkit-backdrop-filter: none !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open.er-card--complete {
-    background: rgba(15, 30, 46, 0.085) !important;
-    border-color: rgba(15, 30, 46, 0.2) !important;
+    background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.05) 6%) !important;
+    border-color: var(--border-card) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open),
   .app[data-night="true"] .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
@@ -5370,14 +5444,16 @@ const css = `
     padding: 0 !important;
     backdrop-filter: blur(18px) saturate(1.4);
     -webkit-backdrop-filter: blur(18px) saturate(1.4);
-    /* Do not use margin:0 — it overrides .sg...> .er-card + .er-card { margin-top:8px } and the open card touches the one above. */
+    /* Do not use margin:0 — it overrides .sg...> .er-card + .er-card { margin-top } and the open card touches the one above. */
     margin-left: 0 !important;
     margin-right: 0 !important;
     margin-bottom: 0 !important;
     box-shadow: none !important;
   }
-  /* Same vertical rhythm as collapsed rows: 8px after every card including when expanded (margin-top survives overflow/BFC). */
-  .content--session-list .sg.sg--session-sheet > .er-card + .er-card.er-card--open,
+  /* Same vertical rhythm as collapsed rows: margin-top after every card including when expanded (survives overflow/BFC). */
+  .content--session-list .sg.sg--session-sheet > .er-card + .er-card.er-card--open {
+    margin-top: 5px !important;
+  }
   .content--session-guided .sg.sg--session-sheet > .er-card + .er-card.er-card--open {
     margin-top: 8px !important;
   }
@@ -5964,6 +6040,9 @@ const css = `
     border: 1px solid var(--accent-dim);
     box-shadow: 0 12px 30px rgba(0,0,0,0.2), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 62%, transparent);
   }
+  .app[data-theme="dark"]:not([data-night="true"]) .home .home-smart-card--unified.track-card--home-browse {
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 62%, transparent), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
   .home-smart-card__hit {
     display: block;
     width: 100%;
@@ -5981,13 +6060,19 @@ const css = `
     padding: 10px max(var(--page-gutter), env(safe-area-inset-left, 0px)) 10px max(var(--page-gutter), env(safe-area-inset-right, 0px));
   }
   .home-smart-card__hit--now {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 19px;
+    padding-bottom: 19px;
+    padding-left: calc(max(var(--page-gutter), env(safe-area-inset-left, 0px)) + 4px);
+    padding-right: calc(max(var(--page-gutter), env(safe-area-inset-right, 0px)) + 4px);
     background:
       linear-gradient(180deg,
       color-mix(in srgb, var(--mood-color) 24%, transparent) 0%,
       color-mix(in srgb, var(--mood-color) 16%, transparent) 56%,
       transparent 100%);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--glass-border) 62%, transparent);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-smart-card__hit--now {
+    background: color-mix(in srgb, var(--mood-color) 25%, #ffffff);
     box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--glass-border) 62%, transparent);
   }
   .home-smart-card__hit--last {
@@ -6010,9 +6095,18 @@ const css = `
     top: 10px;
     right: 14px;
   }
+  .home-smart-card__hit--now .track-card-home-chevron {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.125rem;
+    opacity: 0.75;
+  }
   .home-smart-card__body {
     padding-right: 14px;
     min-width: 0;
+  }
+  .home-smart-card__hit--now .home-smart-card__body {
+    padding-right: 18px;
   }
   .home-smart-card__eyebrow {
     font-family: "Roboto Mono", ui-monospace, monospace;
@@ -6027,7 +6121,7 @@ const css = `
   }
   .home-smart-card__title-now {
     font-family: var(--font-display);
-    font-size: clamp(1.05rem, 3.8vw, 1.22rem);
+    font-size: calc(clamp(1.05rem, 3.8vw, 1.22rem) + 2px);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.12;
@@ -6045,8 +6139,16 @@ const css = `
     margin: 0 0 6px;
     max-width: 40em;
   }
+  .home-smart-card__hit--now .home-smart-card__desc {
+    line-height: calc(1.42em + 2px);
+  }
   .home-smart-card__row-duration {
     margin: 0;
+  }
+  .home-smart-card__hit--now .home-smart-card__row-duration.axis-duration-label {
+    font-weight: 600 !important;
+    color: var(--mood-accent) !important;
+    -webkit-text-fill-color: var(--mood-accent) !important;
   }
   .home-smart-card__rule {
     display: block;
@@ -6123,9 +6225,16 @@ const css = `
     box-sizing: border-box;
     position: relative;
     margin: var(--home-section-gap) 0 var(--home-block-gap);
-    padding: 10px max(var(--page-gutter), env(safe-area-inset-left, 0px)) 11px max(var(--page-gutter), env(safe-area-inset-right, 0px));
-    border: 1px solid color-mix(in srgb, var(--mood-color) 44%, transparent);
-    border-radius: 20px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: calc(max(var(--page-gutter), env(safe-area-inset-left, 0px)) + 2px);
+    padding-right: calc(max(var(--page-gutter), env(safe-area-inset-right, 0px)) + 2px);
+    -webkit-appearance: none;
+    appearance: none;
+    border-style: solid;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--mood-color) 44%, transparent);
+    border-radius: 12px;
     text-align: left;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -6160,6 +6269,7 @@ const css = `
     top: 50%;
     transform: translateY(-50%);
     right: 14px;
+    font-size: 1.125rem;
     opacity: 0.75;
   }
   .home-hourly-practice-cta__body {
@@ -10592,43 +10702,13 @@ const css = `
   /* Ensure the first section after pills has no extra top margin to keep vertical spacing even */
   .fav-filter + .sg { margin-top: 0 !important; }
 
-  /* Sessions: same horizontal inset as .tab-subbar (--page-gutter) — matches full-width .fv-cta / list CTA edges */
-  .fav-filter.fav-filter--session-util {
-    display: flex !important;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0 0 10px;
-    padding: 0;
-    gap: 0;
-    min-height: 32px;
-    visibility: visible;
-    opacity: 1;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: none;
-  }
-  /* (.fav-filter--session-util lives in .hdr, not .content — spacing from reset row handled via .content padding-top + first .sg margin) */
-  .fav-filter.fav-filter--session-util .fav-filter__cluster--left {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 8px;
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-  /* Session bookmark hint: Roboto Mono, body copy; plain text — left-aligned in cluster, vertically centered with Reset via .fav-filter flex */
-  .fav-filter.fav-filter--session-util .fav-filter__session-hint {
+  /* Sessions: bookmark hint above progress row (same inset as .tab-subbar / --page-gutter) */
+  .tab-subbar .tab-prog-row__bookmark-hint {
     display: block;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    width: 100%;
     font-family: "Roboto Mono", var(--font-meta), ui-monospace, monospace !important;
     font-size: 10px !important;
     font-weight: 400 !important;
@@ -10637,28 +10717,19 @@ const css = `
     text-align: left !important;
     line-height: 1.38 !important;
     color: var(--text-dimmer) !important;
-    flex: 1 1 auto;
-    min-width: 0;
-    max-width: calc(100% - 62px);
-    align-self: center;
     -webkit-text-fill-color: var(--text-dimmer) !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-filter__session-hint {
+  .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__bookmark-hint {
     color: rgba(15, 30, 46, 0.62) !important;
     -webkit-text-fill-color: rgba(15, 30, 46, 0.62) !important;
   }
-  .app[data-night="true"] .fav-filter.fav-filter--session-util .fav-filter__session-hint {
+  .app[data-night="true"] .tab-subbar .tab-prog-row__bookmark-hint {
     color: rgba(255, 59, 48, 0.72) !important;
     -webkit-text-fill-color: rgba(255, 59, 48, 0.72) !important;
   }
-  .fav-filter.fav-filter--session-util .fav-toggle__icon {
-    width: 12px;
-    height: 12px;
-    flex-shrink: 0;
-    display: block;
-  }
   /* Same size/color as header tab subtitle (“Step-by-step walkthrough.”): var(--text-xs) + var(--text-dimmer) */
-  .fav-filter.fav-filter--session-util .fav-toggle {
+  .fav-filter.fav-filter--session-util .fav-toggle,
+  .tab-subbar .tab-prog-row__top .fav-toggle {
     flex: 0 0 auto;
     min-height: 28px;
     height: 28px;
@@ -10680,52 +10751,61 @@ const css = `
     align-items: center !important;
     justify-content: center !important;
   }
-  .fav-filter.fav-filter--session-util .fav-toggle:hover {
+  .fav-filter.fav-filter--session-util .fav-toggle:hover,
+  .tab-subbar .tab-prog-row__top .fav-toggle:hover {
     border-color: color-mix(in srgb, var(--text-primary) 28%, transparent) !important;
     color: var(--text-secondary) !important;
     background: transparent !important;
     box-shadow: none !important;
   }
-  .fav-filter.fav-filter--session-util .fav-toggle.on {
+  .fav-filter.fav-filter--session-util .fav-toggle.on,
+  .tab-subbar .tab-prog-row__top .fav-toggle.on {
     border-color: color-mix(in srgb, var(--text-primary) 35%, transparent) !important;
     background: transparent !important;
     color: var(--text-secondary) !important;
     box-shadow: none !important;
   }
-  .fav-filter.fav-filter--session-util .fav-toggle.reset-pill {
+  .fav-filter.fav-filter--session-util .fav-toggle.reset-pill,
+  .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill {
     color: var(--text-dimmer) !important;
     flex-shrink: 0;
   }
-  .fav-filter.fav-filter--session-util .fav-toggle.reset-pill:hover {
+  .fav-filter.fav-filter--session-util .fav-toggle.reset-pill:hover,
+  .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill:hover {
     border-color: color-mix(in srgb, var(--text-primary) 28%, transparent) !important;
     color: var(--text-secondary) !important;
     background: transparent !important;
     box-shadow: none !important;
   }
   /* Session util row (Reset pill) — light */
-  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle {
+  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle,
+  .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle {
     color: rgba(15,30,46,0.74) !important;
     border-color: rgba(15,30,46,0.228) !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle:hover {
+  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle:hover {
     color: rgba(15,30,46,0.87) !important;
     border-color: rgba(15,30,46,0.323) !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.on {
+  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.on,
+  .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle.on {
     color: rgba(15,30,46,0.98) !important;
     border-color: color-mix(in srgb, var(--mood-color) 55%, rgba(15,30,46,0.22)) !important;
     background: color-mix(in srgb, var(--mood-color) 16%, rgba(255,255,255,0.98)) !important;
     font-weight: 600 !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.reset-pill {
+  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.reset-pill,
+  .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill {
     color: rgba(15,30,46,0.74) !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.reset-pill:hover {
+  .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.reset-pill:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill:hover {
     color: rgba(15,30,46,0.87) !important;
   }
 
   .reset-pill { margin-left:auto; }
-  .fav-filter.fav-filter--session-util .reset-pill { margin-left: 0; }
+  .tab-subbar .tab-prog-row__top .reset-pill { margin-left: 0; }
   .fav-filter::before {
     display:none;
   }
@@ -12460,11 +12540,12 @@ const css = `
   #axis-home-welcome {
     text-align:center;
     font-family: var(--font-ui);
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.10em;
     text-transform: uppercase;
     opacity:0.6;
+    margin-bottom: 4px;
     text-shadow:none;
     filter:none;
     padding-bottom:max(6px, calc(var(--app-title-after-dashboard) - 24px));
@@ -12748,10 +12829,8 @@ const css = `
   .home-routine-box + .home-routine-box { margin-top:12px; }
   .home-routine-panel .track-cards { gap:10px; }
   .home .track-card-sub,
-  .home .track-card-purpose,
   .home .track-card-dur,
   .home-routine-track-card .track-card-sub,
-  .home-routine-track-card .track-card-purpose,
   .home-routine-track-card .track-card-dur {
     font-family:'Roboto Mono', ui-monospace, monospace !important;
     font-weight:500 !important;
@@ -12803,6 +12882,24 @@ const css = `
   }
   .track-card-footer .home-fav-star-btn { flex-shrink:0; }
   .home-slide-view--explore .track-card { border-radius:12px; width:100%; max-width:100%; box-sizing:border-box; }
+  /* Explore list track cards only (not Recents / LIST/GUIDED): surface + duration + bookmark micro-detail */
+  .app[data-theme="dark"]:not([data-night="true"]) .home-slide-view--explore .home-browse-results .track-card.track-card--home-browse.glass-card:not(.home-smart-card) {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-slide-view--explore .home-browse-results .track-card.track-card--home-browse.glass-card:not(.home-smart-card) {
+    background: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  }
+  .home-slide-view--explore .home-browse-results .track-card-home-dur.axis-duration-label,
+  .app[data-night="true"] .home-slide-view--explore .home-browse-results .track-card-home-dur.axis-duration-label {
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    opacity: 1 !important;
+  }
+  .home-slide-view--explore .home-browse-results .home-track-bookmark-btn:not([aria-pressed="true"]) {
+    opacity: 0.35;
+  }
   .home-fav-row-main { flex:1; min-width:0; border:none; background:transparent; color:inherit; text-align:left; padding:0; }
   .home-fav-star-btn {
     width:40px;
@@ -12950,10 +13047,10 @@ const css = `
   .track-group + .track-group { margin-top:22px; }
   .home-slide-view--explore .track-group + .track-group { margin-top:18px; }
   .track-group-label {
-    font-size: var(--text-sm); font-family: var(--font-data); font-weight:500; letter-spacing:0.22em; text-transform:uppercase;
+    font-size: var(--text-sm); font-family: var(--font-data); font-weight:600; letter-spacing:0.22em; text-transform:uppercase;
     color:var(--text-dim); margin-bottom:var(--home-group-label-gap);
     text-align:left;
-    opacity:0.74;
+    opacity:0.7;
   }
   .home-slide-view--explore .track-group-label {
     padding-left:0;
@@ -13065,7 +13162,7 @@ const css = `
   .home-greeting {
     letter-spacing: 0.10em;
     opacity: 0.55;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
     text-transform: uppercase;
   }
@@ -13461,6 +13558,7 @@ const css = `
     line-height: 1.45;
     font-size: calc(var(--text-base) * 0.85) !important;
     font-weight: 400 !important;
+    font-family: var(--font-ui), system-ui, sans-serif;
     white-space: normal;
     overflow: visible;
     min-width: 0;
@@ -13669,7 +13767,9 @@ const css = `
   .metrics-quick-glance__dashboard-hero-unit,
   .exercise-carousel__step-count,
   .fav-filter.fav-filter--session-util .fav-toggle,
-  [data-night="true"] .fav-filter.fav-filter--session-util .fav-toggle {
+  .tab-subbar .tab-prog-row__top .fav-toggle,
+  [data-night="true"] .fav-filter.fav-filter--session-util .fav-toggle,
+  [data-night="true"] .tab-subbar .tab-prog-row__top .fav-toggle {
     font-family: var(--font-meta) !important;
     font-weight: 500 !important;
   }
@@ -14551,6 +14651,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   const durationEl = sessionDurRaw ? /*#__PURE__*/React.createElement("div", { className: "ereps" }, String(sessionDurRaw)) : null;
   const metaZonePlain = String(listSectionLabel || "").trim();
   const listMetaSecondary = listRailLayout ? axisExerciseTrackMetaOneWord(ex) : axisExerciseTargetMetaLine(ex, metaZonePlain);
+  const listTabExerciseTitle = listRailLayout && !hideDone ? axisExerciseListParenDirectionDisplayName(ex.name) : ex.name;
   /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
   const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
   !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
@@ -14598,7 +14699,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     /*#__PURE__*/    React.createElement("div", { className: "er-list-center" }, /*#__PURE__*/
     React.createElement("div", { className: "er-list-title-row" }, /*#__PURE__*/
     React.createElement("div", { className: "er-list-title-wrap" }, /*#__PURE__*/
-    React.createElement("div", { className: `er-list-title ${done && !skipped ? "er-list-title--done" : ""} ${skipped ? "er-list-title--skipped" : ""}` }, ex.name)),
+    React.createElement("div", { className: `er-list-title ${done && !skipped ? "er-list-title--done" : ""} ${skipped ? "er-list-title--skipped" : ""}` }, listTabExerciseTitle)),
     listRailPinskipRowEl),
     /*#__PURE__*/React.createElement("div", { className: `er-list-desc er-list-desc--rail${done && !skipped ? " er-list-desc--done" : ""}` }, ex.sub),
     listRailMetaChevRowEl
@@ -14619,13 +14720,13 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     )
     ),
     open && /*#__PURE__*/
-    React.createElement("div", { ref: sessionDetailPanelRef, className: "panel protocol-panel", tabIndex: -1, role: "region", "aria-label": `${ex.name}, exercise details`, style: skipped && !listRailLayout ? { opacity: 0.45 } : {} }, /*#__PURE__*/
+    React.createElement("div", { ref: sessionDetailPanelRef, className: "panel protocol-panel", tabIndex: -1, role: "region", "aria-label": `${listRailLayout && !hideDone ? listTabExerciseTitle : ex.name}, exercise details`, style: skipped && !listRailLayout ? { opacity: 0.45 } : {} }, /*#__PURE__*/
     React.createElement(Steps, {
       steps: ex.steps,
       small: true,
       start: ex.start || undefined,
       exerciseId: ex.id,
-      exerciseName: ex.name,
+      exerciseName: listRailLayout && !hideDone ? listTabExerciseTitle : ex.name,
       theme: theme,
       ultraNight: ultraNight,
       trackId: trackId,
@@ -14819,10 +14920,10 @@ function TabBar({ view, setView, theme, nightMode = false, onSystemTab }) {
     else setView("system");
   };
   const HomeIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" }));
-  const MetricsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("polyline", { points: "8 12.5 11 15.5 16.5 9" }));
-  const TimerIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("path", { d: "M12 7.5 L12 12 L17 12" }));
+  const MetricsIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("g", { transform: "translate(12 12) scale(0.87) translate(-12 -12)" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("polyline", { points: "8 12.5 11 15.5 16.5 9" })));
+  const TimerIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("g", { transform: "translate(12 12) scale(0.87) translate(-12 -12)" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /*#__PURE__*/React.createElement("path", { d: "M12 7.5 L12 12 L17 12" })));
   const BookmarkTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M6.5 3.5h11c.83 0 1.5.67 1.5 1.5v15.28l-7-5.42-7 5.42V5c0-.83.67-1.5 1.5-1.5Z" }));
-  const SystemMatrixTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "14", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "14", width: "6.5", height: "6.5", rx: "0.75" }));
+  const SystemMatrixTabIcon = () => /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("g", { transform: "translate(12 12) scale(0.94) translate(-12 -12)", strokeWidth: "0.9" }, /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "3.5", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "3.5", y: "14", width: "6.5", height: "6.5", rx: "0.75" }), /*#__PURE__*/React.createElement("rect", { x: "14", y: "14", width: "6.5", height: "6.5", rx: "0.75" })));
 
   const bar = /*#__PURE__*/
   React.createElement("div", { className: "tab-bar", "data-theme": theme, "data-night": nightMode ? "true" : "false", role: "navigation", "aria-label": "Main" }, /*#__PURE__*/
@@ -19226,6 +19327,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {storageSet("axis_recent_tracks", recentTracks);}, [recentTracks]);
   useEffect(() => {storageSet("axis_home_section", homeSection);}, [homeSection]);
   useEffect(() => {storageSet("axis_favorite_tracks", favoriteTrackIds);}, [favoriteTrackIds]);
+  useEffect(() => {
+    if (Object.values(favs).some((v) => v)) {
+      storageSet(AXIS_EVER_BOOKMARKED_EXERCISE_KEY, true);
+    }
+  }, [favs]);
 
   // Remember LIST scroll position within Session content so switching tabs feels continuous
   useEffect(() => {
@@ -19250,6 +19356,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const sessionDurationLabel = axisFormatDurationMinUpper(sessionMinutes);
   const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
   const cur = activeAll[Math.min(fi, activeAll.length - 1)];
+  const showSessionBookmarkExerciseHint = !storageGet(AXIS_EVER_BOOKMARKED_EXERCISE_KEY, false) && !Object.values(favs).some((v) => v);
 
   const toggle = (id) => {
     setDone((d) => {
@@ -19465,7 +19572,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       icon: /*#__PURE__*/React.createElement("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M12 3l1.5 5.5 6 .5-4.5 4 1.5 5.5L12 16l-4.5 2 1.5-5.5-4.5-4 6-.5L12 3z" })) }];
 
     const nowPeriod = getCircadianPeriod();
-    const AUTO_MOOD_LABELS = { dawn: "Auto: Rise", midday: "Auto: Midday", prime: "Auto: Prime", rest: "Auto: Rest" };
     // derive highlight color from circadian theme for Today's suggestion card (home)
     const highlightCt = CIRCADIAN_THEMES[nowPeriod][theme === "dark" ? "dark" : "light"];
     const highlight = highlightCt && highlightCt.accent ? highlightCt.accent : "var(--mood-color)";
@@ -19519,10 +19625,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "axis-surface-tmt mood-auto-card" }, /*#__PURE__*/
       React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 } }, /*#__PURE__*/
       React.createElement("div", null, /*#__PURE__*/
-      React.createElement("div", { className: "mood-auto-card__label", style: { color: activePeriod === null ? "var(--mood-color)" : "var(--text-white)" } }, "Auto"), /*#__PURE__*/
-      React.createElement("div", { className: "mood-auto-card__meta" },
-      activePeriod === null ? /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", { style: { color: "var(--mood-color)", fontWeight: 600 } }, AUTO_MOOD_LABELS[nowPeriod] || "Auto")) : "Follows time of day"
-      )
+      React.createElement("div", { className: "mood-auto-card__label", style: { color: activePeriod === null ? "var(--mood-color)" : "var(--text-white)" } }, "Auto"),
+      activePeriod !== null ? /*#__PURE__*/React.createElement("div", { className: "mood-auto-card__meta" }, "Follows time of day") : null
       ), /*#__PURE__*/
       React.createElement("button", { onClick: nightMode ? undefined : () => {axisHapticTick();const n = activePeriod === null ? nowPeriod : null;setActivePeriod(n);storageSet("axis_period", n);}, style: { flexShrink: 0, width: 44, height: 26, border: "1px solid", borderColor: activePeriod === null ? "var(--mood-color)" : "var(--glass-border-strong)", borderRadius: 13, background: activePeriod === null ? "var(--mood-color)" : "var(--glass-bg)", cursor: nightMode ? "default" : "pointer", position: "relative", transition: "all 0.2s" } }, /*#__PURE__*/
       React.createElement("div", { style: { position: "absolute", top: 3, left: activePeriod === null ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: nightMode ? "#000000" : "rgba(255,255,255,0.95)", transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" } })
@@ -20167,7 +20271,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "home-hourly-practice-cta__head-row" }, /*#__PURE__*/
       React.createElement("span", { className: "home-hourly-practice-cta__kicker" }, "HOURLY PRACTICE"), /*#__PURE__*/
       React.createElement("span", { className: "home-hourly-practice-cta__dur" }, getTrackDisplayDuration(HOURLY_PRACTICE_TRACK_ID))), /*#__PURE__*/
-      React.createElement("span", { className: "home-hourly-practice-cta__tagline home-smart-card__desc" }, "One tap into a guided reset.")))
+      React.createElement("span", { className: "home-hourly-practice-cta__tagline home-smart-card__desc" }, "One tap into a quick guided full-body reset.")))
       : null
       ), /*#__PURE__*/
       React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", role: "tablist", "aria-label": "Home content sections", style: HOME_SECTION_SEG_WRAP }, /*#__PURE__*/
@@ -20316,13 +20420,19 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     ), /*#__PURE__*/
     React.createElement("div", { className: "tab-subbar" }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("hr", { className: "tab-subbar-rule tab-subbar-rule--above-prog", "aria-hidden": true }),
-    /*#__PURE__*/
+    React.createElement("hr", { className: "tab-subbar-rule tab-subbar-rule--above-prog", "aria-hidden": true }), /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
+    showSessionBookmarkExerciseHint ? /*#__PURE__*/React.createElement("span", { className: "tab-prog-row__bookmark-hint" }, "Bookmark exercises to save them.") : null, /*#__PURE__*/
+    React.createElement("div", { className: "tab-prog-row__top" }, /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__line" }, /*#__PURE__*/
-    React.createElement("span", { className: "tab-prog-row__done" }, totalDone), /*#__PURE__*/
+    React.createElement("span", { className: "tab-prog-row__done" + (totalDone === 0 ? " tab-prog-row__done--zero" : "") }, totalDone), /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL)
     ), /*#__PURE__*/
+    (tab === "list" || tab === "guided") ? /*#__PURE__*/React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: () => {
+        axisHapticTick();
+        setDone({});setSkipped({});setOpenId(null);setFi(0);setResting(false);
+        storageSet("axis_done", {});storageSet("axis_skipped", {});
+      } }, "Reset") : null), /*#__PURE__*/
     React.createElement("div", {
       className: "prog-bar",
       role: "progressbar",
@@ -20331,20 +20441,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       "aria-valuenow": Math.min(Math.round(totalDone), Math.max(1, TOTAL)),
       "aria-label": "Session exercises completed"
     }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } }))
-    ),
-    (tab === "list" || tab === "guided") && /*#__PURE__*/React.createElement("div", { className: "fav-filter fav-filter--session-util" }, /*#__PURE__*/
-    React.createElement("div", { className: "fav-filter__cluster--left" }, /*#__PURE__*/
-    React.createElement("span", { className: "fav-filter__session-hint" }, "Click the bookmark icon on tracks and exercises to save. They'll appear in the Bookmarks tab.")
-    ), /*#__PURE__*/
-    React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: () => {
-        axisHapticTick();
-        setDone({});setSkipped({});setOpenId(null);setFi(0);setResting(false);
-        storageSet("axis_done", {});storageSet("axis_skipped", {});
-      } }, "Reset")
     )
     )
     )
-    ), /*#__PURE__*/
+    )
+    , /*#__PURE__*/
 
     React.createElement("div", { className: "content content--session" + (tab === "list" ? " content--session-list" : "") + (tab === "guided" ? " content--session-guided" : ""), ref: sessionContentRef, onScroll: (e) => {
         if (tab === "list") {
@@ -20407,7 +20508,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
           note: notes[ex.id], onNote: (val) => setNote(ex.id, val),
-          nextName: nextEx ? nextEx.name : null,
+          nextName: nextEx ? axisExerciseListParenDirectionDisplayName(nextEx.name) : null,
           exerciseDurationSeconds: exerciseDuration,
           theme: theme,
           ultraNight: nightMode,
@@ -20468,7 +20569,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const nextEx = sec.exercises[idx + 1] || null;
       return (/*#__PURE__*/
         React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: false, onToggle: () => toggle(ex.id),
+          done: !!done[ex.id], onToggle: () => toggle(ex.id),
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
