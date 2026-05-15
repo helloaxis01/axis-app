@@ -3904,6 +3904,7 @@ const css = `
   .axis-duration-label,
   .axis-data-label,
   .content--session .er-list-meta-dur,
+  .content--session .er-list-meta-dot,
   .content--session .er-list-meta-zone,
   .sg.sg--session-sheet > .sh--session-ex-head .sh-sec-id,
   .tab-prog-row__done,
@@ -3922,6 +3923,7 @@ const css = `
   .app[data-night="true"] .axis-duration-label,
   .app[data-night="true"] .axis-data-label,
   .app[data-night="true"] .content--session .er-list-meta-dur,
+  .app[data-night="true"] .content--session .er-list-meta-dot,
   .app[data-night="true"] .content--session .er-list-meta-zone,
   .app[data-night="true"] .sg.sg--session-sheet > .sh--session-ex-head .sh-sec-id,
   .app[data-night="true"] .tab-prog-row__done,
@@ -3933,6 +3935,7 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .axis-duration-label,
   .app[data-theme="light"]:not([data-night="true"]) .axis-data-label,
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-dur,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-dot,
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-zone,
   .app[data-theme="light"]:not([data-night="true"]) .sg.sg--session-sheet > .sh--session-ex-head .sh-sec-id,
   .app[data-theme="light"]:not([data-night="true"]) .tab-prog-row__done,
@@ -5334,11 +5337,15 @@ const css = `
     text-transform: uppercase;
   }
   .content--session .er-list-meta-dot {
-    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
-    font-size: 11px;
-    color: color-mix(in srgb, rgba(255, 255, 255, 0.12) 75%, #ffffff 25%);
+    font-family: var(--font-meta), var(--font-data), ui-monospace, monospace;
+    font-size: calc(var(--text-xs) + 2px);
+    font-weight: 700;
+    letter-spacing: 0.12em;
     line-height: 1;
     transform: translateY(-0.04em);
+    color: var(--text-primary) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    opacity: 1 !important;
   }
   .content--session .er-list-meta-zone {
     font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
@@ -5464,15 +5471,6 @@ const css = `
     border-color: var(--border-card);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-dur {
-    color: color-mix(in srgb, rgba(15, 30, 46, 0.42) 75%, #ffffff 25%);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-dot {
-    color: color-mix(in srgb, rgba(15, 30, 46, 0.28) 75%, #ffffff 25%);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-meta-zone {
-    color: color-mix(in srgb, rgba(15, 30, 46, 0.36) 75%, #ffffff 25%);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-icon-btn {
     color: rgba(15, 30, 46, 0.22);
@@ -5990,8 +5988,11 @@ const css = `
     border-color: rgba(15, 30, 46, 0.22);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on {
-    border-color: var(--mood-color);
-    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
+    border-color: var(--mood-accent);
+    background: color-mix(in srgb, var(--mood-accent) 12%, transparent);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on .er-list-complete__tick {
+    stroke: var(--mood-accent) !important;
   }
   .content--session .er-body {
     width: 100%;
@@ -6172,6 +6173,9 @@ const css = `
     box-shadow: 0 12px 30px rgba(0,0,0,0.2), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 62%, transparent);
   }
   .app[data-theme="dark"]:not([data-night="true"]) .home .home-smart-card--unified.track-card--home-browse {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     box-shadow: 0 12px 30px rgba(0,0,0,0.2), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 62%, transparent), inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .home-smart-card__hit {
@@ -6199,14 +6203,14 @@ const css = `
   }
   /* Dark mode NOW row: frosted glass over orb background (light mode unchanged below) */
   .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px) saturate(1.6);
-    -webkit-backdrop-filter: blur(20px) saturate(1.6);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(20px) saturate(1.6) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.10),
-      0 8px 32px rgba(0, 0, 0, 0.24);
+      0 8px 32px rgba(0, 0, 0, 0.24) !important;
     overflow: hidden;
   }
   .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now::before {
@@ -6214,8 +6218,8 @@ const css = `
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: var(--mood-accent);
-    opacity: 0.04;
+    background: color-mix(in srgb, var(--mood-accent) 4%, transparent) !important;
+    opacity: 1 !important;
     pointer-events: none;
     z-index: 0;
   }
