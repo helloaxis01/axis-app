@@ -578,6 +578,29 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   const labelSize = size === "small" ? "10px" : size === "large" ? "12px" : "11px";
   const bodySize = size === "small" ? "var(--text-base)" : size === "large" ? "clamp(24px, 4vw, 30px)" : "clamp(22px, 3.9vw, 28px)";
   const sessionChrome = !!sessionExerciseCardExpanded;
+  const sessionInstructionBodyMinPx = 96;
+  const sessionBodyStyle = sessionChrome ? {
+    minHeight: sessionInstructionBodyMinPx,
+    height: sessionInstructionBodyMinPx,
+    maxHeight: sessionInstructionBodyMinPx,
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "flex-start",
+    boxSizing: "border-box",
+    flexShrink: 0
+  } : undefined;
+  const sessionNavStyle = sessionChrome ? {
+    flexShrink: 0,
+    marginTop: 10,
+    marginBottom: 0,
+    minHeight: 36
+  } : undefined;
+  const sessionInstructionStackStyle = sessionChrome ? {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    boxSizing: "border-box"
+  } : undefined;
   const labelStyle = sessionChrome ? undefined : {
     fontSize: labelSize,
     fontWeight: 600,
@@ -656,6 +679,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   const navSep2El = sessionChrome && n > 1 ? /*#__PURE__*/React.createElement("span", { className: "exercise-carousel__nav-sep exercise-carousel__nav-sep--tail", "aria-hidden": true }, "\u00B7") : null;
   const navEl = n > 1 ? /*#__PURE__*/React.createElement("div", {
     className: "exercise-carousel__nav" + (sessionChrome ? " exercise-carousel__nav--session" : ""),
+    style: sessionNavStyle,
     onClick: (e) => e.stopPropagation()
   }, /*#__PURE__*/React.createElement("span", {
     className: "exercise-carousel__step-count",
@@ -667,9 +691,12 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   }, tier.label);
   const bodyEl = /*#__PURE__*/React.createElement("div", {
     className: "exercise-carousel__body" + (sessionChrome ? " exercise-carousel__body--session" : ""),
-    style: bodyStyle
+    style: sessionChrome ? sessionBodyStyle : bodyStyle
   }, formatInstructionBodyText(tier.body));
-  const instructionBlock = /*#__PURE__*/React.createElement(React.Fragment, null, labelEl, bodyEl, navEl);
+  const instructionBlock = sessionChrome ? /*#__PURE__*/React.createElement("div", {
+    className: "exercise-carousel__instruction-stack",
+    style: sessionInstructionStackStyle
+  }, labelEl, bodyEl, navEl) : /*#__PURE__*/React.createElement(React.Fragment, null, labelEl, bodyEl, navEl);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "exercise-carousel" + (className ? " " + className : "") + " exercise-carousel--" + size + (sessionChrome ? " exercise-carousel--session-card" : "") + (guidedFlowFrame ? " exercise-carousel--guided-flow-frame" : ""),
     role: "region",
@@ -1237,6 +1264,66 @@ function axisLoadSessionGuidedDone() {
     }
   } catch (e) {}
   return {};
+}
+
+/** True when session done map is legacy flat { exerciseId: true } (not per-track). */
+function axisSessionDoneStoreIsLegacyFlat(store) {
+  if (!store || typeof store !== "object" || Array.isArray(store)) return false;
+  const keys = Object.keys(store);
+  if (keys.length === 0) return true;
+  return !keys.some((k) => TRACKS && TRACKS[k] && store[k] && typeof store[k] === "object" && !Array.isArray(store[k]));
+}
+
+/** Exercise completion slice for one track (LIST or GUIDED store). */
+function axisSessionDoneSlice(store, trackId) {
+  if (!store || typeof store !== "object" || Array.isArray(store)) return {};
+  const slice = store[trackId];
+  if (slice && typeof slice === "object" && !Array.isArray(slice)) return slice;
+  if (axisSessionDoneStoreIsLegacyFlat(store)) return store;
+  return {};
+}
+
+function axisSessionDonePruneSlice(slice) {
+  const next = {};
+  if (!slice || typeof slice !== "object") return next;
+  for (const k of Object.keys(slice)) {
+    if (slice[k]) next[k] = true;
+  }
+  return next;
+}
+
+function axisSessionDoneMergeTrack(store, trackId, slice) {
+  const cleaned = axisSessionDonePruneSlice(slice);
+  if (axisSessionDoneStoreIsLegacyFlat(store)) {
+    const migrated = {};
+    for (const k of Object.keys(store || {})) {
+      if (TRACKS && TRACKS[k] && store[k] && typeof store[k] === "object") migrated[k] = axisSessionDonePruneSlice(store[k]);
+    }
+    return { ...migrated, [trackId]: cleaned };
+  }
+  return { ...(store || {}), [trackId]: cleaned };
+}
+
+function axisSessionDoneClearTrack(store, trackId) {
+  if (!store || typeof store !== "object" || Array.isArray(store)) return {};
+  if (!axisSessionDoneStoreIsLegacyFlat(store)) {
+    const next = { ...store };
+    delete next[trackId];
+    return next;
+  }
+  const ids = new Set((getAll(trackId) || []).map((e) => String(e.id)));
+  const next = { ...store };
+  for (const id of ids) {
+    delete next[id];
+    const n = Number(id);
+    if (Number.isFinite(n)) delete next[n];
+  }
+  return next;
+}
+
+function axisSessionDoneLookup(store, trackId, exerciseId) {
+  const slice = axisSessionDoneSlice(store, trackId);
+  return !!slice[exerciseId];
 }
 
 /** Weekly goal minutes: clamped 5–500, snapped to step 5. */
@@ -2008,7 +2095,7 @@ const css = `
   [data-night="true"] .sg.sg--session-sheet > .sh--session-ex-head .sh-name {
     color: var(--text-secondary) !important;
     -webkit-text-fill-color: var(--text-secondary) !important;
-    opacity: 0.75 !important;
+    opacity: 0.8 !important;
     font-weight: 600 !important;
     letter-spacing: 0.14em !important;
   }
@@ -2623,6 +2710,9 @@ const css = `
     pointer-events: none;
     background: radial-gradient(ellipse 130% 78% at 50% -12%, color-mix(in srgb, var(--mood-color) 35%, transparent) 0%, transparent 56%);
   }
+  .guided-overlay[data-phase="closing"]::before {
+    display: none;
+  }
   /* Guided complete (closing): atmospheric backdrop + staggered fades — scoped to data-phase only */
   .guided-overlay[data-phase="closing"] .guided-complete-atmosphere {
     position: absolute;
@@ -2727,6 +2817,8 @@ const css = `
     min-height: 48px;
     border-radius: 12px;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
     font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
     font-size: var(--text-sm);
     font-weight: 600;
@@ -2734,6 +2826,7 @@ const css = `
     text-transform: uppercase;
     box-shadow: none;
     background: transparent !important;
+    background-color: transparent !important;
     border: 1px solid color-mix(in srgb, var(--mood-accent) 50%, transparent) !important;
     color: var(--mood-accent) !important;
     -webkit-text-fill-color: var(--mood-accent) !important;
@@ -2760,6 +2853,7 @@ const css = `
       animation-delay: 0s !important;
     }
     .guided-overlay[data-phase="closing"] .guided-complete-streak,
+    .guided-overlay[data-phase="closing"] .guided-complete-first-session,
     .guided-overlay[data-phase="closing"] .guided-complete-title,
     .guided-overlay[data-phase="closing"] .guided-complete-subtitle,
     .guided-overlay[data-phase="closing"] .guided-complete-summary,
@@ -2767,12 +2861,8 @@ const css = `
       animation-duration: 200ms !important;
       animation-delay: 0s !important;
     }
-    .axis-celebration-first-session--guided {
-      animation-duration: 200ms !important;
-      animation-delay: 350ms !important;
-    }
   }
-  .axis-celebration-first-session--guided {
+  .guided-overlay[data-phase="closing"] .guided-complete-first-session {
     font-size: var(--text-sm);
     color: var(--mood-accent);
     font-weight: 500;
@@ -2780,9 +2870,9 @@ const css = `
     margin: 0 0 14px;
     max-width: 320px;
     opacity: 0;
-    animation: axisCelebrationFadeIn400 400ms ease-out 700ms forwards;
+    animation: guidedCompleteLineIn 400ms ease-out 300ms forwards;
   }
-  .guided-overlay[data-phase="closing"][data-night="true"] .axis-celebration-first-session--guided {
+  .guided-overlay[data-phase="closing"][data-night="true"] .guided-complete-first-session {
     color: #ff3b30;
   }
   @keyframes axisCelebrationFadeIn400 {
@@ -4447,7 +4537,7 @@ const css = `
   .sg.sg--session-sheet > .sh--session-ex-head .sh-name {
     color: var(--text-secondary) !important;
     -webkit-text-fill-color: var(--text-secondary) !important;
-    opacity: 0.75 !important;
+    opacity: 0.8 !important;
     font-weight: 600 !important;
     letter-spacing: 0.14em !important;
   }
@@ -6772,30 +6862,16 @@ const css = `
   .today-card--ghost {
     box-sizing:border-box;
   }
-  /* Home: unified NOW + START LAST SESSION — same outline/surface as other home track cards */
+  /* Home: unified shell — surface lives on .home-smart-card__hit--now only */
   .home .home-smart-card--unified.track-card--home-browse {
     padding: 0;
     gap: 0;
     overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid color-mix(in srgb, var(--glass-border) 68%, transparent);
-    background: color-mix(in srgb, var(--glass-bg) 90%, transparent);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.11), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 54%, transparent);
-    backdrop-filter: blur(14px) saturate(1.15);
-    -webkit-backdrop-filter: blur(14px) saturate(1.15);
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home .home-smart-card--unified.track-card--home-browse {
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14) !important;
-    background: color-mix(in srgb, var(--glass-bg) 90%, transparent) !important;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .home .home-smart-card--unified.track-card--home-browse {
-    border: 1px solid rgba(15, 30, 46, 0.1) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.55) !important;
-    background: #ffffff !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    background: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
   }
   .home-smart-card__hit {
     display: block;
@@ -6817,10 +6893,43 @@ const css = `
     display: flex;
     flex-direction: row;
     align-items: center;
+    border-radius: inherit;
     padding-top: 19px;
     padding-bottom: 19px;
     padding-left: calc(max(var(--page-gutter), env(safe-area-inset-left, 0px)) + 4px);
     padding-right: calc(max(var(--page-gutter), env(safe-area-inset-right, 0px)) + 4px);
+    overflow: hidden;
+  }
+  /* Dark NOW row: frosted glass (wins over circadian / track-card surfaces) */
+  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(20px) saturate(1.6) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.20) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.24) !important;
+  }
+  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--mood-accent) 4%, transparent) !important;
+    opacity: 1 !important;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now > * {
+    position: relative;
+    z-index: 1;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-smart-card__hit--now {
+    background: #ffffff !important;
+    border: 2px solid var(--mood-accent) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   .home-smart-card__hit--last {
     padding-top: 8px;
@@ -13369,28 +13478,17 @@ const css = `
   #axis-home-welcome {
     text-align:center;
     font-family: var(--font-ui);
-    font-size: 17px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 400;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    opacity:0.6;
+    color: var(--text-secondary);
+    -webkit-text-fill-color: var(--text-secondary);
+    opacity: 0.8;
     margin-bottom: 4px;
     text-shadow:none;
     filter:none;
     padding-bottom:max(6px, calc(var(--app-title-after-dashboard) - 24px));
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) #axis-home-welcome {
-    color:#f6f7f8 !important;
-    -webkit-text-fill-color:#f6f7f8 !important;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) #axis-home-welcome {
-    color: #252525 !important;
-    -webkit-text-fill-color: #252525 !important;
-    opacity: 1;
-  }
-  .app[data-night="true"] #axis-home-welcome {
-    color:#FF3B30 !important;
-    -webkit-text-fill-color:#FF3B30 !important;
   }
   .home .home-track-cards-outer--top {
     position:relative;
@@ -13707,17 +13805,18 @@ const css = `
     letter-spacing: -0.01em;
   }
   .home-slide-view--explore .home-browse-results .track-card--home-browse .track-card-purpose {
-    font-size: 15px !important;
+    font-size: 13px !important;
     margin-top: 6px;
     line-height: 1.55;
     font-weight: 400 !important;
-    opacity: 0.8;
+    opacity: 0.65;
   }
   .app[data-theme="dark"]:not([data-night="true"]) .home-slide-view--explore .home-browse-results .track-card--home-browse .track-card-purpose,
   .app[data-theme="light"]:not([data-night="true"]) .home-slide-view--explore .home-browse-results .track-card--home-browse .track-card-purpose,
   [data-night="true"] .home-slide-view--explore .home-browse-results .track-card--home-browse .track-card-purpose {
-    color: var(--text-primary) !important;
-    -webkit-text-fill-color: var(--text-primary) !important;
+    color: var(--text-secondary) !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+    opacity: 0.65 !important;
   }
   .track-card-footer {
     display:flex; align-items:center; justify-content:space-between; width:100%; gap:12px;
@@ -13901,7 +14000,7 @@ const css = `
   .track-group + .track-group { margin-top:22px; }
   .home-slide-view--explore .track-group + .track-group { margin-top:18px; }
   .track-group-label {
-    font-size: calc(var(--text-sm) + 1px);
+    font-size: calc(var(--text-xs) + 1px);
     font-family: var(--font-data);
     text-transform: uppercase;
     margin-bottom: var(--home-group-label-gap);
@@ -14031,10 +14130,12 @@ const css = `
   /* AXIS Home typography hierarchy polish */
   .home-greeting {
     letter-spacing: 0.12em;
-    opacity: 0.55;
-    font-size: 17px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 400;
     text-transform: uppercase;
+    color: var(--text-secondary);
+    -webkit-text-fill-color: var(--text-secondary);
+    opacity: 0.8;
   }
   .home-last-movement-head,
   .home-routine-head {
@@ -14443,13 +14544,14 @@ const css = `
   .home .track-card--home-browse .track-card-purpose {
     margin-top: 8px;
     line-height: 1.55;
-    font-size: 15px !important;
+    font-size: 13px !important;
     font-weight: 400 !important;
     font-family: var(--font-ui), system-ui, sans-serif;
     white-space: normal;
     overflow: visible;
     min-width: 0;
     overflow-wrap: anywhere;
+    opacity: 0.65;
   }
   .home .home-browse-card--favorites .track-card-purpose,
   .home .home-browse-card--recent .track-card-purpose {
@@ -14460,19 +14562,23 @@ const css = `
     text-overflow: ellipsis;
     margin-top: 7px;
     line-height: 1.55;
-    font-size: 15px !important;
+    font-size: 13px !important;
+    opacity: 0.65;
   }
   .app[data-theme="dark"]:not([data-night="true"]) .home .track-card--home-browse .track-card-purpose {
-    color: rgba(237, 237, 237, 0.8) !important;
-    -webkit-text-fill-color: rgba(237, 237, 237, 0.8) !important;
+    color: var(--text-secondary) !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+    opacity: 0.65 !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .home .track-card--home-browse .track-card-purpose {
-    color: rgba(36, 40, 48, 0.8) !important;
-    -webkit-text-fill-color: rgba(36, 40, 48, 0.8) !important;
+    color: var(--text-secondary) !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+    opacity: 0.65 !important;
   }
   [data-night="true"] .home .track-card--home-browse .track-card-purpose {
-    color: rgba(255, 59, 48, 0.8) !important;
-    -webkit-text-fill-color: rgba(255, 59, 48, 0.8) !important;
+    color: var(--text-secondary) !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+    opacity: 0.65 !important;
   }
   .home .home-browse-card--favorites .track-card-sub,
   .home .home-browse-card--recent .track-card-sub,
@@ -16318,6 +16424,16 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   // Own fi and resting state — self-contained continuous flow
   const [fi, setFi] = useState(0);
   const [phase, setPhase] = useState("intro"); // "intro" | "instruction" | "rest" | "exercise" | "closing"
+  const [guidedFirstSessionLine, setGuidedFirstSessionLine] = useState(false);
+  useEffect(() => {
+    if (phase !== "closing") return;
+    const k = axisCelebrationScopedKey("axis_first_session_complete");
+    if (!storageGet(k, false)) {
+      storageSet(k, true);
+      setGuidedFirstSessionLine(true);
+    }
+  }, [phase]);
+  const showGuidedFirstSessionLine = showFirstAxisSessionLine || guidedFirstSessionLine;
   const GETREADY_SECONDS = 15;
   const [paused, setPaused] = useState(false);
   const wakeLockRef = useRef(null);
@@ -16636,7 +16752,23 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const guidedPrepRecord0 = guidedPrepIncludedInstructionRef.current[0];
   const guidedPrepHadInstr0 = guidedPrepRecord0 === undefined ? showDetailedInstructions : !!guidedPrepRecord0;
   const guidedPrevDisabled = guidedTransitioning || (phase === "instruction" && fi === 0) || (phase === "rest" && fi === 0 && !guidedPrepHadInstr0);
-  const hadInstructionBeforeThisRest = !!guidedPrepIncludedInstructionRef.current[fi];
+  const guidedGhostBtnStyle = {
+    minHeight: 44,
+    height: 44,
+    padding: "0 18px",
+    borderRadius: 10,
+    background: guidedSecBtnBg,
+    border: guidedSecBtnBdr,
+    color: guidedSecBtnInk,
+    fontFamily: guidedSansDisplay,
+    fontSize: 13,
+    fontWeight: 600,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    cursor: "pointer",
+    WebkitTextFillColor: guidedSecBtnInk,
+    boxSizing: "border-box"
+  };
   const guidedPrevFooterButton = () => /*#__PURE__*/React.createElement("button", {
     type: "button",
     disabled: guidedPrevDisabled,
@@ -16715,6 +16847,11 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     hidden: guidedTransitioning,
     paused: paused,
     onComplete: handleRestTimerComplete }) : null,
+  phase === "rest" && !guidedTransitioning ? /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();},
+    style: { ...guidedGhostBtnStyle, marginTop: 2 }
+  }, "START NOW") : null,
   phase === "exercise" ? /*#__PURE__*/React.createElement(GuidedActiveTimer, {
     key: `active-${(cur && cur.id)}-${fi}`,
     seconds: guidedMoveSeconds,
@@ -16726,6 +16863,11 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     initialRemainingSeconds: guidedExerciseResumeSeconds != null ? guidedExerciseResumeSeconds : undefined,
     onRemainingSecondsChange: handleGuidedRemainingTick,
     onComplete: handleTimerDone }) : null,
+  phase === "exercise" && !guidedTransitioning ? /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);handleNext();},
+    style: { ...guidedGhostBtnStyle, marginTop: 2 }
+  }, "NEXT \u2192") : null,
   (phase === "rest" || phase === "exercise") && guidedStepTotal > 0 ? /*#__PURE__*/React.createElement("div", { style: { width: "100%", maxWidth: 320, alignSelf: "center", paddingTop: 14, paddingBottom: 2, display: "flex", justifyContent: "center" } }, /*#__PURE__*/
   React.createElement("button", {
     type: "button",
@@ -16825,25 +16967,25 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       minHeight: 52,
       opacity: phase === "rest" && cur && !guidedTransitioning ? 1 : 0,
       pointerEvents: phase === "rest" && cur && !guidedTransitioning ? "auto" : "none"
-    } }, /*#__PURE__*/guidedPrevFooterButton(), hadInstructionBeforeThisRest ? /*#__PURE__*/React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();}, style: {
+    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();}, style: {
       flex: 2,
       minWidth: 0,
       minHeight: 52,
       height: 52,
       borderRadius: 12,
-      background: isNight ? A : "var(--mood-color)",
-      border: nightMode ? "1px solid #FF3B30" : "none",
-      color: isNight ? guidedFilledText : "var(--accent-btn-text)",
-      WebkitTextFillColor: isNight ? guidedFilledText : "var(--accent-btn-text)",
+      background: guidedSecBtnBg,
+      border: guidedSecBtnBdr,
+      color: guidedSecBtnInk,
       fontFamily: guidedSansDisplay,
       fontSize: 15,
-      fontWeight: 700,
+      fontWeight: 600,
       letterSpacing: "0.06em",
       textTransform: "uppercase",
       cursor: "pointer",
+      WebkitTextFillColor: guidedSecBtnInk,
       boxShadow: "none"
-    } }, "START") : null),
-  /*#__PURE__*/React.createElement("div", { key: "exercise-actions", style: { position: "absolute", top: 0, left: 0, right: 0, display: "flex", gap: 8, flexWrap: "nowrap", minHeight: 52, opacity: phase === "exercise" && cur ? 1 : 0, pointerEvents: phase === "exercise" && cur ? "auto" : "none" } }, /*#__PURE__*/
+    } }, "START NOW")),
+  /*#__PURE__*/React.createElement("div", { key: "exercise-actions", style: { position: "absolute", top: 0, left: 0, right: 0, display: "flex", gap: 8, flexWrap: "nowrap", minHeight: 52, opacity: phase === "exercise" && cur && !guidedTransitioning ? 1 : 0, pointerEvents: phase === "exercise" && cur && !guidedTransitioning ? "auto" : "none" } }, /*#__PURE__*/
   guidedPrevFooterButton(), /*#__PURE__*/
   React.createElement("button", { type: "button", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setPaused((p) => !p);}, style: {
       flex: 1,
@@ -17074,11 +17216,11 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     phase === "closing" && /*#__PURE__*/
     React.createElement("div", { className: "guided-complete-stack" },
     streak >= 2 ? /*#__PURE__*/React.createElement("div", { className: "guided-complete-streak" }, `${streak}-DAY STREAK`) : null,
-    showFirstAxisSessionLine ? /*#__PURE__*/React.createElement("div", { className: "axis-celebration-first-session axis-celebration-first-session--guided" }, "Your first AXIS session.") : null,
+    showGuidedFirstSessionLine ? /*#__PURE__*/React.createElement("div", { className: "guided-complete-first-session" }, "Your first AXIS session.") : null,
     /*#__PURE__*/React.createElement("div", { className: "guided-complete-title" }, "Guided complete."),
     /*#__PURE__*/React.createElement("div", { className: "guided-complete-subtitle" }, "Take a few moments to breathe or rest."),
     /*#__PURE__*/React.createElement("div", { className: "guided-complete-summary" }, `${listTotal} exercises \u00b7 ${axisDurationMinLowerFromTrackDuration(trackDuration)}`),
-    /*#__PURE__*/React.createElement("button", { type: "button", className: "guided-complete-exit", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);onExit();}, "aria-label": "Exit guided session" }, "Exit")
+    /*#__PURE__*/React.createElement("button", { type: "button", className: "guided-complete-exit", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);onExit();}, "aria-label": "Exit guided session" }, "EXIT")
     ),
 
 
@@ -20384,7 +20526,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const ALL = getAll(track);
     const activeAll = ALL.filter((e) => !skipped[e.id]);
     const T = activeAll.length;
-    const doneC = activeAll.filter((e) => listDone[e.id]).length;
+    const doneC = activeAll.filter((e) => axisSessionDoneLookup(listDone, track, e.id)).length;
     if (T === 0 || doneC !== T) {
       setListFirstSessionCelebration(false);
       return;
@@ -20456,23 +20598,28 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const activeAll = ALL.filter((e) => !skipped[e.id]);
   const filteredAll = activeAll;
   const TOTAL = activeAll.length;
-  const listTotalDone = activeAll.filter((e) => listDone[e.id]).length;
-  const guidedTotalDone = activeAll.filter((e) => guidedDone[e.id]).length;
+  const listDoneSlice = axisSessionDoneSlice(listDone, track);
+  const guidedDoneSlice = axisSessionDoneSlice(guidedDone, track);
+  const listTotalDone = activeAll.filter((e) => listDoneSlice[e.id]).length;
+  const guidedTotalDone = activeAll.filter((e) => guidedDoneSlice[e.id]).length;
   const totalDone = tab === "guided" ? guidedTotalDone : listTotalDone;
   const perMoveSeconds = exerciseDuration || 45;
   const activeCount = filteredAll.length;
   const sessionSeconds = activeCount * perMoveSeconds;
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
   const sessionDurationLabel = axisFormatDurationMinUpper(sessionMinutes);
-  const pct = TOTAL > 0 ? Math.round(listTotalDone / TOTAL * 100) : 0;
+  const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
   const cur = activeAll[Math.min(fi, activeAll.length - 1)];
   const showSessionBookmarkExerciseHint = !storageGet(AXIS_EVER_BOOKMARKED_EXERCISE_KEY, false) && !Object.values(favs).some((v) => v);
 
-  const applySessionDoneToggle = (setState, id) => {
-    setState((d) => {
-      const wasDone = !!d[id];
-      const next = { ...d, [id]: !d[id] };
-      if (next[id] && !wasDone && !sessionExerciseLoggedRef.current.has(id)) {
+  const applySessionDoneToggle = (setStore, id) => {
+    setStore((store) => {
+      const slice = axisSessionDoneSlice(store, track);
+      const wasDone = !!slice[id];
+      const nextSlice = { ...slice };
+      if (wasDone) delete nextSlice[id];
+      else nextSlice[id] = true;
+      if (nextSlice[id] && !wasDone && !sessionExerciseLoggedRef.current.has(id)) {
         sessionExerciseLoggedRef.current.add(id);
         const today = new Date().toDateString();
         const perMoveSec = exerciseDuration || 45;
@@ -20484,8 +20631,24 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           return newHistory;
         });
       }
-      return next;
+      return axisSessionDoneMergeTrack(store, track, nextSlice);
     });
+  };
+
+  const resetSessionTabProgress = () => {
+    axisHapticTick();
+    const trackExIds = (getAll(track) || []).map((e) => e.id);
+    if (tab === "list") {
+      setListDone((store) => axisSessionDoneClearTrack(store, track));
+      try {
+        if (typeof localStorage !== "undefined") localStorage.removeItem("axis_done");
+      } catch (e) {}
+      setListFirstSessionCelebration(false);
+    } else {
+      setGuidedDone((store) => axisSessionDoneClearTrack(store, track));
+    }
+    for (const exId of trackExIds) sessionExerciseLoggedRef.current.delete(exId);
+    setOpenId(null);
   };
   const toggleList = (id) => applySessionDoneToggle(setListDone, id);
   const toggleGuided = (id) => applySessionDoneToggle(setGuidedDone, id);
@@ -21611,17 +21774,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("span", { className: "tab-prog-row__done" + (totalDone === 0 ? " tab-prog-row__done--zero" : "") }, totalDone), /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL)
     ), /*#__PURE__*/
-    (tab === "list" || tab === "guided") ? /*#__PURE__*/React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: () => {
-        axisHapticTick();
-        if (tab === "list") {
-          setListDone({});
-          storageSet(AXIS_SESSION_LIST_DONE_KEY, {});
-        } else {
-          setGuidedDone({});
-          storageSet(AXIS_SESSION_GUIDED_DONE_KEY, {});
-        }
-        setOpenId(null);
-      } }, "Reset") : null), /*#__PURE__*/
+    (tab === "list" || tab === "guided") ? /*#__PURE__*/React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: resetSessionTabProgress }, "Reset") : null), /*#__PURE__*/
     tab === "list" ? /*#__PURE__*/React.createElement("div", {
       className: "prog-bar",
       role: "progressbar",
@@ -21671,12 +21824,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => listDone[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
+    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => listDoneSlice[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
     React.createElement("span", { className: "sh-sec-id" }, sec.exercises.length === 1 ? "1 move" : `${sec.exercises.length} moves`))
     , /*#__PURE__*/
     React.createElement("div", { className: "sh-progress", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => listDone[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
+    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => listDoneSlice[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
     ),
     sec.purpose && /*#__PURE__*/
     React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
@@ -21696,7 +21849,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const nextEx = sec.exercises[idx + 1] || null;
       return (/*#__PURE__*/
         React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: !!listDone[ex.id], onToggle: () => toggleList(ex.id),
+          done: !!listDoneSlice[ex.id], onToggle: () => toggleList(ex.id),
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
@@ -21738,12 +21891,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => guidedDone[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
+    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => guidedDoneSlice[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
     React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
     React.createElement("span", { className: "sh-sec-id" }, sec.exercises.length === 1 ? "1 move" : `${sec.exercises.length} moves`))
     , /*#__PURE__*/
     React.createElement("div", { className: "sh-progress", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => guidedDone[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
+    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => guidedDoneSlice[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
     ),
     sec.purpose && /*#__PURE__*/
     React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
@@ -21763,7 +21916,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       const nextEx = sec.exercises[idx + 1] || null;
       return (/*#__PURE__*/
         React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: !!guidedDone[ex.id], onToggle: () => toggleGuided(ex.id),
+          done: !!guidedDoneSlice[ex.id], onToggle: () => toggleGuided(ex.id),
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
