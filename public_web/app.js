@@ -1106,6 +1106,31 @@ function axisActiveUidForStorage() {
   return "";
 }
 
+/** Per-account celebration flags append `_${uid}` when a uid is available. */
+function axisCelebrationScopedKey(baseKey) {
+  const uid = axisActiveUidForStorage();
+  return uid ? baseKey + "_" + uid : baseKey;
+}
+
+function axisPrefersReducedMotion() {
+  try {
+    return typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  } catch (e) {
+    return false;
+  }
+}
+
+function axisCelebrationFadeMs(ms) {
+  return axisPrefersReducedMotion() ? Math.max(40, Math.round(ms / 2)) : ms;
+}
+
+/** Stable id for the rolling 7-day momentum window (device-local). */
+function axisMomentumWeekKeyFromDates(dates) {
+  if (!dates || !dates.length) return "";
+  const enc = (s) => String(s).replace(/\s+/g, "_");
+  return enc(dates[0]) + "__" + enc(dates[dates.length - 1]);
+}
+
 /** Matches auth-bundle `isOnboarded2`: localStorage value must be JSON `true`. */
 function axisLocalOnboardingComplete() {
   try {
@@ -1234,6 +1259,23 @@ function axisNormalizeDurationLabelToMin(input) {
   const m = s.match(/(\d+)\s*(?:min|MIN|m)\b/i) || s.match(/^(\d+)\s*$/i);
   if (m) return axisFormatDurationMinUpper(m[1]);
   return s.toUpperCase();
+}
+
+/** Guided complete backdrop: amplify circadian orb gradients by doubling rgba alphas (capped at 1). */
+function axisOrbGradientDoubleOpacity(gradientStr) {
+  if (!gradientStr || gradientStr === "none") return gradientStr;
+  return gradientStr.replace(/rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([0-9.]+)\s*\)/gi, (_, r, g, b, a) => {
+    const na = Math.min(1, Number.parseFloat(a) * 2);
+    return `rgba(${r},${g},${b},${na})`;
+  });
+}
+
+/** "12 MIN" / raw → lowercase trailing minutes label for summary lines (e.g. "12 min"). */
+function axisDurationMinLowerFromTrackDuration(trackDuration) {
+  const norm = axisNormalizeDurationLabelToMin(trackDuration);
+  const digits = String(norm).match(/(\d+)/);
+  const n = digits ? digits[1] : "0";
+  return `${n} min`;
 }
 
 /** Home last-session trailing date: TODAY, YESTERDAY, or uppercase short date (e.g. APR 22). */
@@ -2580,6 +2622,382 @@ const css = `
     inset: 0;
     pointer-events: none;
     background: radial-gradient(ellipse 130% 78% at 50% -12%, color-mix(in srgb, var(--mood-color) 35%, transparent) 0%, transparent 56%);
+  }
+  /* Guided complete (closing): atmospheric backdrop + staggered fades — scoped to data-phase only */
+  .guided-overlay[data-phase="closing"] .guided-complete-atmosphere {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    animation: guidedCompleteBackdropWashIn 600ms ease-out forwards;
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-atmosphere__orbs {
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-atmosphere__night-base {
+    position: absolute;
+    inset: 0;
+    background: #000000;
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-atmosphere__bloom {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 80% at 50% 55%, color-mix(in srgb, var(--mood-accent) 28%, transparent) 0%, transparent 70%);
+  }
+  .guided-overlay[data-phase="closing"][data-night="true"] .guided-complete-atmosphere__bloom {
+    background: radial-gradient(ellipse 80% 80% at 50% 55%, rgba(255, 59, 48, 0.28) 0%, transparent 70%);
+  }
+  .guided-overlay[data-phase="closing"] .app-hdr-topbar {
+    position: relative;
+    z-index: 2;
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-stack {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 0;
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-streak {
+    font-size: var(--text-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mood-accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: guidedCompleteLineIn 400ms ease-out 200ms forwards;
+  }
+  .guided-overlay[data-phase="closing"][data-night="true"] .guided-complete-streak {
+    color: #ff3b30;
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-title {
+    font-family: var(--font-ui), system-ui, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin: 0 0 16px;
+    max-width: 320px;
+    opacity: 0;
+    animation: guidedCompleteLineIn 400ms ease-out 400ms forwards;
+  }
+  .guided-overlay[data-phase="closing"][data-night="true"] .guided-complete-title {
+    color: #ffffff;
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-subtitle {
+    font-size: var(--text-base);
+    color: color-mix(in srgb, var(--text-secondary) 88%, transparent);
+    margin: 0;
+    max-width: 300px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: guidedCompleteLineIn 400ms ease-out 550ms forwards;
+  }
+  .guided-overlay[data-phase="closing"][data-night="true"] .guided-complete-subtitle {
+    color: rgba(211, 47, 47, 0.82);
+  }
+  .guided-overlay[data-phase="closing"] .guided-complete-summary {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    margin: 8px 0 0;
+    color: color-mix(in srgb, var(--text-secondary) 70%, transparent);
+    opacity: 0;
+    animation: guidedCompleteLineIn 400ms ease-out 650ms forwards;
+  }
+  .guided-overlay[data-phase="closing"][data-night="true"] .guided-complete-summary {
+    color: rgba(255, 255, 255, 0.42);
+  }
+  .guided-overlay[data-phase="closing"] button.guided-complete-exit {
+    margin-top: 32px;
+    padding: 14px 40px;
+    min-height: 48px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: none;
+    background: transparent !important;
+    border: 1px solid color-mix(in srgb, var(--mood-accent) 50%, transparent) !important;
+    color: var(--mood-accent) !important;
+    -webkit-text-fill-color: var(--mood-accent) !important;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0;
+    animation: guidedCompleteLineIn 400ms ease-out 800ms forwards;
+  }
+  .guided-overlay[data-phase="closing"][data-night="true"] button.guided-complete-exit {
+    border-color: rgba(255, 59, 48, 0.5) !important;
+    color: #ff3b30 !important;
+    -webkit-text-fill-color: #ff3b30 !important;
+  }
+  @keyframes guidedCompleteBackdropWashIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes guidedCompleteLineIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guided-overlay[data-phase="closing"] .guided-complete-atmosphere {
+      animation-duration: 300ms !important;
+      animation-delay: 0s !important;
+    }
+    .guided-overlay[data-phase="closing"] .guided-complete-streak,
+    .guided-overlay[data-phase="closing"] .guided-complete-title,
+    .guided-overlay[data-phase="closing"] .guided-complete-subtitle,
+    .guided-overlay[data-phase="closing"] .guided-complete-summary,
+    .guided-overlay[data-phase="closing"] button.guided-complete-exit {
+      animation-duration: 200ms !important;
+      animation-delay: 0s !important;
+    }
+    .axis-celebration-first-session--guided {
+      animation-duration: 200ms !important;
+      animation-delay: 350ms !important;
+    }
+  }
+  .axis-celebration-first-session--guided {
+    font-size: var(--text-sm);
+    color: var(--mood-accent);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin: 0 0 14px;
+    max-width: 320px;
+    opacity: 0;
+    animation: axisCelebrationFadeIn400 400ms ease-out 700ms forwards;
+  }
+  .guided-overlay[data-phase="closing"][data-night="true"] .axis-celebration-first-session--guided {
+    color: #ff3b30;
+  }
+  @keyframes axisCelebrationFadeIn400 {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes axisDailyGoalHeroPop {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  .metrics-quick-glance__dashboard-hero-num.axis-celebration-daily-goal-pulse {
+    animation: axisDailyGoalHeroPop 300ms ease-out;
+    transform-origin: left center;
+  }
+  .metrics-quick-glance__dashboard-hero-label.axis-metrics-hero-label-fade {
+    transition: opacity 150ms ease-out;
+  }
+  .metrics-daily-goal-insight {
+    font-size: var(--text-xs);
+    color: var(--mood-accent);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 12px;
+    min-height: 1.2em;
+  }
+  .summary-momentum--metrics-quick .momentum-cell.axis-perfect-week-pulse {
+    animation: axisMomentumPerfectPulse 400ms ease-out forwards;
+    transform-origin: center center;
+  }
+  @keyframes axisMomentumPerfectPulse {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+  .axis-perfect-week-caption {
+    font-size: var(--text-sm);
+    color: var(--mood-accent);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-top: 10px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+  .app[data-night="true"] .axis-perfect-week-caption {
+    color: #ff3b30;
+  }
+  .axis-perfect-week-caption.axis-perfect-week-caption--visible {
+    opacity: 1;
+  }
+  .axis-pain-trend-insight {
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--mood-accent) 85%, transparent);
+    font-weight: 500;
+    font-style: italic;
+    margin: 10px 0 4px;
+    transition: opacity 400ms ease-out;
+  }
+  .app[data-night="true"] .axis-pain-trend-insight {
+    color: color-mix(in srgb, #ff3b30 85%, transparent);
+  }
+  .axis-pain-trend-insight--hiding {
+    opacity: 0 !important;
+  }
+  .axis-pain-trend-insight--show {
+    opacity: 1;
+  }
+  .list-session-complete-stack {
+    padding: 10px var(--page-gutter, 16px) 6px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .axis-celebration-first-session--list {
+    font-size: var(--text-sm);
+    color: var(--mood-accent);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin: 0 0 8px;
+    opacity: 0;
+    animation: axisCelebrationFadeIn400 400ms ease-out 300ms forwards;
+  }
+  .app[data-night="true"] .axis-celebration-first-session--list {
+    color: #ff3b30;
+  }
+  .list-session-complete-title {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .axis-first-bookmark-tip-host {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .axis-first-bookmark-tip {
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 500;
+    background: #0f1e2e;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+    transition: opacity 200ms ease-out;
+    filter: drop-shadow(0 2px 10px rgba(8, 13, 24, 0.35));
+  }
+  .axis-first-bookmark-tip.axis-first-bookmark-tip--bottom {
+    right: auto;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translate(-50%, 0);
+  }
+  .axis-first-bookmark-tip.axis-first-bookmark-tip--visible {
+    opacity: 1;
+  }
+  .axis-first-bookmark-tip__caret {
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: #0f1e2e;
+    border-right: 1px solid rgba(255, 255, 255, 0.14);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    box-sizing: border-box;
+  }
+  .axis-first-bookmark-tip.axis-first-bookmark-tip--bottom .axis-first-bookmark-tip__caret {
+    right: auto;
+    left: 50%;
+    top: -5px;
+    transform: translateX(-50%) rotate(-45deg);
+  }
+  .axis-onboarding-bloom-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483600;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #080d18;
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+  .axis-onboarding-bloom-overlay.axis-onboarding-bloom-overlay--on {
+    opacity: 1;
+  }
+  .axis-onboarding-bloom-overlay__wash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, color-mix(in srgb, var(--mood-accent) 35%, transparent) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+  .axis-onboarding-bloom-overlay.axis-onboarding-bloom-overlay--on .axis-onboarding-bloom-overlay__wash {
+    opacity: 1;
+  }
+  .axis-onboarding-bloom-overlay__mark {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--mood-accent);
+    font-size: clamp(28px, 8vw, 40px);
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+  .axis-onboarding-bloom-overlay.axis-onboarding-bloom-overlay--on .axis-onboarding-bloom-overlay__mark {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .metrics-quick-glance__dashboard-hero-num.axis-celebration-daily-goal-pulse {
+      animation: none;
+    }
+    .summary-momentum--metrics-quick .momentum-cell.axis-perfect-week-pulse {
+      animation: none;
+    }
+    .metrics-quick-glance__dashboard-hero-label.axis-metrics-hero-label-fade {
+      transition-duration: 75ms !important;
+    }
+    .axis-perfect-week-caption {
+      transition-duration: 200ms !important;
+    }
+    .axis-pain-trend-insight {
+      transition-duration: 200ms ease-out !important;
+    }
+    .axis-celebration-first-session--list {
+      animation-duration: 200ms !important;
+      animation-delay: 150ms !important;
+    }
+    .axis-onboarding-bloom-overlay,
+    .axis-onboarding-bloom-overlay__wash,
+    .axis-onboarding-bloom-overlay__mark {
+      transition-duration: 200ms !important;
+    }
   }
   .guided-instructions-pill__btn {
     -webkit-tap-highlight-color: transparent;
@@ -13998,12 +14416,18 @@ const css = `
   .home .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .track-card-home-body {
     padding-right: 44px;
   }
-  .home .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .home-track-bookmark-btn {
+  .home .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .axis-first-bookmark-tip-host {
     position: absolute;
     top: 8px;
     right: 14px;
     margin: 0;
     z-index: 2;
+  }
+  .home .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .home-track-bookmark-btn {
+    position: static;
+    top: auto;
+    right: auto;
+    margin: 0;
   }
   .home .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .track-card-home-footer {
     padding-left: 0;
@@ -15110,7 +15534,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
     }))));
 }
 
-function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onFav, note, onNote, nextName, hideTimer = false, hideDone = false, exerciseDurationSeconds, theme = "dark", ultraNight = false, trackId, listRailLayout = false, guidedPreviewLayout = false, listSectionLabel = "" }) {
+function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onFav, note, onNote, nextName, hideTimer = false, hideDone = false, exerciseDurationSeconds, theme = "dark", ultraNight = false, trackId, listRailLayout = false, guidedPreviewLayout = false, listSectionLabel = "", firstBookmarkTooltip = false }) {
   const rowRef = useRef(null);
   const sessionDetailPanelRef = useRef(null);
   const [armed, setArmed] = React.useState(false);
@@ -15140,19 +15564,26 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   const metaZonePlain = String(listSectionLabel || "").trim();
   const listMetaSecondary = listRailLayout ? axisExerciseTrackMetaOneWord(ex) : axisExerciseTargetMetaLine(ex, metaZonePlain);
   const listTabExerciseTitle = listRailLayout && !hideDone ? axisExerciseListParenDirectionDisplayName(ex.name) : ex.name;
+  const bookmarkTipPreferBottom = typeof window !== "undefined" && window.innerWidth < 400;
   /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
   const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
-  !skipped && /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
+  !skipped && /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+  React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }), /*#__PURE__*/
+  React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
+  ),
   /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, /*#__PURE__*/React.createElement("span", { className: "ra-btn__dash", "aria-hidden": true }, "\u2014")));
   const unicodeChevronEl = /*#__PURE__*/React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: guidedPreviewLayout ? {} : { marginLeft: 2 } }, "\u25BE");
   const listRailPinskipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row", onClick: (e) => e.stopPropagation() },
-  /*#__PURE__*/React.createElement("button", {
+  /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+  React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }), /*#__PURE__*/
+  React.createElement("button", {
     type: "button",
     className: "er-list-icon-btn er-list-pin-btn" + (faved ? " er-list-pin-btn--pinned" : ""),
     onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();},
     "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
     "aria-pressed": faved ? "true" : "false"
   }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
+  ),
   /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "er-list-icon-btn er-list-skip-btn" + (skipped ? " er-list-skip-btn--skipped" : ""),
@@ -15276,12 +15707,53 @@ function axisWeekdayShortLabel(dateStr) {
   return labels[d.getDay()];
 }
 
+function AxisFirstBookmarkSavedTip({ active, preferBottom = false }) {
+  const [mounted, setMounted] = React.useState(false);
+  const [opaque, setOpaque] = React.useState(false);
+  React.useEffect(() => {
+    if (!active) {
+      setMounted(false);
+      setOpaque(false);
+      return;
+    }
+    const inMs = axisCelebrationFadeMs(200);
+    const hold = 1800;
+    const outMs = axisCelebrationFadeMs(200);
+    setMounted(true);
+    setOpaque(false);
+    const tIn = window.setTimeout(() => setOpaque(true), 16);
+    const tOut = window.setTimeout(() => setOpaque(false), inMs + hold);
+    const tDone = window.setTimeout(() => {
+      setMounted(false);
+    }, inMs + hold + outMs);
+    return () => {
+      clearTimeout(tIn);
+      clearTimeout(tOut);
+      clearTimeout(tDone);
+    };
+  }, [active]);
+  if (!mounted) return null;
+  return (/*#__PURE__*/
+    React.createElement("span", {
+      className: "axis-first-bookmark-tip" + (preferBottom ? " axis-first-bookmark-tip--bottom" : "") + " axis-first-bookmark-tip--visible",
+      role: "status",
+      style: { opacity: opaque ? 1 : 0, transition: `opacity ${axisCelebrationFadeMs(200)}ms ease-out` }
+    }, /*#__PURE__*/
+    React.createElement("span", { className: "axis-first-bookmark-tip__caret", "aria-hidden": true }), "Saved to Bookmarks.")
+  );
+}
+
 // ─────────────────────────────────────────────────────────────
 //  MOMENTUM — 7-day strip (device-only)
 // ─────────────────────────────────────────────────────────────
 function MomentumMap({ history, nightMode = false, theme = "dark", compact = false, metricsQuickGlance = false }) {
   const [detailDate, setDetailDate] = React.useState(null);
+  const [perfectPulse, setPerfectPulse] = React.useState(false);
+  const [perfectCaptionVisible, setPerfectCaptionVisible] = React.useState(false);
+  const perfectTimersRef = React.useRef([]);
   const { dates, sessionCounts, active } = axisWeekMomentumFromHistory(history);
+  const weekKey = React.useMemo(() => axisMomentumWeekKeyFromDates(dates), [dates]);
+  const allSevenFilled = active.length === 7 && active.every(Boolean);
   const minutesByDate = React.useMemo(() => {
     const acc = {};
     for (const e of history || []) {
@@ -15295,20 +15767,60 @@ function MomentumMap({ history, nightMode = false, theme = "dark", compact = fal
     if (!detailDate) return [];
     return (history || []).filter((e) => axisLocalDateKey(e.date) === detailDate);
   }, [history, detailDate]);
+
+  React.useEffect(() => {
+    perfectTimersRef.current.forEach(clearTimeout);
+    perfectTimersRef.current = [];
+    if (!metricsQuickGlance) {
+      setPerfectPulse(false);
+      setPerfectCaptionVisible(false);
+      return;
+    }
+    if (!allSevenFilled || !weekKey) {
+      setPerfectPulse(false);
+      setPerfectCaptionVisible(false);
+      return;
+    }
+    const reduced = axisPrefersReducedMotion();
+    const storageKey = `axis_perfect_week_${weekKey}`;
+    const alreadyPulsed = storageGet(storageKey, false);
+    const pulseMs = reduced ? 0 : 400;
+    const maxStagger = reduced ? 0 : 240;
+    const captionDelayAfterPulse = reduced ? axisCelebrationFadeMs(300) : 300;
+
+    if (!alreadyPulsed) {
+      try { storageSet(storageKey, true); } catch (e) {}
+      setPerfectPulse(true);
+      const tOff = window.setTimeout(() => setPerfectPulse(false), pulseMs + maxStagger + 40);
+      perfectTimersRef.current.push(tOff);
+    } else {
+      setPerfectPulse(false);
+    }
+
+    const capDelay = alreadyPulsed ? 0 : pulseMs + maxStagger + captionDelayAfterPulse;
+    const capIn = window.setTimeout(() => setPerfectCaptionVisible(true), capDelay);
+    perfectTimersRef.current.push(capIn);
+
+    return () => {
+      perfectTimersRef.current.forEach(clearTimeout);
+      perfectTimersRef.current = [];
+    };
+  }, [history, metricsQuickGlance, weekKey, allSevenFilled]);
+
   const styleDayOff = theme === "light" ? {
     background: "#9F9FA5",
     border: "1px solid rgba(15, 30, 46, 0.125)",
-        boxShadow: "none",
-        backdropFilter: "none",
-        WebkitBackdropFilter: "none"
-      } : {
-        background: "var(--glass-bg)",
-        border: "1px solid var(--glass-border)",
-        boxShadow: "inset 0 1px 0 var(--glass-specular)",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)"
-      };
-      return (/*#__PURE__*/
+    boxShadow: "none",
+    backdropFilter: "none",
+    WebkitBackdropFilter: "none"
+  } : {
+    background: "var(--glass-bg)",
+    border: "1px solid var(--glass-border)",
+    boxShadow: "inset 0 1px 0 var(--glass-specular)",
+    backdropFilter: "blur(8px)",
+    WebkitBackdropFilter: "blur(8px)"
+  };
+  return (/*#__PURE__*/
     React.createElement("div", { className: "summary-momentum" + (compact ? " summary-momentum--compact" : "") + (metricsQuickGlance ? " summary-momentum--metrics-quick" : "") }, /*#__PURE__*/
     !metricsQuickGlance && /*#__PURE__*/React.createElement("div", { className: "summary-momentum-head" }, /*#__PURE__*/
     React.createElement("div", { className: "summary-title", style: { marginBottom: compact ? 0 : 6 } }, compact ? "Last 7 days" : "7-Day Momentum"), /*#__PURE__*/
@@ -15333,12 +15845,15 @@ function MomentumMap({ history, nightMode = false, theme = "dark", compact = fal
         WebkitBackdropFilter: "none"
       } : styleDayOff;
       const selected = detailDate === dateStr;
+      const staggerMs = perfectPulse && metricsQuickGlance && allSevenFilled && !axisPrefersReducedMotion() ? i * 40 : 0;
+      const baseStyle = nightMode ? styleNight : styleDay;
+      const mergedStyle = staggerMs ? { ...baseStyle, animationDelay: `${staggerMs}ms` } : baseStyle;
       return (/*#__PURE__*/
         React.createElement("button", {
           key: i,
           type: "button",
-          className: "momentum-cell momentum-cell--btn" + (on ? " momentum-cell--on" : "") + (selected ? " momentum-cell--selected" : ""),
-          style: nightMode ? styleNight : styleDay,
+          className: "momentum-cell momentum-cell--btn" + (on ? " momentum-cell--on" : "") + (selected ? " momentum-cell--selected" : "") + (perfectPulse && metricsQuickGlance && allSevenFilled ? " axis-perfect-week-pulse" : ""),
+          style: mergedStyle,
           "aria-label": `${dateStr}: ${count} session(s), ${mins} minutes`,
           "aria-pressed": selected ? "true" : "false",
           onClick: () => {axisHapticTick();setDetailDate((d) => d === dateStr ? null : dateStr);}
@@ -15347,6 +15862,9 @@ function MomentumMap({ history, nightMode = false, theme = "dark", compact = fal
 
     }    )
     ), /*#__PURE__*/
+    metricsQuickGlance && allSevenFilled ? /*#__PURE__*/React.createElement("div", {
+      className: "axis-perfect-week-caption" + (perfectCaptionVisible ? " axis-perfect-week-caption--visible" : "")
+    }, "Perfect week.") : null,
     !compact && /*#__PURE__*/React.createElement("div", { className: "momentum-labels" }, /*#__PURE__*/
     React.createElement("span", { className: "momentum-label" }, "7 days ago"), /*#__PURE__*/
     React.createElement("span", { className: "momentum-label" }, "Today")
@@ -15715,7 +16233,7 @@ function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onRe
 }
 
 function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
-  onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45, activeTrackId = "" }) {
+  onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45, activeTrackId = "", showFirstAxisSessionLine = false }) {
 
   const isNight = nightMode;
   const isDark = isNight || theme === "dark";
@@ -16483,6 +17001,16 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
         overflow: "hidden"
       } }, /*#__PURE__*/
     React.createElement("style", null, css),
+    phase === "closing" && /*#__PURE__*/React.createElement("div", { className: "guided-complete-atmosphere", "aria-hidden": true },
+    !isNight && ct.orb1 && ct.orb1 !== "none" ? /*#__PURE__*/React.createElement("div", {
+      className: "guided-complete-atmosphere__orbs",
+      style: {
+        background: `${axisOrbGradientDoubleOpacity(ct.orb1)}, ${axisOrbGradientDoubleOpacity(ct.orb2)}, ${axisOrbGradientDoubleOpacity(ct.orb3)}`,
+      }
+    }) : null,
+    isNight ? /*#__PURE__*/React.createElement("div", { className: "guided-complete-atmosphere__night-base", "aria-hidden": true }) : null,
+    /*#__PURE__*/React.createElement("div", { className: "guided-complete-atmosphere__bloom", "aria-hidden": true })
+    ),
 
 
 
@@ -16502,7 +17030,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
         width: 36, height: 36, borderRadius: "50%",
         border: `1px solid ${isNight ? "#FF3B30" : guidedCloseShellBdr}`,
         background: isNight ? "rgba(255,255,255,0.07)" : guidedCloseShellBg,
-        cursor: "pointer", color: isNight ? "rgba(255,255,255,0.5)" : guidedCloseIcon, flexShrink: 0,
+        cursor: "pointer",
+        color: phase === "closing" ? "var(--text-secondary)" : isNight ? "rgba(255,255,255,0.5)" : guidedCloseIcon,
+        WebkitTextFillColor: phase === "closing" ? "var(--text-secondary)" : undefined,
+        flexShrink: 0,
         WebkitTapHighlightColor: "transparent"
       } }, /*#__PURE__*/
     React.createElement("svg", { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
@@ -16568,25 +17099,13 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
 
 
     phase === "closing" && /*#__PURE__*/
-    React.createElement("div", { style: {
-        flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-        padding: "48px", textAlign: "center", position: "relative", zIndex: 10
-      } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontFamily: guidedSansDisplay, fontSize: 28, fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2, color: guidedExerciseTitleColor, marginBottom: 16, maxWidth: 320,
-        textShadow: "none" } }, "Guided complete"
-
-    ), /*#__PURE__*/
-    React.createElement("div", { style: { fontSize: "var(--text-base)", color: S, marginBottom: 32, maxWidth: 300, lineHeight: 1.6 } }, "Take a few moments to breathe or rest."
-
-    ), /*#__PURE__*/
-    React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: onExit, "aria-label": "Close", style: {
-        padding: "16px 48px", borderRadius: 12, cursor: "pointer",
-        background: isNight ? A : "var(--mood-color)", border: nightMode ? "1px solid #FF3B30" : "none", color: guidedFilledText,
-        WebkitTextFillColor: guidedFilledText,
-        fontFamily: guidedMonoUi, fontSize: "var(--text-sm)", fontWeight: 700,
-        letterSpacing: "0.08em", textTransform: "uppercase",
-        boxShadow: "none"
-      } }, "Exit")
+    React.createElement("div", { className: "guided-complete-stack" },
+    streak >= 2 ? /*#__PURE__*/React.createElement("div", { className: "guided-complete-streak" }, `${streak}-DAY STREAK`) : null,
+    showFirstAxisSessionLine ? /*#__PURE__*/React.createElement("div", { className: "axis-celebration-first-session axis-celebration-first-session--guided" }, "Your first AXIS session.") : null,
+    /*#__PURE__*/React.createElement("div", { className: "guided-complete-title" }, "Guided complete."),
+    /*#__PURE__*/React.createElement("div", { className: "guided-complete-subtitle" }, "Take a few moments to breathe or rest."),
+    /*#__PURE__*/React.createElement("div", { className: "guided-complete-summary" }, `${listTotal} exercises \u00b7 ${axisDurationMinLowerFromTrackDuration(trackDuration)}`),
+    /*#__PURE__*/React.createElement("button", { type: "button", className: "guided-complete-exit", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);onExit();}, "aria-label": "Exit guided session" }, "Exit")
     ),
 
 
@@ -18792,6 +19311,16 @@ function axisMetricsPainEntriesDescending(painByDay) {
   return out;
 }
 
+/** Newest-first rows: each step <= prior => stabilizing / trending down. */
+function axisPainTrendingDownLastThree(painByDay) {
+  const rows = axisMetricsPainEntriesDescending(painByDay);
+  if (rows.length < 3) return false;
+  const a = rows[0].level;
+  const b = rows[1].level;
+  const c = rows[2].level;
+  return a <= b && b <= c;
+}
+
 function axisMetricsPainLast28DateKeys() {
   const out = [];
   for (let i = 27; i >= 0; i--) {
@@ -19196,6 +19725,8 @@ function MetricsPainCard({ theme, nightMode, activePeriod, painByDay, onLogPain,
   const [editV, setEditV] = React.useState(5);
   const [editNote, setEditNote] = React.useState("");
   const logBodyRef = React.useRef(null);
+  const [painTrendMounted, setPainTrendMounted] = React.useState(false);
+  const [painTrendOpaque, setPainTrendOpaque] = React.useState(false);
   const periodPain = axisResolveMoodPeriod(activePeriod);
   const ctPain = CIRCADIAN_THEMES[periodPain][theme === "dark" ? "dark" : "light"];
   const moodAccent = nightMode ? "#FF3B30" : (ctPain && ctPain.accent ? ctPain.accent : "#4DA8FF");
@@ -19205,6 +19736,7 @@ function MetricsPainCard({ theme, nightMode, activePeriod, painByDay, onLogPain,
   const contextLine = painTodayVal != null ? "Last logged: " + axisMetricsShortDateFromDateKey(dkToday) : null;
   const painCallout = axisMetricsFactAt(AXIS_METRICS_PAIN_FACTS, factsCycle);
   const gridMode = painGridMode === "7d" ? "7d" : "28d";
+  const trendingDown = axisPainTrendingDownLastThree(painByDay);
   const heatmapBlock = !hasAnyEntry ? /*#__PURE__*/React.createElement("p", { className: "pain-heat__placeholder" }, "No entries yet. Tap LOG PAIN to start.") : /*#__PURE__*/React.createElement(MetricsPainGrid, {
     painByDay: painByDay,
     mode: gridMode,
@@ -19217,6 +19749,18 @@ function MetricsPainCard({ theme, nightMode, activePeriod, painByDay, onLogPain,
     const n = painByDay && painByDay[dkToday] && axisMetricsPainGetNote(painByDay[dkToday]);
     setDraftNote(n || "");
   }, [formOpen, dkToday, painByDay]);
+  React.useEffect(() => {
+    if (!trendingDown) {
+      if (!painTrendMounted) return;
+      setPainTrendOpaque(false);
+      const outMs = axisPrefersReducedMotion() ? 150 : 300;
+      const t = window.setTimeout(() => setPainTrendMounted(false), outMs);
+      return () => clearTimeout(t);
+    }
+    setPainTrendMounted(true);
+    const rid = requestAnimationFrame(() => setPainTrendOpaque(true));
+    return () => cancelAnimationFrame(rid);
+  }, [trendingDown]);
   const savePainForm = () => {
     axisHapticTick();
     const note = draftNote.trim().slice(0, 48);
@@ -19248,6 +19792,9 @@ function MetricsPainCard({ theme, nightMode, activePeriod, painByDay, onLogPain,
   React.createElement("button", { type: "button", role: "tab", "aria-selected": painGridMode === "28d", className: "pain-section__toggle" + (painGridMode === "28d" ? " pain-section__toggle--active" : ""), onClick: () => { axisHapticTick(); setPainGridMode("28d"); } }, "4 Weeks")
   ),
   heatmapBlock,
+  painTrendMounted ? /*#__PURE__*/React.createElement("div", {
+    className: "axis-pain-trend-insight" + (painTrendOpaque ? " axis-pain-trend-insight--show" : " axis-pain-trend-insight--hiding")
+  }, "Pain trending down. Keep going.") : null,
   painCallout ? /*#__PURE__*/React.createElement("div", { className: "weight-section__insight" }, painCallout) : null,
   /*#__PURE__*/React.createElement("button", {
     type: "button",
@@ -19568,6 +20115,19 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const manifestBlobUrlRef = useRef(null);
   const prevMoodBgRef = useRef(null);
   const moodXfadeTimerRef = useRef(null);
+  const prevTodayMinutesForGoalRef = useRef(null);
+  const pendingDailyGoalCelebrationRef = useRef(false);
+  const dailyGoalCelebrationTimersRef = useRef([]);
+  const [listFirstSessionCelebration, setListFirstSessionCelebration] = useState(false);
+  const [guidedFirstSessionCelebration, setGuidedFirstSessionCelebration] = useState(false);
+  const [dailyGoalCelebrationNonce, setDailyGoalCelebrationNonce] = useState(0);
+  const [dailyGoalHeroPulse, setDailyGoalHeroPulse] = useState(false);
+  const [dailyGoalEyebrowGoalHit, setDailyGoalEyebrowGoalHit] = useState(false);
+  const [dailyGoalEyebrowMovementOpaque, setDailyGoalEyebrowMovementOpaque] = useState(true);
+  const [dailyGoalInsightMounted, setDailyGoalInsightMounted] = useState(false);
+  const [dailyGoalInsightOpaque, setDailyGoalInsightOpaque] = useState(false);
+  const [bookmarkTooltipExerciseId, setBookmarkTooltipExerciseId] = useState(null);
+  const [bookmarkTooltipTrackId, setBookmarkTooltipTrackId] = useState(null);
 
   useLayoutEffect(() => {
     try {
@@ -19833,6 +20393,91 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     prevTabRef.current = tab;
   }, [tab]);
 
+  useEffect(() => {
+    if (!bookmarkTooltipExerciseId && !bookmarkTooltipTrackId) return;
+    const totalMs = axisCelebrationFadeMs(200) + 1800 + axisCelebrationFadeMs(200);
+    const id = window.setTimeout(() => {
+      setBookmarkTooltipExerciseId(null);
+      setBookmarkTooltipTrackId(null);
+    }, totalMs);
+    return () => clearTimeout(id);
+  }, [bookmarkTooltipExerciseId, bookmarkTooltipTrackId]);
+
+  useEffect(() => {
+    if (view !== "home" || !hasActiveSession || tab !== "list") {
+      setListFirstSessionCelebration(false);
+      return;
+    }
+    const ALL = getAll(track);
+    const activeAll = ALL.filter((e) => !skipped[e.id]);
+    const T = activeAll.length;
+    const doneC = activeAll.filter((e) => listDone[e.id]).length;
+    if (T === 0 || doneC !== T) {
+      setListFirstSessionCelebration(false);
+      return;
+    }
+    const k = axisCelebrationScopedKey("axis_first_session_complete");
+    if (storageGet(k, false)) return;
+    storageSet(k, true);
+    setListFirstSessionCelebration(true);
+  }, [view, hasActiveSession, tab, track, skipped, listDone]);
+
+  useEffect(() => {
+    const goalMin = Math.max(0, Number(dailyGoalMinutes) || 0);
+    const todayStr = new Date().toDateString();
+    const todayTot = axisSumMinutesOnLocalDay(axisHistoryForDailyTotals(history), todayStr);
+    const prev = prevTodayMinutesForGoalRef.current;
+    prevTodayMinutesForGoalRef.current = todayTot;
+    if (prev === null) return;
+    if (goalMin <= 0) return;
+    const celebKey = `axis_daily_goal_celebrated_${todayStr}`;
+    if (storageGet(celebKey, false)) return;
+    if (prev >= goalMin || todayTot < goalMin) return;
+    storageSet(celebKey, true);
+    pendingDailyGoalCelebrationRef.current = true;
+    setDailyGoalCelebrationNonce((n) => n + 1);
+  }, [history, dailyGoalMinutes]);
+
+  useEffect(() => {
+    if (view !== "metrics") return;
+    if (!pendingDailyGoalCelebrationRef.current) return;
+    pendingDailyGoalCelebrationRef.current = false;
+    dailyGoalCelebrationTimersRef.current.forEach(clearTimeout);
+    dailyGoalCelebrationTimersRef.current = [];
+    const reduced = axisPrefersReducedMotion();
+    const fade150 = axisCelebrationFadeMs(150);
+    const fade300 = axisCelebrationFadeMs(300);
+    const holdGoalLbl = reduced ? 1250 : 2500;
+    const insightHold = reduced ? 1200 : 2400;
+
+    const schedule = (fn, ms) => {
+      const tid = window.setTimeout(fn, ms);
+      dailyGoalCelebrationTimersRef.current.push(tid);
+    };
+
+    setDailyGoalEyebrowMovementOpaque(true);
+    setDailyGoalEyebrowGoalHit(false);
+    setDailyGoalInsightMounted(true);
+    setDailyGoalInsightOpaque(false);
+
+    setDailyGoalHeroPulse(true);
+    schedule(() => setDailyGoalHeroPulse(false), reduced ? 1 : 300);
+
+    schedule(() => setDailyGoalEyebrowMovementOpaque(false), fade150);
+    schedule(() => setDailyGoalEyebrowGoalHit(true), fade150 * 2);
+    schedule(() => setDailyGoalEyebrowGoalHit(false), fade150 * 2 + holdGoalLbl + fade150);
+    schedule(() => setDailyGoalEyebrowMovementOpaque(true), fade150 * 2 + holdGoalLbl + fade150 * 2);
+
+    schedule(() => setDailyGoalInsightOpaque(true), fade300);
+    schedule(() => setDailyGoalInsightOpaque(false), fade300 + insightHold);
+    schedule(() => setDailyGoalInsightMounted(false), fade300 + insightHold + fade300);
+
+    return () => {
+      dailyGoalCelebrationTimersRef.current.forEach(clearTimeout);
+      dailyGoalCelebrationTimersRef.current = [];
+    };
+  }, [view, dailyGoalCelebrationNonce]);
+
   const SECTIONS = getSections(track);
   const ALL = getAll(track);
   const activeAll = ALL.filter((e) => !skipped[e.id]);
@@ -19873,12 +20518,32 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const toggleGuided = (id) => applySessionDoneToggle(setGuidedDone, id);
 
   const toggleSkip = (id) => setSkipped((s) => ({ ...s, [id]: !s[id] }));
-  const toggleFav = (id) => setFavs((f) => ({ ...f, [id]: !f[id] }));
+  const toggleFav = (id) => {
+    setFavs((f) => {
+      const was = !!f[id];
+      const nextOn = !was;
+      if (nextOn) {
+        const k = axisCelebrationScopedKey("axis_first_bookmark");
+        if (!storageGet(k, false)) {
+          storageSet(k, true);
+          window.setTimeout(() => setBookmarkTooltipExerciseId(id), 0);
+        }
+      }
+      return { ...f, [id]: nextOn };
+    });
+  };
   const toggleFavoriteTrack = (trackId) => {
     if (!trackId || !TRACKS[trackId]) return;
-    setFavoriteTrackIds((prev) =>
-    prev.indexOf(trackId) !== -1 ? prev.filter((id) => id !== trackId) : [trackId, ...prev.filter((id) => id !== trackId)].slice(0, 24)
-    );
+    setFavoriteTrackIds((prev) => {
+      const idx = prev.indexOf(trackId);
+      if (idx !== -1) return prev.filter((id) => id !== trackId);
+      const k = axisCelebrationScopedKey("axis_first_bookmark");
+      if (!storageGet(k, false)) {
+        storageSet(k, true);
+        window.setTimeout(() => setBookmarkTooltipTrackId(trackId), 0);
+      }
+      return [trackId, ...prev.filter((id) => id !== trackId)].slice(0, 24);
+    });
   };
   const getTrackDisplayDurationForFavorites = (trackId) => {
     const sections = getSections(trackId);
@@ -20222,9 +20887,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
+      React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+      React.createElement(AxisFirstBookmarkSavedTip, { active: bookmarkTooltipTrackId === t.id, preferBottom: typeof window !== "undefined" && window.innerWidth < 400 }), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
       React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
-      ))));
+      )))));
     });
     const favoritesExPanelEl = pinnedExerciseRows.length === 0 ? favoritesEmptyExEl : pinnedExerciseRows.map(({ ex, trackId, trackLabel }) => {
       const tline = axisExerciseTargetMetaLine(ex, "");
@@ -20247,9 +20914,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ex.sub ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, ex.sub) : null), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, trackTitle), /*#__PURE__*/
+      React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+      React.createElement(AxisFirstBookmarkSavedTip, { active: bookmarkTooltipExerciseId === ex.id, preferBottom: typeof window !== "undefined" && window.innerWidth < 400 }), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": exBookmarked ? "true" : "false", "aria-label": exBookmarked ? "Remove exercise bookmark" : "Bookmark exercise", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFav(ex.id);} }, /*#__PURE__*/
       React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, exBookmarked ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
-      ))));
+      )))));
     });
     const favoritesCardsEl = favoritesSegment === "tracks" ? favoritesTracksPanelEl : favoritesExPanelEl;
     return (/*#__PURE__*/
@@ -20291,6 +20960,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     const ctMetricsAccent = CIRCADIAN_THEMES[periodForMetricsAccent] && CIRCADIAN_THEMES[periodForMetricsAccent][theme === "dark" ? "dark" : "light"];
     const metricsSessionAccent = nightMode ? "#FF3B30" : (ctMetricsAccent && ctMetricsAccent.accent ? ctMetricsAccent.accent : "#4DA8FF");
     const movementStreakDays = axisMovementStreakDays(axisHistoryForDailyTotals(history));
+    const heroLblFadeMs = axisCelebrationFadeMs(150);
+    const heroInsightFadeMs = axisCelebrationFadeMs(300);
     return (/*#__PURE__*/
       React.createElement("div", { className: "app app--nav-gap-tight", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
       React.createElement("style", null, css), /*#__PURE__*/
@@ -20307,9 +20978,32 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "metrics-stat-feature metrics-quick-glance__unified-card axis-surface-tmt", role: "status", style: { "--metrics-session-accent": metricsSessionAccent } }, /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance__dashboard-grid" }, /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance__dashboard-left-top" }, /*#__PURE__*/
-      React.createElement("div", { className: "metrics-quick-glance__stat-title metrics-quick-glance__stat-title--movement metrics-quick-glance__dashboard-hero-label" }, "MOVEMENT TODAY"), /*#__PURE__*/
+      React.createElement("div", {
+        className: "metrics-quick-glance__stat-title metrics-quick-glance__stat-title--movement metrics-quick-glance__dashboard-hero-label",
+        style: { position: "relative", minHeight: "1.15em", alignSelf: "flex-start", width: "100%" }
+      }, /*#__PURE__*/
+      React.createElement("span", {
+        className: "axis-metrics-hero-label-fade",
+        style: {
+          opacity: dailyGoalEyebrowMovementOpaque ? 1 : 0,
+          transition: `opacity ${heroLblFadeMs}ms ease-out`,
+          display: "inline-block"
+        }
+      }, "MOVEMENT TODAY"), /*#__PURE__*/
+      React.createElement("span", {
+        className: "axis-metrics-hero-label-fade",
+        style: {
+          position: "absolute",
+          left: 0,
+          top: 0,
+          opacity: dailyGoalEyebrowGoalHit ? 1 : 0,
+          transition: `opacity ${heroLblFadeMs}ms ease-out`,
+          display: "inline-block"
+        }
+      }, "GOAL HIT.")
+      ), /*#__PURE__*/
       React.createElement("div", { className: "metrics-quick-glance__dashboard-hero-metric" }, /*#__PURE__*/
-      React.createElement("span", { className: "metrics-quick-glance__dashboard-hero-num" }, String(Math.max(0, Math.round(todayMinutesTotal)))), /*#__PURE__*/
+      React.createElement("span", { className: "metrics-quick-glance__dashboard-hero-num" + (dailyGoalHeroPulse ? " axis-celebration-daily-goal-pulse" : "") }, String(Math.max(0, Math.round(todayMinutesTotal)))), /*#__PURE__*/
       React.createElement("span", { className: "metrics-quick-glance__dashboard-hero-unit" }, "MIN")
       )
       ), /*#__PURE__*/
@@ -20332,6 +21026,13 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       )
       )
       ),
+      dailyGoalInsightMounted ? /*#__PURE__*/React.createElement("div", {
+        className: "metrics-daily-goal-insight",
+        style: {
+          opacity: dailyGoalInsightOpaque ? 1 : 0,
+          transition: `opacity ${heroInsightFadeMs}ms ease-out`
+        }
+      }, "Daily goal reached. Well done.") : null,
       /*#__PURE__*/React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }),
       React.createElement("div", { className: "metrics-goals-wrap metrics-section--goals" }, /*#__PURE__*/
       React.createElement("div", { className: "metrics-goals-block" }, /*#__PURE__*/
@@ -20662,9 +21363,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
       React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
       React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
+      React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+      React.createElement(AxisFirstBookmarkSavedTip, { active: bookmarkTooltipTrackId === t.id, preferBottom: typeof window !== "undefined" && window.innerWidth < 400 }), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
       React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
-      ))));
+      )))));
     };
 
     const minsNow = new Date().getHours() * 60 + new Date().getMinutes();
@@ -20855,7 +21558,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const guidedOverlayEl = guidedActive ? /*#__PURE__*/
   React.createElement(GuidedOverlay, {
     theme: theme, activePeriod: activePeriod, activeAll: filteredAll,
-    onExit: () => {setGuidedActive(false);setSessionComplete(false);},
+    onExit: () => {setGuidedActive(false);setSessionComplete(false);setGuidedFirstSessionCelebration(false);},
     onToggle: toggleGuided,
     onSkip: toggleSkip,
     formatTime: formatTime,
@@ -20863,10 +21566,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     trackDuration: TRACKS[track].duration,
     nightMode: nightMode,
     streak: streak,
-    onSessionComplete: () => setSessionComplete(true),
+    onSessionComplete: () => {
+      setSessionComplete(true);
+      const k = axisCelebrationScopedKey("axis_first_session_complete");
+      if (!storageGet(k, false)) {
+        storageSet(k, true);
+        setGuidedFirstSessionCelebration(true);
+      }
+    },
     onExerciseDurationChange: (seconds) => setExerciseDuration(seconds),
     exerciseDurationSeconds: exerciseDuration || 45,
-    activeTrackId: track }
+    activeTrackId: track,
+    showFirstAxisSessionLine: guidedFirstSessionCelebration }
   ) :
   null;
 
@@ -20946,7 +21657,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       "aria-valuenow": Math.min(Math.round(listTotalDone), Math.max(1, TOTAL)),
       "aria-label": "Session exercises completed"
     }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })) : null
-    )
+    ),
+    tab === "list" && TOTAL > 0 && listTotalDone === TOTAL ? /*#__PURE__*/React.createElement("div", { className: "list-session-complete-stack" },
+      listFirstSessionCelebration ? /*#__PURE__*/React.createElement("div", { className: "axis-celebration-first-session axis-celebration-first-session--list" }, "Your first AXIS session.") : null,
+      /*#__PURE__*/React.createElement("div", { className: "list-session-complete-title" }, "Session complete.")
+    ) : null
     )
     )
     )
@@ -21012,6 +21727,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
+          firstBookmarkTooltip: bookmarkTooltipExerciseId === ex.id,
           note: notes[ex.id], onNote: (val) => setNote(ex.id, val),
           nextName: nextEx ? axisExerciseListParenDirectionDisplayName(nextEx.name) : null,
           exerciseDurationSeconds: exerciseDuration,
@@ -21078,6 +21794,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
           open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
           skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
           faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
+          firstBookmarkTooltip: bookmarkTooltipExerciseId === ex.id,
           note: notes[ex.id], onNote: (val) => setNote(ex.id, val),
           nextName: nextEx ? nextEx.name : null,
           hideTimer: true,
@@ -21113,13 +21830,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
 function App() {
   const [theme, setTheme] = useState(() => storageGet("axis_theme", "dark"));
   const [nightMode, setNightMode] = useState(() => storageGet("axis_night", false));
-  const [obCrossfade, setObCrossfade] = useState(() => {
-    try {
-      return typeof sessionStorage !== "undefined" && sessionStorage.getItem("axis_ob_visual_handoff") === "1";
-    } catch (e) {
-      return false;
-    }
-  });
+  const [onboardingBloomMounted, setOnboardingBloomMounted] = useState(false);
+  const [onboardingBloomOpaque, setOnboardingBloomOpaque] = useState(false);
 
   const toggleNight = () => setNightMode((n) => {const v = !n;storageSet("axis_night", v);return v;});
   const toggleTheme = () => setTheme((t) => {const n = t === "dark" ? "light" : "dark";storageSet("axis_theme", n);return n;});
@@ -21129,15 +21841,43 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!obCrossfade) return;
+    let tFadeOut = 0;
+    let tUnmount = 0;
+    let cancelled = false;
     try {
+      if (typeof sessionStorage === "undefined" || sessionStorage.getItem("axis_ob_visual_handoff") !== "1") return;
       sessionStorage.removeItem("axis_ob_visual_handoff");
+      const key = axisCelebrationScopedKey("axis_onboarding_transition_played");
+      if (storageGet(key, false)) return;
+      if (axisPrefersReducedMotion()) {
+        storageSet(key, true);
+        return;
+      }
+      storageSet(key, true);
+      const fade = axisCelebrationFadeMs(400);
+      setOnboardingBloomMounted(true);
+      setOnboardingBloomOpaque(false);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (cancelled) return;
+          setOnboardingBloomOpaque(true);
+        });
+      });
+      tFadeOut = window.setTimeout(() => {
+        if (cancelled) return;
+        setOnboardingBloomOpaque(false);
+      }, fade + fade);
+      tUnmount = window.setTimeout(() => {
+        if (cancelled) return;
+        setOnboardingBloomMounted(false);
+      }, fade + fade + fade);
     } catch (e) {}
-    const id = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setObCrossfade(false));
-    });
-    return () => cancelAnimationFrame(id);
-  }, [obCrossfade]);
+    return () => {
+      cancelled = true;
+      clearTimeout(tFadeOut);
+      clearTimeout(tUnmount);
+    };
+  }, []);
 
   // Tab bar “end of scroll” affordance: slightly more transparent pill + shimmer when nothing is hidden beneath
   useEffect(() => {
@@ -21195,8 +21935,8 @@ function App() {
     overflow: "hidden",
     position: "relative",
     background: "var(--bg-gradient)",
-    opacity: obCrossfade ? 0 : 1,
-    transition: obCrossfade ? "opacity 0ms" : "opacity 300ms ease"
+    opacity: 1,
+    transition: "opacity 300ms ease"
   };
 
   const appContentStyle = {
@@ -21209,10 +21949,23 @@ function App() {
     WebkitOverflowScrolling: "touch"
   };
 
+  const onboardingBloomFadeMs = axisCelebrationFadeMs(400);
+
   const dataLoadWarn = typeof window !== "undefined" && window.__AXIS_DATA_LOAD_ERROR;
 
   return (/*#__PURE__*/
     React.createElement("div", { style: appShellStyle }, /*#__PURE__*/
+    onboardingBloomMounted ? /*#__PURE__*/React.createElement("div", {
+      className: "axis-onboarding-bloom-overlay",
+      "aria-hidden": true,
+      style: {
+        opacity: onboardingBloomOpaque ? 1 : 0,
+        transition: `opacity ${onboardingBloomFadeMs}ms ease-out`
+      }
+    }, /*#__PURE__*/
+    React.createElement("div", { className: "axis-onboarding-bloom-overlay__wash" }),
+    React.createElement("div", { className: "axis-onboarding-bloom-overlay__mark" }, "AXIS")) :
+    null,
     dataLoadWarn && /*#__PURE__*/React.createElement("div", {
       role: "alert",
       style: {
