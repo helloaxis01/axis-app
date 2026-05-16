@@ -3531,6 +3531,11 @@ const css = `
     box-sizing:border-box;
   }
   .settings-ios-group > :last-child { border-bottom: none; }
+  button.settings-ios-row {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
   .settings-ios-row--stack {
     align-items: flex-start;
     flex-direction: column;
@@ -7253,25 +7258,36 @@ const css = `
     border: none !important;
   }
   /*
-   * START GUIDED + START TIMER: solid fills based on mood accent (opaque — no wash/glow).
+   * START GUIDED + START TIMER + Interval/Breathe idle START + metrics “Start Another Session”:
+   * solid fills from mood accent only — no wash/glow/brightness boost.
    * Large buttons read hotter than eyebrow/tab rules; darken slightly toward shadow so hue matches accents on dark shells.
    */
   .app[data-theme="dark"]:not([data-night="true"]) .mark-btn.ultra-filled-btn.mark-btn--start-timer,
+  .app[data-theme="dark"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="dark"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta,
   .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
+  .app[data-theme="dark"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
   .guided-overlay[data-theme="dark"][data-night="false"] .guided-refresher-done {
     background-color: color-mix(in srgb, var(--mood-accent) 74%, rgb(14, 20, 24) 26%) !important;
-    color: #0d1f1f !important;
-    -webkit-text-fill-color: #0d1f1f !important;
+    color: var(--accent-btn-text, #0d1f1f) !important;
+    -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
   }
   /* Light circadian moods already use saturated accent + light label token */
   .app[data-theme="light"]:not([data-night="true"]) .mark-btn.ultra-filled-btn.mark-btn--start-timer,
+  .app[data-theme="light"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="light"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
+  .app[data-theme="light"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
   .guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-done {
     background-color: var(--mood-accent) !important;
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
+  }
+  .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta:hover,
+  .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta:active {
+    box-shadow: none !important;
+    filter: none !important;
+    opacity: 1;
   }
   .mark-btn.ultra-filled-btn {
     background: var(--mood-accent) !important;
@@ -8461,21 +8477,24 @@ const css = `
   .summary-main-stack--metrics .summary-history-bottom-toggle--secondary:active {
     transform: scale(0.98);
   }
-  .summary-main-stack--metrics .summary-cta-btn--metrics-mood {
-    background: var(--metrics-session-accent, var(--mood-color)) !important;
-    border-color: color-mix(in srgb, var(--metrics-session-accent, var(--mood-color)) 70%, #000) !important;
-    color: var(--accent-btn-text) !important;
-    -webkit-text-fill-color: var(--accent-btn-text) !important;
-    box-shadow: 0 6px 18px color-mix(in srgb, var(--metrics-session-accent, var(--mood-color)) 28%, transparent) !important;
+  .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn {
+    border: none !important;
+    box-shadow: none !important;
   }
-  .app[data-night="true"] .summary-main-stack--metrics .summary-cta-btn--metrics-mood {
-    color: #ffffff !important;
+  .app[data-night="true"] .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn {
+    background: #ff3b30 !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
   }
-  .summary-main-stack--metrics .summary-cta-btn--metrics-mood:hover {
-    filter: brightness(0.94);
+  .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn:hover {
+    filter: none !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
   }
-  .summary-main-stack--metrics .summary-cta-btn--metrics-mood:active {
+  .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn:active {
     transform: scale(0.98);
+    filter: none !important;
+    box-shadow: none !important;
   }
   .metrics-rail__hr--tight {
     margin: 20px 0 16px;
@@ -9222,6 +9241,28 @@ const css = `
     justify-content: space-between;
     gap: 10px;
     text-align: left;
+  }
+  .weight-section__btn.weight-section__btn--expand {
+    padding: 14px 16px;
+    border: 1px solid color-mix(in srgb, var(--mood-accent) 40%, transparent);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--mood-accent) 12%, transparent);
+    color: var(--mood-accent);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    -webkit-text-fill-color: var(--mood-accent);
+  }
+  .weight-section__btn.weight-section__btn--expand:hover {
+    background: color-mix(in srgb, var(--mood-accent) 18%, transparent);
+    border-color: color-mix(in srgb, var(--mood-accent) 48%, transparent);
+    filter: none;
+  }
+  .weight-section__btn.weight-section__btn--expand:active {
+    transform: scale(0.98);
+  }
+  .weight-section__btn.weight-section__btn--expand[aria-expanded="true"] {
+    background: color-mix(in srgb, var(--mood-accent) 20%, transparent);
+    border-color: color-mix(in srgb, var(--mood-accent) 55%, transparent);
   }
   .weight-section__btn-chev {
     font-size: 11px;
@@ -17212,7 +17253,8 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const TIMER_IDLE_VERTICAL_GAP = 16;
   // Toggle: spacer above so INTERVAL/BREATHE sit halfway between top edge and top of circle
   const TIMER_TOGGLE_SPACER_TOP = 0;
-  const TIMER_TOGGLE_WRAP = { flexShrink: 0, display: "flex", gap: 5, marginBottom: 16, padding: 3, minHeight: 40, alignItems: "center", boxSizing: "border-box", width: "100%", maxWidth: 380, justifyContent: "center" };
+  /* Same chrome + wrap metrics as Favorites TRACKS/EXERCISES (HOME EXPLORE/RECENTS uses marginBottom: 8). */
+  const TIMER_TOGGLE_WRAP = { flexShrink: 0, display: "flex", gap: 5, marginBottom: 16, padding: 3, minHeight: 40, alignItems: "center", boxSizing: "border-box", width: "100%", maxWidth: 380, marginLeft: "auto", marginRight: "auto", justifyContent: "center" };
   // Button row: equal spacers when Pause/Reset/Again — when START only, shrink spacer above so START sits same height as Pause/RESET
   const TIMER_BTN_SPACER_ABOVE = { flex: 1, minHeight: 0, width: "100%" };
   const TIMER_BTN_SPACER_BELOW = { flex: 1, minHeight: 0, width: "100%" };
@@ -18007,9 +18049,9 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
     React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 380, flex: 1, minHeight: 0 } }, /*#__PURE__*/
     React.createElement("div", { style: { flexShrink: 0, height: TIMER_TOGGLE_SPACER_TOP, width: "100%" }, "aria-hidden": true }), /*#__PURE__*/
-    React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", style: TIMER_TOGGLE_WRAP },
+    React.createElement("div", { className: "timer-mode-outer-pill timer-glass-wrap axis-seg-toggle-wrap", role: "tablist", "aria-label": "Timer mode", style: TIMER_TOGGLE_WRAP },
     ["interval", "breathe"].map((m) => /*#__PURE__*/
-    React.createElement("button", { key: m, type: "button", onClick: () => switchMode(m), className: "timer-glass-toggle-btn" + (mode === m ? " active" : "") }, m === "interval" ? "Interval" : "Breathe")
+    React.createElement("button", { key: m, type: "button", role: "tab", "aria-selected": mode === m ? "true" : "false", className: "timer-glass-toggle-btn" + (mode === m ? " active" : ""), onClick: () => {axisHapticTick();switchMode(m);} }, m === "interval" ? "INTERVAL" : "BREATHE")
     )
     ),
 
@@ -18106,7 +18148,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("div", { style: { flexShrink: 0, width: "100%", minHeight: TIMER_PHASE_BAND, boxSizing: "border-box" }, "aria-hidden": true }), /*#__PURE__*/
     React.createElement("div", { style: iPhase === "done" ? TIMER_BTN_SPACER_ABOVE : mode === "interval" && iPhase !== "done" ? TIMER_BTN_SPACER_ABOVE_INTERVAL_IDLE : iPhase === "idle" ? TIMER_BTN_SPACER_ABOVE_IDLE : TIMER_BTN_SPACER_ABOVE, "aria-hidden": true }), /*#__PURE__*/
     React.createElement("div", { className: "timer-cta-row", style: TIMER_BTN_ROW_IDLE },
-    iPhase === "idle" && /*#__PURE__*/React.createElement("button", { type: "button", onClick: () => {primeAudio();iStart();}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta", style: BTN }, "Start"),
+    iPhase === "idle" && /*#__PURE__*/React.createElement("button", { type: "button", onClick: () => {primeAudio();iStart();}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta timer-session-primary-cta", style: BTN }, "Start"),
     (iPhase === "work" || iPhase === "rest") && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: () => {axisHapticTick();setIRunning((r) => !r);}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta", style: BTN }, iRunning ? "Pause" : "Resume"), /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: () => {axisHapticTick();iReset();}, className: "timer-glass-btn-ghost", style: BTN_GHOST }, "Reset")
@@ -18251,7 +18293,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
     React.createElement("div", { style: TIMER_BTN_SPACER_ABOVE_BREATHE_IDLE, "aria-hidden": true }), /*#__PURE__*/
     React.createElement("div", { className: "timer-cta-row", style: TIMER_BTN_ROW_IDLE },
-    !bRunning && !bDone && !bPaused && /*#__PURE__*/React.createElement("button", { type: "button", onClick: () => {primeAudio();bStart();}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta", style: BTN }, "Start"),
+    !bRunning && !bDone && !bPaused && /*#__PURE__*/React.createElement("button", { type: "button", onClick: () => {primeAudio();bStart();}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta timer-session-primary-cta", style: BTN }, "Start"),
     (bRunning || bPaused) && !bDone && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: () => {axisHapticTick();if (bRunning) {setBPaused(true);setBRunning(false);} else {setBPaused(false);setBRunning(true);}}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta", style: BTN }, bRunning ? "Pause" : "Resume"), /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: () => {axisHapticTick();bReset();}, className: "timer-glass-btn-ghost", style: BTN_GHOST }, "Reset")
@@ -18269,10 +18311,12 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
 }
 
-function SettingsAuthSection({ isFooter = false } = {}) {
+/** Settings › Account: Email row + Log In / Log Out driven by auth listener (Firebase often resolves after first paint). */
+function SettingsAccountRows() {
   const useState = React.useState;
   const useEffect = React.useEffect;
-  const [user, setUser] = useState(null);
+  const syncUser = () => {return typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser ? window.AXIS_auth.currentUser : null;};
+  const [user, setUser] = useState(syncUser);
   const [ready, setReady] = useState(false);
   useEffect(() => {
     const auth = typeof window !== "undefined" && window.AXIS_auth;
@@ -18281,6 +18325,7 @@ function SettingsAuthSection({ isFooter = false } = {}) {
       setReady(true);
       return undefined;
     }
+    setUser(syncUser());
     const unsub = onAuth(auth, (u) => {
       setUser(u || null);
       setReady(true);
@@ -18289,25 +18334,21 @@ function SettingsAuthSection({ isFooter = false } = {}) {
         else localStorage.removeItem("axis_auth_uid");
       } catch (e) {}
     });
+    setReady(true);
     return () => {
       try {
         unsub();
       } catch (e) {}
     };
   }, []);
-  const email = user && user.email ? user.email : null;
   const hasAuth = typeof window !== "undefined" && !!window.AXIS_auth;
-  return /*#__PURE__*/React.createElement("div", { style: { borderTop: isFooter ? "none" : "1px solid var(--border)", paddingTop: isFooter ? 0 : 24, marginBottom: isFooter ? 0 : 32, width: "100%", maxWidth: "100%", boxSizing: "border-box" } }, /*#__PURE__*/
-  React.createElement("div", { className: "settings-block__title settings-account-title" }, "Account"), /*#__PURE__*/
-  !ready ? null : !hasAuth ? /*#__PURE__*/React.createElement("div", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45, width: "100%", maxWidth: "100%", boxSizing: "border-box" } }, "Account sign-in is unavailable because the auth script did not load.") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
-  React.createElement("div", { style: { fontSize: "var(--text-sm)", color: "var(--text-white)", marginBottom: 16, wordBreak: "break-all" } }, email || "Not signed in"), /*#__PURE__*/
-  React.createElement("div", { style: { display: "flex", flexDirection: "column", width: "100%", maxWidth: "100%", gap: 0 } }, email ? /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-outline-btn", onClick: () => {
-        try { localStorage.removeItem("axis_auth_uid"); } catch (e) {}
-        if (window.AXIS_signOut) window.AXIS_signOut().catch(() => {});
-      } }, "Log out") : /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-outline-btn", onClick: () => {
-        window.location.href = "./login.html";
-      } }, "Log in"))
-  ));
+  const email = user && user.email ? String(user.email) : null;
+  const emailMeta = !ready ? "…" : !hasAuth ? "—" : email || "Not signed in";
+  const emailRow = /*#__PURE__*/React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Email"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-meta settings-ios-meta--muted" }, emailMeta));
+  const authMissingRow = ready && !hasAuth ? /*#__PURE__*/React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/React.createElement("span", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45 } }, "Account sign-in is unavailable because the auth script did not load.")) : null;
+  const logInRow = ready && hasAuth && !email ? /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();window.location.href = "./login.html";} }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Log In")) : null;
+  const logOutRow = ready && hasAuth && email ? /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-row settings-ios-row--danger", onClick: () => {axisHapticTick();try { localStorage.removeItem("axis_auth_uid"); } catch (e) {}if (window.AXIS_signOut) window.AXIS_signOut().catch(() => {});} }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Log Out")) : null;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, emailRow, authMissingRow, logInRow, logOutRow);
 }
 
 function FeedbackButton() {
@@ -19908,7 +19949,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   }
   if (view === "system" && systemPanel === "settings") {
     const hasHealthData = Boolean(metricsHealthHint && /synced|updated|connected/i.test(metricsHealthHint + " " + healthConnectSyncMsg));
-    const accountEmail = typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.email ? String(window.AXIS_auth.currentUser.email) : storageGet("axis_user_email", null) || "Not signed in";
     const RowChevron = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }));
     const DisclosureChevron = ({ open }) => /*#__PURE__*/React.createElement("svg", { className: "settings-ios-disclosure-chevron" + (open ? " is-open" : ""), width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" }));
     const MailIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" }), /*#__PURE__*/React.createElement("polyline", { points: "22,6 12,13 2,6" }));
@@ -19995,9 +20035,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
       React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "Account"), React.createElement(DisclosureChevron, null)),
       React.createElement("div", { className: "settings-ios-group" },
-      React.createElement("div", { className: "settings-ios-row" }, React.createElement("span", { className: "settings-ios-label" }, "Email"), React.createElement("span", { className: "settings-ios-meta settings-ios-meta--muted" }, accountEmail)),
-      React.createElement("button", { type: "button", className: "settings-ios-row settings-ios-row--danger", onClick: () => {axisHapticTick();try { localStorage.removeItem("axis_auth_uid"); } catch (e) {}if (window.AXIS_signOut) window.AXIS_signOut().catch(() => {});} }, "Log Out"),
-      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, React.createElement(SettingsAuthSection, { isFooter: true }))))), /*#__PURE__*/
+      React.createElement(SettingsAccountRows, null)))), /*#__PURE__*/
 
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })), /*#__PURE__*/
       privacyPolicyOpen && /*#__PURE__*/React.createElement("div", { className: "metrics-archive-backdrop", onClick: () => setPrivacyPolicyOpen(false) }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-modal", role: "dialog", "aria-modal": "true", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-header" }, /*#__PURE__*/React.createElement("h3", { className: "metrics-archive-title" }, "Privacy Policy"), /*#__PURE__*/React.createElement("button", { type: "button", className: "metrics-archive-close", onClick: () => setPrivacyPolicyOpen(false), "aria-label": "Close privacy policy" }, "\u00d7")), /*#__PURE__*/React.createElement("div", { className: "metrics-archive-body", style: { display: "flex", flexDirection: "column", gap: 10 } }, /*#__PURE__*/React.createElement("p", null, "Your workout history, goals, and preferences are stored on this device. We do not sell or profile your data."), /*#__PURE__*/React.createElement("p", null, "Account login uses Firebase Authentication. Local records are retained and older entries are archived automatically."), /*#__PURE__*/React.createElement("p", null, "You can export data any time from Data > Export My Data.")))), /*#__PURE__*/
