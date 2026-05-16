@@ -6772,19 +6772,30 @@ const css = `
   .today-card--ghost {
     box-sizing:border-box;
   }
-  /* Home: unified NOW + START LAST SESSION smart card (one track-card shell, two tappable rows) */
+  /* Home: unified NOW + START LAST SESSION — same outline/surface as other home track cards */
   .home .home-smart-card--unified.track-card--home-browse {
     padding: 0;
     gap: 0;
     overflow: hidden;
-    border: 1px solid var(--accent-dim);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.2), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 62%, transparent);
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 68%, transparent);
+    background: color-mix(in srgb, var(--glass-bg) 90%, transparent);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.11), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 54%, transparent);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
   }
   .app[data-theme="dark"]:not([data-night="true"]) .home .home-smart-card--unified.track-card--home-browse {
-    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14) !important;
+    background: color-mix(in srgb, var(--glass-bg) 90%, transparent) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home .home-smart-card--unified.track-card--home-browse {
+    border: 1px solid rgba(15, 30, 46, 0.1) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.55) !important;
+    background: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.2), inset 0 1px 0 color-mix(in srgb, var(--glass-specular) 62%, transparent), inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .home-smart-card__hit {
     display: block;
@@ -6803,65 +6814,13 @@ const css = `
     padding: 10px max(var(--page-gutter), env(safe-area-inset-left, 0px)) 10px max(var(--page-gutter), env(safe-area-inset-right, 0px));
   }
   .home-smart-card__hit--now {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     padding-top: 19px;
     padding-bottom: 19px;
     padding-left: calc(max(var(--page-gutter), env(safe-area-inset-left, 0px)) + 4px);
     padding-right: calc(max(var(--page-gutter), env(safe-area-inset-right, 0px)) + 4px);
-    isolation: isolate;
-  }
-  /* Dark mode NOW row: frosted glass over orb background (light mode unchanged below) */
-  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now {
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(20px) saturate(1.6) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(1.6) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.10),
-      0 8px 32px rgba(0, 0, 0, 0.24) !important;
-    overflow: hidden;
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: color-mix(in srgb, var(--mood-accent) 4%, transparent) !important;
-    opacity: 1 !important;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now .home-smart-card__body {
-    position: relative;
-    z-index: 1;
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now .track-card-home-chevron {
-    z-index: 1;
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now .home-smart-card__title-now {
-    color: var(--text-primary);
-    -webkit-text-fill-color: var(--text-primary);
-    opacity: 1;
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now .home-smart-card__desc {
-    color: var(--text-primary);
-    -webkit-text-fill-color: var(--text-primary);
-    opacity: 0.8;
-  }
-  .app[data-theme="dark"]:not([data-night="true"]) .home-smart-card__hit--now .home-smart-card__eyebrow {
-    opacity: 1;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .home-smart-card__hit--now {
-    background: color-mix(in srgb, var(--mood-color) 25%, #ffffff);
-    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--glass-border) 62%, transparent);
-  }
-  [data-night="true"] .home-smart-card__hit--now {
-    background:
-      linear-gradient(180deg,
-      color-mix(in srgb, var(--mood-color) 24%, transparent) 0%,
-      color-mix(in srgb, var(--mood-color) 16%, transparent) 56%,
-      transparent 100%);
-    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--glass-border) 62%, transparent);
   }
   .home-smart-card__hit--last {
     padding-top: 8px;
@@ -6880,6 +6839,14 @@ const css = `
     cursor: default;
   }
   .home-smart-card__hit--now .track-card-home-chevron {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none !important;
+    align-self: center !important;
+    flex-shrink: 0;
+    order: 2;
+    margin: 0 0 0 8px;
     font-size: 1.125rem;
     opacity: 0.75;
   }
@@ -6888,6 +6855,8 @@ const css = `
     min-width: 0;
   }
   .home-smart-card__hit--now .home-smart-card__body {
+    flex: 1 1 auto;
+    order: 1;
     padding-right: 18px;
   }
   .home-smart-card__eyebrow {
@@ -6936,6 +6905,10 @@ const css = `
     margin: 0;
   }
   .home-smart-card__hit--now .home-smart-card__row-duration.axis-duration-label {
+    color: var(--mood-accent) !important;
+    -webkit-text-fill-color: var(--mood-accent) !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
     letter-spacing: 0.08em !important;
   }
   .home-smart-card__rule {
