@@ -17677,6 +17677,21 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const [bPrepSeq, setBPrepSeq] = useState(0);
   const [breathePatternCardIdx, setBreathePatternCardIdx] = useState(0);
   const breathePatternScrollRef = useRef(null);
+  const BREATHE_PATTERN_CARD_STEP = 200;
+  const breathePatternScrollBehavior = () => typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  const breathePatternIndexFromScroll = (el) => {
+    const n = BREATH_PATTERN_CARDS.length;
+    if (!el || n <= 1) return 0;
+    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+    if (el.scrollLeft >= maxScroll - 12) return n - 1;
+    return Math.min(n - 1, Math.max(0, Math.round(el.scrollLeft / BREATHE_PATTERN_CARD_STEP)));
+  };
+  const scrollBreathePatternToIndex = (idx) => {
+    const el = breathePatternScrollRef.current;
+    if (!el || idx < 0) return;
+    const child = el.children[idx];
+    if (child && child.scrollIntoView) child.scrollIntoView({ inline: "start", block: "nearest", behavior: breathePatternScrollBehavior() });
+  };
   const bPrepTimersRef = useRef([]);
   const bPhaseRef = useRef(0);
   const bCycleRef = useRef(1);
@@ -18663,7 +18678,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     color: #FF3B30;
   }
   .timer-view-body .timer-breathe-pattern-cards-wrap {
-    position: relative;
     flex-shrink: 0;
     width: 100%;
     max-width: 380px;
@@ -18753,15 +18767,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
   }
-  .timer-view-body .timer-breathe-pattern-cards-fade {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 36px;
-    height: 100%;
-    pointer-events: none;
-    background: linear-gradient(to right, transparent, var(--bg, var(--bg-card, #080d18)));
-  }
   .timer-view-body .timer-breathe-pattern-card-dots {
     display: flex;
     align-items: center;
@@ -18773,10 +18778,24 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   .timer-view-body .timer-breathe-pattern-card-dot {
     width: 5px;
     height: 5px;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.2);
+    background: color-mix(in srgb, var(--mood-accent) 32%, transparent);
     flex-shrink: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
     transition: width 0.22s ease, background 0.22s ease;
+  }
+  .timer-view-body .timer-breathe-pattern-card-dot:focus,
+  .timer-view-body .timer-breathe-pattern-card-dot:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
   @media (prefers-reduced-motion: reduce) {
     .timer-view-body .timer-breathe-pattern-card-dot {
@@ -18790,12 +18809,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-theme="light"] .timer-view-body .timer-breathe-pattern-card {
     background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
-  }
-  [data-theme="light"] .timer-view-body .timer-breathe-pattern-card-dot {
-    background: rgba(0, 0, 0, 0.14);
-  }
-  [data-theme="light"] .timer-view-body .timer-breathe-pattern-cards-fade {
-    background: linear-gradient(to right, transparent, var(--bg, #f2f6fb));
   }
   .timer-view-body .timer-breathe-cycles-row {
     flex-shrink: 0;
@@ -19033,11 +19046,11 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-night="true"] .timer-view-body .timer-breathe-pattern-card.is-active .timer-breathe-pattern-card-intent {
     color: #FF3B30 !important;
   }
+  [data-night="true"] .timer-view-body .timer-breathe-pattern-card-dot {
+    background: color-mix(in srgb, #FF3B30 32%, transparent) !important;
+  }
   [data-night="true"] .timer-view-body .timer-breathe-pattern-card-dot.is-active {
     background: #FF3B30 !important;
-  }
-  [data-night="true"] .timer-view-body .timer-breathe-pattern-cards-fade {
-    background: linear-gradient(to right, transparent, #140303) !important;
   }
   [data-night="true"] .timer-view-body .timer-breathe-active-digit {
     color: #FF3B30 !important;
@@ -19351,7 +19364,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("div", { ref: breathePatternScrollRef, className: "timer-breathe-pattern-cards-scroll", onScroll: () => {
       const el = breathePatternScrollRef.current;
       if (!el) return;
-      const cardIdx = Math.min(BREATH_PATTERN_CARDS.length - 1, Math.max(0, Math.round(el.scrollLeft / 200)));
+      const cardIdx = breathePatternIndexFromScroll(el);
       setBreathePatternCardIdx(cardIdx);
       const card = BREATH_PATTERN_CARDS[cardIdx];
       if (card && card.key !== breathPattern) setBreathPattern(card.key);
@@ -19361,8 +19374,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       axisHapticTick();
       setBreathPattern(card.key);
       setBreathePatternCardIdx(cardIdx);
-      const el = breathePatternScrollRef.current;
-      if (el) el.scrollTo({ left: cardIdx * 200, behavior: typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      scrollBreathePatternToIndex(cardIdx);
     } },
     React.createElement("div", { className: "timer-breathe-pattern-card-head" },
     React.createElement("span", { className: "timer-breathe-pattern-card-name" }, card.name),
@@ -19371,15 +19383,13 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("p", { className: "timer-breathe-pattern-card-desc" }, card.desc)
     ))
     ),
-    React.createElement("div", { className: "timer-breathe-pattern-cards-fade", "aria-hidden": true }),
     React.createElement("div", { className: "timer-breathe-pattern-card-dots", role: "tablist", "aria-label": "Breathing patterns" },
     BREATH_PATTERN_CARDS.map((card, dotIdx) => /*#__PURE__*/
     React.createElement("button", { key: card.key, type: "button", role: "tab", "aria-selected": breathePatternCardIdx === dotIdx ? "true" : "false", className: "timer-breathe-pattern-card-dot" + (breathePatternCardIdx === dotIdx ? " is-active" : ""), onClick: () => {
       axisHapticTick();
       setBreathPattern(card.key);
       setBreathePatternCardIdx(dotIdx);
-      const el = breathePatternScrollRef.current;
-      if (el) el.scrollTo({ left: dotIdx * 200, behavior: typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      scrollBreathePatternToIndex(dotIdx);
     }, "aria-label": card.name })
     ))
     )
