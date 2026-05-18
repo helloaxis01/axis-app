@@ -14728,6 +14728,8 @@ const css = `
   /* No focus ring on tab icons — avoids double orange circle around active tab (icon color shows selection) */
   .tab-btn:focus,
   .tab-btn:focus-visible { outline: none; }
+  .timer-view-body .timer-breathe-pattern-card-dot:focus,
+  .timer-view-body .timer-breathe-pattern-card-dot:focus-visible { outline: none !important; outline-offset: 0 !important; }
 
   /* ── ACCESSIBILITY: reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
@@ -17682,15 +17684,25 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const breathePatternIndexFromScroll = (el) => {
     const n = BREATH_PATTERN_CARDS.length;
     if (!el || n <= 1) return 0;
-    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
-    if (el.scrollLeft >= maxScroll - 12) return n - 1;
-    return Math.min(n - 1, Math.max(0, Math.round(el.scrollLeft / BREATHE_PATTERN_CARD_STEP)));
+    const center = el.scrollLeft + el.clientWidth / 2;
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < el.children.length; i++) {
+      const child = el.children[i];
+      const childCenter = child.offsetLeft + child.offsetWidth / 2;
+      const dist = Math.abs(center - childCenter);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = i;
+      }
+    }
+    return bestIdx;
   };
   const scrollBreathePatternToIndex = (idx) => {
     const el = breathePatternScrollRef.current;
     if (!el || idx < 0) return;
     const child = el.children[idx];
-    if (child && child.scrollIntoView) child.scrollIntoView({ inline: "start", block: "nearest", behavior: breathePatternScrollBehavior() });
+    if (child && child.scrollIntoView) child.scrollIntoView({ inline: "center", block: "nearest", behavior: breathePatternScrollBehavior() });
   };
   const bPrepTimersRef = useRef([]);
   const bPhaseRef = useRef(0);
@@ -18683,19 +18695,22 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     max-width: 380px;
     margin: 0 auto;
     box-sizing: border-box;
+    overflow: hidden;
   }
   .timer-view-body .timer-breathe-pattern-cards-scroll {
     display: flex;
     flex-direction: row;
     gap: 10px;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: 0;
+    scroll-padding-inline: max(0px, calc((100% - 190px) / 2));
     scrollbar-width: none;
     padding: 4px 0 6px;
     box-sizing: border-box;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   .timer-view-body .timer-breathe-pattern-cards-scroll::-webkit-scrollbar {
     display: none;
@@ -18703,7 +18718,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   .timer-view-body .timer-breathe-pattern-card {
     flex: 0 0 190px;
     width: 190px;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     scroll-snap-stop: always;
     border-radius: 14px;
     padding: 12px 14px;
@@ -18711,6 +18726,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     text-align: left;
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: none;
     background: rgba(255, 255, 255, 0.04);
     transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
     -webkit-tap-highlight-color: transparent;
@@ -18775,36 +18791,50 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     margin-top: 4px;
     min-height: 8px;
   }
-  .timer-view-body .timer-breathe-pattern-card-dot {
+  .app .timer-view-body .timer-breathe-pattern-card-dot {
+    display: inline-block;
     width: 5px;
     height: 5px;
-    padding: 0;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    -webkit-appearance: none;
-    appearance: none;
+    min-width: 5px;
+    min-height: 5px;
+    padding: 0 !important;
+    margin: 0;
+    border: 0 !important;
+    outline: 0 !important;
+    outline-offset: 0 !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: color-mix(in srgb, var(--mood-accent) 32%, transparent) !important;
+    background-image: none !important;
     border-radius: 999px;
-    background: color-mix(in srgb, var(--mood-accent) 32%, transparent);
     flex-shrink: 0;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    transition: width 0.22s ease, background 0.22s ease;
+    box-sizing: border-box;
+    line-height: 0;
+    font-size: 0;
+    color: transparent;
+    transition: width 0.22s ease, background-color 0.22s ease;
   }
-  .timer-view-body .timer-breathe-pattern-card-dot:focus,
-  .timer-view-body .timer-breathe-pattern-card-dot:focus-visible {
-    outline: none;
-    box-shadow: none;
+  .app .timer-view-body .timer-breathe-pattern-card-dot:focus,
+  .app .timer-view-body .timer-breathe-pattern-card-dot:focus-visible,
+  .app .timer-view-body .timer-breathe-pattern-card-dot:active {
+    outline: none !important;
+    outline-offset: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
   }
   @media (prefers-reduced-motion: reduce) {
-    .timer-view-body .timer-breathe-pattern-card-dot {
+    .app .timer-view-body .timer-breathe-pattern-card-dot {
       transition: none;
     }
   }
-  .timer-view-body .timer-breathe-pattern-card-dot.is-active {
+  .app .timer-view-body .timer-breathe-pattern-card-dot.is-active {
     width: 14px;
-    background: var(--mood-accent);
+    min-width: 14px;
+    background-color: var(--mood-accent) !important;
   }
   [data-theme="light"] .timer-view-body .timer-breathe-pattern-card {
     background: rgba(0, 0, 0, 0.03);
@@ -19046,11 +19076,11 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-night="true"] .timer-view-body .timer-breathe-pattern-card.is-active .timer-breathe-pattern-card-intent {
     color: #FF3B30 !important;
   }
-  [data-night="true"] .timer-view-body .timer-breathe-pattern-card-dot {
-    background: color-mix(in srgb, #FF3B30 32%, transparent) !important;
+  [data-night="true"] .app .timer-view-body .timer-breathe-pattern-card-dot {
+    background-color: color-mix(in srgb, #FF3B30 32%, transparent) !important;
   }
-  [data-night="true"] .timer-view-body .timer-breathe-pattern-card-dot.is-active {
-    background: #FF3B30 !important;
+  [data-night="true"] .app .timer-view-body .timer-breathe-pattern-card-dot.is-active {
+    background-color: #FF3B30 !important;
   }
   [data-night="true"] .timer-view-body .timer-breathe-active-digit {
     color: #FF3B30 !important;
@@ -19385,7 +19415,14 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ),
     React.createElement("div", { className: "timer-breathe-pattern-card-dots", role: "tablist", "aria-label": "Breathing patterns" },
     BREATH_PATTERN_CARDS.map((card, dotIdx) => /*#__PURE__*/
-    React.createElement("button", { key: card.key, type: "button", role: "tab", "aria-selected": breathePatternCardIdx === dotIdx ? "true" : "false", className: "timer-breathe-pattern-card-dot" + (breathePatternCardIdx === dotIdx ? " is-active" : ""), onClick: () => {
+    React.createElement("span", { key: card.key, role: "tab", tabIndex: 0, "aria-selected": breathePatternCardIdx === dotIdx ? "true" : "false", className: "timer-breathe-pattern-card-dot" + (breathePatternCardIdx === dotIdx ? " is-active" : ""), onClick: () => {
+      axisHapticTick();
+      setBreathPattern(card.key);
+      setBreathePatternCardIdx(dotIdx);
+      scrollBreathePatternToIndex(dotIdx);
+    }, onKeyDown: (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
       axisHapticTick();
       setBreathPattern(card.key);
       setBreathePatternCardIdx(dotIdx);
