@@ -17777,10 +17777,17 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
   function bStartPrep() {
     primeAudio();
+    setBRunning(false);
     setBPaused(false);
     setBPrepPaused(false);
-    setBCountdown(BREATHE_PREP_COUNTDOWN);
+    setBPhaseIdx(0);
+    setBCycle(1);
+    setBTime(0);
+    bPhaseRef.current = 0;
+    bCycleRef.current = 1;
+    bPhaseElapsedMsRef.current = 0;
     breathHapticFlagsRef.current = { holdMidpoint: false };
+    setBCountdown(BREATHE_PREP_COUNTDOWN);
     beep(440, 0.1);
     triggerHaptic(HAPTIC_LIGHT_TAP);
   }
@@ -17788,15 +17795,16 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   useEffect(() => {
     if (bCountdown <= 0 || bPrepPaused) return undefined;
     const id = window.setTimeout(() => {
-      if (bCountdown <= 1) {
-        setBCountdown(0);
-        setBPrepPaused(false);
-        bBeginActive();
-      } else {
-        setBCountdown((c) => c - 1);
+      setBCountdown((c) => {
+        if (c <= 1) {
+          setBPrepPaused(false);
+          window.setTimeout(() => bBeginActive(), 0);
+          return 0;
+        }
         beep(440, 0.1);
         triggerHaptic(HAPTIC_LIGHT_TAP);
-      }
+        return c - 1;
+      });
     }, 1000);
     return () => clearTimeout(id);
   }, [bCountdown, bPrepPaused]);
@@ -17921,14 +17929,15 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     color: "var(--text-dimmer)",
     fontFamily: "var(--font-display)"
   };
+  const breatheCountdownFontPx = (n) => n === 3 ? 96 : n === 2 ? 72 : 52;
   const BREATHE_COUNTDOWN_STYLE = {
-    fontSize: 88,
     fontWeight: 500,
     fontFamily: "var(--font-data)",
     color: nightMode ? "#FF3B30" : isDark ? "var(--text-white)" : "#1D1D1F",
     lineHeight: 1,
     fontVariantNumeric: "tabular-nums",
-    letterSpacing: "-0.02em"
+    letterSpacing: "-0.02em",
+    transition: "font-size 0.28s ease, opacity 0.2s ease"
   };
   const timerNumMedium = { fontFamily: "var(--font-data)", fontWeight: 500, fontSize: "var(--text-lg)", color: "var(--text-white)", lineHeight: 1, minWidth: 40, textAlign: "center", fontVariantNumeric: "tabular-nums" };
   const timerNumSmall = { fontFamily: "var(--font-data)", fontWeight: 500, fontSize: "var(--text-sm)", color: "var(--text-dimmer)", lineHeight: 1.2 };
@@ -18540,14 +18549,23 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     flex-shrink: 0;
     width: 100%;
   }
+  .timer-view-body .timer-breathe-hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    pointer-events: none;
+  }
   .timer-view-body .timer-breathe-countdown-digit {
-    font-size: 88px;
     font-weight: 500;
     font-family: var(--font-data);
     line-height: 1;
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.02em;
     color: var(--text-white);
+    transition: font-size 0.28s ease, transform 0.28s ease, opacity 0.2s ease;
   }
   [data-theme="light"] .timer-view-body .timer-breathe-countdown-digit {
     color: #1D1D1F;
@@ -19083,24 +19101,24 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ), /*#__PURE__*/
 
 
-    React.createElement("div", { style: { position: "absolute", left: 0, top: 0, width: ringSize, height: ringSize, pointerEvents: "none" } },
+    React.createElement("div", { className: "timer-breathe-hero-overlay", style: { position: "absolute", left: 0, top: 0, width: ringSize, height: ringSize, pointerEvents: "none" } },
     breatheUiState === "idle" && /*#__PURE__*/
-    React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
     React.createElement("div", { style: TIMER_HERO_READY_STYLE }, "Ready")
     ),
 
     breatheUiState === "countdown" && /*#__PURE__*/
-    React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
-    React.createElement("div", { className: "timer-breathe-countdown-digit", style: BREATHE_COUNTDOWN_STYLE, "aria-live": "polite" }, String(bCountdown))
+    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
+    React.createElement("div", { key: "prep-" + bCountdown, className: "timer-breathe-countdown-digit", style: { ...BREATHE_COUNTDOWN_STYLE, fontSize: breatheCountdownFontPx(bCountdown) }, "aria-live": "assertive", "aria-label": bCountdown === 1 ? "1 second" : bCountdown + " seconds" }, String(bCountdown))
     ),
 
     breatheUiState === "active" && /*#__PURE__*/
-    React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
     React.createElement("div", { style: { ...breatheHeroDigitStyle, opacity: countdownLabelOpacity, transition: "none" } }, formatSecondsOnly(bTime))
     ),
 
     breatheUiState === "done" && /*#__PURE__*/
-    React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
+    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
     React.createElement("div", { style: TIMER_HERO_READY_STYLE }, "Done")
     )
 
@@ -19110,6 +19128,21 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
     breatheSessionUi && /*#__PURE__*/
     React.createElement("div", { className: "timer-breathe-session-mid", style: { marginTop: TIMER_IDLE_VERTICAL_GAP, boxSizing: "border-box" } },
+    breatheUiState === "countdown" && /*#__PURE__*/
+    React.createElement("div", { className: "timer-breathe-prep-mid timer-secondary-block", style: { flexShrink: 0, width: "100%", boxSizing: "border-box" } },
+    React.createElement("div", { className: "timer-glass-phase", style: { flexShrink: 0, width: "100%", textAlign: "center", padding: "10px 20px 12px", marginTop: 0, boxSizing: "border-box", minHeight: TIMER_PHASE_BAND, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
+    React.createElement("div", { style: {
+        fontSize: "var(--text-xl)",
+        fontWeight: 500,
+        letterSpacing: "0.22em",
+        textTransform: "uppercase",
+        color: nightMode ? "#FF3B30" : isDark ? "var(--app-white)" : "#1D1D1F",
+        opacity: 1,
+        fontFamily: "var(--font-display)",
+        lineHeight: 1.25
+      } }, "Get ready")
+    )
+    ),
     breatheUiState === "active" && /*#__PURE__*/
     React.createElement("div", { className: "timer-active-mid-band timer-breathe-active-mid timer-secondary-block", style: { flexShrink: 0, width: "100%", boxSizing: "border-box" } },
     React.createElement("div", { className: "timer-glass-phase", style: { flexShrink: 0, width: "100%", textAlign: "center", padding: "10px 20px 12px", marginTop: 0, boxSizing: "border-box", minHeight: TIMER_PHASE_BAND, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
