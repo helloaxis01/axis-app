@@ -1436,7 +1436,7 @@ function Onboarding({ theme, onComplete }) {
                 <div className="ob-eyebrow">The Foundation</div>
                 <div className="ob-heading">Movement equals medicine.</div>
                 <div className="ob-body" style={{ marginBottom: 0 }}>
-                  AXIS isn't a workout. It's a nervous system reboot with research-backed moves that dial down pain and wake up your core.
+                  AXIS isn't a workout. It's a nervous system reset with proven moves that dial down pain and wake up your core.
                 </div>
                 <div className="ob-sci-blocks ob-sci-blocks--foundation-callout">
                   <div className="ob-sci">
@@ -1629,13 +1629,13 @@ function Onboarding({ theme, onComplete }) {
                 <Tag accent={accent}>SESSION MODES</Tag>
                 <div className="ob-heading">LIST vs GUIDED</div>
                 <div className="ob-body" style={{ marginBottom: 22 }}>
-                  On the sessions tab you pick how you want to move—browse on your own, or follow a timed flow.
+                  On the sessions tab you pick how you want to move: browse on your own, or follow a timed flow.
                 </div>
                 <div className="ob-mode-cards">
                   <ModeCard
                     accent={accent}
                     label="LIST"
-                    desc="Self-paced. Scroll the exercise list, set each move (e.g. 30-60s), skip freely, and control your own pace-great when you want flexibility or a quick pick-up."
+                    desc="Self-paced. Scroll the exercise list, set each move (e.g. 30 to 60s), skip freely, and control your own pace. Great when you want flexibility or a quick pick-up."
                   />
                   <ModeCard
                     accent={accent}
@@ -1663,7 +1663,7 @@ function Onboarding({ theme, onComplete }) {
                   {[
                     ["HOME", "Your main library and daily suggestions that change based on the time of day and what you're doing.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M3 22V9L12 2l9 7v13h-6v-10H9v10H3z" /></svg>],
                     ["BOOKMARKS", "Everything you've saved, from full routines down to the specific exercises you like most.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M6.5 3.5h11c.83 0 1.5.67 1.5 1.5v15.28l-7-5.42-7 5.42V5c0-.83.67-1.5 1.5-1.5Z" /></svg>],
-                    ["TIMER", "Simple timers for breathing or your own workouts—use these to de-stress, focus, or just cool down.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 7.5 L12 12 L17 12" /></svg>],
+                    ["TIMER", "Simple timers for breathing or your own workouts. Use them to unwind, focus, or cool down.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 7.5 L12 12 L17 12" /></svg>],
                     ["METRICS", "A quick look at how you're doing this week and notes on your recent sessions.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="8 12.5 11 15.5 16.5 9" /></svg>],
                     ["SYSTEM", "The spot to tweak your theme, mood, and how the app feels, plus all your other settings.", <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="3.5" width="6.5" height="6.5" rx="0.75" /><rect x="3.5" y="14" width="6.5" height="6.5" rx="0.75" /><rect x="14" y="14" width="6.5" height="6.5" rx="0.75" /></svg>],
                   ].map(([label, body, icon]) => (
@@ -1712,7 +1712,7 @@ function Onboarding({ theme, onComplete }) {
                 <div className="ob-eyebrow" style={{ color: obTheme === "light" ? "#252525" : undefined }}>The Upper Bar</div>
                 <div className="ob-heading" style={{ color: obTheme === "light" ? "#252525" : undefined }}>Your daily snapshot.</div>
                 <div className="ob-body" style={{ marginBottom: 18, color: obTheme === "light" ? "#252525" : undefined }}>
-                  The bar stays at the top everywhere in the app. The pill on the left is your progress toward today&apos;s movement goal. The seven squares on the right are the last seven days—lit when you logged a workout that day.
+                  The bar stays at the top everywhere in the app. The pill on the left is your progress toward today&apos;s movement goal. The seven squares on the right are the last seven days, lit when you logged a workout that day.
                 </div>
                 <div
                   className="ob-upper-bar-demo"

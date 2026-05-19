@@ -946,7 +946,7 @@ function axisExerciseNameForHistoryEntry(entry) {
   return "";
 }
 
-/** LIST tab exercise title: trailing "Name (Qualifier)" → "Name — Qualifier" (ids unchanged). Normalizes Forwards/Backwards → Forward/Backward. */
+/** LIST tab exercise title: trailing "Name (Qualifier)" → "Name, Qualifier" (ids unchanged). Normalizes Forwards/Backwards → Forward/Backward. */
 function axisExerciseListParenDirectionDisplayName(raw) {
   const s = String(raw || "").trim();
   const m = /^(.+?)\s*\(([^()]+)\)\s*$/.exec(s);
@@ -957,7 +957,7 @@ function axisExerciseListParenDirectionDisplayName(raw) {
   const low = dir.toLowerCase();
   if (low === "forwards") dir = "Forward";
   else if (low === "backwards") dir = "Backward";
-  return `${base} — ${dir}`;
+  return `${base}, ${dir}`;
 }
 
 /** TODAY browse: 7 categories × 24 tracks — single source for filter + tagging */
@@ -17630,10 +17630,10 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
   };
   const BREATH_PATTERN_CARDS = [
-    { key: "4-2-6", name: "4\u20132\u20136", intent: "Regulate", desc: "Extends the exhale to lower heart rate and support baroreflex sensitivity \u2014 the body\u2019s natural blood pressure regulation system. Best for mid-day resets." },
-    { key: "4-7-8", name: "4\u20137\u20138", intent: "Unwind", desc: "A potent nervous system sedative. The extended hold builds CO\u2082 tolerance and triggers a deep parasympathetic response. Best before sleep or high anxiety." },
-    { key: "Box", name: "Box", intent: "Center", desc: "Equal phases normalize blood chemistry and quiet mental noise. Creates steady, sustained focus without sedation. Best before high-stakes moments." },
-    { key: "Physio Sigh", name: "Physio Sigh", intent: "Release", desc: "A double inhale followed by a long exhale rapidly offloads CO\u2082 and deflates stress-collapsed alveoli. Best for immediate tension release." }
+    { key: "4-2-6", name: "4\u20132\u20136", intent: "Regulate", desc: "A longer exhale helps your heart rate settle and tells your body you can ease off. Use it for a midday reset when stress is climbing and you need to feel steady again." },
+    { key: "4-7-8", name: "4\u20137\u20138", intent: "Unwind", desc: "Slow breaths with a longer pause between inhale and exhale calm your nervous system down. Use before bed or whenever anxiety is running high and you need relief." },
+    { key: "Box", name: "Box", intent: "Center", desc: "Same count in, hold, out, and hold again. Steadies your breath and clears mental noise without making you sleepy. Use before meetings, workouts, or anything that needs focus." },
+    { key: "Physio Sigh", name: "Physio Sigh", intent: "Release", desc: "Take two short inhales, then one long exhale through your mouth. Releases tension fast when your chest feels tight or stress hits all at once. One of the quickest resets we offer." }
   ];
   const BREATHE_PREP_LABELS = ["3", "2", "1", "Breathe"];
   const BREATHE_PREP_STEP_HOLD_MS = 900;
@@ -21825,7 +21825,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         className: "metrics-last7days-tooltip",
         role: "status",
         onClick: () => { setLast7DaysInfoOpen(false); }
-      }, "Each square is a day with logged movement. The squares in the top AXIS bar mirror your current week at a glance \u2014 a passive reminder of your momentum wherever you are in the app."),
+      }, "Each square is a day with logged movement. The squares in the top AXIS bar mirror your current week at a glance, a quiet reminder of your momentum wherever you are in the app."),
       /*#__PURE__*/React.createElement(MomentumMap, { history: history, nightMode: nightMode, theme: theme, compact: true, metricsQuickGlance: true }), /*#__PURE__*/
       React.createElement("hr", { className: "metrics-rail__rule metrics-rail__rule--gap-md", "aria-hidden": true }), /*#__PURE__*/
       React.createElement("div", { className: "metrics-body-metrics-toolbar" }, /*#__PURE__*/
@@ -22166,7 +22166,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       ) : /*#__PURE__*/React.createElement("div", { className: "home-smart-card__hit home-smart-card__hit--last home-smart-card__hit--disabled" }, /*#__PURE__*/
       React.createElement("div", { className: "home-smart-card__body" }, /*#__PURE__*/
       React.createElement("div", { className: "home-smart-card__eyebrow" }, "START LAST SESSION"), /*#__PURE__*/
-      React.createElement("p", { className: "home-smart-card__empty home-smart-card__empty--sessions" }, "No sessions yet — start one below")))
+      React.createElement("p", { className: "home-smart-card__empty home-smart-card__empty--sessions" }, "No sessions yet. Start one below.")))
       )
       , hourlyPracticeTrack ? /*#__PURE__*/React.createElement("button", {
         type: "button",
