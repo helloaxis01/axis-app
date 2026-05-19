@@ -17759,7 +17759,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     glowOpacity = 1 - Math.min(1, Math.max(0, progress)) * 0.82;
   }
   const orbOpacity = Math.max(0.18, Math.min(1, glowOpacity));
-  const bActiveDigitOpacity = bRunning && bTime <= 1 ? 0.6 : 1;
   const breatheOpacityTransition = isInhalePhase ? `${Math.max(2.5, phaseDur * 0.85)}s ease` : "0.6s ease";
 
   const breatheMinScale = 0.45;
@@ -17923,7 +17922,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       if (phaseIdx !== bPhaseIdx) setBPhaseIdx(phaseIdx);
       if (cycle !== bCycle) setBCycle(cycle);
 
-      const nextTime = Math.max(0, Math.ceil((phaseDurMs - elapsedMs) / 1000));
+      const nextTime = Math.max(1, Math.ceil((phaseDurMs - elapsedMs) / 1000));
       setBTime((prev) => prev === nextTime ? prev : nextTime);
       if (breathPattern === "4-7-8" && (pat[phaseIdx] && pat[phaseIdx].label) === "Hold" && !breathHapticFlagsRef.current.holdMidpoint && elapsedMs >= 3500) {
         breathHapticFlagsRef.current.holdMidpoint = true;
@@ -17989,9 +17988,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     textAlign: "center",
     fontVariantNumeric: "tabular-nums",
     letterSpacing: "-0.04em",
-    color: "var(--text-primary)",
-    opacity: bActiveDigitOpacity,
-    transition: "opacity 0.35s ease",
+    color: nightMode ? "#FF3B30" : isDark ? "var(--text-white)" : "#1D1D1F",
     textShadow: "none"
   };
   /** Hero ring idle label (Ready) — reuse for Done so typography matches */
@@ -18012,7 +18009,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     fontVariantNumeric: "tabular-nums",
     letterSpacing: "-0.02em",
     opacity: bPrepOpacity,
-    transition: "opacity 0.15s ease, font-size 0.2s ease"
+    transition: "opacity 0.15s ease"
   };
   const timerNumMedium = { fontFamily: "var(--font-data)", fontWeight: 500, fontSize: "var(--text-lg)", color: "var(--text-white)", lineHeight: 1, minWidth: 40, textAlign: "center", fontVariantNumeric: "tabular-nums" };
   const timerNumSmall = { fontFamily: "var(--font-data)", fontWeight: 500, fontSize: "var(--text-sm)", color: "var(--text-dimmer)", lineHeight: 1.2 };
@@ -18665,7 +18662,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.02em;
     color: var(--text-white);
-    transition: opacity 0.15s ease, font-size 0.2s ease;
+    transition: opacity 0.15s ease;
   }
   @media (prefers-reduced-motion: reduce) {
     .timer-view-body .timer-breathe-countdown-digit {
@@ -18680,12 +18677,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.04em;
     color: var(--text-primary);
-    transition: opacity 0.35s ease;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .timer-view-body .timer-breathe-active-digit {
-      transition: none;
-    }
+    transition: none;
   }
   .timer-view-body .timer-breathe-phase-label {
     font-size: 22px;
@@ -19323,10 +19315,10 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
 
     React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
     iPhase === "idle" && /*#__PURE__*/
-    React.createElement("div", { style: intervalDigitStyle }, formatSecondsOnly(work)),
+    React.createElement("div", { key: "interval-idle-" + work, style: intervalDigitStyle }, formatSecondsOnly(work)),
 
     (iPhase === "work" || iPhase === "rest") && /*#__PURE__*/
-    React.createElement("div", { style: { ...intervalDigitStyle, transition: "color 0.4s" } }, formatSecondsOnly(iTime)),
+    React.createElement("div", { key: "interval-" + iPhase + "-" + iTime, style: { ...intervalDigitStyle, transition: "none" } }, formatSecondsOnly(iTime)),
 
     iPhase === "done" && /*#__PURE__*/
     React.createElement("div", { style: TIMER_HERO_READY_STYLE }, "Done")
@@ -19470,7 +19462,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     React.createElement("div", { key: "prep-" + bPrepDisplay, className: "timer-breathe-countdown-digit", style: BREATHE_COUNTDOWN_STYLE, "aria-live": "assertive", "aria-label": bPrepDisplay === "Breathe" ? "Breathe" : bPrepDisplay + " seconds" }, bPrepDisplay),
 
     breatheUiState === "active" && /*#__PURE__*/
-    React.createElement("div", { className: "timer-breathe-active-digit", style: breatheHeroDigitStyle }, formatSecondsOnly(bTime)),
+    React.createElement("div", { key: "breathe-" + bPhaseIdx + "-" + bTime, className: "timer-breathe-active-digit", style: breatheHeroDigitStyle, "aria-live": "off", "aria-label": phaseLabel + " " + bTime + " seconds" }, formatSecondsOnly(bTime)),
 
     breatheUiState === "done" && /*#__PURE__*/
     React.createElement("div", { style: TIMER_HERO_READY_STYLE }, "Done")
