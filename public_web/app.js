@@ -13923,36 +13923,6 @@ const css = `
     margin-top:16px;
     margin-bottom:12px;
   }
-  .home-slide-view--explore .home-category-strip-wrap::before,
-  .home-slide-view--explore .home-category-strip-wrap::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 14px;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .home-slide-view--explore .home-category-strip-wrap::before {
-    left: 0;
-    background: linear-gradient(to right, rgba(8,13,24,0.8) 0%, rgba(8,13,24,0) 100%);
-  }
-  .home-slide-view--explore .home-category-strip-wrap::after {
-    right: 0;
-    background: linear-gradient(to left, rgba(8,13,24,0.8) 0%, rgba(8,13,24,0) 100%);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .home-slide-view--explore .home-category-strip-wrap::before {
-    background: linear-gradient(to right, rgba(246,247,248,0.9) 0%, rgba(246,247,248,0) 100%);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .home-slide-view--explore .home-category-strip-wrap::after {
-    background: linear-gradient(to left, rgba(246,247,248,0.9) 0%, rgba(246,247,248,0) 100%);
-  }
-  .app[data-night="true"] .home-slide-view--explore .home-category-strip-wrap::before {
-    background: linear-gradient(to right, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0) 100%);
-  }
-  .app[data-night="true"] .home-slide-view--explore .home-category-strip-wrap::after {
-    background: linear-gradient(to left, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0) 100%);
-  }
   /* Inset only for safe-area + minimum finger comfort — tabs visually reach screen edges inside full-bleed track */
   .home-slide-view--explore .home-category-strip {
     overflow-x: auto;
@@ -18719,25 +18689,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     margin-right: calc(50% - 50vw);
     box-sizing: border-box;
   }
-  .timer-view-body .timer-breathe-pattern-cards-wrap::before,
-  .timer-view-body .timer-breathe-pattern-cards-wrap::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 6px;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .timer-view-body .timer-breathe-pattern-cards-wrap::before {
-    left: 0;
-    width: 24px;
-    background: linear-gradient(to right, var(--bg, var(--bg-card, #080d18)) 0%, transparent 100%);
-  }
-  .timer-view-body .timer-breathe-pattern-cards-wrap::after {
-    right: 0;
-    width: 36px;
-    background: linear-gradient(to left, var(--bg, var(--bg-card, #080d18)) 0%, transparent 100%);
-  }
   .timer-view-body .timer-breathe-pattern-cards-scroll {
     display: flex;
     flex-direction: row;
@@ -18951,12 +18902,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-theme="light"] .timer-view-body .timer-breathe-pattern-card {
     background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
-  }
-  [data-theme="light"] .timer-view-body .timer-breathe-pattern-cards-wrap::before {
-    background: linear-gradient(to right, var(--bg, #f2f6fb) 0%, transparent 100%);
-  }
-  [data-theme="light"] .timer-view-body .timer-breathe-pattern-cards-wrap::after {
-    background: linear-gradient(to left, var(--bg, #f2f6fb) 0%, transparent 100%);
   }
   .timer-view-body .timer-breathe-cycles-row {
     flex-shrink: 0;
@@ -19204,12 +19149,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   }
   [data-night="true"] .app .timer-view-body .timer-breathe-pattern-card-dot.is-active {
     background-color: #FF3B30 !important;
-  }
-  [data-night="true"] .timer-view-body .timer-breathe-pattern-cards-wrap::before {
-    background: linear-gradient(to right, #140303 0%, transparent 100%) !important;
-  }
-  [data-night="true"] .timer-view-body .timer-breathe-pattern-cards-wrap::after {
-    background: linear-gradient(to left, #140303 0%, transparent 100%) !important;
   }
   [data-night="true"] .timer-view-body .timer-breathe-active-digit {
     color: #FF3B30 !important;
