@@ -18045,7 +18045,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const TIMER_BTN_SPACER_ABOVE_BREATHE_IDLE = { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: TIMER_IDLE_VERTICAL_GAP + 14, width: "100%" };
   const TIMER_BTN_ROW = { flexShrink: 0, display: "flex", flexDirection: "row", flexWrap: "nowrap", gap: 10, width: "100%", justifyContent: "center", alignItems: "center", boxSizing: "border-box", paddingTop: 6, paddingBottom: 4, maxWidth: 380, marginTop: 28 };
   const TIMER_BTN_ROW_IDLE = { ...TIMER_BTN_ROW };
-  const TIMER_BTN_ROW_BREATHE_IDLE = { ...TIMER_BTN_ROW, marginTop: 8, paddingTop: 4, flexShrink: 0 };
+  const TIMER_BTN_ROW_BREATHE_IDLE = { ...TIMER_BTN_ROW, marginTop: 14, paddingTop: 0, marginBottom: 0, flexShrink: 0 };
 
   const timerFlatCss = `
   .timer-view-body .timer-mode-outer-pill {
@@ -18843,6 +18843,32 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     gap: 6px;
     margin-top: 4px;
     min-height: 8px;
+  }
+  /* BREATHE idle (Ready): compact vertical rhythm + keep START above tab bar */
+  .timer-view-body .timer-breathe-content--idle .timer-ring-slot {
+    margin-bottom: 0 !important;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-hero-stage.timer-breathe-ring-wrap {
+    padding-bottom: 14px;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-idle-column {
+    margin-top: 0;
+    padding-bottom: 16px;
+    transform: translateY(-4px);
+    box-sizing: border-box;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card-dots {
+    margin-top: 4px;
+    margin-bottom: 12px;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-cycles-slot {
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 0;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-start-row {
+    margin-top: 14px;
+    margin-bottom: 0;
   }
   .app .timer-view-body .timer-breathe-pattern-card-dot {
     display: inline-block;
