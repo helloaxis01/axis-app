@@ -18844,22 +18844,63 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     margin-top: 4px;
     min-height: 8px;
   }
-  /* BREATHE idle (Ready): compact vertical rhythm + keep START above tab bar */
-  .timer-view-body .timer-breathe-content--idle .timer-ring-slot {
+  /* BREATHE idle: INTERVAL-style hero timer; pattern cards swipe in front with slight overlap */
+  .timer-view-body .timer-breathe-content--idle {
+    overflow: visible;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-ring-slot,
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-ring-wrap {
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+    margin-top: 4px;
     margin-bottom: 0 !important;
   }
-  .timer-view-body .timer-breathe-content--idle .timer-hero-stage.timer-breathe-ring-wrap {
-    padding-bottom: 14px;
-  }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-idle-column {
-    margin-top: 0;
+    position: relative;
+    z-index: 20;
+    margin-top: 0 !important;
     padding-bottom: 16px;
-    transform: translateY(-4px);
+    transform: none;
     box-sizing: border-box;
   }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-cards-wrap {
+    position: relative;
+    z-index: 21;
+    margin-top: -26px;
+    overflow: visible;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-cards-scroll {
+    padding-top: 6px;
+    overflow-y: visible;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card {
+    position: relative;
+    z-index: 1;
+    background: color-mix(in srgb, var(--bg-card, #121822) 94%, rgba(255, 255, 255, 0.06));
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card.is-active {
+    background: color-mix(in srgb, var(--mood-accent) 16%, var(--bg-card, #121822) 84%);
+    border-color: color-mix(in srgb, var(--mood-accent) 42%, transparent);
+  }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card-dots {
-    margin-top: 4px;
+    margin-top: 10px;
     margin-bottom: 12px;
+  }
+  [data-theme="light"] .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card {
+    background: color-mix(in srgb, #ffffff 92%, rgba(0, 0, 0, 0.04));
+  }
+  [data-theme="light"] .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card.is-active {
+    background: color-mix(in srgb, var(--mood-accent) 12%, #ffffff 88%);
+  }
+  [data-night="true"] .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card {
+    background: color-mix(in srgb, #140303 94%, rgba(255, 59, 48, 0.08));
+  }
+  [data-night="true"] .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-card.is-active {
+    background: color-mix(in srgb, #FF3B30 14%, #140303 86%);
+    border-color: rgba(255, 59, 48, 0.45);
   }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-cycles-slot {
     flex: 0 0 auto;
@@ -19393,7 +19434,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
         WebkitBackfaceVisibility: "hidden"
       } }, /*#__PURE__*/
 
-    !nightMode && /*#__PURE__*/ React.createElement("svg", { className: "timer-breathe-glow", width: "306", height: "306", viewBox: "0 0 320 320", style: { position: "absolute", left: 0, top: 0, transform: "scale(1)", opacity: isDark ? Math.max(orbOpacity || 0, 0.18) : 0, ['--breathe-fade']: `${breatheFadeDuration}s`, ['--breathe-opacity-dur']: breatheOpacityDuration } }, /*#__PURE__*/
+    breatheUiState === "active" && !nightMode && /*#__PURE__*/ React.createElement("svg", { className: "timer-breathe-glow", width: "306", height: "306", viewBox: "0 0 320 320", style: { position: "absolute", left: 0, top: 0, transform: "scale(1)", opacity: isDark ? Math.max(orbOpacity || 0, 0.18) : 0, ['--breathe-fade']: `${breatheFadeDuration}s`, ['--breathe-opacity-dur']: breatheOpacityDuration } }, /*#__PURE__*/
     React.createElement("defs", null, /*#__PURE__*/
     React.createElement("radialGradient", { id: "breatheGlow", cx: "50%", cy: "50%", r: "50%" }, /*#__PURE__*/
     React.createElement("stop", { offset: "0%", stopColor: breatheAccent, stopOpacity: "0.32" }), /*#__PURE__*/
@@ -19420,25 +19461,20 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ), /*#__PURE__*/
 
 
-    React.createElement("div", { className: "timer-breathe-hero-overlay", style: { position: "absolute", left: 0, top: 0, width: ringSize, height: ringSize, pointerEvents: "none" } },
+    React.createElement("div", { style: { position: "absolute", left: 0, top: 0, width: ringSize, height: ringSize, pointerEvents: "none" } }, /*#__PURE__*/
+    React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
     breatheUiState === "idle" && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
-    React.createElement("div", { style: TIMER_HERO_READY_STYLE }, "Ready")
-    ),
+    React.createElement("div", { style: TIMER_HERO_READY_STYLE }, "Ready"),
 
     breatheUiState === "countdown" && bPrepDisplay && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
-    React.createElement("div", { key: "prep-" + bPrepDisplay, className: "timer-breathe-countdown-digit", style: BREATHE_COUNTDOWN_STYLE, "aria-live": "assertive", "aria-label": bPrepDisplay === "Breathe" ? "Breathe" : bPrepDisplay + " seconds" }, bPrepDisplay)
-    ),
+    React.createElement("div", { key: "prep-" + bPrepDisplay, className: "timer-breathe-countdown-digit", style: BREATHE_COUNTDOWN_STYLE, "aria-live": "assertive", "aria-label": bPrepDisplay === "Breathe" ? "Breathe" : bPrepDisplay + " seconds" }, bPrepDisplay),
 
     breatheUiState === "active" && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
-    React.createElement("div", { className: "timer-breathe-active-digit", style: breatheHeroDigitStyle }, formatSecondsOnly(bTime))
-    ),
+    React.createElement("div", { className: "timer-breathe-active-digit", style: breatheHeroDigitStyle }, formatSecondsOnly(bTime)),
 
     breatheUiState === "done" && /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" } }, /*#__PURE__*/
     React.createElement("div", { style: TIMER_HERO_READY_STYLE }, "Done")
+
     )
 
     )
@@ -19478,7 +19514,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ,
 
 
-    breatheUiState === "idle" && /*#__PURE__*/React.createElement("div", { className: "timer-secondary-block timer-breathe-idle-column", style: { flex: 1, minHeight: 0, width: "100%", marginTop: TIMER_IDLE_VERTICAL_GAP, marginBottom: 0, boxSizing: "border-box" } },
+    breatheUiState === "idle" && /*#__PURE__*/React.createElement("div", { className: "timer-secondary-block timer-breathe-idle-column", style: { flex: 1, minHeight: 0, width: "100%", marginTop: 0, marginBottom: 0, boxSizing: "border-box" } },
     React.createElement("div", { className: "timer-breathe-idle-top" },
     React.createElement("div", { className: "timer-breathe-pattern-cards-wrap" },
     React.createElement("div", { ref: breathePatternScrollRef, className: "timer-breathe-pattern-cards-scroll", onScroll: () => {
