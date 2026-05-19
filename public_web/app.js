@@ -17760,9 +17760,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   }
   const orbOpacity = Math.max(0.18, Math.min(1, glowOpacity));
   const bActiveDigitOpacity = bRunning && bTime <= 1 ? 0.6 : 1;
-  const bCircumferenceProgress = 2 * Math.PI * 140;
-  const bGuideDashOffset = bRunning || bPaused ? bCircumferenceProgress * (1 - progress) : bCircumferenceProgress;
-  const bGuideDashArray = `${bCircumferenceProgress} ${bCircumferenceProgress}`;
   const breatheOpacityTransition = isInhalePhase ? `${Math.max(2.5, phaseDur * 0.85)}s ease` : "0.6s ease";
 
   const breatheMinScale = 0.45;
@@ -18307,8 +18304,12 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     width: 306px; height: 306px;
     pointer-events: none;
     transform-origin: center center;
-    will-change: stroke-dashoffset, transform;
+    will-change: transform;
     transition: filter 1s ease-in-out;
+  }
+  .timer-view-body .timer-breathe-ring circle {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
   }
   .timer-view-body .timer-breathe-ring-wrap[data-breathe-glow="soft"] .timer-breathe-ring {
     filter: drop-shadow(0 0 6px color-mix(in srgb, var(--mood-color) 22%, transparent)) drop-shadow(0 0 2px color-mix(in srgb, var(--mood-color) 12%, transparent));
@@ -18924,8 +18925,13 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       transition: none;
     }
   }
-  .timer-view-body .timer-breathe-guide-ring .timer-breathe-phase-progress {
-    stroke: var(--mood-accent);
+  /* BREATHE: no clockwise crawl on guide ring (INTERVAL only uses stroke-dashoffset progress) */
+  .timer-view-body .timer-breathe-content .timer-breathe-phase-progress,
+  .timer-view-body .timer-breathe-content .timer-interval-guide-progress {
+    display: none !important;
+    visibility: hidden !important;
+    stroke: none !important;
+    pointer-events: none !important;
   }
   .timer-view-body .timer-breathe-guide-ring circle:not(.timer-interval-guide-progress) {
     stroke: var(--border);
@@ -19036,13 +19042,11 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     animation: none;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .timer-view-body .timer-breathe-guide-ring .timer-interval-guide-progress,
-    .timer-view-body .timer-breathe-guide-ring .timer-breathe-phase-progress {
+    .timer-view-body .timer-interval-ring-wrap .timer-interval-guide-progress {
       will-change: stroke-dashoffset;
       transition: stroke-dashoffset 0.14s linear, stroke 0.45s ease;
     }
-    .timer-view-body .timer-breathe-guide-ring .timer-interval-guide-progress.timer-ring--snap,
-    .timer-view-body .timer-breathe-guide-ring .timer-breathe-phase-progress.timer-ring--snap {
+    .timer-view-body .timer-interval-ring-wrap .timer-interval-guide-progress.timer-ring--snap {
       transition: stroke-dashoffset 0s linear, stroke 0s !important;
     }
   }
@@ -19350,13 +19354,6 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ),
     !isDark && React.createElement("circle", { cx: "160", cy: "160", r: "140", fill: "url(#timerBreatheGrad)" }),
     React.createElement("circle", { className: "timer-breathe-guide-outline", cx: "160", cy: "160", r: "140", fill: "none", stroke: nightMode ? "#FF3B30" : isDark ? "var(--border)" : "#EEEEEE", strokeWidth: nightMode || isDark ? "2.5" : "3" }),
-    breatheUiState === "active" && /*#__PURE__*/React.createElement("g", { transform: "rotate(-90 160 160)" }, /*#__PURE__*/
-    React.createElement("circle", { className: "timer-interval-guide-progress timer-breathe-phase-progress", cx: "160", cy: "160", r: "140", fill: "none",
-      stroke: nightMode ? "#FF3B30" : breatheAccent, strokeWidth: nightMode || isDark ? "2.5" : "3.4", strokeLinecap: "round",
-      strokeDasharray: bGuideDashArray,
-      strokeDashoffset: bGuideDashOffset }
-    ))
-    ),
     breatheUiState === "active" && /*#__PURE__*/
     React.createElement("div", { className: isHoldPhase ? "timer-breathe-hold" : "", style: {
         position: "absolute", left: breatheInset, top: breatheInset, width: 306, height: 306, borderRadius: "50%", overflow: "visible", pointerEvents: "none",
@@ -19381,7 +19378,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     ), /*#__PURE__*/
 
 
-    React.createElement("svg", { className: "timer-breathe-ring", width: "306", height: "306", viewBox: "0 0 306 306", style: { position: "absolute", left: 0, top: 0, pointerEvents: "none" } }, /*#__PURE__*/
+    React.createElement("svg", { className: "timer-breathe-ring timer-breathe-expand-ring", width: "306", height: "306", viewBox: "0 0 306 306", style: { position: "absolute", left: 0, top: 0, pointerEvents: "none" } }, /*#__PURE__*/
     React.createElement("circle", {
       cx: "153",
       cy: "153",
@@ -19390,7 +19387,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       stroke: breatheAccent,
       strokeWidth: "3.4",
       strokeLinecap: "round",
-      style: { transition: "stroke 0.3s ease" } }
+      style: { transition: "stroke 0.3s ease", strokeDasharray: "none", strokeDashoffset: 0 } }
     )
     )
     ), /*#__PURE__*/
