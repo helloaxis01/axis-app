@@ -14730,6 +14730,8 @@ const css = `
   .tab-btn:focus-visible { outline: none; }
   .timer-view-body .timer-breathe-pattern-card-dot:focus,
   .timer-view-body .timer-breathe-pattern-card-dot:focus-visible { outline: none !important; outline-offset: 0 !important; }
+  .timer-view-body .timer-interval-stepper:focus,
+  .timer-view-body .timer-interval-stepper:focus-visible { outline: none !important; outline-offset: 0 !important; }
 
   /* ── ACCESSIBILITY: reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
@@ -17679,7 +17681,9 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const [bPrepSeq, setBPrepSeq] = useState(0);
   const [breathePatternCardIdx, setBreathePatternCardIdx] = useState(0);
   const breathePatternScrollRef = useRef(null);
-  const BREATHE_PATTERN_CARD_STEP = 200;
+  const BREATHE_PATTERN_CARD_W = 215;
+  const BREATHE_PATTERN_CARD_GAP = 10;
+  const BREATHE_PATTERN_CARD_STEP = BREATHE_PATTERN_CARD_W + BREATHE_PATTERN_CARD_GAP;
   const breathePatternScrollBehavior = () => typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
   const breathePatternIndexFromScroll = (el) => {
     const n = BREATH_PATTERN_CARDS.length;
@@ -18370,31 +18374,55 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
       filter: brightness(0.95) drop-shadow(0 0 10px color-mix(in srgb, var(--mood-color) 48%, transparent)) drop-shadow(0 0 3px color-mix(in srgb, var(--mood-color) 28%, transparent)) !important;
     }
   }
-  .timer-view-body .timer-glass-stepper {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-  /* Work/Rest/Rounds/Cycles: compact steppers (matches BREATHE cycles) */
+  /* Work/Rest/Rounds/Cycles (INTERVAL + BREATHE): unboxed ±, 44px tap target */
+  .timer-view-body .timer-glass-stepper.timer-interval-stepper,
   .timer-view-body .timer-interval-stepper {
     flex-shrink: 0;
-    min-width: 36px;
-    min-height: 36px;
-    width: 36px;
-    height: 36px;
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
     padding: 0;
-    border-radius: 9px;
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.07) !important;
-    color: rgba(237, 237, 237, 0.4) !important;
-    font-size: 14px !important;
+    margin: 0;
+    border: none !important;
+    border-radius: 50%;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    outline: none;
+    color: color-mix(in srgb, var(--mood-accent, var(--mood-color)) 45%, transparent) !important;
+    -webkit-text-fill-color: color-mix(in srgb, var(--mood-accent, var(--mood-color)) 45%, transparent) !important;
+    font-size: 20px !important;
     font-weight: 500;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    line-height: 1;
+    font-family: var(--font-ui), system-ui, sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    transition: color 0.15s ease, transform 0.12s ease, opacity 0.15s ease;
+  }
+  .timer-view-body .timer-interval-stepper:focus,
+  .timer-view-body .timer-interval-stepper:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+  .timer-view-body .timer-interval-stepper:active {
+    color: var(--mood-accent, var(--mood-color)) !important;
+    -webkit-text-fill-color: var(--mood-accent, var(--mood-color)) !important;
+    transform: scale(0.92);
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .timer-view-body .timer-interval-stepper {
+      transition: color 0.15s ease, opacity 0.15s ease;
+    }
+    .timer-view-body .timer-interval-stepper:active {
+      transform: none;
+    }
   }
   /* Interval / Breathe ring: Total Movement Time surface (circular disc behind SVG) */
   .timer-view-body .timer-interval-ring-wrap.axis-surface-tmt,
@@ -18691,33 +18719,52 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   }
   .timer-view-body .timer-breathe-pattern-cards-wrap {
     flex-shrink: 0;
-    width: 100%;
-    max-width: 380px;
-    margin: 0 auto;
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
     box-sizing: border-box;
-    overflow: hidden;
+  }
+  .timer-view-body .timer-breathe-pattern-cards-wrap::before,
+  .timer-view-body .timer-breathe-pattern-cards-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 6px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .timer-view-body .timer-breathe-pattern-cards-wrap::before {
+    left: 0;
+    width: 24px;
+    background: linear-gradient(to right, var(--bg, var(--bg-card, #080d18)) 0%, transparent 100%);
+  }
+  .timer-view-body .timer-breathe-pattern-cards-wrap::after {
+    right: 0;
+    width: 36px;
+    background: linear-gradient(to left, var(--bg, var(--bg-card, #080d18)) 0%, transparent 100%);
   }
   .timer-view-body .timer-breathe-pattern-cards-scroll {
     display: flex;
     flex-direction: row;
     gap: 10px;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: max(0px, calc((100% - 190px) / 2));
+    scroll-padding-inline: max(20px, calc((100% - 215px) / 2));
     scrollbar-width: none;
-    padding: 4px 0 6px;
+    padding: 4px 20px 6px;
     box-sizing: border-box;
-    -webkit-mask-image: none;
-    mask-image: none;
   }
   .timer-view-body .timer-breathe-pattern-cards-scroll::-webkit-scrollbar {
     display: none;
   }
   .timer-view-body .timer-breathe-pattern-card {
-    flex: 0 0 190px;
-    width: 190px;
+    flex: 0 0 215px;
+    width: 215px;
+    min-height: 0;
     scroll-snap-align: center;
     scroll-snap-stop: always;
     border-radius: 14px;
@@ -18728,6 +18775,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: none;
     background: rgba(255, 255, 255, 0.04);
+    overflow: visible;
     transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -18773,13 +18821,17 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     color: var(--mood-accent);
   }
   .app .timer-view-body .timer-breathe-pattern-card-desc {
-    font-size: 9px !important;
-    line-height: 1.38 !important;
+    font-size: 10px !important;
+    line-height: 1.55 !important;
     font-weight: 400 !important;
     color: var(--text-dimmer) !important;
     font-family: var(--font-ui), system-ui, sans-serif !important;
     margin: 0 !important;
     letter-spacing: 0.01em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
   }
@@ -18839,6 +18891,12 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-theme="light"] .timer-view-body .timer-breathe-pattern-card {
     background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
+  }
+  [data-theme="light"] .timer-view-body .timer-breathe-pattern-cards-wrap::before {
+    background: linear-gradient(to right, var(--bg, #f2f6fb) 0%, transparent 100%);
+  }
+  [data-theme="light"] .timer-view-body .timer-breathe-pattern-cards-wrap::after {
+    background: linear-gradient(to left, var(--bg, #f2f6fb) 0%, transparent 100%);
   }
   .timer-view-body .timer-breathe-cycles-row {
     flex-shrink: 0;
@@ -18925,14 +18983,15 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   [data-theme="light"] .timer-view-body .timer-interval-row-value .timer-instrument-val {
     color: rgba(15, 30, 46, 0.72);
   }
-  [data-theme="light"] .timer-view-body .timer-glass-stepper {
-    background: rgba(0,0,0,0.04);
-    border: 1px solid rgba(0,0,0,0.1);
-  }
   [data-theme="light"] .timer-view-body .timer-interval-stepper {
-    background: rgba(0, 0, 0, 0.035) !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    color: rgba(15, 30, 46, 0.42) !important;
+    background: transparent !important;
+    border: none !important;
+    color: color-mix(in srgb, var(--mood-accent, var(--mood-color)) 50%, transparent) !important;
+    -webkit-text-fill-color: color-mix(in srgb, var(--mood-accent, var(--mood-color)) 50%, transparent) !important;
+  }
+  [data-theme="light"] .timer-view-body .timer-interval-stepper:active {
+    color: var(--mood-accent, var(--mood-color)) !important;
+    -webkit-text-fill-color: var(--mood-accent, var(--mood-color)) !important;
   }
   [data-theme="light"] .timer-view-body .timer-glass-btn-ghost {
     color: rgba(15, 30, 46, 0.6);
@@ -19034,15 +19093,16 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     text-shadow: none !important;
   }
   [data-night="true"] .timer-view-body .timer-interval-row-value span:last-child { color: rgba(255, 59, 48, 0.78) !important; }
-  [data-night="true"] .timer-view-body .timer-glass-stepper {
-    background: #000000 !important;
-    border: 1px solid #FF3B30 !important;
-    color: #FF3B30 !important;
-  }
   [data-night="true"] .timer-view-body .timer-interval-stepper {
-    background: rgba(0, 0, 0, 0.85) !important;
-    border: 1px solid rgba(255, 59, 48, 0.42) !important;
-    color: rgba(255, 59, 48, 0.72) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: color-mix(in srgb, #FF3B30 50%, transparent) !important;
+    -webkit-text-fill-color: color-mix(in srgb, #FF3B30 50%, transparent) !important;
+  }
+  [data-night="true"] .timer-view-body .timer-interval-stepper:active {
+    color: #FF3B30 !important;
+    -webkit-text-fill-color: #FF3B30 !important;
   }
   [data-night="true"] .timer-view-body .timer-interval-ring-wrap.axis-surface-tmt,
   [data-night="true"] .timer-view-body .timer-breathe-ring-wrap.axis-surface-tmt {
@@ -19081,6 +19141,12 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   }
   [data-night="true"] .app .timer-view-body .timer-breathe-pattern-card-dot.is-active {
     background-color: #FF3B30 !important;
+  }
+  [data-night="true"] .timer-view-body .timer-breathe-pattern-cards-wrap::before {
+    background: linear-gradient(to right, #140303 0%, transparent 100%) !important;
+  }
+  [data-night="true"] .timer-view-body .timer-breathe-pattern-cards-wrap::after {
+    background: linear-gradient(to left, #140303 0%, transparent 100%) !important;
   }
   [data-night="true"] .timer-view-body .timer-breathe-active-digit {
     color: #FF3B30 !important;
