@@ -341,6 +341,7 @@ function resolveExerciseAnimationKey(trackId, exerciseId, exerciseName) {
     if (EXERCISE_ASSET_VIDEOS.CatCow || EXERCISE_ASSET_SVGS.CatCow || EXERCISE_ANIMATION_SVGS.CatCow) return "CatCow";
   }
   if (compact.includes("sphinx") && EXERCISE_ASSET_VIDEOS.SphinxPose) return "SphinxPose";
+  if (compact === "childspose" && EXERCISE_ASSET_VIDEOS.ChildsPose) return "ChildsPose";
   return null;
 }
 
@@ -364,21 +365,23 @@ function exerciseCarouselGraphicColor(mode) {
 /* Cat-Cow asset frames — empty until new SVGs are embedded. */
 const EXERCISE_ASSET_SVGS = {
   CatCow: [],
-  SphinxPose: []
+  SphinxPose: [],
+  ChildsPose: []
 };
 /** Baseline demo media paths — add keys with matching resolveExerciseAnimationKey + assets; LIST/GUIDED enlargement is centralized in ExerciseCarousel (native FS for video, portal for gif/webp). */
 const EXERCISE_ASSET_VIDEOS = {
   CatCow: "./assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
-  SphinxPose: "./assets/exercise-animations/sphinx-pose/Sphinx_Pose.mp4"
+  SphinxPose: "./assets/exercise-animations/sphinx-pose/SphinxPose_Markian_Test.mp4",
+  ChildsPose: "./assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4"
 };
 /** document.body while carousel portal enlarge is open; portrait-lock CSS must exclude this (all such demos share one path — add new videos here, not a separate fullscreen UI). */
 const AXIS_BODY_CLASS_MEDIA_EXPAND_ACTIVE = "axis-media-expand-active";
 function exerciseAssetIsVideo(src) {
   return /\.(mp4|mov|webm|m4v)(\?|#|$)/i.test(String(src || ""));
 }
-/** Only Cat-Cow (tabletop) and Sphinx Pose ship working MP4s; all other exercises use the grey “VIDEO COMING SOON” placeholder. */
+/** Only exercises with bundled MP4s in EXERCISE_ASSET_VIDEOS play video; others use the grey “VIDEO COMING SOON” placeholder. */
 function exerciseHasShippedBundledMp4(animationKey) {
-  return animationKey === "CatCow" || animationKey === "SphinxPose";
+  return animationKey === "CatCow" || animationKey === "SphinxPose" || animationKey === "ChildsPose";
 }
 /** True when carousel should offer fullscreen for Baseline demo URL (video or animated/static raster). */
 function exerciseCarouselExpandableDemoSrc(src) {
@@ -16726,23 +16729,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const guidedPrepRecord0 = guidedPrepIncludedInstructionRef.current[0];
   const guidedPrepHadInstr0 = guidedPrepRecord0 === undefined ? showDetailedInstructions : !!guidedPrepRecord0;
   const guidedPrevDisabled = guidedTransitioning || (phase === "instruction" && fi === 0) || (phase === "rest" && fi === 0 && !guidedPrepHadInstr0);
-  const guidedGhostBtnStyle = {
-    minHeight: 44,
-    height: 44,
-    padding: "0 18px",
-    borderRadius: 10,
-    background: guidedSecBtnBg,
-    border: guidedSecBtnBdr,
-    color: guidedSecBtnInk,
-    fontFamily: guidedSansDisplay,
-    fontSize: 13,
-    fontWeight: 600,
-    letterSpacing: "0.08em",
-    textTransform: "uppercase",
-    cursor: "pointer",
-    WebkitTextFillColor: guidedSecBtnInk,
-    boxSizing: "border-box"
-  };
   const guidedPrevFooterButton = () => /*#__PURE__*/React.createElement("button", {
     type: "button",
     disabled: guidedPrevDisabled,
@@ -16821,11 +16807,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     hidden: guidedTransitioning,
     paused: paused,
     onComplete: handleRestTimerComplete }) : null,
-  phase === "rest" && !guidedTransitioning ? /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();},
-    style: { ...guidedGhostBtnStyle, marginTop: 2 }
-  }, "START NOW") : null,
   phase === "exercise" ? /*#__PURE__*/React.createElement(GuidedActiveTimer, {
     key: `active-${(cur && cur.id)}-${fi}`,
     seconds: guidedMoveSeconds,
@@ -16837,11 +16818,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     initialRemainingSeconds: guidedExerciseResumeSeconds != null ? guidedExerciseResumeSeconds : undefined,
     onRemainingSecondsChange: handleGuidedRemainingTick,
     onComplete: handleTimerDone }) : null,
-  phase === "exercise" && !guidedTransitioning ? /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);handleNext();},
-    style: { ...guidedGhostBtnStyle, marginTop: 2 }
-  }, "NEXT \u2192") : null,
   (phase === "rest" || phase === "exercise") && guidedStepTotal > 0 ? /*#__PURE__*/React.createElement("div", { style: { width: "100%", maxWidth: 320, alignSelf: "center", paddingTop: 14, paddingBottom: 2, display: "flex", justifyContent: "center" } }, /*#__PURE__*/
   React.createElement("button", {
     type: "button",

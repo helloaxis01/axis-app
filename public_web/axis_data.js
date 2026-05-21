@@ -23,17 +23,17 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Tabletop",
                   "focus": "SPINE",
-                  "cue": "Inhale — let your belly drop toward the floor. Lift your gaze and tailbone gently."
+                  "cue": "Inhale. Let your belly drop toward the floor. Lift your gaze and tailbone gently."
                 },
                 {
                   "pos": "B",
-                  "label": "Cat — Exhale",
+                  "label": "Cat, Exhale",
                   "focus": "FLEX",
-                  "cue": "Exhale — round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
+                  "cue": "Exhale, round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
                 },
                 {
                   "pos": "C",
-                  "label": "Cow — Inhale",
+                  "label": "Cow, Inhale",
                   "focus": "EXT",
                   "cue": "Move with your breath. Don't force the lower back on the inhale."
                 }
@@ -65,10 +65,10 @@ window.AXIS_JSON = {
                   "cue": "Press forearms down to lift your chest. Keep hips on the floor. Hold for the full duration."
                 },
                 {
-                  "cue": "This is a passive hold. Let the spine decompress — don't force the lift."
+                  "cue": "This is a passive hold. Let the spine decompress. Don't force the lift."
                 }
               ],
-              "demoVideo": "/assets/exercise-animations/sphinx-pose/Sphinx_Pose.mp4",
+              "demoVideo": "/assets/exercise-animations/sphinx-pose/SphinxPose_Markian_Test.mp4",
               "position": "Lie flat on your stomach with your legs straight.",
               "next": "Place your forearms flat on the floor. Keep your elbows under your shoulders.",
               "then": "Press your forearms into the floor to lift your chest. Keep your hips flat on the floor.",
@@ -98,7 +98,7 @@ window.AXIS_JSON = {
                   "cue": "Widen your knees if you need more room for your torso."
                 }
               ],
-              "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4",
               "position": "Kneel on the floor. Keep your big toes together and spread your knees wide.",
               "next": "Sit your hips back onto your heels.",
               "then": "Reach your arms straight out in front of you. Rest your forehead on the floor.",
@@ -332,7 +332,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Return Controlled",
                   "focus": "CONTROL",
-                  "cue": "Opposite arm and leg — not the same side. Keep hips level and do not rotate."
+                  "cue": "Opposite arm and leg, not the same side. Keep hips level and do not rotate."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
@@ -425,7 +425,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Bend your elbows to roughly 90 degrees — the midpoint of a wall push-up. Stop here."
+                  "cue": "Bend your elbows to roughly 90 degrees. The midpoint of a wall push-up. Stop here."
                 },
                 {
                   "pos": "B",
@@ -434,7 +434,7 @@ window.AXIS_JSON = {
                   "cue": "Press your hands firmly into the wall and hold completely still for the full duration. Breathe steadily."
                 },
                 {
-                  "cue": "This is a still exercise — no movement is the point. You will feel tension in your chest and arms."
+                  "cue": "This is a still exercise. No movement is the point. You will feel tension in your chest and arms."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
@@ -537,7 +537,7 @@ window.AXIS_JSON = {
                   "cue": "Hold the stretch for the full duration. Feel the pull in the back of your thigh, not your knee. Switch sides when cued."
                 },
                 {
-                  "cue": "Do not lock the knee. A mild pull is correct — sharp discomfort is not."
+                  "cue": "Do not lock the knee. A mild pull is correct, sharp discomfort is not."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
@@ -567,7 +567,7 @@ window.AXIS_JSON = {
                   "cue": "Hold the stretch for the full duration. Feel the pull in the back of your thigh, not your knee. Switch sides when cued."
                 },
                 {
-                  "cue": "Do not lock the knee. A mild pull is correct — sharp discomfort is not."
+                  "cue": "Do not lock the knee. A mild pull is correct, sharp discomfort is not."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
@@ -690,7 +690,7 @@ window.AXIS_JSON = {
                   "cue": "Turn your gaze in the opposite direction if comfortable. Hold for the full duration. Switch sides when cued."
                 },
                 {
-                  "cue": "Both shoulders stay on the floor. Let gravity do the work — do not force the knee down."
+                  "cue": "Both shoulders stay on the floor. Let gravity do the work. Do not force the knee down."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
@@ -720,7 +720,7 @@ window.AXIS_JSON = {
                   "cue": "Turn your gaze in the opposite direction if comfortable. Hold for the full duration. Switch sides when cued."
                 },
                 {
-                  "cue": "Both shoulders stay on the floor. Let gravity do the work — do not force the knee down."
+                  "cue": "Both shoulders stay on the floor. Let gravity do the work. Do not force the knee down."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
@@ -748,7 +748,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Seated Tall",
                   "focus": "SETUP",
-                  "cue": "Inhale to lengthen your spine. Hinge forward from your hips — not your waist — and walk your hands toward your feet."
+                  "cue": "Inhale to lengthen your spine. Hinge forward from your hips, not your waist, and walk your hands toward your feet."
                 },
                 {
                   "pos": "B",
@@ -778,7 +778,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Head",
                   "focus": "SETUP",
-                  "cue": "Draw your chin straight back — not down — as if making a double chin. The movement is purely horizontal."
+                  "cue": "Draw your chin straight back, not down, as if making a double chin. The movement is purely horizontal."
                 },
                 {
                   "pos": "B",
@@ -814,7 +814,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Right Tilt",
                   "focus": "LATERAL",
-                  "cue": "Drop your left ear toward your left shoulder. Smooth arc only — ear to ear through the front. Never through the back."
+                  "cue": "Drop your left ear toward your left shoulder. Smooth arc only, ear to ear through the front. Never through the back."
                 },
                 {
                   "pos": "C",
@@ -903,7 +903,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Full Undulation",
                   "focus": "FLOW",
-                  "cue": "As the wave reaches the pelvis, let it curl forward then rise back up. Continuous, fluid figure-8. No forcing — gravity does the work."
+                  "cue": "As the wave reaches the pelvis, let it curl forward then rise back up. Continuous, fluid figure-8. No forcing. Gravity does the work."
                 }
               ],
               "position": "Stand with your feet apart and knees slightly bent.",
@@ -930,13 +930,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Initiate Swing",
                   "focus": "MOMENTUM",
-                  "cue": "Turn torso gently left — arms swing right passively, carried by momentum. Do not muscle the arms. They follow the body."
+                  "cue": "Turn torso gently left. Arms swing right passively, carried by momentum. Do not muscle the arms. They follow the body."
                 },
                 {
                   "pos": "C",
                   "label": "Continuous Turn",
                   "focus": "FLOW",
-                  "cue": "Turn right — arms swing left. Find a pendulum rhythm. Arms may tap your sides lightly. Increase range gradually as you warm up."
+                  "cue": "Turn right. Arms swing left. Find a pendulum rhythm. Arms may tap your sides lightly. Increase range gradually as you warm up."
                 }
               ],
               "position": "Stand with your feet wide.",
@@ -963,13 +963,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Forward Circles",
                   "focus": "MOBILIZE",
-                  "cue": "Both arms circle forward simultaneously — 15 slow rotations. Feel the shoulder joint moving through its full range."
+                  "cue": "Both arms circle forward simultaneously. 15 slow rotations. Feel the shoulder joint moving through its full range."
                 },
                 {
                   "pos": "C",
                   "label": "Backward Circles",
                   "focus": "MOBILIZE",
-                  "cue": "Reverse direction — 15 slow rotations backward. Backward circles open the chest and counteract forward shoulder posture."
+                  "cue": "Reverse direction. 15 slow rotations backward. Backward circles open the chest and counteract forward shoulder posture."
                 }
               ],
               "position": "Stand with your feet apart.",
@@ -990,7 +990,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Slight Forward Lean",
                   "focus": "SETUP",
-                  "cue": "Hinge slightly at the hips. Let both arms hang completely dead — no muscle engagement. Jaw loose."
+                  "cue": "Hinge slightly at the hips. Let both arms hang completely dead. No muscle engagement. Jaw loose."
                 },
                 {
                   "pos": "B",
@@ -1002,7 +1002,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Small Circles",
                   "focus": "DECOMPRESS",
-                  "cue": "Let the arms trace small passive circles — clockwise, then counter-clockwise. This gently tractions the shoulder joints."
+                  "cue": "Let the arms trace small passive circles, clockwise, then counter-clockwise. This gently tractions the shoulder joints."
                 }
               ],
               "position": "Stand and lean slightly forward from your hips.",
@@ -1023,19 +1023,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Hinge Forward",
                   "focus": "SETUP",
-                  "cue": "Hinge at the hips, knees soft. Let the upper body hang forward — arms dangling, head heavy. Let gravity decompress the spine."
+                  "cue": "Hinge at the hips, knees soft. Let the upper body hang forward. Arms dangling, head heavy. Let gravity decompress the spine."
                 },
                 {
                   "pos": "B",
                   "label": "Gentle Shake",
                   "focus": "RELEASE",
-                  "cue": "Softly shake the upper body — small, effortless oscillations. Let the spine wobble freely. This releases the erectors and multifidus."
+                  "cue": "Softly shake the upper body, small, effortless oscillations. Let the spine wobble freely. This releases the erectors and multifidus."
                 },
                 {
                   "pos": "C",
                   "label": "Side Sway",
                   "focus": "MOBILIZE",
-                  "cue": "Add a gentle side-to-side sway. Let the arms swing. Stay loose. This is pure release — nothing to engage."
+                  "cue": "Add a gentle side-to-side sway. Let the arms swing. Stay loose. This is pure release. Nothing to engage."
                 }
               ],
               "position": "Stand and bend forward from your hips.",
@@ -1062,7 +1062,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Twist Right",
                   "focus": "ROTATE",
-                  "cue": "Rotate torso to the right. Arms swing passively — left arm wraps across the front, right swings behind. Pivot on left ball of foot."
+                  "cue": "Rotate torso to the right. Arms swing passively. Left arm wraps across the front, right swings behind. Pivot on left ball of foot."
                 },
                 {
                   "pos": "C",
@@ -1089,7 +1089,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Address Position",
                   "focus": "SETUP",
-                  "cue": "Feet shoulder-width. Slight hip hinge. Arms hang loose. Imagine holding a club — but keep the grip soft."
+                  "cue": "Feet shoulder-width. Slight hip hinge. Arms hang loose. Imagine holding a club, but keep the grip soft."
                 },
                 {
                   "pos": "B",
@@ -1101,7 +1101,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Through Swing",
                   "focus": "RELEASE",
-                  "cue": "Swing through to the left in one fluid motion. Arms follow the torso — do not lead with the arms. Alternate sides for 1 minute."
+                  "cue": "Swing through to the left in one fluid motion. Arms follow the torso. Do not lead with the arms. Alternate sides for 1 minute."
                 }
               ],
               "position": "Stand with your feet wide and lean slightly forward from your hips.",
@@ -1122,7 +1122,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Feet hip-width. Hands on hips. Eyes forward. Upper body completely still throughout — only the hips move."
+                  "cue": "Feet hip-width. Hands on hips. Eyes forward. Upper body completely still throughout, only the hips move."
                 },
                 {
                   "pos": "B",
@@ -1155,7 +1155,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Upright Stance",
                   "focus": "SETUP",
-                  "cue": "Stand tall. Shoulders relaxed. This is a gentle march — not a high-knee drill. Pace is easy and rhythmic."
+                  "cue": "Stand tall. Shoulders relaxed. This is a gentle march, not a high-knee drill. Pace is easy and rhythmic."
                 },
                 {
                   "pos": "B",
@@ -1167,7 +1167,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Add Arm Swing",
                   "focus": "FLOW",
-                  "cue": "Let the opposite arm swing naturally with each step — just like walking. This cross-body pattern activates lymphatic flow bilaterally."
+                  "cue": "Let the opposite arm swing naturally with each step, just like walking. This cross-body pattern activates lymphatic flow bilaterally."
                 }
               ],
               "position": "Stand tall with your shoulders relaxed down.",
@@ -1188,13 +1188,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Start",
                   "focus": "SETUP",
-                  "cue": "Feet together, arms at sides. Soft knees. This movement is slow and deliberate — not aerobic."
+                  "cue": "Feet together, arms at sides. Soft knees. This movement is slow and deliberate, not aerobic."
                 },
                 {
                   "pos": "B",
                   "label": "Step & Open",
                   "focus": "EXPAND",
-                  "cue": "Step right foot back and wide as both arms sweep out to the sides and overhead — like opening a large book. Inhale."
+                  "cue": "Step right foot back and wide as both arms sweep out to the sides and overhead, like opening a large book. Inhale."
                 },
                 {
                   "pos": "C",
@@ -1227,13 +1227,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Plié Down",
                   "focus": "LOWER",
-                  "cue": "Bend knees, tracking them over toes. Lower slowly — 3 seconds down. Keep torso upright, tailbone dropping straight down."
+                  "cue": "Bend knees, tracking them over toes. Lower slowly, 3 seconds down. Keep torso upright, tailbone dropping straight down."
                 },
                 {
                   "pos": "C",
                   "label": "Rise Up",
                   "focus": "LIFT",
-                  "cue": "Press through the full foot to return to standing — 2 seconds up. Gently squeeze inner thighs at the top. Do not lock knees."
+                  "cue": "Press through the full foot to return to standing, 2 seconds up. Gently squeeze inner thighs at the top. Do not lock knees."
                 }
               ],
               "position": "Stand with your feet wide and toes pointing out to the sides.",
@@ -1266,7 +1266,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Lower & Swing",
                   "focus": "DRAIN",
-                  "cue": "Lower heels as arms swing back down and behind. Exhale. The arm swing is passive — gravity-assisted. Continuous and flowing."
+                  "cue": "Lower heels as arms swing back down and behind. Exhale. The arm swing is passive. Gravity-assisted. Continuous and flowing."
                 }
               ],
               "position": "Stand with your feet apart.",
@@ -1287,7 +1287,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Doorway Position",
                   "focus": "SETUP",
-                  "cue": "Stand in a doorway. Place both forearms on the frame at 90° — elbows at shoulder height, upper arms parallel to floor."
+                  "cue": "Stand in a doorway. Place both forearms on the frame at 90°, elbows at shoulder height, upper arms parallel to floor."
                 },
                 {
                   "pos": "B",
@@ -1299,7 +1299,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Hold & Breathe",
                   "focus": "RELEASE",
-                  "cue": "Hold without forcing. Take 3 slow, deep breaths — each exhale, let the chest open a little more. Do not shrug shoulders."
+                  "cue": "Hold without forcing. Take 3 slow, deep breaths. Each exhale, let the chest open a little more. Do not shrug shoulders."
                 }
               ],
               "position": "Stand in a doorway.",
@@ -1326,13 +1326,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Lower In",
                   "focus": "PUSH",
-                  "cue": "Bend elbows and lean chest toward the wall. Keep the body rigid — no sagging hips. Elbows track at roughly 45° from the torso."
+                  "cue": "Bend elbows and lean chest toward the wall. Keep the body rigid. No sagging hips. Elbows track at roughly 45° from the torso."
                 },
                 {
                   "pos": "C",
                   "label": "Press Out",
                   "focus": "EXTEND",
-                  "cue": "Push back to start. Exhale on the push. Move slowly and with control. This is not about speed — it's about reactivating the chest and shoulders."
+                  "cue": "Push back to start. Exhale on the push. Move slowly and with control. This is not about speed. It's about reactivating the chest and shoulders."
                 }
               ],
               "position": "Stand facing a wall, one arm's length away.",
@@ -1401,13 +1401,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Head",
                   "focus": "SETUP",
-                  "cue": "Draw your chin straight back — not down — as if making a double chin. The movement is purely horizontal."
+                  "cue": "Draw your chin straight back, not down, as if making a double chin. The movement is purely horizontal."
                 },
                 {
                   "pos": "B",
                   "label": "Retract",
                   "focus": "CERVICAL",
-                  "cue": "Hold for 2 seconds. Release fully. Complete 10 smooth reps—stop if you feel dizziness or sharp neck pain."
+                  "cue": "Hold for 2 seconds. Release fully. Complete 10 smooth reps. Stop if you feel dizziness or sharp neck pain."
                 },
                 {
                   "cue": "You should feel a gentle stretch at the base of your skull. No tilting up or down."
@@ -1471,7 +1471,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Contact",
                   "focus": "SETUP",
-                  "cue": "Stand with head, upper back, and glutes touching the wall. Arms in a W shape — elbows bent, backs of hands against the wall. This is your baseline."
+                  "cue": "Stand with head, upper back, and glutes touching the wall. Arms in a W shape, elbows bent, backs of hands against the wall. This is your baseline."
                 },
                 {
                   "pos": "B",
@@ -1515,7 +1515,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Stand",
                   "focus": "DRIVE",
-                  "cue": "Press evenly through mid-foot and heel to stand. Stop if knees or sharp back pain appears—reduce depth or skip."
+                  "cue": "Press evenly through mid-foot and heel to stand. Stop if knees or sharp back pain appears. Reduce depth or skip."
                 }
               ],
               "position": "Stand with a sturdy chair or box touching the backs of your legs.",
@@ -1592,7 +1592,7 @@ window.AXIS_JSON = {
               "id": 2117,
               "name": "Forearm Plank",
               "start": "Lie face down, then prop on forearms with elbows under shoulders.",
-              "sub": "Hold 30–60 seconds as tolerated. Easier on wrists than a high plank—knees down shortens the lever.",
+              "sub": "Hold 30–60 seconds as tolerated. Easier on wrists than a high plank. Knees down shortens the lever.",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -1619,7 +1619,7 @@ window.AXIS_JSON = {
             },
             {
               "id": "2118-R",
-              "name": "Figure-4 Stretch — Right",
+              "name": "Figure-4 Stretch, Right",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
@@ -1649,7 +1649,7 @@ window.AXIS_JSON = {
             },
             {
               "id": "2118-L",
-              "name": "Figure-4 Stretch — Left",
+              "name": "Figure-4 Stretch, Left",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
@@ -1771,7 +1771,7 @@ window.AXIS_JSON = {
                   "cue": "Rock gently left and right. Let the lower back release against the floor. 10–15 slow rocks."
                 },
                 {
-                  "cue": "Move slowly. This is a massage for your lower back — let the floor do the work."
+                  "cue": "Move slowly. This is a massage for your lower back. Let the floor do the work."
                 }
               ],
               "position": "Lie flat on your back.",
@@ -1889,7 +1889,7 @@ window.AXIS_JSON = {
         {
           "label": "The Desk Break",
           "tag": "X7",
-          "purpose": "Six movements to undo an hour of sitting. Stand up and do it now — don't wait for a better time.",
+          "purpose": "Six movements to undo an hour of sitting. Stand up and do it now. Don't wait for a better time.",
           "exercises": [
             {
               "id": 401,
@@ -1938,7 +1938,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Retract",
                   "focus": "CERVICAL",
-                  "cue": "Draw chin straight back — not down. Create a slight double chin. Hold 2s. 10 reps."
+                  "cue": "Draw chin straight back, not down. Create a slight double chin. Hold 2s. 10 reps."
                 },
                 {
                   "cue": "You should feel a gentle stretch at the base of your skull. No tilting up or down."
@@ -1967,7 +1967,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Rotate Right",
                   "focus": "THORACIC",
-                  "cue": "Rotate upper body to the right — elbows leading. Keep hips square. Hold 2s at end range."
+                  "cue": "Rotate upper body to the right, elbows leading. Keep hips square. Hold 2s at end range."
                 },
                 {
                   "pos": "C",
@@ -1999,7 +1999,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Rotate Right",
                   "focus": "THORACIC",
-                  "cue": "Rotate upper body to the right — elbows leading. Keep hips square. Hold 2s at end range."
+                  "cue": "Rotate upper body to the right, elbows leading. Keep hips square. Hold 2s at end range."
                 },
                 {
                   "pos": "C",
@@ -2089,10 +2089,10 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Flex Stretch",
                   "focus": "FOREARM",
-                  "cue": "Hold 15–20s. Feel the forearm extensors lengthen. Reverse — palm up, pull fingers down. Hold 15–20s. Switch arms."
+                  "cue": "Hold 15–20s. Feel the forearm extensors lengthen. Reverse, palm up, pull fingers down. Hold 15–20s. Switch arms."
                 },
                 {
-                  "cue": "Go gently — these muscles are often tight from keyboard and mouse use. Never force the stretch."
+                  "cue": "Go gently, these muscles are often tight from keyboard and mouse use. Never force the stretch."
                 }
               ],
               "position": "Sit or stand. Reach one arm straight out in front of you.",
@@ -2118,7 +2118,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Drop Right",
                   "focus": "STRETCH",
-                  "cue": "Let right ear fall toward right shoulder. Gravity only — no forcing. Left shoulder stays grounded. 20s."
+                  "cue": "Let right ear fall toward right shoulder. Gravity only. No forcing. Left shoulder stays grounded. 20s."
                 },
                 {
                   "pos": "C",
@@ -2150,7 +2150,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Drop Right",
                   "focus": "STRETCH",
-                  "cue": "Let right ear fall toward right shoulder. Gravity only — no forcing. Left shoulder stays grounded. 20s."
+                  "cue": "Let right ear fall toward right shoulder. Gravity only. No forcing. Left shoulder stays grounded. 20s."
                 },
                 {
                   "pos": "C",
@@ -2178,7 +2178,7 @@ window.AXIS_JSON = {
         {
           "label": "Digital Detox",
           "tag": "UP",
-          "purpose": "The neck and upper traps absorb everything — hours of screen time, stress, poor posture, shallow breathing. This session undoes it. Move slowly and without urgency. This area responds to patience, not force.",
+          "purpose": "The neck and upper traps absorb everything, hours of screen time, stress, poor posture, shallow breathing. This session undoes it. Move slowly and without urgency. This area responds to patience, not force.",
           "exercises": [
             {
               "id": 501,
@@ -2198,7 +2198,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Retract",
                   "focus": "CERVICAL",
-                  "cue": "Draw chin straight back — not down. Create a slight double chin. Hold 2s. Feel a stretch at the base of the skull. Release slowly. 10 reps."
+                  "cue": "Draw chin straight back, not down. Create a slight double chin. Hold 2s. Feel a stretch at the base of the skull. Release slowly. 10 reps."
                 },
                 {
                   "cue": "You should feel a gentle stretch at the base of the skull, not the front of the throat."
@@ -2227,13 +2227,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Right Ear Down",
                   "focus": "STRETCH",
-                  "cue": "Let the right ear fall toward the right shoulder. Do not force — use gravity only. Hold 30s. Left shoulder stays down."
+                  "cue": "Let the right ear fall toward the right shoulder. Do not force. Use gravity only. Hold 30s. Left shoulder stays down."
                 },
                 {
                   "pos": "C",
                   "label": "Left Ear Down",
                   "focus": "STRETCH",
-                  "cue": "Return through center, drop left ear. Hold 30s. For deeper release, rest hand lightly on top of head — do not pull."
+                  "cue": "Return through center, drop left ear. Hold 30s. For deeper release, rest hand lightly on top of head. Do not pull."
                 }
               ],
               "position": "Sit tall with your shoulders relaxed.",
@@ -2259,13 +2259,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Right Ear Down",
                   "focus": "STRETCH",
-                  "cue": "Let the right ear fall toward the right shoulder. Do not force — use gravity only. Hold 30s. Left shoulder stays down."
+                  "cue": "Let the right ear fall toward the right shoulder. Do not force. Use gravity only. Hold 30s. Left shoulder stays down."
                 },
                 {
                   "pos": "C",
                   "label": "Left Ear Down",
                   "focus": "STRETCH",
-                  "cue": "Return through center, drop left ear. Hold 30s. For deeper release, rest hand lightly on top of head — do not pull."
+                  "cue": "Return through center, drop left ear. Hold 30s. For deeper release, rest hand lightly on top of head. Do not pull."
                 }
               ],
               "position": "Sit tall with your shoulders relaxed.",
@@ -2291,7 +2291,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Add Weight",
                   "focus": "DEEPEN",
-                  "cue": "Rest the right hand gently on the back of the head — do not pull. Hold 30s. Switch sides. This targets the levator scapulae, the most screen-tension muscle."
+                  "cue": "Rest the right hand gently on the back of the head. Do not pull. Hold 30s. Switch sides. This targets the levator scapulae, the most screen-tension muscle."
                 },
                 {
                   "cue": "Never pull the head with force. The weight of the hand is enough. Breathe into the stretch."
@@ -2320,7 +2320,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Add Weight",
                   "focus": "DEEPEN",
-                  "cue": "Rest the right hand gently on the back of the head — do not pull. Hold 30s. Switch sides. This targets the levator scapulae, the most screen-tension muscle."
+                  "cue": "Rest the right hand gently on the back of the head. Do not pull. Hold 30s. Switch sides. This targets the levator scapulae, the most screen-tension muscle."
                 },
                 {
                   "cue": "Never pull the head with force. The weight of the hand is enough. Breathe into the stretch."
@@ -2352,7 +2352,7 @@ window.AXIS_JSON = {
                   "cue": "With right shoulder anchored, slowly tilt the head to the left and slightly forward. Feel the right upper trap lengthen. Hold 30s. Switch."
                 },
                 {
-                  "cue": "The anchoring hand is essential — without it the shoulder shrugs up and the stretch is lost."
+                  "cue": "The anchoring hand is essential, without it the shoulder shrugs up and the stretch is lost."
                 }
               ],
               "position": "Sit on a chair. Place your right hand under your right hip.",
@@ -2496,7 +2496,7 @@ window.AXIS_JSON = {
         {
           "label": "Happy Hips",
           "tag": "LX",
-          "purpose": "The hips are the body's centre of power — and the first thing to tighten from sitting. Restricted hips pull on the lower back, destabilise the knees, and shorten the stride. These holds release the hip flexors, rotators, and adductors. Stay in each position. Let gravity and breath do the work.",
+          "purpose": "The hips are the body's centre of power, and the first thing to tighten from sitting. Restricted hips pull on the lower back, destabilise the knees, and shorten the stride. These holds release the hip flexors, rotators, and adductors. Stay in each position. Let gravity and breath do the work.",
           "exercises": [
             {
               "id": "601-R",
@@ -2522,7 +2522,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Hinge Forward",
                   "focus": "DEEPEN",
-                  "cue": "Hinge at the hips and walk hands forward over the front shin. Keep spine long — do not round. Hold 30s additional. Switch sides."
+                  "cue": "Hinge at the hips and walk hands forward over the front shin. Keep spine long. Do not round. Hold 30s additional. Switch sides."
                 }
               ],
               "position": "Sit on the floor. Bend both knees so your legs form 90-degree angles.",
@@ -2554,7 +2554,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Hinge Forward",
                   "focus": "DEEPEN",
-                  "cue": "Hinge at the hips and walk hands forward over the front shin. Keep spine long — do not round. Hold 30s additional. Switch sides."
+                  "cue": "Hinge at the hips and walk hands forward over the front shin. Keep spine long. Do not round. Hold 30s additional. Switch sides."
                 }
               ],
               "position": "Sit on the floor. Bend both knees so your legs form 90-degree angles.",
@@ -2580,7 +2580,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Shift & Tuck",
                   "focus": "STRETCH",
-                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under — do not arch the lower back."
+                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under. Do not arch the lower back."
                 },
                 {
                   "pos": "C",
@@ -2612,7 +2612,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Shift & Tuck",
                   "focus": "STRETCH",
-                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under — do not arch the lower back."
+                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under. Do not arch the lower back."
                 },
                 {
                   "pos": "C",
@@ -2638,13 +2638,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "From tabletop, slide right knee forward behind right wrist. Extend left leg straight back. Right ankle moves toward left hip — the sharper the angle, the more intense. Important: the stretch should always be felt in the outer hip, never in the knee. If you feel any sensation in the knee joint, back the ankle closer to your body."
+                  "cue": "From tabletop, slide right knee forward behind right wrist. Extend left leg straight back. Right ankle moves toward left hip. The sharper the angle, the more intense. Important: the stretch should always be felt in the outer hip, never in the knee. If you feel any sensation in the knee joint, back the ankle closer to your body."
                 },
                 {
                   "pos": "B",
                   "label": "Square Hips",
                   "focus": "ALIGN",
-                  "cue": "Place a folded blanket or block under the right glute if the hip doesn't reach the floor. Hips stay as square as possible — do not let the pelvis tilt to one side."
+                  "cue": "Place a folded blanket or block under the right glute if the hip doesn't reach the floor. Hips stay as square as possible. Do not let the pelvis tilt to one side."
                 },
                 {
                   "pos": "C",
@@ -2670,13 +2670,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "From tabletop, slide right knee forward behind right wrist. Extend left leg straight back. Right ankle moves toward left hip — the sharper the angle, the more intense. Important: the stretch should always be felt in the outer hip, never in the knee. If you feel any sensation in the knee joint, back the ankle closer to your body."
+                  "cue": "From tabletop, slide right knee forward behind right wrist. Extend left leg straight back. Right ankle moves toward left hip. The sharper the angle, the more intense. Important: the stretch should always be felt in the outer hip, never in the knee. If you feel any sensation in the knee joint, back the ankle closer to your body."
                 },
                 {
                   "pos": "B",
                   "label": "Square Hips",
                   "focus": "ALIGN",
-                  "cue": "Place a folded blanket or block under the right glute if the hip doesn't reach the floor. Hips stay as square as possible — do not let the pelvis tilt to one side."
+                  "cue": "Place a folded blanket or block under the right glute if the hip doesn't reach the floor. Hips stay as square as possible. Do not let the pelvis tilt to one side."
                 },
                 {
                   "pos": "C",
@@ -2708,13 +2708,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Draw In",
                   "focus": "STRETCH",
-                  "cue": "Clasp hands behind left thigh and draw both legs toward chest. Feel the stretch deep in the right outer hip and glute. This targets the piriformis — the primary sciatic nerve compressor."
+                  "cue": "Clasp hands behind left thigh and draw both legs toward chest. Feel the stretch deep in the right outer hip and glute. This targets the piriformis. The primary sciatic nerve compressor."
                 },
                 {
                   "pos": "C",
                   "label": "Rock Gently",
                   "focus": "RELEASE",
-                  "cue": "Rock slowly left and right to find the deepest point of tension. Hold 60s. Switch sides. Do not pull aggressively — let the muscle release on its own timeline."
+                  "cue": "Rock slowly left and right to find the deepest point of tension. Hold 60s. Switch sides. Do not pull aggressively. Let the muscle release on its own timeline."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
@@ -2740,13 +2740,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Draw In",
                   "focus": "STRETCH",
-                  "cue": "Clasp hands behind left thigh and draw both legs toward chest. Feel the stretch deep in the right outer hip and glute. This targets the piriformis — the primary sciatic nerve compressor."
+                  "cue": "Clasp hands behind left thigh and draw both legs toward chest. Feel the stretch deep in the right outer hip and glute. This targets the piriformis. The primary sciatic nerve compressor."
                 },
                 {
                   "pos": "C",
                   "label": "Rock Gently",
                   "focus": "RELEASE",
-                  "cue": "Rock slowly left and right to find the deepest point of tension. Hold 60s. Switch sides. Do not pull aggressively — let the muscle release on its own timeline."
+                  "cue": "Rock slowly left and right to find the deepest point of tension. Hold 60s. Switch sides. Do not pull aggressively. Let the muscle release on its own timeline."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
@@ -2772,13 +2772,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Let Knees Drop",
                   "focus": "ADDUCTORS",
-                  "cue": "Do not press the knees down. Let gravity do the work. The inner thighs and groin will release over time — not through force. Hold 60s."
+                  "cue": "Do not press the knees down. Let gravity do the work. The inner thighs and groin will release over time, not through force. Hold 60s."
                 },
                 {
                   "pos": "C",
                   "label": "Hinge Forward",
                   "focus": "DEEPEN",
-                  "cue": "Hinge forward at the hips — spine long, not rounded. Walk hands forward. Feel the inner groin deepen. Hold 30s. Return upright slowly."
+                  "cue": "Hinge forward at the hips, spine long, not rounded. Walk hands forward. Feel the inner groin deepen. Hold 30s. Return upright slowly."
                 }
               ],
               "position": "Sit on the floor. Bring the bottoms of your feet together.",
@@ -2810,7 +2810,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Hip Circle",
                   "focus": "MOBILIZE",
-                  "cue": "From open, draw a slow circle with the left knee — forward, down, back, up. 5 circles each direction. Feel the femoral head moving freely in the socket. Switch sides."
+                  "cue": "From open, draw a slow circle with the left knee, forward, down, back, up. 5 circles each direction. Feel the femoral head moving freely in the socket. Switch sides."
                 }
               ],
               "position": "Lie on your right side. Stack your left leg on top of your right leg.",
@@ -2842,7 +2842,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Hip Circle",
                   "focus": "MOBILIZE",
-                  "cue": "From open, draw a slow circle with the left knee — forward, down, back, up. 5 circles each direction. Feel the femoral head moving freely in the socket. Switch sides."
+                  "cue": "From open, draw a slow circle with the left knee, forward, down, back, up. 5 circles each direction. Feel the femoral head moving freely in the socket. Switch sides."
                 }
               ],
               "position": "Lie on your right side. Stack your left leg on top of your right leg.",
@@ -2862,13 +2862,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Feet hip-width. Hands on hips. Soft knees. Eyes forward or closed. This is the integration movement — done last to bring range into a standing pattern."
+                  "cue": "Feet hip-width. Hands on hips. Soft knees. Eyes forward or closed. This is the integration movement, done last to bring range into a standing pattern."
                 },
                 {
                   "pos": "B",
                   "label": "Slow Circles",
                   "focus": "MOBILIZE",
-                  "cue": "Make large, slow circles with the pelvis — forward, right, back, left. Exaggerate the range in each direction. 8 circles clockwise."
+                  "cue": "Make large, slow circles with the pelvis, forward, right, back, left. Exaggerate the range in each direction. 8 circles clockwise."
                 },
                 {
                   "pos": "C",
@@ -2896,7 +2896,7 @@ window.AXIS_JSON = {
         {
           "label": "Lower Back Soother",
           "tag": "LD",
-          "purpose": "For days when the lower back is tight, achy, or recovering. These movements decompress, not strengthen — gravity and breath do the work. Nothing here should hurt. If something does, skip it and rest in Child's Pose. This is not the session to push through.",
+          "purpose": "For days when the lower back is tight, achy, or recovering. These movements decompress, not strengthen. Gravity and breath do the work. Nothing here should hurt. If something does, skip it and rest in Child's Pose. This is not the session to push through.",
           "exercises": [
             {
               "id": 701,
@@ -2910,7 +2910,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Flat on Back",
                   "focus": "SETUP",
-                  "cue": "Lie on your back. Let the whole body be heavy. Take two slow breaths before moving — this releases baseline tension before you begin."
+                  "cue": "Lie on your back. Let the whole body be heavy. Take two slow breaths before moving. This releases baseline tension before you begin."
                 },
                 {
                   "pos": "B",
@@ -2942,13 +2942,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Lie on Back",
                   "focus": "SETUP",
-                  "cue": "Small natural arch in lower back — this is neutral. Arms flat at sides. Do not flatten the back before you begin."
+                  "cue": "Small natural arch in lower back. This is neutral. Arms flat at sides. Do not flatten the back before you begin."
                 },
                 {
                   "pos": "B",
                   "label": "Posterior Tilt",
                   "focus": "CORE",
-                  "cue": "Gently press the lower back into the floor by engaging the deep abdominals. Hold 2s. The movement is subtle — this is not a crunch."
+                  "cue": "Gently press the lower back into the floor by engaging the deep abdominals. Hold 2s. The movement is subtle. This is not a crunch."
                 },
                 {
                   "pos": "C",
@@ -2978,15 +2978,15 @@ window.AXIS_JSON = {
                 },
                 {
                   "pos": "B",
-                  "label": "Cat — Exhale",
+                  "label": "Cat, Exhale",
                   "focus": "FLEX",
-                  "cue": "Round the spine segment by segment toward the ceiling. Tuck chin and pelvis. Exhale fully. Move slowly — feel each vertebra."
+                  "cue": "Round the spine segment by segment toward the ceiling. Tuck chin and pelvis. Exhale fully. Move slowly. Feel each vertebra."
                 },
                 {
                   "pos": "C",
-                  "label": "Cow — Inhale",
+                  "label": "Cow, Inhale",
                   "focus": "EXT",
-                  "cue": "Let the belly drop, lift gaze and tailbone gently. Do not compress — open. Inhale fully. 10 slow cycles. Increase the range gradually as the back warms."
+                  "cue": "Let the belly drop, lift gaze and tailbone gently. Do not compress, open. Inhale fully. 10 slow cycles. Increase the range gradually as the back warms."
                 }
               ],
               "position": "Start on all fours, hands and knees on the floor.",
@@ -3012,7 +3012,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Forehead Down",
                   "focus": "DECOMPRESS",
-                  "cue": "Rest forehead on floor or hands. Let the whole spine lengthen. Breathe into the back body — feel the ribcage expand outward with each inhale."
+                  "cue": "Rest forehead on floor or hands. Let the whole spine lengthen. Breathe into the back body. Feel the ribcage expand outward with each inhale."
                 },
                 {
                   "pos": "C",
@@ -3024,7 +3024,8 @@ window.AXIS_JSON = {
               "position": "Kneel on the floor. Keep your big toes together and spread your knees wide.",
               "next": "Sit your hips back onto your heels. Reach your arms straight out in front of you on the floor.",
               "then": "Rest your forehead on the floor. Take deep breaths into your back.",
-              "tip": "Walk both hands to the right side and hold for 30 seconds. Walk both hands to the left side and hold."
+              "tip": "Walk both hands to the right side and hold for 30 seconds. Walk both hands to the left side and hold.",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4"
             },
             {
               "id": 705,
@@ -3044,13 +3045,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Lower Right",
                   "focus": "ROTATE",
-                  "cue": "Let both knees fall slowly to the right — only as far as comfortable. Breathe out. Feel the lumbar spine rotate and release. Shoulders do not lift."
+                  "cue": "Let both knees fall slowly to the right, only as far as comfortable. Breathe out. Feel the lumbar spine rotate and release. Shoulders do not lift."
                 },
                 {
                   "pos": "C",
                   "label": "Lower Left",
                   "focus": "ROTATE",
-                  "cue": "Sweep knees back through center and lower to the left. Slow, windshield-wiper pace. This is traction for the lumbar vertebrae — gravity does the work."
+                  "cue": "Sweep knees back through center and lower to the left. Slow, windshield-wiper pace. This is traction for the lumbar vertebrae. Gravity does the work."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
@@ -3070,13 +3071,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Lie on back. Draw right knee to chest. Arms in a T, shoulders heavy. This passively rotates the lumbar spine and releases the QL — the deepest lower back muscle."
+                  "cue": "Lie on back. Draw right knee to chest. Arms in a T, shoulders heavy. This passively rotates the lumbar spine and releases the QL. The deepest lower back muscle."
                 },
                 {
                   "pos": "B",
                   "label": "Cross Right",
                   "focus": "TWIST",
-                  "cue": "Guide right knee across to the left with left hand. Right arm extends, turn gaze right. Let gravity take the knee toward the floor — do not force it. Hold 60s."
+                  "cue": "Guide right knee across to the left with left hand. Right arm extends, turn gaze right. Let gravity take the knee toward the floor. Do not force it. Hold 60s."
                 },
                 {
                   "pos": "C",
@@ -3102,13 +3103,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Lie on back. Draw right knee to chest. Arms in a T, shoulders heavy. This passively rotates the lumbar spine and releases the QL — the deepest lower back muscle."
+                  "cue": "Lie on back. Draw right knee to chest. Arms in a T, shoulders heavy. This passively rotates the lumbar spine and releases the QL. The deepest lower back muscle."
                 },
                 {
                   "pos": "B",
                   "label": "Cross Right",
                   "focus": "TWIST",
-                  "cue": "Guide right knee across to the left with left hand. Right arm extends, turn gaze right. Let gravity take the knee toward the floor — do not force it. Hold 60s."
+                  "cue": "Guide right knee across to the left with left hand. Right arm extends, turn gaze right. Let gravity take the knee toward the floor. Do not force it. Hold 60s."
                 },
                 {
                   "pos": "C",
@@ -3134,7 +3135,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Sit sideways against a wall, then swing legs up. Hips as close to the wall as comfortable — it is fine to have a slight bend in the knees."
+                  "cue": "Sit sideways against a wall, then swing legs up. Hips as close to the wall as comfortable. It is fine to have a slight bend in the knees."
                 },
                 {
                   "pos": "B",
@@ -3168,7 +3169,7 @@ window.AXIS_JSON = {
         {
           "label": "Foundation",
           "tag": "F1",
-          "purpose": "Train the systems your body uses to prevent falls — the vestibular system, ankle strategy, and glute activation. These movements feel simple and are deceptively hard to do well. Slow down.",
+          "purpose": "Train the systems your body uses to prevent falls. The vestibular system, ankle strategy, and glute activation. These movements feel simple and are deceptively hard to do well. Slow down.",
           "exercises": [
             {
               "id": 801,
@@ -3182,19 +3183,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Stance",
                   "focus": "SETUP",
-                  "cue": "Stand feet hip-width. Arms relaxed at sides. Soft knees — never locked. Eyes on a fixed point at eye level."
+                  "cue": "Stand feet hip-width. Arms relaxed at sides. Soft knees. Never locked. Eyes on a fixed point at eye level."
                 },
                 {
                   "pos": "B",
                   "label": "Side-to-Side Shifts",
                   "focus": "ANKLE",
-                  "cue": "Slowly shift your weight to the right until the left foot is nearly unloaded. Pause 2 seconds. Shift left. Use your ankles, not your hips — think of yourself as a pendulum, not a seesaw."
+                  "cue": "Slowly shift your weight to the right until the left foot is nearly unloaded. Pause 2 seconds. Shift left. Use your ankles, not your hips, think of yourself as a pendulum, not a seesaw."
                 },
                 {
                   "pos": "C",
                   "label": "Forward & Back",
                   "focus": "PROPRIOCEPTION",
-                  "cue": "Shift weight forward toward the balls of your feet, then back toward the heels. Stay within a comfortable range. Feel the floor through your feet — this is your sensory feedback loop."
+                  "cue": "Shift weight forward toward the balls of your feet, then back toward the heels. Stay within a comfortable range. Feel the floor through your feet. This is your sensory feedback loop."
                 }
               ],
               "position": "Stand with your feet apart. Stand near a wall if you need it for balance.",
@@ -3214,13 +3215,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Stand near a wall or sturdy chair within arm's reach — use it for safety, not support. Find a fixed point at eye level to focus on — this is your visual anchor. Arms at sides or lightly touching the wall."
+                  "cue": "Stand near a wall or sturdy chair within arm's reach. Use it for safety, not support. Find a fixed point at eye level to focus on. This is your visual anchor. Arms at sides or lightly touching the wall."
                 },
                 {
                   "pos": "B",
                   "label": "Lift One Foot",
                   "focus": "BALANCE",
-                  "cue": "Lift one foot a few inches off the floor. Keep the stance leg slightly bent — never lock the knee. The hip of the lifted leg should drop slightly, which means the standing glute med is working. Hold 20–30 seconds each side."
+                  "cue": "Lift one foot a few inches off the floor. Keep the stance leg slightly bent. Never lock the knee. The hip of the lifted leg should drop slightly, which means the standing glute med is working. Hold 20–30 seconds each side."
                 },
                 {
                   "pos": "C",
@@ -3246,13 +3247,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Stand Tall",
                   "focus": "SETUP",
-                  "cue": "Stand near a wall or sturdy chair within arm's reach — use it for safety, not support. Find a fixed point at eye level to focus on — this is your visual anchor. Arms at sides or lightly touching the wall."
+                  "cue": "Stand near a wall or sturdy chair within arm's reach. Use it for safety, not support. Find a fixed point at eye level to focus on. This is your visual anchor. Arms at sides or lightly touching the wall."
                 },
                 {
                   "pos": "B",
                   "label": "Lift One Foot",
                   "focus": "BALANCE",
-                  "cue": "Lift one foot a few inches off the floor. Keep the stance leg slightly bent — never lock the knee. The hip of the lifted leg should drop slightly, which means the standing glute med is working. Hold 20–30 seconds each side."
+                  "cue": "Lift one foot a few inches off the floor. Keep the stance leg slightly bent. Never lock the knee. The hip of the lifted leg should drop slightly, which means the standing glute med is working. Hold 20–30 seconds each side."
                 },
                 {
                   "pos": "C",
@@ -3271,7 +3272,7 @@ window.AXIS_JSON = {
         {
           "label": "Dynamic Balance",
           "tag": "D1",
-          "purpose": "Moving balance is harder than standing still. These patterns train the brain to manage balance during locomotion — the context where most real-world stumbles happen.",
+          "purpose": "Moving balance is harder than standing still. These patterns train the brain to manage balance during locomotion. The context where most real-world stumbles happen.",
           "exercises": [
             {
               "id": 803,
@@ -3291,13 +3292,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Walk Forward",
                   "focus": "BALANCE",
-                  "cue": "Step forward, placing the heel of the leading foot directly against the toes of the back foot. Take 10 slow, deliberate steps forward. Eyes forward — not down at your feet."
+                  "cue": "Step forward, placing the heel of the leading foot directly against the toes of the back foot. Take 10 slow, deliberate steps forward. Eyes forward, not down at your feet."
                 },
                 {
                   "pos": "C",
                   "label": "Walk Backward",
                   "focus": "VESTIBULAR",
-                  "cue": "Reverse direction — 10 steps back, toe touching heel. Walking backward is a separate vestibular challenge. Move slowly. This is a clinical tool used in fall prevention programs."
+                  "cue": "Reverse direction, 10 steps back, toe touching heel. Walking backward is a separate vestibular challenge. Move slowly. This is a clinical tool used in fall prevention programs."
                 }
               ],
               "position": "Stand tall with a clear path in front of you.",
@@ -3323,13 +3324,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Cross & Step",
                   "focus": "COORDINATE",
-                  "cue": "Step right with the right foot. Cross the left foot in front of the right. Step right again. Cross left foot behind the right. Repeat continuously. The alternating front/back crossover is the key pattern — it requires the brain to sequence hip abductor and adductor firing."
+                  "cue": "Step right with the right foot. Cross the left foot in front of the right. Step right again. Cross left foot behind the right. Repeat continuously. The alternating front/back crossover is the key pattern. It requires the brain to sequence hip abductor and adductor firing."
                 },
                 {
                   "pos": "C",
                   "label": "Reverse Direction",
                   "focus": "BILATERAL",
-                  "cue": "Lead with the left foot back across the same path. Each direction uses a different motor pattern. Aim for smooth, continuous movement — choppy steps mean the brain is still learning the sequence."
+                  "cue": "Lead with the left foot back across the same path. Each direction uses a different motor pattern. Aim for smooth, continuous movement, choppy steps mean the brain is still learning the sequence."
                 }
               ],
               "position": "Stand tall with your feet together. Make sure you have space to step sideways.",
@@ -3342,7 +3343,7 @@ window.AXIS_JSON = {
         {
           "label": "Strength & Control",
           "tag": "S1",
-          "purpose": "Eccentric control — the ability to decelerate your own bodyweight — is the single most important physical factor in fall prevention for adults over 40. Most injuries happen on the way down, not up.",
+          "purpose": "Eccentric control. The ability to decelerate your own bodyweight, is the single most important physical factor in fall prevention for adults over 40. Most injuries happen on the way down, not up.",
           "exercises": [
             {
               "id": "805-R",
@@ -3356,19 +3357,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Find Your Step",
                   "focus": "SETUP",
-                  "cue": "Stand on the edge of a bottom stair, curb, or low stool (4–6 inches high). Stand sideways so one foot is on the edge. The other foot hangs free over the side. Hold a wall lightly for safety — not for support."
+                  "cue": "Stand on the edge of a bottom stair, curb, or low stool (4–6 inches high). Stand sideways so one foot is on the edge. The other foot hangs free over the side. Hold a wall lightly for safety, not for support."
                 },
                 {
                   "pos": "B",
                   "label": "Slow Descent",
                   "focus": "ECCENTRIC",
-                  "cue": "Bend the standing leg to slowly lower the hanging foot toward the floor. Take 3–4 full seconds to descend. The standing knee should track directly over the second toe — not collapsing inward. This slow lowering is the entire point: you are training the quad to control deceleration."
+                  "cue": "Bend the standing leg to slowly lower the hanging foot toward the floor. Take 3–4 full seconds to descend. The standing knee should track directly over the second toe, not collapsing inward. This slow lowering is the entire point: you are training the quad to control deceleration."
                 },
                 {
                   "pos": "C",
                   "label": "Return to Top",
                   "focus": "CONTROL",
-                  "cue": "Before the hanging foot touches the floor, reverse direction and press back to standing. Do not push off the lower foot — all the work comes from the standing leg. Switch sides after all reps."
+                  "cue": "Before the hanging foot touches the floor, reverse direction and press back to standing. Do not push off the lower foot, all the work comes from the standing leg. Switch sides after all reps."
                 }
               ],
               "position": "Stand sideways on a low step or curb. Let one foot hang off the edge.",
@@ -3388,19 +3389,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Find Your Step",
                   "focus": "SETUP",
-                  "cue": "Stand on the edge of a bottom stair, curb, or low stool (4–6 inches high). Stand sideways so one foot is on the edge. The other foot hangs free over the side. Hold a wall lightly for safety — not for support."
+                  "cue": "Stand on the edge of a bottom stair, curb, or low stool (4–6 inches high). Stand sideways so one foot is on the edge. The other foot hangs free over the side. Hold a wall lightly for safety, not for support."
                 },
                 {
                   "pos": "B",
                   "label": "Slow Descent",
                   "focus": "ECCENTRIC",
-                  "cue": "Bend the standing leg to slowly lower the hanging foot toward the floor. Take 3–4 full seconds to descend. The standing knee should track directly over the second toe — not collapsing inward. This slow lowering is the entire point: you are training the quad to control deceleration."
+                  "cue": "Bend the standing leg to slowly lower the hanging foot toward the floor. Take 3–4 full seconds to descend. The standing knee should track directly over the second toe, not collapsing inward. This slow lowering is the entire point: you are training the quad to control deceleration."
                 },
                 {
                   "pos": "C",
                   "label": "Return to Top",
                   "focus": "CONTROL",
-                  "cue": "Before the hanging foot touches the floor, reverse direction and press back to standing. Do not push off the lower foot — all the work comes from the standing leg. Switch sides after all reps."
+                  "cue": "Before the hanging foot touches the floor, reverse direction and press back to standing. Do not push off the lower foot, all the work comes from the standing leg. Switch sides after all reps."
                 }
               ],
               "position": "Stand sideways on a low step or curb. Let one foot hang off the edge.",
@@ -3436,19 +3437,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Chair Setup",
                   "focus": "SETUP",
-                  "cue": "Sit at the edge of a firm chair. Place both hands behind your head, fingers interlaced, supporting the weight of your head. Identify the middle of your back — the thoracic spine, roughly between your shoulder blades. This is the target."
+                  "cue": "Sit at the edge of a firm chair. Place both hands behind your head, fingers interlaced, supporting the weight of your head. Identify the middle of your back. The thoracic spine, roughly between your shoulder blades. This is the target."
                 },
                 {
                   "pos": "B",
                   "label": "Arch Back",
                   "focus": "EXTEND",
-                  "cue": "Lean back so the top edge of the chair back contacts your mid-spine. Let the upper back gently arch over the support. Do not extend the lower back or neck — this is a thoracic-only movement. Breathe out as you arch. Feel the front of the chest opening."
+                  "cue": "Lean back so the top edge of the chair back contacts your mid-spine. Let the upper back gently arch over the support. Do not extend the lower back or neck. This is a thoracic-only movement. Breathe out as you arch. Feel the front of the chest opening."
                 },
                 {
                   "pos": "C",
                   "label": "Segment & Breathe",
                   "focus": "MOBILIZE",
-                  "cue": "Hold for 2–3 breaths at each level. Then shift slightly up or down the chair back to target adjacent segments. 3–5 positions across the thoracic spine. Never force — the weight of your head is sufficient traction."
+                  "cue": "Hold for 2–3 breaths at each level. Then shift slightly up or down the chair back to target adjacent segments. 3–5 positions across the thoracic spine. Never force. The weight of your head is sufficient traction."
                 }
               ],
               "position": "Sit at the edge of a firm chair.",
@@ -3461,7 +3462,7 @@ window.AXIS_JSON = {
         {
           "label": "Upper Body",
           "tag": "02",
-          "purpose": "CARS — Controlled Articular Rotations — are the gold standard for joint health. Each rep moves the joint through its full available range under active muscular tension. Think: moving through thick honey. No momentum. The resistance comes entirely from you.",
+          "purpose": "CARS, Controlled Articular Rotations, are the gold standard for joint health. Each rep moves the joint through its full available range under active muscular tension. Think: moving through thick honey. No momentum. The resistance comes entirely from you.",
           "exercises": [
             {
               "id": 902,
@@ -3475,13 +3476,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup & Brace",
                   "focus": "SETUP",
-                  "cue": "Sit or stand tall. Pack the shoulders down away from ears. Engage the muscles of the neck lightly — imagine you are trying to make a double chin. This pre-tension is what makes CARs different from a regular neck stretch: the joint moves, the surrounding tissues stay engaged."
+                  "cue": "Sit or stand tall. Pack the shoulders down away from ears. Engage the muscles of the neck lightly. Imagine you are trying to make a double chin. This pre-tension is what makes CARs different from a regular neck stretch: the joint moves, the surrounding tissues stay engaged."
                 },
                 {
                   "pos": "B",
                   "label": "The Half-Arc",
                   "focus": "CARS",
-                  "cue": "Begin by drawing your chin toward your chest. Slowly arc the head to the right — ear toward right shoulder, continuing the arc until the ear moves toward the left shoulder, then chin returns to chest. One full half-arc takes 8–10 seconds. Move as if carving through resistance. Never tilt the head back — the arc travels chin to chest only, never through the back of the neck."
+                  "cue": "Begin by drawing your chin toward your chest. Slowly arc the head to the right, ear toward right shoulder, continuing the arc until the ear moves toward the left shoulder, then chin returns to chest. One full half-arc takes 8–10 seconds. Move as if carving through resistance. Never tilt the head back. The arc travels chin to chest only, never through the back of the neck."
                 },
                 {
                   "pos": "C",
@@ -3507,7 +3508,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup & Lock Down",
                   "focus": "SETUP",
-                  "cue": "Stand tall. Work one arm at a time. Before moving, engage the lat on the working side — imagine trying to crush a walnut in your armpit. This stabilizes the scapula so the ball-and-socket joint does the work, not the whole shoulder blade."
+                  "cue": "Stand tall. Work one arm at a time. Before moving, engage the lat on the working side. Imagine trying to crush a walnut in your armpit. This stabilizes the scapula so the ball-and-socket joint does the work, not the whole shoulder blade."
                 },
                 {
                   "pos": "B",
@@ -3519,7 +3520,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Reverse Arc",
                   "focus": "END-RANGE",
-                  "cue": "At the limit of your range behind the body, pause and breathe. Reverse the circle — same path, same resistance, same slow pace. Switch arms after 2 full rotations. The shoulder that feels stuck is the one that needs this most."
+                  "cue": "At the limit of your range behind the body, pause and breathe. Reverse the circle, same path, same resistance, same slow pace. Switch arms after 2 full rotations. The shoulder that feels stuck is the one that needs this most."
                 }
               ],
               "position": "Stand tall with your arms at your sides.",
@@ -3539,7 +3540,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Sit or stand. Extend both arms in front at shoulder height. Make loose fists. Engage the forearm muscles lightly — you should feel mild tension in the forearm, not the fingers. This active tension is what makes this therapeutic rather than passive."
+                  "cue": "Sit or stand. Extend both arms in front at shoulder height. Make loose fists. Engage the forearm muscles lightly. You should feel mild tension in the forearm, not the fingers. This active tension is what makes this therapeutic rather than passive."
                 },
                 {
                   "pos": "B",
@@ -3551,7 +3552,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Reverse & Isolate",
                   "focus": "END-RANGE",
-                  "cue": "Reverse direction for equal rotations. If one wrist has less range in a particular direction, slow down there — that is where the synovial fluid is most restricted. 4–5 rotations each direction is a complete set."
+                  "cue": "Reverse direction for equal rotations. If one wrist has less range in a particular direction, slow down there, that is where the synovial fluid is most restricted. 4–5 rotations each direction is a complete set."
                 }
               ],
               "position": "Sit or stand. Reach both arms straight out in front of you.",
@@ -3564,13 +3565,13 @@ window.AXIS_JSON = {
         {
           "label": "Lower Body",
           "tag": "03",
-          "purpose": "The hip and ankle are the most neglected joints for adults who sit. Synovial fluid only reaches cartilage during movement — compression from sitting drives it out. These rotations restore joint space and end-range control.",
+          "purpose": "The hip and ankle are the most neglected joints for adults who sit. Synovial fluid only reaches cartilage during movement, compression from sitting drives it out. These rotations restore joint space and end-range control.",
           "exercises": [
             {
               "id": "905-R",
               "name": "Hip CARs - Right Hip",
               "start": "Stand on one leg. Rest one hand lightly on a wall.",
-              "sub": "Slow hip circles with a still pelvis — controlled range on the right leg.",
+              "sub": "Slow hip circles with a still pelvis, controlled range on the right leg.",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3578,13 +3579,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup & Stabilize",
                   "focus": "SETUP",
-                  "cue": "Stand on one leg. Hold a wall lightly with one hand for safety only — not for balance support. Engage the standing glute to keep the pelvis completely still. The entire point of Hip CARs is that the pelvis does not move — only the femur in the hip socket. Squeeze the core before lifting the leg."
+                  "cue": "Stand on one leg. Hold a wall lightly with one hand for safety only, not for balance support. Engage the standing glute to keep the pelvis completely still. The entire point of Hip CARs is that the pelvis does not move, only the femur in the hip socket. Squeeze the core before lifting the leg."
                 },
                 {
                   "pos": "B",
                   "label": "Full Circumduction",
                   "focus": "CARS",
-                  "cue": "Lift the free knee and begin rotating the hip: knee lifts forward, swings out to the side, extends behind the body, sweeps back to center. One full rotation takes 8–10 seconds. Keep the circle as large as your range allows while the pelvis stays completely still. If the hip hikes or the lower back twists, you have exceeded your available range — make the circle smaller."
+                  "cue": "Lift the free knee and begin rotating the hip: knee lifts forward, swings out to the side, extends behind the body, sweeps back to center. One full rotation takes 8–10 seconds. Keep the circle as large as your range allows while the pelvis stays completely still. If the hip hikes or the lower back twists, you have exceeded your available range, make the circle smaller."
                 },
                 {
                   "pos": "C",
@@ -3602,7 +3603,7 @@ window.AXIS_JSON = {
               "id": "905-L",
               "name": "Hip CARs - Left Hip",
               "start": "Stand on one leg. Rest one hand lightly on a wall.",
-              "sub": "Slow hip circles with a still pelvis — controlled range on the left leg.",
+              "sub": "Slow hip circles with a still pelvis, controlled range on the left leg.",
               "type": "time",
               "seconds": 90,
               "steps": [
@@ -3610,13 +3611,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup & Stabilize",
                   "focus": "SETUP",
-                  "cue": "Stand on one leg. Hold a wall lightly with one hand for safety only — not for balance support. Engage the standing glute to keep the pelvis completely still. The entire point of Hip CARs is that the pelvis does not move — only the femur in the hip socket. Squeeze the core before lifting the leg."
+                  "cue": "Stand on one leg. Hold a wall lightly with one hand for safety only, not for balance support. Engage the standing glute to keep the pelvis completely still. The entire point of Hip CARs is that the pelvis does not move, only the femur in the hip socket. Squeeze the core before lifting the leg."
                 },
                 {
                   "pos": "B",
                   "label": "Full Circumduction",
                   "focus": "CARS",
-                  "cue": "Lift the free knee and begin rotating the hip: knee lifts forward, swings out to the side, extends behind the body, sweeps back to center. One full rotation takes 8–10 seconds. Keep the circle as large as your range allows while the pelvis stays completely still. If the hip hikes or the lower back twists, you have exceeded your available range — make the circle smaller."
+                  "cue": "Lift the free knee and begin rotating the hip: knee lifts forward, swings out to the side, extends behind the body, sweeps back to center. One full rotation takes 8–10 seconds. Keep the circle as large as your range allows while the pelvis stays completely still. If the hip hikes or the lower back twists, you have exceeded your available range, make the circle smaller."
                 },
                 {
                   "pos": "C",
@@ -3642,19 +3643,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Seated Setup",
                   "focus": "SETUP",
-                  "cue": "Sit in a chair. Cross one ankle over the opposite knee so the foot is free in the air. Hold the lower leg just above the ankle to stabilize the shin — you want the foot to move, not the whole leg. Engage the muscles of the lower leg lightly."
+                  "cue": "Sit in a chair. Cross one ankle over the opposite knee so the foot is free in the air. Hold the lower leg just above the ankle to stabilize the shin. You want the foot to move, not the whole leg. Engage the muscles of the lower leg lightly."
                 },
                 {
                   "pos": "B",
                   "label": "Full Rotation",
                   "focus": "CARS",
-                  "cue": "Draw the largest circle possible with your big toe. Move clockwise: point the foot forward, rotate out, flex back, rotate in. Take 5–6 seconds per full rotation. Most people discover significant restriction when moving into dorsiflexion (toes pulled back) — this is the direction that matters most for walking and balance."
+                  "cue": "Draw the largest circle possible with your big toe. Move clockwise: point the foot forward, rotate out, flex back, rotate in. Take 5–6 seconds per full rotation. Most people discover significant restriction when moving into dorsiflexion (toes pulled back). This is the direction that matters most for walking and balance."
                 },
                 {
                   "pos": "C",
                   "label": "Reverse & Switch",
                   "focus": "END-RANGE",
-                  "cue": "Reverse direction. 4–5 rotations each way per foot. If the ankle feels stiff or crunchy, this is synovial fluid restriction — not a reason to stop, but a reason to go slower and breathe through the range."
+                  "cue": "Reverse direction. 4–5 rotations each way per foot. If the ankle feels stiff or crunchy, this is synovial fluid restriction, not a reason to stop, but a reason to go slower and breathe through the range."
                 }
               ],
               "position": "Sit in a chair. Lift one foot off the floor.",
@@ -3674,7 +3675,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Quadruped Setup",
                   "focus": "SETUP",
-                  "cue": "Begin on hands and knees. Hands under shoulders, knees under hips. Spine neutral. Extend one leg directly out to the side — keep it straight, toes pointing forward or slightly down. The extended leg forms a 90-degree angle with your body."
+                  "cue": "Begin on hands and knees. Hands under shoulders, knees under hips. Spine neutral. Extend one leg directly out to the side. Keep it straight, toes pointing forward or slightly down. The extended leg forms a 90-degree angle with your body."
                 },
                 {
                   "pos": "B",
@@ -3686,7 +3687,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Rock Forward & Repeat",
                   "focus": "RELEASE",
-                  "cue": "Rock forward to the starting position. Pause briefly, then rock back again. 8–10 slow repetitions, then switch sides. This movement targets the posterior hip capsule and adductors — two structures that chronic sitting locks into permanent shortening."
+                  "cue": "Rock forward to the starting position. Pause briefly, then rock back again. 8–10 slow repetitions, then switch sides. This movement targets the posterior hip capsule and adductors, two structures that chronic sitting locks into permanent shortening."
                 }
               ],
               "position": "Start on all fours, hands and knees on the floor.",
@@ -3706,7 +3707,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Quadruped Setup",
                   "focus": "SETUP",
-                  "cue": "Begin on hands and knees. Hands under shoulders, knees under hips. Spine neutral. Extend one leg directly out to the side — keep it straight, toes pointing forward or slightly down. The extended leg forms a 90-degree angle with your body."
+                  "cue": "Begin on hands and knees. Hands under shoulders, knees under hips. Spine neutral. Extend one leg directly out to the side. Keep it straight, toes pointing forward or slightly down. The extended leg forms a 90-degree angle with your body."
                 },
                 {
                   "pos": "B",
@@ -3718,7 +3719,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Rock Forward & Repeat",
                   "focus": "RELEASE",
-                  "cue": "Rock forward to the starting position. Pause briefly, then rock back again. 8–10 slow repetitions, then switch sides. This movement targets the posterior hip capsule and adductors — two structures that chronic sitting locks into permanent shortening."
+                  "cue": "Rock forward to the starting position. Pause briefly, then rock back again. 8–10 slow repetitions, then switch sides. This movement targets the posterior hip capsule and adductors, two structures that chronic sitting locks into permanent shortening."
                 }
               ],
               "position": "Start on all fours, hands and knees on the floor.",
@@ -3760,13 +3761,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Pump Up & Down",
                   "focus": "CIRCULATE",
-                  "cue": "Flex feet up (toes toward shins) then point down — 20 slow repetitions. This activates the soleus muscle, which acts as a second heart to pump blood back from the legs."
+                  "cue": "Flex feet up (toes toward shins) then point down, 20 slow repetitions. This activates the soleus muscle, which acts as a second heart to pump blood back from the legs."
                 },
                 {
                   "pos": "C",
                   "label": "Slow Circles",
                   "focus": "MOBILIZE",
-                  "cue": "Rotate each ankle in slow, full circles — 10 clockwise, 10 counter-clockwise per foot. Imagine drawing large, smooth circles in the air with your big toe."
+                  "cue": "Rotate each ankle in slow, full circles, 10 clockwise, 10 counter-clockwise per foot. Imagine drawing large, smooth circles in the air with your big toe."
                 }
               ],
               "position": "Sit tall with your feet flat on the floor.",
@@ -3786,19 +3787,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Sit",
                   "focus": "SETUP",
-                  "cue": "Sit tall, feet flat. No leaning — weight distributed evenly through both sit bones. Shoulders relaxed."
+                  "cue": "Sit tall, feet flat. No leaning, weight distributed evenly through both sit bones. Shoulders relaxed."
                 },
                 {
                   "pos": "B",
                   "label": "Squeeze & Hold",
                   "focus": "ACTIVATE",
-                  "cue": "Squeeze both glutes firmly together. Hold for 5 seconds. Breathe normally — do not hold your breath or brace the upper body."
+                  "cue": "Squeeze both glutes firmly together. Hold for 5 seconds. Breathe normally. Do not hold your breath or brace the upper body."
                 },
                 {
                   "pos": "C",
                   "label": "Release & Repeat",
                   "focus": "RESET",
-                  "cue": "Release completely for 5 seconds. 10 repetitions. Prolonged pressure switches off the glutes over time — this keeps the tissue and motor signal alive."
+                  "cue": "Release completely for 5 seconds. 10 repetitions. Prolonged pressure switches off the glutes over time. This keeps the tissue and motor signal alive."
                 }
               ],
               "position": "Sit tall with your feet flat on the floor.",
@@ -3822,13 +3823,13 @@ window.AXIS_JSON = {
                 },
                 {
                   "pos": "B",
-                  "label": "Arch — Inhale",
+                  "label": "Arch, Inhale",
                   "focus": "EXT",
                   "cue": "Inhale as you arch the low back, lift the chest, and gently look upward. Let the spine extend segmentally from tailbone to neck."
                 },
                 {
                   "pos": "C",
-                  "label": "Round — Exhale",
+                  "label": "Round, Exhale",
                   "focus": "FLEX",
                   "cue": "Exhale fully as you round the spine, tuck the chin, and pull the navel in. Feel each vertebra flex. 8–10 slow cycles."
                 }
@@ -3856,7 +3857,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Expand Peripheral Awareness",
                   "focus": "DOWNREGULATE",
-                  "cue": "Without moving your eyes, softly notice the full width of your visual field — the edges of the cabin, movement in your periphery. This is panoramic vision, the same visual state predators use when resting."
+                  "cue": "Without moving your eyes, softly notice the full width of your visual field. The edges of the cabin, movement in your periphery. This is panoramic vision, the same visual state predators use when resting."
                 },
                 {
                   "pos": "C",
@@ -3875,7 +3876,7 @@ window.AXIS_JSON = {
         {
           "label": "Post-Arrival",
           "tag": "T2",
-          "purpose": "Do these as soon as you reach your hotel or home. They undo the posture of travel — compressed hip flexors, locked thoracic spine, forward shoulders — and signal the body that you have arrived.",
+          "purpose": "Do these as soon as you reach your hotel or home. They undo the posture of travel, compressed hip flexors, locked thoracic spine, forward shoulders, and signal the body that you have arrived.",
           "exercises": [
             {
               "id": "1104-R",
@@ -3889,19 +3890,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Shallow Lunge",
                   "focus": "SETUP",
-                  "cue": "Step forward into a shallow lunge — not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
+                  "cue": "Step forward into a shallow lunge, not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
                 },
                 {
                   "pos": "B",
                   "label": "Pelvic Tuck & Lean",
                   "focus": "STRETCH",
-                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip — this is the psoas."
+                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip. This is the psoas."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Breathe",
                   "focus": "RELEASE",
-                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force — the psoas responds to patience, not pressure."
+                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force. The psoas responds to patience, not pressure."
                 }
               ],
               "position": "Stand tall and take a small step forward.",
@@ -3921,19 +3922,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Shallow Lunge",
                   "focus": "SETUP",
-                  "cue": "Step forward into a shallow lunge — not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
+                  "cue": "Step forward into a shallow lunge, not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
                 },
                 {
                   "pos": "B",
                   "label": "Pelvic Tuck & Lean",
                   "focus": "STRETCH",
-                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip — this is the psoas."
+                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip. This is the psoas."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Breathe",
                   "focus": "RELEASE",
-                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force — the psoas responds to patience, not pressure."
+                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force. The psoas responds to patience, not pressure."
                 }
               ],
               "position": "Stand tall and take a small step forward.",
@@ -3953,7 +3954,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Contact",
                   "focus": "SETUP",
-                  "cue": "Stand with head, upper back, and glutes touching the wall. Arms in a W shape — elbows bent, backs of hands against the wall. This is your baseline."
+                  "cue": "Stand with head, upper back, and glutes touching the wall. Arms in a W shape, elbows bent, backs of hands against the wall. This is your baseline."
                 },
                 {
                   "pos": "B",
@@ -3991,13 +3992,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Open the Top Arm",
                   "focus": "ROTATE",
-                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you — like opening a book. Let the chest and thoracic spine follow the arm."
+                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you, like opening a book. Let the chest and thoracic spine follow the arm."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Return",
                   "focus": "RELEASE",
-                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor — let gravity do it gradually. Return slowly. 5 reps each side."
+                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor. Let gravity do it gradually. Return slowly. 5 reps each side."
                 }
               ],
               "position": "Lie on your side with your knees bent and stacked.",
@@ -4023,13 +4024,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Open the Top Arm",
                   "focus": "ROTATE",
-                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you — like opening a book. Let the chest and thoracic spine follow the arm."
+                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you, like opening a book. Let the chest and thoracic spine follow the arm."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Return",
                   "focus": "RELEASE",
-                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor — let gravity do it gradually. Return slowly. 5 reps each side."
+                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor. Let gravity do it gradually. Return slowly. 5 reps each side."
                 }
               ],
               "position": "Lie on your side with your knees bent and stacked.",
@@ -4049,7 +4050,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Relax Completely",
                   "focus": "SETUP",
-                  "cue": "Sit or lie comfortably. Let the body be heavy. Close the eyes. This is not just breathing — it is a signal to the nervous system that the travel phase is over."
+                  "cue": "Sit or lie comfortably. Let the body be heavy. Close the eyes. This is not just breathing. It is a signal to the nervous system that the travel phase is over."
                 },
                 {
                   "pos": "B",
@@ -4061,7 +4062,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Long Exhale",
                   "focus": "DOWNREGULATE",
-                  "cue": "Release a long, slow exhale through the mouth — twice as long as the inhale. 3–5 rounds. Each cycle measurably reduces physiological arousal. You will feel the nervous system shift."
+                  "cue": "Release a long, slow exhale through the mouth, twice as long as the inhale. 3–5 rounds. Each cycle measurably reduces physiological arousal. You will feel the nervous system shift."
                 }
               ],
               "position": "Sit or lie down in a comfortable position.",
@@ -4081,7 +4082,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Doorway Setup",
                   "focus": "SETUP",
-                  "cue": "Stand in a doorway. Place both forearms on the door frame at 90° — elbows at shoulder height, upper arms parallel to floor. Step one foot forward."
+                  "cue": "Stand in a doorway. Place both forearms on the door frame at 90°, elbows at shoulder height, upper arms parallel to floor. Step one foot forward."
                 },
                 {
                   "pos": "B",
@@ -4125,7 +4126,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Lower Slowly",
                   "focus": "CONTROL",
-                  "cue": "Lower with control — 3 seconds down. Do not let the hips crash. The slow descent builds the posterior chain that sitting disengages."
+                  "cue": "Lower with control, 3 seconds down. Do not let the hips crash. The slow descent builds the posterior chain that sitting disengages."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
@@ -4167,13 +4168,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Pump Up & Down",
                   "focus": "CIRCULATE",
-                  "cue": "Flex feet up (toes toward shins) then point down — 20 slow repetitions. This activates the soleus muscle, which acts as a second heart to pump blood back from the legs."
+                  "cue": "Flex feet up (toes toward shins) then point down, 20 slow repetitions. This activates the soleus muscle, which acts as a second heart to pump blood back from the legs."
                 },
                 {
                   "pos": "C",
                   "label": "Slow Circles",
                   "focus": "MOBILIZE",
-                  "cue": "Rotate each ankle in slow, full circles — 10 clockwise, 10 counter-clockwise per foot. Imagine drawing large, smooth circles in the air with your big toe."
+                  "cue": "Rotate each ankle in slow, full circles, 10 clockwise, 10 counter-clockwise per foot. Imagine drawing large, smooth circles in the air with your big toe."
                 }
               ],
               "position": "Sit tall with your feet flat on the floor.",
@@ -4193,19 +4194,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Sit",
                   "focus": "SETUP",
-                  "cue": "Sit tall, feet flat. No leaning — weight distributed evenly through both sit bones. Shoulders relaxed."
+                  "cue": "Sit tall, feet flat. No leaning, weight distributed evenly through both sit bones. Shoulders relaxed."
                 },
                 {
                   "pos": "B",
                   "label": "Squeeze & Hold",
                   "focus": "ACTIVATE",
-                  "cue": "Squeeze both glutes firmly together. Hold for 5 seconds. Breathe normally — do not hold your breath or brace the upper body."
+                  "cue": "Squeeze both glutes firmly together. Hold for 5 seconds. Breathe normally. Do not hold your breath or brace the upper body."
                 },
                 {
                   "pos": "C",
                   "label": "Release & Repeat",
                   "focus": "RESET",
-                  "cue": "Release completely for 5 seconds. 10 repetitions. Prolonged pressure switches off the glutes over time — this keeps the tissue and motor signal alive."
+                  "cue": "Release completely for 5 seconds. 10 repetitions. Prolonged pressure switches off the glutes over time. This keeps the tissue and motor signal alive."
                 }
               ],
               "position": "Sit tall with your feet flat on the floor.",
@@ -4229,13 +4230,13 @@ window.AXIS_JSON = {
                 },
                 {
                   "pos": "B",
-                  "label": "Arch — Inhale",
+                  "label": "Arch, Inhale",
                   "focus": "EXT",
                   "cue": "Inhale as you arch the low back, lift the chest, and gently look upward. Let the spine extend segmentally from tailbone to neck."
                 },
                 {
                   "pos": "C",
-                  "label": "Round — Exhale",
+                  "label": "Round, Exhale",
                   "focus": "FLEX",
                   "cue": "Exhale fully as you round the spine, tuck the chin, and pull the navel in. Feel each vertebra flex. 8–10 slow cycles."
                 }
@@ -4263,7 +4264,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Expand Peripheral Awareness",
                   "focus": "DOWNREGULATE",
-                  "cue": "Without moving your eyes, softly notice the full width of your visual field — the edges of the cabin, movement in your periphery. This is panoramic vision, the same visual state predators use when resting."
+                  "cue": "Without moving your eyes, softly notice the full width of your visual field. The edges of the cabin, movement in your periphery. This is panoramic vision, the same visual state predators use when resting."
                 },
                 {
                   "pos": "C",
@@ -4282,7 +4283,7 @@ window.AXIS_JSON = {
         {
           "label": "Post-Arrival",
           "tag": "U2",
-          "purpose": "Do these as soon as you reach your hotel or home. They undo the posture of travel — compressed hip flexors, locked thoracic spine, forward shoulders — and signal the body that you have arrived.",
+          "purpose": "Do these as soon as you reach your hotel or home. They undo the posture of travel, compressed hip flexors, locked thoracic spine, forward shoulders, and signal the body that you have arrived.",
           "exercises": [
             {
               "id": "1104-R",
@@ -4296,19 +4297,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Shallow Lunge",
                   "focus": "SETUP",
-                  "cue": "Step forward into a shallow lunge — not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
+                  "cue": "Step forward into a shallow lunge, not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
                 },
                 {
                   "pos": "B",
                   "label": "Pelvic Tuck & Lean",
                   "focus": "STRETCH",
-                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip — this is the psoas."
+                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip. This is the psoas."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Breathe",
                   "focus": "RELEASE",
-                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force — the psoas responds to patience, not pressure."
+                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force. The psoas responds to patience, not pressure."
                 }
               ],
               "position": "Stand tall and take a small step forward.",
@@ -4328,19 +4329,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Shallow Lunge",
                   "focus": "SETUP",
-                  "cue": "Step forward into a shallow lunge — not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
+                  "cue": "Step forward into a shallow lunge, not a deep split. Back knee can be raised or lowered. Both feet point forward. Keep torso upright."
                 },
                 {
                   "pos": "B",
                   "label": "Pelvic Tuck & Lean",
                   "focus": "STRETCH",
-                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip — this is the psoas."
+                  "cue": "Tuck the pelvis slightly (posterior tilt) to flatten the low back. Gently lean the torso toward the front leg. You will feel a deep stretch at the front of the back hip. This is the psoas."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Breathe",
                   "focus": "RELEASE",
-                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force — the psoas responds to patience, not pressure."
+                  "cue": "Hold 30–45 seconds each side. With each exhale, allow the hip to sink a little further. Do not force. The psoas responds to patience, not pressure."
                 }
               ],
               "position": "Stand tall and take a small step forward.",
@@ -4360,7 +4361,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Contact",
                   "focus": "SETUP",
-                  "cue": "Stand with head, upper back, and glutes touching the wall. Arms in a W shape — elbows bent, backs of hands against the wall. This is your baseline."
+                  "cue": "Stand with head, upper back, and glutes touching the wall. Arms in a W shape, elbows bent, backs of hands against the wall. This is your baseline."
                 },
                 {
                   "pos": "B",
@@ -4398,13 +4399,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Open the Top Arm",
                   "focus": "ROTATE",
-                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you — like opening a book. Let the chest and thoracic spine follow the arm."
+                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you, like opening a book. Let the chest and thoracic spine follow the arm."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Return",
                   "focus": "RELEASE",
-                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor — let gravity do it gradually. Return slowly. 5 reps each side."
+                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor. Let gravity do it gradually. Return slowly. 5 reps each side."
                 }
               ],
               "position": "Lie on your side with your knees bent and stacked.",
@@ -4430,13 +4431,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Open the Top Arm",
                   "focus": "ROTATE",
-                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you — like opening a book. Let the chest and thoracic spine follow the arm."
+                  "cue": "Keeping the bottom knee stack stable, slowly rotate the top arm up, back, and toward the floor behind you, like opening a book. Let the chest and thoracic spine follow the arm."
                 },
                 {
                   "pos": "C",
                   "label": "Hold & Return",
                   "focus": "RELEASE",
-                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor — let gravity do it gradually. Return slowly. 5 reps each side."
+                  "cue": "Hold for 3–5 breaths at the end range. Do not force the shoulder to the floor. Let gravity do it gradually. Return slowly. 5 reps each side."
                 }
               ],
               "position": "Lie on your side with your knees bent and stacked.",
@@ -4456,7 +4457,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Relax Completely",
                   "focus": "SETUP",
-                  "cue": "Sit or lie comfortably. Let the body be heavy. Close the eyes. This is not just breathing — it is a signal to the nervous system that the travel phase is over."
+                  "cue": "Sit or lie comfortably. Let the body be heavy. Close the eyes. This is not just breathing. It is a signal to the nervous system that the travel phase is over."
                 },
                 {
                   "pos": "B",
@@ -4468,7 +4469,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Long Exhale",
                   "focus": "DOWNREGULATE",
-                  "cue": "Release a long, slow exhale through the mouth — twice as long as the inhale. 3–5 rounds. Each cycle measurably reduces physiological arousal. You will feel the nervous system shift."
+                  "cue": "Release a long, slow exhale through the mouth, twice as long as the inhale. 3–5 rounds. Each cycle measurably reduces physiological arousal. You will feel the nervous system shift."
                 }
               ],
               "position": "Sit or lie down in a comfortable position.",
@@ -4488,7 +4489,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Doorway Setup",
                   "focus": "SETUP",
-                  "cue": "Stand in a doorway. Place both forearms on the door frame at 90° — elbows at shoulder height, upper arms parallel to floor. Step one foot forward."
+                  "cue": "Stand in a doorway. Place both forearms on the door frame at 90°, elbows at shoulder height, upper arms parallel to floor. Step one foot forward."
                 },
                 {
                   "pos": "B",
@@ -4532,7 +4533,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Lower Slowly",
                   "focus": "CONTROL",
-                  "cue": "Lower with control — 3 seconds down. Do not let the hips crash. The slow descent builds the posterior chain that sitting disengages."
+                  "cue": "Lower with control, 3 seconds down. Do not let the hips crash. The slow descent builds the posterior chain that sitting disengages."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
@@ -5450,13 +5451,13 @@ window.AXIS_JSON = {
                 },
                 {
                   "pos": "B",
-                  "label": "Cat — Exhale",
+                  "label": "Cat, Exhale",
                   "focus": "FLEX",
                   "cue": "Exhale, round through the spine segment by segment. Tuck chin and pelvis."
                 },
                 {
                   "pos": "C",
-                  "label": "Cow — Inhale",
+                  "label": "Cow, Inhale",
                   "focus": "EXTEND",
                   "cue": "Inhale, drop the belly, lift the chest and tailbone. Move slowly for 10 cycles."
                 }
@@ -5536,7 +5537,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Sit, stand, or lie on your back with knees bent — eyes forward, head level."
+                  "cue": "Sit, stand, or lie on your back with knees bent, eyes forward, head level."
                 },
                 {
                   "pos": "B",
@@ -5606,7 +5607,8 @@ window.AXIS_JSON = {
               "position": "Kneel on the floor.",
               "next": "Sit your hips back onto your heels. Reach your arms straight out in front of you.",
               "then": "Lower your chest and forehead to the floor. Take deep breaths into your lower back.",
-              "tip": "Spread your knees wider if you need more space for your chest."
+              "tip": "Spread your knees wider if you need more space for your chest.",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4"
             }
           ]
         }
@@ -5617,12 +5619,12 @@ window.AXIS_JSON = {
       "id": "wrist",
       "label": "Carpal Tunnel Release",
       "subtitle": "Glides · Stretches · Nerves",
-      "purpose": "Short PT-style routine for wrist and hand mobility — perfect for keyboard users.",
+      "purpose": "Short PT-style routine for wrist and hand mobility, perfect for keyboard users.",
       "sections": [
         {
           "label": "Wrist & Hand Reset",
           "tag": "UC",
-          "purpose": "Short PT-style routine: glides, stretches and nerve glides for wrist and hand health — great for keyboard users.",
+          "purpose": "Short PT-style routine: glides, stretches and nerve glides for wrist and hand health, great for keyboard users.",
           "exercises": [
             {
               "id": 2010,
@@ -5645,7 +5647,7 @@ window.AXIS_JSON = {
                   "cue": "Use the other hand to gently pull fingers back toward you. Hold 30s per side."
                 },
                 {
-                  "cue": "Never force the stretch. A gentle pull is correct — sharp pain or tingling means reduce the range."
+                  "cue": "Never force the stretch. A gentle pull is correct, sharp pain or tingling means reduce the range."
                 }
               ],
               "position": "Sit or stand. Reach one arm straight out in front of you.",
@@ -5703,7 +5705,7 @@ window.AXIS_JSON = {
                   "cue": "Make a fist, then straighten fingers and thumb across the palm. Repeat smoothly for 10 reps."
                 },
                 {
-                  "cue": "Move slowly and smoothly. These are glides, not stretches — do not force the range."
+                  "cue": "Move slowly and smoothly. These are glides, not stretches. Do not force the range."
                 }
               ],
               "position": "Sit tall. Rest your elbow on a table or chair arm.",
@@ -5783,7 +5785,7 @@ window.AXIS_JSON = {
         {
           "label": "Immediate Nervous System Reset",
           "tag": "HZ",
-          "purpose": "Anxiety floods the system with adrenaline and cortisol, shifting the nervous system into sympathetic overdrive. These first four techniques work fast — each one has a direct, measurable effect on heart rate, vagal tone, or the threat-detection centers of the brain. Use them as soon as you feel the activation rising.",
+          "purpose": "Anxiety floods the system with adrenaline and cortisol, shifting the nervous system into sympathetic overdrive. These first four techniques work fast. Each one has a direct, measurable effect on heart rate, vagal tone, or the threat-detection centers of the brain. Use them as soon as you feel the activation rising.",
           "exercises": [
             {
               "id": 2001,
@@ -5797,7 +5799,7 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Prepare Cold Water",
                   "focus": "SETUP",
-                  "cue": "Fill a sink or bowl with cold water — as cold as possible, ideally with ice. The mammalian dive reflex is one of the fastest known parasympathetic pathways: cold water on the face instantly slows the heart via the vagus nerve. Athletes and therapists use this for acute anxiety."
+                  "cue": "Fill a sink or bowl with cold water, as cold as possible, ideally with ice. The mammalian dive reflex is one of the fastest known parasympathetic pathways: cold water on the face instantly slows the heart via the vagus nerve. Athletes and therapists use this for acute anxiety."
                 },
                 {
                   "pos": "B",
@@ -5809,7 +5811,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Surface and Breathe",
                   "focus": "INTEGRATE",
-                  "cue": "Come up slowly and take a long, slow exhale. You will notice a distinct drop in heart rate and a shift in mental clarity — the hallmark of the dive reflex activating. Repeat 1–2 times if needed. This technique is a first-line DBT skill for acute emotional dysregulation."
+                  "cue": "Come up slowly and take a long, slow exhale. You will notice a distinct drop in heart rate and a shift in mental clarity. The hallmark of the dive reflex activating. Repeat 1–2 times if needed. This technique is a first-line DBT skill for acute emotional dysregulation."
                 }
               ],
               "position": "Stand or sit next to a sink or bowl of very cold water.",
@@ -5835,13 +5837,13 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Settle and Release",
                   "focus": "REST",
-                  "cue": "Let the legs go heavy against the wall. Arms rest wide at 30°, palms up. Close the eyes. Passive inversion shifts venous return and activates baroreceptors in the neck and chest — the brain interprets this as cardiovascular calm. Heart rate measurably decreases within 2 minutes."
+                  "cue": "Let the legs go heavy against the wall. Arms rest wide at 30°, palms up. Close the eyes. Passive inversion shifts venous return and activates baroreceptors in the neck and chest. The brain interprets this as cardiovascular calm. Heart rate measurably decreases within 2 minutes."
                 },
                 {
                   "pos": "C",
                   "label": "Breathe Into the Belly",
                   "focus": "RESTORE",
-                  "cue": "With gravity assisting, the diaphragm moves more freely here. Each breath goes deeper without effort. Stay for the full 2 minutes — anxiety often lifts noticeably within that window. When you come down, roll to one side and pause for 30 seconds before sitting up."
+                  "cue": "With gravity assisting, the diaphragm moves more freely here. Each breath goes deeper without effort. Stay for the full 2 minutes, anxiety often lifts noticeably within that window. When you come down, roll to one side and pause for 30 seconds before sitting up."
                 }
               ],
               "position": "Sit on the floor close to a wall.",
@@ -5861,19 +5863,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Settle and Find the Tone",
                   "focus": "SETUP",
-                  "cue": "Sit or lie comfortably. Take a full belly breath in. As you exhale, produce a slow, deep 'VooooOOOOO' sound — like a foghorn or a ship's horn. The key is that it resonates in the chest and belly, not just the throat. You should feel the vibration in the sternum and upper abdomen."
+                  "cue": "Sit or lie comfortably. Take a full belly breath in. As you exhale, produce a slow, deep 'VooooOOOOO' sound, like a foghorn or a ship's horn. The key is that it resonates in the chest and belly, not just the throat. You should feel the vibration in the sternum and upper abdomen."
                 },
                 {
                   "pos": "B",
                   "label": "Sustain for Full Exhale",
                   "focus": "TONE",
-                  "cue": "Make the Voo last the entire exhale — 6–8 seconds minimum. The low-frequency vibration directly stimulates the vagus nerve through thoracic resonance. Dr. Peter Levine, founder of Somatic Experiencing, uses this as a primary nervous system regulation tool."
+                  "cue": "Make the Voo last the entire exhale, 6–8 seconds minimum. The low-frequency vibration directly stimulates the vagus nerve through thoracic resonance. Dr. Peter Levine, founder of Somatic Experiencing, uses this as a primary nervous system regulation tool."
                 },
                 {
                   "pos": "C",
                   "label": "Pause and Inhale",
                   "focus": "INTEGRATE",
-                  "cue": "After each Voo, rest for 2 breaths before the next one. Notice the quality of stillness between sounds — this is the parasympathetic response deepening. 6–8 rounds is a complete cycle. The effect is cumulative: each round deepens the shift."
+                  "cue": "After each Voo, rest for 2 breaths before the next one. Notice the quality of stillness between sounds. This is the parasympathetic response deepening. 6–8 rounds is a complete cycle. The effect is cumulative: each round deepens the shift."
                 }
               ],
               "position": "Sit or lie down in a comfortable position.",
@@ -5893,17 +5895,17 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Name 5 Things You See",
                   "focus": "VISUAL",
-                  "cue": "Look around the room slowly. Name 5 distinct things you can see — out loud or in your mind. Describe them specifically: not just 'a chair' but 'a dark wooden chair with a cracked armrest.' Specificity matters. This engages the prefrontal cortex and begins to quiet the amygdala's alarm."
+                  "cue": "Look around the room slowly. Name 5 distinct things you can see, out loud or in your mind. Describe them specifically: not just 'a chair' but 'a dark wooden chair with a cracked armrest.' Specificity matters. This engages the prefrontal cortex and begins to quiet the amygdala's alarm."
                 },
                 {
                   "pos": "B",
                   "label": "4 Touch · 3 Sound · 2 Smell",
                   "focus": "SENSORY",
-                  "cue": "4: Notice 4 physical sensations — the weight of your body, the texture of your clothing, the temperature of your hands, the floor under your feet. 3: Identify 3 distinct sounds in the environment. 2: Find 2 things you can smell, or recall 2 scents you know well."
+                  "cue": "4: Notice 4 physical sensations. The weight of your body, the texture of your clothing, the temperature of your hands, the floor under your feet. 3: Identify 3 distinct sounds in the environment. 2: Find 2 things you can smell, or recall 2 scents you know well."
                 },
                 {
                   "pos": "C",
-                  "label": "1 Taste — Then Return",
+                  "label": "1 Taste. Then Return",
                   "focus": "GROUND",
                   "cue": "Notice 1 thing you can taste, or take a sip of water and pay full attention to the sensation. Then take 3 slow breaths. The full 5-4-3-2-1 protocol has been shown in clinical settings to reduce acute anxiety within 5 minutes by shifting attention from internal threat-monitoring to direct sensory experience."
                 }
@@ -5918,7 +5920,7 @@ window.AXIS_JSON = {
         {
           "label": "Somatic Grounding & Release",
           "tag": "GR",
-          "purpose": "Once the initial spike is addressed, these four techniques work deeper — using body awareness, gentle movement, and self-touch to consolidate the shift from fight-or-flight to safety. Each one communicates directly with the nervous system through proprioception, the breath, or social engagement cues.",
+          "purpose": "Once the initial spike is addressed, these four techniques work deeper, using body awareness, gentle movement, and self-touch to consolidate the shift from fight-or-flight to safety. Each one communicates directly with the nervous system through proprioception, the breath, or social engagement cues.",
           "exercises": [
             {
               "id": 2005,
@@ -5932,19 +5934,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Feel the Ground",
                   "focus": "SETUP",
-                  "cue": "Stand barefoot if possible. Plant the feet firmly — feel the heel, the ball of the foot, and all five toes in contact with the floor. Press down slightly and feel the floor pressing back. This proprioceptive feedback tells the nervous system: you are standing on solid ground. You are not falling."
+                  "cue": "Stand barefoot if possible. Plant the feet firmly. Feel the heel, the ball of the foot, and all five toes in contact with the floor. Press down slightly and feel the floor pressing back. This proprioceptive feedback tells the nervous system: you are standing on solid ground. You are not falling."
                 },
                 {
                   "pos": "B",
                   "label": "Roots Down, Rise Up",
                   "focus": "ANCHOR",
-                  "cue": "Imagine roots growing downward from the soles of your feet — through the floor, into the earth. With each exhale, let the roots grow deeper. With each inhale, let the crown of the head rise slightly. The body lengthens in two directions. Anxiety contracts the body. This counters that."
+                  "cue": "Imagine roots growing downward from the soles of your feet, through the floor, into the earth. With each exhale, let the roots grow deeper. With each inhale, let the crown of the head rise slightly. The body lengthens in two directions. Anxiety contracts the body. This counters that."
                 },
                 {
                   "pos": "C",
                   "label": "Breathe and Notice Weight",
                   "focus": "INTEGRATE",
-                  "cue": "Feel the full weight of the body supported. The floor is holding you — you do not have to hold yourself up. Notice the hips, belly, chest — all simply resting on the skeletal frame, which is resting on the earth. Stay for the full duration. Anxiety requires you to be in your head; this practice puts you back in your body."
+                  "cue": "Feel the full weight of the body supported. The floor is holding you. You do not have to hold yourself up. Notice the hips, belly, chest, all simply resting on the skeletal frame, which is resting on the earth. Stay for the full duration. Anxiety requires you to be in your head; this practice puts you back in your body."
                 }
               ],
               "position": "Stand tall with your feet apart.",
@@ -5964,19 +5966,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Hinge at the Hips",
                   "focus": "SETUP",
-                  "cue": "Stand with feet hip-width apart. Soften the knees generously. Hinge forward from the hips — not the waist — and let the upper body hang. Arms dangle. Head is heavy. If hamstrings pull, bend the knees more. The goal is full upper body release, not straight legs."
+                  "cue": "Stand with feet hip-width apart. Soften the knees generously. Hinge forward from the hips, not the waist, and let the upper body hang. Arms dangle. Head is heavy. If hamstrings pull, bend the knees more. The goal is full upper body release, not straight legs."
                 },
                 {
                   "pos": "B",
                   "label": "Let the Head Hang Heavy",
                   "focus": "INVERT",
-                  "cue": "Let gravity take the weight of the skull. The mild inversion — head below heart — activates baroreceptors in the neck and chest. The brain interprets this as blood pressure rising and slows the heart to compensate. This is a direct cardiovascular pathway to calm. Breathe slowly."
+                  "cue": "Let gravity take the weight of the skull. The mild inversion, head below heart, activates baroreceptors in the neck and chest. The brain interprets this as blood pressure rising and slows the heart to compensate. This is a direct cardiovascular pathway to calm. Breathe slowly."
                 },
                 {
                   "pos": "C",
                   "label": "Sway and Release",
                   "focus": "RESTORE",
-                  "cue": "Gently sway side to side — tiny movements, like seaweed in slow current. This bilateral movement, even small, helps discharge residual nervous energy. After 45–60 seconds, slowly roll up one vertebra at a time — head comes up last. Take 3 breaths at the top before continuing."
+                  "cue": "Gently sway side to side, tiny movements, like seaweed in slow current. This bilateral movement, even small, helps discharge residual nervous energy. After 45–60 seconds, slowly roll up one vertebra at a time, head comes up last. Take 3 breaths at the top before continuing."
                 }
               ],
               "position": "Stand tall with your feet apart.",
@@ -5996,19 +5998,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Place Both Hands",
                   "focus": "SETUP",
-                  "cue": "Place one or both hands flat on the center of the chest, over the heart. Close the eyes. Physically feel the warmth of your own hands through the fabric. This simple gesture activates the same neurological pathway as receiving care from another person — the body does not fully distinguish the source of the touch."
+                  "cue": "Place one or both hands flat on the center of the chest, over the heart. Close the eyes. Physically feel the warmth of your own hands through the fabric. This simple gesture activates the same neurological pathway as receiving care from another person. The body does not fully distinguish the source of the touch."
                 },
                 {
                   "pos": "B",
                   "label": "Feel the Heartbeat",
                   "focus": "CONNECT",
-                  "cue": "Press gently until you can feel your heartbeat — or simply feel the rise and fall of the chest with the breath. Acknowledge: this heart has been beating for your entire life without your asking it to. It does not need you to be anxious on its behalf. Let it do its work."
+                  "cue": "Press gently until you can feel your heartbeat, or simply feel the rise and fall of the chest with the breath. Acknowledge: this heart has been beating for your entire life without your asking it to. It does not need you to be anxious on its behalf. Let it do its work."
                 },
                 {
                   "pos": "C",
                   "label": "Breathe Into the Hands",
                   "focus": "SOFTEN",
-                  "cue": "Breathe slowly, imagining the breath flowing to and from the hands. With each exhale, consciously soften the area beneath the palms. Dr. Kristin Neff's research on self-compassion shows this gesture measurably reduces cortisol and activates the caregiving system — the same system that calms an anxious child also calms an anxious adult."
+                  "cue": "Breathe slowly, imagining the breath flowing to and from the hands. With each exhale, consciously soften the area beneath the palms. Dr. Kristin Neff's research on self-compassion shows this gesture measurably reduces cortisol and activates the caregiving system. The same system that calms an anxious child also calms an anxious adult."
                 }
               ],
               "position": "Sit or lie down in a comfortable position.",
@@ -6028,19 +6030,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Find the Earlobes",
                   "focus": "SETUP",
-                  "cue": "Reach up and gently take both earlobes between the thumb and index finger. The ear — specifically the concha and tragus — contains a branch of the vagus nerve called the auricular branch. Gentle stimulation here has been shown in clinical studies to increase heart rate variability, a direct marker of parasympathetic tone."
+                  "cue": "Reach up and gently take both earlobes between the thumb and index finger. The ear, specifically the concha and tragus, contains a branch of the vagus nerve called the auricular branch. Gentle stimulation here has been shown in clinical studies to increase heart rate variability, a direct marker of parasympathetic tone."
                 },
                 {
                   "pos": "B",
                   "label": "Slow Circles and Gentle Pulls",
                   "focus": "STIMULATE",
-                  "cue": "Make slow, gentle circles with the earlobes. Then gently pull the lobes downward — a slow, steady traction. Move to the outer ear rim (helix) and trace it slowly from bottom to top with the thumb. Take your time. This is not massage — it is gentle, deliberate stimulation."
+                  "cue": "Make slow, gentle circles with the earlobes. Then gently pull the lobes downward, a slow, steady traction. Move to the outer ear rim (helix) and trace it slowly from bottom to top with the thumb. Take your time. This is not massage. It is gentle, deliberate stimulation."
                 },
                 {
                   "pos": "C",
                   "label": "Continue and Breathe",
                   "focus": "TONE",
-                  "cue": "Continue for the full minute, working both ears simultaneously. Breathe slowly — long exhales enhance the effect. You may notice a warmth in the ears, a softening of tension in the jaw, or a gentle heaviness behind the eyes. These are signs of vagal activation. This technique is used in integrative medicine for acute anxiety and insomnia."
+                  "cue": "Continue for the full minute, working both ears simultaneously. Breathe slowly, long exhales enhance the effect. You may notice a warmth in the ears, a softening of tension in the jaw, or a gentle heaviness behind the eyes. These are signs of vagal activation. This technique is used in integrative medicine for acute anxiety and insomnia."
                 }
               ],
               "position": "Sit tall and reach both hands up to your ears.",
@@ -6062,7 +6064,7 @@ window.AXIS_JSON = {
         {
           "label": "Physical Discharge",
           "tag": "DC",
-          "purpose": "Stress primes the body to fight or flee — cortisol and adrenaline flood the bloodstream, muscles tense, heart rate climbs. But modern stressors rarely let us move. These four exercises complete the stress cycle the body started: they give the nervous system the physical discharge it was primed for, which is the only pathway through — not around — the stress response.",
+          "purpose": "Stress primes the body to fight or flee, cortisol and adrenaline flood the bloodstream, muscles tense, heart rate climbs. But modern stressors rarely let us move. These four exercises complete the stress cycle the body started: they give the nervous system the physical discharge it was primed for, which is the only pathway through, not around. The stress response.",
           "exercises": [
             {
               "id": 2101,
@@ -6076,19 +6078,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Feet, Calves & Thighs",
                   "focus": "LOWER BODY",
-                  "cue": "Starting at the feet: curl the toes and tense the feet hard for 5 seconds, then release completely. Next, contract the calves and thighs simultaneously — hold 5 seconds, then let go. The contrast between maximal tension and release is the mechanism. Stress stores muscular holding patterns below conscious awareness; PMR makes them visible and clears them."
+                  "cue": "Starting at the feet: curl the toes and tense the feet hard for 5 seconds, then release completely. Next, contract the calves and thighs simultaneously. Hold 5 seconds, then let go. The contrast between maximal tension and release is the mechanism. Stress stores muscular holding patterns below conscious awareness; PMR makes them visible and clears them."
                 },
                 {
                   "pos": "B",
                   "label": "Core, Hands & Arms",
                   "focus": "MID BODY",
-                  "cue": "Tense the glutes and core together — hold 5 seconds, release. Then make tight fists and tense the forearms, biceps, and shoulders all at once — hold 5 seconds, release fully. Let the arms go completely heavy. Notice the warmth in the released muscles — this is increased blood flow returning."
+                  "cue": "Tense the glutes and core together. Hold 5 seconds, release. Then make tight fists and tense the forearms, biceps, and shoulders all at once. Hold 5 seconds, release fully. Let the arms go completely heavy. Notice the warmth in the released muscles. This is increased blood flow returning."
                 },
                 {
                   "pos": "C",
                   "label": "Shoulders, Jaw & Face",
                   "focus": "UPPER BODY",
-                  "cue": "Shrug the shoulders to the ears — hold 5 seconds, release. Clench the jaw and scrunch the face — hold 5 seconds, release. Finally, take a full breath, tense the entire body from feet to face simultaneously — hold 5 seconds, then release everything at once and exhale fully. One complete cycle is enough; repeat if time allows."
+                  "cue": "Shrug the shoulders to the ears. Hold 5 seconds, release. Clench the jaw and scrunch the face. Hold 5 seconds, release. Finally, take a full breath, tense the entire body from feet to face simultaneously. Hold 5 seconds, then release everything at once and exhale fully. One complete cycle is enough; repeat if time allows."
                 }
               ],
               "position": "Lie flat on your back with your arms at your sides.",
@@ -6108,19 +6110,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "March in Place",
                   "focus": "SETUP",
-                  "cue": "Begin marching — knees lifting high, arms swinging in opposition (right arm forward as left knee rises). The gait cycle is the body's natural stress-metabolism mechanism. Research shows a brisk 10-minute walk reduces cortisol by 15–20%. Even 2 minutes of deliberate marching initiates this response."
+                  "cue": "Begin marching, knees lifting high, arms swinging in opposition (right arm forward as left knee rises). The gait cycle is the body's natural stress-metabolism mechanism. Research shows a brisk 10-minute walk reduces cortisol by 15–20%. Even 2 minutes of deliberate marching initiates this response."
                 },
                 {
                   "pos": "B",
                   "label": "Cross-Body Pattern",
                   "focus": "BILATERAL",
-                  "cue": "Exaggerate the cross-body swing: right elbow drives back as the left knee lifts, and vice versa. This bilateral, alternating pattern activates both brain hemispheres simultaneously and has a measurable organizing effect on a dysregulated nervous system — the same mechanism that makes walking after an argument feel instinctively helpful."
+                  "cue": "Exaggerate the cross-body swing: right elbow drives back as the left knee lifts, and vice versa. This bilateral, alternating pattern activates both brain hemispheres simultaneously and has a measurable organizing effect on a dysregulated nervous system. The same mechanism that makes walking after an argument feel instinctively helpful."
                 },
                 {
                   "pos": "C",
                   "label": "Audible Exhale with Each Step",
                   "focus": "DISCHARGE",
-                  "cue": "Breathe out with each step — a short, deliberate exhale through the mouth, like punctuation. Make it audible. Lift the knees higher, let the arms swing wider. After 2 minutes you will notice a shift: the quality of mental activity changes. Stress rumination is harder to sustain when the body is engaged bilaterally."
+                  "cue": "Breathe out with each step, a short, deliberate exhale through the mouth, like punctuation. Make it audible. Lift the knees higher, let the arms swing wider. After 2 minutes you will notice a shift: the quality of mental activity changes. Stress rumination is harder to sustain when the body is engaged bilaterally."
                 }
               ],
               "position": "Stand tall. Make sure you have room to walk or march in place.",
@@ -6140,19 +6142,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Hands Behind Head",
                   "focus": "SETUP",
-                  "cue": "Sit at the edge of a firm chair. Interlace the fingers behind the head, elbows wide. Chronic stress collapses the chest inward and forward — shoulders round, the thoracic spine flexes, and the breath shortens. This position is the direct reversal of that pattern."
+                  "cue": "Sit at the edge of a firm chair. Interlace the fingers behind the head, elbows wide. Chronic stress collapses the chest inward and forward, shoulders round, the thoracic spine flexes, and the breath shortens. This position is the direct reversal of that pattern."
                 },
                 {
                   "pos": "B",
                   "label": "Extend Over the Chair Back",
                   "focus": "OPEN",
-                  "cue": "Lean back gently over the top edge of the chair back — let it act as a fulcrum for the mid-thoracic spine. Allow the head to drop back, elbows flare open, chest lifts toward the ceiling. Hold 10–15 seconds. Breathe into the stretch. You may feel or hear gentle cracking — this is normal joint cavitation."
+                  "cue": "Lean back gently over the top edge of the chair back. Let it act as a fulcrum for the mid-thoracic spine. Allow the head to drop back, elbows flare open, chest lifts toward the ceiling. Hold 10–15 seconds. Breathe into the stretch. You may feel or hear gentle cracking. This is normal joint cavitation."
                 },
                 {
                   "pos": "C",
                   "label": "Repeat at Different Levels",
                   "focus": "MOBILIZE",
-                  "cue": "Come up slowly, shift position up slightly on the chair, and extend again at a different vertebral level. 3–4 extensions across the mid and upper thoracic. Each one opens the anterior chest, stretches the intercostals, and restores full lung volume — all of which are mechanically restricted during the stress posture."
+                  "cue": "Come up slowly, shift position up slightly on the chair, and extend again at a different vertebral level. 3–4 extensions across the mid and upper thoracic. Each one opens the anterior chest, stretches the intercostals, and restores full lung volume, all of which are mechanically restricted during the stress posture."
                 }
               ],
               "position": "Sit at the edge of a firm chair.",
@@ -6172,19 +6174,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Soft Knees, Begin Bouncing",
                   "focus": "SETUP",
-                  "cue": "Stand with feet hip-width, knees softly bent. Let the arms hang completely loose. Begin gentle heel-drops — heels barely lifting, dropping with gravity, letting the body bounce passively. Do not force anything. Animals in the wild tremble after a stressful encounter to discharge the activation; this is the same reflex."
+                  "cue": "Stand with feet hip-width, knees softly bent. Let the arms hang completely loose. Begin gentle heel-drops, heels barely lifting, dropping with gravity, letting the body bounce passively. Do not force anything. Animals in the wild tremble after a stressful encounter to discharge the activation; this is the same reflex."
                 },
                 {
                   "pos": "B",
                   "label": "Let the Shake Travel Up",
                   "focus": "DISCHARGE",
-                  "cue": "Let the tremoring move up from the feet — through the knees, hips, belly, chest, arms. If the body wants to shake more, let it. If natural tremor doesn't arrive, gentle deliberate bouncing is still effective. The goal is movement without muscular control — surrendering the body to its own discharge mechanism."
+                  "cue": "Let the tremoring move up from the feet, through the knees, hips, belly, chest, arms. If the body wants to shake more, let it. If natural tremor doesn't arrive, gentle deliberate bouncing is still effective. The goal is movement without muscular control, surrendering the body to its own discharge mechanism."
                 },
                 {
                   "pos": "C",
                   "label": "Gradually Still, Then Rest",
                   "focus": "INTEGRATE",
-                  "cue": "After 90 seconds, let the shaking slow naturally — do not stop it abruptly. Stand completely still for 20 seconds and notice the quality of the body: warmth, tingling, a sense of weight and softness. This is parasympathetic activation. Used in trauma-informed therapy worldwide (TRE, Somatic Experiencing)."
+                  "cue": "After 90 seconds, let the shaking slow naturally. Do not stop it abruptly. Stand completely still for 20 seconds and notice the quality of the body: warmth, tingling, a sense of weight and softness. This is parasympathetic activation. Used in trauma-informed therapy worldwide (TRE, Somatic Experiencing)."
                 }
               ],
               "position": "Stand tall with your feet apart and knees slightly bent.",
@@ -6197,7 +6199,7 @@ window.AXIS_JSON = {
         {
           "label": "Release & Downshift",
           "tag": "DS",
-          "purpose": "After physical discharge, the nervous system is receptive to deep parasympathetic recovery. These four movements work through compression, posture, breath, and bilateral stimulation to consolidate the shift from reactive to resting — from stress to safety.",
+          "purpose": "After physical discharge, the nervous system is receptive to deep parasympathetic recovery. These four movements work through compression, posture, breath, and bilateral stimulation to consolidate the shift from reactive to resting, from stress to safety.",
           "exercises": [
             {
               "id": 2105,
@@ -6217,7 +6219,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Abdomen Against Thighs",
                   "focus": "COMPRESS",
-                  "cue": "The mild compression of the abdomen against the thighs in this position applies gentle pressure on the gut wall — which in turn stimulates the vagus nerve via the enteric nervous system. This is part of why forward folds feel intrinsically calming. Allow each exhale to press the belly more firmly against the thighs."
+                  "cue": "The mild compression of the abdomen against the thighs in this position applies gentle pressure on the gut wall, which in turn stimulates the vagus nerve via the enteric nervous system. This is part of why forward folds feel intrinsically calming. Allow each exhale to press the belly more firmly against the thighs."
                 },
                 {
                   "pos": "C",
@@ -6229,7 +6231,8 @@ window.AXIS_JSON = {
               "position": "Kneel on the floor. Keep your big toes together and spread your knees wide.",
               "next": "Sit your hips back onto your heels.",
               "then": "Fold your chest forward. Rest your forehead on the floor. Reach your arms straight out in front of you or let them rest by your sides.",
-              "tip": "Take deep breaths into your lower back. Hold for 90 seconds."
+              "tip": "Take deep breaths into your lower back. Hold for 90 seconds.",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4"
             },
             {
               "id": 2106,
@@ -6243,19 +6246,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Upright Posture",
                   "focus": "SETUP",
-                  "cue": "Sit or stand tall. During stress, the head juts forward as the body prepares for action — this compresses the upper cervical spine, restricts blood flow to the brain, and contributes to tension headaches. The chin tuck is a direct reset of this pattern. Think: 'tall spine, double chin.'"
+                  "cue": "Sit or stand tall. During stress, the head juts forward as the body prepares for action. This compresses the upper cervical spine, restricts blood flow to the brain, and contributes to tension headaches. The chin tuck is a direct reset of this pattern. Think: 'tall spine, double chin.'"
                 },
                 {
                   "pos": "B",
                   "label": "Draw the Chin Straight Back",
                   "focus": "RETRACT",
-                  "cue": "Without tilting the head, draw the chin straight back — creating a 'double chin.' The head should feel like it's gliding back on a level track, not tucking downward. Hold the retraction gently for 3–5 seconds. You should feel a mild stretch at the base of the skull — this is the suboccipital release."
+                  "cue": "Without tilting the head, draw the chin straight back, creating a 'double chin.' The head should feel like it's gliding back on a level track, not tucking downward. Hold the retraction gently for 3–5 seconds. You should feel a mild stretch at the base of the skull. This is the suboccipital release."
                 },
                 {
                   "pos": "C",
                   "label": "10 Slow Reps",
                   "focus": "DECOMPRESS",
-                  "cue": "Release and repeat — 10 slow, deliberate reps. Each one creates traction in the upper cervical joints, decompresses the C1-C2 region, and releases the muscles that clamp tight under stress. Combined with slow nasal breathing throughout, this produces a rapid drop in perceived tension."
+                  "cue": "Release and repeat, 10 slow, deliberate reps. Each one creates traction in the upper cervical joints, decompresses the C1-C2 region, and releases the muscles that clamp tight under stress. Combined with slow nasal breathing throughout, this produces a rapid drop in perceived tension."
                 }
               ],
               "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
@@ -6275,19 +6278,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Hands on Wall at Shoulder Height",
                   "focus": "SETUP",
-                  "cue": "Place both palms flat against the wall at shoulder height, arms nearly straight. Step the feet back slightly. The stress response contracts muscles and primes them for exertion — this exercise uses that primed energy deliberately rather than letting it sit unspent in the body."
+                  "cue": "Place both palms flat against the wall at shoulder height, arms nearly straight. Step the feet back slightly. The stress response contracts muscles and primes them for exertion. This exercise uses that primed energy deliberately rather than letting it sit unspent in the body."
                 },
                 {
                   "pos": "B",
                   "label": "Push with Maximum Effort",
                   "focus": "EXERT",
-                  "cue": "Press into the wall as hard as you can — as if you intend to push it over. Engage the entire kinetic chain: push through the feet, brace the core, press with the chest, shoulders, and arms simultaneously. Hold 10 seconds of maximal effort. Breathe out slowly during the push."
+                  "cue": "Press into the wall as hard as you can, as if you intend to push it over. Engage the entire kinetic chain: push through the feet, brace the core, press with the chest, shoulders, and arms simultaneously. Hold 10 seconds of maximal effort. Breathe out slowly during the push."
                 },
                 {
                   "pos": "C",
                   "label": "Release and Exhale Fully",
                   "focus": "COMPLETE",
-                  "cue": "Release suddenly and exhale completely. The abrupt shift from maximum tension to release signals the nervous system that the threat response is complete. Repeat 3–5 times. This is the physical completion of the fight-or-flight cycle — the body gets the exertion it was primed to perform, and can now down-regulate."
+                  "cue": "Release suddenly and exhale completely. The abrupt shift from maximum tension to release signals the nervous system that the threat response is complete. Repeat 3–5 times. This is the physical completion of the fight-or-flight cycle. The body gets the exertion it was primed to perform, and can now down-regulate."
                 }
               ],
               "position": "Stand facing a wall, one arm's length away.",
@@ -6307,19 +6310,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Cross Arms Over Chest",
                   "focus": "SETUP",
-                  "cue": "Cross both arms over the chest — right hand to the left shoulder area, left hand to the right — like hugging yourself. Fingertips rest near the collarbones or upper arms. Close the eyes. This position was developed by Lucina Artigas for trauma survivors and is a core technique in EMDR (Eye Movement Desensitization and Reprocessing) therapy."
+                  "cue": "Cross both arms over the chest. Right hand to the left shoulder area, left hand to the right, like hugging yourself. Fingertips rest near the collarbones or upper arms. Close the eyes. This position was developed by Lucina Artigas for trauma survivors and is a core technique in EMDR (Eye Movement Desensitization and Reprocessing) therapy."
                 },
                 {
                   "pos": "B",
                   "label": "Alternating Taps",
                   "focus": "BILATERAL",
-                  "cue": "Begin alternating gentle taps — right hand taps, then left hand taps — at a slow, rhythmic pace, like a slow heartbeat. The alternating bilateral stimulation mimics REM sleep processing and activates both brain hemispheres simultaneously. This helps the nervous system integrate and file the stress experience rather than holding it."
+                  "cue": "Begin alternating gentle taps. Right hand taps, then left hand taps, at a slow, rhythmic pace, like a slow heartbeat. The alternating bilateral stimulation mimics REM sleep processing and activates both brain hemispheres simultaneously. This helps the nervous system integrate and file the stress experience rather than holding it."
                 },
                 {
                   "pos": "C",
                   "label": "Continue and Breathe",
                   "focus": "INTEGRATE",
-                  "cue": "Continue for the full 90 seconds. Breathe slowly and naturally. You may notice images, sensations, or memories arising — let them pass without engagement. The bilateral rhythm is doing the work. Many people find this position produces an immediate sense of comfort and safety — the same circuits activated by human contact are recruited through self-administered bilateral touch."
+                  "cue": "Continue for the full 90 seconds. Breathe slowly and naturally. You may notice images, sensations, or memories arising. Let them pass without engagement. The bilateral rhythm is doing the work. Many people find this position produces an immediate sense of comfort and safety. The same circuits activated by human contact are recruited through self-administered bilateral touch."
                 }
               ],
               "position": "Sit or stand tall.",
@@ -6355,13 +6358,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Seated Setup",
                   "focus": "SETUP",
-                  "cue": "Sit in a chair. Cross one foot over the opposite knee so the sole faces you. Hold the base of the toes with one hand. This is the windlass mechanism — the same tissue that loads with every walking step."
+                  "cue": "Sit in a chair. Cross one foot over the opposite knee so the sole faces you. Hold the base of the toes with one hand. This is the windlass mechanism. The same tissue that loads with every walking step."
                 },
                 {
                   "pos": "B",
                   "label": "Extend the Toes",
                   "focus": "STRETCH",
-                  "cue": "Gently pull all toes back toward the shin until you feel a firm stretch along the arch. You should feel the plantar fascia tighten into a cord-like band. Hold this position — do not bounce. 30 seconds minimum. Research shows this specific stretch reduces morning pain more effectively than calf stretching alone."
+                  "cue": "Gently pull all toes back toward the shin until you feel a firm stretch along the arch. You should feel the plantar fascia tighten into a cord-like band. Hold this position. Do not bounce. 30 seconds minimum. Research shows this specific stretch reduces morning pain more effectively than calf stretching alone."
                 },
                 {
                   "pos": "C",
@@ -6387,19 +6390,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Find Your Tool",
                   "focus": "SETUP",
-                  "cue": "A frozen water bottle is ideal — the cold provides additional anti-inflammatory benefit. A tennis ball or smooth water bottle at room temperature also works. Place it on the floor in front of your chair."
+                  "cue": "A frozen water bottle is ideal. The cold provides additional anti-inflammatory benefit. A tennis ball or smooth water bottle at room temperature also works. Place it on the floor in front of your chair."
                 },
                 {
                   "pos": "B",
                   "label": "Roll the Arch",
                   "focus": "RELEASE",
-                  "cue": "Place the arch of one foot on the bottle. Apply moderate downward pressure — enough to feel it, not enough to cause sharp pain. Slowly roll from the heel to the ball of the foot and back. 30 seconds per foot. Pause on any tender spots for 5–10 seconds rather than rolling through them."
+                  "cue": "Place the arch of one foot on the bottle. Apply moderate downward pressure, enough to feel it, not enough to cause sharp pain. Slowly roll from the heel to the ball of the foot and back. 30 seconds per foot. Pause on any tender spots for 5–10 seconds rather than rolling through them."
                 },
                 {
                   "pos": "C",
                   "label": "Target the Heel",
                   "focus": "FASCIAL",
-                  "cue": "Shift pressure toward the heel — specifically the medial tubercle of the calcaneus, where the fascia attaches. This is typically the most sensitive spot. Use lighter pressure here. Slow, sustained pressure is more effective than rolling speed."
+                  "cue": "Shift pressure toward the heel, specifically the medial tubercle of the calcaneus, where the fascia attaches. This is typically the most sensitive spot. Use lighter pressure here. Slow, sustained pressure is more effective than rolling speed."
                 }
               ],
               "position": "Sit in a chair. Place a small ball or a cold water bottle on the floor in front of you.",
@@ -6419,19 +6422,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Stand facing a wall, hands flat at shoulder height for support. Step one foot back about 18–24 inches, keeping both feet pointing straight forward. The back knee stays completely straight throughout — this targets the gastrocnemius, the larger calf muscle that crosses the knee."
+                  "cue": "Stand facing a wall, hands flat at shoulder height for support. Step one foot back about 18–24 inches, keeping both feet pointing straight forward. The back knee stays completely straight throughout. This targets the gastrocnemius, the larger calf muscle that crosses the knee."
                 },
                 {
                   "pos": "B",
                   "label": "Lunge Forward",
                   "focus": "STRETCH",
-                  "cue": "Bend the front knee and shift your weight forward until you feel a deep stretch in the calf of the back leg. Keep the back heel firmly on the floor — if it lifts, step the foot closer. Hold for 30–45 seconds. The gastroc is directly connected to the Achilles tendon, which loads the plantar fascia."
+                  "cue": "Bend the front knee and shift your weight forward until you feel a deep stretch in the calf of the back leg. Keep the back heel firmly on the floor. If it lifts, step the foot closer. Hold for 30–45 seconds. The gastroc is directly connected to the Achilles tendon, which loads the plantar fascia."
                 },
                 {
                   "pos": "C",
                   "label": "Switch & Repeat",
                   "focus": "BILATERAL",
-                  "cue": "Switch sides. If one side is significantly tighter, spend an extra round there. Tight calves are among the most common contributing factors to plantar fasciitis — they increase load on the fascia with every step."
+                  "cue": "Switch sides. If one side is significantly tighter, spend an extra round there. Tight calves are among the most common contributing factors to plantar fasciitis. They increase load on the fascia with every step."
                 }
               ],
               "position": "Stand facing a wall.",
@@ -6451,19 +6454,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Stand facing a wall, hands flat at shoulder height for support. Step one foot back about 18–24 inches, keeping both feet pointing straight forward. The back knee stays completely straight throughout — this targets the gastrocnemius, the larger calf muscle that crosses the knee."
+                  "cue": "Stand facing a wall, hands flat at shoulder height for support. Step one foot back about 18–24 inches, keeping both feet pointing straight forward. The back knee stays completely straight throughout. This targets the gastrocnemius, the larger calf muscle that crosses the knee."
                 },
                 {
                   "pos": "B",
                   "label": "Lunge Forward",
                   "focus": "STRETCH",
-                  "cue": "Bend the front knee and shift your weight forward until you feel a deep stretch in the calf of the back leg. Keep the back heel firmly on the floor — if it lifts, step the foot closer. Hold for 30–45 seconds. The gastroc is directly connected to the Achilles tendon, which loads the plantar fascia."
+                  "cue": "Bend the front knee and shift your weight forward until you feel a deep stretch in the calf of the back leg. Keep the back heel firmly on the floor. If it lifts, step the foot closer. Hold for 30–45 seconds. The gastroc is directly connected to the Achilles tendon, which loads the plantar fascia."
                 },
                 {
                   "pos": "C",
                   "label": "Switch & Repeat",
                   "focus": "BILATERAL",
-                  "cue": "Switch sides. If one side is significantly tighter, spend an extra round there. Tight calves are among the most common contributing factors to plantar fasciitis — they increase load on the fascia with every step."
+                  "cue": "Switch sides. If one side is significantly tighter, spend an extra round there. Tight calves are among the most common contributing factors to plantar fasciitis. They increase load on the fascia with every step."
                 }
               ],
               "position": "Stand facing a wall.",
@@ -6483,13 +6486,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Same starting position as the Gastroc Stretch — one foot stepped back, hands on wall. But this time, bend the back knee slightly. This small change completely shifts the stretch from the gastrocnemius to the soleus — the deeper, shorter calf muscle that attaches below the knee."
+                  "cue": "Same starting position as the Gastroc Stretch, one foot stepped back, hands on wall. But this time, bend the back knee slightly. This small change completely shifts the stretch from the gastrocnemius to the soleus. The deeper, shorter calf muscle that attaches below the knee."
                 },
                 {
                   "pos": "B",
                   "label": "Sink Into It",
                   "focus": "STRETCH",
-                  "cue": "With the back knee bent, shift weight gently forward. The stretch will feel lower and deeper than the gastroc stretch — closer to the Achilles and heel. Keep the back heel on the floor. Hold 30–45 seconds. The soleus is often the tighter of the two calf muscles and the more overlooked."
+                  "cue": "With the back knee bent, shift weight gently forward. The stretch will feel lower and deeper than the gastroc stretch, closer to the Achilles and heel. Keep the back heel on the floor. Hold 30–45 seconds. The soleus is often the tighter of the two calf muscles and the more overlooked."
                 },
                 {
                   "pos": "C",
@@ -6508,7 +6511,7 @@ window.AXIS_JSON = {
         {
           "label": "Activation",
           "tag": "G1",
-          "purpose": "Years of supportive footwear have switched off the intrinsic muscles of the foot — the small muscles that create and maintain the arch. These exercises wake them back up. This is not quick or dramatic work. It is foundational.",
+          "purpose": "Years of supportive footwear have switched off the intrinsic muscles of the foot. The small muscles that create and maintain the arch. These exercises wake them back up. This is not quick or dramatic work. It is foundational.",
           "exercises": [
             {
               "id": 1005,
@@ -6522,19 +6525,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Seated or Standing",
                   "focus": "SETUP",
-                  "cue": "Sit or stand barefoot on a firm surface. Place both feet flat on the floor, parallel, hip-width apart. Relax everything from the ankle down — no gripping or curling of toes. Feel the full footprint on the floor."
+                  "cue": "Sit or stand barefoot on a firm surface. Place both feet flat on the floor, parallel, hip-width apart. Relax everything from the ankle down. No gripping or curling of toes. Feel the full footprint on the floor."
                 },
                 {
                   "pos": "B",
                   "label": "Spread All Toes",
                   "focus": "ACTIVATE",
-                  "cue": "Actively spread all five toes as wide apart as possible without lifting the foot. Hold for 2 seconds. Most people discover they cannot independently move their toes much at all — this is normal and is exactly why this exercise exists. The abductor hallucis and the interossei are the target muscles."
+                  "cue": "Actively spread all five toes as wide apart as possible without lifting the foot. Hold for 2 seconds. Most people discover they cannot independently move their toes much at all. This is normal and is exactly why this exercise exists. The abductor hallucis and the interossei are the target muscles."
                 },
                 {
                   "pos": "C",
                   "label": "Release & Repeat",
                   "focus": "CONTROL",
-                  "cue": "Slowly release the spread. Pause 1 second. Repeat. If only some toes move, that is useful information — work with what you have. Over days and weeks, the range and independence improves noticeably."
+                  "cue": "Slowly release the spread. Pause 1 second. Repeat. If only some toes move, that is useful information, work with what you have. Over days and weeks, the range and independence improves noticeably."
                 }
               ],
               "position": "Sit or stand barefoot with your feet flat on the floor.",
@@ -6554,13 +6557,13 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Sit with one foot flat on the floor. The goal is to shorten the foot from heel to ball — creating a dome shape in the arch — without curling the toes. This is called the short foot exercise. It directly activates the flexor digitorum brevis and abductor hallucis, the primary arch-supporting muscles."
+                  "cue": "Sit with one foot flat on the floor. The goal is to shorten the foot from heel to ball, creating a dome shape in the arch, without curling the toes. This is called the short foot exercise. It directly activates the flexor digitorum brevis and abductor hallucis, the primary arch-supporting muscles."
                 },
                 {
                   "pos": "B",
                   "label": "Draw Heel to Ball",
                   "focus": "ACTIVATE",
-                  "cue": "Without lifting the heel or curling the toes, try to drag the ball of the foot toward the heel. The arch should visibly rise. Hold for 3 seconds. This movement is subtle and mentally demanding. If the toes curl, relax them — the arch lift must come from the intrinsic muscles, not the long toe flexors."
+                  "cue": "Without lifting the heel or curling the toes, try to drag the ball of the foot toward the heel. The arch should visibly rise. Hold for 3 seconds. This movement is subtle and mentally demanding. If the toes curl, relax them. The arch lift must come from the intrinsic muscles, not the long toe flexors."
                 },
                 {
                   "pos": "C",
@@ -6586,19 +6589,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Seated Setup",
                   "focus": "SETUP",
-                  "cue": "Sit with foot flat on the floor. Place two fingers lightly under the big toe. The big toe is the most mechanically important digit in walking — its extension during push-off is what tightens the plantar fascia like a winch (the windlass mechanism). Restricted big toe extension is a direct cause of arch strain."
+                  "cue": "Sit with foot flat on the floor. Place two fingers lightly under the big toe. The big toe is the most mechanically important digit in walking, its extension during push-off is what tightens the plantar fascia like a winch (the windlass mechanism). Restricted big toe extension is a direct cause of arch strain."
                 },
                 {
                   "pos": "B",
                   "label": "Lift Only the Big Toe",
                   "focus": "ISOLATE",
-                  "cue": "Lift only the big toe as high as possible, keeping the other four toes on the floor. Hold for 2 seconds. Then reverse — press the big toe down and lift the other four. This isolation trains the extensor hallucis and establishes independent toe control."
+                  "cue": "Lift only the big toe as high as possible, keeping the other four toes on the floor. Hold for 2 seconds. Then reverse. Press the big toe down and lift the other four. This isolation trains the extensor hallucis and establishes independent toe control."
                 },
                 {
                   "pos": "C",
                   "label": "Assisted Extension",
                   "focus": "MOBILIZE",
-                  "cue": "Using your fingers, gently assist the big toe into full extension — past where it goes on its own. Hold for 5 seconds. This passively mobilizes the first metatarsophalangeal joint and stretches the intrinsic flexors. Restricted range here correlates directly with plantar fasciitis severity."
+                  "cue": "Using your fingers, gently assist the big toe into full extension, past where it goes on its own. Hold for 5 seconds. This passively mobilizes the first metatarsophalangeal joint and stretches the intrinsic flexors. Restricted range here correlates directly with plantar fasciitis severity."
                 }
               ],
               "position": "Sit in a chair with your feet flat on the floor.",
@@ -6611,7 +6614,7 @@ window.AXIS_JSON = {
         {
           "label": "Strengthening",
           "tag": "G2",
-          "purpose": "Eccentric loading — slow, controlled lengthening under tension — has the strongest evidence base of any intervention for plantar fasciitis and Achilles tendinopathy. These are not stretches. The calf-heel complex must work under load to remodel the tissue.",
+          "purpose": "Eccentric loading, slow, controlled lengthening under tension, has the strongest evidence base of any intervention for plantar fasciitis and Achilles tendinopathy. These are not stretches. The calf-heel complex must work under load to remodel the tissue.",
           "exercises": [
             {
               "id": "1008-R",
@@ -6625,19 +6628,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Step Edge Setup",
                   "focus": "SETUP",
-                  "cue": "Stand on the edge of a step or curb with both feet, heels hanging off the back. Rise up onto both forefeet to the top position. This is the Alfredson protocol — the most evidence-backed exercise for plantar fasciitis and Achilles tendinopathy. Keep the working knee straight throughout."
+                  "cue": "Stand on the edge of a step or curb with both feet, heels hanging off the back. Rise up onto both forefeet to the top position. This is the Alfredson protocol. The most evidence-backed exercise for plantar fasciitis and Achilles tendinopathy. Keep the working knee straight throughout."
                 },
                 {
                   "pos": "B",
                   "label": "Single-Leg Lower",
                   "focus": "ECCENTRIC",
-                  "cue": "Shift weight to one foot. Slowly lower the heel below the step level — taking a full 3 seconds to descend. You are loading the calf eccentrically: it is contracting while lengthening. This is the specific stimulus that promotes tendon and fascial remodeling. Do not rush."
+                  "cue": "Shift weight to one foot. Slowly lower the heel below the step level, taking a full 3 seconds to descend. You are loading the calf eccentrically: it is contracting while lengthening. This is the specific stimulus that promotes tendon and fascial remodeling. Do not rush."
                 },
                 {
                   "pos": "C",
                   "label": "Two-Leg Return",
                   "focus": "RESET",
-                  "cue": "Use both feet to rise back to the top position. Switch the working leg. 15 reps each side. If this is painless, add load over time — a backpack with a book is sufficient. Mild discomfort during the movement is acceptable; sharp pain is not."
+                  "cue": "Use both feet to rise back to the top position. Switch the working leg. 15 reps each side. If this is painless, add load over time, a backpack with a book is sufficient. Mild discomfort during the movement is acceptable; sharp pain is not."
                 }
               ],
               "position": "Stand on the edge of a step with both heels hanging off the back.",
@@ -6657,19 +6660,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Step Edge Setup",
                   "focus": "SETUP",
-                  "cue": "Stand on the edge of a step or curb with both feet, heels hanging off the back. Rise up onto both forefeet to the top position. This is the Alfredson protocol — the most evidence-backed exercise for plantar fasciitis and Achilles tendinopathy. Keep the working knee straight throughout."
+                  "cue": "Stand on the edge of a step or curb with both feet, heels hanging off the back. Rise up onto both forefeet to the top position. This is the Alfredson protocol. The most evidence-backed exercise for plantar fasciitis and Achilles tendinopathy. Keep the working knee straight throughout."
                 },
                 {
                   "pos": "B",
                   "label": "Single-Leg Lower",
                   "focus": "ECCENTRIC",
-                  "cue": "Shift weight to one foot. Slowly lower the heel below the step level — taking a full 3 seconds to descend. You are loading the calf eccentrically: it is contracting while lengthening. This is the specific stimulus that promotes tendon and fascial remodeling. Do not rush."
+                  "cue": "Shift weight to one foot. Slowly lower the heel below the step level, taking a full 3 seconds to descend. You are loading the calf eccentrically: it is contracting while lengthening. This is the specific stimulus that promotes tendon and fascial remodeling. Do not rush."
                 },
                 {
                   "pos": "C",
                   "label": "Two-Leg Return",
                   "focus": "RESET",
-                  "cue": "Use both feet to rise back to the top position. Switch the working leg. 15 reps each side. If this is painless, add load over time — a backpack with a book is sufficient. Mild discomfort during the movement is acceptable; sharp pain is not."
+                  "cue": "Use both feet to rise back to the top position. Switch the working leg. 15 reps each side. If this is painless, add load over time, a backpack with a book is sufficient. Mild discomfort during the movement is acceptable; sharp pain is not."
                 }
               ],
               "position": "Stand on the edge of a step with both heels hanging off the back.",
@@ -6689,19 +6692,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Step Edge, Knee Bent",
                   "focus": "SETUP",
-                  "cue": "Same starting position as Eccentric Heel Drops — on a step edge, heels hanging. But this time, bend the working knee to approximately 30–40 degrees. This simple change shifts the load from the gastrocnemius to the soleus. The soleus attaches below the knee and is the primary load-bearing muscle of the calf during walking."
+                  "cue": "Same starting position as Eccentric Heel Drops, on a step edge, heels hanging. But this time, bend the working knee to approximately 30–40 degrees. This simple change shifts the load from the gastrocnemius to the soleus. The soleus attaches below the knee and is the primary load-bearing muscle of the calf during walking."
                 },
                 {
                   "pos": "B",
                   "label": "Slow Descent",
                   "focus": "ECCENTRIC",
-                  "cue": "Lower the heel slowly on the bent-knee leg — 3 full seconds down. Maintain the same knee angle throughout the descent. Do not let the knee straighten during the lowering phase or you shift back to the gastrocnemius. Feel the load deep in the lower calf, just above the heel."
+                  "cue": "Lower the heel slowly on the bent-knee leg, 3 full seconds down. Maintain the same knee angle throughout the descent. Do not let the knee straighten during the lowering phase or you shift back to the gastrocnemius. Feel the load deep in the lower calf, just above the heel."
                 },
                 {
                   "pos": "C",
                   "label": "Two-Leg Return",
                   "focus": "RESET",
-                  "cue": "Use both feet to return to the top. Switch sides. 15 reps each side. These two eccentric exercises — straight knee and bent knee — together cover the full calf-Achilles-fascia chain. Done consistently 3 days a week, clinical improvement is typically measurable within 6–8 weeks."
+                  "cue": "Use both feet to return to the top. Switch sides. 15 reps each side. These two eccentric exercises, straight knee and bent knee, together cover the full calf-Achilles-fascia chain. Done consistently 3 days a week, clinical improvement is typically measurable within 6–8 weeks."
                 }
               ],
               "position": "Stand on the edge of a step with both heels hanging off the back.",
@@ -6721,19 +6724,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Step Edge, Knee Bent",
                   "focus": "SETUP",
-                  "cue": "Same starting position as Eccentric Heel Drops — on a step edge, heels hanging. But this time, bend the working knee to approximately 30–40 degrees. This simple change shifts the load from the gastrocnemius to the soleus. The soleus attaches below the knee and is the primary load-bearing muscle of the calf during walking."
+                  "cue": "Same starting position as Eccentric Heel Drops, on a step edge, heels hanging. But this time, bend the working knee to approximately 30–40 degrees. This simple change shifts the load from the gastrocnemius to the soleus. The soleus attaches below the knee and is the primary load-bearing muscle of the calf during walking."
                 },
                 {
                   "pos": "B",
                   "label": "Slow Descent",
                   "focus": "ECCENTRIC",
-                  "cue": "Lower the heel slowly on the bent-knee leg — 3 full seconds down. Maintain the same knee angle throughout the descent. Do not let the knee straighten during the lowering phase or you shift back to the gastrocnemius. Feel the load deep in the lower calf, just above the heel."
+                  "cue": "Lower the heel slowly on the bent-knee leg, 3 full seconds down. Maintain the same knee angle throughout the descent. Do not let the knee straighten during the lowering phase or you shift back to the gastrocnemius. Feel the load deep in the lower calf, just above the heel."
                 },
                 {
                   "pos": "C",
                   "label": "Two-Leg Return",
                   "focus": "RESET",
-                  "cue": "Use both feet to return to the top. Switch sides. 15 reps each side. These two eccentric exercises — straight knee and bent knee — together cover the full calf-Achilles-fascia chain. Done consistently 3 days a week, clinical improvement is typically measurable within 6–8 weeks."
+                  "cue": "Use both feet to return to the top. Switch sides. 15 reps each side. These two eccentric exercises, straight knee and bent knee, together cover the full calf-Achilles-fascia chain. Done consistently 3 days a week, clinical improvement is typically measurable within 6–8 weeks."
                 }
               ],
               "position": "Stand on the edge of a step with both heels hanging off the back.",
@@ -6753,19 +6756,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Towel Setup",
                   "focus": "SETUP",
-                  "cue": "Sit barefoot with a small towel flat on the floor under one foot. The towel should be thin enough that you can feel the floor texture through it. No towel? Use a sock or work on a textured surface — the goal is toe flexion against mild resistance."
+                  "cue": "Sit barefoot with a small towel flat on the floor under one foot. The towel should be thin enough that you can feel the floor texture through it. No towel? Use a sock or work on a textured surface. The goal is toe flexion against mild resistance."
                 },
                 {
                   "pos": "B",
                   "label": "Scrunch & Hold",
                   "focus": "STRENGTHEN",
-                  "cue": "Curl all five toes to scrunch the towel toward you. Use only the toes — do not slide the whole foot. Hold the scrunch for 2 seconds, then release fully. This targets the flexor digitorum brevis and the lumbricals — the small muscles that support the metatarsal arch, the often-overlooked transverse arch of the foot."
+                  "cue": "Curl all five toes to scrunch the towel toward you. Use only the toes. Do not slide the whole foot. Hold the scrunch for 2 seconds, then release fully. This targets the flexor digitorum brevis and the lumbricals. The small muscles that support the metatarsal arch, the often-overlooked transverse arch of the foot."
                 },
                 {
                   "pos": "C",
                   "label": "Repeat & Switch",
                   "focus": "ENDURANCE",
-                  "cue": "Continue for 20 seconds, then switch feet. 3 sets per side. As strength builds, progress to standing on one leg while performing the scrunch — this adds the balance challenge and integrates the intrinsic work into functional loading."
+                  "cue": "Continue for 20 seconds, then switch feet. 3 sets per side. As strength builds, progress to standing on one leg while performing the scrunch. This adds the balance challenge and integrates the intrinsic work into functional loading."
                 }
               ],
               "position": "Sit barefoot with a small towel flat on the floor under one foot.",
@@ -6785,19 +6788,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Towel Setup",
                   "focus": "SETUP",
-                  "cue": "Sit barefoot with a small towel flat on the floor under one foot. The towel should be thin enough that you can feel the floor texture through it. No towel? Use a sock or work on a textured surface — the goal is toe flexion against mild resistance."
+                  "cue": "Sit barefoot with a small towel flat on the floor under one foot. The towel should be thin enough that you can feel the floor texture through it. No towel? Use a sock or work on a textured surface. The goal is toe flexion against mild resistance."
                 },
                 {
                   "pos": "B",
                   "label": "Scrunch & Hold",
                   "focus": "STRENGTHEN",
-                  "cue": "Curl all five toes to scrunch the towel toward you. Use only the toes — do not slide the whole foot. Hold the scrunch for 2 seconds, then release fully. This targets the flexor digitorum brevis and the lumbricals — the small muscles that support the metatarsal arch, the often-overlooked transverse arch of the foot."
+                  "cue": "Curl all five toes to scrunch the towel toward you. Use only the toes. Do not slide the whole foot. Hold the scrunch for 2 seconds, then release fully. This targets the flexor digitorum brevis and the lumbricals. The small muscles that support the metatarsal arch, the often-overlooked transverse arch of the foot."
                 },
                 {
                   "pos": "C",
                   "label": "Repeat & Switch",
                   "focus": "ENDURANCE",
-                  "cue": "Continue for 20 seconds, then switch feet. 3 sets per side. As strength builds, progress to standing on one leg while performing the scrunch — this adds the balance challenge and integrates the intrinsic work into functional loading."
+                  "cue": "Continue for 20 seconds, then switch feet. 3 sets per side. As strength builds, progress to standing on one leg while performing the scrunch. This adds the balance challenge and integrates the intrinsic work into functional loading."
                 }
               ],
               "position": "Sit barefoot with a small towel flat on the floor under one foot.",
@@ -6819,7 +6822,7 @@ window.AXIS_JSON = {
         {
           "label": "Knee Resilience",
           "tag": "SA",
-          "purpose": "Bulletproof the joint by strengthening the muscles that support it while using low-load, high-precision movements to lubricate the joint and offload pressure. Motion is lotion — it's normal for arthritic or cranky knees to feel stiff for the first few repetitions; as the joint warms up and synovial fluid flows, discomfort usually gives way to ease.",
+          "purpose": "Bulletproof the joint by strengthening the muscles that support it while using low-load, high-precision movements to lubricate the joint and offload pressure. Motion is lotion. It's normal for arthritic or cranky knees to feel stiff for the first few repetitions; as the joint warms up and synovial fluid flows, discomfort usually gives way to ease.",
           "exercises": [
             {
               "id": "2201-R",
@@ -7069,7 +7072,7 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Slow Descent",
                   "focus": "ECCENTRIC",
-                  "cue": "Step down slowly — 3–4 seconds to lower. Builds eccentric strength that protects the knee. 8–10 reps each leg."
+                  "cue": "Step down slowly, 3–4 seconds to lower. Builds eccentric strength that protects the knee. 8–10 reps each leg."
                 }
               ],
               "position": "Stand tall facing a low step or the bottom stair.",
@@ -7092,7 +7095,7 @@ window.AXIS_JSON = {
         {
           "label": "Evening structural pass",
           "tag": "EM",
-          "purpose": "Floss tissues gently—never aggressive stretching. Use pillows for knees or head support as needed.",
+          "purpose": "Floss tissues gently. Never aggressive stretching. Use pillows for knees or head support as needed.",
           "exercises": [
             {
               "id": 2130,
@@ -7106,17 +7109,17 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Tabletop",
                   "focus": "SPINE",
-                  "cue": "Inhale — let your belly drop toward the floor. Lift your gaze and tailbone gently."
+                  "cue": "Inhale. Let your belly drop toward the floor. Lift your gaze and tailbone gently."
                 },
                 {
                   "pos": "B",
-                  "label": "Cat — Exhale",
+                  "label": "Cat, Exhale",
                   "focus": "FLEX",
-                  "cue": "Exhale — round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
+                  "cue": "Exhale, round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
                 },
                 {
                   "pos": "C",
-                  "label": "Cow — Inhale",
+                  "label": "Cow, Inhale",
                   "focus": "EXT",
                   "cue": "Move with your breath. Don't force the lower back on the inhale."
                 }
@@ -7221,7 +7224,7 @@ window.AXIS_JSON = {
               "id": 2133,
               "name": "Gentle Neck Glides",
               "start": "Sit or stand tall with shoulders relaxed.",
-              "sub": "Small, controlled motions only—no full head rolls backward.",
+              "sub": "Small, controlled motions only. No full head rolls backward.",
               "type": "time",
               "seconds": 60,
               "steps": [
@@ -7235,10 +7238,10 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Side Glide",
                   "focus": "MOBILITY",
-                  "cue": "Ear toward shoulder in a small lateral tilt, both shoulders down—3–4 each side. Never roll the head backward in a circle."
+                  "cue": "Ear toward shoulder in a small lateral tilt, both shoulders down, 3–4 each side. Never roll the head backward in a circle."
                 },
                 {
-                  "cue": "Stop if you feel dizziness, radiating arm pain, or sharp neck pain—seek professional evaluation if those persist."
+                  "cue": "Stop if you feel dizziness, radiating arm pain, or sharp neck pain. Seek professional evaluation if those persist."
                 }
               ],
               "position": "Sit or stand tall with shoulders relaxed.",
@@ -7307,17 +7310,17 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Neutral Tabletop",
                   "focus": "SPINE",
-                  "cue": "Inhale — let your belly drop toward the floor. Lift your gaze and tailbone gently."
+                  "cue": "Inhale. Let your belly drop toward the floor. Lift your gaze and tailbone gently."
                 },
                 {
                   "pos": "B",
-                  "label": "Cat — Exhale",
+                  "label": "Cat, Exhale",
                   "focus": "FLEX",
-                  "cue": "Exhale — round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
+                  "cue": "Exhale, round your spine toward the ceiling. Tuck your chin to your chest and pelvis under."
                 },
                 {
                   "pos": "C",
-                  "label": "Cow — Inhale",
+                  "label": "Cow, Inhale",
                   "focus": "EXT",
                   "cue": "Move with your breath. Don't force the lower back on the inhale."
                 }
@@ -7580,7 +7583,7 @@ window.AXIS_JSON = {
               "position": "Stand tall, feet hip-width, ribs relaxed.",
               "next": "Sweep arms out and up in a smooth arc.",
               "then": "Lower with control; repeat at a steady rhythm.",
-              "tip": "Smaller range is fine — prioritize length through the spine, not height."
+              "tip": "Smaller range is fine. Prioritize length through the spine, not height."
             },
             {
               "id": 9603,
@@ -7608,7 +7611,7 @@ window.AXIS_JSON = {
               ],
               "position": "Stand tall with feet together, core lightly engaged.",
               "next": "Take a controlled side step, pause, then return to center.",
-              "then": "Alternate sides or repeat on one side — keep tempo smooth.",
+              "then": "Alternate sides or repeat on one side. Keep tempo smooth.",
               "tip": "Keep steps modest so balance stays easy."
             },
             {
@@ -7629,7 +7632,7 @@ window.AXIS_JSON = {
                   "pos": "B",
                   "label": "Rotate upper body",
                   "focus": "THORACIC",
-                  "cue": "Turn ribcage left and right like a lighthouse beam — small to medium range."
+                  "cue": "Turn ribcage left and right like a lighthouse beam, small to medium range."
                 },
                 {
                   "cue": "Let head follow the ribcage naturally; do not crank the neck."
@@ -7674,5 +7677,4 @@ window.AXIS_JSON = {
       ]
     }
   }
-}
-;
+};

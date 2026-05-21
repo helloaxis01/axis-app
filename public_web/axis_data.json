@@ -68,7 +68,7 @@
                   "cue": "This is a passive hold. Let the spine decompress. Don't force the lift."
                 }
               ],
-              "demoVideo": "/assets/exercise-animations/sphinx-pose/Sphinx_Pose.mp4",
+              "demoVideo": "/assets/exercise-animations/sphinx-pose/SphinxPose_Markian_Test.mp4",
               "position": "Lie flat on your stomach with your legs straight.",
               "next": "Place your forearms flat on the floor. Keep your elbows under your shoulders.",
               "then": "Press your forearms into the floor to lift your chest. Keep your hips flat on the floor.",
@@ -98,7 +98,7 @@
                   "cue": "Widen your knees if you need more room for your torso."
                 }
               ],
-              "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4",
               "position": "Kneel on the floor. Keep your big toes together and spread your knees wide.",
               "next": "Sit your hips back onto your heels.",
               "then": "Reach your arms straight out in front of you. Rest your forehead on the floor.",
@@ -3024,7 +3024,8 @@
               "position": "Kneel on the floor. Keep your big toes together and spread your knees wide.",
               "next": "Sit your hips back onto your heels. Reach your arms straight out in front of you on the floor.",
               "then": "Rest your forehead on the floor. Take deep breaths into your back.",
-              "tip": "Walk both hands to the right side and hold for 30 seconds. Walk both hands to the left side and hold."
+              "tip": "Walk both hands to the right side and hold for 30 seconds. Walk both hands to the left side and hold.",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4"
             },
             {
               "id": 705,
@@ -5606,7 +5607,8 @@
               "position": "Kneel on the floor.",
               "next": "Sit your hips back onto your heels. Reach your arms straight out in front of you.",
               "then": "Lower your chest and forehead to the floor. Take deep breaths into your lower back.",
-              "tip": "Spread your knees wider if you need more space for your chest."
+              "tip": "Spread your knees wider if you need more space for your chest.",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4"
             }
           ]
         }
@@ -6229,7 +6231,8 @@
               "position": "Kneel on the floor. Keep your big toes together and spread your knees wide.",
               "next": "Sit your hips back onto your heels.",
               "then": "Fold your chest forward. Rest your forehead on the floor. Reach your arms straight out in front of you or let them rest by your sides.",
-              "tip": "Take deep breaths into your lower back. Hold for 90 seconds."
+              "tip": "Take deep breaths into your lower back. Hold for 90 seconds.",
+              "demoVideo": "/assets/exercise-animations/childs-pose/ChildsPose_Markian_Test.mp4"
             },
             {
               "id": 2106,
