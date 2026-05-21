@@ -18668,6 +18668,7 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   .timer-view-body .timer-breathe-pattern-cards-scroll {
     display: flex;
     flex-direction: row;
+    align-items: stretch;
     gap: 10px;
     overflow-x: auto;
     overflow-y: visible;
@@ -18685,10 +18686,13 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     flex: 0 0 215px;
     width: 215px;
     min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     scroll-snap-align: center;
     scroll-snap-stop: always;
     border-radius: 14px;
-    padding: 12px 14px;
+    padding: 12px 14px 8px;
     box-sizing: border-box;
     text-align: left;
     cursor: pointer;
@@ -18713,12 +18717,16 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   }
   .timer-view-body .timer-breathe-pattern-card-head {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
     margin-bottom: 8px;
+    min-height: 34px;
+    flex-shrink: 0;
   }
   .timer-view-body .timer-breathe-pattern-card-name {
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: 14px;
     font-weight: 700;
     line-height: 1.2;
@@ -18731,16 +18739,21 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   .timer-view-body .timer-breathe-pattern-card-intent {
     font-size: 11px;
     font-weight: 600;
+    line-height: 1.2;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-secondary);
     font-family: var(--font-display);
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    padding-top: 2px;
+    text-align: right;
   }
   .timer-view-body .timer-breathe-pattern-card.is-active .timer-breathe-pattern-card-intent {
     color: var(--mood-accent);
   }
   .app .timer-view-body .timer-breathe-pattern-card-desc {
+    flex: 0 0 auto;
+    min-height: 7.75em;
     font-size: 10px !important;
     line-height: 1.55 !important;
     font-weight: 400 !important;
