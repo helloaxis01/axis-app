@@ -17993,9 +17993,16 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
   const timerFlatCss = `
   .timer-view-body,
   .timer-view-body * {
-    hyphens: none;
-    -webkit-hyphens: none;
-    -ms-hyphens: none;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    -ms-hyphens: none !important;
+  }
+  .timer-view-body .timer-breathe-pattern-card,
+  .timer-view-body .timer-breathe-pattern-card * {
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    word-wrap: normal !important;
+    text-wrap: wrap;
   }
   .timer-view-body .timer-mode-outer-pill {
     border: 1px solid color-mix(in srgb, var(--glass-border) 65%, transparent);
@@ -18774,8 +18781,12 @@ function TimerView({ theme, view, setView, css, nightMode = false, activePeriod 
     margin: 0 !important;
     letter-spacing: 0.01em;
     overflow: visible;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
+    text-wrap: wrap;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    word-wrap: normal !important;
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
   }
