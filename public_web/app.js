@@ -1600,8 +1600,8 @@ const css = `
     --axis-dashboard-fixed-h: calc(env(safe-area-inset-top, 0px) + 43px);
     /* LIST/GUIDED hdr-wrap top: aligns under dashboard bar (desktop = token; phones tighten vs over-estimated 43px tail) */
     --axis-session-hdr-top: var(--axis-dashboard-fixed-h);
-    /* Session chrome: title + duration + LIST/GUIDED + instruction line (fixed hdr-wrap) */
-    --axis-session-fixed-h: 228px;
+    /* Session chrome: title + duration + progress (fixed hdr-wrap) */
+    --axis-session-fixed-h: 168px;
   }
   @media (max-width: 520px) {
     .app {
@@ -5138,6 +5138,11 @@ const css = `
     margin: 0 0 8px;
     padding: 0;
   }
+  .content--session-list .session-cta-pad--guided.session-cta-pad--list-top {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
   .session-list-preview,
   .session-guided-preview {
     opacity: 1;
@@ -5160,9 +5165,112 @@ const css = `
     padding: calc(var(--page-gutter) + 4px) var(--page-gutter) 12px;
     overflow: visible;
   }
-  .content--session-list > .session-list-preview > .sg.sg--session-sheet:first-child,
-  .content--session-guided .session-guided-preview > .sg.sg--session-sheet:first-child {
+  .content--session-list > .session-list-guided-top + .session-list-preview > .sg.sg--session-sheet:first-child,
+  .content--session-list > .session-list-preview > .sg.sg--session-sheet:first-child {
     margin-top: 8px;
+  }
+  .session-list-guided-top {
+    margin-top: 0;
+    margin-bottom: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .content--session-list > .session-list-guided-top,
+  .content--session-list > .session-list-preview {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .session-list-guided-eyebrow {
+    margin: 4px 0 10px;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-meta);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.28);
+    text-align: center;
+    line-height: 1.4;
+    opacity: 1;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-list-guided-eyebrow {
+    color: rgba(15, 30, 46, 0.32);
+  }
+  /* LIST tab: flat sections + premium exercise cards */
+  .content--session-list {
+    --axis-session-list-accent: #9370db;
+    --axis-session-list-card-bg: rgba(45, 55, 95, 0.4);
+    --axis-session-list-card-bg-hover: rgba(58, 68, 108, 0.55);
+    --axis-session-list-card-bg-done: rgba(45, 55, 95, 0.28);
+  }
+  .content--session-list .sg.sg--session-sheet {
+    margin-top: 18px;
+    padding: 0 0 6px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .content--session-list .sg.sg--session-sheet > .sh--session-ex-head,
+  .content--session-list .sg.sg--session-sheet > .sh-progress {
+    display: none !important;
+  }
+  .content--session-list .sg-section-label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 8px;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .content--session-list .sg-section-label__name {
+    font-family: var(--font-meta);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.42);
+    line-height: 1.3;
+  }
+  .content--session-list .sg-section-label__count {
+    font-family: var(--font-meta);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--axis-session-list-accent);
+    opacity: 0.88;
+    flex-shrink: 0;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg-section-label__name {
+    color: rgba(15, 30, 46, 0.45);
+  }
+  .hdr-session-progress {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 0 4px;
+  }
+  .hdr-session-progress .tab-prog-row {
+    margin-top: 0;
+  }
+  .hdr-session-progress .tab-subbar-rule--above-prog {
+    display: none;
   }
   .sh { display:flex; align-items:baseline; gap:8px; padding-bottom:16px; border-bottom:1px solid var(--border); margin-bottom:8px; }
   .sh-tag { font-size: var(--text-xs); font-family: var(--font-data); font-weight: 500; color:var(--text-dimmer); letter-spacing:0.12em; text-transform:uppercase; }
@@ -5538,6 +5646,9 @@ const css = `
   .content--session-guided .steps .axis-exercise-safety-inline-note--session.axis-exercise-safety-inline-note--risk {
     margin: 0 0 10px;
     padding: 8px 10px 8px 12px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
     border-radius: 0;
     border: none;
     border-left: 2px solid var(--accent);
@@ -5779,6 +5890,9 @@ const css = `
   .content--session-list .sg.sg--session-sheet > .er-card + .er-card {
     margin-top: 5px;
   }
+  .content--session-list .sg.sg--session-sheet > .sg-section-label + .er-card {
+    margin-top: 0;
+  }
   .content--session-guided .sg.sg--session-sheet > .er-card + .er-card {
     margin-top: 8px;
   }
@@ -5789,9 +5903,25 @@ const css = `
     border-radius: 14px;
     backdrop-filter: blur(16px) saturate(1.35);
     -webkit-backdrop-filter: blur(16px) saturate(1.35);
-    transition: background 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
+    transition: background 0.18s ease, border-color 0.18s ease, opacity 0.18s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
+    background: var(--axis-session-list-card-bg);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(12px) saturate(1.25);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    box-shadow: none;
+    cursor: pointer;
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) {
+    opacity: 0.65;
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
+    background: var(--axis-session-list-card-bg-done);
+    opacity: 1;
+  }
+  .content--session-guided .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
     background: rgba(22, 38, 56, 0.24);
   }
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
@@ -5806,9 +5936,24 @@ const css = `
     margin-right: 0 !important;
     padding: 0 !important;
   }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
+    background: var(--axis-session-list-card-bg-hover) !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 12px !important;
+    opacity: 1 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card.er-card--open {
+    opacity: 1;
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+  }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open),
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
     border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
+    opacity: 1;
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped,
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped {
@@ -5827,6 +5972,11 @@ const css = `
     background: transparent;
     border: none;
     border-radius: 14px;
+  }
+  .content--session-list .er-card > .er--list-card-a {
+    gap: 11px;
+    padding: 14px 11px 13px 12px;
+    border-radius: 12px;
   }
   /* GUIDED list rail: same meta stack as LIST (duration under description) */
   .content--session .er-list-sheet--guided .er-list-meta-row--guided {
@@ -5851,25 +6001,46 @@ const css = `
   .content--session-list .er-list-complete {
     flex-shrink: 0;
     align-self: flex-start;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
-    margin: 0;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    margin: -11px 0 0 -11px;
     padding: 0;
     box-sizing: border-box;
+    border: none;
     border-radius: 50%;
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
     background: transparent;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    position: relative;
+  }
+  .content--session-list .er-list-complete::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    margin-top: -9px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    background: transparent;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .content--session-list .er-list-complete.er-list-complete--on::before {
+    border-color: var(--axis-session-list-accent, #9370db);
+    background: var(--axis-session-list-accent, #9370db);
+    box-shadow: 0 0 10px rgba(147, 112, 219, 0.35);
   }
   .content--session-list .er-list-complete.er-list-complete--on {
-    border-color: var(--mood-accent);
-    background: var(--mood-accent);
+    border: none;
+    background: transparent;
   }
   .content--session-list .er-list-complete .er-list-complete__tick {
     stroke: var(--accent-btn-text);
@@ -5882,8 +6053,10 @@ const css = `
     opacity: 0;
   }
   .content--session-list .er-list-complete svg {
-    width: 14px;
-    height: 14px;
+    position: relative;
+    z-index: 1;
+    width: 11px;
+    height: 11px;
     display: block;
   }
   /* Left accent bar removed — pin / border carry pinned state */
@@ -5997,8 +6170,12 @@ const css = `
     margin: 3px 0 6px 0;
   }
   .content--session-list .er-list-desc {
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 2px 0 5px 0;
+  }
+  .content--session-list .er-list-title-row {
+    margin-bottom: 2px;
   }
   .content--session-list .er-list-desc.er-list-desc--done {
     color: var(--text-primary);
@@ -6074,8 +6251,21 @@ const css = `
   .content--session .er-list-icon-btn:hover {
     color: rgba(255, 255, 255, 0.72);
   }
+  .content--session-list .er-list-icon-btn:hover {
+    color: #b8a0e8;
+    background: rgba(147, 112, 219, 0.1);
+  }
+  .content--session-list .er-list-expand-chev {
+    transition: color 0.18s ease, transform 0.18s ease;
+  }
+  .content--session-list .er-card:not(.er-card--open):hover .er-list-expand-chev {
+    color: #b8a0e8;
+  }
   .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
     color: var(--mood-color);
+  }
+  .content--session-list .er-list-pin-btn.er-list-pin-btn--pinned {
+    color: var(--axis-session-list-accent, #9370db);
   }
   .content--session .er-list-skip-btn.er-list-skip-btn--skipped {
     color: rgba(255, 255, 255, 0.45);
@@ -6106,11 +6296,19 @@ const css = `
     border-color: rgba(15, 30, 46, 0.1);
     box-shadow: 0 4px 22px rgba(15, 30, 46, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.82);
   }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
-    background: #ffffff;
-    border-color: var(--border-card);
+    background: rgba(255, 255, 255, 0.92);
+    border: 0.5px solid rgba(15, 30, 46, 0.1);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) {
+    opacity: 0.72;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
     background: #ffffff;
@@ -6119,8 +6317,10 @@ const css = `
     -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
-    background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.04) 6%) !important;
-    border-color: var(--color-border-primary) !important;
+    background: #ffffff !important;
+    border: 0.5px solid rgba(15, 30, 46, 0.14) !important;
+    opacity: 1 !important;
+    box-shadow: 0 4px 14px rgba(15, 30, 46, 0.08) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.04) 6%) !important;
@@ -6169,6 +6369,20 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-icon-btn:hover {
     color: rgba(15, 30, 46, 0.78);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn:hover {
+    color: #7c5cbf;
+    background: rgba(147, 112, 219, 0.12);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete::before {
+    border-color: rgba(15, 30, 46, 0.22);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on::before {
+    border-color: #9370db;
+    background: #9370db;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .ra-btn:hover {
+    color: #7c5cbf !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
     color: var(--mood-color);
@@ -6473,7 +6687,10 @@ const css = `
   .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame {
     /* Re-establish positioning context (general rule sets position:static on __graphic-frame). */
     position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
     max-height: none !important;
+    height: auto !important;
     aspect-ratio: 16 / 9 !important;
     min-height: 0 !important;
     border-radius: 0 !important;
@@ -6481,15 +6698,43 @@ const css = `
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
+    overflow: hidden !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame video.exercise-carousel__media,
-  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell .exercise-carousel__media,
-  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame video.exercise-carousel__media,
-  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell .exercise-carousel__media {
-    object-fit: contain !important;
+  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell,
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell {
     width: 100% !important;
     height: 100% !important;
     max-height: none !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .axis-video-player,
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .axis-video-player {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 100% !important;
+    aspect-ratio: unset !important;
+    border-radius: 0 !important;
+  }
+  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame video.exercise-carousel__media,
+  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell .exercise-carousel__media,
+  .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .axis-video-player__video,
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame video.exercise-carousel__media,
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .exercise-carousel__media-fs-shell .exercise-carousel__media,
+  .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__graphic-frame .axis-video-player__video {
+    object-fit: cover !important;
+    object-position: center center !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    aspect-ratio: unset !important;
     border-radius: 0 !important;
     border: none !important;
     outline: none !important;
@@ -7530,7 +7775,10 @@ const css = `
   }
   .content--session-list .ra-btn:hover {
     background:transparent !important;
-    color: rgba(252,253,254,0.95) !important;
+    color: #b8a0e8 !important;
+  }
+  .content--session-list .ra-btn.fav-on {
+    color: var(--axis-session-list-accent, #9370db) !important;
   }
   .content--session-guided .ra-btn:hover {
     background: transparent !important;
@@ -8092,15 +8340,35 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__graphic-frame .exercise-carousel__video-soon {
     color: rgba(15, 30, 46, 0.28);
   }
-  /* LIST / GUIDED expanded card: thumbnail sits inset with carousel padding — fill frame horizontally inside padded column */
+  /* LIST / GUIDED expanded card: media bleeds edge-to-edge with the card (no inset thumbnail column) */
   .content--session .protocol-panel .exercise-carousel__graphic-frame {
     background: #070b11;
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
     margin-inline: 0;
-    border-radius: 12px;
+    border-radius: 0;
     overflow: hidden;
+  }
+  .content--session-list .er-card.er-card--open .protocol-panel.panel .steps,
+  .content--session-guided .er-card.er-card--open .protocol-panel.panel .steps {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    padding-inline: 0 !important;
+  }
+  .content--session-list .er-card.er-card--open .protocol-panel.panel .steps > .exercise-carousel.exercise-carousel--session-card,
+  .content--session-guided .er-card.er-card--open .protocol-panel.panel .steps > .exercise-carousel.exercise-carousel--session-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+    box-sizing: border-box;
+  }
+  .content--session-list .er-card.er-card--open .protocol-panel.panel .steps > .exercise-carousel.exercise-carousel--session-card .exercise-carousel__card,
+  .content--session-guided .er-card.er-card--open .protocol-panel.panel .steps > .exercise-carousel.exercise-carousel--session-card .exercise-carousel__card {
+    width: 100% !important;
+    max-width: 100% !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .protocol-panel .exercise-carousel__graphic-frame {
     background: #0c1018;
@@ -20705,7 +20973,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     return Math.min(300, Math.max(1, Math.round(v)));
   });
   const [track, setTrack] = useState("daily");
-  const [tab, setTab] = useState(() => storageGet("axis_last_session_tab", "guided") || "guided");
   const prevViewRef = useRef(null);
   const [fi, setFi] = useState(0);
   const [openId, setOpenId] = useState(null);
@@ -20722,7 +20989,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [history, setHistory] = useState(() => storageGet("axis_history", []));
   const sessionContentRef = useRef(null);
   const listScrollRef = useRef(0);
-  const prevTabRef = useRef(tab);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
   const [purposeOpenBySection, setPurposeOpenBySection] = useState(() => ({}));
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
@@ -20847,7 +21113,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       setHomeSection("explore");
       setSystemPanel("mood");
       setHasActiveSession(false);
-      setTab("guided");
     } catch (e) {}
   }, []);
 
@@ -21055,10 +21320,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   useEffect(() => {storageSet("axis_show_pct", showPct);}, [showPct]);
   useEffect(() => {storageSet("axis_exercise_duration", exerciseDuration);}, [exerciseDuration]);
   useEffect(() => {
-    if (view === "home" && hasActiveSession) {
-      const last = storageGet("axis_last_session_tab", null);
-      setTab(last || "guided");
-    }
     const prev = prevViewRef.current;
     if (view === "metrics" && prev !== "metrics") {
       setMetricsFactsCycle((n) => n + 1);
@@ -21068,9 +21329,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     }
     prevViewRef.current = view;
   }, [view, hasActiveSession]);
-  useEffect(() => {
-    if (view === "home" && hasActiveSession) storageSet("axis_last_session_tab", tab);
-  }, [tab, view, hasActiveSession]);
   useEffect(() => {
     if (view === "system" && systemPanel === "settings") {
       setSettingsHealthOpen(true);
@@ -21093,16 +21351,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     }
   }, [favs]);
 
-  // Remember LIST scroll position within Session content so switching tabs feels continuous
-  useEffect(() => {
-    if (!sessionContentRef.current) return;
-    const prev = prevTabRef.current;
-    if (tab === "list" && prev !== "list") {
-      sessionContentRef.current.scrollTo(0, listScrollRef.current || 0);
-    }
-    prevTabRef.current = tab;
-  }, [tab]);
-
   useEffect(() => {
     if (!bookmarkTooltipExerciseId && !bookmarkTooltipTrackId) return;
     const totalMs = axisCelebrationFadeMs(200) + 1800 + axisCelebrationFadeMs(200);
@@ -21114,7 +21362,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   }, [bookmarkTooltipExerciseId, bookmarkTooltipTrackId]);
 
   useEffect(() => {
-    if (view !== "home" || !hasActiveSession || tab !== "list") {
+    if (view !== "home" || !hasActiveSession) {
       setListFirstSessionCelebration(false);
       return;
     }
@@ -21130,7 +21378,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     if (storageGet(k, false)) return;
     storageSet(k, true);
     setListFirstSessionCelebration(true);
-  }, [view, hasActiveSession, tab, track, skipped, listDone]);
+  }, [view, hasActiveSession, track, skipped, listDone]);
 
   useEffect(() => {
     const goalMin = Math.max(0, Number(dailyGoalMinutes) || 0);
@@ -21197,7 +21445,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const guidedDoneSlice = axisSessionDoneSlice(guidedDone, track);
   const listTotalDone = activeAll.filter((e) => listDoneSlice[e.id]).length;
   const guidedTotalDone = activeAll.filter((e) => guidedDoneSlice[e.id]).length;
-  const totalDone = tab === "guided" ? guidedTotalDone : listTotalDone;
+  const totalDone = listTotalDone;
   const perMoveSeconds = exerciseDuration || 45;
   const activeCount = filteredAll.length;
   const sessionSeconds = activeCount * perMoveSeconds;
@@ -21233,17 +21481,19 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const resetSessionTabProgress = () => {
     axisHapticTick();
     const trackExIds = (getAll(track) || []).map((e) => e.id);
-    if (tab === "list") {
-      setListDone((store) => axisSessionDoneClearTrack(store, track));
-      try {
-        if (typeof localStorage !== "undefined") localStorage.removeItem("axis_done");
-      } catch (e) {}
-      setListFirstSessionCelebration(false);
-    } else {
-      setGuidedDone((store) => axisSessionDoneClearTrack(store, track));
-    }
+    setListDone((store) => axisSessionDoneClearTrack(store, track));
+    setGuidedDone((store) => axisSessionDoneClearTrack(store, track));
+    try {
+      if (typeof localStorage !== "undefined") localStorage.removeItem("axis_done");
+    } catch (e) {}
+    setListFirstSessionCelebration(false);
     for (const exId of trackExIds) sessionExerciseLoggedRef.current.delete(exId);
     setOpenId(null);
+  };
+  const startGuidedSession = () => {
+    if (filteredAll.length === 0) return;
+    primeAudio();
+    setGuidedActive(true);
   };
   const toggleList = (id) => applySessionDoneToggle(setListDone, id);
   const toggleGuided = (id) => applySessionDoneToggle(setGuidedDone, id);
@@ -21292,7 +21542,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     switchTrack(tid);
     setHasActiveSession(true);
     setView("home");
-    setTab("list");
   };
   const beginTrack = (t) => {
     sessionExerciseLoggedRef.current.clear();
@@ -21301,7 +21550,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     }
     switchTrack(t);setHasActiveSession(true);setView("home");
   };
-  const goHome = () => {setHasActiveSession(false);setHomeSection("explore");setView("home");setTab("list");};
+  const goHome = () => {setHasActiveSession(false);setHomeSection("explore");setView("home");};
   const playBeep = (freq = 880) => beep(freq);
   const formatTime = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   const weekMomentumWindow = axisWeekMomentumFromHistory(history);
@@ -22041,7 +22290,6 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       axisHapticTick();
       beginTrack(HOURLY_PRACTICE_TRACK_ID);
       primeAudio();
-      setTab("guided");
       setGuidedActive(true);
     };
 
@@ -22339,93 +22587,58 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     ), /*#__PURE__*/
     React.createElement("div", { className: "hdr-left" }, /*#__PURE__*/
     React.createElement("div", { className: "hdr-title" }, TRACKS[track].label)
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "hdr-tabs-wrap" }, /*#__PURE__*/
-    React.createElement("div", { className: "tabs" },
-    ["list", "guided"].map((t) => /*#__PURE__*/
-    React.createElement("button", {
-      key: t,
-      className: `tab ${tab === t ? "on" : ""}`,
-      onClick: () => {axisHapticTick();setTab(t);} },
-
-    t === "guided" ? "Guided" : "List"
-    )
-    )
-    )
-    )
-    , /*#__PURE__*/
-    React.createElement("div", { className: "tab-desc-line tab-desc-line--under-tabs tab-desc-line--dual" }, /*#__PURE__*/
-    React.createElement("div", { className: "tab-desc-col " + (tab === "list" ? "tab-desc-col--active" : "tab-desc-col--inactive") }, "Your pace. Tap to expand."), /*#__PURE__*/
-    React.createElement("div", { className: "tab-desc-col " + (tab === "guided" ? "tab-desc-col--active" : "tab-desc-col--inactive") }, "Hands-free. Auto-timed.")
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "tab-subbar" }, /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("hr", { className: "tab-subbar-rule tab-subbar-rule--above-prog", "aria-hidden": true }), /*#__PURE__*/
+    ),
+    /*#__PURE__*/React.createElement("div", { className: "hdr-session-progress" }, /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
     showSessionBookmarkExerciseHint ? /*#__PURE__*/React.createElement("span", { className: "tab-prog-row__bookmark-hint" }, "Bookmark exercises to save them.") : null, /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row__top" }, /*#__PURE__*/
-    React.createElement("span", { className: "tab-prog-row__line" }, /*#__PURE__*/
+    React.createElement("span", { className: "tab-prog-row__line", "aria-label": `${totalDone} of ${TOTAL} exercises completed` }, /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__done" + (totalDone === 0 ? " tab-prog-row__done--zero" : "") }, totalDone), /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL)
     ), /*#__PURE__*/
-    (tab === "list" || tab === "guided") ? /*#__PURE__*/React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: resetSessionTabProgress }, "Reset") : null), /*#__PURE__*/
-    tab === "list" ? /*#__PURE__*/React.createElement("div", {
+    React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: resetSessionTabProgress }, "Reset")), /*#__PURE__*/
+    React.createElement("div", {
       className: "prog-bar",
       role: "progressbar",
       "aria-valuemin": 0,
       "aria-valuemax": Math.max(1, TOTAL),
       "aria-valuenow": Math.min(Math.round(listTotalDone), Math.max(1, TOTAL)),
       "aria-label": "Session exercises completed"
-    }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })) : null
-    ),
-    tab === "list" && TOTAL > 0 && listTotalDone === TOTAL ? /*#__PURE__*/React.createElement("div", { className: "list-session-complete-stack" },
+    }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })),
+    TOTAL > 0 && listTotalDone === TOTAL ? /*#__PURE__*/React.createElement("div", { className: "list-session-complete-stack" },
       listFirstSessionCelebration ? /*#__PURE__*/React.createElement("div", { className: "axis-celebration-first-session axis-celebration-first-session--list" }, "Your first AXIS session.") : null,
       /*#__PURE__*/React.createElement("div", { className: "list-session-complete-title" }, "Session complete.")
     ) : null
     )
     )
     )
-    , /*#__PURE__*/
+    ), /*#__PURE__*/
 
-    React.createElement("div", { className: "content content--session" + (tab === "list" ? " content--session-list" : "") + (tab === "guided" ? " content--session-guided" : ""), ref: sessionContentRef, onScroll: (e) => {
-        if (tab === "list") {
-          listScrollRef.current = e.currentTarget.scrollTop || 0;
-        }
+    React.createElement("div", { className: "content content--session content--session-list", ref: sessionContentRef, onScroll: (e) => {
+        listScrollRef.current = e.currentTarget.scrollTop || 0;
       } }, /*#__PURE__*/
-    tab === "guided" && /*#__PURE__*/
-    React.createElement("div", { className: "session-cta-pad session-cta-pad--guided" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-list-guided-top" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-cta-pad session-cta-pad--guided session-cta-pad--list-top" }, /*#__PURE__*/
     React.createElement("button", {
       className: "fv-cta ultra-filled-btn axis-session-primary-cta",
       disabled: filteredAll.length === 0,
-      "aria-label": "Start guided",
-      onClick: () => {if (filteredAll.length > 0) {primeAudio();setGuidedActive(true);}},
+      "aria-label": "Start guided session",
+      onClick: startGuidedSession,
       style: nightMode ? { color: "#000000", WebkitTextFillColor: "#000000", fill: "#000000" } : undefined }, /*#__PURE__*/
-
     React.createElement("div", { className: "axis-guided-start-row", style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", gap: 10, color: nightMode ? "#000000" : undefined, WebkitTextFillColor: nightMode ? "#000000" : undefined } }, /*#__PURE__*/
     React.createElement("span", { "aria-hidden": true, style: { display: "inline-flex", alignItems: "center", lineHeight: 0 } }, /*#__PURE__*/
-    React.createElement("svg", { className: "axis-guided-cta-arrow", width: "11", height: "13", viewBox: "0 0 10 12", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("polygon", { points: "0,1 9,6 0,11" }))), /*#__PURE__*/
+    React.createElement("svg", { className: "axis-guided-cta-arrow", width: "11", height: "13", viewBox: "0 0 10 12", "aria-hidden": true }, /*#__PURE__*/React.createElement("polygon", { points: "0,1 9,6 0,11" }))), /*#__PURE__*/
     React.createElement("span", { style: { fontSize: 15, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: nightMode ? "#000000" : undefined, WebkitTextFillColor: nightMode ? "#000000" : undefined } }, "START GUIDED"), /*#__PURE__*/
     React.createElement("span", { "aria-hidden": true, style: { display: "inline-flex", alignItems: "center", lineHeight: 0 } }, /*#__PURE__*/
-    React.createElement("svg", { className: "axis-guided-cta-arrow", width: "11", height: "13", viewBox: "0 0 10 12", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("polygon", { points: "10,1 1,6 10,11" }))))
+    React.createElement("svg", { className: "axis-guided-cta-arrow", width: "11", height: "13", viewBox: "0 0 10 12", "aria-hidden": true }, /*#__PURE__*/React.createElement("polygon", { points: "10,1 1,6 10,11" }))))
     )
+    ),
+    React.createElement("p", { className: "session-list-guided-eyebrow" }, "Or go at your own pace")
     ), /*#__PURE__*/
-
-    tab === "list" && /*#__PURE__*/
-    React.createElement(React.Fragment, null,
     React.createElement("div", { className: "session-list-preview", "aria-label": "Exercise list for session" },
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => listDoneSlice[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
-    React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
-    React.createElement("span", { className: "sh-sec-id" }, sec.exercises.length === 1 ? "1 move" : `${sec.exercises.length} moves`))
-    , /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => listDoneSlice[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
-    ),
     sec.purpose && /*#__PURE__*/
     React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
     React.createElement("div", { className: "purpose-note__rail purpose-note__rail--session" }, /*#__PURE__*/
@@ -22440,94 +22653,32 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a"))),
     purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null)),
 
-    sec.exercises.map((ex, idx) => {
+    sec.exercises.flatMap((ex, idx) => {
       const nextEx = sec.exercises[idx + 1] || null;
-      return (/*#__PURE__*/
-        React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: !!listDoneSlice[ex.id], onToggle: () => toggleList(ex.id),
-          open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
-          skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
-          faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
-          firstBookmarkTooltip: bookmarkTooltipExerciseId === ex.id,
-          note: notes[ex.id], onNote: (val) => setNote(ex.id, val),
-          nextName: nextEx ? axisExerciseListParenDirectionDisplayName(nextEx.name) : null,
-          exerciseDurationSeconds: exerciseDuration,
-          theme: theme,
-          ultraNight: nightMode,
-          trackId: track,
-          listRailLayout: true,
-          listSectionLabel: sec.label }
-        ));
-
-    })
-    )
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "session-cta-pad", style: { marginTop: 24, paddingTop: "4px" } }, /*#__PURE__*/
-    React.createElement("button", {
-      type: "button",
-      className: "axis-session-primary-cta",
-      onClick: () => {if (filteredAll.length > 0) {triggerHaptic(HAPTIC_LIGHT_TAP);primeAudio();setTab("guided");setGuidedActive(true);}},
-      disabled: filteredAll.length === 0,
-      style: {
-        width: "100%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 0,
-        padding: "12px 18px", borderRadius: 12,
-        minHeight: 52, boxSizing: "border-box",
-        color: nightMode ? "#000000" : "var(--accent-btn-text)",
-        WebkitTextFillColor: nightMode ? "#000000" : "var(--accent-btn-text)",
-        fontFamily: '"DM Sans", var(--font-ui), system-ui, sans-serif', cursor: "pointer",
-        opacity: filteredAll.length === 0 ? 0.45 : 1, transition: "opacity 0.18s, transform 0.18s"
-      } },
-    /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" } }, "START GUIDED"))
-    )
-    ),
-    tab === "guided" && /*#__PURE__*/
-    React.createElement("div", { className: "session-guided-preview", "aria-label": "Exercise preview for guided flow" },
-    visibleSections.map((sec) => /*#__PURE__*/
-    React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
-    React.createElement("div", { className: "sh sh--session-ex-head", "aria-label": `${sec.label}, ${sec.exercises.filter((e) => guidedDoneSlice[e.id]).length} of ${sec.exercises.length} moves completed` }, /*#__PURE__*/
-    React.createElement("span", { className: "sh-name" }, sec.label), /*#__PURE__*/
-    React.createElement("span", { className: "sh-sec-id" }, sec.exercises.length === 1 ? "1 move" : `${sec.exercises.length} moves`))
-    , /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("div", { className: "sh-progress__fill", style: { width: `${sec.exercises.length ? Math.round(sec.exercises.filter((e) => guidedDoneSlice[e.id]).length / sec.exercises.length * 10000) / 100 : 0}%`, transition: "width 0.4s ease" } }))
-    ),
-    sec.purpose && /*#__PURE__*/
-    React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
-    React.createElement("div", { className: "purpose-note__rail purpose-note__rail--session" }, /*#__PURE__*/
-    React.createElement("div", { className: "purpose-note__session-hit-band" }, /*#__PURE__*/
-    React.createElement("button", {
-      type: "button",
-      className: "purpose-disclosure-hit purpose-disclosure-hit--session",
-      "aria-expanded": purposeOpenBySection[sec.label] ? "true" : "false",
-      onClick: (e) => {e.preventDefault();axisHapticTick();setPurposeOpenBySection((m) => ({ ...m, [sec.label]: !m[sec.label] }));}
-    }, /*#__PURE__*/
-    React.createElement("span", { className: "purpose-disclosure-hit__lbl" }, "PURPOSE"), /*#__PURE__*/
-    React.createElement("span", { className: "purpose-disclosure-hit__chev" + (purposeOpenBySection[sec.label] ? " purpose-disclosure-hit__chev--open" : ""), "aria-hidden": true }, "\u203a"))),
-    purposeOpenBySection[sec.label] ? /*#__PURE__*/React.createElement("div", { className: "purpose-text purpose-text--guided-body" }, sec.purpose) : null)),
-
-    sec.exercises.map((ex, idx) => {
-      const nextEx = sec.exercises[idx + 1] || null;
-      return (/*#__PURE__*/
-        React.createElement(ExRow, { key: ex.id, ex: ex,
-          done: !!guidedDoneSlice[ex.id], onToggle: () => toggleGuided(ex.id),
-          open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
-          skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
-          faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
-          firstBookmarkTooltip: bookmarkTooltipExerciseId === ex.id,
-          note: notes[ex.id], onNote: (val) => setNote(ex.id, val),
-          nextName: nextEx ? nextEx.name : null,
-          hideTimer: true,
-          hideDone: true,
-          listRailLayout: true,
-          listSectionLabel: sec.label,
-          exerciseDurationSeconds: exerciseDuration,
-          theme: theme,
-          ultraNight: nightMode,
-          trackId: track }
-        ));
-
+      const secDone = sec.exercises.filter((e) => listDoneSlice[e.id]).length;
+      const rowEl = /*#__PURE__*/React.createElement(ExRow, { key: ex.id, ex: ex,
+        done: !!listDoneSlice[ex.id], onToggle: () => toggleList(ex.id),
+        open: openId === ex.id, onExpand: () => setOpenId(openId === ex.id ? null : ex.id),
+        skipped: !!skipped[ex.id], onSkip: () => toggleSkip(ex.id),
+        faved: !!favs[ex.id], onFav: () => toggleFav(ex.id),
+        firstBookmarkTooltip: bookmarkTooltipExerciseId === ex.id,
+        note: notes[ex.id], onNote: (val) => setNote(ex.id, val),
+        nextName: nextEx ? axisExerciseListParenDirectionDisplayName(nextEx.name) : null,
+        exerciseDurationSeconds: exerciseDuration,
+        theme: theme,
+        ultraNight: nightMode,
+        trackId: track,
+        listRailLayout: true,
+        listSectionLabel: sec.label });
+      if (idx !== 0) return [rowEl];
+      return [/*#__PURE__*/React.createElement("div", {
+        key: `section-label-${sec.label}`,
+        className: "sg-section-label",
+        "aria-label": `${sec.label}, ${secDone} of ${sec.exercises.length} moves completed`
+      }, /*#__PURE__*/
+      React.createElement("span", { className: "sg-section-label__name" }, sec.label), /*#__PURE__*/
+      React.createElement("span", { className: "sg-section-label__count" }, sec.exercises.length === 1 ? "1 move" : `${sec.exercises.length} moves`)
+      ), rowEl];
     })
     )
     )
@@ -22540,6 +22691,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )
     ), /*#__PURE__*/
     React.createElement(TabBar, { view: view, setView: setView, theme: theme, nightMode: nightMode, onSystemTab: goSystemGateway })
+    )
     )
     ));
 
