@@ -5193,14 +5193,14 @@ const css = `
   .session-entry-section--own-path {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
-    border-top: 0.5px solid rgba(147, 112, 219, 0.12);
+    border-top: 0.5px solid color-mix(in srgb, var(--mood-color) 12%, transparent);
     pointer-events: none;
     cursor: default;
     user-select: none;
     text-align: center;
   }
   .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path {
-    border-top-color: rgba(147, 112, 219, 0.14);
+    border-top-color: color-mix(in srgb, var(--mood-color) 14%, transparent);
   }
   .session-entry-cta {
     margin: 0;
@@ -5223,15 +5223,15 @@ const css = `
     box-sizing: border-box;
     border-radius: 14px;
     padding: 0.75rem;
-    background: rgba(147, 112, 219, 0.04);
-    border: 0.5px solid rgba(147, 112, 219, 0.12);
+    background: color-mix(in srgb, var(--mood-color) 4%, transparent);
+    border: 0.5px solid color-mix(in srgb, var(--mood-color) 12%, transparent);
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .session-entry-card {
-    background: rgba(147, 112, 219, 0.04);
-    border-color: rgba(147, 112, 219, 0.14);
+    background: color-mix(in srgb, var(--mood-color) 4%, transparent);
+    border-color: color-mix(in srgb, var(--mood-color) 14%, transparent);
   }
   .session-entry-section--guided .session-cta-pad--guided.session-cta-pad--list-top {
     margin: 0;
@@ -5331,17 +5331,17 @@ const css = `
     letter-spacing: 0.45px;
     text-transform: uppercase;
     line-height: 1.35;
-    color: #9370db;
-    -webkit-text-fill-color: #9370db;
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
   }
   .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__label,
   .app[data-night="true"] .session-entry-section--own-path .session-own-path__label {
-    color: #9370db;
-    -webkit-text-fill-color: #9370db;
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
   }
   /* LIST tab: flat sections + premium exercise cards */
   .content--session-list {
-    --axis-session-list-accent: #9370db;
+    --axis-session-list-accent: var(--mood-color);
     --axis-session-list-card-bg: rgba(45, 55, 95, 0.4);
     --axis-session-list-card-bg-hover: rgba(58, 68, 108, 0.55);
     --axis-session-list-card-bg-done: rgba(45, 55, 95, 0.28);
@@ -6174,9 +6174,9 @@ const css = `
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   }
   .content--session-list .er-list-complete.er-list-complete--on::before {
-    border-color: var(--axis-session-list-accent, #9370db);
-    background: var(--axis-session-list-accent, #9370db);
-    box-shadow: 0 0 10px rgba(147, 112, 219, 0.35);
+    border-color: var(--axis-session-list-accent, var(--mood-color));
+    background: var(--axis-session-list-accent, var(--mood-color));
+    box-shadow: 0 0 10px color-mix(in srgb, var(--mood-color) 35%, transparent);
   }
   .content--session-list .er-list-complete.er-list-complete--on {
     border: none;
@@ -6392,20 +6392,20 @@ const css = `
     color: rgba(255, 255, 255, 0.72);
   }
   .content--session-list .er-list-icon-btn:hover {
-    color: #b8a0e8;
-    background: rgba(147, 112, 219, 0.1);
+    color: color-mix(in srgb, var(--mood-color) 72%, #fff);
+    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
   }
   .content--session-list .er-list-expand-chev {
     transition: color 0.18s ease, transform 0.18s ease;
   }
   .content--session-list .er-card:not(.er-card--open):hover .er-list-expand-chev {
-    color: #b8a0e8;
+    color: color-mix(in srgb, var(--mood-color) 72%, #fff);
   }
   .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
     color: var(--mood-color);
   }
   .content--session-list .er-list-pin-btn.er-list-pin-btn--pinned {
-    color: var(--axis-session-list-accent, #9370db);
+    color: var(--axis-session-list-accent, var(--mood-color));
   }
   .content--session .er-list-skip-btn.er-list-skip-btn--skipped {
     color: rgba(255, 255, 255, 0.45);
@@ -6511,18 +6511,18 @@ const css = `
     color: rgba(15, 30, 46, 0.78);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn:hover {
-    color: #7c5cbf;
-    background: rgba(147, 112, 219, 0.12);
+    color: color-mix(in srgb, var(--mood-color) 78%, #0f1e2e);
+    background: color-mix(in srgb, var(--mood-color) 12%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete::before {
     border-color: rgba(15, 30, 46, 0.22);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on::before {
-    border-color: #9370db;
-    background: #9370db;
+    border-color: var(--mood-color);
+    background: var(--mood-color);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .ra-btn:hover {
-    color: #7c5cbf !important;
+    color: color-mix(in srgb, var(--mood-color) 78%, #0f1e2e) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
     color: var(--mood-color);
@@ -7915,10 +7915,10 @@ const css = `
   }
   .content--session-list .ra-btn:hover {
     background:transparent !important;
-    color: #b8a0e8 !important;
+    color: color-mix(in srgb, var(--mood-color) 72%, #fff) !important;
   }
   .content--session-list .ra-btn.fav-on {
-    color: var(--axis-session-list-accent, #9370db) !important;
+    color: var(--axis-session-list-accent, var(--mood-color)) !important;
   }
   .content--session-guided .ra-btn:hover {
     background: transparent !important;
@@ -8156,6 +8156,7 @@ const css = `
   .app[data-theme="dark"]:not([data-night="true"]) .mark-btn.ultra-filled-btn.mark-btn--start-timer,
   .app[data-theme="dark"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="dark"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta:not(.axis-session-primary-cta--hero),
+  .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
   .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
   .app[data-theme="dark"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
   .guided-overlay[data-theme="dark"][data-night="false"] .guided-refresher-done {
@@ -8167,6 +8168,7 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .mark-btn.ultra-filled-btn.mark-btn--start-timer,
   .app[data-theme="light"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="light"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta:not(.axis-session-primary-cta--hero),
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
   .app[data-theme="light"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
   .guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-done {
@@ -8174,7 +8176,7 @@ const css = `
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
   }
-  /* Session list START GUIDED hero — after mood-accent CTA rules so specs apply */
+  /* Session list START GUIDED hero — layout + mood fill fallback */
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero {
     margin-bottom: 0 !important;
     padding: 0.75rem 1rem !important;
@@ -8186,21 +8188,19 @@ const css = `
     font-weight: 700 !important;
     letter-spacing: 0.45px !important;
     text-transform: uppercase !important;
-    background: linear-gradient(135deg, #9370db 0%, #7d5fc9 100%) !important;
-    background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    color: #0a0f1f !important;
-    -webkit-text-fill-color: #0a0f1f !important;
-    fill: #0a0f1f !important;
+    background-color: var(--mood-accent) !important;
+    color: var(--accent-btn-text, #0d1f1f) !important;
+    -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
+    fill: var(--accent-btn-text, #0d1f1f) !important;
   }
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
-    background: linear-gradient(135deg, #9f7de0 0%, #8668c9 100%) !important;
-    background-color: transparent !important;
     box-shadow: none !important;
     transform: none;
     opacity: 1 !important;
+    filter: brightness(1.04);
   }
   .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row {
     display: inline-flex !important;
@@ -8213,21 +8213,25 @@ const css = `
     font-size: 14px !important;
     font-weight: 700 !important;
     letter-spacing: 0.45px !important;
-    color: #0a0f1f !important;
-    -webkit-text-fill-color: #0a0f1f !important;
+    color: var(--accent-btn-text, #0d1f1f) !important;
+    -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
   }
   .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero svg.axis-guided-cta-arrow,
   .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero svg.axis-guided-cta-arrow * {
-    fill: #0a0f1f !important;
+    fill: var(--accent-btn-text, #0d1f1f) !important;
   }
   .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
   .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
   .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
-    background: linear-gradient(135deg, #9370db 0%, #7d5fc9 100%) !important;
-    background-color: transparent !important;
-    color: #0a0f1f !important;
-    -webkit-text-fill-color: #0a0f1f !important;
-    fill: #0a0f1f !important;
+    background: #ff3b30 !important;
+    background-color: #ff3b30 !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    fill: #000000 !important;
+  }
+  .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row span {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
   }
   .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta:hover,
   .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta:active {
