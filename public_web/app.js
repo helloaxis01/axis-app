@@ -5323,21 +5323,28 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__body.session-entry-microcopy {
     color: rgba(15, 30, 46, 0.62);
   }
-  .session-entry-section--own-path .session-own-path__label {
-    margin: 0 0 0.3rem;
-    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.45px;
-    text-transform: uppercase;
-    line-height: 1.35;
-    color: var(--mood-color);
-    -webkit-text-fill-color: var(--mood-color);
+  .session-entry-primary-label {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    line-height: 1.1 !important;
+    -webkit-text-size-adjust: none !important;
+    text-size-adjust: none !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__label,
-  .app[data-night="true"] .session-entry-section--own-path .session-own-path__label {
-    color: var(--mood-color);
-    -webkit-text-fill-color: var(--mood-color);
+  .session-entry-section--own-path .session-own-path__label.session-entry-primary-label {
+    margin: 0 0 0.3rem;
+    color: var(--mood-color) !important;
+    -webkit-text-fill-color: var(--mood-color) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__label.session-entry-primary-label,
+  .app[data-night="true"] .session-entry-section--own-path .session-own-path__label.session-entry-primary-label {
+    color: var(--mood-color) !important;
+    -webkit-text-fill-color: var(--mood-color) !important;
   }
   /* LIST tab: flat sections + premium exercise cards */
   .content--session-list {
@@ -8156,7 +8163,6 @@ const css = `
   .app[data-theme="dark"]:not([data-night="true"]) .mark-btn.ultra-filled-btn.mark-btn--start-timer,
   .app[data-theme="dark"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="dark"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta:not(.axis-session-primary-cta--hero),
-  .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
   .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
   .app[data-theme="dark"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
   .guided-overlay[data-theme="dark"][data-night="false"] .guided-refresher-done {
@@ -8168,7 +8174,6 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .mark-btn.ultra-filled-btn.mark-btn--start-timer,
   .app[data-theme="light"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="light"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta:not(.axis-session-primary-cta--hero),
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
   .app[data-theme="light"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
   .guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-done {
@@ -8176,7 +8181,7 @@ const css = `
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
   }
-  /* Session list START GUIDED hero — layout + mood fill fallback */
+  /* Session list START GUIDED hero — full mood fill + layout */
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero {
     margin-bottom: 0 !important;
     padding: 0.75rem 1rem !important;
@@ -8184,16 +8189,22 @@ const css = `
     min-height: 0 !important;
     height: auto !important;
     border-radius: 10px !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.45px !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
     border: none !important;
     box-shadow: none !important;
-    background-color: var(--mood-accent) !important;
+    background: var(--mood-color) !important;
+    background-color: var(--mood-color) !important;
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
     fill: var(--accent-btn-text, #0d1f1f) !important;
+  }
+  .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero {
+    background: var(--mood-color) !important;
+    background-color: var(--mood-color) !important;
   }
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
@@ -8209,10 +8220,7 @@ const css = `
     gap: 0 !important;
     width: 100%;
   }
-  .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row span {
-    font-size: 14px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.45px !important;
+  .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .session-entry-primary-label {
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
   }
@@ -8229,7 +8237,7 @@ const css = `
     -webkit-text-fill-color: #000000 !important;
     fill: #000000 !important;
   }
-  .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row span {
+  .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .session-entry-primary-label {
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
   }
@@ -22825,14 +22833,14 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       "aria-label": "Start guided session",
       onClick: startGuidedSession }, /*#__PURE__*/
     React.createElement("div", { className: "axis-guided-start-row" }, /*#__PURE__*/
-    React.createElement("span", null, "START GUIDED"))
+    React.createElement("span", { className: "session-entry-primary-label" }, "START GUIDED"))
     )),
     React.createElement("div", { className: "session-entry-micro-wrap" }, /*#__PURE__*/
     React.createElement("p", { className: "session-guided-hint session-entry-microcopy" }, "Hands-Free \u2022 Auto-Timed \u2022 Guided Flow")
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "session-entry-section session-entry-section--own-path", role: "note", "aria-label": "Self-paced session option" }, /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path__label" }, "Or pick your own path"), /*#__PURE__*/
+    React.createElement("div", { className: "session-own-path__label session-entry-primary-label" }, "Or pick your own path"), /*#__PURE__*/
     React.createElement("div", { className: "session-entry-micro-wrap session-entry-micro-wrap--body" }, /*#__PURE__*/
     React.createElement("p", { className: "session-own-path__body session-entry-microcopy" }, "Choose Moves \u2022 Control Pace \u2022 Timers or Reps")
     ), /*#__PURE__*/
