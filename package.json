@@ -1,9 +1,10 @@
 {
   "name": "axis-031726-rebuild",
   "private": true,
-  "description": "AXIS web shell (public_web). Vercel: static output from public_web/; npm run build is a no-op. Use npm run verify (and npm run bump-cache before release) locally.",
+  "description": "AXIS web shell (public_web). Vercel runs npm run build (stamp-build) before deploy. Use npm run bump-cache for onboarding tokens; npm run stamp for local cache bust.",
   "scripts": {
-    "build": "exit 0",
+    "build": "node scripts/stamp-build.cjs",
+    "stamp": "node scripts/stamp-build.cjs",
     "bump-cache": "node scripts/bump-cache.cjs",
     "verify": "node scripts/verify-inline-syntax.cjs",
     "cap:sync": "node scripts/cap-sync-delegate.cjs",

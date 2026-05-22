@@ -2,6 +2,7 @@ node_modules
 .DS_Store
 .vercel
 *.log
+public_web/build-id.txt
 
 # Local full snapshots before axis-static mirrors (do not commit)
 .axis-sync-archive/

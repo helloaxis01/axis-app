@@ -1,7 +1,7 @@
 "use strict";
 /**
  * Bump shared onboarding / axis_ob cache token in public_web HTML.
- * Run manually: npm run bump-cache (same token string is also used for app.js?cb= in index.html).
+ * Run manually: npm run bump-cache (onboarding axis_ob tokens; app.js?cb= is stamped on deploy via stamp-build.cjs).
  */
 const fs = require("fs");
 const path = require("path");
