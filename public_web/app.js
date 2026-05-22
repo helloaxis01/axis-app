@@ -2634,7 +2634,7 @@ const css = `
     -webkit-text-fill-color: var(--text-secondary) !important;
     font-weight: 600 !important;
     letter-spacing: 0.12em !important;
-    font-size: 13px !important;
+    font-size: 10px !important;
     opacity: 0.8 !important;
   }
   .app[data-night="true"] .content--session-list .purpose-disclosure-hit.purpose-disclosure-hit--session .purpose-disclosure-hit__chev {
@@ -5173,10 +5173,34 @@ const css = `
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    margin: 0 0 1.75rem;
+    gap: 0;
+    margin: 0 0 1.25rem;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+  }
+  .session-entry-cta.session-entry-stack.session-entry-card {
+    padding: 0.75rem;
+  }
+  .session-entry-section {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .session-entry-section--own-path {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 0.5px solid rgba(147, 112, 219, 0.12);
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
+    text-align: center;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path {
+    border-top-color: rgba(147, 112, 219, 0.14);
   }
   .session-entry-cta {
     margin: 0;
@@ -5194,75 +5218,126 @@ const css = `
     margin-top: 0;
     padding-top: 0;
   }
-  .session-guided-hero {
+  .session-entry-card {
     width: 100%;
     box-sizing: border-box;
+    border-radius: 14px;
+    padding: 0.75rem;
+    background: rgba(147, 112, 219, 0.04);
+    border: 0.5px solid rgba(147, 112, 219, 0.12);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
-  .session-guided-hint {
-    margin: 0.5rem auto 0;
-    padding: 0 8px;
-    max-width: 20em;
-    width: 100%;
-    box-sizing: border-box;
-    font-family: var(--font-ui), system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-    text-transform: none;
-    text-align: center;
-    line-height: 1.45;
-    color: rgba(147, 112, 219, 0.5);
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-card {
+    background: rgba(147, 112, 219, 0.04);
+    border-color: rgba(147, 112, 219, 0.14);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .session-guided-hint {
-    color: rgba(100, 72, 150, 0.55);
-  }
-  .session-entry-divider {
-    margin: 1.25rem 0 1rem;
-    border: none;
-    border-top: 0.5px solid rgba(147, 112, 219, 0.12);
-    width: 100%;
-    height: 0;
-  }
-  .session-own-path {
+  .session-entry-section--guided .session-cta-pad--guided.session-cta-pad--list-top {
     margin: 0;
     padding: 0;
     width: 100%;
-    box-sizing: border-box;
-    background: none;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    pointer-events: none;
-    cursor: default;
-    user-select: none;
-    text-align: center;
   }
-  .session-own-path__label {
-    margin: 0 0 0.35rem;
-    font-family: var(--font-meta);
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.25px;
+  .session-entry-micro-wrap {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    line-height: 0;
+  }
+  .session-entry-section--guided .session-entry-micro-wrap {
+    margin-top: 0.35rem;
+    margin-bottom: -0.3rem;
+  }
+  .session-entry-section--own-path .session-entry-micro-wrap--body {
+    margin-top: 0.05rem;
+    margin-bottom: 0;
+  }
+  .session-entry-continue-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 100%;
+    margin-top: 0.65rem;
+    margin-bottom: -2px;
+    color: rgba(255, 255, 255, 0.72);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.72);
+    line-height: 0;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-continue-cue {
+    color: rgba(15, 30, 46, 0.58);
+    -webkit-text-fill-color: rgba(15, 30, 46, 0.58);
+  }
+  .session-entry-continue-cue .session-own-path__continue {
+    margin: 0;
+    padding: 0;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.45px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    text-align: center;
+    color: inherit;
+    -webkit-text-fill-color: inherit;
+    transform: scale(0.75);
+    transform-origin: center bottom;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+  .session-entry-continue-cue__chev {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: inherit;
+    stroke: currentColor;
+    margin-top: -1px;
+  }
+  .session-entry-microcopy {
+    flex: 0 0 auto;
+    width: 133.334%;
+    max-width: 26.667em;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-ui), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    text-align: center;
+    line-height: 1.45;
+    transform: scale(0.75);
+    transform-origin: top center;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+  .session-entry-section--guided .session-guided-hint.session-entry-microcopy,
+  .session-entry-section--own-path .session-own-path__body.session-entry-microcopy {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--guided .session-guided-hint.session-entry-microcopy,
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__body.session-entry-microcopy {
+    color: rgba(15, 30, 46, 0.62);
+  }
+  .session-entry-section--own-path .session-own-path__label {
+    margin: 0 0 0.3rem;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.45px;
     text-transform: uppercase;
     line-height: 1.35;
-    color: rgba(147, 112, 219, 0.55);
+    color: #9370db;
+    -webkit-text-fill-color: #9370db;
   }
-  .session-own-path__body {
-    margin: 0 auto;
-    max-width: 20em;
-    font-family: var(--font-ui), system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.15px;
-    text-transform: none;
-    line-height: 1.45;
-    color: rgba(255, 255, 255, 0.5);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .session-own-path__label {
-    color: rgba(100, 72, 150, 0.58);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .session-own-path__body {
-    color: rgba(15, 30, 46, 0.52);
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__label,
+  .app[data-night="true"] .session-entry-section--own-path .session-own-path__label {
+    color: #9370db;
+    -webkit-text-fill-color: #9370db;
   }
   /* LIST tab: flat sections + premium exercise cards */
   .content--session-list {
@@ -5306,7 +5381,7 @@ const css = `
   }
   .content--session-list .sg-section-label__name {
     font-family: var(--font-meta);
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -5506,14 +5581,14 @@ const css = `
     -webkit-text-fill-color: var(--text-dimmer) !important;
     cursor: pointer;
     font-family: "Roboto Mono", ui-monospace, monospace !important;
-    font-size: 13px !important;
+    font-size: 10px !important;
     font-weight: 400 !important;
     letter-spacing: normal !important;
     text-transform: uppercase !important;
     line-height: 1.5 !important;
   }
   .purpose-disclosure-hit.purpose-disclosure-hit--session .purpose-disclosure-hit__lbl {
-    font-size: 13px;
+    font-size: 10px;
     opacity: 0.8 !important;
   }
   .purpose-disclosure-hit.purpose-disclosure-hit--session .purpose-disclosure-hit__chev {
@@ -5558,7 +5633,7 @@ const css = `
     -webkit-text-fill-color: var(--text-secondary) !important;
     font-weight: 600 !important;
     letter-spacing: 0.12em !important;
-    font-size: 13px !important;
+    font-size: 10px !important;
     opacity: 0.8 !important;
   }
   .content--session-list .purpose-disclosure-hit.purpose-disclosure-hit--session .purpose-disclosure-hit__chev {
@@ -8100,53 +8175,54 @@ const css = `
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
   }
   /* Session list START GUIDED hero — after mood-accent CTA rules so specs apply */
-  .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero {
+  .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero {
     margin-bottom: 0 !important;
-    padding: 0.875rem 1.25rem !important;
+    padding: 0.75rem 1rem !important;
+    width: 100% !important;
     min-height: 0 !important;
     height: auto !important;
-    border-radius: 12px !important;
-    font-size: 15px !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.45px !important;
     text-transform: uppercase !important;
     background: linear-gradient(135deg, #9370db 0%, #7d5fc9 100%) !important;
     background-color: transparent !important;
     border: none !important;
-    box-shadow: 0 6px 20px rgba(147, 112, 219, 0.22) !important;
+    box-shadow: none !important;
     color: #0a0f1f !important;
     -webkit-text-fill-color: #0a0f1f !important;
     fill: #0a0f1f !important;
   }
-  .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
-  .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
-    background: linear-gradient(135deg, #9370db 0%, #7d5fc9 100%) !important;
+  .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
+  .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
+    background: linear-gradient(135deg, #9f7de0 0%, #8668c9 100%) !important;
     background-color: transparent !important;
-    box-shadow: 0 6px 20px rgba(147, 112, 219, 0.22) !important;
+    box-shadow: none !important;
     transform: none;
     opacity: 1 !important;
   }
-  .content--session-list .session-cta-pad--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row {
+  .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 20px !important;
+    gap: 0 !important;
     width: 100%;
   }
-  .content--session-list .session-cta-pad--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row span {
-    font-size: 15px !important;
+  .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row span {
+    font-size: 14px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.45px !important;
     color: #0a0f1f !important;
     -webkit-text-fill-color: #0a0f1f !important;
   }
-  .content--session-list .session-cta-pad--guided .fv-cta.axis-session-primary-cta--hero svg.axis-guided-cta-arrow,
-  .content--session-list .session-cta-pad--guided .fv-cta.axis-session-primary-cta--hero svg.axis-guided-cta-arrow * {
+  .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero svg.axis-guided-cta-arrow,
+  .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero svg.axis-guided-cta-arrow * {
     fill: #0a0f1f !important;
   }
-  .app[data-night="true"] .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
-  .app[data-night="true"] .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
-  .app[data-night="true"] .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
+  .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
+  .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
+  .app[data-night="true"] .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
     background: linear-gradient(135deg, #9370db 0%, #7d5fc9 100%) !important;
     background-color: transparent !important;
     color: #0a0f1f !important;
@@ -22736,8 +22812,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "content content--session content--session-list", ref: sessionContentRef, onScroll: (e) => {
         listScrollRef.current = e.currentTarget.scrollTop || 0;
       } }, /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-cta session-entry-stack" }, /*#__PURE__*/
-    React.createElement("div", { className: "session-guided-hero" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-entry-cta session-entry-stack session-entry-card" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-entry-section session-entry-section--guided" }, /*#__PURE__*/
     React.createElement("div", { className: "session-cta-pad session-cta-pad--guided session-cta-pad--list-top" }, /*#__PURE__*/
     React.createElement("button", {
       className: "fv-cta ultra-filled-btn axis-session-primary-cta axis-session-primary-cta--hero",
@@ -22745,18 +22821,21 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       "aria-label": "Start guided session",
       onClick: startGuidedSession }, /*#__PURE__*/
     React.createElement("div", { className: "axis-guided-start-row" }, /*#__PURE__*/
-    React.createElement("span", { "aria-hidden": true, style: { display: "inline-flex", alignItems: "center", lineHeight: 0 } }, /*#__PURE__*/
-    React.createElement("svg", { className: "axis-guided-cta-arrow", width: "11", height: "13", viewBox: "0 0 10 12", "aria-hidden": true }, /*#__PURE__*/React.createElement("polygon", { points: "0,1 9,6 0,11" }))), /*#__PURE__*/
-    React.createElement("span", null, "START GUIDED"), /*#__PURE__*/
-    React.createElement("span", { "aria-hidden": true, style: { display: "inline-flex", alignItems: "center", lineHeight: 0 } }, /*#__PURE__*/
-    React.createElement("svg", { className: "axis-guided-cta-arrow", width: "11", height: "13", viewBox: "0 0 10 12", "aria-hidden": true }, /*#__PURE__*/React.createElement("polygon", { points: "10,1 1,6 10,11" }))))
+    React.createElement("span", null, "START GUIDED"))
     )),
-    React.createElement("p", { className: "session-guided-hint" }, "Hand-free. Auto-timed. We'll guide you through each move with rest between.")
+    React.createElement("div", { className: "session-entry-micro-wrap" }, /*#__PURE__*/
+    React.createElement("p", { className: "session-guided-hint session-entry-microcopy" }, "Hands-Free \u2022 Auto-Timed \u2022 Guided Flow")
+    )
     ), /*#__PURE__*/
-    React.createElement("hr", { className: "session-entry-divider", "aria-hidden": true }), /*#__PURE__*/
-    React.createElement("div", { className: "session-own-path", role: "note", "aria-label": "Self-paced session option" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-entry-section session-entry-section--own-path", role: "note", "aria-label": "Self-paced session option" }, /*#__PURE__*/
     React.createElement("p", { className: "session-own-path__label" }, "Or pick your own path"), /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path__body" }, "Select the exercises you want. Control your pace. See timers or reps as you go.")
+    React.createElement("div", { className: "session-entry-micro-wrap session-entry-micro-wrap--body" }, /*#__PURE__*/
+    React.createElement("p", { className: "session-own-path__body session-entry-microcopy" }, "Choose Moves \u2022 Control Pace \u2022 Timers or Reps")
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "session-entry-continue-cue", "aria-hidden": true }, /*#__PURE__*/
+    React.createElement("p", { className: "session-own-path__continue" }, "CONTINUE BELOW"), /*#__PURE__*/
+    React.createElement(AxisChevronCaret, { expanded: true, className: "session-entry-continue-cue__chev" })
+    )
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "session-list-preview", "aria-label": "Exercise list for session" },
