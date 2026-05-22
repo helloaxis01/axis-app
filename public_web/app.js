@@ -5169,8 +5169,17 @@ const css = `
   .content--session-list > .session-list-preview > .sg.sg--session-sheet:first-child {
     margin-top: 8px;
   }
+  .session-entry-cta.session-entry-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0 0 1.75rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
   .session-entry-cta {
-    margin: 0 0 0;
+    margin: 0;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -5190,51 +5199,70 @@ const css = `
     box-sizing: border-box;
   }
   .session-guided-hint {
-    margin: 0 0 2.5rem;
-    padding: 0;
+    margin: 0.5rem auto 0;
+    padding: 0 8px;
+    max-width: 20em;
     width: 100%;
     box-sizing: border-box;
     font-family: var(--font-ui), system-ui, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 400;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
     text-transform: none;
     text-align: center;
-    line-height: 1.5;
-    color: rgba(147, 112, 219, 0.6);
+    line-height: 1.45;
+    color: rgba(147, 112, 219, 0.5);
   }
-  .session-own-path-card {
-    margin: 0 0 2.5rem;
-    padding: 1rem 1.125rem;
+  .app[data-theme="light"]:not([data-night="true"]) .session-guided-hint {
+    color: rgba(100, 72, 150, 0.55);
+  }
+  .session-entry-divider {
+    margin: 1.25rem 0 1rem;
+    border: none;
+    border-top: 0.5px solid rgba(147, 112, 219, 0.12);
+    width: 100%;
+    height: 0;
+  }
+  .session-own-path {
+    margin: 0;
+    padding: 0;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 10px;
-    background: rgba(147, 112, 219, 0.08);
-    border: 0.5px solid rgba(147, 112, 219, 0.15);
+    background: none;
+    border: none;
+    border-radius: 0;
     box-shadow: none;
     pointer-events: none;
     cursor: default;
     user-select: none;
+    text-align: center;
   }
-  .session-own-path-card__label {
-    margin: 0 0 0.75rem;
+  .session-own-path__label {
+    margin: 0 0 0.35rem;
     font-family: var(--font-meta);
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.25px;
     text-transform: uppercase;
     line-height: 1.35;
-    color: rgba(147, 112, 219, 0.7);
+    color: rgba(147, 112, 219, 0.55);
   }
-  .session-own-path-card__body {
-    margin: 0;
+  .session-own-path__body {
+    margin: 0 auto;
+    max-width: 20em;
     font-family: var(--font-ui), system-ui, sans-serif;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 400;
-    letter-spacing: 0;
+    letter-spacing: 0.15px;
     text-transform: none;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-own-path__label {
+    color: rgba(100, 72, 150, 0.58);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-own-path__body {
+    color: rgba(15, 30, 46, 0.52);
   }
   /* LIST tab: flat sections + premium exercise cards */
   .content--session-list {
@@ -8073,8 +8101,8 @@ const css = `
   }
   /* Session list START GUIDED hero — after mood-accent CTA rules so specs apply */
   .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero {
-    margin-bottom: 0.875rem !important;
-    padding: 1.125rem 1.5rem !important;
+    margin-bottom: 0 !important;
+    padding: 0.875rem 1.25rem !important;
     min-height: 0 !important;
     height: auto !important;
     border-radius: 12px !important;
@@ -8085,7 +8113,7 @@ const css = `
     background: linear-gradient(135deg, #9370db 0%, #7d5fc9 100%) !important;
     background-color: transparent !important;
     border: none !important;
-    box-shadow: 0 8px 24px rgba(147, 112, 219, 0.25) !important;
+    box-shadow: 0 6px 20px rgba(147, 112, 219, 0.22) !important;
     color: #0a0f1f !important;
     -webkit-text-fill-color: #0a0f1f !important;
     fill: #0a0f1f !important;
@@ -8094,11 +8122,17 @@ const css = `
   .content--session-list .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
     background: linear-gradient(135deg, #9370db 0%, #7d5fc9 100%) !important;
     background-color: transparent !important;
-    box-shadow: 0 8px 24px rgba(147, 112, 219, 0.25) !important;
+    box-shadow: 0 6px 20px rgba(147, 112, 219, 0.22) !important;
     transform: none;
     opacity: 1 !important;
   }
-  .content--session-list .session-cta-pad--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row,
+  .content--session-list .session-cta-pad--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    width: 100%;
+  }
   .content--session-list .session-cta-pad--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row span {
     font-size: 15px !important;
     font-weight: 700 !important;
@@ -22702,7 +22736,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "content content--session content--session-list", ref: sessionContentRef, onScroll: (e) => {
         listScrollRef.current = e.currentTarget.scrollTop || 0;
       } }, /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-cta" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-entry-cta session-entry-stack" }, /*#__PURE__*/
     React.createElement("div", { className: "session-guided-hero" }, /*#__PURE__*/
     React.createElement("div", { className: "session-cta-pad session-cta-pad--guided session-cta-pad--list-top" }, /*#__PURE__*/
     React.createElement("button", {
@@ -22719,9 +22753,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     )),
     React.createElement("p", { className: "session-guided-hint" }, "Hand-free. Auto-timed. We'll guide you through each move with rest between.")
     ), /*#__PURE__*/
-    React.createElement("div", { className: "session-own-path-card", role: "note", "aria-label": "Self-paced session option" }, /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path-card__label" }, "Or pick your own path"), /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path-card__body" }, "Select the exercises you want. Control your pace. See timers or reps as you go.")
+    React.createElement("hr", { className: "session-entry-divider", "aria-hidden": true }), /*#__PURE__*/
+    React.createElement("div", { className: "session-own-path", role: "note", "aria-label": "Self-paced session option" }, /*#__PURE__*/
+    React.createElement("p", { className: "session-own-path__label" }, "Or pick your own path"), /*#__PURE__*/
+    React.createElement("p", { className: "session-own-path__body" }, "Select the exercises you want. Control your pace. See timers or reps as you go.")
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "session-list-preview", "aria-label": "Exercise list for session" },
