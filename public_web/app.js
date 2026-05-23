@@ -1525,7 +1525,7 @@ function computeSessionSeconds(totalCount, fullSecondsFromLabel, activeCount) {
 // ─────────────────────────────────────────────────────────────
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap');
-  html, body, #root { width:100%; max-width:100vw; min-height:100%; min-height:100dvh; height:100dvh; margin:0; padding:0; box-sizing:border-box; background:#080d18; overflow-x:hidden; -webkit-text-size-adjust:100%; }
+  html, body, #root { width:100%; max-width:100vw; min-height:100vh; min-height:100dvh; margin:0; padding:0; box-sizing:border-box; background:#080d18; overflow-x:hidden; -webkit-text-size-adjust:100%; }
   * { box-sizing:border-box; margin:0; padding:0; }
   ::-webkit-scrollbar { width:0px; } * { scrollbar-width:none; }
   /* ── LAYOUT TOKENS (one source of truth for safe area + page padding) ── */
@@ -1710,9 +1710,9 @@ const css = `
   .app .muted { font-size: var(--global-body-size) !important; }
   .app .eyebrow,
   .app .small-label { font-size: var(--global-eyebrow-size) !important; letter-spacing: 0.12em; text-transform: uppercase; }
-  /* App-shell scrolling: single scroll container for native iOS feel */
-  .app { height: 100dvh; display: flex; flex-direction: column; overflow: hidden; min-width: 0; max-width: 100%; box-sizing: border-box; }
-  .app-body, .app-shell, .app-content { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+  /* App-shell scrolling: page grows with content; scroll on window / axis-app-scroll-root */
+  .app { min-height: 100dvh; display: flex; flex-direction: column; min-width: 0; max-width: 100%; box-sizing: border-box; }
+  .app-body, .app-shell, .app-content { flex: 1; min-height: 0; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
   /* Root scroll: smooth iOS momentum + avoid scroll chaining fights with nested strips */
   .axis-app-scroll-root {
     -webkit-overflow-scrolling: touch;
@@ -3639,13 +3639,11 @@ const css = `
     --axis-bottom-content-inset: 56px;
     min-height:100vh;
     min-height:100dvh;
-    height:100%;
     width:100%;
     max-width:100vw;
     min-width:0;
     display:flex;
     flex-direction:column;
-    overflow: hidden;
     -webkit-overflow-scrolling:touch;
     background: var(--bg-app, var(--bg-gradient));
     /* Solid fallback blocked mood gradients when combined with ::before/::after + --bg-fallback (unset) */
@@ -3787,18 +3785,26 @@ const css = `
     box-shadow: var(--glass-shadow-lg), inset 0 1px 0 var(--glass-specular);
   }
 
-  /* ── HEADER ── */
+  /* Session: natural document flow — sticky track header, content grows unbounded */
   .hdr-wrap {
-    position:fixed; top:var(--axis-session-hdr-top); bottom:0; left:0; right:0; z-index:200; width:100%;
+    position:relative;
+    width:100%;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    min-height: 0;
     background: transparent;
     box-sizing:border-box;
+    z-index: 1;
+  }
+  .app-body > .dashboard-header + .hdr-wrap {
+    padding-top: var(--axis-dashboard-fixed-h);
+    box-sizing: border-box;
   }
   /* Session: frosted strip is only the chrome row; scroll area stays transparent so app/orbs match other tabs */
   .hdr-wrap > .hdr {
+    position: sticky;
+    top: var(--axis-dashboard-fixed-h);
+    z-index: 200;
     flex-shrink: 0;
     width: 100%;
     box-sizing: border-box;
@@ -3847,8 +3853,8 @@ const css = `
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:4px;
-    padding:4px var(--page-gutter) 0;
+    gap:2px;
+    padding:0.5rem 1rem 0.625rem;
     box-sizing:border-box;
     width:100%;
   }
@@ -4439,7 +4445,52 @@ const css = `
   }
   .back-btn:active { transform: scale(0.97); opacity: 0.9; }
   .hdr-title { font-size: var(--text-xl); font-weight: 700; font-family: var(--font-display); letter-spacing:-0.02em; line-height:1.2; color:var(--text-white); }
-  .hdr-session-head .hdr-title { font-size: calc(var(--text-xl) - 7px); }
+  .hdr-session-head .hdr-title { font-size: 28px; line-height: 1.2; }
+  .hdr-session-head .back-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 50%;
+    border: 0.5px solid color-mix(in srgb, var(--mood-color) 40%, transparent) !important;
+    color: color-mix(in srgb, var(--mood-color) 72%, #fff) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .hdr-session-head .back-btn:hover {
+    border-color: color-mix(in srgb, var(--mood-color) 70%, transparent) !important;
+    background: color-mix(in srgb, var(--mood-color) 5%, transparent);
+  }
+  .app[data-night="true"] .hdr-session-head .back-btn {
+    border-color: #ff3b30 !important;
+    color: #ff3b30 !important;
+  }
+  /* Guided path: back circle-arrow matches 36px close X on START GUIDED overlay */
+  .app[data-session-path="guided"] .hdr-session-head .back-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+  .app[data-session-path="guided"] .hdr-session-head .back-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .app:has(.content--session-list) .hdr-wrap > .hdr,
+  .app:has(.content--session-guided) .hdr-wrap > .hdr {
+    background: linear-gradient(180deg, color-mix(in srgb, #0a0f1f 98%, var(--mood-color)) 0%, color-mix(in srgb, #1a1f3a 95%, var(--mood-color)) 100%);
+    backdrop-filter: blur(28px) saturate(1.32);
+    -webkit-backdrop-filter: blur(28px) saturate(1.32);
+    border-bottom: 0.5px solid color-mix(in srgb, var(--mood-color) 10%, transparent);
+    box-shadow: none;
+  }
+  .app[data-theme="light"]:not([data-night="true"]):has(.content--session-list) .hdr-wrap > .hdr,
+  .app[data-theme="light"]:not([data-night="true"]):has(.content--session-guided) .hdr-wrap > .hdr {
+    background: linear-gradient(180deg, rgba(242, 244, 246, 0.96) 0%, rgba(232, 236, 242, 0.92) 100%);
+    border-bottom-color: color-mix(in srgb, var(--mood-color) 12%, transparent);
+  }
   .hdr-meta { display:flex; gap:8px; margin-top:0; align-items:center; flex-wrap:wrap; }
   .hdr-subtitle { font-size: var(--text-sm); font-family: var(--font-ui); color:var(--text-secondary); font-style:italic; font-weight:400; line-height:1.4; }
   .hdr-dur {
@@ -4887,13 +4938,10 @@ const css = `
   /* ── CONTENT ── */
   .content { padding:0 var(--page-gutter) 24px; max-width:100%; position:relative; z-index:1; }
   .content.content--session {
-    /* Breathing room below fixed hdr chrome; LIST CTA must clear fixed tab bar (do not zero on .content--session-list) */
+    /* Breathing room below sticky hdr chrome; LIST CTA must clear fixed tab bar (do not zero on .content--session-list) */
     --session-notice-block-min-h: calc(12px * 1.4 * 5 + 12px + 2px);
-    padding-top: 14px;
+    padding-top: 6px;
     padding-bottom: calc(24px + var(--axis-tab-clearance) + var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 12px);
-    flex: 1; min-height: 0;
-    overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
     background: transparent !important;
   }
   .summary-main-stack {
@@ -5165,186 +5213,303 @@ const css = `
     padding: calc(var(--page-gutter) + 4px) var(--page-gutter) 12px;
     overflow: visible;
   }
-  .content--session-list > .session-entry-cta + .session-list-preview > .sg.sg--session-sheet:first-child,
-  .content--session-list > .session-list-preview > .sg.sg--session-sheet:first-child {
-    margin-top: 8px;
+  .content--session-list > .session-sequence-entry > .session-list-preview > .sg.sg--session-sheet:first-child {
+    margin-top: 0;
   }
-  .session-entry-cta.session-entry-stack {
+  /* Dual-path sequence entry */
+  .session-sequence-entry {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    margin: 0 0 1.25rem;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    margin: 0 0 0;
   }
-  .session-entry-cta.session-entry-stack.session-entry-card {
-    padding: 0.75rem;
+  .session-sequence-entry > .session-list-preview {
+    margin-top: 0.625rem;
+    padding-top: 0;
   }
-  .session-entry-section {
-    width: 100%;
-    box-sizing: border-box;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
+  .session-sequence-entry > .session-choose-progress-bar + .session-list-preview {
+    margin-top: 0.5rem;
   }
-  .session-entry-section--own-path {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 0.5px solid color-mix(in srgb, var(--mood-color) 12%, transparent);
-    pointer-events: none;
-    cursor: default;
-    user-select: none;
-    text-align: center;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path {
-    border-top-color: color-mix(in srgb, var(--mood-color) 14%, transparent);
-  }
-  .session-entry-cta {
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  .content--session-list > .session-entry-cta,
-  .content--session-list > .session-list-preview {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  .content--session-list > .session-entry-cta + .session-list-preview {
+  .session-sequence-entry > .session-list-preview > .sg.sg--session-sheet:first-child {
     margin-top: 0;
     padding-top: 0;
   }
-  .session-entry-card {
+  .session-sequence-entry > .session-list-preview > .sg.sg--session-sheet:first-child .purpose-note.purpose-note--guided {
+    margin-top: 0;
+    margin-bottom: 6px;
+  }
+  .session-entry-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 14px;
-    padding: 0.75rem;
-    background: color-mix(in srgb, var(--mood-color) 4%, transparent);
-    border: 0.5px solid color-mix(in srgb, var(--mood-color) 12%, transparent);
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    margin-bottom: 0.5rem;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-card {
-    background: color-mix(in srgb, var(--mood-color) 4%, transparent);
-    border-color: color-mix(in srgb, var(--mood-color) 14%, transparent);
+  .session-choose-progress-bar,
+  .session-choose-progress-pin {
+    box-sizing: border-box;
+    background: var(--tab-bg);
+    backdrop-filter: blur(16px) saturate(1.25);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
+    border: 1px solid var(--border);
   }
-  .session-entry-section--guided .session-cta-pad--guided.session-cta-pad--list-top {
-    margin: 0;
-    padding: 0;
-    width: 100%;
+  .session-choose-progress-bar {
+    margin: 0.625rem calc(-1 * var(--page-gutter)) 0;
+    padding: 8px var(--page-gutter);
+    border-radius: 10px;
   }
-  .session-entry-micro-wrap {
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    line-height: 0;
+  .session-choose-progress-bar--pinned {
+    visibility: hidden;
   }
-  .session-entry-section--guided .session-entry-micro-wrap {
-    margin-top: 0.35rem;
-    margin-bottom: -0.3rem;
+  .session-choose-progress-pin {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 43px);
+    left: 0;
+    right: 0;
+    z-index: 199;
+    padding: 8px max(1rem, var(--page-gutter, 16px));
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
   }
-  .session-entry-section--own-path .session-entry-micro-wrap--body {
-    margin-top: 0.05rem;
+  body > .session-choose-progress-pin {
+    background: rgba(10, 15, 31, 0.96);
+    backdrop-filter: blur(16px) saturate(1.25);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  body > .session-choose-progress-pin[data-theme="light"]:not([data-night="true"]) {
+    background: rgba(242, 244, 246, 0.96);
+    border-bottom-color: rgba(15, 30, 46, 0.12);
+  }
+  body > .session-choose-progress-pin[data-night="true"] {
+    background: #000000;
+    border-bottom-color: rgba(255, 59, 48, 0.2);
+  }
+  body > .session-choose-progress-pin .tab-prog-row__line {
+    color: rgba(255, 255, 255, 0.72);
+  }
+  body > .session-choose-progress-pin[data-theme="light"]:not([data-night="true"]) .tab-prog-row__line {
+    color: rgba(15, 30, 46, 0.84);
+  }
+  body > .session-choose-progress-pin .tab-prog-row__suffix {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  body > .session-choose-progress-pin[data-theme="light"]:not([data-night="true"]) .tab-prog-row__suffix {
+    color: rgba(15, 30, 46, 0.74);
+  }
+  body > .session-choose-progress-pin .fav-toggle.reset-pill {
+    color: rgba(255, 255, 255, 0.5) !important;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+  body > .session-choose-progress-pin[data-theme="light"]:not([data-night="true"]) .fav-toggle.reset-pill {
+    color: rgba(15, 30, 46, 0.74) !important;
+  }
+  .session-choose-progress-bar .tab-prog-row,
+  .session-choose-progress-pin .tab-prog-row,
+  .session-entry-progress-row .tab-prog-row {
     margin-bottom: 0;
   }
-  .session-entry-continue-cue {
+  .session-choose-progress-bar .tab-prog-row__top .prog-bar,
+  .session-choose-progress-pin .tab-prog-row__top .prog-bar,
+  .session-entry-progress-row .tab-prog-row__top .prog-bar {
+    flex: 1 1 0%;
+    min-width: 56px;
+    height: 4px !important;
+    border-radius: 2px !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    overflow: hidden;
+    margin: 0;
+    align-self: center;
+    box-sizing: border-box;
+  }
+  .session-choose-progress-bar .tab-prog-row__top .prog-fill,
+  .session-choose-progress-pin .tab-prog-row__top .prog-fill,
+  .session-entry-progress-row .tab-prog-row__top .prog-fill {
+    height: 4px !important;
+    min-height: 4px !important;
+    border-radius: 2px !important;
+    background: var(--mood-accent) !important;
+    box-shadow: none !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-choose-progress-bar .tab-prog-row__top .prog-bar,
+  .app[data-theme="light"]:not([data-night="true"]) .session-choose-progress-pin .tab-prog-row__top .prog-bar,
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-progress-row .tab-prog-row__top .prog-bar {
+    background: rgba(15, 30, 46, 0.23) !important;
+  }
+  .app[data-night="true"] .session-choose-progress-bar .tab-prog-row__top .prog-bar,
+  .app[data-night="true"] .session-choose-progress-pin .tab-prog-row__top .prog-bar,
+  .app[data-night="true"] .session-entry-progress-row .tab-prog-row__top .prog-bar {
+    background: #000000 !important;
+    border: none !important;
+  }
+  .app[data-night="true"] .session-choose-progress-bar .tab-prog-row__top .prog-fill,
+  .app[data-night="true"] .session-choose-progress-pin .tab-prog-row__top .prog-fill,
+  .app[data-night="true"] .session-entry-progress-row .tab-prog-row__top .prog-fill {
+    background: #FF3B30 !important;
+    box-shadow: none !important;
+  }
+  body > .session-choose-progress-pin .tab-prog-row__top .prog-bar {
+    background: rgba(255, 255, 255, 0.10) !important;
+  }
+  body > .session-choose-progress-pin[data-theme="light"]:not([data-night="true"]) .tab-prog-row__top .prog-bar {
+    background: rgba(15, 30, 46, 0.23) !important;
+  }
+  body > .session-choose-progress-pin[data-night="true"] .tab-prog-row__top .prog-bar {
+    background: #000000 !important;
+  }
+  body > .session-choose-progress-pin[data-night="true"] .tab-prog-row__top .prog-fill {
+    background: #FF3B30 !important;
+  }
+  .session-choose-progress-bar .tab-prog-row__top .fav-toggle.reset-pill,
+  .session-choose-progress-pin .tab-prog-row__top .fav-toggle.reset-pill,
+  .session-entry-progress-row .tab-prog-row__top .fav-toggle.reset-pill {
+    flex-shrink: 0;
+    margin-left: 0;
+    color: var(--text-dimmer) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-choose-progress-bar .tab-prog-row__line,
+  .app[data-theme="light"]:not([data-night="true"]) .session-choose-progress-pin .tab-prog-row__line,
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-progress-row .tab-prog-row__line {
+    color: rgba(15, 30, 46, 0.84);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-choose-progress-bar .tab-prog-row__suffix,
+  .app[data-theme="light"]:not([data-night="true"]) .session-choose-progress-pin .tab-prog-row__suffix,
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-progress-row .tab-prog-row__suffix {
+    color: rgba(15, 30, 46, 0.74);
+  }
+  .app[data-session-path="choose"] .hdr-wrap > .hdr {
+    position: relative;
+    top: auto;
+    z-index: 1;
+  }
+  .content--session-list-choose > .session-sequence-entry > .session-path-options {
+    margin-top: 0;
+  }
+  .content--session-list:not(.content--session-list-choose) > .session-sequence-entry > .session-path-options {
+    margin-top: 1rem;
+  }
+  .session-path-options {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .session-path-options__rule {
+    height: 1px;
+    margin: 0;
+    border: 0;
+    background: color-mix(in srgb, var(--mood-color) 12%, transparent);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-path-options__rule {
+    background: rgba(15, 30, 46, 0.12);
+  }
+  .session-path-option {
+    background: rgba(45, 55, 95, 0.3);
+    border: 0.5px solid color-mix(in srgb, var(--mood-color) 15%, transparent);
+    border-radius: 12px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .session-path-option:hover {
+    background: rgba(45, 55, 95, 0.5);
+    border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
+  }
+  .session-path-option--active {
+    background: color-mix(in srgb, var(--mood-color) 12%, transparent);
+    border-color: color-mix(in srgb, var(--mood-color) 40%, transparent);
+  }
+  .session-path-option__label {
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
+    margin-bottom: 0.5rem;
+  }
+  .session-path-option__title {
+    font-family: var(--font-ui), system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+    color: var(--text-white);
+    -webkit-text-fill-color: var(--text-white);
+    line-height: 1.25;
+  }
+  .session-path-option__desc {
+    margin: 0 0 1rem;
+    font-family: var(--font-ui), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-path-option__desc {
+    color: rgba(15, 30, 46, 0.65);
+  }
+  .session-path-btn {
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 6px;
+    flex: 1;
     width: 100%;
-    margin-top: 0.65rem;
-    margin-bottom: -2px;
-    color: rgba(255, 255, 255, 0.72);
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.72);
-    line-height: 0;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-continue-cue {
-    color: rgba(15, 30, 46, 0.58);
-    -webkit-text-fill-color: rgba(15, 30, 46, 0.58);
-  }
-  .session-entry-continue-cue .session-own-path__continue {
-    margin: 0;
-    padding: 0;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
     font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.45px;
-    text-transform: uppercase;
-    line-height: 1.1;
-    text-align: center;
-    color: inherit;
-    -webkit-text-fill-color: inherit;
-    transform: scale(0.75);
-    transform-origin: center bottom;
-    -webkit-text-size-adjust: none;
-    text-size-adjust: none;
-  }
-  .session-entry-continue-cue__chev {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    color: inherit;
-    stroke: currentColor;
-    margin-top: -1px;
-  }
-  .session-entry-microcopy {
-    flex: 0 0 auto;
-    width: 133.334%;
-    max-width: 26.667em;
-    margin: 0;
-    padding: 0;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
-    font-family: var(--font-ui), system-ui, sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0;
-    text-transform: none;
-    text-align: center;
-    line-height: 1.45;
-    transform: scale(0.75);
-    transform-origin: top center;
-    -webkit-text-size-adjust: none;
-    text-size-adjust: none;
   }
-  .session-entry-section--guided .session-guided-hint.session-entry-microcopy,
-  .session-entry-section--own-path .session-own-path__body.session-entry-microcopy {
-    color: rgba(255, 255, 255, 0.6);
+  .session-path-btn--primary {
+    border: none;
+    background: linear-gradient(135deg, var(--mood-color) 0%, color-mix(in srgb, var(--mood-color) 82%, #000) 100%);
+    color: var(--accent-btn-text, #0a0f1f);
+    -webkit-text-fill-color: var(--accent-btn-text, #0a0f1f);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--guided .session-guided-hint.session-entry-microcopy,
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__body.session-entry-microcopy {
-    color: rgba(15, 30, 46, 0.62);
+  .session-path-btn--primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--mood-color) 30%, transparent);
   }
-  .session-entry-primary-label {
-    display: block;
-    margin: 0;
-    padding: 0;
-    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.06em !important;
-    text-transform: uppercase !important;
-    line-height: 1.1 !important;
-    -webkit-text-size-adjust: none !important;
-    text-size-adjust: none !important;
+  .session-path-btn--primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
-  .session-entry-section--own-path .session-own-path__label.session-entry-primary-label {
-    margin: 0 0 0.3rem;
-    color: var(--mood-color) !important;
-    -webkit-text-fill-color: var(--mood-color) !important;
+  .session-path-btn--outline {
+    background: none;
+    border: 0.5px solid var(--mood-color);
+    color: var(--mood-color);
+    -webkit-text-fill-color: var(--mood-color);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__label.session-entry-primary-label,
-  .app[data-night="true"] .session-entry-section--own-path .session-own-path__label.session-entry-primary-label {
-    color: var(--mood-color) !important;
-    -webkit-text-fill-color: var(--mood-color) !important;
+  .session-path-btn--outline:hover {
+    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
+  }
+  .app[data-night="true"] .session-path-btn--primary {
+    background: #ff3b30;
+    background-color: #ff3b30;
+    color: #000000;
+    -webkit-text-fill-color: #000000;
+  }
+  .content--session-list > .session-sequence-entry,
+  .content--session-list > .session-sequence-entry > .session-list-preview {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   /* LIST tab: flat sections + premium exercise cards */
   .content--session-list {
@@ -6205,6 +6370,89 @@ const css = `
     width: 11px;
     height: 11px;
     display: block;
+  }
+  /* Entry select layout — checkbox + bookmark/play actions */
+  .content--session-list .er-list-sheet--entry-select {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-center {
+    flex: 1;
+    min-width: 0;
+  }
+  .content--session-list .session-exercise-select {
+    flex-shrink: 0;
+    align-self: flex-start;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    margin-top: 4px;
+    box-sizing: border-box;
+    border: 1.5px solid var(--mood-color);
+    border-radius: 3px;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .content--session-list .session-exercise-select--on {
+    background: var(--mood-color);
+    border-color: var(--mood-color);
+  }
+  .content--session-list .session-exercise-select__tick {
+    stroke: var(--accent-btn-text, #0a0f1f);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .content--session-list .session-exercise-select--on .session-exercise-select__tick {
+    opacity: 1;
+  }
+  .app[data-night="true"] .content--session-list .session-exercise-select--on .session-exercise-select__tick {
+    stroke: #000000;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-pin-skip-row {
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 2px;
+    gap: 2px;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-icon-btn {
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    background: transparent !important;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-icon-btn:hover,
+  .content--session-list .er-list-sheet--entry-select .er-list-icon-btn:active {
+    background: transparent !important;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-desc {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-meta-dur,
+  .content--session-list .er-list-sheet--entry-select .er-list-meta-dot,
+  .content--session-list .er-list-sheet--entry-select .er-list-meta-zone {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+  .content--session-list .er-list-sheet--entry-select .er-list-meta-chev-row {
+    min-height: 0;
   }
   /* Left accent bar removed — pin / border carry pinned state */
   .content--session .er--list-card-a {
@@ -8653,8 +8901,30 @@ const css = `
   }
   .guided-overlay[data-phase="instruction"] .exercise-carousel--guided-flow-frame.exercise-carousel--large .exercise-carousel__nav-arrows {
     justify-self: end !important;
-    min-width: 92px !important;
+    min-width: 76px !important;
     flex-shrink: 0 !important;
+  }
+  .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__nav-btn {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    width: 36px;
+    height: 36px;
+    border-radius: 50% !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    box-sizing: border-box;
+  }
+  .guided-overlay[data-theme="light"][data-night="false"] .exercise-carousel--guided-flow-frame .exercise-carousel__nav-btn {
+    border-color: rgba(15, 30, 46, 0.1) !important;
+    background: rgba(15, 30, 46, 0.06) !important;
+  }
+  .guided-overlay[data-night="true"] .exercise-carousel--guided-flow-frame .exercise-carousel__nav-btn {
+    border-color: #ff3b30 !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+  }
+  .guided-overlay .exercise-carousel--guided-flow-frame .exercise-carousel__nav-btn svg {
+    width: 14px !important;
+    height: 14px !important;
   }
   /* Lock nav position by enforcing a minimum body height (keeps arrows / step-count stable) */
   .exercise-carousel--large .exercise-carousel__body {
@@ -13535,7 +13805,7 @@ const css = `
   }
 
   /* MOOD: clearance above portaled tab bar. iOS often under-scrolls when only padding-bottom is used on overflow:auto
-     flex children — a real ::after flex item extends scrollHeight reliably. BASE .app uses overflow:hidden (not scroll). */
+     flex children — a real ::after flex item extends scrollHeight reliably. */
   .app--nav-gap-tight .app-body {
     scroll-padding-bottom: calc(var(--axis-tab-h) + env(safe-area-inset-bottom, 0px) + 8px);
     overscroll-behavior-y: contain;
@@ -16065,7 +16335,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
     }))));
 }
 
-function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onFav, note, onNote, nextName, hideTimer = false, hideDone = false, exerciseDurationSeconds, theme = "dark", ultraNight = false, trackId, listRailLayout = false, guidedPreviewLayout = false, listSectionLabel = "", firstBookmarkTooltip = false }) {
+function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onFav, note, onNote, nextName, hideTimer = false, hideDone = false, exerciseDurationSeconds, theme = "dark", ultraNight = false, trackId, listRailLayout = false, guidedPreviewLayout = false, listSectionLabel = "", firstBookmarkTooltip = false, entrySelectLayout = false, selected = true, onSelectToggle }) {
   const rowRef = useRef(null);
   const sessionDetailPanelRef = useRef(null);
   const [armed, setArmed] = React.useState(false);
@@ -16124,6 +16394,17 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   const listRailExpandSvgEl = /*#__PURE__*/React.createElement("div", {
     className: "er-list-expand-chev" + (open ? " er-list-expand-chev--open" : ""),
     "aria-hidden": true }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.75", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, open ? /*#__PURE__*/React.createElement("polyline", { points: "18 15 12 9 6 15" }) : /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" })));
+  const entrySelectCheckboxEl = entrySelectLayout && /*#__PURE__*/React.createElement("div", {
+    className: "session-exercise-select" + (selected ? " session-exercise-select--on" : ""),
+    role: "checkbox",
+    tabIndex: 0,
+    "aria-checked": selected ? "true" : "false",
+    "aria-label": selected ? "Deselect exercise" : "Select exercise",
+    onClick: (e) => { e.stopPropagation(); onSelectToggle && onSelectToggle(); },
+    onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onSelectToggle && onSelectToggle(); } }
+  }, /*#__PURE__*/React.createElement("svg", { width: "10", height: "10", viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/
+  React.createElement("polyline", { points: "20 6 9 17 4 12", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", className: "session-exercise-select__tick" })
+  ));
   const listRailMetaChevRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-meta-chev-row" },
   /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row-wrap" },
   sessionDurRaw || listMetaSecondary ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" + (hideDone ? " er-list-meta-row--guided" : "") },
@@ -16131,7 +16412,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   sessionDurRaw && listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-dot", "aria-hidden": true }, "\u00B7") : null,
   listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-zone" }, listMetaSecondary) : null
   ) : null),
-  listRailExpandSvgEl);
+  entrySelectLayout ? null : listRailExpandSvgEl);
 
   const listRailControlsEl = /*#__PURE__*/React.createElement("div", { className: "er-list-controls" }, rowActionsEl, unicodeChevronEl);
   const guidedToolbarEl = /*#__PURE__*/React.createElement("div", { className: "er-guided-toolbar" }, /*#__PURE__*/React.createElement("div", { className: "er-guided-controls" }, rowActionsEl, unicodeChevronEl));
@@ -16144,16 +16425,22 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     React.createElement("div", { className: `er-card${open ? " er-card--open" : ""}${listRailLayout && faved ? " er-card--pinned" : ""}${listRailLayout && skipped ? " er-card--list-skipped" : ""}${listRailLayout && done && !skipped ? " er-card--complete" : ""}` }, /*#__PURE__*/
     React.createElement("div", { ref: rowRef, className: `er ${open ? "open" : ""} ${skipped ? "skipped" : ""}${listRailLayout ? " er--list-rail er--list-card-a" : ""}${listRailLayout && hideDone ? " er--list-card-a--guided" : ""}`, onClick: () => {axisHapticTick();onExpand();}, style: {} },
     listRailLayout ? /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement("div", { className: "er-list-sheet" + (hideDone ? " er-list-sheet--guided" : "") },
-    !hideDone && chkEl,
-    /*#__PURE__*/    React.createElement("div", { className: "er-list-center" }, /*#__PURE__*/
-    React.createElement("div", { className: "er-list-title-row" }, /*#__PURE__*/
+    /*#__PURE__*/React.createElement("div", { className: "er-list-sheet" + (hideDone ? " er-list-sheet--guided" : "") + (entrySelectLayout ? " er-list-sheet--entry-select" : "") },
+    entrySelectLayout ? entrySelectCheckboxEl : !hideDone && chkEl,
+    /*#__PURE__*/    React.createElement("div", { className: "er-list-center" }, entrySelectLayout ? /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement("div", { className: `er-list-title ${done && !skipped ? "er-list-title--done" : ""} ${skipped ? "er-list-title--skipped" : ""}` }, listTabExerciseTitle),
+    /*#__PURE__*/React.createElement("div", { className: `er-list-desc er-list-desc--rail${done && !skipped ? " er-list-desc--done" : ""}` }, ex.sub),
+    listRailMetaChevRowEl
+    ) : /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement("div", { className: "er-list-title-row" }, /*#__PURE__*/
     React.createElement("div", { className: "er-list-title-wrap" }, /*#__PURE__*/
     React.createElement("div", { className: `er-list-title ${done && !skipped ? "er-list-title--done" : ""} ${skipped ? "er-list-title--skipped" : ""}` }, listTabExerciseTitle)),
     listRailPinskipRowEl),
     /*#__PURE__*/React.createElement("div", { className: `er-list-desc er-list-desc--rail${done && !skipped ? " er-list-desc--done" : ""}` }, ex.sub),
     listRailMetaChevRowEl
-    ))
+    )),
+    entrySelectLayout ? listRailPinskipRowEl : null
+    )
     ) : /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement("div", { className: guidedPreviewLayout ? "er-top er-top--guided-preview" : "er-top" },
     /*#__PURE__*/React.createElement("div", { className: "ei er-top-title-wrap" }, /*#__PURE__*/
@@ -21198,6 +21485,12 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const listScrollRef = useRef(0);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
   const [purposeOpenBySection, setPurposeOpenBySection] = useState(() => ({}));
+  const [sessionEntryPath, setSessionEntryPath] = useState("guided");
+  const [exerciseSelected, setExerciseSelected] = useState({});
+  const sessionListPreviewRef = useRef(null);
+  const sessionHeadRef = useRef(null);
+  const chooseProgressInlineRef = useRef(null);
+  const [chooseProgressPinned, setChooseProgressPinned] = useState(false);
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
   const [homeSection, setHomeSection] = useState(() => {
     const v = storageGet("axis_home_section", null);
@@ -21546,6 +21839,83 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   }, [view, systemPanel]);
   useEffect(() => {storageSet(AXIS_SESSION_LIST_DONE_KEY, listDone);}, [listDone]);
   useEffect(() => {storageSet(AXIS_SESSION_GUIDED_DONE_KEY, guidedDone);}, [guidedDone]);
+  useEffect(() => {
+    const ids = getAll(track) || [];
+    const next = {};
+    ids.forEach((e) => { next[e.id] = true; });
+    setExerciseSelected(next);
+    setSessionEntryPath("guided");
+  }, [track]);
+  useLayoutEffect(() => {
+    if (view !== "home" || !hasActiveSession || sessionEntryPath !== "choose") {
+      setChooseProgressPinned(false);
+      return;
+    }
+    let io = null;
+    let attachedEl = null;
+    let raf = 0;
+
+    const getPinTop = () => {
+      const dash = document.querySelector(".dashboard-header");
+      return dash ? dash.getBoundingClientRect().bottom : 49;
+    };
+
+    const syncPinFromRect = () => {
+      const el = chooseProgressInlineRef.current;
+      if (!el) return;
+      const shouldPin = el.getBoundingClientRect().top < getPinTop() - 0.5;
+      setChooseProgressPinned((prev) => (prev === shouldPin ? prev : shouldPin));
+    };
+
+    const attachObserver = () => {
+      const el = chooseProgressInlineRef.current;
+      if (!el) return;
+      if (el === attachedEl && io) return;
+      if (io) io.disconnect();
+      attachedEl = el;
+      const top = Math.ceil(getPinTop());
+      io = new IntersectionObserver(
+        ([entry]) => {
+          setChooseProgressPinned((prev) => {
+            const next = !entry.isIntersecting;
+            return prev === next ? prev : next;
+          });
+        },
+        { root: null, rootMargin: `-${top}px 0px 0px 0px`, threshold: 0 }
+      );
+      io.observe(el);
+      syncPinFromRect();
+    };
+
+    const scheduleSync = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        attachObserver();
+        syncPinFromRect();
+      });
+    };
+
+    scheduleSync();
+    const onScroll = () => scheduleSync();
+    document.addEventListener("scroll", onScroll, { passive: true, capture: true });
+    window.addEventListener("resize", scheduleSync);
+    let ro = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(scheduleSync);
+      const dash = document.querySelector(".dashboard-header");
+      if (dash) ro.observe(dash);
+      if (chooseProgressInlineRef.current) ro.observe(chooseProgressInlineRef.current);
+    }
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      document.removeEventListener("scroll", onScroll, true);
+      window.removeEventListener("resize", scheduleSync);
+      if (io) io.disconnect();
+      if (ro) ro.disconnect();
+      setChooseProgressPinned(false);
+    };
+  }, [view, hasActiveSession, sessionEntryPath, track]);
   useEffect(() => {storageSet("axis_skipped", skipped);}, [skipped]);
   useEffect(() => {storageSet("axis_favs", favs);}, [favs]);
   useEffect(() => {storageSet("axis_notes", notes);}, [notes]);
@@ -21653,6 +22023,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const listTotalDone = activeAll.filter((e) => listDoneSlice[e.id]).length;
   const guidedTotalDone = activeAll.filter((e) => guidedDoneSlice[e.id]).length;
   const totalDone = listTotalDone;
+  const selectedCount = activeAll.filter((e) => exerciseSelected[e.id] !== false).length;
+  const selectionPct = TOTAL > 0 ? Math.round(selectedCount / TOTAL * 100) : 0;
   const perMoveSeconds = exerciseDuration || 45;
   const activeCount = filteredAll.length;
   const sessionSeconds = activeCount * perMoveSeconds;
@@ -21696,6 +22068,32 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     setListFirstSessionCelebration(false);
     for (const exId of trackExIds) sessionExerciseLoggedRef.current.delete(exId);
     setOpenId(null);
+  };
+  const resetExerciseSelection = () => {
+    axisHapticTick();
+    const next = {};
+    activeAll.forEach((e) => { next[e.id] = false; });
+    setExerciseSelected(next);
+  };
+  const toggleExerciseSelected = (id) => {
+    axisHapticTick();
+    setExerciseSelected((prev) => ({ ...prev, [id]: !prev[id] }));
+    setSessionEntryPath("choose");
+  };
+  const scrollToExerciseList = () => {
+    setSessionEntryPath("choose");
+    const scrollAfterMount = () => {
+      const target = chooseProgressInlineRef.current || sessionListPreviewRef.current;
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.setTimeout(() => {
+        const el = chooseProgressInlineRef.current;
+        if (!el) return;
+        const dash = document.querySelector(".dashboard-header");
+        const pinTop = dash ? dash.getBoundingClientRect().bottom : 49;
+        if (el.getBoundingClientRect().top < pinTop) setChooseProgressPinned(true);
+      }, 420);
+    };
+    requestAnimationFrame(() => requestAnimationFrame(scrollAfterMount));
   };
   const startGuidedSession = () => {
     if (filteredAll.length === 0) return;
@@ -22767,26 +23165,67 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   ) :
   null;
 
+  const renderSessionProgressControls = () => /*#__PURE__*/React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
+  React.createElement("div", { className: "tab-prog-row__top" }, /*#__PURE__*/
+  React.createElement("span", {
+    className: "tab-prog-row__line",
+    "aria-label": `${selectedCount} of ${TOTAL} exercises selected`
+  }, /*#__PURE__*/
+  React.createElement("span", {
+    className: "tab-prog-row__done" + (selectedCount === 0 ? " tab-prog-row__done--zero" : "")
+  }, selectedCount), /*#__PURE__*/
+  React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL)
+  ), /*#__PURE__*/
+  React.createElement("div", {
+    className: "prog-bar",
+    role: "progressbar",
+    "aria-valuemin": 0,
+    "aria-valuemax": Math.max(1, TOTAL),
+    "aria-valuenow": selectedCount,
+    "aria-label": "Exercises selected"
+  }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${selectionPct}%` } })), /*#__PURE__*/
+  React.createElement("button", {
+    type: "button",
+    className: "fav-toggle reset-pill",
+    onClick: resetExerciseSelection
+  }, "Reset")
+  )
+  );
+  const sessionChooseProgressPinEl = sessionEntryPath === "choose" && chooseProgressPinned ? /*#__PURE__*/React.createElement("div", {
+    className: "session-choose-progress-pin",
+    "data-theme": theme,
+    "data-night": nightMode ? "true" : "false",
+    "aria-live": "polite"
+  }, renderSessionProgressControls()) : null;
+  const sessionChooseProgressBarEl = sessionEntryPath === "choose" ? /*#__PURE__*/React.createElement("div", {
+    className: "session-choose-progress-bar" + (chooseProgressPinned ? " session-choose-progress-bar--pinned" : ""),
+    ref: chooseProgressInlineRef,
+    "aria-live": chooseProgressPinned ? "off" : "polite"
+  }, renderSessionProgressControls()) : null;
+  const sessionProgressInlineEl = sessionEntryPath !== "choose" ? /*#__PURE__*/React.createElement("div", {
+    className: "session-entry-progress-row",
+    "aria-live": "polite"
+  }, renderSessionProgressControls()) : null;
+
   return (/*#__PURE__*/
     React.createElement(React.Fragment, null,
     guidedOverlayEl && typeof document !== "undefined" && document.body ?
     ReactDOM.createPortal(guidedOverlayEl, document.body) :
+    null,
+    sessionChooseProgressPinEl && typeof document !== "undefined" && document.body ?
+    ReactDOM.createPortal(sessionChooseProgressPinEl, document.body) :
     null, /*#__PURE__*/
-    React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
+    React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false", "data-session-path": sessionEntryPath }, /*#__PURE__*/
     React.createElement("style", null, css), /*#__PURE__*/
     React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
-    React.createElement("div", { className: "app-body" }, /*#__PURE__*/
+    React.createElement("div", { className: "app-body axis-app-scroll-root" }, /*#__PURE__*/
     dashboardHeaderEl, /*#__PURE__*/
     React.createElement("div", { className: "hdr-wrap" }, /*#__PURE__*/
     React.createElement("div", { className: "hdr" }, /*#__PURE__*/
-    React.createElement("div", { className: "hdr-session-head" }, /*#__PURE__*/
+    React.createElement("div", { className: "hdr-session-head", ref: sessionHeadRef }, /*#__PURE__*/
     React.createElement("div", { className: "hdr-session-toprow" }, /*#__PURE__*/
     React.createElement("button", { type: "button", className: "back-btn", onClick: goHome, "aria-label": "Back",
-      style: {
-        border: `1px solid ${sessionBackBorderColor}`,
-        color: sessionBackIconColor,
-        WebkitTapHighlightColor: "transparent"
-      } }, /*#__PURE__*/
+      style: { WebkitTapHighlightColor: "transparent" } }, /*#__PURE__*/
     React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
     React.createElement("path", { d: "M19 12H5M12 5l-7 7 7 7" }))
     ), /*#__PURE__*/
@@ -22794,63 +23233,56 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     ), /*#__PURE__*/
     React.createElement("div", { className: "hdr-left" }, /*#__PURE__*/
     React.createElement("div", { className: "hdr-title" }, TRACKS[track].label)
-    ),
-    /*#__PURE__*/React.createElement("div", { className: "hdr-session-progress" }, /*#__PURE__*/
-    React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
-    showSessionBookmarkExerciseHint ? /*#__PURE__*/React.createElement("span", { className: "tab-prog-row__bookmark-hint" }, "Bookmark exercises to save them.") : null, /*#__PURE__*/
-    React.createElement("div", { className: "tab-prog-row__top" }, /*#__PURE__*/
-    React.createElement("span", { className: "tab-prog-row__line", "aria-label": `${totalDone} of ${TOTAL} exercises completed` }, /*#__PURE__*/
-    React.createElement("span", { className: "tab-prog-row__done" + (totalDone === 0 ? " tab-prog-row__done--zero" : "") }, totalDone), /*#__PURE__*/
-    React.createElement("span", { className: "tab-prog-row__suffix" }, " / ", TOTAL)
-    ), /*#__PURE__*/
-    React.createElement("button", { type: "button", className: "fav-toggle reset-pill", onClick: resetSessionTabProgress }, "Reset")), /*#__PURE__*/
-    React.createElement("div", {
-      className: "prog-bar",
-      role: "progressbar",
-      "aria-valuemin": 0,
-      "aria-valuemax": Math.max(1, TOTAL),
-      "aria-valuenow": Math.min(Math.round(listTotalDone), Math.max(1, TOTAL)),
-      "aria-label": "Session exercises completed"
-    }, /*#__PURE__*/React.createElement("div", { className: "prog-fill", style: { width: `${pct}%` } })),
-    TOTAL > 0 && listTotalDone === TOTAL ? /*#__PURE__*/React.createElement("div", { className: "list-session-complete-stack" },
-      listFirstSessionCelebration ? /*#__PURE__*/React.createElement("div", { className: "axis-celebration-first-session axis-celebration-first-session--list" }, "Your first AXIS session.") : null,
-      /*#__PURE__*/React.createElement("div", { className: "list-session-complete-title" }, "Session complete.")
-    ) : null
     )
     )
     )
     ), /*#__PURE__*/
 
-    React.createElement("div", { className: "content content--session content--session-list", ref: sessionContentRef, onScroll: (e) => {
+    React.createElement("div", { className: "content content--session content--session-list" + (sessionEntryPath === "choose" ? " content--session-list-choose" : ""), ref: sessionContentRef, onScroll: (e) => {
         listScrollRef.current = e.currentTarget.scrollTop || 0;
       } }, /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-cta session-entry-stack session-entry-card" }, /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-section session-entry-section--guided" }, /*#__PURE__*/
-    React.createElement("div", { className: "session-cta-pad session-cta-pad--guided session-cta-pad--list-top" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-sequence-entry", "aria-label": "Session entry" }, /*#__PURE__*/
+    sessionProgressInlineEl, /*#__PURE__*/
+    React.createElement("div", { className: "session-path-options" }, /*#__PURE__*/
+    React.createElement("div", {
+      className: "session-path-option" + (sessionEntryPath === "guided" ? " session-path-option--active" : ""),
+      role: "button",
+      tabIndex: 0,
+      onClick: () => { axisHapticTick(); setSessionEntryPath("guided"); },
+      onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); axisHapticTick(); setSessionEntryPath("guided"); } }
+    }, /*#__PURE__*/
+    React.createElement("div", { className: "session-path-option__label" }, "Start Here"), /*#__PURE__*/
+    React.createElement("div", { className: "session-path-option__title" }, "\u25B6 Guided Session"), /*#__PURE__*/
+    React.createElement("p", { className: "session-path-option__desc" }, "Hands-free. Auto-timed. We guide you through each move with rest in between."), /*#__PURE__*/
     React.createElement("button", {
-      className: "fv-cta ultra-filled-btn axis-session-primary-cta axis-session-primary-cta--hero",
+      type: "button",
+      className: "session-path-btn session-path-btn--primary",
       disabled: filteredAll.length === 0,
       "aria-label": "Start guided session",
-      onClick: startGuidedSession }, /*#__PURE__*/
-    React.createElement("div", { className: "axis-guided-start-row" }, /*#__PURE__*/
-    React.createElement("span", { className: "session-entry-primary-label" }, "START GUIDED"))
-    )),
-    React.createElement("div", { className: "session-entry-micro-wrap" }, /*#__PURE__*/
-    React.createElement("p", { className: "session-guided-hint session-entry-microcopy" }, "Hands-Free \u2022 Auto-Timed \u2022 Guided Flow")
+      onClick: (e) => { e.stopPropagation(); startGuidedSession(); }
+    }, "\u25B6 START GUIDED")
+    ), /*#__PURE__*/
+    React.createElement("hr", { className: "session-path-options__rule", "aria-hidden": true }), /*#__PURE__*/
+    React.createElement("div", {
+      className: "session-path-option" + (sessionEntryPath === "choose" ? " session-path-option--active" : ""),
+      role: "button",
+      tabIndex: 0,
+      onClick: scrollToExerciseList,
+      onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); scrollToExerciseList(); } }
+    }, /*#__PURE__*/
+    React.createElement("div", { className: "session-path-option__label" }, "Customize"), /*#__PURE__*/
+    React.createElement("div", { className: "session-path-option__title" }, "Pick Your Exercises"), /*#__PURE__*/
+    React.createElement("p", { className: "session-path-option__desc" }, "Select which exercises you want. Control your pace. See timers and reps as you go."), /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "session-path-btn session-path-btn--outline",
+      "aria-label": "Choose exercises",
+      onClick: (e) => { e.stopPropagation(); scrollToExerciseList(); }
+    }, "\u2713 CHOOSE EXERCISES")
     )
     ), /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-section session-entry-section--own-path", role: "note", "aria-label": "Self-paced session option" }, /*#__PURE__*/
-    React.createElement("div", { className: "session-own-path__label session-entry-primary-label" }, "Or pick your own path"), /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-micro-wrap session-entry-micro-wrap--body" }, /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path__body session-entry-microcopy" }, "Choose Moves \u2022 Control Pace \u2022 Timers or Reps")
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-continue-cue", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path__continue" }, "CONTINUE BELOW"), /*#__PURE__*/
-    React.createElement(AxisChevronCaret, { expanded: true, className: "session-entry-continue-cue__chev" })
-    )
-    )
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "session-list-preview", "aria-label": "Exercise list for session" },
+    sessionChooseProgressBarEl, /*#__PURE__*/
+    React.createElement("div", { className: "session-list-preview", ref: sessionListPreviewRef, "aria-label": "Exercise list for session" },
     visibleSections.map((sec) => /*#__PURE__*/
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
@@ -22884,6 +23316,9 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         ultraNight: nightMode,
         trackId: track,
         listRailLayout: true,
+        entrySelectLayout: true,
+        selected: exerciseSelected[ex.id] !== false,
+        onSelectToggle: () => toggleExerciseSelected(ex.id),
         listSectionLabel: sec.label });
       if (idx !== 0) return [rowEl];
       return [/*#__PURE__*/React.createElement("div", {
@@ -23014,13 +23449,11 @@ function App() {
   }, []);
 
   const appShellStyle = {
-    height: "100dvh",
     minHeight: "100dvh",
     width: "100%",
     maxWidth: "100vw",
     display: "flex",
     flexDirection: "column",
-    overflow: "hidden",
     position: "relative",
     background: "var(--bg-gradient)",
     opacity: 1,
@@ -23029,12 +23462,8 @@ function App() {
 
   const appContentStyle = {
     flex: 1,
-    minHeight: 0,
     width: "100%",
-    maxWidth: "100vw",
-    overflowY: "auto",
-    overflowX: "hidden",
-    WebkitOverflowScrolling: "touch"
+    maxWidth: "100vw"
   };
 
   const onboardingBloomFadeMs = axisCelebrationFadeMs(400);
