@@ -3364,7 +3364,8 @@ const css = `
     height: 52px;
     border-radius: 12px;
     border: none;
-    background: var(--mood-accent);
+    background: var(--mood-color);
+    background-color: var(--mood-color);
     color: var(--accent-btn-text);
     font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
     font-size: 15px;
@@ -3375,6 +3376,13 @@ const css = `
     box-shadow: none !important;
     -webkit-text-fill-color: var(--accent-btn-text);
     -webkit-tap-highlight-color: transparent;
+  }
+  .guided-overlay[data-theme="dark"][data-night="false"] .guided-refresher-sheet .guided-refresher-done:not(.guided-cta-fill),
+  .guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-sheet .guided-refresher-done:not(.guided-cta-fill),
+  .guided-overlay[data-phase="intro"][data-theme="dark"][data-night="false"] .guided-refresher-done:not(.guided-cta-fill),
+  .guided-overlay[data-phase="intro"][data-theme="light"][data-night="false"] .guided-refresher-done:not(.guided-cta-fill) {
+    background: var(--mood-color) !important;
+    background-color: var(--mood-color) !important;
   }
   .guided-overlay[data-night="true"] .guided-refresher-sheet .guided-refresher-done,
   .guided-overlay[data-phase="intro"][data-night="true"] .guided-refresher-done {
@@ -8216,7 +8224,7 @@ const css = `
     transform: none;
     opacity: 1;
   }
-  .fv-cta:active { transform:scale(0.97); opacity:0.85; }
+  .fv-cta:not(.axis-session-primary-cta--hero):active { transform:scale(0.97); opacity:0.85; }
   .fv-cta.done { background:var(--accent-dim); border:1px solid var(--mood-color); color:var(--mood-color); }
   .axis-session-primary-cta {
     font-family: "DM Sans", var(--font-ui), system-ui, sans-serif !important;
@@ -8258,8 +8266,7 @@ const css = `
   .app[data-theme="dark"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="dark"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta:not(.axis-session-primary-cta--hero),
   .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
-  .app[data-theme="dark"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
-  .guided-overlay[data-theme="dark"][data-night="false"] .guided-refresher-done {
+  .app[data-theme="dark"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn {
     background-color: color-mix(in srgb, var(--mood-accent) 74%, rgb(14, 20, 24) 26%) !important;
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
@@ -8269,8 +8276,7 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .timer-view-body .timer-glass-btn-pri.ultra-filled-btn.timer-start-cta.timer-session-primary-cta,
   .app[data-theme="light"]:not([data-night="true"]) .content--session .session-cta-pad--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta:not(.axis-session-primary-cta--hero),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-cta-pad .axis-session-primary-cta:not(.fv-cta),
-  .app[data-theme="light"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn,
-  .guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-done {
+  .app[data-theme="light"]:not([data-night="true"]) .summary-main-stack--metrics .summary-cta-btn--metrics-mood.ultra-filled-btn {
     background-color: var(--mood-accent) !important;
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
@@ -8294,18 +8300,22 @@ const css = `
     color: var(--accent-btn-text, #0d1f1f) !important;
     -webkit-text-fill-color: var(--accent-btn-text, #0d1f1f) !important;
     fill: var(--accent-btn-text, #0d1f1f) !important;
+    opacity: 1 !important;
+    filter: none !important;
   }
   .app[data-theme="dark"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero {
     background: var(--mood-color) !important;
     background-color: var(--mood-color) !important;
+    opacity: 1 !important;
+    filter: none !important;
   }
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:hover,
   .content--session-list .session-entry-section--guided .fv-cta.ultra-filled-btn.axis-session-primary-cta.axis-session-primary-cta--hero:active {
     box-shadow: none !important;
     transform: none;
     opacity: 1 !important;
-    filter: brightness(1.04);
+    filter: none !important;
   }
   .content--session-list .session-entry-section--guided .fv-cta.axis-session-primary-cta--hero .axis-guided-start-row {
     display: inline-flex !important;
@@ -17851,7 +17861,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       className: (isNight ? "guided-cta-fill " : "") + "guided-refresher-done",
       onClick: () => {primeAudio();beep(880, 0.3);triggerHaptic(HAPTIC_LIGHT_TAP);setPaused(false);goToPrepPhaseAt(0);},
       style: { width: "100%", maxWidth: "100%", marginTop: 16, boxSizing: "border-box" }
-    }, "START GUIDED"), /*#__PURE__*/
+    }, "GUIDED SESSION"), /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: onExit, "aria-label": "Close", style: {
         marginTop: 14, background: "none", border: "none", cursor: "pointer",
         fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: guidedTertiaryMuted, fontFamily: guidedMonoUi, fontWeight: 500,
@@ -22935,10 +22945,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("button", {
       className: "fv-cta ultra-filled-btn axis-session-primary-cta axis-session-primary-cta--hero",
       disabled: filteredAll.length === 0,
-      "aria-label": "Start guided session",
+      "aria-label": "Guided session",
       onClick: startGuidedSession }, /*#__PURE__*/
     React.createElement("div", { className: "axis-guided-start-row" }, /*#__PURE__*/
-    React.createElement("span", { className: "session-entry-primary-label" }, "START GUIDED"))
+    React.createElement("span", { className: "session-entry-primary-label" }, "GUIDED SESSION"))
     )),
     React.createElement("div", { className: "session-entry-micro-wrap" }, /*#__PURE__*/
     React.createElement("p", { className: "session-guided-hint session-entry-microcopy" }, "Hands-Free \u2022 Auto-Timed \u2022 Guided Flow")
