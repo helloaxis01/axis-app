@@ -5429,10 +5429,19 @@ const css = `
     --axis-session-list-card-bg: rgba(45, 55, 95, 0.3);
     --axis-session-list-card-bg-hover: rgba(58, 68, 108, 0.42);
     --axis-session-list-card-bg-done: rgba(45, 55, 95, 0.22);
-    --axis-session-card-border: color-mix(in srgb, var(--axis-session-list-accent) 20%, transparent);
-    --axis-session-card-border-hover: color-mix(in srgb, var(--axis-session-list-accent) 40%, transparent);
+    --axis-session-card-border: rgba(255, 255, 255, 0.1);
+    --axis-session-card-border-hover: rgba(255, 255, 255, 0.14);
+    --axis-session-card-border-selected: color-mix(in srgb, var(--axis-session-list-accent) 20%, transparent);
+    --axis-session-card-border-selected-hover: color-mix(in srgb, var(--axis-session-list-accent) 40%, transparent);
     --axis-session-badge-bg: color-mix(in srgb, var(--axis-session-list-accent) 12%, transparent);
     --axis-session-action-muted: color-mix(in srgb, var(--axis-session-list-accent) 50%, transparent);
+  }
+  /* GUIDED preview: same card border tokens (neutral default, mood on selected/open) */
+  .content--session-guided {
+    --axis-session-card-border: rgba(255, 255, 255, 0.1);
+    --axis-session-card-border-hover: rgba(255, 255, 255, 0.14);
+    --axis-session-card-border-selected: color-mix(in srgb, var(--mood-color) 20%, transparent);
+    --axis-session-card-border-selected-hover: color-mix(in srgb, var(--mood-color) 40%, transparent);
   }
   .content--session-list .sg.sg--session-sheet {
     margin-top: 18px;
@@ -6193,12 +6202,12 @@ const css = `
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--open {
     opacity: 1;
-    border: 1px solid var(--axis-session-card-border);
+    border: 1px solid var(--axis-session-card-border-selected);
     border-radius: 8px;
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open),
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
-    border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
+    border-color: var(--axis-session-card-border);
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
     opacity: 1;
@@ -6720,14 +6729,17 @@ const css = `
   .content--session .er-list-expand-chev:not(.er-list-expand-chev--open) svg polyline {
     transition: stroke 0.15s ease;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided {
     --axis-session-list-card-bg: rgba(255, 255, 255, 0.96);
     --axis-session-list-card-bg-hover: #ffffff;
     --axis-session-list-card-bg-done: rgba(248, 250, 252, 0.9);
-    --axis-session-card-border: color-mix(in srgb, var(--axis-session-list-accent) 18%, rgba(15, 30, 46, 0.12));
-    --axis-session-card-border-hover: color-mix(in srgb, var(--axis-session-list-accent) 38%, rgba(15, 30, 46, 0.12));
-    --axis-session-badge-bg: color-mix(in srgb, var(--axis-session-list-accent) 10%, transparent);
-    --axis-session-action-muted: color-mix(in srgb, var(--axis-session-list-accent) 45%, rgba(15, 30, 46, 0.2));
+    --axis-session-card-border: rgba(15, 30, 46, 0.1);
+    --axis-session-card-border-hover: rgba(15, 30, 46, 0.14);
+    --axis-session-card-border-selected: color-mix(in srgb, var(--axis-session-list-accent, var(--mood-color)) 18%, rgba(15, 30, 46, 0.12));
+    --axis-session-card-border-selected-hover: color-mix(in srgb, var(--axis-session-list-accent, var(--mood-color)) 38%, rgba(15, 30, 46, 0.12));
+    --axis-session-badge-bg: color-mix(in srgb, var(--axis-session-list-accent, var(--mood-color)) 10%, transparent);
+    --axis-session-action-muted: color-mix(in srgb, var(--axis-session-list-accent, var(--mood-color)) 45%, rgba(15, 30, 46, 0.2));
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet {
@@ -6784,7 +6796,7 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
-    border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
+    border-color: var(--axis-session-card-border);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-title {
     color: var(--text-primary);
@@ -6860,7 +6872,7 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open {
     background: rgba(255, 255, 255, 0.98) !important;
-    border: 1px solid var(--axis-session-card-border) !important;
+    border: 1px solid var(--axis-session-card-border-selected) !important;
     border-radius: 8px !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
@@ -6877,7 +6889,7 @@ const css = `
   .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open),
   .app[data-night="true"] .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
     background: rgba(18, 26, 38, 0.55);
-    border-color: rgba(255, 59, 48, 0.12);
+    border-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(14px) saturate(1.2);
     -webkit-backdrop-filter: blur(14px) saturate(1.2);
   }
@@ -6890,11 +6902,11 @@ const css = `
   .app[data-night="true"] .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover,
   .app[data-night="true"] .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: rgba(22, 32, 46, 0.62) !important;
-    border-color: rgba(255, 59, 48, 0.22) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
   }
   .app[data-night="true"] .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-night="true"] .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
-    border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
+    border-color: rgba(255, 255, 255, 0.1);
   }
   .app[data-night="true"] .content--session .er-list-desc {
     color: rgba(255, 255, 255, 0.42);
@@ -6933,7 +6945,7 @@ const css = `
   .content--session-list .er-card.er-card--open,
   .content--session-guided .er-card.er-card--open {
     background: rgba(22, 38, 56, 0.46) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid var(--axis-session-card-border-selected, color-mix(in srgb, var(--mood-color) 20%, transparent)) !important;
     padding: 0 !important;
     backdrop-filter: blur(18px) saturate(1.4);
     -webkit-backdrop-filter: blur(18px) saturate(1.4);
@@ -6945,7 +6957,7 @@ const css = `
   }
   .content--session-list .er-card.er-card--open {
     background: var(--axis-session-list-card-bg) !important;
-    border: 1px solid var(--axis-session-card-border) !important;
+    border: 1px solid var(--axis-session-card-border-selected) !important;
     border-radius: 8px !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
