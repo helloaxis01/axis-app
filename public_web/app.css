@@ -3902,6 +3902,7 @@ a.settings-outline-btn {
 .content--session-list {
   --axis-session-list-accent: var(--mood-color);
   --axis-session-list-card-bg: rgba(45, 55, 95, 0.3);
+  --axis-session-list-card-bg-open: color-mix(in srgb, var(--axis-session-list-accent) 12%, transparent);
   --axis-session-list-card-bg-hover: rgba(58, 68, 108, 0.42);
   --axis-session-list-card-bg-done: rgba(45, 55, 95, 0.22);
   --axis-session-card-border: rgba(255, 255, 255, 0.1);
@@ -3913,6 +3914,7 @@ a.settings-outline-btn {
 }
 /* GUIDED preview: same card border tokens (neutral default, mood on selected/open) */
 .content--session-guided {
+  --axis-session-list-card-bg-open: color-mix(in srgb, var(--mood-color) 12%, transparent);
   --axis-session-card-border: rgba(255, 255, 255, 0.1);
   --axis-session-card-border-hover: rgba(255, 255, 255, 0.14);
   --axis-session-card-border-selected: color-mix(in srgb, var(--mood-color) 20%, transparent);
@@ -5206,6 +5208,7 @@ a.settings-outline-btn {
 .app[data-theme="light"]:not([data-night="true"]) .content--session-list,
 .app[data-theme="light"]:not([data-night="true"]) .content--session-guided {
   --axis-session-list-card-bg: rgba(255, 255, 255, 0.96);
+  --axis-session-list-card-bg-open: color-mix(in srgb, var(--axis-session-list-accent, var(--mood-color)) 12%, rgba(255, 255, 255, 0.96));
   --axis-session-list-card-bg-hover: #ffffff;
   --axis-session-list-card-bg-done: rgba(248, 250, 252, 0.9);
   --axis-session-card-border: rgba(15, 30, 46, 0.1);
@@ -5343,7 +5346,7 @@ a.settings-outline-btn {
 }
 .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open,
 .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open {
-  background: rgba(255, 255, 255, 0.98) !important;
+  background: var(--axis-session-list-card-bg-open) !important;
   border: 1px solid var(--axis-session-card-border-selected) !important;
   border-radius: 8px !important;
   box-shadow: none !important;
@@ -5352,7 +5355,7 @@ a.settings-outline-btn {
 }
 .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open.er-card--complete,
 .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open.er-card--complete {
-  background: rgba(255, 255, 255, 0.88) !important;
+  background: var(--axis-session-list-card-bg-open) !important;
   border: none !important;
   border-color: transparent !important;
   backdrop-filter: none !important;
@@ -5416,7 +5419,7 @@ a.settings-outline-btn {
 /* Make expanded LIST / GUIDED preview cards visually match collapsed cards (compact) */
 .content--session-list .er-card.er-card--open,
 .content--session-guided .er-card.er-card--open {
-  background: rgba(22, 38, 56, 0.46) !important;
+  background: var(--axis-session-list-card-bg-open, color-mix(in srgb, var(--mood-color) 12%, transparent)) !important;
   border: 1px solid var(--axis-session-card-border-selected, color-mix(in srgb, var(--mood-color) 20%, transparent)) !important;
   padding: 0 !important;
   backdrop-filter: blur(18px) saturate(1.4);
@@ -5428,7 +5431,7 @@ a.settings-outline-btn {
   box-shadow: none !important;
 }
 .content--session-list .er-card.er-card--open {
-  background: var(--axis-session-list-card-bg) !important;
+  background: var(--axis-session-list-card-bg-open) !important;
   border: 1px solid var(--axis-session-card-border-selected) !important;
   border-radius: 8px !important;
   backdrop-filter: none !important;
@@ -5463,16 +5466,16 @@ a.settings-outline-btn {
 }
 .content--session-list .er-card.er-card--open.er-card--complete,
 .content--session-guided .er-card.er-card--open.er-card--complete {
-  background: rgba(22, 38, 56, 0.36) !important;
+  background: var(--axis-session-list-card-bg-open, color-mix(in srgb, var(--mood-color) 12%, transparent)) !important;
 }
 .app[data-night="true"] .content--session-list .er-card.er-card--open,
 .app[data-night="true"] .content--session-guided .er-card.er-card--open {
-  background: rgba(18, 26, 38, 0.5) !important;
+  background: color-mix(in srgb, var(--mood-color) 12%, transparent) !important;
   border-color: rgba(255, 59, 48, 0.18) !important;
 }
 .app[data-night="true"] .content--session-list .er-card.er-card--open.er-card--complete,
 .app[data-night="true"] .content--session-guided .er-card.er-card--open.er-card--complete {
-  background: rgba(18, 26, 38, 0.4) !important;
+  background: color-mix(in srgb, var(--mood-color) 12%, transparent) !important;
 }
 .content--session-list .er-card.er-card--open .panel.protocol-panel,
 .content--session-guided .er-card.er-card--open .panel.protocol-panel {
@@ -5968,7 +5971,7 @@ a.settings-outline-btn {
   border-bottom: none !important;
   background:
     linear-gradient(145deg, color-mix(in srgb, var(--glass-bg) 94%, transparent) 0%, color-mix(in srgb, var(--glass-bg) 78%, transparent) 100%),
-    color-mix(in srgb, var(--mood-color) 10%, transparent);
+    color-mix(in srgb, var(--mood-color) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--glass-border) 90%, transparent);
   border-radius: 14px;
   border-bottom-color: color-mix(in srgb, var(--glass-border) 90%, transparent);
