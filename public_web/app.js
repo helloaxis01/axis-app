@@ -5423,12 +5423,16 @@ const css = `
     -webkit-text-size-adjust: none !important;
     text-size-adjust: none !important;
   }
-  /* LIST tab: flat sections + premium exercise cards */
+  /* LIST tab: flat sections + compact premium exercise cards */
   .content--session-list {
     --axis-session-list-accent: var(--mood-color);
-    --axis-session-list-card-bg: rgba(45, 55, 95, 0.4);
-    --axis-session-list-card-bg-hover: rgba(58, 68, 108, 0.55);
-    --axis-session-list-card-bg-done: rgba(45, 55, 95, 0.28);
+    --axis-session-list-card-bg: rgba(45, 55, 95, 0.3);
+    --axis-session-list-card-bg-hover: rgba(58, 68, 108, 0.42);
+    --axis-session-list-card-bg-done: rgba(45, 55, 95, 0.22);
+    --axis-session-card-border: color-mix(in srgb, var(--axis-session-list-accent) 20%, transparent);
+    --axis-session-card-border-hover: color-mix(in srgb, var(--axis-session-list-accent) 40%, transparent);
+    --axis-session-badge-bg: color-mix(in srgb, var(--axis-session-list-accent) 12%, transparent);
+    --axis-session-action-muted: color-mix(in srgb, var(--axis-session-list-accent) 50%, transparent);
   }
   .content--session-list .sg.sg--session-sheet {
     margin-top: 18px;
@@ -6002,7 +6006,7 @@ const css = `
   /* ── EXERCISE ROW (LIST + GUIDED preview: flat strips, hairlines) ── */
   .er-card { border-bottom:1px solid var(--border); transition:background 0.18s ease, border-color 0.18s ease; position:relative; background:transparent; }
   .er { display:flex; align-items:center; gap:12px; padding:13px 0; margin:0; cursor:pointer; transition:background 0.18s ease, opacity 0.18s ease; position:relative; border-radius:0; }
-  .content--session .er-card > .er {
+  .content--session .er-card > .er:not(.er--list-card-a) {
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
@@ -6100,8 +6104,8 @@ const css = `
     margin-left: auto;
   }
   /* LIST rail rows: a bit tighter under duration vs hairline/divider rhythm */
-  .content--session-list .er-card > .er--list-rail {
-    padding-bottom: 10px;
+  .content--session-list .er-card > .er--list-rail.er--list-card-a {
+    padding-bottom: 1.125rem !important;
   }
   .content--session-list .er-body--list-rail {
     width: 100%;
@@ -6131,14 +6135,25 @@ const css = `
   }
   .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
     background: var(--axis-session-list-card-bg);
-    border: 0.5px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    backdrop-filter: blur(12px) saturate(1.25);
-    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    border: 1px solid var(--axis-session-card-border);
+    border-radius: 8px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     box-shadow: none;
     cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   }
   .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) {
+    opacity: 1;
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-title {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-desc {
+    color: rgba(255, 255, 255, 0.35);
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-category-badge,
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-meta-dur {
     opacity: 0.65;
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
@@ -6162,16 +6177,24 @@ const css = `
   }
   .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: var(--axis-session-list-card-bg-hover) !important;
-    border: 0.5px solid rgba(255, 255, 255, 0.14) !important;
-    border-radius: 12px !important;
-    opacity: 1 !important;
-    transform: translateY(-1px);
+    border: 1px solid var(--axis-session-card-border-hover) !important;
+    border-radius: 8px !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-title {
+    color: #ffffff;
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-desc {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-category-badge,
+  .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-meta-dur {
+    opacity: 1;
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--open {
     opacity: 1;
-    border: 0.5px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
+    border: 1px solid var(--axis-session-card-border);
+    border-radius: 8px;
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open),
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
@@ -6199,9 +6222,21 @@ const css = `
     border-radius: 14px;
   }
   .content--session-list .er-card > .er--list-card-a {
-    gap: 11px;
-    padding: 14px 11px 13px 12px;
-    border-radius: 12px;
+    gap: 10px !important;
+    padding: 1.125rem !important;
+    padding-inline: 1.125rem !important;
+    padding-block: 1.125rem !important;
+    border-radius: 8px;
+    align-items: stretch !important;
+    flex-direction: column !important;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+  .content--session-list .er-card > .er--list-card-a > .er-list-sheet {
+    width: 100%;
+    flex: 0 0 auto;
+    min-width: 0;
+    box-sizing: border-box;
   }
   /* GUIDED list rail: same meta stack as LIST (duration under description) */
   .content--session .er-list-sheet--guided .er-list-meta-row--guided {
@@ -6226,15 +6261,15 @@ const css = `
   .content--session-list .er-list-complete {
     flex-shrink: 0;
     align-self: flex-start;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    margin: -11px 0 0 -11px;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    margin: 2px 0 0 0;
     padding: 0;
     box-sizing: border-box;
     border: none;
-    border-radius: 50%;
+    border-radius: 3px;
     background: transparent;
     display: inline-flex;
     align-items: center;
@@ -6253,7 +6288,7 @@ const css = `
     margin-left: -9px;
     margin-top: -9px;
     box-sizing: border-box;
-    border-radius: 50%;
+    border-radius: 3px;
     border: 1.5px solid rgba(255, 255, 255, 0.28);
     background: transparent;
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
@@ -6280,9 +6315,67 @@ const css = `
   .content--session-list .er-list-complete svg {
     position: relative;
     z-index: 1;
-    width: 11px;
-    height: 11px;
+    width: 10px;
+    height: 10px;
     display: block;
+  }
+  .content--session-list .er-list-sheet--compact {
+    gap: 10px;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    contain: layout style;
+  }
+  .content--session-list .er-list-sheet--compact > .er-list-complete {
+    flex: 0 0 18px;
+    width: 18px;
+    min-width: 18px;
+  }
+  .content--session-list .er-list-sheet--compact > .er-list-center {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .content--session-list .er-list-sheet--compact .er-list-center {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    align-items: start;
+    width: 100%;
+    column-gap: 0;
+    row-gap: 10px;
+  }
+  .content--session-list .er-list-sheet--compact .er-list-title-row .er-list-title {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  .content--session-list .er-list-sheet--compact .er-list-desc {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  .content--session-list .er-list-sheet--compact .er-list-badge-chev-row {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    width: 100%;
+    margin-top: 6px;
+  }
+  .content--session-list .er-list-sheet--compact .er-list-title-row {
+    display: contents;
+    margin: 0;
+  }
+  .content--session-list .er-list-sheet--compact .er-list-pin-skip-row--compact {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+  }
+  .content--session-list .er-list-sheet--compact .er-list-badge-chev-row .er-list-badge-row {
+    max-width: 75%;
+    flex: 0 1 75%;
   }
   /* Left accent bar removed — pin / border carry pinned state */
   .content--session .er--list-card-a {
@@ -6370,6 +6463,16 @@ const css = `
     width: 100%;
     margin: 0 0 4px 0;
   }
+  .content--session-list .er-list-title {
+    font-family: var(--font-ui), system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    width: 100%;
+    margin: 0;
+  }
   .content--session-list .er-list-title.er-list-title--done {
     color: var(--text-primary);
     opacity: 0.4;
@@ -6395,12 +6498,108 @@ const css = `
     margin: 3px 0 6px 0;
   }
   .content--session-list .er-list-desc {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.5;
-    margin: 2px 0 5px 0;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+    white-space: normal;
+    overflow: visible;
+  }
+  .content--session-list .er-list-badge-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+  .content--session-list .er-list-badge-chev-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  .content--session-list .er-list-badge-chev-row .er-list-expand-chev {
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    align-self: center;
   }
   .content--session-list .er-list-title-row {
-    margin-bottom: 2px;
+    margin: 0 0 2px 0;
+    align-items: flex-start;
+  }
+  .content--session-list .er-list-title-row .er-list-title {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+  .content--session-list .er-list-title-row .er-list-pin-skip-row--compact {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn {
+    min-width: 0;
+    min-height: 0;
+    width: auto;
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+    color: rgba(255, 255, 255, 0.2);
+    opacity: 1 !important;
+  }
+  .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn svg,
+  .content--session-list .er-list-pin-skip-row--compact .axis-bookmark-glyph-svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+  .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn:hover,
+  .content--session-list .er-card:not(.er-card--open):hover .er-list-pin-skip-row--compact .er-list-icon-btn:not(.er-list-pin-btn--pinned):not(.er-list-skip-btn--skipped) {
+    color: color-mix(in srgb, var(--axis-session-list-accent) 72%, #fff);
+    background: transparent;
+  }
+  .content--session-list .er-list-pin-skip-row--compact .er-list-pin-btn.er-list-pin-btn--pinned {
+    color: var(--axis-session-list-accent);
+    opacity: 1 !important;
+  }
+  .content--session-list .er-list-pin-skip-row--compact .er-list-skip-btn.er-list-skip-btn--skipped {
+    color: rgba(255, 255, 255, 0.45);
+    opacity: 1 !important;
+  }
+  .content--session-list .er-list-category-badge {
+    font-family: var(--font-meta), var(--font-data);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--axis-session-list-accent);
+    background: var(--axis-session-badge-bg);
+    padding: 3px 10px;
+    border-radius: 12px;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+  .content--session-list .er-list-badge-row .er-list-meta-dur {
+    font-family: var(--font-meta), var(--font-data);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--axis-session-list-accent) !important;
+    -webkit-text-fill-color: var(--axis-session-list-accent) !important;
+    opacity: 1 !important;
+    line-height: 1.2;
   }
   .content--session-list .er-list-desc.er-list-desc--done {
     color: var(--text-primary);
@@ -6408,7 +6607,9 @@ const css = `
   }
   .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-dur,
   .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-zone,
-  .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-dot {
+  .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-dot,
+  .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-category-badge,
+  .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-badge-row .er-list-meta-dur {
     opacity: 0.25 !important;
   }
   .content--session-guided .er-list-desc.er-list-desc--done {
@@ -6499,11 +6700,15 @@ const css = `
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
     color: rgba(255, 255, 255, 0.2);
     margin-top: 0;
     margin-left: auto;
     flex-shrink: 0;
-    padding: 4px 0 4px 8px;
+    padding: 0;
     box-sizing: border-box;
   }
   .content--session .er-list-expand-chev svg {
@@ -6516,9 +6721,13 @@ const css = `
     transition: stroke 0.15s ease;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list {
-    --axis-session-list-card-bg: rgba(255, 255, 255, 0.92);
-    --axis-session-list-card-bg-hover: rgba(255, 255, 255, 1);
-    --axis-session-list-card-bg-done: rgba(255, 255, 255, 0.6);
+    --axis-session-list-card-bg: rgba(255, 255, 255, 0.96);
+    --axis-session-list-card-bg-hover: #ffffff;
+    --axis-session-list-card-bg-done: rgba(248, 250, 252, 0.9);
+    --axis-session-card-border: color-mix(in srgb, var(--axis-session-list-accent) 18%, rgba(15, 30, 46, 0.12));
+    --axis-session-card-border-hover: color-mix(in srgb, var(--axis-session-list-accent) 38%, rgba(15, 30, 46, 0.12));
+    --axis-session-badge-bg: color-mix(in srgb, var(--axis-session-list-accent) 10%, transparent);
+    --axis-session-action-muted: color-mix(in srgb, var(--axis-session-list-accent) 45%, rgba(15, 30, 46, 0.2));
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet {
@@ -6528,12 +6737,22 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
     background: var(--axis-session-list-card-bg);
-    border: 0.5px solid rgba(15, 30, 46, 0.1);
+    border: 1px solid var(--axis-session-card-border);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) {
+    opacity: 1;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-title {
+    color: rgba(15, 30, 46, 0.65);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-desc {
+    color: rgba(15, 30, 46, 0.35);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-category-badge,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) .er-list-sheet--compact .er-list-meta-dur {
     opacity: 0.65;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
@@ -6544,11 +6763,19 @@ const css = `
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: var(--axis-session-list-card-bg-hover) !important;
-    border: 0.5px solid rgba(15, 30, 46, 0.14) !important;
-    border-radius: 12px !important;
-    opacity: 1 !important;
-    transform: translateY(-1px);
+    border: 1px solid var(--axis-session-card-border-hover) !important;
+    border-radius: 8px !important;
     box-shadow: 0 4px 14px rgba(15, 30, 46, 0.08) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-title {
+    color: var(--text-primary);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-desc {
+    color: rgba(15, 30, 46, 0.5);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-category-badge,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover .er-list-sheet--compact .er-list-meta-dur {
+    opacity: 1;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
     background: rgba(255, 255, 255, 1) !important;
@@ -6558,6 +6785,9 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
     border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-title {
+    color: var(--text-primary);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-title {
     color: color-mix(in srgb, var(--text-primary) 96%, transparent);
@@ -6570,6 +6800,9 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-title.er-list-title--done {
     color: rgba(15, 30, 46, 0.4);
     text-decoration-color: rgba(15, 30, 46, 0.22);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-desc {
+    color: rgba(15, 30, 46, 0.5);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-desc {
     color: color-mix(in srgb, var(--text-primary) 88%, transparent);
@@ -6594,7 +6827,6 @@ const css = `
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  /* Light: color inverse only — bookmark/skip use same 40px grid as dark (no layout overrides) */
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete::before {
     border-color: rgba(15, 30, 46, 0.28);
   }
@@ -6604,13 +6836,19 @@ const css = `
     box-shadow: 0 0 10px color-mix(in srgb, var(--mood-color) 35%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn:hover {
-    color: color-mix(in srgb, var(--mood-color) 72%, #0f1e2e);
-    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
     color: var(--axis-session-list-accent, var(--mood-color));
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-skip-btn.er-list-skip-btn--skipped {
+    color: rgba(15, 30, 46, 0.45);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn {
+    color: rgba(15, 30, 46, 0.2);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card:not(.er-card--open):hover .er-list-pin-skip-row--compact .er-list-icon-btn:not(.er-list-pin-btn--pinned):not(.er-list-skip-btn--skipped),
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn:hover {
+    color: color-mix(in srgb, var(--mood-color) 72%, #0f1e2e);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-pin-skip-row--compact .er-list-skip-btn.er-list-skip-btn--skipped {
     color: rgba(15, 30, 46, 0.45);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card:not(.er-card--open):hover .er-list-expand-chev {
@@ -6622,8 +6860,8 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open {
     background: rgba(255, 255, 255, 0.98) !important;
-    border: none !important;
-    border-color: transparent !important;
+    border: 1px solid var(--axis-session-card-border) !important;
+    border-radius: 8px !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -6706,7 +6944,13 @@ const css = `
     box-shadow: none !important;
   }
   .content--session-list .er-card.er-card--open {
-    border-radius: 12px !important;
+    background: var(--axis-session-list-card-bg) !important;
+    border: 1px solid var(--axis-session-card-border) !important;
+    border-radius: 8px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
   .content--session-guided .er-card.er-card--open {
     border-radius: 14px !important;
@@ -6724,7 +6968,14 @@ const css = `
     border-radius: 14px 14px 0 0 !important;
   }
   .content--session-list .er-card.er-card--open > .er.er--list-card-a {
-    border-radius: 12px 12px 0 0 !important;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 1.125rem !important;
+    padding-inline: 1.125rem !important;
+    padding-block: 1.125rem !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+    flex-direction: column !important;
+    flex-shrink: 0 !important;
   }
   .content--session-list .er-card.er-card--open.er-card--complete,
   .content--session-guided .er-card.er-card--open.er-card--complete {
@@ -6749,7 +7000,7 @@ const css = `
     -webkit-backdrop-filter: none !important;
     padding: 0 0 clamp(12px, 2.5vw, 14px) !important;
     margin-top: 0 !important;
-    animation: axisSessionExpandedPanelIn 0.2s ease forwards;
+    animation: none !important;
   }
   .content--session-list .er-card.er-card--open .protocol-panel.panel .steps,
   .content--session-guided .er-card.er-card--open .protocol-panel.panel .steps {
@@ -6857,11 +7108,21 @@ const css = `
   /* Prevent stacking/overflow issues and ensure expanded content stacks vertically */
   .content--session-list .er-card,
   .content--session-guided .er-card {
+    display: flex;
+    flex-direction: column;
     overflow: hidden !important;
     position: relative !important;
   }
-  /* Expanded header: same typography and inset as collapsed — card chrome carries focus */
-  .content--session-list .er-card.er-card--open .er-list-center,
+  .content--session-list .er-card > .er--list-card-a,
+  .content--session-guided .er-card > .er--list-card-a {
+    flex: 0 0 auto;
+  }
+  .content--session-list .er-card > .panel.protocol-panel,
+  .content--session-guided .er-card > .panel.protocol-panel {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  /* Expanded header: guided preview only — LIST compact header is frozen separately below */
   .content--session-guided .er-card.er-card--open .er-list-center {
     display: flex !important;
     flex-direction: column !important;
@@ -6870,42 +7131,30 @@ const css = `
     gap: 0 !important;
     width: 100% !important;
   }
-  .content--session-list .er-card.er-card--open .er-list-title,
   .content--session-guided .er-card.er-card--open .er-list-title,
-  .content--session-list .er-card.er-card--open .er-list-title-row .er-list-title,
   .content--session-guided .er-card.er-card--open .er-list-title-row .er-list-title {
     font-weight: 400 !important;
     margin: 0 !important;
     color: color-mix(in srgb, var(--text-white) 96%, transparent) !important;
     -webkit-text-fill-color: color-mix(in srgb, var(--text-white) 96%, transparent) !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .er-list-title,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .er-list-title,
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .er-list-title-row .er-list-title,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .er-list-title-row .er-list-title {
     color: color-mix(in srgb, var(--text-primary) 96%, transparent) !important;
     -webkit-text-fill-color: color-mix(in srgb, var(--text-primary) 96%, transparent) !important;
   }
-  .content--session-list .er-card.er-card--open .er-list-desc,
   .content--session-guided .er-card.er-card--open .er-list-desc {
     font-weight: 400 !important;
-    margin: 2px 0 5px 0 !important;
-  }
-  .content--session-guided .er-card.er-card--open .er-list-desc {
     margin: 3px 0 6px 0 !important;
-  }
-  .content--session-list .er-card.er-card--open .er-list-title-row,
-  .content--session-guided .er-card.er-card--open .er-list-title-row {
-    margin-bottom: 2px !important;
   }
   .content--session-guided .er-card.er-card--open .er-list-title-row {
     margin-bottom: 4px !important;
   }
-  .content--session-list .er-card.er-card--open .er-list-meta-chev-row,
   .content--session-guided .er-card.er-card--open .er-list-meta-chev-row {
     align-self: stretch !important;
     width: 100% !important;
   }
+  /* LIST compact header uses the same rules collapsed or open — no open-state overrides (prevents left shift). */
   /* Ensure the expanded panel sits below the title row in normal flow */
   .content--session-list .er-card.er-card--open > .er > .panel.protocol-panel,
   .content--session-list .er-card.er-card--open .panel.protocol-panel,
@@ -7208,9 +7457,14 @@ const css = `
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  /* Match collapsed .er--list-card-a padding so title/description do not shift on expand */
+  /* Match collapsed .er--list-card-a padding — open uses identical inset (no header shift) */
   .content--session-list .er-card > .er--list-card-a.open {
-    padding: 14px 11px 13px 12px !important;
+    padding: 1.125rem !important;
+    padding-inline: 1.125rem !important;
+    padding-block: 1.125rem !important;
+    gap: 10px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
   }
   .content--session-guided .er-card > .er--list-card-a.open {
     padding: 17px 14px 17px 16px !important;
@@ -15047,14 +15301,34 @@ const css = `
     color: var(--text-primary);
     opacity: 0.35;
   }
-  /* Browse cards: body clearance + bookmark top-right (same right column as chevron) */
+  /* Browse cards: bookmark right edge matches chevron (right: 14px on card shell) */
   .home .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .track-card-home-body {
-    padding-right: 44px;
+    padding-right: 0;
   }
-  .home .track-card.track-card--home-browse.glass-card:not(.home-smart-card) .axis-first-bookmark-tip-host {
+  .home .track-card--home-browse .track-card-title-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    margin: 0 0 6px 0;
+    padding-right: 28px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .home .track-card--home-browse .track-card-title-row .track-card-name {
+    flex: 1;
+    min-width: 0;
+    margin: 0 !important;
+    line-height: 1.25;
+  }
+  .home .track-card--home-browse .track-card-title-row .axis-first-bookmark-tip-host {
     position: absolute;
-    top: 8px;
-    right: 14px;
+    right: calc(14px - var(--page-gutter));
+    top: 50%;
+    transform: translateY(-50%);
+    flex-shrink: 0;
     margin: 0;
     z-index: 2;
   }
@@ -15094,8 +15368,11 @@ const css = `
     color: color-mix(in srgb, var(--mood-accent) 92%, var(--text-secondary));
   }
   /* FAVORITES + RECENTS: identical title ↔ subtitle rhythm (purpose on favorites stacks after subtitle via shared margins) */
-  .home .home-routine-track-card.track-card--home-browse .track-card-name {
+  .home .home-routine-track-card.track-card--home-browse .track-card-title-row {
     margin-bottom: 6px;
+  }
+  .home .home-routine-track-card.track-card--home-browse .track-card-title-row .track-card-name {
+    margin-bottom: 0 !important;
   }
   .home .home-routine-track-card.track-card--home-browse .track-card-sub {
     margin-bottom: 8px !important;
@@ -15171,8 +15448,12 @@ const css = `
   .home-track-bookmark-btn {
     border: none;
     background: transparent;
-    padding: 4px;
-    margin: -4px 0 -4px 0;
+    padding: 0;
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
     color: var(--text-primary);
     cursor: pointer;
     display: inline-flex;
@@ -15182,6 +15463,11 @@ const css = `
     -webkit-tap-highlight-color: transparent;
     border-radius: 0;
     box-shadow: none;
+  }
+  .home-track-bookmark-btn .axis-bookmark-glyph-svg {
+    width: 18px;
+    height: 18px;
+    display: block;
   }
   .home-track-bookmark-btn:active { transform: scale(0.92); }
   .home-track-bookmark-btn[aria-pressed="true"] {
@@ -16187,11 +16473,12 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     onToggle();
     if (open) onExpand();
   };
+  const listRailCompactLayout = listRailLayout && !hideDone;
   useEffect(() => {
-    if (open && rowRef.current) {
+    if (open && rowRef.current && !listRailCompactLayout) {
       setTimeout(() => rowRef.current && rowRef.current.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
     }
-  }, [open, ex && ex.id]);
+  }, [open, ex && ex.id, listRailCompactLayout]);
   useEffect(() => {
     // Re-arm instructions when opening a different exercise.
     setArmed(false);
@@ -16208,6 +16495,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   const metaZonePlain = String(listSectionLabel || "").trim();
   const listMetaSecondary = listRailLayout ? axisExerciseTrackMetaOneWord(ex) : axisExerciseTargetMetaLine(ex, metaZonePlain);
   const listTabExerciseTitle = listRailLayout && !hideDone ? axisExerciseListParenDirectionDisplayName(ex.name) : ex.name;
+  const listRailCategoryBadge = listMetaSecondary ? String(listMetaSecondary).trim().toUpperCase() : "";
   const bookmarkTipPreferBottom = typeof window !== "undefined" && window.innerWidth < 400;
   /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
   const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
@@ -16234,9 +16522,34 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     onClick: onSkip,
     "aria-label": skipped ? "Unskip exercise" : "Skip exercise"
   }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/AxisSessionSkipForwardGlyph())));
+  const listRailCompactPinBtnEl = /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "er-list-icon-btn er-list-pin-btn" + (faved ? " er-list-pin-btn--pinned" : ""),
+    onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();},
+    "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
+    "aria-pressed": faved ? "true" : "false"
+  }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" })));
+  const listRailCompactSkipBtnEl = /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "er-list-icon-btn er-list-skip-btn" + (skipped ? " er-list-skip-btn--skipped" : ""),
+    onClick: (e) => {e.stopPropagation();onSkip();},
+    "aria-label": skipped ? "Unskip exercise" : "Skip exercise"
+  }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/AxisSessionSkipForwardGlyph()));
+  const listRailCompactPinSkipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row er-list-pin-skip-row--compact", onClick: (e) => e.stopPropagation() },
+  listRailCompactSkipBtnEl,
+  /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+  React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }),
+  listRailCompactPinBtnEl));
+  const listRailBadgeRowEl = listRailCategoryBadge || sessionDurRaw ? /*#__PURE__*/React.createElement("div", { className: "er-list-badge-row" },
+  listRailCategoryBadge ? /*#__PURE__*/React.createElement("span", { className: "er-list-category-badge" }, listRailCategoryBadge) : null,
+  sessionDurRaw ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-dur" }, String(sessionDurRaw)) : null
+  ) : null;
   const listRailExpandSvgEl = /*#__PURE__*/React.createElement("div", {
-    className: "er-list-expand-chev" + (open ? " er-list-expand-chev--open" : ""),
-    "aria-hidden": true }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.75", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, open ? /*#__PURE__*/React.createElement("polyline", { points: "18 15 12 9 6 15" }) : /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" })));
+    className: "er-list-expand-chev",
+    "aria-hidden": true }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.75", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" })));
+  const listRailCompactBadgeChevRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-badge-chev-row" },
+  listRailBadgeRowEl,
+  listRailExpandSvgEl);
   const listRailMetaChevRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-meta-chev-row" },
   /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row-wrap" },
   sessionDurRaw || listMetaSecondary ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" + (hideDone ? " er-list-meta-row--guided" : "") },
@@ -16257,17 +16570,24 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     React.createElement("div", { className: `er-card${open ? " er-card--open" : ""}${listRailLayout && faved ? " er-card--pinned" : ""}${listRailLayout && skipped ? " er-card--list-skipped" : ""}${listRailLayout && done && !skipped ? " er-card--complete" : ""}` }, /*#__PURE__*/
     React.createElement("div", { ref: rowRef, className: `er ${open ? "open" : ""} ${skipped ? "skipped" : ""}${listRailLayout ? " er--list-rail er--list-card-a" : ""}${listRailLayout && hideDone ? " er--list-card-a--guided" : ""}`, onClick: () => {axisHapticTick();onExpand();}, style: {} },
     listRailLayout ? /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement("div", { className: "er-list-sheet" + (hideDone ? " er-list-sheet--guided" : "") },
+    /*#__PURE__*/React.createElement("div", { className: "er-list-sheet" + (listRailCompactLayout ? " er-list-sheet--compact" : "") + (hideDone ? " er-list-sheet--guided" : "") },
     !hideDone && chkEl,
-    /*#__PURE__*/    React.createElement("div", { className: "er-list-center" }, /*#__PURE__*/
-    React.createElement("div", { className: "er-list-title-row" }, /*#__PURE__*/
+    /*#__PURE__*/    React.createElement("div", { className: "er-list-center" },
+    listRailCompactLayout ? /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement("div", { className: "er-list-title-row" }, /*#__PURE__*/
+    React.createElement("div", { className: `er-list-title ${done && !skipped ? "er-list-title--done" : ""} ${skipped ? "er-list-title--skipped" : ""}` }, listTabExerciseTitle),
+    listRailCompactPinSkipRowEl),
+    /*#__PURE__*/React.createElement("div", { className: `er-list-desc er-list-desc--rail${done && !skipped ? " er-list-desc--done" : ""}` }, ex.sub),
+    listRailCompactBadgeChevRowEl
+    ) : /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement("div", { className: "er-list-title-row" }, /*#__PURE__*/
     React.createElement("div", { className: "er-list-title-wrap" }, /*#__PURE__*/
     React.createElement("div", { className: `er-list-title ${done && !skipped ? "er-list-title--done" : ""} ${skipped ? "er-list-title--skipped" : ""}` }, listTabExerciseTitle)),
     listRailPinskipRowEl),
     /*#__PURE__*/React.createElement("div", { className: `er-list-desc er-list-desc--rail${done && !skipped ? " er-list-desc--done" : ""}` }, ex.sub),
     listRailMetaChevRowEl
     ))
-    ) : /*#__PURE__*/React.createElement(React.Fragment, null,
+    )) : /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement("div", { className: guidedPreviewLayout ? "er-top er-top--guided-preview" : "er-top" },
     /*#__PURE__*/React.createElement("div", { className: "ei er-top-title-wrap" }, /*#__PURE__*/
     React.createElement("div", { className: `en ${done && !skipped ? "done" : ""} ${skipped ? "skipped" : ""}` }, ex.name)
@@ -22198,16 +22518,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-title-row" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(t.subtitle))), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
-      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
       React.createElement(AxisFirstBookmarkSavedTip, { active: bookmarkTooltipTrackId === t.id, preferBottom: typeof window !== "undefined" && window.innerWidth < 400 }), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
-      React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
-      )))));
+      React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      ))), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(t.subtitle))), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine)
+      )));
     });
     const favoritesExPanelEl = pinnedExerciseRows.length === 0 ? favoritesEmptyExEl : pinnedExerciseRows.map(({ ex, trackId, trackLabel }) => {
       const tline = axisExerciseTargetMetaLine(ex, "");
@@ -22225,16 +22547,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": true }, "\u203a"), /*#__PURE__*/
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-title-row" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, ex.name), /*#__PURE__*/
-      tline ? /*#__PURE__*/React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(tline))) : null, /*#__PURE__*/
-      ex.sub ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, ex.sub) : null), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
-      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, trackTitle), /*#__PURE__*/
       React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
       React.createElement(AxisFirstBookmarkSavedTip, { active: bookmarkTooltipExerciseId === ex.id, preferBottom: typeof window !== "undefined" && window.innerWidth < 400 }), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": exBookmarked ? "true" : "false", "aria-label": exBookmarked ? "Remove exercise bookmark" : "Bookmark exercise", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFav(ex.id);} }, /*#__PURE__*/
-      React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, exBookmarked ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
-      )))));
+      React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, exBookmarked ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      ))), /*#__PURE__*/
+      tline ? /*#__PURE__*/React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(tline))) : null, /*#__PURE__*/
+      ex.sub ? /*#__PURE__*/React.createElement("div", { className: "track-card-purpose" }, ex.sub) : null), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, trackTitle)
+      )));
     });
     const favoritesCardsEl = favoritesSegment === "tracks" ? favoritesTracksPanelEl : favoritesExPanelEl;
     return (/*#__PURE__*/
@@ -22673,16 +22997,18 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
       React.createElement("span", { className: "track-card-home-chevron", "aria-hidden": "true" }, "\u203a"), /*#__PURE__*/
       React.createElement("div", { className: "track-card-left track-card-home-body" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-title-stack" }, /*#__PURE__*/
+      React.createElement("div", { className: "track-card-title-row" }, /*#__PURE__*/
       React.createElement("div", { className: "track-card-name" }, t.label), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(t.subtitle))), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
-      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
-      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine), /*#__PURE__*/
       React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
       React.createElement(AxisFirstBookmarkSavedTip, { active: bookmarkTooltipTrackId === t.id, preferBottom: typeof window !== "undefined" && window.innerWidth < 400 }), /*#__PURE__*/
       React.createElement("button", { type: "button", className: "home-track-bookmark-btn", "aria-pressed": isFav ? "true" : "false", "aria-label": isFav ? "Remove bookmark" : "Bookmark track", onClick: (e) => {e.stopPropagation();axisHapticTick();toggleFavoriteTrack(t.id);} }, /*#__PURE__*/
-      React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
-      )))));
+      React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, isFav ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))
+      ))), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-sub" }, /*#__PURE__*/React.createElement("span", { className: "glass-label" }, axisTrackCardSubtitleDisplay(t.subtitle))), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-purpose" }, t.purpose)), /*#__PURE__*/
+      React.createElement("div", { className: "track-card-home-footer" }, /*#__PURE__*/
+      React.createElement("span", { className: "track-card-home-dur axis-duration-label" }, footerDurLine)
+      )));
     };
 
     const minsNow = new Date().getHours() * 60 + new Date().getMinutes();
