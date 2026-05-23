@@ -3880,6 +3880,23 @@ const css = `
     left:auto !important;
     top:auto !important;
     margin:0;
+    width:36px;
+    height:36px;
+    min-width:36px;
+    min-height:36px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    padding:0;
+    background:transparent;
+    cursor:pointer;
+    transition:border-color 0.2s ease, background 0.2s ease, transform var(--motion-fast), opacity var(--motion-fast);
+  }
+  .hdr-session-head .back-btn svg {
+    width:14px;
+    height:14px;
   }
   .hdr-session-head .hdr-left {
     width:100%;
@@ -22875,7 +22892,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
         color: sessionBackIconColor,
         WebkitTapHighlightColor: "transparent"
       } }, /*#__PURE__*/
-    React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
+    React.createElement("svg", { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/
     React.createElement("path", { d: "M19 12H5M12 5l-7 7 7 7" }))
     ), /*#__PURE__*/
     React.createElement("div", { className: "hdr-dur axis-duration-label", "aria-label": "Session length" }, sessionDurationLabel)
@@ -22934,11 +22951,11 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("button", {
       type: "button",
       className: "session-entry-own-path-box",
-      "aria-label": "Pick your own path — scroll to exercises",
+      "aria-label": "Go at your own pace — scroll to exercises",
       onClick: scrollToOwnPathExercises,
       style: { WebkitTapHighlightColor: "transparent" }
     }, /*#__PURE__*/
-    React.createElement("span", { className: "session-entry-primary-label session-entry-own-path-box__label" }, "PICK YOUR OWN PATH")
+    React.createElement("span", { className: "session-entry-primary-label session-entry-own-path-box__label" }, "GO AT YOUR OWN PACE")
     ), /*#__PURE__*/
     React.createElement("div", { className: "session-entry-micro-wrap session-entry-micro-wrap--body" }, /*#__PURE__*/
     React.createElement("p", { className: "session-own-path__body session-entry-microcopy" }, "Choose Moves \u2022 Control Pace \u2022 Timers or Reps")
