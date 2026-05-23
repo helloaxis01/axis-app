@@ -41,7 +41,16 @@ function stampScriptSrc(html, file, buildId) {
   return html.replace(re, `$1?cb=${buildId}"`);
 }
 
-function stampAppJs(html, buildId) {
+function stampStylesheetHref(html, file, buildId) {
+  const escaped = file.replace(/\./g, "\\.");
+  const re = new RegExp(
+    `(href="(?:\\./)?${escaped})(?:\\?[^"]*)?"`,
+    "g"
+  );
+  return html.replace(re, `$1?cb=${buildId}"`);
+}
+
+function stampModuleAppJs(html, buildId) {
   return html.replace(/(\.\/app\.js)\?cb=[^"']+/g, `$1?cb=${buildId}`);
 }
 
@@ -104,7 +113,8 @@ function main() {
   }
 
   let indexHtml = fs.readFileSync(indexPath, "utf8");
-  indexHtml = stampAppJs(indexHtml, buildId);
+  indexHtml = stampModuleAppJs(indexHtml, buildId);
+  indexHtml = stampStylesheetHref(indexHtml, "app.css", buildId);
   indexHtml = stampScriptSrc(indexHtml, "auth-bundle.js", buildId);
   indexHtml = stampScriptSrc(indexHtml, "axis_data.js", buildId);
   indexHtml = stampManifestHref(indexHtml, buildId);

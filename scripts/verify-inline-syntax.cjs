@@ -1,23 +1,31 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 
 const root = path.resolve(__dirname, "..");
 const appJs = path.join(root, "public_web", "app.js");
+const workoutJs = path.join(root, "public_web", "components", "WorkoutApp.js");
 const code = fs.readFileSync(appJs, "utf8");
 const startMarker = "// Development flag:";
 if (!code.includes(startMarker)) {
   console.error("verify-inline-syntax: start marker not found in", appJs);
   process.exit(1);
 }
+
+function checkModuleSyntax(filePath) {
+  execSync(`node --check "${filePath}"`, { stdio: "pipe" });
+}
+
 try {
-  new Function(code);
+  checkModuleSyntax(appJs);
+  checkModuleSyntax(workoutJs);
 } catch (e) {
-  console.error("verify-inline-syntax: public_web/app.js is invalid JavaScript");
-  console.error(e && e.message);
+  console.error("verify-inline-syntax: ES module syntax check failed");
+  console.error(e && (e.stderr ? e.stderr.toString() : e.message));
   process.exit(1);
 }
-console.log("verify-inline-syntax: ok (" + code.length + " bytes)");
+console.log("verify-inline-syntax: ok (" + code.length + " bytes app.js)");
 
 /* Guard: Vercel must deploy public_web/onboarding.html, not a legacy/preview copy (e.g. preview-2006cb5) */
 const obFile = path.join(root, "public_web", "onboarding.html");

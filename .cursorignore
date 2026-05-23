@@ -1,0 +1,5 @@
+public_web/index_backup_*.html
+public_web/onboarding_backup_*.html
+public_web/auth-bundle.js
+public_web/axis_data.js
+public_web/vendor/
