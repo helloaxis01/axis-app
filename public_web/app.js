@@ -6573,15 +6573,11 @@ const css = `
     height: 18px;
     display: block;
   }
-  .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn:hover,
-  .content--session-list .er-card:not(.er-card--open):hover .er-list-pin-skip-row--compact .er-list-icon-btn:not(.er-list-pin-btn--pinned):not(.er-list-skip-btn--skipped) {
-    color: color-mix(in srgb, var(--axis-session-list-accent) 72%, #fff);
+  .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn:hover {
+    color: var(--axis-session-list-accent, var(--mood-color));
     background: transparent;
   }
-  .content--session-list .er-list-pin-skip-row--compact .er-list-pin-btn.er-list-pin-btn--pinned {
-    color: var(--axis-session-list-accent);
-    opacity: 1 !important;
-  }
+  .content--session-list .er-list-pin-skip-row--compact .er-list-pin-btn.er-list-pin-btn--pinned,
   .content--session-list .er-list-pin-skip-row--compact .er-list-skip-btn.er-list-skip-btn--skipped {
     color: rgba(255, 255, 255, 0.45);
     opacity: 1 !important;
@@ -6686,9 +6682,12 @@ const css = `
   .content--session .er-list-icon-btn:hover {
     color: rgba(255, 255, 255, 0.72);
   }
-  .content--session-list .er-list-icon-btn:hover {
-    color: color-mix(in srgb, var(--mood-color) 72%, #fff);
-    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
+  .content--session-list .er-list-icon-btn.er-list-pin-btn:hover,
+  .content--session-list .er-list-icon-btn.er-list-skip-btn:hover,
+  .content--session-guided .er-list-icon-btn.er-list-pin-btn:hover,
+  .content--session-guided .er-list-icon-btn.er-list-skip-btn:hover {
+    color: var(--axis-session-list-accent, var(--mood-color));
+    background: transparent;
   }
   .content--session-list .er-list-expand-chev {
     transition: color 0.18s ease, transform 0.18s ease;
@@ -6697,10 +6696,10 @@ const css = `
     color: color-mix(in srgb, var(--mood-color) 72%, #fff);
   }
   .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
-    color: var(--mood-color);
+    color: rgba(255, 255, 255, 0.45);
   }
   .content--session-list .er-list-pin-btn.er-list-pin-btn--pinned {
-    color: var(--axis-session-list-accent, var(--mood-color));
+    color: rgba(255, 255, 255, 0.45);
   }
   .content--session .er-list-skip-btn.er-list-skip-btn--skipped {
     color: rgba(255, 255, 255, 0.45);
@@ -6847,21 +6846,19 @@ const css = `
     background: var(--axis-session-list-accent, var(--mood-color));
     box-shadow: 0 0 10px color-mix(in srgb, var(--mood-color) 35%, transparent);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn:hover {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn.er-list-pin-btn:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn.er-list-skip-btn:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-icon-btn.er-list-pin-btn:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-icon-btn.er-list-skip-btn:hover,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn:hover {
     color: var(--axis-session-list-accent, var(--mood-color));
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-skip-btn.er-list-skip-btn--skipped {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-skip-btn.er-list-skip-btn--skipped,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
     color: rgba(15, 30, 46, 0.45);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn {
     color: rgba(15, 30, 46, 0.2);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card:not(.er-card--open):hover .er-list-pin-skip-row--compact .er-list-icon-btn:not(.er-list-pin-btn--pinned):not(.er-list-skip-btn--skipped),
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-pin-skip-row--compact .er-list-icon-btn:hover {
-    color: color-mix(in srgb, var(--mood-color) 72%, #0f1e2e);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-pin-skip-row--compact .er-list-skip-btn.er-list-skip-btn--skipped {
-    color: rgba(15, 30, 46, 0.45);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card:not(.er-card--open):hover .er-list-expand-chev {
     color: color-mix(in srgb, var(--mood-color) 72%, #0f1e2e);
@@ -14707,9 +14704,6 @@ const css = `
     -webkit-text-fill-color: var(--text-primary) !important;
     opacity: 1 !important;
   }
-  .home-slide-view--explore .home-browse-results .home-track-bookmark-btn:not([aria-pressed="true"]) {
-    opacity: 0.28;
-  }
   .home-fav-row-main { flex:1; min-width:0; border:none; background:transparent; color:inherit; text-align:left; padding:0; }
   .home-fav-star-btn {
     width:40px;
@@ -15475,6 +15469,7 @@ const css = `
     -webkit-tap-highlight-color: transparent;
     border-radius: 0;
     box-shadow: none;
+    opacity: 1 !important;
   }
   .home-track-bookmark-btn .axis-bookmark-glyph-svg {
     width: 18px;
@@ -15482,15 +15477,28 @@ const css = `
     display: block;
   }
   .home-track-bookmark-btn:active { transform: scale(0.92); }
+  .home-track-bookmark-btn:not([aria-pressed="true"]) {
+    color: rgba(255, 255, 255, 0.2);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.2);
+  }
   .home-track-bookmark-btn[aria-pressed="true"] {
+    color: rgba(255, 255, 255, 0.45) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.45) !important;
+    filter: none;
+  }
+  .home-track-bookmark-btn:hover {
     color: var(--accent, var(--mood-color)) !important;
     -webkit-text-fill-color: var(--accent, var(--mood-color)) !important;
-    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent, var(--mood-color)) 42%, transparent));
   }
   .app[data-theme="light"]:not([data-night="true"]) .home-track-bookmark-btn {
-    color: rgba(15, 30, 46, 0.34);
+    color: rgba(15, 30, 46, 0.2);
+    -webkit-text-fill-color: rgba(15, 30, 46, 0.2);
   }
   .app[data-theme="light"]:not([data-night="true"]) .home-track-bookmark-btn[aria-pressed="true"] {
+    color: rgba(15, 30, 46, 0.45) !important;
+    -webkit-text-fill-color: rgba(15, 30, 46, 0.45) !important;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .home-track-bookmark-btn:hover {
     color: var(--accent, var(--mood-color)) !important;
     -webkit-text-fill-color: var(--accent, var(--mood-color)) !important;
   }
