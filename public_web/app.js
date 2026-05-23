@@ -5191,16 +5191,78 @@ const css = `
     padding: 0;
   }
   .session-entry-section--own-path {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 0.5px solid color-mix(in srgb, var(--mood-color) 12%, transparent);
-    pointer-events: none;
-    cursor: default;
-    user-select: none;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
     text-align: center;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path {
-    border-top-color: color-mix(in srgb, var(--mood-color) 14%, transparent);
+  .session-entry-or {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0.65rem 0;
+    box-sizing: border-box;
+  }
+  .session-entry-or::before,
+  .session-entry-or::after {
+    content: "";
+    flex: 1 1 0;
+    min-width: 0;
+    height: 0.5px;
+    background: color-mix(in srgb, var(--mood-color) 18%, transparent);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-or::before,
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-or::after {
+    background: color-mix(in srgb, var(--mood-color) 22%, transparent);
+  }
+  .session-entry-or__label {
+    flex: 0 0 auto;
+    font-family: "DM Sans", var(--font-ui), system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.45);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.45);
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .session-entry-or__label {
+    color: rgba(15, 30, 46, 0.42);
+    -webkit-text-fill-color: rgba(15, 30, 46, 0.42);
+  }
+  .session-entry-own-path-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--mood-color);
+    background: transparent;
+    box-sizing: border-box;
+    cursor: pointer;
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  }
+  .session-entry-own-path-box:hover {
+    background: color-mix(in srgb, var(--mood-color) 5%, transparent);
+  }
+  .session-entry-own-path-box:active {
+    opacity: 0.92;
+  }
+  .session-entry-own-path-box__label {
+    color: var(--mood-color) !important;
+    -webkit-text-fill-color: var(--mood-color) !important;
+  }
+  .app[data-night="true"] .session-entry-own-path-box {
+    border-color: #ff3b30;
+  }
+  .app[data-night="true"] .session-entry-own-path-box__label {
+    color: #ff3b30 !important;
+    -webkit-text-fill-color: #ff3b30 !important;
   }
   .session-entry-cta {
     margin: 0;
@@ -5251,7 +5313,7 @@ const css = `
     margin-bottom: -0.3rem;
   }
   .session-entry-section--own-path .session-entry-micro-wrap--body {
-    margin-top: 0.05rem;
+    margin-top: 0.35rem;
     margin-bottom: 0;
   }
   .session-entry-continue-cue {
@@ -5335,16 +5397,6 @@ const css = `
     line-height: 1.1 !important;
     -webkit-text-size-adjust: none !important;
     text-size-adjust: none !important;
-  }
-  .session-entry-section--own-path .session-own-path__label.session-entry-primary-label {
-    margin: 0 0 0.3rem;
-    color: var(--mood-color) !important;
-    -webkit-text-fill-color: var(--mood-color) !important;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .session-entry-section--own-path .session-own-path__label.session-entry-primary-label,
-  .app[data-night="true"] .session-entry-section--own-path .session-own-path__label.session-entry-primary-label {
-    color: var(--mood-color) !important;
-    -webkit-text-fill-color: var(--mood-color) !important;
   }
   /* LIST tab: flat sections + premium exercise cards */
   .content--session-list {
@@ -6094,6 +6146,7 @@ const css = `
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--open {
     opacity: 1;
     border: 0.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
   }
   .content--session-list .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open),
   .content--session-guided .sg.sg--session-sheet > .er-card.er-card--pinned:not(.er-card--open) {
@@ -6624,7 +6677,6 @@ const css = `
   .content--session-guided .er-card.er-card--open {
     background: rgba(22, 38, 56, 0.46) !important;
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-radius: 14px !important;
     padding: 0 !important;
     backdrop-filter: blur(18px) saturate(1.4);
     -webkit-backdrop-filter: blur(18px) saturate(1.4);
@@ -6633,6 +6685,12 @@ const css = `
     margin-right: 0 !important;
     margin-bottom: 0 !important;
     box-shadow: none !important;
+  }
+  .content--session-list .er-card.er-card--open {
+    border-radius: 12px !important;
+  }
+  .content--session-guided .er-card.er-card--open {
+    border-radius: 14px !important;
   }
   /* Same vertical rhythm as collapsed rows: margin-top after every card including when expanded (survives overflow/BFC). */
   .content--session-list .sg.sg--session-sheet > .er-card + .er-card.er-card--open {
@@ -6645,6 +6703,9 @@ const css = `
   .content--session-list .er-card.er-card--open > .er.er--list-card-a,
   .content--session-guided .er-card.er-card--open > .er.er--list-card-a {
     border-radius: 14px 14px 0 0 !important;
+  }
+  .content--session-list .er-card.er-card--open > .er.er--list-card-a {
+    border-radius: 12px 12px 0 0 !important;
   }
   .content--session-list .er-card.er-card--open.er-card--complete,
   .content--session-guided .er-card.er-card--open.er-card--complete {
@@ -6780,7 +6841,7 @@ const css = `
     overflow: hidden !important;
     position: relative !important;
   }
-  /* Keep the title/summary column stacked on the left when expanded (title, subtitle, meta) */
+  /* Expanded header: same typography and inset as collapsed — card chrome carries focus */
   .content--session-list .er-card.er-card--open .er-list-center,
   .content--session-guided .er-card.er-card--open .er-list-center {
     display: flex !important;
@@ -6791,19 +6852,35 @@ const css = `
     width: 100% !important;
   }
   .content--session-list .er-card.er-card--open .er-list-title,
-  .content--session-guided .er-card.er-card--open .er-list-title {
-    flex: 0 1 auto !important;
-    margin: 0 0 6px 0 !important;
-    font-weight: 700 !important;
-    color: var(--text-white) !important;
-  }
+  .content--session-guided .er-card.er-card--open .er-list-title,
   .content--session-list .er-card.er-card--open .er-list-title-row .er-list-title,
   .content--session-guided .er-card.er-card--open .er-list-title-row .er-list-title {
+    font-weight: 400 !important;
     margin: 0 !important;
+    color: color-mix(in srgb, var(--text-white) 96%, transparent) !important;
+    -webkit-text-fill-color: color-mix(in srgb, var(--text-white) 96%, transparent) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .er-list-title,
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .er-list-title {
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .er-list-title,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open .er-list-title-row .er-list-title,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open .er-list-title-row .er-list-title {
     color: color-mix(in srgb, var(--text-primary) 96%, transparent) !important;
+    -webkit-text-fill-color: color-mix(in srgb, var(--text-primary) 96%, transparent) !important;
+  }
+  .content--session-list .er-card.er-card--open .er-list-desc,
+  .content--session-guided .er-card.er-card--open .er-list-desc {
+    font-weight: 400 !important;
+    margin: 2px 0 5px 0 !important;
+  }
+  .content--session-guided .er-card.er-card--open .er-list-desc {
+    margin: 3px 0 6px 0 !important;
+  }
+  .content--session-list .er-card.er-card--open .er-list-title-row,
+  .content--session-guided .er-card.er-card--open .er-list-title-row {
+    margin-bottom: 2px !important;
+  }
+  .content--session-guided .er-card.er-card--open .er-list-title-row {
+    margin-bottom: 4px !important;
   }
   .content--session-list .er-card.er-card--open .er-list-meta-chev-row,
   .content--session-guided .er-card.er-card--open .er-list-meta-chev-row {
@@ -7124,11 +7201,11 @@ const css = `
     -webkit-backdrop-filter: none;
   }
   /* Match collapsed .er--list-card-a padding so title/description do not shift on expand */
-  .content--session-list .er-card > .er--list-card-a.open,
-  .content--session-guided .er-card > .er--list-card-a.open {
-    padding: 17px 14px 17px 16px !important;
+  .content--session-list .er-card > .er--list-card-a.open {
+    padding: 14px 11px 13px 12px !important;
   }
   .content--session-guided .er-card > .er--list-card-a.open {
+    padding: 17px 14px 17px 16px !important;
     padding-left: 18px !important;
   }
   .panel {
@@ -21195,6 +21272,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const [streak, setStreak] = useState(() => storageGet("axis_streak", 0));
   const [history, setHistory] = useState(() => storageGet("axis_history", []));
   const sessionContentRef = useRef(null);
+  const sessionFirstPurposeRef = useRef(null);
   const listScrollRef = useRef(0);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
   const [purposeOpenBySection, setPurposeOpenBySection] = useState(() => ({}));
@@ -21702,6 +21780,15 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     primeAudio();
     setGuidedActive(true);
   };
+  const scrollToOwnPathExercises = () => {
+    axisHapticTick();
+    requestAnimationFrame(() => {
+      const target = sessionFirstPurposeRef.current ||
+      sessionContentRef.current?.querySelector(".session-list-preview .purpose-note--guided") ||
+      sessionContentRef.current?.querySelector(".session-list-preview .sg-section-label");
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
   const toggleList = (id) => applySessionDoneToggle(setListDone, id);
   const toggleGuided = (id) => applySessionDoneToggle(setGuidedDone, id);
 
@@ -21790,6 +21877,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
   const systemGatewayBackBorderColor = systemGatewayBackNight ? "#FF3B30" : systemGatewayBackDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)";
   const renderSystemSubTitleRow = (titleText, extraTitleClass = "") => /*#__PURE__*/React.createElement("div", { className: "system-sub-panel-head__row" }, /*#__PURE__*/React.createElement("button", { type: "button", className: "back-btn", onClick: () => {axisHapticTick();setSystemPanel("mood");}, "aria-label": "Back to Mood", style: { border: `1px solid ${systemGatewayBackBorderColor}`, color: systemGatewayBackIconColor, WebkitTapHighlightColor: "transparent" } }, /*#__PURE__*/React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M19 12H5M12 5l-7 7 7 7" }))), /*#__PURE__*/React.createElement("div", { className: ("app-screen-title system-sub-panel-head__title " + extraTitleClass).trim() }, titleText));
   const visibleSections = SECTIONS.map((s) => ({ ...s, exercises: s.exercises })).filter((s) => s.exercises.length > 0);
+  const firstPurposeSectionLabel = visibleSections.find((s) => s.purpose)?.label ?? null;
   const SunIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "5" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "2", x2: "12", y2: "4" }), /*#__PURE__*/React.createElement("line", { x1: "12", y1: "20", x2: "12", y2: "22" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }), /*#__PURE__*/React.createElement("line", { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }), /*#__PURE__*/React.createElement("line", { x1: "2", y1: "12", x2: "4", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "20", y1: "12", x2: "22", y2: "12" }), /*#__PURE__*/React.createElement("line", { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }), /*#__PURE__*/React.createElement("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" }));
   const MoonIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }));
   const GearIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, /*#__PURE__*/React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /*#__PURE__*/React.createElement("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" }));
@@ -22839,14 +22927,21 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("p", { className: "session-guided-hint session-entry-microcopy" }, "Hands-Free \u2022 Auto-Timed \u2022 Guided Flow")
     )
     ), /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-section session-entry-section--own-path", role: "note", "aria-label": "Self-paced session option" }, /*#__PURE__*/
-    React.createElement("div", { className: "session-own-path__label session-entry-primary-label" }, "Or pick your own path"), /*#__PURE__*/
+    React.createElement("div", { className: "session-entry-or", "aria-hidden": true }, /*#__PURE__*/
+    React.createElement("span", { className: "session-entry-or__label" }, "OR")
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "session-entry-section session-entry-section--own-path", "aria-label": "Self-paced session option" }, /*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "session-entry-own-path-box",
+      "aria-label": "Pick your own path — scroll to exercises",
+      onClick: scrollToOwnPathExercises,
+      style: { WebkitTapHighlightColor: "transparent" }
+    }, /*#__PURE__*/
+    React.createElement("span", { className: "session-entry-primary-label session-entry-own-path-box__label" }, "PICK YOUR OWN PATH")
+    ), /*#__PURE__*/
     React.createElement("div", { className: "session-entry-micro-wrap session-entry-micro-wrap--body" }, /*#__PURE__*/
     React.createElement("p", { className: "session-own-path__body session-entry-microcopy" }, "Choose Moves \u2022 Control Pace \u2022 Timers or Reps")
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-continue-cue", "aria-hidden": true }, /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path__continue" }, "CONTINUE BELOW"), /*#__PURE__*/
-    React.createElement(AxisChevronCaret, { expanded: true, className: "session-entry-continue-cue__chev" })
     )
     )
     ), /*#__PURE__*/
@@ -22855,7 +22950,10 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("div", { className: "sg sg--session-sheet", key: sec.label }, /*#__PURE__*/
     React.createElement(React.Fragment, null, /*#__PURE__*/
     sec.purpose && /*#__PURE__*/
-    React.createElement("div", { className: "purpose-note purpose-note--guided" }, /*#__PURE__*/
+    React.createElement("div", {
+      className: "purpose-note purpose-note--guided",
+      ref: sec.label === firstPurposeSectionLabel ? sessionFirstPurposeRef : undefined
+    }, /*#__PURE__*/
     React.createElement("div", { className: "purpose-note__rail purpose-note__rail--session" }, /*#__PURE__*/
     React.createElement("div", { className: "purpose-note__session-hit-band" }, /*#__PURE__*/
     React.createElement("button", {
