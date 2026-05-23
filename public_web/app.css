@@ -1132,7 +1132,7 @@ html, body, #root { font-family: var(--font-ui); }
   color: rgba(255, 255, 255, 0.48) !important;
   -webkit-text-fill-color: rgba(255, 255, 255, 0.48) !important;
 }
-.app[data-night="true"] .content--session .er-card {
+.app[data-night="true"] .content--session .er-card:not(.er-card--open) {
   background: transparent !important;
 }
 .app[data-night="true"] .content.content--session {
@@ -1789,7 +1789,7 @@ html, body, #root { font-family: var(--font-ui); }
   -webkit-text-fill-color: color-mix(in srgb, #ff3b30 22%, transparent) !important;
 }
 .guided-overlay .guided-refresher-sheet .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:not(:disabled):hover {
-  background: color-mix(in srgb, var(--mood-color) 12%, transparent) !important;
+  background: color-mix(in srgb, var(--mood-color) 12%, rgba(45, 55, 95, 0.3)) !important;
 }
 .guided-overlay[data-night="true"] .guided-refresher-sheet .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:not(:disabled):hover {
   background: color-mix(in srgb, #ff3b30 12%, transparent) !important;
@@ -3902,7 +3902,7 @@ a.settings-outline-btn {
 .content--session-list {
   --axis-session-list-accent: var(--mood-color);
   --axis-session-list-card-bg: rgba(45, 55, 95, 0.3);
-  --axis-session-list-card-bg-open: color-mix(in srgb, var(--axis-session-list-accent) 12%, transparent);
+  --axis-session-list-card-bg-open: color-mix(in srgb, var(--axis-session-list-accent) 12%, var(--axis-session-list-card-bg));
   --axis-session-list-card-bg-hover: rgba(58, 68, 108, 0.42);
   --axis-session-list-card-bg-done: rgba(45, 55, 95, 0.22);
   --axis-session-card-border: rgba(255, 255, 255, 0.1);
@@ -3914,7 +3914,7 @@ a.settings-outline-btn {
 }
 /* GUIDED preview: same card border tokens (neutral default, mood on selected/open) */
 .content--session-guided {
-  --axis-session-list-card-bg-open: color-mix(in srgb, var(--mood-color) 12%, transparent);
+  --axis-session-list-card-bg-open: color-mix(in srgb, var(--mood-color) 12%, rgba(45, 55, 95, 0.3));
   --axis-session-card-border: rgba(255, 255, 255, 0.1);
   --axis-session-card-border-hover: rgba(255, 255, 255, 0.14);
   --axis-session-card-border-selected: color-mix(in srgb, var(--mood-color) 20%, transparent);
@@ -4679,6 +4679,7 @@ a.settings-outline-btn {
 }
 .content--session-list .sg.sg--session-sheet > .er-card.er-card--open {
   opacity: 1;
+  background: var(--axis-session-list-card-bg-open) !important;
   border: 1px solid var(--axis-session-card-border-selected);
   border-radius: 8px;
 }
@@ -5208,7 +5209,7 @@ a.settings-outline-btn {
 .app[data-theme="light"]:not([data-night="true"]) .content--session-list,
 .app[data-theme="light"]:not([data-night="true"]) .content--session-guided {
   --axis-session-list-card-bg: rgba(255, 255, 255, 0.96);
-  --axis-session-list-card-bg-open: color-mix(in srgb, var(--axis-session-list-accent, var(--mood-color)) 12%, rgba(255, 255, 255, 0.96));
+  --axis-session-list-card-bg-open: color-mix(in srgb, var(--axis-session-list-accent, var(--mood-color)) 12%, var(--axis-session-list-card-bg));
   --axis-session-list-card-bg-hover: #ffffff;
   --axis-session-list-card-bg-done: rgba(248, 250, 252, 0.9);
   --axis-session-card-border: rgba(15, 30, 46, 0.1);
@@ -5419,7 +5420,7 @@ a.settings-outline-btn {
 /* Make expanded LIST / GUIDED preview cards visually match collapsed cards (compact) */
 .content--session-list .er-card.er-card--open,
 .content--session-guided .er-card.er-card--open {
-  background: var(--axis-session-list-card-bg-open, color-mix(in srgb, var(--mood-color) 12%, transparent)) !important;
+  background: var(--axis-session-list-card-bg-open, color-mix(in srgb, var(--mood-color) 12%, rgba(45, 55, 95, 0.3))) !important;
   border: 1px solid var(--axis-session-card-border-selected, color-mix(in srgb, var(--mood-color) 20%, transparent)) !important;
   padding: 0 !important;
   backdrop-filter: blur(18px) saturate(1.4);
@@ -5466,16 +5467,16 @@ a.settings-outline-btn {
 }
 .content--session-list .er-card.er-card--open.er-card--complete,
 .content--session-guided .er-card.er-card--open.er-card--complete {
-  background: var(--axis-session-list-card-bg-open, color-mix(in srgb, var(--mood-color) 12%, transparent)) !important;
+  background: var(--axis-session-list-card-bg-open, color-mix(in srgb, var(--mood-color) 12%, rgba(45, 55, 95, 0.3))) !important;
 }
 .app[data-night="true"] .content--session-list .er-card.er-card--open,
 .app[data-night="true"] .content--session-guided .er-card.er-card--open {
-  background: color-mix(in srgb, var(--mood-color) 12%, transparent) !important;
+  background: color-mix(in srgb, var(--mood-color) 12%, rgba(45, 55, 95, 0.3)) !important;
   border-color: rgba(255, 59, 48, 0.18) !important;
 }
 .app[data-night="true"] .content--session-list .er-card.er-card--open.er-card--complete,
 .app[data-night="true"] .content--session-guided .er-card.er-card--open.er-card--complete {
-  background: color-mix(in srgb, var(--mood-color) 12%, transparent) !important;
+  background: color-mix(in srgb, var(--mood-color) 12%, rgba(45, 55, 95, 0.3)) !important;
 }
 .content--session-list .er-card.er-card--open .panel.protocol-panel,
 .content--session-guided .er-card.er-card--open .panel.protocol-panel {
@@ -5850,7 +5851,7 @@ a.settings-outline-btn {
 }
 .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:not(:disabled):hover,
 .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:not(:disabled):hover {
-  background: color-mix(in srgb, var(--mood-color) 12%, transparent) !important;
+  background: color-mix(in srgb, var(--mood-color) 12%, rgba(45, 55, 95, 0.3)) !important;
 }
 .content--session-list .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav-arrows--glyph .exercise-carousel__nav-btn,
 .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav-arrows--glyph .exercise-carousel__nav-btn {
