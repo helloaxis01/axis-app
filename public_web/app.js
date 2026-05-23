@@ -678,8 +678,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
     strokeLinejoin: "round",
     "aria-hidden": true
   }, /*#__PURE__*/React.createElement("path", { d: "M9 18l6-6-6-6" }))));
-  const navSepEl = sessionChrome && n > 1 ? /*#__PURE__*/React.createElement("span", { className: "exercise-carousel__nav-sep", "aria-hidden": true }, "\u00B7") : null;
-  const navSep2El = sessionChrome && n > 1 ? /*#__PURE__*/React.createElement("span", { className: "exercise-carousel__nav-sep exercise-carousel__nav-sep--tail", "aria-hidden": true }, "\u00B7") : null;
+
   const navEl = n > 1 ? /*#__PURE__*/React.createElement("div", {
     className: "exercise-carousel__nav" + (sessionChrome ? " exercise-carousel__nav--session" : ""),
     style: sessionNavStyle,
@@ -687,7 +686,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   }, /*#__PURE__*/React.createElement("span", {
     className: "exercise-carousel__step-count",
     "aria-live": "polite"
-  }, idx + 1 + "/" + n), navSepEl, navDotsEl, navSep2El, navArrowsEl) : null;
+  }, idx + 1 + "/" + n), navDotsEl, navArrowsEl) : null;
   const labelEl = /*#__PURE__*/React.createElement("div", {
     className: "exercise-carousel__label" + (sessionChrome ? " exercise-carousel__label--session" : ""),
     style: labelStyle
@@ -3380,9 +3379,12 @@ const css = `
   .guided-overlay[data-theme="dark"][data-night="false"] .guided-refresher-sheet .guided-refresher-done:not(.guided-cta-fill),
   .guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-sheet .guided-refresher-done:not(.guided-cta-fill),
   .guided-overlay[data-phase="intro"][data-theme="dark"][data-night="false"] .guided-refresher-done:not(.guided-cta-fill),
-  .guided-overlay[data-phase="intro"][data-theme="light"][data-night="false"] .guided-refresher-done:not(.guided-cta-fill) {
+  .guided-overlay[data-phase="intro"][data-theme="light"][data-night="false"] .guided-refresher-done:not(.guided-cta-fill),
+  .guided-overlay[data-phase="intro"] .guided-intro-start:not(.guided-cta-fill) {
     background: var(--mood-color) !important;
     background-color: var(--mood-color) !important;
+    opacity: 1 !important;
+    filter: none !important;
   }
   .guided-overlay[data-night="true"] .guided-refresher-sheet .guided-refresher-done,
   .guided-overlay[data-phase="intro"][data-night="true"] .guided-refresher-done {
@@ -5213,11 +5215,15 @@ const css = `
     background: transparent;
     border: none;
     box-shadow: none;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    padding-inline: 0;
+    padding-block: 0.25rem;
   }
   .session-entry-section--own-path {
     margin-top: 0;
-    padding-top: 0;
     border-top: none;
     text-align: center;
   }
@@ -5332,14 +5338,8 @@ const css = `
     justify-content: center;
     text-align: center;
     line-height: 0;
-  }
-  .session-entry-section--guided .session-entry-micro-wrap {
-    margin-top: 0.35rem;
-    margin-bottom: -0.3rem;
-  }
-  .session-entry-section--own-path .session-entry-micro-wrap--body {
-    margin-top: 0.35rem;
-    margin-bottom: 0;
+    margin: 0;
+    padding: 0;
   }
   .session-entry-continue-cue {
     display: flex;
@@ -6515,48 +6515,52 @@ const css = `
   .content--session .er-list-expand-chev:not(.er-list-expand-chev--open) svg polyline {
     transition: stroke 0.15s ease;
   }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list {
+    --axis-session-list-card-bg: rgba(255, 255, 255, 0.92);
+    --axis-session-list-card-bg-hover: rgba(255, 255, 255, 1);
+    --axis-session-list-card-bg-done: rgba(255, 255, 255, 0.6);
+  }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet {
-    background: rgba(255, 255, 255, 0.66);
-    border-color: rgba(15, 30, 46, 0.1);
-    box-shadow: 0 4px 22px rgba(15, 30, 46, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.82);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet {
     background: transparent;
     border: none;
     box-shadow: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open) {
-    background: rgba(255, 255, 255, 0.92);
+    background: var(--axis-session-list-card-bg);
     border: 0.5px solid rgba(15, 30, 46, 0.1);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    box-shadow: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):not(.er-card--complete):not(.er-card--list-skipped) {
-    opacity: 0.72;
+    opacity: 0.65;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open) {
-    background: #ffffff;
-    border-color: var(--border-card);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(15, 30, 46, 0.1);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
-    background: #ffffff !important;
+    background: var(--axis-session-list-card-bg-hover) !important;
     border: 0.5px solid rgba(15, 30, 46, 0.14) !important;
+    border-radius: 12px !important;
     opacity: 1 !important;
+    transform: translateY(-1px);
     box-shadow: 0 4px 14px rgba(15, 30, 46, 0.08) !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card:not(.er-card--open):hover {
-    background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.04) 6%) !important;
-    border-color: var(--color-border-primary) !important;
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(15, 30, 46, 0.14) !important;
+    border-radius: 14px !important;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--pinned:not(.er-card--open),
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--pinned:not(.er-card--open) {
     border-color: color-mix(in srgb, var(--mood-color) 30%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-title {
-    color: color-mix(in srgb, var(--text-primary) 94%, transparent);
+    color: color-mix(in srgb, var(--text-primary) 96%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-title.er-list-title--done {
     color: var(--text-primary);
@@ -6568,7 +6572,7 @@ const css = `
     text-decoration-color: rgba(15, 30, 46, 0.22);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-desc {
-    color: color-mix(in srgb, var(--text-primary) 78%, transparent);
+    color: color-mix(in srgb, var(--text-primary) 88%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-desc.er-list-desc--done {
     color: var(--text-primary);
@@ -6578,67 +6582,57 @@ const css = `
     color: rgba(15, 30, 46, 0.28);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
-    background: rgba(255, 255, 255, 0.6);
-    border-color: var(--border-card);
+    background: var(--axis-session-list-card-bg-done);
+    border-color: rgba(15, 30, 46, 0.1);
+    opacity: 1;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .sg.sg--session-sheet > .er-card.er-card--complete:not(.er-card--open) {
-    background: color-mix(in srgb, #ffffff 90%, rgba(15, 30, 46, 0.06) 10%);
-    border-color: var(--border-card);
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(15, 30, 46, 0.1);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-icon-btn {
-    color: rgba(15, 30, 46, 0.22);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-icon-btn:hover {
-    color: rgba(15, 30, 46, 0.78);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn:hover {
-    color: color-mix(in srgb, var(--mood-color) 78%, #0f1e2e);
-    background: color-mix(in srgb, var(--mood-color) 12%, transparent);
-  }
+  /* Light: color inverse only — bookmark/skip use same 40px grid as dark (no layout overrides) */
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete::before {
-    border-color: rgba(15, 30, 46, 0.22);
+    border-color: rgba(15, 30, 46, 0.28);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on::before {
-    border-color: var(--mood-color);
-    background: var(--mood-color);
+    border-color: var(--axis-session-list-accent, var(--mood-color));
+    background: var(--axis-session-list-accent, var(--mood-color));
+    box-shadow: 0 0 10px color-mix(in srgb, var(--mood-color) 35%, transparent);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .ra-btn:hover {
-    color: color-mix(in srgb, var(--mood-color) 78%, #0f1e2e) !important;
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-icon-btn:hover {
+    color: color-mix(in srgb, var(--mood-color) 72%, #0f1e2e);
+    background: color-mix(in srgb, var(--mood-color) 10%, transparent);
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-pin-btn.er-list-pin-btn--pinned {
-    color: var(--mood-color);
+    color: var(--axis-session-list-accent, var(--mood-color));
   }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-skip-btn.er-list-skip-btn--skipped {
     color: rgba(15, 30, 46, 0.45);
   }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card:not(.er-card--open):hover .er-list-expand-chev {
+    color: color-mix(in srgb, var(--mood-color) 72%, #0f1e2e);
+  }
   .app[data-theme="light"]:not([data-night="true"]) .content--session .er-list-expand-chev {
     color: rgba(15, 30, 46, 0.2);
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open {
-    background: #ffffff !important;
-    border-color: var(--color-border-primary) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open {
-    background: #ffffff !important;
-    border-color: var(--color-border-primary) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open.er-card--complete {
-    background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.05) 6%) !important;
-    border-color: var(--border-card) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-card.er-card--open.er-card--complete,
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-card.er-card--open.er-card--complete {
-    background: color-mix(in srgb, #ffffff 94%, rgba(15, 30, 46, 0.05) 6%) !important;
-    border-color: var(--border-card) !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: none !important;
+    border-color: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -7177,17 +7171,6 @@ const css = `
   .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .panel.protocol-panel .exercise-carousel--session-card .exercise-carousel__nav--session .exercise-carousel__nav-btn:disabled {
     color: rgba(15, 30, 46, 0.2) !important;
     -webkit-text-fill-color: rgba(15, 30, 46, 0.2) !important;
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete,
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on {
-    border-color: rgba(15, 30, 46, 0.22);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on {
-    border-color: var(--mood-accent);
-    background: color-mix(in srgb, var(--mood-accent) 12%, transparent);
-  }
-  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-complete.er-list-complete--on .er-list-complete__tick {
-    stroke: var(--mood-accent) !important;
   }
   .content--session .er-body {
     width: 100%;
@@ -7801,6 +7784,32 @@ const css = `
     max-width: 100%;
     box-sizing: border-box;
     align-self: stretch;
+  }
+  .session-target-cta-wrap .session-target-label {
+    font-family: var(--font-meta);
+    font-size: var(--text-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent-secondary);
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  .session-target-cta-wrap .session-target-value {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-white);
+    line-height: 1.3;
+    margin: 0 0 12px;
+  }
+  .content--session-list .panel.protocol-panel .session-target-cta-wrap .session-target-value,
+  .content--session-guided .panel.protocol-panel .session-target-cta-wrap .session-target-value {
+    margin-bottom: 12px;
+  }
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-list .panel.protocol-panel .session-target-cta-wrap .session-target-value,
+  .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .panel.protocol-panel .session-target-cta-wrap .session-target-value {
+    color: var(--text-primary);
   }
   .chk {
     width:26px; height:26px; flex-shrink:0; border-radius:50%; cursor:pointer;
@@ -16297,16 +16306,20 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     React.createElement(Timer, { key: `t-${ex.id}`, seconds: exerciseDurationSeconds != null ? exerciseDurationSeconds : ex.seconds, onDone: markDoneAndCollapse, nextName: nextName, autoStart: true })
     ) :
     ex.reps && !hideDone && ex.id !== 5 && ex.id !== 702 ? /*#__PURE__*/
-    React.createElement("div", { style: { marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border)" } }, /*#__PURE__*/
-    React.createElement("div", { style: { fontFamily: "var(--font-meta)", fontSize: "var(--text-xs)", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--accent-secondary)", fontWeight: 500, marginBottom: 8 } }, "Target"), /*#__PURE__*/
-    React.createElement("div", { style: { fontFamily: "var(--font-body)", fontSize: "var(--text-base)", fontWeight: 600, letterSpacing: "0.04em", color: "var(--text-white)", lineHeight: 1.3, marginBottom: 16 } },
+    React.createElement("div", { className: "session-timer-cta-wrap session-target-cta-wrap" }, /*#__PURE__*/
+    React.createElement("div", { className: "session-target-label" }, "Target"), /*#__PURE__*/
+    React.createElement("div", { className: "session-target-value" },
     ex.reps
     ), /*#__PURE__*/
     React.createElement("button", { className: "mark-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();markDoneAndCollapse();} }, "Mark Done")
     ) :
     ex.reps && (ex.id === 5 || ex.id === 702) && !hideDone ? /*#__PURE__*/
-    React.createElement("button", { className: "mark-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();markDoneAndCollapse();}, style: { marginTop: 16 } }, "Mark Done") :
-    !hideDone ? /*#__PURE__*/React.createElement("button", { className: "mark-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();markDoneAndCollapse();}, style: { marginTop: 16 } }, "Mark Done") : null
+    React.createElement("div", { className: "session-timer-cta-wrap" }, /*#__PURE__*/
+    React.createElement("button", { className: "mark-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();markDoneAndCollapse();} }, "Mark Done")
+    ) :
+    !hideDone ? /*#__PURE__*/React.createElement("div", { className: "session-timer-cta-wrap" }, /*#__PURE__*/
+    React.createElement("button", { className: "mark-btn ultra-filled-btn", onClick: (e) => {e.stopPropagation();markDoneAndCollapse();} }, "Mark Done")
+    ) : null
 
     )
     )
@@ -17004,7 +17017,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const guidedShowRiskInlineNote = !!(guidedSafetyFlags.nerve || guidedSafetyFlags.caution);
   const guidedRiskNoteKind = guidedSafetyFlags.nerve ? "nerve" : "caution";
   const next = list[fi + 1] || null;
-  const headerPoseCounterNum = (phase === "instruction" || phase === "rest" || phase === "exercise") ? (next ? fi + 2 : listTotal) : fi + 1;
+  const headerPoseCounterNum = fi + 1;
   const guidedMoveSeconds = typeof exerciseDurationSeconds === "number" && exerciseDurationSeconds > 0 ? exerciseDurationSeconds : 45;
   const guidedExerciseRemainingRef = useRef(guidedMoveSeconds);
   const guidedExerciseSnapshotsRef = useRef({});
@@ -17858,10 +17871,11 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     ))), /*#__PURE__*/
     React.createElement("button", {
       type: "button",
-      className: (isNight ? "guided-cta-fill " : "") + "guided-refresher-done",
+      className: (isNight ? "guided-cta-fill " : "") + "guided-refresher-done guided-intro-start",
       onClick: () => {primeAudio();beep(880, 0.3);triggerHaptic(HAPTIC_LIGHT_TAP);setPaused(false);goToPrepPhaseAt(0);},
+      "aria-label": "Start guided session",
       style: { width: "100%", maxWidth: "100%", marginTop: 16, boxSizing: "border-box" }
-    }, "GUIDED SESSION"), /*#__PURE__*/
+    }, "START"), /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: onExit, "aria-label": "Close", style: {
         marginTop: 14, background: "none", border: "none", cursor: "pointer",
         fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: guidedTertiaryMuted, fontFamily: guidedMonoUi, fontWeight: 500,
@@ -22951,7 +22965,7 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     React.createElement("span", { className: "session-entry-primary-label" }, "GUIDED SESSION"))
     )),
     React.createElement("div", { className: "session-entry-micro-wrap" }, /*#__PURE__*/
-    React.createElement("p", { className: "session-guided-hint session-entry-microcopy" }, "Hands-Free \u2022 Auto-Timed \u2022 Guided Flow")
+    React.createElement("p", { className: "session-guided-hint session-entry-microcopy" }, "Hands-free. Auto-timed. Rest included.")
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "session-entry-or", "aria-hidden": true }, /*#__PURE__*/
@@ -22967,8 +22981,8 @@ function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight = () =>
     }, /*#__PURE__*/
     React.createElement("span", { className: "session-entry-primary-label session-entry-own-path-box__label" }, "GO AT YOUR OWN PACE")
     ), /*#__PURE__*/
-    React.createElement("div", { className: "session-entry-micro-wrap session-entry-micro-wrap--body" }, /*#__PURE__*/
-    React.createElement("p", { className: "session-own-path__body session-entry-microcopy" }, "Choose Moves \u2022 Control Pace \u2022 Timers or Reps")
+    React.createElement("div", { className: "session-entry-micro-wrap" }, /*#__PURE__*/
+    React.createElement("p", { className: "session-own-path__body session-entry-microcopy" }, "Pick moves. Control speed. Your timing.")
     )
     )
     ), /*#__PURE__*/
