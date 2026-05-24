@@ -39,6 +39,7 @@ import {
   axisExerciseNameForHistoryEntry,
   axisExerciseTargetMetaLine,
   axisFormatDurationMinUpper,
+  axisFormatSessionHeaderDuration,
   axisFormatLastSessionDayUpper,
   axisHapticTick,
   axisHealthFetchTodayStepsNative,
@@ -659,7 +660,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const activeCount = filteredAll.length;
   const sessionSeconds = activeCount * perMoveSeconds;
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
-  const sessionDurationLabel = axisFormatDurationMinUpper(sessionMinutes);
+  const sessionDurationLabel = axisFormatSessionHeaderDuration(sessionMinutes, perMoveSeconds);
   const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
   const cur = activeAll[Math.min(fi, activeAll.length - 1)];
   const showSessionBookmarkExerciseHint = !storageGet(AXIS_EVER_BOOKMARKED_EXERCISE_KEY, false) && !Object.values(favs).some((v) => v);

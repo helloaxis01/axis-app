@@ -1345,6 +1345,13 @@ function axisFormatDurationMinUpper(mins) {
   return `${n} MIN`;
 }
 
+/** Session header: total length + per-move timer (e.g. "19 MIN • 45 SEC/MOVE"). */
+function axisFormatSessionHeaderDuration(totalMinutes, secondsPerMove) {
+  const moveSec = Math.max(0, Math.round(Number(secondsPerMove) || 45));
+  const moveLabel = moveSec === 60 ? "1 MIN" : `${moveSec} SEC`;
+  return `${axisFormatDurationMinUpper(totalMinutes)} • ${moveLabel}/MOVE`;
+}
+
 /** Coerce track JSON / UI strings ("12 min", "12m", "12 MIN") → "12 MIN". */
 function axisNormalizeDurationLabelToMin(input) {
   const s = String(input ?? "").trim();
@@ -2387,6 +2394,12 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   const listTabExerciseTitle = listRailLayout && !hideDone ? axisExerciseListParenDirectionDisplayName(ex.name) : ex.name;
   const listRailCategoryBadge = listMetaSecondary ? String(listMetaSecondary).trim().toUpperCase() : "";
   const bookmarkTipPreferBottom = typeof window !== "undefined" && window.innerWidth < 400;
+  const listRailSkipLabelEl = listRailLayout ? /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "er-list-skip-label" + (skipped ? " er-list-skip-label--skipped" : ""),
+    onClick: (e) => {e.stopPropagation();onSkip();},
+    "aria-label": skipped ? "Unskip exercise" : "Skip exercise"
+  }, "SKIP") : null;
   /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
   const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
   !skipped && /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
@@ -2395,8 +2408,8 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   ),
   /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, /*#__PURE__*/React.createElement("span", { className: "ra-btn__dash", "aria-hidden": true }, "\u2014")));
   const unicodeChevronEl = /*#__PURE__*/React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: guidedPreviewLayout ? {} : { marginLeft: 2 } }, "\u25BE");
-  const listRailPinskipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row", onClick: (e) => e.stopPropagation() },
-  /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+  const listRailPinskipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/
+  React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
   React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }), /*#__PURE__*/
   React.createElement("button", {
     type: "button",
@@ -2404,14 +2417,7 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();},
     "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
     "aria-pressed": faved ? "true" : "false"
-  }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
-  ),
-  /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "er-list-icon-btn er-list-skip-btn" + (skipped ? " er-list-skip-btn--skipped" : ""),
-    onClick: onSkip,
-    "aria-label": skipped ? "Unskip exercise" : "Skip exercise"
-  }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/AxisSessionSkipForwardGlyph())));
+  }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" })))));
   const listRailCompactPinBtnEl = /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "er-list-icon-btn er-list-pin-btn" + (faved ? " er-list-pin-btn--pinned" : ""),
@@ -2419,20 +2425,13 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
     "aria-pressed": faved ? "true" : "false"
   }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" })));
-  const listRailCompactSkipBtnEl = /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "er-list-icon-btn er-list-skip-btn" + (skipped ? " er-list-skip-btn--skipped" : ""),
-    onClick: (e) => {e.stopPropagation();onSkip();},
-    "aria-label": skipped ? "Unskip exercise" : "Skip exercise"
-  }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", "aria-hidden": true }, /*#__PURE__*/AxisSessionSkipForwardGlyph()));
   const listRailCompactPinSkipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row er-list-pin-skip-row--compact", onClick: (e) => e.stopPropagation() },
-  listRailCompactSkipBtnEl,
   /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
   React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }),
   listRailCompactPinBtnEl));
-  const listRailBadgeRowEl = listRailCategoryBadge || sessionDurRaw ? /*#__PURE__*/React.createElement("div", { className: "er-list-badge-row" },
+  const listRailBadgeRowEl = listRailCategoryBadge || listRailSkipLabelEl ? /*#__PURE__*/React.createElement("div", { className: "er-list-badge-row" },
   listRailCategoryBadge ? /*#__PURE__*/React.createElement("span", { className: "er-list-category-badge" }, listRailCategoryBadge) : null,
-  sessionDurRaw ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-dur" }, String(sessionDurRaw)) : null
+  listRailSkipLabelEl
   ) : null;
   const listRailExpandSvgEl = /*#__PURE__*/React.createElement("div", {
     className: "er-list-expand-chev",
@@ -2442,10 +2441,9 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   listRailExpandSvgEl);
   const listRailMetaChevRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-meta-chev-row" },
   /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row-wrap" },
-  sessionDurRaw || listMetaSecondary ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" + (hideDone ? " er-list-meta-row--guided" : "") },
-  sessionDurRaw ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-dur" }, String(sessionDurRaw)) : null,
-  sessionDurRaw && listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-dot", "aria-hidden": true }, "\u00B7") : null,
-  listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-zone" }, listMetaSecondary) : null
+  listMetaSecondary || listRailSkipLabelEl ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" + (hideDone ? " er-list-meta-row--guided" : "") },
+  listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-zone" }, listMetaSecondary) : null,
+  listRailSkipLabelEl
   ) : null),
   listRailExpandSvgEl);
 
@@ -7478,6 +7476,7 @@ export {
   axisExerciseNameForHistoryEntry,
   axisExerciseTargetMetaLine,
   axisFormatDurationMinUpper,
+  axisFormatSessionHeaderDuration,
   axisFormatLastSessionDayUpper,
   axisHapticTick,
   axisHealthFetchTodayStepsNative,

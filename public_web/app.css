@@ -3022,12 +3022,12 @@ a.settings-outline-btn {
 }
 /* Track detail header: duration is spec text, not a pill (wins over .axis-duration-label) */
 .hdr-session-head .hdr-dur.axis-duration-label {
-  font-size: var(--text-sm) !important;
+  font-size: var(--text-xs) !important;
   font-weight: 600 !important;
   letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
-  color: color-mix(in srgb, var(--text-secondary) 80%, transparent) !important;
-  -webkit-text-fill-color: color-mix(in srgb, var(--text-secondary) 80%, transparent) !important;
+  color: color-mix(in srgb, var(--text-secondary) 60%, transparent) !important;
+  -webkit-text-fill-color: color-mix(in srgb, var(--text-secondary) 60%, transparent) !important;
   opacity: 1 !important;
   background: transparent !important;
   border: none !important;
@@ -3036,6 +3036,14 @@ a.settings-outline-btn {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   box-shadow: none !important;
+}
+.app[data-theme="light"]:not([data-night="true"]) .hdr-session-head .hdr-dur.axis-duration-label {
+  color: color-mix(in srgb, var(--text-primary) 60%, transparent) !important;
+  -webkit-text-fill-color: color-mix(in srgb, var(--text-primary) 60%, transparent) !important;
+}
+.app[data-night="true"] .hdr-session-head .hdr-dur.axis-duration-label {
+  color: rgba(255, 255, 255, 0.45) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.45) !important;
 }
 /* Section category waypoints (FOUNDATION, TIME OF DAY, session section titles) — +1px vs token for tracked uppercase */
 .track-group-label,
@@ -5073,6 +5081,48 @@ a.settings-outline-btn {
   line-height: 1.2;
   flex-shrink: 0;
 }
+.content--session-list .er-list-skip-label,
+.content--session-guided .er-list-skip-label {
+  font-family: var(--font-meta), var(--font-data);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.25);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
+  -webkit-tap-highlight-color: transparent;
+}
+.content--session-list .er-list-skip-label:hover,
+.content--session-guided .er-list-skip-label:hover {
+  color: rgba(255, 255, 255, 0.35);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.35);
+}
+.content--session-list .er-list-skip-label--skipped,
+.content--session-guided .er-list-skip-label--skipped {
+  opacity: 0.18;
+}
+.app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-skip-label,
+.app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-skip-label {
+  color: rgba(15, 30, 46, 0.25);
+  -webkit-text-fill-color: rgba(15, 30, 46, 0.25);
+}
+.app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-skip-label:hover,
+.app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-skip-label:hover {
+  color: rgba(15, 30, 46, 0.35);
+  -webkit-text-fill-color: rgba(15, 30, 46, 0.35);
+}
+.app[data-night="true"] .content--session-list .er-list-skip-label,
+.app[data-night="true"] .content--session-guided .er-list-skip-label {
+  color: rgba(255, 255, 255, 0.25);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
+}
 .content--session-list .er-list-badge-row .er-list-meta-dur {
   font-family: var(--font-meta), var(--font-data);
   font-size: 12px;
@@ -5092,7 +5142,8 @@ a.settings-outline-btn {
 .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-zone,
 .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-dot,
 .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-category-badge,
-.content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-badge-row .er-list-meta-dur {
+.content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-badge-row .er-list-meta-dur,
+.content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-skip-label {
   opacity: 0.25 !important;
 }
 .content--session-guided .er-list-desc.er-list-desc--done {
