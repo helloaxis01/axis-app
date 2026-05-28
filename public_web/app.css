@@ -1187,6 +1187,18 @@ html, body, #root { font-family: var(--font-ui); }
   pointer-events: none;
   background: radial-gradient(ellipse 130% 78% at 50% -12%, color-mix(in srgb, var(--mood-color) 35%, transparent) 0%, transparent 56%);
 }
+/* Scroll fade above footer: full column width, match circadian shell (not near-white) */
+.guided-overlay .guided-phase-body__scroll-fade {
+  left: 0 !important;
+  right: 0 !important;
+}
+.guided-overlay[data-theme="light"]:not([data-night="true"]) .guided-phase-body__scroll-fade {
+  background: linear-gradient(
+    to top,
+    var(--bg-app-b, var(--bg-app, #EBF0F3)) 0%,
+    transparent 100%
+  ) !important;
+}
 .guided-overlay[data-phase="closing"]::before {
   display: none;
 }
@@ -2281,6 +2293,11 @@ html, body, #root { font-family: var(--font-ui); }
   min-height: 0;
   background: transparent;
   box-sizing:border-box;
+  pointer-events: none;
+}
+.hdr-wrap > .hdr,
+.hdr-wrap > .content {
+  pointer-events: auto;
 }
 /* Session: frosted strip is only the chrome row; scroll area stays transparent so app/orbs match other tabs */
 .hdr-wrap > .hdr {
@@ -3991,6 +4008,13 @@ a.settings-outline-btn {
 .hdr-session-progress .tab-prog-row {
   margin-top: 0;
 }
+.hdr-session-progress .tab-prog-row__top .fav-toggle.reset-pill {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
 .hdr-session-progress .tab-subbar-rule--above-prog {
   display: none;
 }
@@ -4700,6 +4724,18 @@ a.settings-outline-btn {
 }
 .content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped,
 .content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped {
+  opacity: 1;
+}
+.content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-complete,
+.content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-title,
+.content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-desc,
+.content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-badge-chev-row,
+.content--session-list .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-meta-chev-row,
+.content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-complete,
+.content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-title,
+.content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-desc,
+.content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-badge-chev-row,
+.content--session-guided .sg.sg--session-sheet > .er-card.er-card--list-skipped .er-list-meta-chev-row {
   opacity: 0.35;
 }
 .content--session-list .er-card > .er--list-card-a,
@@ -5081,6 +5117,7 @@ a.settings-outline-btn {
   line-height: 1.2;
   flex-shrink: 0;
 }
+/* SKIP label — same chrome as bookmark + expand chevron */
 .content--session-list .er-list-skip-label,
 .content--session-guided .er-list-skip-label {
   font-family: var(--font-meta), var(--font-data);
@@ -5095,33 +5132,52 @@ a.settings-outline-btn {
   border: none;
   background: transparent;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.25);
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
+  opacity: 1 !important;
+  color: rgba(255, 255, 255, 0.2);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.2);
   -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s ease;
 }
 .content--session-list .er-list-skip-label:hover,
 .content--session-guided .er-list-skip-label:hover {
-  color: rgba(255, 255, 255, 0.35);
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.35);
+  color: var(--axis-session-list-accent, var(--mood-color));
+  -webkit-text-fill-color: var(--axis-session-list-accent, var(--mood-color));
 }
 .content--session-list .er-list-skip-label--skipped,
-.content--session-guided .er-list-skip-label--skipped {
-  opacity: 0.18;
+.content--session-guided .er-list-skip-label--skipped,
+.content--session-list .er-list-skip-label--skipped:hover,
+.content--session-guided .er-list-skip-label--skipped:hover {
+  color: rgba(255, 255, 255, 0.45) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.45) !important;
 }
 .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-skip-label,
 .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-skip-label {
-  color: rgba(15, 30, 46, 0.25);
-  -webkit-text-fill-color: rgba(15, 30, 46, 0.25);
+  color: rgba(15, 30, 46, 0.2);
+  -webkit-text-fill-color: rgba(15, 30, 46, 0.2);
 }
 .app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-skip-label:hover,
 .app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-skip-label:hover {
-  color: rgba(15, 30, 46, 0.35);
-  -webkit-text-fill-color: rgba(15, 30, 46, 0.35);
+  color: var(--axis-session-list-accent, var(--mood-color));
+  -webkit-text-fill-color: var(--axis-session-list-accent, var(--mood-color));
+}
+.app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-skip-label--skipped,
+.app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-skip-label--skipped,
+.app[data-theme="light"]:not([data-night="true"]) .content--session-list .er-list-skip-label--skipped:hover,
+.app[data-theme="light"]:not([data-night="true"]) .content--session-guided .er-list-skip-label--skipped:hover {
+  color: rgba(15, 30, 46, 0.45) !important;
+  -webkit-text-fill-color: rgba(15, 30, 46, 0.45) !important;
 }
 .app[data-night="true"] .content--session-list .er-list-skip-label,
 .app[data-night="true"] .content--session-guided .er-list-skip-label {
-  color: rgba(255, 255, 255, 0.25);
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.2);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.2);
+}
+.app[data-night="true"] .content--session-list .er-list-skip-label--skipped,
+.app[data-night="true"] .content--session-guided .er-list-skip-label--skipped,
+.app[data-night="true"] .content--session-list .er-list-skip-label--skipped:hover,
+.app[data-night="true"] .content--session-guided .er-list-skip-label--skipped:hover {
+  color: rgba(255, 255, 255, 0.45) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.45) !important;
 }
 .content--session-list .er-list-badge-row .er-list-meta-dur {
   font-family: var(--font-meta), var(--font-data);
@@ -5142,8 +5198,7 @@ a.settings-outline-btn {
 .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-zone,
 .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-meta-dot,
 .content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-category-badge,
-.content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-badge-row .er-list-meta-dur,
-.content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-skip-label {
+.content--session-list .er-card.er-card--complete:not(.er-card--open) .er-list-badge-row .er-list-meta-dur {
   opacity: 0.25 !important;
 }
 .content--session-guided .er-list-desc.er-list-desc--done {
@@ -5188,7 +5243,13 @@ a.settings-outline-btn {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 8px;
+}
+.content--session .er-list-pin-skip-row .er-list-skip-label {
+  order: 0;
+}
+.content--session .er-list-pin-skip-row .axis-first-bookmark-tip-host {
+  order: 1;
 }
 .content--session .er-list-icon-btn {
   display: flex;
@@ -11046,7 +11107,8 @@ a.settings-outline-btn {
 }
 /* Same size/color as header tab subtitle (“Step-by-step walkthrough.”): var(--text-xs) + var(--text-dimmer) */
 .fav-filter.fav-filter--session-util .fav-toggle,
-.tab-subbar .tab-prog-row__top .fav-toggle {
+.tab-subbar .tab-prog-row__top .fav-toggle,
+.hdr-session-progress .tab-prog-row__top .fav-toggle {
   flex: 0 0 auto;
   min-height: 28px;
   height: 28px;
@@ -11069,26 +11131,30 @@ a.settings-outline-btn {
   justify-content: center !important;
 }
 .fav-filter.fav-filter--session-util .fav-toggle:hover,
-.tab-subbar .tab-prog-row__top .fav-toggle:hover {
+.tab-subbar .tab-prog-row__top .fav-toggle:hover,
+.hdr-session-progress .tab-prog-row__top .fav-toggle:hover {
   border-color: color-mix(in srgb, var(--text-primary) 28%, transparent) !important;
   color: var(--text-secondary) !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 .fav-filter.fav-filter--session-util .fav-toggle.on,
-.tab-subbar .tab-prog-row__top .fav-toggle.on {
+.tab-subbar .tab-prog-row__top .fav-toggle.on,
+.hdr-session-progress .tab-prog-row__top .fav-toggle.on {
   border-color: color-mix(in srgb, var(--text-primary) 35%, transparent) !important;
   background: transparent !important;
   color: var(--text-secondary) !important;
   box-shadow: none !important;
 }
 .fav-filter.fav-filter--session-util .fav-toggle.reset-pill,
-.tab-subbar .tab-prog-row__top .fav-toggle.reset-pill {
+.tab-subbar .tab-prog-row__top .fav-toggle.reset-pill,
+.hdr-session-progress .tab-prog-row__top .fav-toggle.reset-pill {
   color: var(--text-dimmer) !important;
   flex-shrink: 0;
 }
 .fav-filter.fav-filter--session-util .fav-toggle.reset-pill:hover,
-.tab-subbar .tab-prog-row__top .fav-toggle.reset-pill:hover {
+.tab-subbar .tab-prog-row__top .fav-toggle.reset-pill:hover,
+.hdr-session-progress .tab-prog-row__top .fav-toggle.reset-pill:hover {
   border-color: color-mix(in srgb, var(--text-primary) 28%, transparent) !important;
   color: var(--text-secondary) !important;
   background: transparent !important;
@@ -11096,12 +11162,14 @@ a.settings-outline-btn {
 }
 /* Session util row (Reset pill) — light */
 .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle,
-.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle {
+.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle,
+.app[data-theme="light"]:not([data-night="true"]) .hdr-session-progress .tab-prog-row__top .fav-toggle {
   color: rgba(15,30,46,0.74) !important;
   border-color: rgba(15,30,46,0.228) !important;
 }
 .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle:hover,
-.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle:hover {
+.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle:hover,
+.app[data-theme="light"]:not([data-night="true"]) .hdr-session-progress .tab-prog-row__top .fav-toggle:hover {
   color: rgba(15,30,46,0.87) !important;
   border-color: rgba(15,30,46,0.323) !important;
 }
@@ -11113,16 +11181,19 @@ a.settings-outline-btn {
   font-weight: 600 !important;
 }
 .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.reset-pill,
-.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill {
+.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill,
+.app[data-theme="light"]:not([data-night="true"]) .hdr-session-progress .tab-prog-row__top .fav-toggle.reset-pill {
   color: rgba(15,30,46,0.74) !important;
 }
 .app[data-theme="light"]:not([data-night="true"]) .fav-filter.fav-filter--session-util .fav-toggle.reset-pill:hover,
-.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill:hover {
+.app[data-theme="light"]:not([data-night="true"]) .tab-subbar .tab-prog-row__top .fav-toggle.reset-pill:hover,
+.app[data-theme="light"]:not([data-night="true"]) .hdr-session-progress .tab-prog-row__top .fav-toggle.reset-pill:hover {
   color: rgba(15,30,46,0.87) !important;
 }
 
 .reset-pill { margin-left:auto; }
-.tab-subbar .tab-prog-row__top .reset-pill { margin-left: 0; }
+.tab-subbar .tab-prog-row__top .reset-pill,
+.hdr-session-progress .tab-prog-row__top .reset-pill { margin-left: 0; }
 .fav-filter::before {
   display:none;
 }

@@ -266,6 +266,16 @@ function inkForAccentHex(hex) {
   return L < 0.43 ? "var(--axis-white)" : "var(--axis-black)";
 }
 
+/** Solid or gradient circadian `bg` → color for guided footer fade (last gradient stop). */
+function axisColorFromCircadianBg(bg) {
+  if (!bg || typeof bg !== "string") return "#EBF0F3";
+  const hexes = bg.match(/#[0-9A-Fa-f]{6}/gi);
+  if (hexes && hexes.length) return hexes[hexes.length - 1];
+  const solid = bg.trim();
+  if (/^#[0-9A-Fa-f]{6}$/i.test(solid)) return solid;
+  return "#EBF0F3";
+}
+
 /** Comma-separated R,G,B for `rgba(var(--accent-rgb), a)` (circadian + static themes). */
 function axisMoodAccentRgbCsvFromHex(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || "").trim());
@@ -1312,17 +1322,15 @@ function axisSessionDoneMergeTrack(store, trackId, slice) {
 
 function axisSessionDoneClearTrack(store, trackId) {
   if (!store || typeof store !== "object" || Array.isArray(store)) return {};
-  if (!axisSessionDoneStoreIsLegacyFlat(store)) {
-    const next = { ...store };
-    delete next[trackId];
-    return next;
-  }
   const ids = new Set((getAll(trackId) || []).map((e) => String(e.id)));
   const next = { ...store };
-  for (const id of ids) {
-    delete next[id];
-    const n = Number(id);
-    if (Number.isFinite(n)) delete next[n];
+  delete next[trackId];
+  for (const key of Object.keys(next)) {
+    if (ids.has(String(key))) {
+      delete next[key];
+      const n = Number(key);
+      if (Number.isFinite(n)) delete next[n];
+    }
   }
   return next;
 }
@@ -2400,24 +2408,28 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     onClick: (e) => {e.stopPropagation();onSkip();},
     "aria-label": skipped ? "Unskip exercise" : "Skip exercise"
   }, "SKIP") : null;
-  /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
-  const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
-  !skipped && /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
-  React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }), /*#__PURE__*/
-  React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }))),
-  ),
-  /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, /*#__PURE__*/React.createElement("span", { className: "ra-btn__dash", "aria-hidden": true }, "\u2014")));
-  const unicodeChevronEl = /*#__PURE__*/React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: guidedPreviewLayout ? {} : { marginLeft: 2 } }, "\u25BE");
-  const listRailPinskipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/
-  React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
-  React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }), /*#__PURE__*/
-  React.createElement("button", {
+  const listRailBookmarkBtnEl = /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "er-list-icon-btn er-list-pin-btn" + (faved ? " er-list-pin-btn--pinned" : ""),
     onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();},
     "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
     "aria-pressed": faved ? "true" : "false"
-  }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" })))));
+  }, /*#__PURE__*/React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" })));
+  const listRailBookmarkHostEl = /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+  React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }),
+  listRailBookmarkBtnEl);
+  /* Chevron stays outside .row-actions (wrapper stopPropagation would block .er expand) */
+  const rowActionsEl = /*#__PURE__*/React.createElement("div", { className: "row-actions", onClick: (e) => e.stopPropagation() },
+  /*#__PURE__*/React.createElement("button", { type: "button", className: `ra-btn ${skipped ? "skip-on" : ""}`, onClick: onSkip, "aria-label": skipped ? "Unskip exercise" : "Skip exercise" }, /*#__PURE__*/React.createElement("span", { className: "ra-btn__dash", "aria-hidden": true }, "\u2014")),
+  !skipped && /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+  React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }), /*#__PURE__*/
+  React.createElement("button", { type: "button", className: `ra-btn ${faved ? "fav-on" : ""}`, onClick: (e) => {e.stopPropagation();triggerHaptic(HAPTIC_DOUBLE_TAP);onFav();}, "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise", "aria-pressed": faved ? "true" : "false" }, /*#__PURE__*/React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" })))
+  )
+  );
+  const unicodeChevronEl = /*#__PURE__*/React.createElement("div", { className: `chev ${open ? "op" : ""}`, style: guidedPreviewLayout ? {} : { marginLeft: 2 } }, "\u25BE");
+  const listRailPinskipRowEl = listRailLayout ? /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row", onClick: (e) => e.stopPropagation() },
+  listRailSkipLabelEl,
+  listRailBookmarkHostEl) : null;
   const listRailCompactPinBtnEl = /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "er-list-icon-btn er-list-pin-btn" + (faved ? " er-list-pin-btn--pinned" : ""),
@@ -2425,13 +2437,14 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
     "aria-label": faved ? "Remove exercise bookmark" : "Bookmark exercise",
     "aria-pressed": faved ? "true" : "false"
   }, /*#__PURE__*/React.createElement("svg", { width: 18, height: 18, viewBox: "0 0 24 24", className: "axis-bookmark-glyph-svg", "aria-hidden": "true" }, faved ? /*#__PURE__*/React.createElement("path", { fill: "currentColor", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" }) : /*#__PURE__*/React.createElement("path", { fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinejoin: "round", d: "M6.25 6.95c0-.95.76-1.7 1.7-1.7h8.1c.94 0 1.7.75 1.7 1.7v12.92l-5.82-4-5.78 4V6.95Z" })));
-  const listRailCompactPinSkipRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row er-list-pin-skip-row--compact", onClick: (e) => e.stopPropagation() },
-  /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
+  const listRailCompactBookmarkHostEl = /*#__PURE__*/React.createElement("div", { className: "axis-first-bookmark-tip-host" }, /*#__PURE__*/
   React.createElement(AxisFirstBookmarkSavedTip, { active: firstBookmarkTooltip, preferBottom: bookmarkTipPreferBottom }),
-  listRailCompactPinBtnEl));
-  const listRailBadgeRowEl = listRailCategoryBadge || listRailSkipLabelEl ? /*#__PURE__*/React.createElement("div", { className: "er-list-badge-row" },
-  listRailCategoryBadge ? /*#__PURE__*/React.createElement("span", { className: "er-list-category-badge" }, listRailCategoryBadge) : null,
-  listRailSkipLabelEl
+  listRailCompactPinBtnEl);
+  const listRailCompactPinSkipRowEl = listRailLayout ? /*#__PURE__*/React.createElement("div", { className: "er-list-pin-skip-row er-list-pin-skip-row--compact", onClick: (e) => e.stopPropagation() },
+  listRailSkipLabelEl,
+  listRailCompactBookmarkHostEl) : null;
+  const listRailBadgeRowEl = listRailCategoryBadge ? /*#__PURE__*/React.createElement("div", { className: "er-list-badge-row" },
+  /*#__PURE__*/React.createElement("span", { className: "er-list-category-badge" }, listRailCategoryBadge)
   ) : null;
   const listRailExpandSvgEl = /*#__PURE__*/React.createElement("div", {
     className: "er-list-expand-chev",
@@ -2441,9 +2454,8 @@ function ExRow({ ex, done, onToggle, open, onExpand, skipped, onSkip, faved, onF
   listRailExpandSvgEl);
   const listRailMetaChevRowEl = /*#__PURE__*/React.createElement("div", { className: "er-list-meta-chev-row" },
   /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row-wrap" },
-  listMetaSecondary || listRailSkipLabelEl ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" + (hideDone ? " er-list-meta-row--guided" : "") },
-  listMetaSecondary ? /*#__PURE__*/React.createElement("span", { className: "er-list-meta-zone" }, listMetaSecondary) : null,
-  listRailSkipLabelEl
+  listMetaSecondary ? /*#__PURE__*/React.createElement("div", { className: "er-list-meta-row" + (hideDone ? " er-list-meta-row--guided" : "") },
+  /*#__PURE__*/React.createElement("span", { className: "er-list-meta-zone" }, listMetaSecondary)
   ) : null),
   listRailExpandSvgEl);
 
@@ -3313,7 +3325,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     }
   }, [fi, phase, guidedMoveSeconds, guidedExerciseResumeSeconds]);
   const guidedFilledText = isNight ? "#000000" : ct.accentBtnText || "#0a0a0a";
-  const guidedShellBg = isNight ? "#000000" : isDark ? "rgba(6, 10, 15, 0.94)" : "rgba(248, 249, 252, 0.96)";
+  const guidedShellBg = isNight ? "#000000" : isDark ? "rgba(6, 10, 15, 0.94)" : axisColorFromCircadianBg(ct.bg);
+  const guidedMiddleFadeGradient = isNight || isDark ?
+  `linear-gradient(to top, ${guidedShellBg} 0%, rgba(0,0,0,0) 100%)` :
+  `linear-gradient(to top, ${guidedShellBg} 0%, transparent 100%)`;
   const guidedLabelCaps = isNight ? "rgba(255,255,255,0.42)" : isDark ? "rgba(255,255,255,0.35)" : "rgba(15,30,46,0.35)";
   const guidedExerciseTitleColor = isDark ? "#ffffff" : "#0f1020";
   const guidedEyebrowMuted = isNight ? "rgba(255,255,255,0.38)" : isDark ? "rgba(255,255,255,0.3)" : "rgba(15,30,46,0.35)";
@@ -3688,14 +3703,14 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       background: "none",
       display: "none"
     } }), /*#__PURE__*/
-  React.createElement("div", { "aria-hidden": true, style: {
+  React.createElement("div", { "aria-hidden": true, className: "guided-phase-body__scroll-fade", style: {
       position: "absolute",
       bottom: 0,
-      left: 20,
-      right: 20,
+      left: 0,
+      right: 0,
       height: 26,
       pointerEvents: "none",
-      background: `linear-gradient(to top, ${guidedShellBg} 0%, rgba(0,0,0,0) 100%)`
+      background: guidedMiddleFadeGradient
     } })),
   /*#__PURE__*/React.createElement("div", { key: "footer", style: {
       flexShrink: 0,

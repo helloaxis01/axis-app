@@ -691,8 +691,16 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const resetSessionTabProgress = () => {
     axisHapticTick();
     const trackExIds = (getAll(track) || []).map((e) => e.id);
-    setListDone((store) => axisSessionDoneClearTrack(store, track));
-    setGuidedDone((store) => axisSessionDoneClearTrack(store, track));
+    setListDone((store) => {
+      const next = axisSessionDoneClearTrack(store, track);
+      storageSet(AXIS_SESSION_LIST_DONE_KEY, next);
+      return next;
+    });
+    setGuidedDone((store) => {
+      const next = axisSessionDoneClearTrack(store, track);
+      storageSet(AXIS_SESSION_GUIDED_DONE_KEY, next);
+      return next;
+    });
     try {
       if (typeof localStorage !== "undefined") localStorage.removeItem("axis_done");
     } catch (e) {}
