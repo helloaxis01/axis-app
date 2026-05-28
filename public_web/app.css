@@ -12422,16 +12422,16 @@ a.settings-outline-btn {
   min-height: 0;
 }
 
-/* Light mode: frosted tab strip floating above content — not in AXIS Ultra */
+/* Light mode: match top AXIS dashboard strip (#f6f7f8) — not frosted glass */
 .tab-bar[data-theme="light"]:not([data-night="true"]) {
-  background: rgba(240, 245, 250, 0.72);
-  border-top: 1px solid rgba(255, 255, 255, 0.55);
+  background: #f6f7f8 !important;
+  border-top: 1px solid rgba(37, 37, 37, 0.1);
   box-shadow: none;
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
-/* Light: top dashboard strip — solid #f6f7f8; inactive chrome #E0E0E0; mood accent fills */
+/* Light: top dashboard strip — solid #f6f7f8; inactive track/streaks use mood tint like dark */
 .app[data-theme="light"]:not([data-night="true"]) .dashboard-header {
   background: #f6f7f8 !important;
   border-bottom: 1px solid rgba(37, 37, 37, 0.1);
@@ -12754,7 +12754,7 @@ a.settings-outline-btn {
   flex-shrink:0;
 }
 .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__progress-track {
-  background:#9F9FA5;
+  background:color-mix(in srgb, var(--mood-color) 23%, transparent);
 }
 .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__progress-fill {
   background:var(--mood-color);
@@ -12822,7 +12822,7 @@ a.settings-outline-btn {
   transition:background-color 0.45s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .app[data-theme="light"]:not([data-night="true"]) .dashboard-header__streak-cell:not(.dashboard-header__streak-cell--on) {
-  background:#9F9FA5;
+  background:color-mix(in srgb, var(--mood-color) 23%, transparent);
 }
 /* Dark (circadian): inactive track + empty streaks — mood tint reads on teal, not as “holes” */
 .app[data-theme="dark"]:not([data-night="true"]) .dashboard-header__progress-track {
