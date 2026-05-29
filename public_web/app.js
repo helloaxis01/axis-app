@@ -393,9 +393,13 @@ const AXIS_BODY_CLASS_MEDIA_EXPAND_ACTIVE = "axis-media-expand-active";
 function exerciseAssetIsVideo(src) {
   return /\.(mp4|mov|webm|m4v)(\?|#|$)/i.test(String(src || ""));
 }
-/** Only exercises with bundled MP4s in EXERCISE_ASSET_VIDEOS play video; others use the grey “VIDEO COMING SOON” placeholder. */
-function exerciseHasShippedBundledMp4(animationKey) {
-  return animationKey === "CatCow" || animationKey === "SphinxPose" || animationKey === "ChildsPose";
+/** Carousel / guided demo: per-exercise loop clip, else axis_data `demoVideo` (name-matched only). */
+function axisResolveExerciseCarouselVideoSrc({ loopVideoSrc = "", fallbackDemoVideo = "" } = {}) {
+  const loopS = typeof loopVideoSrc === "string" ? loopVideoSrc.trim() : "";
+  const fallbackDemo = typeof fallbackDemoVideo === "string" ? fallbackDemoVideo.trim() : "";
+  if (exerciseAssetIsVideo(loopS)) return loopS;
+  if (exerciseAssetIsVideo(fallbackDemo)) return fallbackDemo;
+  return "";
 }
 /** True when carousel should offer fullscreen for Baseline demo URL (video or animated/static raster). */
 function exerciseCarouselExpandableDemoSrc(src) {
@@ -545,15 +549,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   const tierKey = tier && tier.key ? tier.key : "";
   const frameIdx = tierIndexToInstructionFrameIndex(idx, fc, tierKey, animationKey);
   const svgHtml = fc ? frameSvgHtml[frameIdx] : "";
-  const loopS = typeof loopVideoSrc === "string" ? loopVideoSrc.trim() : "";
-  const fallbackDemo = typeof fallbackDemoVideo === "string" ? fallbackDemoVideo.trim() : "";
-  const animationAssetSrc = animationKey ? EXERCISE_ASSET_VIDEOS[animationKey] : "";
-  let videoSrc = "";
-  if (exerciseHasShippedBundledMp4(animationKey)) {
-    if (exerciseAssetIsVideo(animationAssetSrc)) videoSrc = animationAssetSrc;
-    else if (exerciseAssetIsVideo(loopS)) videoSrc = loopS;
-    else if (exerciseAssetIsVideo(fallbackDemo)) videoSrc = fallbackDemo;
-  }
+  const videoSrc = axisResolveExerciseCarouselVideoSrc({ loopVideoSrc, fallbackDemoVideo });
   const hasVideoSrc = exerciseAssetIsVideo(videoSrc);
   const loopPoster = typeof loopVideoPoster === "string" ? loopVideoPoster.trim() : "";
   const showBaselineExpand = !!sessionExerciseCardExpanded && allowBaselineMediaExpand && exerciseCarouselExpandableDemoSrc(videoSrc);
@@ -823,8 +819,9 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
 /** mode: dark | light | ultra — fill via #F6F7F8 / #252525 / #FF3B30 (ultra). variant: default | timer | preview */
 function ExerciseAnimation({ animationKey, mode = "dark", variant = "default", className = "" }) {
   const frames = animationKey ? EXERCISE_ASSET_SVGS[animationKey] || EXERCISE_ANIMATION_SVGS[animationKey] : null;
-  const rawVideo = animationKey && exerciseHasShippedBundledMp4(animationKey) ? EXERCISE_ASSET_VIDEOS[animationKey] : "";
-  const videoSrc = typeof rawVideo === "string" ? rawVideo : "";
+  const videoSrc = axisResolveExerciseCarouselVideoSrc({
+    fallbackDemoVideo: animationKey && EXERCISE_ASSET_VIDEOS[animationKey] ? EXERCISE_ASSET_VIDEOS[animationKey] : ""
+  });
   const hasVideoSrc = exerciseAssetIsVideo(videoSrc);
   const animKeyRef = useRef(animationKey);
   const loopTimerRef = useRef(null);
