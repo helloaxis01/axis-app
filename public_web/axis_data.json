@@ -415,7 +415,7 @@
             {
               "id": 12,
               "name": "Isometric Wall Push Hold",
-              "start": "Stand facing a wall, one arm's length away.",
+              "start": "Stand facing a wall or sturdy chair, with your arm outstretched touching it.",
               "sub": "Push and hold. Build strength without moving.",
               "reps": "30s hold",
               "type": "time",
@@ -423,24 +423,34 @@
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Wall Setup",
+                  "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Bend your elbows to roughly 90 degrees. The midpoint of a wall push-up. Stop here."
+                  "cue": "Stand facing a wall or sturdy chair, with your arm outstretched touching it."
                 },
                 {
                   "pos": "B",
-                  "label": "Halfway Hold",
-                  "focus": "ISO",
-                  "cue": "Press your hands firmly into the wall and hold completely still for the full duration. Breathe steadily."
+                  "label": "Hand Position",
+                  "focus": "SETUP",
+                  "cue": "Make sure your hands are flat on the wall or chair and at shoulder height."
                 },
                 {
-                  "cue": "This is a still exercise. No movement is the point. You will feel tension in your chest and arms."
+                  "pos": "C",
+                  "label": "Hold",
+                  "focus": "ISO",
+                  "cue": "Bend your elbows until they meet your waist. Stop and hold this position completely still."
+                },
+                {
+                  "pos": "D",
+                  "label": "Duration",
+                  "focus": "HOLD",
+                  "cue": "Repeat these steps for the duration. Keep your stomach muscles tight."
                 }
               ],
-              "position": "Stand facing a wall, one arm's length away.",
-              "next": "Place your hands flat on the wall at shoulder height. Step your feet slightly backward.",
-              "then": "Bend your elbows halfway down. Stop and hold this position completely still.",
-              "tip": "Push your hands firmly into the wall. Keep your stomach muscles tight."
+              "position": "Stand facing a wall or sturdy chair, with your arm outstretched touching it.",
+              "next": "Make sure your hands are flat on the wall or chair and at shoulder height.",
+              "then": "Bend your elbows until they meet your waist. Stop and hold this position completely still.",
+              "tip": "Repeat these steps for the duration. Keep your stomach muscles tight.",
+              "demoVideo": "/assets/exercise-animations/isometric-wall-push-hold/IsometricWallPushHold_Markian_Test.mp4"
             },
             {
               "id": 13,

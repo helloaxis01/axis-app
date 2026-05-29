@@ -41,6 +41,10 @@ const VIDEO_BY_NAME = {
   "Wall Pushups": { dir: "wall-push-up", file: "WallPushUp_Markian_Test.mp4" },
   "Wall Pushes": { dir: "wall-push-up", file: "WallPushUp_Markian_Test.mp4" },
   "Forearm Plank": { dir: "forearm-plank", file: "ForearmPlank_Markian_Test.mp4" },
+  "Isometric Wall Push Hold": {
+    dir: "isometric-wall-push-hold",
+    file: "IsometricWallPushHold_Markian_Test.mp4",
+  },
 };
 
 const SOURCE_FILE_BY_BASENAME = Object.fromEntries(
