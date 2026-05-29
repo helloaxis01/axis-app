@@ -551,6 +551,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
   const svgHtml = fc ? frameSvgHtml[frameIdx] : "";
   const videoSrc = axisResolveExerciseCarouselVideoSrc({ loopVideoSrc, fallbackDemoVideo });
   const hasVideoSrc = exerciseAssetIsVideo(videoSrc);
+  const showVideoSoonPlaceholder = !hasVideoSrc;
   const loopPoster = typeof loopVideoPoster === "string" ? loopVideoPoster.trim() : "";
   const showBaselineExpand = !!sessionExerciseCardExpanded && allowBaselineMediaExpand && exerciseCarouselExpandableDemoSrc(videoSrc);
   const graphicColor = exerciseCarouselGraphicColor(graphicMode);
@@ -720,7 +721,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
     onTouchStart: onTouchStart,
     onTouchEnd: onTouchEnd,
     role: "presentation"
-  }, /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__graphic-frame axis-surface-tmt exercise-carousel__graphic-frame--media" + (hasVideoSrc ? " exercise-carousel__graphic-frame--has-video" : "") }, videoSrc ? hasVideoSrc ? /*#__PURE__*/React.createElement(AxisVideoPlayer, {
+  }, /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__graphic-frame axis-surface-tmt exercise-carousel__graphic-frame--media" + (hasVideoSrc ? " exercise-carousel__graphic-frame--has-video" : " exercise-carousel__graphic-frame--no-video") }, videoSrc ? hasVideoSrc ? /*#__PURE__*/React.createElement(AxisVideoPlayer, {
     ref: baselineMediaRef,
     src: videoSrc,
     className: "exercise-carousel__media",
@@ -738,12 +739,7 @@ function ExerciseCarousel({ tiers, frameSvgHtml, animationKey = null, size = "me
     decoding: "async",
     draggable: false,
     "aria-hidden": true
-  })) : /*#__PURE__*/React.createElement("div", {
-    className: "exercise-carousel__graphic" + (isCatCowFrame ? " exercise-carousel__graphic--catcow" : "") + catCowFrameClass,
-    style: { color: graphicColor },
-    dangerouslySetInnerHTML: { __html: svgHtml },
-    "aria-hidden": true
-  }), ((sessionChrome && !videoSrc) || (guidedFlowFrame && !videoSrc && (fc === 0 || guidedFlowVideoSoonIfNoVideo))) ? /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__video-soon", "aria-hidden": true }, "VIDEO COMING SOON") : null,
+  })) : null, showVideoSoonPlaceholder ? /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__video-soon", "aria-hidden": true }, "VIDEO COMING SOON") : null,
   /* Expand: Baseline Protocol LIST / guided session only (allowBaselineMediaExpand); not used on intro — no carousel there. */
   showBaselineExpand ? /*#__PURE__*/React.createElement("button", {
     type: "button",
