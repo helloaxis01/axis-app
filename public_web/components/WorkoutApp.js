@@ -183,9 +183,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   });
   const [track, setTrack] = useState("daily");
   const prevViewRef = useRef(null);
-  const [fi, setFi] = useState(0);
   const [openId, setOpenId] = useState(null);
-  const [resting, setResting] = useState(false);
   const [guidedActive, setGuidedActive] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [listDone, setListDone] = useState(() => axisLoadSessionListDone());
@@ -662,7 +660,6 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
   const sessionDurationLabel = axisFormatSessionHeaderDuration(sessionMinutes, perMoveSeconds);
   const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
-  const cur = activeAll[Math.min(fi, activeAll.length - 1)];
   const showSessionBookmarkExerciseHint = !storageGet(AXIS_EVER_BOOKMARKED_EXERCISE_KEY, false) && !Object.values(favs).some((v) => v);
 
   const applySessionDoneToggle = (setStore, id) => {
@@ -762,7 +759,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     return axisFormatDurationMinUpper(mins);
   };
   const setNote = (id, val) => setNotes((n) => ({ ...n, [id]: val }));
-  const switchTrack = (t) => {setTrack(t);setFi(0);setOpenId(null);};
+  const switchTrack = (t) => {setTrack(t);setOpenId(null);};
   const openTrackDetail = (tid) => {
     if (!tid || !(TRACKS && TRACKS[tid])) return;
     triggerHaptic(HAPTIC_LIGHT_TAP);

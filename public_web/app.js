@@ -1561,21 +1561,6 @@ function Timer({ seconds, onDone, nextName, autoStart = false }) {
 
 }
 
-function RestTimer({ onDone }) {
-  const [left, setLeft] = useState(5);
-  const ref = useRef(null);
-  useEffect(() => {
-    ref.current = setInterval(() => setLeft((l) => {if (l <= 1) {clearInterval(ref.current);onDone();return 0;}return l - 1;}), 1000);
-    return () => clearInterval(ref.current);
-  }, []);
-  return (/*#__PURE__*/
-    React.createElement("div", { className: "rest-overlay" }, /*#__PURE__*/
-    React.createElement("div", { className: "rest-num" }, left), /*#__PURE__*/
-    React.createElement("div", null, /*#__PURE__*/React.createElement("div", { className: "rest-lbl" }, "Rest"), /*#__PURE__*/React.createElement("div", { className: "rest-sub" }, "Next exercise in ", left, "s"))
-    ));
-
-}
-
 const FOCUS_SPELL = { EXT: "Extension", FLEX: "Flexion", SETUP: "Setup", SPINE: "Spine", STRETCH: "Stretch", CORE: "Core", RELEASE: "Release", GLUTES: "Glutes", STABILITY: "Stability", CONTROL: "Control", HOLD: "Hold", ECCENTRIC: "Eccentric", PUSH: "Push", ISO: "Isometric", PULL: "Pull", RAISE: "Raise", LOWER: "Lower", ROTATE: "Rotation", TWIST: "Twist", CERVICAL: "Cervical", LATERAL: "Lateral", CIRCULATE: "Circulate", FLOW: "Flow", MOBILIZE: "Mobilize", MOMENTUM: "Momentum", ISOLATE: "Isolate", DECOMPRESS: "Decompress", FORWARD: "Forward", BACKWARD: "Backward", GROUND: "Ground", "END-RANGE": "End Range", TARGET: "Target", EXHALE: "Exhale", INHALE: "Inhale", FLEX: "Flexion" };
 function spellFocus(f) {return f && FOCUS_SPELL[f.toUpperCase()] ? FOCUS_SPELL[f.toUpperCase()] : f || "";}
 
@@ -2983,116 +2968,6 @@ function beep(freq = 880, duration = 0.3) {
   } catch (e) {}
 }
 
-function OverlayTimer({ seconds, onDone, autoStart = false, paused = false, onReset, fi = 0, list = [], theme = "dark", activePeriod = null, nightMode = false, large = false, compactBarGap = false }) {
-  const [left, setLeft] = useState(seconds);
-  const [running, setRunning] = useState(autoStart);
-  const ref = useRef(null);
-
-  useEffect(() => {if (autoStart) setRunning(true);}, []);
-
-  // External pause control
-  useEffect(() => {setRunning(!paused);}, [paused]);
-
-  useEffect(() => {
-    if (running && left > 0) {
-      ref.current = setInterval(() => setLeft((l) => {
-        const next = l - 1;
-        if (next === 3 || next === 2 || next === 1) beep(440, 0.08);
-        return next;
-      }), 1000);
-    } else {
-      clearInterval(ref.current);
-      if (left === 0 && running) {setRunning(false);beep(880, 0.4);typeof onDone === "function" && onDone();}
-    }
-    return () => clearInterval(ref.current);
-  }, [running, left]);
-
-  // External reset
-  useEffect(() => {
-    if (onReset) {setLeft(seconds);setRunning(autoStart);}
-  }, [onReset]);
-
-  const pct = seconds > 0 ? (seconds - left) / seconds : 0;
-  const remaining = left;
-  const mins = Math.floor(remaining / 60);
-  const secs = remaining % 60;
-  const display = `${mins}:${secs.toString().padStart(2, "0")}`;
-  const total = list.length;
-
-  // Theme-aware timer colors — use circadian accent
-  const isTimerDark = nightMode || theme === "dark";
-  const timerPeriod = axisResolveMoodPeriod(activePeriod);
-  const timerCt = nightMode ?
-  { accent: "#FF3B30", accentDim: "rgba(211, 47, 47, 0.42)" } :
-  CIRCADIAN_THEMES[timerPeriod][isTimerDark ? "dark" : "light"];
-  const timerAccent = timerCt.accent;
-  const timerAccentDim = timerCt.accentDim;
-  const TN = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#1a1048";
-  const TU = nightMode ? "rgba(211, 47, 47, 0.78)" : isTimerDark ? "rgba(232,228,223,0.45)" : "rgba(26,16,72,0.55)";
-  const TC = nightMode ? "rgba(211, 47, 47, 0.82)" : isTimerDark ? "rgba(232,228,223,0.50)" : "rgba(26,16,72,0.55)";
-  const TCB = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#1a1048";
-  const BAR_TRACK = nightMode ? "rgba(211, 47, 47, 0.32)" : isTimerDark ? "rgba(255,255,255,0.10)" : "rgba(15,30,46,0.10)";
-  const BAR_FILL = `linear-gradient(90deg,${timerAccent},${timerAccentDim})`;
-  const DOT_CURR = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#0f1e2e";
-  const DOT_DONE = timerAccent;
-  const DOT_REST = nightMode ? "rgba(211, 47, 47, 0.45)" : isTimerDark ? "rgba(255,255,255,0.18)" : "rgba(15,30,46,0.15)";
-  const LINE_DONE = `${timerAccent}44`;
-  const LINE_REST = nightMode ? "rgba(211, 47, 47, 0.35)" : isTimerDark ? "rgba(255,255,255,0.08)" : "rgba(15,30,46,0.10)";
-  const NEXT_C = nightMode ? "rgba(211, 47, 47, 0.72)" : isTimerDark ? "rgba(232,228,223,0.40)" : "rgba(15,30,46,0.50)";
-  const NEXT_NAME = nightMode ? "#FF3B30" : isTimerDark ? "rgba(232,228,223,0.70)" : "#0f1e2e";
-
-  const numSize = large ? 80 : 72;
-  const unitSize = large ? 14 : 12;
-  const barH = large ? 4 : 2;
-  const gap = large ? 10 : 0;
-  const marginTop = large ? 0 : 16;
-  const marginBottom = large ? 14 : 10;
-
-  const isGuidedStart = large && pct === 0;
-
-  if (large) {
-    const barHeight = 8;
-    const barWidth = 249;
-    return (/*#__PURE__*/
-      React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", marginTop } }, /*#__PURE__*/
-
-      React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/
-      React.createElement("div", { style: {
-          minWidth: 134, textAlign: "left", fontVariantNumeric: "tabular-nums",
-          fontFamily: "var(--font-display)",
-          fontSize: numSize, fontWeight: 600, letterSpacing: "-0.02em",
-          color: timerAccent, lineHeight: 1
-        } }, display)
-      ), /*#__PURE__*/
-
-      React.createElement("div", { style: { width: barWidth, height: barHeight, borderRadius: barHeight, background: BAR_TRACK, overflow: "hidden", marginTop: compactBarGap ? 14 : 28 } }, /*#__PURE__*/
-      React.createElement("div", { style: {
-          height: barHeight,
-          borderRadius: barHeight,
-          background: BAR_FILL,
-          width: `${pct * 100}%`,
-          transition: "width 1s linear",
-          boxShadow: isGuidedStart ? `0 0 12px 0 ${timerAccentDim}` : "none"
-        } })
-      )
-      ));
-
-  }
-
-  const displayColor = nightMode ? "#FF3B30" : isTimerDark ? "var(--axis-white)" : "#1a1048";
-  return (/*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: gap, marginTop, alignItems: "flex-start" } }, /*#__PURE__*/
-    React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 6, marginBottom: marginBottom } }, /*#__PURE__*/
-    React.createElement("div", { style: { minWidth: 100, textAlign: "left", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-data)", fontSize: numSize, fontWeight: 500, letterSpacing: "-0.04em", color: displayColor, lineHeight: 1 } }, display)
-    ), /*#__PURE__*/
-    React.createElement("div", { style: { height: barH, width: "auto", background: "transparent", borderRadius: barH, overflow: "hidden" } }, /*#__PURE__*/
-    React.createElement("div", { style: { height: barH, borderRadius: barH, background: BAR_FILL,
-        width: `${pct * 100}%`, transition: "width 1s linear" } })
-    )
-    ));
-
-}
-
 function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45, activeTrackId = "", showFirstAxisSessionLine = false }) {
 
@@ -3176,24 +3051,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const list = listRef.current;
   const listTotal = list.length;
   const filteredCount = listTotal;
-  // V1.5: Responsive horizontal step carousel sizing.
-  const [carouselWrapW, setCarouselWrapW] = useState(() => {
-    if (typeof window === "undefined") return 340;
-    return Math.min(380, Math.max(280, window.innerWidth - 72));
-  });
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const onResize = () => setCarouselWrapW(Math.min(380, Math.max(280, window.innerWidth - 72)));
-    window.addEventListener("resize", onResize, { passive: true });
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-  const carouselSidePad = 24;
-  const carouselCardW = Math.min(300, Math.max(240, carouselWrapW - 24));
-  const carouselGap = 12;
-  const carouselTrackRef = useRef(null);
-  const [carouselActiveIdx, setCarouselActiveIdx] = useState(0);
-  const diagramCarouselRef = useRef(null);
-  const [diagramSlideIdx, setDiagramSlideIdx] = useState(0);
   const [showDetailedInstructions, setShowDetailedInstructions] = useState(() => storageGet(AXIS_GUIDED_DETAILED_INSTRUCTIONS_KEY, true));
   const showDetailedInstructionsRef = useRef(showDetailedInstructions);
   useEffect(() => {showDetailedInstructionsRef.current = showDetailedInstructions;}, [showDetailedInstructions]);
@@ -3224,7 +3081,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const guidedCloseBtnRef = useRef(null);
   const guidedFocusReturnRef = useRef(null);
   const guidedMiddleScrollRef = useRef(null);
-  const [guidedScrollProgress, setGuidedScrollProgress] = useState(0);
   const cur = list.length > 0 ? list[Math.min(fi, list.length - 1)] : null;
   const guidedSafetyFlags = cur ? axisResolveExerciseSafetyFlags(cur) : { nerve: false, caution: false };
   const guidedShowRiskInlineNote = !!(guidedSafetyFlags.nerve || guidedSafetyFlags.caution);
@@ -3378,12 +3234,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const guidedBodyText = isNight ? "#FF3B30" : isDark ? "#E8E8E8" : "#121418";
   const guidedIntroInstructionBody = isDark ? "#ffffff" : "#252525";
   const guidedMoveOpacity = 1;
-  const handleGuidedMiddleScroll = (e) => {
-    const el = e.currentTarget;
-    const maxScroll = Math.max(0, (el.scrollHeight || 0) - (el.clientHeight || 0));
-    const progress = maxScroll > 0 ? (el.scrollTop || 0) / maxScroll : 0;
-    setGuidedScrollProgress(Math.max(0, Math.min(1, progress)));
-  };
 
   // GUIDED phase flags
   const isExercisePhase = phase === "exercise";
@@ -3425,22 +3275,10 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     });
   }, [fi]);
   useEffect(() => {
-    // Reset carousel position when exercise changes.
-    setCarouselActiveIdx(0);
-    setDiagramSlideIdx(0);
     setRefresherOpen(false);
     setRefresherClosing(false);
     setLeaveConfirmOpen(false);
     setPaused(false);
-    const track = carouselTrackRef.current;
-    if (track && typeof track.scrollTo === "function") {
-      try {track.scrollTo({ left: 0, behavior: "auto" });} catch (e) {}
-    }
-    const diag = diagramCarouselRef.current;
-    if (diag && typeof diag.scrollTo === "function") {
-      try {diag.scrollTo({ left: 0, behavior: "auto" });} catch (e) {}
-    }
-    setGuidedScrollProgress(0);
     const middle = guidedMiddleScrollRef.current;
     if (middle && typeof middle.scrollTo === "function") {
       try {middle.scrollTo({ top: 0, behavior: "auto" });} catch (e) {}
@@ -3693,7 +3531,6 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   /*#__PURE__*/React.createElement("div", { key: "middle", style: { position: "relative", flex: "1 1 0%", minHeight: 0, padding: "0 20px" } }, /*#__PURE__*/
   React.createElement("div", {
     ref: guidedMiddleScrollRef,
-    onScroll: handleGuidedMiddleScroll,
     style: {
       height: "100%",
       overflowY: "auto",
@@ -7750,7 +7587,6 @@ function App() {
 }
 
 function bootstrapAxisApp() {
-  console.log("BASE REVERT SUCCESSFUL");
   window.__AXIS_DATA_LOAD_ERROR = "";
   try {
     if (typeof location !== "undefined" && !/[?&]noboard=1(?:&|$)/.test(String(location.search || ""))) {
