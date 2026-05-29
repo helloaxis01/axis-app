@@ -1623,7 +1623,7 @@ html, body, #root { font-family: var(--font-ui); }
   right: 0;
   bottom: 0;
   z-index: 100051;
-  max-height: min(78vh, 640px);
+  max-height: min(90vh, 760px);
   display: flex;
   flex-direction: column;
   border-radius: 20px 20px 0 0;
@@ -1636,11 +1636,55 @@ html, body, #root { font-family: var(--font-ui); }
   animation: guidedRefresherSlideUp 0.25s ease-out forwards;
   overflow: hidden;
 }
+.guided-refresher-sheet__dismiss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  margin: -10px 0 0;
+  padding: 2px 12px 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.guided-refresher-sheet__handle {
+  display: block;
+  width: 48px;
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mood-color) 60%, rgba(255, 255, 255, 0.4));
+}
+.guided-overlay[data-night="true"] .guided-refresher-sheet__handle {
+  background: #ff3b30;
+}
+.guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-sheet__handle {
+  background: color-mix(in srgb, var(--mood-color) 75%, rgba(15, 30, 46, 0.25));
+}
+.guided-refresher-sheet__handle-label {
+  font-family: var(--font-data), ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--mood-color) 70%, rgba(255, 255, 255, 0.45));
+}
+.guided-overlay[data-night="true"] .guided-refresher-sheet__handle-label {
+  color: rgba(255, 59, 48, 0.82);
+}
+.guided-overlay[data-theme="light"][data-night="false"] .guided-refresher-sheet__handle-label {
+  color: color-mix(in srgb, var(--mood-color) 78%, rgba(15, 30, 46, 0.4));
+}
 /* Height follows content up to max — avoids a dead flex gap under the step row */
 .guided-refresher-scroll {
   flex: 0 1 auto;
   min-height: 0;
-  max-height: min(48vh, 520px);
+  max-height: min(64vh, 640px);
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -1918,12 +1962,31 @@ html, body, #root { font-family: var(--font-ui); }
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
+@keyframes guidedRefresherSlideDown {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
 @keyframes guidedRefresherFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@keyframes guidedRefresherFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.guided-refresher-sheet--closing {
+  animation: guidedRefresherSlideDown 0.25s ease-in forwards;
+}
+.guided-refresher-backdrop--closing {
+  animation: guidedRefresherFadeOut 0.22s ease-in forwards;
+}
 @media (prefers-reduced-motion: reduce) {
-  .guided-refresher-sheet {
+  .guided-refresher-sheet,
+  .guided-refresher-sheet--closing {
+    animation: none !important;
+  }
+  .guided-refresher-backdrop,
+  .guided-refresher-backdrop--closing {
     animation: none !important;
   }
 }

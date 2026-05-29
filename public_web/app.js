@@ -3259,16 +3259,55 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     setGuidedExerciseResumeSeconds(canResume ? saved : null);
     setPhase("exercise");
   };
+  const [refresherClosing, setRefresherClosing] = useState(false);
+  const refresherClosingRef = useRef(false);
+  const refresherCloseDoneRef = useRef(false);
+  const GUIDED_REFRESHER_ANIM_MS = 250;
+  const finishGuidedRefresherClose = useCallback(() => {
+    setRefresherOpen(false);
+    setRefresherClosing(false);
+    setPaused(pausedBeforeRefresherRef.current);
+  }, []);
   const openGuidedRefresher = () => {
     if (phase !== "exercise" && phase !== "rest") return;
     if (guidedStepTotal <= 0) return;
     pausedBeforeRefresherRef.current = paused;
     setPaused(true);
+    setRefresherClosing(false);
     setRefresherOpen(true);
   };
-  const closeGuidedRefresher = () => {
-    setRefresherOpen(false);
-    setPaused(pausedBeforeRefresherRef.current);
+  const closeGuidedRefresher = useCallback(() => {
+    if (!refresherOpenRef.current || refresherClosingRef.current) return;
+    setRefresherClosing(true);
+  }, []);
+  useEffect(() => {refresherClosingRef.current = refresherClosing;}, [refresherClosing]);
+  useEffect(() => {
+    if (!refresherClosing) return;
+    refresherCloseDoneRef.current = false;
+    const t = setTimeout(() => {
+      if (refresherCloseDoneRef.current) return;
+      refresherCloseDoneRef.current = true;
+      finishGuidedRefresherClose();
+    }, GUIDED_REFRESHER_ANIM_MS + 50);
+    return () => clearTimeout(t);
+  }, [refresherClosing, finishGuidedRefresherClose]);
+  const onGuidedRefresherSheetAnimationEnd = (e) => {
+    if (!refresherClosingRef.current || e.target !== e.currentTarget) return;
+    const anim = e.animationName || "";
+    if (anim !== "guidedRefresherSlideDown" && !anim.endsWith("guidedRefresherSlideDown")) return;
+    if (refresherCloseDoneRef.current) return;
+    refresherCloseDoneRef.current = true;
+    finishGuidedRefresherClose();
+  };
+  const guidedRefresherTouchY0 = useRef(null);
+  const onGuidedRefresherHandleStart = (e) => {
+    if (e.touches && e.touches[0]) guidedRefresherTouchY0.current = e.touches[0].clientY;
+  };
+  const onGuidedRefresherHandleEnd = (e) => {
+    if (guidedRefresherTouchY0.current == null || !e.changedTouches || !e.changedTouches[0]) return;
+    const dy = e.changedTouches[0].clientY - guidedRefresherTouchY0.current;
+    guidedRefresherTouchY0.current = null;
+    if (dy > 48) closeGuidedRefresher();
   };
   const refresherOpenRef = useRef(false);
   useEffect(() => {refresherOpenRef.current = refresherOpen;}, [refresherOpen]);
@@ -3297,8 +3336,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
           return;
         }
         if (refresherOpenRef.current) {
-          setRefresherOpen(false);
-          setPaused(pausedBeforeRefresherRef.current);
+          closeGuidedRefresher();
           return;
         }
         exitGuidedIfConfirmed();
@@ -3314,7 +3352,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
         try {el.focus();} catch (err) {}
       }
     };
-  }, [exitGuidedIfConfirmed]);
+  }, [exitGuidedIfConfirmed, closeGuidedRefresher]);
   const [guidedTransitioning, setGuidedTransitioning] = useState(false);
   useEffect(() => {
     if (phase === "exercise" && guidedExerciseResumeSeconds == null) {
@@ -3395,6 +3433,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     setCarouselActiveIdx(0);
     setDiagramSlideIdx(0);
     setRefresherOpen(false);
+    setRefresherClosing(false);
     setLeaveConfirmOpen(false);
     setPaused(false);
     const track = carouselTrackRef.current;
@@ -4107,20 +4146,30 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     guidedPhaseBody,
     refresherOpen ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("div", {
-      className: "guided-refresher-backdrop",
+      className: "guided-refresher-backdrop" + (refresherClosing ? " guided-refresher-backdrop--closing" : ""),
       role: "presentation",
       "aria-hidden": true,
       onClick: closeGuidedRefresher
     }), /*#__PURE__*/
     React.createElement("div", {
-      className: "guided-refresher-sheet",
+      className: "guided-refresher-sheet" + (refresherClosing ? " guided-refresher-sheet--closing" : ""),
       role: "dialog",
       "aria-modal": "true",
       "aria-label": "Instructions",
       onClick: (e) => e.stopPropagation(),
+      onAnimationEnd: onGuidedRefresherSheetAnimationEnd,
       style: { display: "flex", flexDirection: "column", gap: 20 }
     }, /*#__PURE__*/
-    React.createElement("div", { className: "guided-refresher-scroll" },
+    React.createElement("button", {
+      type: "button",
+      className: "guided-refresher-sheet__dismiss",
+      "aria-label": "Close instructions",
+      onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);closeGuidedRefresher();},
+      onTouchStart: onGuidedRefresherHandleStart,
+      onTouchEnd: onGuidedRefresherHandleEnd
+    }, /*#__PURE__*/React.createElement("span", { className: "guided-refresher-sheet__handle", "aria-hidden": true }), /*#__PURE__*/
+    React.createElement("span", { className: "guided-refresher-sheet__handle-label" }, "Close")),
+    /*#__PURE__*/React.createElement("div", { className: "guided-refresher-scroll" },
     /*#__PURE__*/React.createElement(React.Fragment, null,
     cur ? /*#__PURE__*/React.createElement(AxisExerciseSafetyCallouts, { key: `ref-safe-${fi}-${cur.id}`, exercise: cur, ultraNight: isNight, layout: "overlay" }) : null,
     cur && guidedShowRiskInlineNote ? /*#__PURE__*/React.createElement(AxisExerciseSafetyInlineNote, { variant: "guided", riskKind: guidedRiskNoteKind }) : null,
