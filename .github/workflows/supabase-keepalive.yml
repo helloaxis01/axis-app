@@ -1,6 +1,6 @@
 # Hits Supabase REST on a schedule so the free-tier project is not flagged as inactive.
 # Optional: set repository secrets SUPABASE_URL and SUPABASE_ANON_KEY to override defaults
-# (same values as public_web/onboarding.html — rotate keys in both places when you rotate in Supabase).
+# (same values as public_web/index.html — rotate keys in both places when you rotate in Supabase).
 name: Supabase keep-alive
 
 on:
@@ -18,19 +18,37 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
           BASE="${SUPABASE_URL:-https://gndgtmwuxsotqgdwbata.supabase.co}"
           KEY="${SUPABASE_ANON_KEY:-sb_publishable_0oSSNdUlLJdZfdwga7zJeg_2rGnpBR7}"
           BASE="${BASE%/}"
           url="${BASE}/rest/v1/user_favorites?select=track_id&limit=1"
-          code="$(curl -sS -o /dev/null -w "%{http_code}" \
-            -H "apikey: ${KEY}" \
-            -H "Authorization: Bearer ${KEY}" \
-            -H "Accept: application/json" \
-            "${url}")"
-          echo "HTTP ${code}"
-          case "${code}" in 200|206) exit 0 ;; *)
-            echo "::error::Supabase ping failed (expected 200). Check URL, anon key, and RLS on user_favorites."
-            exit 1
-            ;;
-          esac
+
+          ping_once() {
+            # Do not use `set -e` around curl — transient recv errors (exit 56) should retry, not fail the job immediately.
+            curl -sS -o /dev/null -w "%{http_code}" \
+              --connect-timeout 15 \
+              --max-time 30 \
+              --retry 2 \
+              --retry-delay 2 \
+              --retry-all-errors \
+              -H "apikey: ${KEY}" \
+              -H "Authorization: Bearer ${KEY}" \
+              -H "Accept: application/json" \
+              "${url}" 2>/dev/null || echo "000"
+          }
+
+          last_code="000"
+          for attempt in 1 2 3; do
+            last_code="$(ping_once)"
+            echo "Attempt ${attempt}/3: HTTP ${last_code}"
+            case "${last_code}" in
+              200|206) echo "Supabase keep-alive OK"; exit 0 ;;
+            esac
+            if [ "${attempt}" -lt 3 ]; then
+              sleep $((attempt * 3))
+            fi
+          done
+
+          echo "::error::Supabase ping failed after 3 attempts (last HTTP ${last_code}). Check URL, anon key, and RLS on user_favorites."
+          exit 1

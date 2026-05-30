@@ -1,7 +1,8 @@
 {
   "name": "axis-031726-rebuild",
+  "version": "1.0.0",
   "private": true,
-  "description": "AXIS web shell (public_web). Vercel runs npm run build (stamp-build) before deploy. Use npm run bump-cache for onboarding tokens; npm run stamp for local cache bust.",
+  "description": "AXIS web shell (public_web)",
   "scripts": {
     "build": "node scripts/stamp-build.cjs",
     "stamp": "node scripts/stamp-build.cjs",

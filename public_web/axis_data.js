@@ -33,16 +33,16 @@ window.AXIS_JSON = {
                 },
                 {
                   "pos": "C",
-                  "label": "Cow, Inhale",
-                  "focus": "EXT",
-                  "cue": "Move with your breath. Don't force the lower back on the inhale."
+                  "label": "Repeat",
+                  "focus": "FLOW",
+                  "cue": "Return to a neutral tabletop with your back flat. Repeat slow cycles with your breath."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4",
               "position": "Start on all fours, hands and knees on the floor.",
               "next": "INHALE: Drop your belly toward the floor. Lift your head and tailbone toward the ceiling.",
-              "then": "EXHALE: Push your back up toward the ceiling. Tuck your chin toward your chest.",
-              "tip": "Return to a neutral tabletop with your back flat. Repeat slow cycles."
+              "then": "EXHALE: Round your spine toward the ceiling. Tuck your chin toward your chest.",
+              "tip": "Return to a neutral tabletop with your back flat. Repeat slow cycles with your breath."
             },
             {
               "id": 2,
@@ -191,19 +191,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Supine Neutral",
                   "focus": "SETUP",
-                  "cue": "Gently tighten your abs and press your lower back flat into the floor. Hold 2 seconds."
+                  "cue": "Lie on your back with knees bent and feet flat. Rest your arms at your sides with a small gap under your lower back."
                 },
                 {
                   "pos": "B",
                   "label": "Posterior Tilt",
                   "focus": "CORE",
-                  "cue": "Relax and let the lower back arch slightly away from the floor. Then press flat again. Repeat slowly."
+                  "cue": "Tighten your abs and press your lower back flat into the floor. Hold for 2 seconds."
                 },
                 {
                   "pos": "C",
-                  "label": "Anterior Tilt",
+                  "label": "Release & Repeat",
                   "focus": "RELEASE",
-                  "cue": "The movement is small and subtle. Do not hold your breath."
+                  "cue": "Relax and let your lower back arch slightly. Repeat the movement slowly. Do not hold your breath."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/pelvic-tilts/PelvicTilts_Markian_Test.mp4",
@@ -273,7 +273,7 @@ window.AXIS_JSON = {
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Push your heels into the floor and lift your hips up. Keep your hips lifted.",
               "then": "Lift your right foot off the floor and pull your right knee toward your chest. Hold for 2 seconds.",
-              "tip": "Lower your right foot. Lift your left foot. Keep your hips completely still."
+              "tip": "Lower your foot. Repeat with the other leg. Keep your hips completely still."
             },
             {
               "id": 8,
@@ -391,19 +391,19 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Bend your elbows and lower your chest toward the wall over 2 to 3 seconds. Keep your body in a straight line."
+                  "cue": "Stand an arm's length from the wall. Place your hands flat at shoulder height. Keep your body in a straight line."
                 },
                 {
                   "pos": "B",
                   "label": "Lower",
                   "focus": "ECCENTRIC",
-                  "cue": "Push through your palms to return to start. Fully extend your arms. Pause briefly at the top."
+                  "cue": "Bend your elbows and lean your chest toward the wall over 2 to 3 seconds."
                 },
                 {
                   "pos": "C",
                   "label": "Press Back",
                   "focus": "PUSH",
-                  "cue": "Step further from the wall to increase difficulty. No sagging hips."
+                  "cue": "Push through your palms to straighten your arms. Step your feet back to make it harder if needed."
                 }
               ],
               "demoVideo": "/assets/exercise-animations/wall-push-up/WallPushUp_Markian_Test.mp4",
@@ -415,7 +415,7 @@ window.AXIS_JSON = {
             {
               "id": 12,
               "name": "Isometric Wall Push Hold",
-              "start": "Stand facing a wall or sturdy chair, with your arm outstretched touching it.",
+              "start": "Stand facing a wall or sturdy chair, with your arms outstretched and hands on the surface.",
               "sub": "Push and hold. Build strength without moving.",
               "reps": "30s hold",
               "type": "time",
@@ -425,31 +425,31 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Stand facing a wall or sturdy chair, with your arm outstretched touching it."
+                  "cue": "Stand facing a wall or sturdy chair, with your arms outstretched and hands on the surface."
                 },
                 {
                   "pos": "B",
                   "label": "Hand Position",
                   "focus": "SETUP",
-                  "cue": "Make sure your hands are flat on the wall or chair and at shoulder height."
+                  "cue": "Place both hands flat on the wall or chair at shoulder height."
                 },
                 {
                   "pos": "C",
                   "label": "Hold",
                   "focus": "ISO",
-                  "cue": "Bend your elbows until they meet your waist. Stop and hold this position completely still."
+                  "cue": "Bend your elbows until they meet your waist. Stop and hold completely still."
                 },
                 {
                   "pos": "D",
                   "label": "Duration",
                   "focus": "HOLD",
-                  "cue": "Repeat these steps for the duration. Keep your stomach muscles tight."
+                  "cue": "Hold this position for the full duration. Keep your stomach muscles tight and breathe steadily."
                 }
               ],
-              "position": "Stand facing a wall or sturdy chair, with your arm outstretched touching it.",
-              "next": "Make sure your hands are flat on the wall or chair and at shoulder height.",
-              "then": "Bend your elbows until they meet your waist. Stop and hold this position completely still.",
-              "tip": "Repeat these steps for the duration. Keep your stomach muscles tight.",
+              "position": "Stand facing a wall or sturdy chair, with your arms outstretched and hands on the surface.",
+              "next": "Place both hands flat on the wall or chair at shoulder height.",
+              "then": "Bend your elbows until they meet your waist. Stop and hold completely still.",
+              "tip": "Hold this position for the full duration. Keep your stomach muscles tight and breathe steadily.",
               "demoVideo": "/assets/exercise-animations/isometric-wall-push-hold/IsometricWallPushHold_Markian_Test.mp4"
             },
             {
@@ -535,16 +535,16 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Supine Start",
                   "focus": "SETUP",
-                  "cue": "Lift one leg, keeping the knee as straight as comfortable. Hold behind the thigh or calf with both hands. No reach? Use a towel around your foot."
+                  "cue": "Keep your left leg straight on the floor. Relax your shoulders."
                 },
                 {
                   "pos": "B",
-                  "label": "Raise One Leg",
+                  "label": "Raise Right Leg",
                   "focus": "STRETCH",
-                  "cue": "Hold the stretch for the full duration. Feel the pull in the back of your thigh, not your knee. Switch sides when cued."
+                  "cue": "Lift your right leg toward the ceiling. Hold behind your right thigh or calf. Use a towel if you cannot reach."
                 },
                 {
-                  "cue": "Do not lock the knee. A mild pull is correct, sharp discomfort is not."
+                  "cue": "Hold for the full duration. A mild pull is correct; sharp pain is not. Keep your knee slightly bent."
                 }
               ],
               "position": "Lie flat on your back with your legs straight.",
@@ -564,16 +564,16 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Supine Start",
                   "focus": "SETUP",
-                  "cue": "Lift one leg, keeping the knee as straight as comfortable. Hold behind the thigh or calf with both hands. No reach? Use a towel around your foot."
+                  "cue": "Keep your right leg straight on the floor. Relax your shoulders."
                 },
                 {
                   "pos": "B",
-                  "label": "Raise One Leg",
+                  "label": "Raise Left Leg",
                   "focus": "STRETCH",
-                  "cue": "Hold the stretch for the full duration. Feel the pull in the back of your thigh, not your knee. Switch sides when cued."
+                  "cue": "Lift your left leg toward the ceiling. Hold behind your left thigh or calf. Use a towel if you cannot reach."
                 },
                 {
-                  "cue": "Do not lock the knee. A mild pull is correct, sharp discomfort is not."
+                  "cue": "Hold for the full duration. A mild pull is correct; sharp pain is not. Keep your knee slightly bent."
                 }
               ],
               "position": "Lie flat on your back with your legs straight.",
@@ -591,18 +591,18 @@ window.AXIS_JSON = {
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Cross Leg Over Knee",
+                  "label": "Cross Right Ankle",
                   "focus": "SETUP",
-                  "cue": "Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip."
+                  "cue": "Cross your right ankle over your left knee. Pull your right toes back toward your shin."
                 },
                 {
                   "pos": "B",
                   "label": "Draw In",
                   "focus": "STRETCH",
-                  "cue": "Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued."
+                  "cue": "Grab the back of your left thigh and pull your left leg toward your chest. Hold for the full duration."
                 },
                 {
-                  "cue": "You should feel this in the outer hip and glute of the crossed leg."
+                  "cue": "Push your right knee gently away from your body. You should feel this in your right hip and glute."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
@@ -620,18 +620,18 @@ window.AXIS_JSON = {
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Cross Leg Over Knee",
+                  "label": "Cross Left Ankle",
                   "focus": "SETUP",
-                  "cue": "Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip."
+                  "cue": "Cross your left ankle over your right knee. Pull your left toes back toward your shin."
                 },
                 {
                   "pos": "B",
                   "label": "Draw In",
                   "focus": "STRETCH",
-                  "cue": "Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued."
+                  "cue": "Grab the back of your right thigh and pull your right leg toward your chest. Hold for the full duration."
                 },
                 {
-                  "cue": "You should feel this in the outer hip and glute of the crossed leg."
+                  "cue": "Push your left knee gently away from your body. You should feel this in your left hip and glute."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
@@ -681,18 +681,18 @@ window.AXIS_JSON = {
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Supine Start",
+                  "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Guide that knee across your body with the opposite hand. Let it fall toward the floor."
+                  "cue": "Pull your right knee to your chest. Reach your right arm straight out to the side."
                 },
                 {
                   "pos": "B",
                   "label": "Cross & Hold",
                   "focus": "TWIST",
-                  "cue": "Turn your gaze in the opposite direction if comfortable. Hold for the full duration. Switch sides when cued."
+                  "cue": "Use your left hand to guide your right knee across your body. Look to the right if comfortable. Hold for the full duration."
                 },
                 {
-                  "cue": "Both shoulders stay on the floor. Let gravity do the work. Do not force the knee down."
+                  "cue": "Keep your right shoulder flat on the floor. Let gravity pull your knee down. Do not force it."
                 }
               ],
               "position": "Lie flat on your back with your legs straight.",
@@ -710,18 +710,18 @@ window.AXIS_JSON = {
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Supine Start",
+                  "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Guide that knee across your body with the opposite hand. Let it fall toward the floor."
+                  "cue": "Pull your left knee to your chest. Reach your left arm straight out to the side."
                 },
                 {
                   "pos": "B",
                   "label": "Cross & Hold",
                   "focus": "TWIST",
-                  "cue": "Turn your gaze in the opposite direction if comfortable. Hold for the full duration. Switch sides when cued."
+                  "cue": "Use your right hand to guide your left knee across your body. Look to the left if comfortable. Hold for the full duration."
                 },
                 {
-                  "cue": "Both shoulders stay on the floor. Let gravity do the work. Do not force the knee down."
+                  "cue": "Keep your left shoulder flat on the floor. Let gravity pull your knee down. Do not force it."
                 }
               ],
               "position": "Lie flat on your back with your legs straight.",
@@ -818,13 +818,13 @@ window.AXIS_JSON = {
                   "pos": "C",
                   "label": "Left Tilt",
                   "focus": "LATERAL",
-                  "cue": "Do not roll the head backward. Keep the movement slow and controlled throughout."
+                  "cue": "Return to center, then drop your left ear toward your left shoulder. Move slowly through the front of the neck only."
                 }
               ],
               "position": "Sit or stand tall. Look straight ahead.",
               "next": "Relax your shoulders down. Keep your chest lifted.",
               "then": "Drop your right ear toward your right shoulder. Hold for 2 seconds.",
-              "tip": "Roll your chin slowly down to your chest, then lift your left ear toward your left shoulder."
+              "tip": "Return to center, then drop your left ear toward your left shoulder. Move slowly through the front of the neck only."
             }
           ]
         }
