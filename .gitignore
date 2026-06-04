@@ -1,8 +1,21 @@
 node_modules
 .DS_Store
+
+# Walks apps are separate Git repos (see walks/.git and walks-expo/.git)
+walks/
+walks-expo/
 .vercel
 *.log
 public_web/build-id.txt
+public_web/build-lock.json
+public_web/capacitor.js
+
+# Capacitor native build artifacts (commit ios/ and android/ project sources)
+ios/App/Pods/
+ios/DerivedData/
+android/.gradle/
+android/app/build/
+android/.idea/
 
 # Local full snapshots before axis-static mirrors (do not commit)
 .axis-sync-archive/
