@@ -7,7 +7,8 @@
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
   <script>(function(){var V='mparjodw';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
-  <base href="/" />
+  <base id="axis-ob-base" href="/" />
+  <script>(function(){try{if(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform()){var b=document.getElementById("axis-ob-base");if(b)b.setAttribute("href","./");}}catch(e){}})();</script>
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="pragma" content="no-cache" />
   <meta http-equiv="expires" content="0" />
@@ -1873,9 +1874,9 @@ body { font-family: var(--font-ui), sans-serif !important; }
       return true;
     };
   </script>
-  <script src="./vendor/react.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
-  <script src="./vendor/react-dom.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
-  <script src="./vendor/babel.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load Babel. Check your connection and try again.')"></script>
+  <script src="./vendor/react.production.min.js" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
+  <script src="./vendor/react-dom.production.min.js" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
+  <script src="./vendor/babel.min.js" onerror="showLoadErr('Could not load Babel. Check your connection and try again.')"></script>
   <script type="text/babel" data-presets="react" src="./onboarding.js"></script>
 </body>
 </html>

@@ -24,6 +24,7 @@ import {
   React,
   ReactDOM,
   SettingsAccountRows,
+  axisSetDailyReminder,
   TRACKS,
   TRACKS_DATA_FALLBACK,
   TRACK_CATEGORY_BY_ID,
@@ -42,6 +43,7 @@ import {
   axisFormatSessionHeaderDuration,
   axisFormatLastSessionDayUpper,
   axisHapticTick,
+  axisConnectAppleHealth,
   axisHealthFetchTodayStepsNative,
   axisHealthFetchWeightSamplesNative,
   axisHealthRequestReadPermissions,
@@ -176,6 +178,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const [showStreak, setShowStreak] = useState(() => storageGet("axis_show_streak", true));
   const [showTimer, setShowTimer] = useState(() => storageGet("axis_show_timer", true));
   const [showPct, setShowPct] = useState(() => storageGet("axis_show_pct", true));
+  const [dailyReminderOn, setDailyReminderOn] = useState(() => !!storageGet("axis_daily_reminder", false));
   const [exerciseDuration, setExerciseDuration] = useState(() => {
     const v = Number(storageGet("axis_exercise_duration", 45));
     if (!Number.isFinite(v)) return 45;
@@ -295,6 +298,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const [metricsStepsToday, setMetricsStepsToday] = useState(null);
   const [metricsHealthHint, setMetricsHealthHint] = useState("");
   const [healthConnectSyncMsg, setHealthConnectSyncMsg] = useState("");
+  const [healthConnectBusy, setHealthConnectBusy] = useState(false);
   const [welcomeName, setWelcomeName] = useState(() => axisWelcomeDisplayNameFromStorage());
   const manifestBlobUrlRef = useRef(null);
   const prevMoodBgRef = useRef(null);
@@ -660,7 +664,6 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
   const sessionDurationLabel = axisFormatSessionHeaderDuration(sessionMinutes, perMoveSeconds);
   const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
-  const showSessionBookmarkExerciseHint = !storageGet(AXIS_EVER_BOOKMARKED_EXERCISE_KEY, false) && !Object.values(favs).some((v) => v);
 
   const applySessionDoneToggle = (setStore, id) => {
     setStore((store) => {
@@ -707,7 +710,9 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   };
   const startGuidedSession = () => {
     if (filteredAll.length === 0) return;
+    axisHapticTick();
     primeAudio();
+    beep(440, 0.08, { type: "sine", gain: 0.12 });
     setGuidedActive(true);
   };
   const scrollToOwnPathExercises = () => {
@@ -818,7 +823,13 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     return /*#__PURE__*/React.createElement(TimerView, { key: "timer", theme: theme, view: view, setView: setView, onSystemTab: goSystemGateway, activePeriod: activePeriod, nightMode: nightMode, dashboardHeader: dashboardHeaderEl });
   }
   if (view === "system" && systemPanel === "settings") {
-    const hasHealthData = Boolean(metricsHealthHint && /synced|updated|connected/i.test(metricsHealthHint + " " + healthConnectSyncMsg));
+    const healthStatusText = `${metricsHealthHint || ""} ${healthConnectSyncMsg || ""}`.trim();
+    const hasHealthData = /connected|allowed|synced|updated/i.test(healthStatusText);
+    const healthMetaLabel = healthConnectBusy || /syncing/i.test(healthConnectSyncMsg)
+      ? (healthConnectSyncMsg || "Syncing…")
+      : hasHealthData
+        ? "Connected"
+        : (healthConnectSyncMsg || "Not connected");
     const RowChevron = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "9 6 15 12 9 18" }));
     const DisclosureChevron = ({ open }) => /*#__PURE__*/React.createElement("svg", { className: "settings-ios-disclosure-chevron" + (open ? " is-open" : ""), width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("polyline", { points: "6 9 12 15 18 9" }));
     const MailIcon = () => /*#__PURE__*/React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, /*#__PURE__*/React.createElement("path", { d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" }), /*#__PURE__*/React.createElement("polyline", { points: "22,6 12,13 2,6" }));
@@ -845,30 +856,47 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
       React.createElement("span", { className: "settings-ios-label" }, "Timer Length per Exercise"), /*#__PURE__*/
       React.createElement("div", { className: "settings-ios-segment" },
       [30, 45, 60].map((sec) => /*#__PURE__*/React.createElement("button", { key: sec, type: "button", onClick: () => {axisHapticTick();setExerciseDuration(sec);}, className: "settings-ios-segment-btn" + (exerciseDuration === sec ? " settings-ios-segment-btn--active" : "") }, sec === 60 ? "1 min" : `${sec}s`)), /*#__PURE__*/
-      React.createElement("button", { type: "button", onClick: () => {axisHapticTick();setExerciseDuration(90);}, className: "settings-ios-segment-btn" + (![30, 45, 60].includes(exerciseDuration) ? " settings-ios-segment-btn--active" : "") }, "Custom"))))), /*#__PURE__*/
+      React.createElement("button", { type: "button", onClick: () => {axisHapticTick();setExerciseDuration(90);}, className: "settings-ios-segment-btn" + (![30, 45, 60].includes(exerciseDuration) ? " settings-ios-segment-btn--active" : "") }, "Custom")))), /*#__PURE__*/
 
-      React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
-      React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "Health"), React.createElement(DisclosureChevron, null)),
-      React.createElement("div", { className: "settings-ios-group" },
-      React.createElement("button", { type: "button", className: "settings-ios-row", onClick: async () => {
+      React.createElement("div", { className: "settings-ios-section-title" }, "Reminders"), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/
+      React.createElement("span", { className: "settings-ios-label" }, "Daily practice reminder"), /*#__PURE__*/
+      React.createElement(Toggle, { on: dailyReminderOn, setOn: (fn) => {
+        const next = typeof fn === "function" ? fn(dailyReminderOn) : !!fn;
+        setDailyReminderOn(next);
+        axisSetDailyReminder(next);
+      } })), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/
+      React.createElement("span", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45 } }, dailyReminderOn ? "On \u00b7 9:00 AM each morning." : "Off \u2014 flip the switch for a gentle morning nudge."))), /*#__PURE__*/
+
+      React.createElement("div", { className: "settings-ios-section-title" }, "Health"), /*#__PURE__*/
+      React.createElement("div", { className: "settings-ios-group" }, /*#__PURE__*/
+      React.createElement("button", { type: "button", className: "settings-ios-row", disabled: healthConnectBusy, onClick: async () => {
+        if (healthConnectBusy) return;
         axisHapticTick();
+        setHealthConnectBusy(true);
         setHealthConnectSyncMsg("Syncing…");
         try {
-          await axisHealthRequestReadPermissions();
-          const imported = await axisHealthFetchWeightSamplesNative();
-          const steps = await axisHealthFetchTodayStepsNative();
-          setMetricsStepsToday(steps);
-          if (imported.length > 0) {
-            setMetricsWeightSamples((prev) => axisMetricsMergeWeightByTs(axisMetricsNormalizeWeightList(prev), imported));
-            setMetricsHealthHint("Connected");
-            setHealthConnectSyncMsg("Connected");
-          } else {
-            setHealthConnectSyncMsg("Not connected");
+          const result = await axisConnectAppleHealth();
+          if (!result || !result.ok) {
+            setMetricsHealthHint("");
+            setHealthConnectSyncMsg((result && result.message) || "Could not connect");
+            return;
           }
+          setMetricsStepsToday(result.steps);
+          if (result.imported && result.imported.length > 0) {
+            setMetricsWeightSamples((prev) => axisMetricsMergeWeightByTs(axisMetricsNormalizeWeightList(prev), result.imported));
+          }
+          setMetricsHealthHint("Connected");
+          setHealthConnectSyncMsg(result.message || "Connected");
         } catch (e) {
-          setHealthConnectSyncMsg("Not connected");
+          setMetricsHealthHint("");
+          setHealthConnectSyncMsg("Could not connect");
+        } finally {
+          setHealthConnectBusy(false);
         }
-      } }, React.createElement("span", { className: "settings-ios-label" }, "Connect Apple Health"), React.createElement("span", { className: "settings-ios-right" }, React.createElement("span", { className: "settings-ios-meta" }, hasHealthData ? "Connected" : "Not connected"), React.createElement(RowChevron, null))))),
+      } }, React.createElement("span", { className: "settings-ios-label" }, "Connect Apple Health"), React.createElement("span", { className: "settings-ios-right" }, React.createElement("span", { className: "settings-ios-meta" + (healthConnectBusy ? " settings-ios-meta--muted" : "") }, healthMetaLabel), React.createElement(RowChevron, null)))),
 
       React.createElement("details", { className: "settings-ios-disclosure-group", open: true },
       React.createElement("summary", { className: "settings-ios-disclosure", onClick: () => {axisHapticTick();} }, React.createElement("span", { className: "settings-ios-section-title settings-ios-section-title--button" }, "Data"), React.createElement(DisclosureChevron, null)),
@@ -906,7 +934,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
       React.createElement("div", { className: "settings-ios-group" },
       React.createElement(SettingsAccountRows, null)))), /*#__PURE__*/
 
-      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" })), /*#__PURE__*/
+      React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" }))), /*#__PURE__*/
       privacyPolicyOpen && /*#__PURE__*/React.createElement("div", { className: "metrics-archive-backdrop", onClick: () => setPrivacyPolicyOpen(false) }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-modal", role: "dialog", "aria-modal": "true", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-header" }, /*#__PURE__*/React.createElement("h3", { className: "metrics-archive-title" }, "Privacy Policy"), /*#__PURE__*/React.createElement("button", { type: "button", className: "metrics-archive-close", onClick: () => setPrivacyPolicyOpen(false), "aria-label": "Close privacy policy" }, "\u00d7")), /*#__PURE__*/React.createElement("div", { className: "metrics-archive-body", style: { display: "flex", flexDirection: "column", gap: 10 } }, /*#__PURE__*/React.createElement("p", null, "Your workout history, goals, and preferences are stored on this device. We do not sell or profile your data."), /*#__PURE__*/React.createElement("p", null, "Account login uses Firebase Authentication. Local records are retained and older entries are archived automatically."), /*#__PURE__*/React.createElement("p", null, "You can export data any time from Data > Export My Data.")))), /*#__PURE__*/
       React.createElement(MetricsArchivedDataModal, {
         open: archivedDataOpen,
@@ -936,7 +964,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     const highlightCt = CIRCADIAN_THEMES[nowPeriod][theme === "dark" ? "dark" : "light"];
     const highlight = highlightCt && highlightCt.accent ? highlightCt.accent : "var(--mood-color)";
     const hcSys = `${metricsHealthHint || ""} ${healthConnectSyncMsg || ""}`;
-    const healthSyncAvailSys = /synced|updated|connected/i.test(hcSys);
+    const healthSyncAvailSys = /synced|updated|connected|allowed/i.test(hcSys);
     const warnSys = /error|fail|denied|unable/i.test(String(hcSys).toLowerCase()) && !healthSyncAvailSys;
     const effectivePeriodSys = activePeriod !== null ? activePeriod : nowPeriod;
     const currentMoodRow = MOOD_PERIODS.find((row) => row.p === effectivePeriodSys) || MOOD_PERIODS[0];
@@ -1815,7 +1843,6 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     ),
     /*#__PURE__*/React.createElement("div", { className: "hdr-session-progress" }, /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row" }, /*#__PURE__*/
-    showSessionBookmarkExerciseHint ? /*#__PURE__*/React.createElement("span", { className: "tab-prog-row__bookmark-hint" }, "Bookmark exercises to save them.") : null, /*#__PURE__*/
     React.createElement("div", { className: "tab-prog-row__top" }, /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__line", "aria-label": `${totalDone} of ${TOTAL} exercises completed` }, /*#__PURE__*/
     React.createElement("span", { className: "tab-prog-row__done" + (totalDone === 0 ? " tab-prog-row__done--zero" : "") }, totalDone), /*#__PURE__*/

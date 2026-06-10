@@ -150,14 +150,14 @@ const exForearmPlank = {
 
 const exFigR = mustEx(daily, (e) => e.id === "16-R", "Figure Four R");
 exFigR.id = "2118-R";
-exFigR.name = "Figure-4 Stretch — Right";
+exFigR.name = "Figure Four Stretch - Right";
 exFigR.type = "time";
 exFigR.seconds = 60;
 delete exFigR.reps;
 
 const exFigL = mustEx(daily, (e) => e.id === "16-L", "Figure Four L");
 exFigL.id = "2118-L";
-exFigL.name = "Figure-4 Stretch — Left";
+exFigL.name = "Figure Four Stretch - Left";
 exFigL.type = "time";
 exFigL.seconds = 60;
 delete exFigL.reps;

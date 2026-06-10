@@ -1300,8 +1300,47 @@ html, body, #root { font-family: var(--font-ui); }
 .guided-overlay[data-phase="closing"][data-night="true"] .guided-complete-summary {
   color: rgba(255, 255, 255, 0.42);
 }
+.guided-overlay[data-phase="closing"] .guided-complete-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 280px;
+  margin: 32px auto 0;
+  opacity: 0;
+  animation: guidedCompleteLineIn 400ms ease-out 800ms forwards;
+}
+.guided-overlay[data-phase="closing"] button.guided-complete-share {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font-family: "DM Mono", var(--font-data), ui-monospace, monospace;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.guided-overlay[data-phase="closing"][data-night="true"] button.guided-complete-share {
+  border-color: rgba(255, 59, 48, 0.35);
+  color: rgba(255, 255, 255, 0.85);
+}
+.axis-offline-banner {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  text-align: center;
+  background: rgba(255, 159, 67, 0.14);
+  border-bottom: 1px solid rgba(255, 159, 67, 0.35);
+  color: var(--text-primary, #f6f7f8);
+}
 .guided-overlay[data-phase="closing"] button.guided-complete-exit {
-  margin-top: 32px;
+  margin-top: 0;
   padding: 14px 40px;
   min-height: 48px;
   border-radius: 12px;
@@ -1320,8 +1359,7 @@ html, body, #root { font-family: var(--font-ui); }
   color: var(--mood-accent) !important;
   -webkit-text-fill-color: var(--mood-accent) !important;
   -webkit-tap-highlight-color: transparent;
-  opacity: 0;
-  animation: guidedCompleteLineIn 400ms ease-out 800ms forwards;
+  width: 100%;
 }
 .guided-overlay[data-phase="closing"][data-night="true"] button.guided-complete-exit {
   border-color: rgba(255, 59, 48, 0.5) !important;
@@ -2187,10 +2225,30 @@ html, body, #root { font-family: var(--font-ui); }
 .app[data-theme="light"]:not([data-night="true"]) .app-orbs::after {
   background: linear-gradient(165deg, rgba(255,255,255,0.18) 0%, transparent 48%, rgba(255,255,255,0.06) 100%) !important;
 }
-/* Portrait lock: hide app in landscape. Exception: body.axis-media-expand-active (AXIS_BODY_CLASS_MEDIA_EXPAND_ACTIVE) while ExerciseCarousel portal enlarge is open — required for every gif/webp demo and any future non–native-fullscreen enlarge; new Baseline videos use that carousel path. */
+/* Native shell: lock document scroll so WKWebView rubber-band does not pull fixed headers (dashboard / session chrome). */
+html.axis-native-shell,
+html.axis-native-shell body,
+html.axis-native-shell #root {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+html.axis-native-shell .app-body:has(.hdr-wrap) {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+html.axis-native-shell .content.content--session {
+  overscroll-behavior-y: contain;
+}
+
+/* Portrait lock (web/PWA): hide app in landscape. Native shell locks portrait in Info.plist / Android + ScreenOrientation — no overlay needed (html.axis-native-shell). Exception: body.axis-media-expand-active while ExerciseCarousel portal enlarge is open. */
 @media screen and (orientation: landscape) {
-  body:not(.axis-media-expand-active) > * { display: none !important; }
-  body:not(.axis-media-expand-active)::after {
+  html:not(.axis-native-shell) body:not(.axis-media-expand-active) > * { display: none !important; }
+  html:not(.axis-native-shell) body:not(.axis-media-expand-active)::after {
     content: 'Rotate to portrait';
     position: fixed; inset: 0; background: #000; color: #fff;
     display: flex !important; align-items: center; justify-content: center;
@@ -2525,6 +2583,10 @@ button.settings-ios-row {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+button.settings-ios-row:disabled {
+  opacity: 0.72;
+  cursor: default;
 }
 .settings-ios-row--stack {
   align-items: flex-start;
@@ -4760,7 +4822,7 @@ a.settings-outline-btn {
   padding: 0;
   box-sizing: border-box;
   border: none;
-  border-radius: 3px;
+  border-radius: 50%;
   background: transparent;
   display: inline-flex;
   align-items: center;
@@ -4779,7 +4841,7 @@ a.settings-outline-btn {
   margin-left: -9px;
   margin-top: -9px;
   box-sizing: border-box;
-  border-radius: 3px;
+  border-radius: 50%;
   border: 1.5px solid rgba(255, 255, 255, 0.28);
   background: transparent;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
@@ -11208,10 +11270,10 @@ a.settings-outline-btn {
 .tab-bar {
   position:fixed; bottom:0; left:0; right:0;
   min-height: var(--axis-tab-h);
-  background: rgba(8, 13, 24, 0.65);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--tab-bg);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  border-top: 1px solid var(--border);
   box-shadow: none;
   display:flex; align-items:center; justify-content:space-around;
   padding: 6px 4px calc(8px + env(safe-area-inset-bottom,0px));
@@ -11220,6 +11282,15 @@ a.settings-outline-btn {
 }
 .tab-bar:not([data-night="true"]) .tab-bar-top-line {
   display: none;
+}
+/* Native WKWebView: frosted blur often falls back to grey — match dashboard-header opacity */
+html.axis-native-shell .tab-bar:not([data-night="true"]) {
+  background: rgba(8, 12, 18, 0.88);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+}
+html.axis-native-shell .dashboard-header {
+  background: rgba(8, 12, 18, 0.88);
 }
 .tab-btn {
   display:flex; flex-direction: column; align-items:center; justify-content:center;

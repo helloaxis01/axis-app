@@ -1,0 +1,698 @@
+AXIS Exercise Reference
+Tracks: The Baseline Protocol, Lymph & Flow, The Foundation Reset, Night Ease
+Source: axis_data.json (current app content)
+Each move lists four guided steps as shown in LIST/GUIDED sessions.
+
+========================================================================
+
+THE BASELINE PROTOCOL (25 min)
+25 exercises
+
+Cat–Cow
+Section: Warm-up & Mobility
+
+  1. Neutral Tabletop
+     Inhale. Let your belly drop toward the floor. Lift your gaze and tailbone gently.
+  2. Cat, Exhale
+     Exhale, round your spine toward the ceiling. Tuck your chin to your chest and pelvis under.
+  3. Cow, Inhale
+     Move with your breath. Don't force the lower back on the inhale.
+  4. Finish
+     Return to a neutral tabletop with your back flat. Repeat slow cycles.
+
+Sphinx Pose
+Section: Warm-up & Mobility
+
+  1. Prone Start
+     Bring your forearms to the floor with elbows directly under your shoulders.
+  2. Lift
+     Press forearms down to lift your chest. Keep hips on the floor. Hold for the full duration.
+  3. Step 3
+     This is a passive hold. Let the spine decompress. Don't force the lift.
+  4. Finish
+     Let your lower back relax. Do not push your chest too high.
+
+Child's Pose
+Section: Warm-up & Mobility
+
+  1. Kneel Upright
+     Fold forward and rest your forehead on the floor. Reach arms straight out in front.
+  2. Fold Forward
+     Breathe deeply into your lower back. Let your chest sink toward the floor. Hold.
+  3. Step 3
+     Widen your knees if you need more room for your torso.
+  4. Finish
+     Take deep breaths into your lower back. Hold.
+
+Arm Circles (Forwards)
+Section: Warm-up & Mobility
+
+  1. Stand Tall
+     Reach both arms straight out to your sides at shoulder height. Shoulders relaxed down.
+  2. Forward Circles
+     Both arms make small controlled circles moving forward. Gradually increase to full arm sweeps. Keep shoulders down.
+  3. Full Range
+     Continue forward circles with an easy rhythm. Slight squeeze of shoulder blades on the back phase.
+  4. Finish
+     Stay in the forward direction the whole time; increase range gradually.
+
+Arm Circles (Backwards)
+Section: Warm-up & Mobility
+
+  1. Stand Tall
+     Reach both arms straight out to your sides at shoulder height. Shoulders relaxed down.
+  2. Backward Circles
+     Both arms make small controlled circles moving backward. Gradually increase to full arm sweeps. Keep shoulders down.
+  3. Full Range
+     Continue backward circles with an easy rhythm. Keep shoulders away from your ears.
+  4. Finish
+     Stay in the backward direction the whole time; increase range gradually.
+
+Pelvic Tilts
+Section: Core & Posterior Chain
+
+  1. Supine Neutral
+     Gently tighten your abs and press your lower back flat into the floor. Hold 2 seconds.
+  2. Posterior Tilt
+     Relax and let the lower back arch slightly away from the floor. Then press flat again. Repeat slowly.
+  3. Anterior Tilt
+     The movement is small and subtle. Do not hold your breath.
+  4. Finish
+     Relax your stomach muscles and let your lower back lift again. Move slowly.
+
+Glute Bridge
+Section: Core & Posterior Chain
+
+  1. Supine Setup
+     Press through your heels and lift your hips until shoulders, hips, and knees form a straight line.
+  2. Bridge Up
+     Squeeze your glutes at the top. Hold briefly, then lower slowly back to the floor.
+  3. Step 3
+     Do not let your lower back arch at the top. Keep your core tight throughout.
+  4. Finish
+     Lower your hips slowly back to the floor.
+
+Marching Bridge
+Section: Core & Posterior Chain
+
+  1. Hold Bridge
+     Keeping hips level, slowly lift one foot off the floor and bring your knee to 90 degrees. Hold 2 seconds.
+  2. Lift One Foot
+     Lower that foot, then lift the other. Alternate slowly without letting your hips drop or rotate.
+  3. Alternate
+     Think of balancing a glass of water on your hips. Keep it level throughout.
+  4. Finish
+     Lower your right foot. Lift your left foot. Keep your hips completely still.
+
+Dead Bug
+Section: Core & Posterior Chain
+
+  1. Supine Tabletop
+     Slowly lower your right arm overhead and extend your left leg toward the floor simultaneously. Keep your lower back pressed into the floor.
+  2. Extend Opposite Limbs
+     Return to start. Repeat with your left arm and right leg. Move in slow 4-second counts each way.
+  3. Return & Switch
+     Opposite arm and leg always move together. Control matters more than range.
+  4. Finish
+     Bring your arm and leg back up. Switch sides. Move very slowly.
+
+Bird Dog
+Section: Core & Posterior Chain
+
+  1. Neutral Tabletop
+     Reach your right arm straight forward and extend your left leg straight back. Both parallel to the floor. Hold 2 seconds.
+  2. Extend & Pause
+     Draw elbow to knee beneath your body. Return to neutral. Switch sides and repeat.
+  3. Return Controlled
+     Opposite arm and leg, not the same side. Keep hips level and do not rotate.
+  4. Finish
+     Lower your hand and knee back to the floor. Switch sides.
+
+High Plank
+Section: Upper Body
+
+  1. Hand Position
+     Step feet back until your body forms one straight line from head to heels. Squeeze your glutes.
+  2. Full Plank
+     Pull your navel toward your spine and breathe steadily. Hold for the full duration.
+  3. Step 3
+     Do not let your hips sag or lift. If your wrists ache, drop to your forearms.
+  4. Finish
+     Squeeze your stomach and butt muscles. Do not let your hips sag down.
+
+Wall Push-Ups
+Section: Upper Body
+
+  1. Wall Setup
+     Bend your elbows and lower your chest toward the wall over 2 to 3 seconds. Keep your body in a straight line.
+  2. Lower
+     Push through your palms to return to start. Fully extend your arms. Pause briefly at the top.
+  3. Press Back
+     Step further from the wall to increase difficulty. No sagging hips.
+  4. Finish
+     Push the wall away to straighten your arms. Step your feet backward to make it harder.
+
+Isometric Wall Push Hold
+Section: Upper Body
+
+  1. Wall Setup
+     Bend your elbows to roughly 90 degrees. The midpoint of a wall push-up. Stop here.
+  2. Halfway Hold
+     Press your hands firmly into the wall and hold completely still for the full duration. Breathe steadily.
+  3. Step 3
+     This is a still exercise. No movement is the point. You will feel tension in your chest and arms.
+  4. Finish
+     Push your hands firmly into the wall. Keep your stomach muscles tight.
+
+Resistance Band Row
+Section: Upper Body
+
+  1. Band Setup
+     Sit tall with slight tension in the band at arm's length. Keep your back straight.
+  2. Row Back
+     Pull both hands toward your lower abdomen, driving elbows back and squeezing shoulder blades together. Pause 1 second, then extend slowly.
+  3. Controlled Return
+     Do not let your shoulders roll forward at full extension.
+  4. Finish
+     Straighten your arms slowly. Keep your back straight.
+
+Wall Angels
+Section: Upper Body
+
+  1. Wall Contact
+     Slowly slide your arms up the wall, maintaining contact at all times. Go only as far as contact allows.
+  2. Slide Up
+     Slide back down to start over 3 seconds. If contact is lost, reduce your range.
+  3. Slide Down
+     Quality over range. Back, head, and hands all stay on the wall throughout.
+  4. Finish
+     Slide your arms slowly back down. Stop if your arms pull away from the wall.
+
+Supine Hamstring Stretch - Right Leg
+Section: Lower Body & Rotation
+
+  1. Supine Start
+     Lift one leg, keeping the knee as straight as comfortable. Hold behind the thigh or calf with both hands. No reach? Use a towel around your foot.
+  2. Raise One Leg
+     Hold the stretch for the full duration. Feel the pull in the back of your thigh, not your knee. Switch sides when cued.
+  3. Step 3
+     Do not lock the knee. A mild pull is correct, sharp discomfort is not.
+  4. Finish
+     Pull your leg gently toward your chest until you feel a stretch. Keep your knee slightly bent.
+
+Supine Hamstring Stretch - Left Leg
+Section: Lower Body & Rotation
+
+  1. Supine Start
+     Lift one leg, keeping the knee as straight as comfortable. Hold behind the thigh or calf with both hands. No reach? Use a towel around your foot.
+  2. Raise One Leg
+     Hold the stretch for the full duration. Feel the pull in the back of your thigh, not your knee. Switch sides when cued.
+  3. Step 3
+     Do not lock the knee. A mild pull is correct, sharp discomfort is not.
+  4. Finish
+     Pull your leg gently toward your chest until you feel a stretch. Keep your knee slightly bent.
+
+Figure Four Stretch - Right
+Section: Lower Body & Rotation
+
+  1. Cross Leg Over Knee
+     Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip.
+  2. Draw In
+     Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued.
+  3. Step 3
+     You should feel this in the outer hip and glute of the crossed leg.
+  4. Finish
+     Push your right knee gently away from your body to feel a deeper stretch.
+
+Figure Four Stretch - Left
+Section: Lower Body & Rotation
+
+  1. Cross Leg Over Knee
+     Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip.
+  2. Draw In
+     Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued.
+  3. Step 3
+     You should feel this in the outer hip and glute of the crossed leg.
+  4. Finish
+     Push your left knee gently away from your body to feel a deeper stretch.
+
+Windshield Wipers
+Section: Lower Body & Rotation
+
+  1. Supine, Feet Flat
+     Keeping knees together, slowly lower both knees to the right as far as is comfortable. Keep both shoulders on the floor.
+  2. Lower Knees Right
+     Sweep knees back through center and lower to the left. Move at a slow windshield-wiper pace. Continue alternating.
+  3. Lower Knees Left
+     For an easier version, keep feet on the floor and let knees drop side to side from there.
+  4. Finish
+     Lift your knees back to the middle, then let them drop slowly to the left side.
+
+Reclined Spinal Twist - Right Side
+Section: Lower Body & Rotation
+
+  1. Supine Start
+     Guide that knee across your body with the opposite hand. Let it fall toward the floor.
+  2. Cross & Hold
+     Turn your gaze in the opposite direction if comfortable. Hold for the full duration. Switch sides when cued.
+  3. Step 3
+     Both shoulders stay on the floor. Let gravity do the work. Do not force the knee down.
+  4. Finish
+     Keep your right shoulder flat on the floor. Let gravity pull your knee down.
+
+Reclined Spinal Twist - Left Side
+Section: Lower Body & Rotation
+
+  1. Supine Start
+     Guide that knee across your body with the opposite hand. Let it fall toward the floor.
+  2. Cross & Hold
+     Turn your gaze in the opposite direction if comfortable. Hold for the full duration. Switch sides when cued.
+  3. Step 3
+     Both shoulders stay on the floor. Let gravity do the work. Do not force the knee down.
+  4. Finish
+     Keep your left shoulder flat on the floor. Let gravity pull your knee down.
+
+Seated Forward Fold
+Section: Finish
+
+  1. Seated Tall
+     Inhale to lengthen your spine. Hinge forward from your hips, not your waist, and walk your hands toward your feet.
+  2. Fold Forward
+     Let your spine round naturally as you settle into the stretch. Head heavy. Hold for the full duration.
+  3. Step 3
+     A long spine matters more than reaching your toes. Bend your knees slightly if your hamstrings are tight.
+  4. Finish
+     Let your head hang heavy. Do not force yourself to reach your toes.
+
+Chin Tucks
+Section: Finish
+
+  1. Neutral Head
+     Draw your chin straight back, not down, as if making a double chin. The movement is purely horizontal.
+  2. Retract
+     Hold for 2 seconds. Release fully. Repeat for the full duration.
+  3. Step 3
+     You should feel a gentle stretch at the base of your skull. No tilting up or down.
+  4. Finish
+     Keep your head level. Do not point your chin up or down.
+
+Neck Rolls
+Section: Finish
+
+  1. Neutral Start
+     Drop your right ear toward your right shoulder. Keep your left shoulder down. Hold 2 to 3 seconds. Return through center.
+  2. Right Tilt
+     Drop your left ear toward your left shoulder. Smooth arc only, ear to ear through the front. Never through the back.
+  3. Left Tilt
+     Do not roll the head backward. Keep the movement slow and controlled throughout.
+  4. Finish
+     Roll your chin slowly down to your chest, then lift your left ear toward your left shoulder.
+
+------------------------------------------------------------------------
+
+LYMPH & FLOW (15 min)
+15 exercises
+
+Lymph Hops
+Section: Full Reset
+
+  1. Soft Stand
+     Feet hip-width. Knees soft, never locked. Arms relaxed at sides. Jaw loose. Breathe naturally.
+  2. Micro Bounce
+     Rise gently onto the balls of your feet and let your heels drop back down. Barely leave the ground. Think: soft vibration, not jumps.
+  3. Rhythm
+     Find a relaxed 1–2 beat. Let arms dangle and bounce passively. Face and shoulders stay completely soft. This should feel effortless.
+  4. Finish
+     Find a slow rhythm. Keep your face and shoulders soft.
+
+Body Waves
+Section: Full Reset
+
+  1. Stand Loose
+     Feet hip-width, knees slightly bent. Arms at sides. Imagine your spine is a string of loose beads.
+  2. Initiate Wave
+     Begin the wave at the top: let your head nod gently forward, then ripple the movement down through neck, chest, belly.
+  3. Full Undulation
+     As the wave reaches the pelvis, let it curl forward then rise back up. Continuous, fluid figure-8. No forcing. Gravity does the work.
+  4. Finish
+     When the wave reaches your hips, curl them forward and rise back up.
+
+Arm Swings
+Section: Full Reset
+
+  1. Loose Stance
+     Feet slightly wider than hips. Knees soft. Let arms hang completely relaxed from the shoulders.
+  2. Initiate Swing
+     Turn torso gently left. Arms swing right passively, carried by momentum. Do not muscle the arms. They follow the body.
+  3. Continuous Turn
+     Turn right. Arms swing left. Find a pendulum rhythm. Arms may tap your sides lightly. Increase range gradually as you warm up.
+  4. Finish
+     Turn your chest to the right. Let your arms swing to the left. Find a steady rhythm.
+
+Forward / Backward Arm Circles
+Section: Full Reset
+
+  1. Stand Tall
+     Feet hip-width. Arms at sides. Shoulders relaxed down. Begin with small circles and gradually increase the range.
+  2. Forward Circles
+     Both arms circle forward simultaneously. 15 slow rotations. Feel the shoulder joint moving through its full range.
+  3. Backward Circles
+     Reverse direction. 15 slow rotations backward. Backward circles open the chest and counteract forward shoulder posture.
+  4. Finish
+     Switch directions. Move both arms in circles backward 15 times.
+
+Dead Arms
+Section: Full Reset
+
+  1. Slight Forward Lean
+     Hinge slightly at the hips. Let both arms hang completely dead. No muscle engagement. Jaw loose.
+  2. Gentle Sway
+     Let the arms sway passively as you shift your weight side to side. Do not initiate any movement with the shoulder muscles. Gravity only.
+  3. Small Circles
+     Let the arms trace small passive circles, clockwise, then counter-clockwise. This gently tractions the shoulder joints.
+  4. Finish
+     Let your arms move in small circles. Keep your shoulders relaxed.
+
+Bent Over Back Shakes
+Section: Full Reset
+
+  1. Hinge Forward
+     Hinge at the hips, knees soft. Let the upper body hang forward. Arms dangling, head heavy. Let gravity decompress the spine.
+  2. Gentle Shake
+     Softly shake the upper body, small, effortless oscillations. Let the spine wobble freely. This releases the erectors and multifidus.
+  3. Side Sway
+     Add a gentle side-to-side sway. Let the arms swing. Stay loose. This is pure release. Nothing to engage.
+  4. Finish
+     Keep your arms loose. Do not use any muscles to hold yourself up.
+
+Trunk Twists
+Section: Full Reset
+
+  1. Loose Stance
+     Feet shoulder-width, knees soft. Arms hang at sides. Spine tall but not stiff.
+  2. Twist Right
+     Rotate torso to the right. Arms swing passively. Left arm wraps across the front, right swings behind. Pivot on left ball of foot.
+  3. Twist Left
+     Swing back through center and rotate left. Right arm wraps front, left swings behind. Find a loose, rhythmic pendulum pace.
+  4. Finish
+     Rotate back through center, then turn your chest to the left. Let your right arm wrap across your front and your left arm swing behind. Alternate sides in a steady rhythm.
+
+Golf Swings
+Section: Full Reset
+
+  1. Address Position
+     Feet shoulder-width. Slight hip hinge. Arms hang loose. Imagine holding a club, but keep the grip soft.
+  2. Backswing
+     Rotate through the hips and torso to the right, letting the arms follow passively. Left heel can lift slightly. No forcing.
+  3. Through Swing
+     Swing through to the left in one fluid motion. Arms follow the torso. Do not lead with the arms. Alternate sides for 1 minute.
+  4. Finish
+     Swing your arms to the left in one smooth motion. Do not force the movement.
+
+Twist the Waist
+Section: Full Reset
+
+  1. Stand Tall
+     Feet hip-width. Hands on hips. Eyes forward. Upper body completely still throughout, only the hips move.
+  2. Hip Rotation
+     Rotate the pelvis to the right, then sweep left in a continuous figure-8 or side-to-side motion. Upper body stays square.
+  3. Find Rhythm
+     Increase the range gradually. Feel the lumbar spine rotating freely. This is the movement that desk work robs you of most.
+  4. Finish
+     Make the circles bigger as you go. Move only your hips.
+
+March Taps
+Section: Full Reset
+
+  1. Upright Stance
+     Stand tall. Shoulders relaxed. This is a gentle march, not a high-knee drill. Pace is easy and rhythmic.
+  2. Lift & Tap
+     Lift right knee to comfortable height, tap with left hand. Lower. Lift left knee, tap with right hand. Alternate continuously.
+  3. Add Arm Swing
+     Let the opposite arm swing naturally with each step, just like walking. This cross-body pattern activates lymphatic flow bilaterally.
+  4. Finish
+     Let your other arm swing naturally, like you are walking.
+
+Wide Arm Step Backs
+Section: Full Reset
+
+  1. Neutral Start
+     Feet together, arms at sides. Soft knees. This movement is slow and deliberate, not aerobic.
+  2. Step & Open
+     Step right foot back and wide as both arms sweep out to the sides and overhead, like opening a large book. Inhale.
+  3. Return & Close
+     Step feet back together, arms return to sides. Exhale. Alternate sides. The arm sweep opens the chest and axillary lymph nodes.
+  4. Finish
+     Step your feet back together and lower your arms. Switch to the left foot.
+
+Ballet Squats
+Section: Full Reset
+
+  1. Wide Stance
+     Feet wider than hips, toes turned out to roughly 10 and 2 o'clock. Arms out at sides or hands at heart center.
+  2. Plié Down
+     Bend knees, tracking them over toes. Lower slowly, 3 seconds down. Keep torso upright, tailbone dropping straight down.
+  3. Rise Up
+     Press through the full foot to return to standing, 2 seconds up. Gently squeeze inner thighs at the top. Do not lock knees.
+  4. Finish
+     Press your feet into the floor to stand back up for 2 seconds. Keep your knees slightly bent at the top.
+
+Standing Calf Raise
+Section: Full Reset
+
+  1. Flat Foot
+     Feet hip-width. Arms relaxed at sides. Soft knees. This is the low point of the movement.
+  2. Rise & Reach
+     Rise onto tiptoes as arms sweep upward and forward to shoulder height or overhead. Inhale on the rise.
+  3. Lower & Swing
+     Lower heels as arms swing back down and behind. Exhale. The arm swing is passive. Gravity-assisted. Continuous and flowing.
+  4. Finish
+     Lower your heels to the floor. Let your arms swing down and behind you.
+
+Doorway Chest Stretch
+Section: Full Reset
+
+  1. Doorway Position
+     Stand in a doorway. Place both forearms on the frame at 90°, elbows at shoulder height, upper arms parallel to floor.
+  2. Step Through
+     Step one foot forward through the doorway. Let your body lean gently into the opening. Feel the chest and front shoulders open.
+  3. Hold & Breathe
+     Hold without forcing. Take 3 slow, deep breaths. Each exhale, let the chest open a little more. Do not shrug shoulders.
+  4. Finish
+     Take 3 slow breaths. Let your chest drop forward a little more each time you breathe out.
+
+Wall Pushups
+Section: Full Reset
+
+  1. Hands on Wall
+     Stand an arm's length from the wall. Place hands at shoulder height, slightly wider than shoulder-width. Body in a straight line.
+  2. Lower In
+     Bend elbows and lean chest toward the wall. Keep the body rigid. No sagging hips. Elbows track at roughly 45° from the torso.
+  3. Press Out
+     Push back to start. Exhale on the push. Move slowly and with control. This is not about speed. It's about reactivating the chest and shoulders.
+  4. Finish
+     Push the wall away to straighten your arms. Move slowly.
+
+------------------------------------------------------------------------
+
+THE FOUNDATION RESET (~22 min)
+10 exercises
+
+Pelvic Tilts
+Section: Foundation sequence
+
+  1. Supine Neutral
+     Gently tighten your abs and press your lower back flat into the floor. Hold 2 seconds.
+  2. Posterior Tilt
+     Relax and let the lower back arch slightly away from the floor. Then press flat again. Repeat slowly.
+  3. Anterior Tilt
+     The movement is small and subtle. Do not hold your breath.
+  4. Finish
+     Relax your stomach muscles and let your lower back lift again. Move slowly.
+
+Chin Tucks
+Section: Foundation sequence
+
+  1. Neutral Head
+     Draw your chin straight back, not down, as if making a double chin. The movement is purely horizontal.
+  2. Retract
+     Hold for 2 seconds. Release fully. Complete 10 smooth reps. Stop if you feel dizziness or sharp neck pain.
+  3. Step 3
+     You should feel a gentle stretch at the base of your skull. No tilting up or down.
+  4. Finish
+     Keep your head level. Do not point your chin up or down.
+
+Modified Bird-Dog
+Section: Foundation sequence
+
+  1. 1/4
+     Start on your hands and knees on the floor.
+  2. 2/4
+     Slowly extend one leg straight back behind you.
+  3. 3/4
+     Keep your lower back still and your pelvis parallel to the ground.
+  4. 4/4
+     Lower your leg and repeat the movement with the other side.
+
+Wall Slides (W to Y)
+Section: Foundation sequence
+
+  1. Wall Contact
+     Stand with head, upper back, and glutes touching the wall. Arms in a W shape, elbows bent, backs of hands against the wall. This is your baseline.
+  2. Slide to Y
+     Keeping the backs of hands and elbows touching the wall, slowly slide arms upward until they form a Y overhead. If contact is lost, reduce range. The lower trapezius must fire to keep the shoulder blades down and in.
+  3. Slow Return
+     Lower arms back to W in 3 seconds. Do not shrug or let shoulders elevate. 12 reps. This directly reverses the upper trap dominance that carrying luggage creates.
+  4. Finish
+     Slide your arms back down to a W shape. Do 12 slow reps.
+
+Box Squats
+Section: Foundation sequence
+
+  1. Setup
+     Feet hip-width, toes forward. Brace your core. Imagine sitting into a tall chair behind you.
+  2. Sit Back
+     Send hips back first. Lower until you graze the box or chair without collapsing. Knees track over toes.
+  3. Stand
+     Press evenly through mid-foot and heel to stand. Stop if knees or sharp back pain appears. Reduce depth or skip.
+  4. Finish
+     Move slowly. If balance feels unsure, use a higher surface or hand support on a wall.
+
+Wall Sit
+Section: Foundation sequence
+
+  1. Wall Contact
+     Stand with back flat against a wall. Feet shoulder-width, about 12 inches in front.
+  2. Slide Down
+     Slide down into a partial squat. Hold. Isometric holds have a pain-numbing effect on joints.
+  3. Breathe
+     Hold 45 seconds. Breathe normally.
+  4. Finish
+     Keep your back flat against the wall. Hold for 45 seconds.
+
+Dead Bug
+Section: Foundation sequence
+
+  1. Supine Tabletop
+     Slowly lower your right arm overhead and extend your left leg toward the floor simultaneously. Keep your lower back pressed into the floor.
+  2. Extend Opposite Limbs
+     Return to start. Repeat with your left arm and right leg. Move in slow 4-second counts each way.
+  3. Return & Switch
+     Opposite arm and leg always move together. Control matters more than range.
+  4. Finish
+     Bring your arm and leg back up. Switch sides. Move very slowly.
+
+Forearm Plank
+Section: Foundation sequence
+
+  1. Forearm Setup
+     Elbows under shoulders, forearms parallel. Tuck toes and lift knees so the body forms one line from head to heels.
+  2. Brace
+     Pull belly button up, squeeze glutes gently, breathe in the ribs. Do not hold breath.
+  3. Step 3
+     If form breaks or you feel sharp low-back pain, lower knees to the floor and hold a shorter lever, or end the set.
+  4. Finish
+     Drop to knees for a shorter hold if needed. Quality over duration.
+
+Figure Four Stretch - Right
+Section: Foundation sequence
+
+  1. Cross Leg Over Knee
+     Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip.
+  2. Draw In
+     Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued.
+  3. Step 3
+     You should feel this in the outer hip and glute of the crossed leg.
+  4. Finish
+     Push your right knee gently away from your body to feel a deeper stretch.
+
+Figure Four Stretch - Left
+Section: Foundation sequence
+
+  1. Cross Leg Over Knee
+     Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip.
+  2. Draw In
+     Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued.
+  3. Step 3
+     You should feel this in the outer hip and glute of the crossed leg.
+  4. Finish
+     Push your left knee gently away from your body to feel a deeper stretch.
+
+------------------------------------------------------------------------
+
+NIGHT EASE (10 min)
+6 exercises
+
+Legs Up the Wall
+Section: Better Sleep Stretch
+
+  1. Setup
+     Sit sideways against the wall, then swing legs up. Hips as close to the wall as comfortable. Arms out at sides, palms up.
+  2. Hold & Breathe
+     Let gravity drain the legs. Close the eyes. Breathe naturally. This posture reverses venous pooling and calms the nervous system.
+  3. Step 3
+     Place a folded blanket under your hips if your lower back is tight. Stay as long as feels good.
+  4. Finish
+     Place a folded blanket under your hips if your lower back feels tight.
+
+Reclined Butterfly
+Section: Better Sleep Stretch
+
+  1. Soles Together
+     Lie on back. Bring the soles of your feet together and let knees fall wide. Place hands on belly or out at sides.
+  2. Gravity Hold
+     Let the inner thighs and groin soften completely. Do not push. Hold for the full duration with easy breathing.
+  3. Step 3
+     Support the outer thighs with pillows if the stretch feels too intense.
+  4. Finish
+     Place pillows under your knees if the stretch is too intense.
+
+Knees to Chest Rock
+Section: Better Sleep Stretch
+
+  1. Hug Knees
+     Lie on back. Hug both knees to chest. Interlock fingers over shins.
+  2. Rock Side to Side
+     Rock gently left and right. Let the lower back release against the floor. 10–15 slow rocks.
+  3. Step 3
+     Move slowly. This is a massage for your lower back. Let the floor do the work.
+  4. Finish
+     Move slowly. Let the floor massage your back.
+
+Supine Twist - Right Side
+Section: Better Sleep Stretch
+
+  1. Setup
+     Lie on back. Draw right knee to chest. Arms in a T, shoulders grounded.
+  2. Cross Right
+     Guide right knee across to the left with left hand. Turn gaze right. Hold for 45–60s.
+  3. Cross Left
+     Return through center. Draw left knee across right. Gaze left. Hold another 45–60s.
+  4. Finish
+     Bring your right knee back to the middle. Pull your left knee across to the right side. Hold.
+
+Supine Twist - Left Side
+Section: Better Sleep Stretch
+
+  1. Setup
+     Lie on back. Draw right knee to chest. Arms in a T, shoulders grounded.
+  2. Cross Right
+     Guide right knee across to the left with left hand. Turn gaze right. Hold for 45–60s.
+  3. Cross Left
+     Return through center. Draw left knee across right. Gaze left. Hold another 45–60s.
+  4. Finish
+     Bring your right knee back to the middle. Pull your left knee across to the right side. Hold.
+
+Diaphragmatic Breathing
+Section: Better Sleep Stretch
+
+  1. Comfortable Position
+     Lie flat or sit upright. Eyes closed. Place one hand on the chest, one on the belly.
+  2. Inhale 4
+     Breathe in through the nose for 4 slow counts. Feel the belly rise before the chest.
+  3. Hold 7, Exhale 8
+     Hold for 7 counts. Exhale completely through the mouth for 8 counts. Repeat 4–6 cycles.
+  4. Finish
+     If holding breath after inhale feels uncomfortable, skip the hold and use a simple 4-count in, 6-count out instead.
+
+------------------------------------------------------------------------

@@ -1,5 +1,3 @@
-import { WorkoutApp } from './components/WorkoutApp.js';
-
 const React = globalThis.React;
 const ReactDOM = globalThis.ReactDOM;
 const { useState, useEffect, useLayoutEffect, useRef, useId, useCallback } = React;
@@ -1115,7 +1113,21 @@ function storageGet(key, def) {
   try {const v = localStorage.getItem(key);return v !== null ? JSON.parse(v) : def;} catch (e) {return def;}
 }
 function storageSet(key, val) {
-  try {localStorage.setItem(key, JSON.stringify(val));} catch (e) {}
+  try {
+    const raw = JSON.stringify(val);
+    localStorage.setItem(key, raw);
+    if (axisIsCapacitorNative()) {
+      loadAxisNativeModule().then((m) => m && typeof m.prefsSet === "function" && m.prefsSet(key, raw)).catch(() => {});
+    }
+  } catch (e) {}
+}
+function storageRemove(key) {
+  try {
+    localStorage.removeItem(key);
+    if (axisIsCapacitorNative()) {
+      loadAxisNativeModule().then((m) => m && typeof m.prefsRemove === "function" && m.prefsRemove(key)).catch(() => {});
+    }
+  } catch (e) {}
 }
 
 /** First whitespace-delimited token (given name) for greetings. */
@@ -1127,18 +1139,69 @@ function axisWelcomeFirstName(full) {
   return w || "";
 }
 
+function axisNativeAuthUserFromStorage() {
+  try {
+    if (typeof localStorage === "undefined") return null;
+    const uid = localStorage.getItem("axis_auth_uid");
+    if (!uid || !String(uid).trim()) return null;
+    const email = localStorage.getItem("axis_auth_email");
+    return { uid: String(uid).trim(), email: email ? String(email) : null };
+  } catch (_e) {
+    return null;
+  }
+}
+
+function axisSyncAuthUser() {
+  try {
+    if (typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser) {
+      return window.AXIS_auth.currentUser;
+    }
+  } catch (_e) {}
+  try {
+    if (typeof window !== "undefined" && window.AXIS_nativeAuthUser) {
+      return window.AXIS_nativeAuthUser;
+    }
+  } catch (_e) {}
+  return axisNativeAuthUserFromStorage();
+}
+
+function axisAuthHasSession() {
+  return !!axisSyncAuthUser();
+}
+
+function axisAuthCapabilitiesAvailable() {
+  try {
+    if (typeof window !== "undefined" && window.AXIS_auth) return true;
+  } catch (_e) {}
+  return axisIsCapacitorNative();
+}
+
+function axisClearNativeAuthSession() {
+  try {
+    if (typeof window !== "undefined") window.AXIS_nativeAuthUser = null;
+  } catch (_e) {}
+  try {
+    if (typeof localStorage === "undefined") return;
+    localStorage.removeItem("axis_auth_uid");
+    localStorage.removeItem("axis_auth_email");
+    localStorage.removeItem("axis_firebase_id_token");
+    localStorage.removeItem("axis_firebase_refresh_token");
+    localStorage.removeItem("axis_firebase_token_expires");
+  } catch (_e) {}
+}
+
+function axisHydrateNativeAuthFromStorage() {
+  if (!axisIsCapacitorNative()) return;
+  const stored = axisNativeAuthUserFromStorage();
+  if (!stored) return;
+  try {
+    window.AXIS_nativeAuthUser = stored;
+  } catch (_e) {}
+}
+
 function axisActiveUidForStorage() {
-  try {
-    if (typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.uid) {
-      return String(window.AXIS_auth.currentUser.uid);
-    }
-  } catch (e) {}
-  try {
-    if (typeof localStorage !== "undefined") {
-      const cached = localStorage.getItem("axis_auth_uid");
-      if (cached && String(cached).trim()) return String(cached).trim();
-    }
-  } catch (e) {}
+  const user = axisSyncAuthUser();
+  if (user && user.uid) return String(user.uid);
   return "";
 }
 
@@ -2123,7 +2186,7 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
   const [remainingSeconds, setRemainingSeconds] = useState(seconds);
   const fillRef = useRef(null);
   const completedRef = useRef(false);
-  const threeBeatTriggeredRef = useRef(false);
+  const prepCountdownHapticSecRef = useRef(null);
   const onCompleteRef = useRef(onComplete);
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
@@ -2132,7 +2195,8 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
   }, [onComplete]);
   useEffect(() => {
     completedRef.current = false;
-    threeBeatTriggeredRef.current = false;
+    prepCountdownHapticSecRef.current = null;
+    axisGuidedRestStartCue();
     const totalMs = Math.max(0, seconds * 1000);
     let deadline = performance.now() + totalMs;
     let pausedAt = null;
@@ -2163,15 +2227,14 @@ function GuidedRestTimer({ seconds = 15, accent, trackColor, hidden = false, pau
         lastCeil = ceilSec;
         setRemainingSeconds(ceilSec);
       }
-      if (!threeBeatTriggeredRef.current && ceilSec === 3 && remainingMs > 0) {
-        threeBeatTriggeredRef.current = true;
-        triggerHaptic(HAPTIC_TRIPLE_TAP);
+      if (remainingMs > 0 && ceilSec >= 1 && ceilSec <= 3 && prepCountdownHapticSecRef.current !== ceilSec) {
+        prepCountdownHapticSecRef.current = ceilSec;
+        axisGuidedPrepCountdownCue();
       }
       if (remainingMs <= 0 && !completedRef.current) {
         completedRef.current = true;
         applyFill(1);
         setRemainingSeconds(0);
-        triggerHaptic(HAPTIC_TRIPLE_TAP);
         requestAnimationFrame(() => onCompleteRef.current && onCompleteRef.current());
         return;
       }
@@ -2295,7 +2358,6 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
         completedRef.current = true;
         applyFill(1);
         setRemainingSeconds(0);
-        triggerHaptic(HAPTIC_TRIPLE_TAP);
         requestAnimationFrame(() => onCompleteRef.current && onCompleteRef.current());
         return;
       }
@@ -2900,14 +2962,182 @@ function ExerciseFigure({ id, size = 110, aspect = 160 / 120, className, style, 
 //  OVERLAY TIMER — fully inlined styles, no CSS class dependency
 // ─────────────────────────────────────────────────────────────
 let _audioCtx = null;
+let _axisNativeBeepAudio = null;
+let _axisNativeBeepUnlocked = false;
+let _axisNativeMod = null;
+let _axisNativeLoad = null;
+let _axisNativeReady = null;
+
+function axisNativeModuleUrl() {
+  const cb =
+    typeof window !== "undefined" && window.AXIS_BUILD
+      ? `?cb=${window.AXIS_BUILD}`
+      : "";
+  return `./vendor/axis-native.mjs${cb}`;
+}
+
+let _axisWorkoutAppComponent = null;
+let _axisWorkoutAppLoad = null;
+
+function axisWorkoutAppModuleUrl() {
+  const cb =
+    typeof window !== "undefined" && window.AXIS_BUILD
+      ? `?cb=${window.AXIS_BUILD}`
+      : "";
+  return `./components/WorkoutApp.js${cb}`;
+}
+
+function axisLoadWorkoutApp() {
+  if (_axisWorkoutAppComponent) return Promise.resolve(_axisWorkoutAppComponent);
+  if (_axisWorkoutAppLoad) return _axisWorkoutAppLoad;
+  _axisWorkoutAppLoad = import(axisWorkoutAppModuleUrl())
+    .then((mod) => {
+      _axisWorkoutAppComponent = mod && mod.WorkoutApp;
+      if (!_axisWorkoutAppComponent) throw new Error("WorkoutApp export missing");
+      return _axisWorkoutAppComponent;
+    })
+    .catch((e) => {
+      _axisWorkoutAppLoad = null;
+      throw e;
+    });
+  return _axisWorkoutAppLoad;
+}
+
+function axisIsCapacitorNative() {
+  try {
+    const C = typeof window !== "undefined" && window.Capacitor;
+    if (C && typeof C.isNativePlatform === "function" && C.isNativePlatform()) return true;
+  } catch (_e) {}
+  try {
+    if (typeof window === "undefined" || !window.location) return false;
+    const host = String(window.location.hostname || "").toLowerCase();
+    const protocol = String(window.location.protocol || "");
+    if (protocol === "capacitor:") return true;
+    if (protocol === "https:" && (host === "localhost" || host === "127.0.0.1")) return true;
+  } catch (_e) {}
+  return false;
+}
+
+function axisNativeHideSplashFallback() {
+  if (!axisIsCapacitorNative()) return;
+  try {
+    const plugins = typeof window !== "undefined" && window.Capacitor && window.Capacitor.Plugins;
+    const splash = plugins && plugins.SplashScreen;
+    if (splash && typeof splash.hide === "function") {
+      splash.hide().catch(() => {});
+    }
+  } catch (_e) {}
+}
+
+function loadAxisNativeModule() {
+  if (_axisNativeLoad) return _axisNativeLoad;
+  if (!axisIsCapacitorNative()) {
+    _axisNativeLoad = Promise.resolve(null);
+    return _axisNativeLoad;
+  }
+  _axisNativeLoad = import(axisNativeModuleUrl())
+    .then((mod) => {
+      _axisNativeMod = mod;
+      return mod;
+    })
+    .catch((e) => {
+      console.warn("[AXIS] Capacitor native bridge failed to load", e);
+      return null;
+    });
+  return _axisNativeLoad;
+}
+
+function axisEnsureNativeReady() {
+  if (!axisIsCapacitorNative()) return Promise.resolve(null);
+  if (_axisNativeReady) return _axisNativeReady;
+  _axisNativeReady = loadAxisNativeModule()
+    .then(async (m) => {
+      if (m && typeof m.init === "function") await m.init();
+      return m;
+    })
+    .catch(() => null);
+  return _axisNativeReady;
+}
 
 function primeAudio() {
   try {
     if (!_audioCtx || _audioCtx.state === "closed") {
       _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
-    if (_audioCtx.state === "suspended") _audioCtx.resume();
+    if (_audioCtx.state === "suspended") {
+      _audioCtx.resume().catch(() => {});
+    }
   } catch (e) {}
+  axisUnlockNativeBeep();
+}
+
+function axisUnlockNativeBeep() {
+  if (!axisIsCapacitorNative() && !axisIsNativeShell()) return;
+  if (_axisNativeBeepUnlocked) return;
+  try {
+    if (!_axisNativeBeepAudio) {
+      _axisNativeBeepAudio = new Audio();
+      _axisNativeBeepAudio.preload = "auto";
+    }
+    _axisNativeBeepAudio.src = axisBeepWavDataUrl(440, 0.02, 0.001, "sine");
+    _axisNativeBeepAudio.volume = 0.01;
+    const p = _axisNativeBeepAudio.play();
+    if (p && typeof p.then === "function") {
+      p.then(() => { _axisNativeBeepUnlocked = true; }).catch(() => {});
+    } else {
+      _axisNativeBeepUnlocked = true;
+    }
+  } catch (_e) {}
+}
+
+function axisPrimeAudioOnFirstGesture() {
+  if (typeof document === "undefined") return;
+  const once = () => {
+    primeAudio();
+    document.removeEventListener("touchstart", once, true);
+    document.removeEventListener("click", once, true);
+  };
+  document.addEventListener("touchstart", once, { capture: true, passive: true });
+  document.addEventListener("click", once, { capture: true, passive: true });
+}
+
+function axisNativeShellInit() {
+  if (!axisIsCapacitorNative()) return Promise.resolve();
+  return loadAxisNativeModule()
+    .then((m) => m && typeof m.init === "function" && m.init())
+    .catch(() => {})
+    .finally(() => axisNativeHideSplashFallback());
+}
+
+function axisNativeShareText(payload) {
+  if (axisIsCapacitorNative()) {
+    return loadAxisNativeModule()
+      .then((m) => m && typeof m.shareText === "function" && m.shareText(payload))
+      .catch(() => false);
+  }
+  if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
+    return navigator.share(payload).then(() => true).catch(() => false);
+  }
+  return Promise.resolve(false);
+}
+
+function axisGuidedShareSession({ trackLabel, listTotal, streak }) {
+  const label = (trackLabel || "my AXIS session").trim();
+  const streakBit = streak >= 2 ? ` · ${streak}-day streak` : "";
+  const text = `I completed ${label} — ${listTotal} exercises${streakBit}.`;
+  axisHapticTick();
+  return axisNativeShareText({
+    title: "AXIS",
+    text,
+    url: "https://axis-app-beryl.vercel.app",
+  });
+}
+
+function axisNativeSetKeepAwake(enabled) {
+  if (!axisIsCapacitorNative()) return Promise.resolve();
+  return loadAxisNativeModule()
+    .then((m) => m && typeof m.setKeepAwake === "function" && m.setKeepAwake(!!enabled))
+    .catch(() => {});
 }
 
 const HAPTIC_LIGHT_TAP = 40;
@@ -2918,6 +3148,12 @@ const HAPTIC_TRIPLE_TAP = [100, 100, 100];
 const HAPTIC_SUCCESS = [80, 100, 120];
 
 function triggerHaptic(pattern) {
+  if (axisIsCapacitorNative()) {
+    loadAxisNativeModule()
+      .then((m) => m && typeof m.vibratePattern === "function" && m.vibratePattern(pattern))
+      .catch(() => {});
+    return;
+  }
   try {
     if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
       navigator.vibrate(pattern);
@@ -2926,6 +3162,12 @@ function triggerHaptic(pattern) {
 }
 
 function axisHapticTick() {
+  if (axisIsCapacitorNative()) {
+    loadAxisNativeModule()
+      .then((m) => m && typeof m.tick === "function" && m.tick())
+      .catch(() => {});
+    return;
+  }
   try {
     const w = typeof window !== "undefined" ? window : null;
     if (w && w.webkit && w.webkit.messageHandlers && w.webkit.messageHandlers.axisHaptic && w.webkit.messageHandlers.axisHaptic.postMessage) {
@@ -2941,6 +3183,12 @@ function axisHapticTick() {
 }
 
 function axisHapticSuccess() {
+  if (axisIsCapacitorNative()) {
+    loadAxisNativeModule()
+      .then((m) => m && typeof m.success === "function" && m.success())
+      .catch(() => {});
+    return;
+  }
   try {
     const w = typeof window !== "undefined" ? window : null;
     if (w && w.webkit && w.webkit.messageHandlers && w.webkit.messageHandlers.axisHaptic && w.webkit.messageHandlers.axisHaptic.postMessage) {
@@ -2955,17 +3203,109 @@ function axisHapticSuccess() {
   } catch (e) {}
 }
 
-function beep(freq = 880, duration = 0.3) {
+function axisBeepWavDataUrl(freq, durationSec, peakGain, waveType) {
+  const sampleRate = 22050;
+  const numSamples = Math.max(1, Math.floor(sampleRate * durationSec));
+  const dataSize = numSamples * 2;
+  const buffer = new ArrayBuffer(44 + dataSize);
+  const view = new DataView(buffer);
+  const writeStr = (off, s) => { for (let i = 0; i < s.length; i++) view.setUint8(off + i, s.charCodeAt(i)); };
+  writeStr(0, "RIFF");
+  view.setUint32(4, 36 + dataSize, true);
+  writeStr(8, "WAVE");
+  writeStr(12, "fmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  writeStr(36, "data");
+  view.setUint32(40, dataSize, true);
+  const amp = Math.min(32767, Math.floor(peakGain * 32767 * 4));
+  for (let i = 0; i < numSamples; i++) {
+    const t = i / sampleRate;
+    const phase = 2 * Math.PI * freq * t;
+    let sample = 0;
+    if (waveType === "triangle") sample = (2 / Math.PI) * Math.asin(Math.sin(phase));
+    else sample = Math.sin(phase);
+    const fade = Math.min(1, 1 - t / Math.max(durationSec, 0.01));
+    view.setInt16(44 + i * 2, sample * amp * fade, true);
+  }
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return "data:audio/wav;base64," + btoa(binary);
+}
+
+function axisBeepWavFallback(freq, durationSec, peakGain, waveType) {
   try {
-    if (!_audioCtx || _audioCtx.state !== "running") return;
+    if (!_axisNativeBeepAudio) {
+      _axisNativeBeepAudio = new Audio();
+      _axisNativeBeepAudio.preload = "auto";
+    }
+    const audio = _axisNativeBeepAudio;
+    audio.volume = 1;
+    audio.src = axisBeepWavDataUrl(freq, durationSec, peakGain, waveType);
+    audio.currentTime = 0;
+    const p = audio.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  } catch (_e) {}
+}
+
+function beep(freq = 880, duration = 0.3, opts) {
+  const type = opts && opts.type ? opts.type : "sine";
+  const peakGain = opts && typeof opts.gain === "number" ? opts.gain : 0.25;
+  if (axisIsCapacitorNative() || axisIsNativeShell()) {
+    axisBeepWavFallback(freq, duration, peakGain, type);
+    return;
+  }
+  try {
+    if (!_audioCtx || _audioCtx.state !== "running") {
+      primeAudio();
+    }
+    if (!_audioCtx || _audioCtx.state !== "running") {
+      axisBeepWavFallback(freq, duration, peakGain, type);
+      return;
+    }
     const o = _audioCtx.createOscillator();
     const g = _audioCtx.createGain();
     o.connect(g);g.connect(_audioCtx.destination);
-    o.frequency.value = freq;o.type = "sine";
-    g.gain.setValueAtTime(0.25, _audioCtx.currentTime);
+    o.frequency.value = freq;o.type = type;
+    g.gain.setValueAtTime(peakGain, _audioCtx.currentTime);
     g.gain.exponentialRampToValueAtTime(0.001, _audioCtx.currentTime + duration);
     o.start(_audioCtx.currentTime);o.stop(_audioCtx.currentTime + duration);
-  } catch (e) {}
+  } catch (e) {
+    axisBeepWavFallback(freq, duration, peakGain, type);
+  }
+}
+
+/** Rest & Get Ready — once when the countdown starts. */
+function axisGuidedRestStartCue() {
+  primeAudio();
+  beep(440, 0.22, { type: "sine", gain: 0.2 });
+}
+
+/** Rest & Get Ready — low dull tone + light tap on each of 3, 2, 1. */
+function axisGuidedPrepCountdownCue() {
+  primeAudio();
+  beep(220, 0.14, { type: "triangle", gain: 0.16 });
+  axisHapticTick();
+}
+
+/** Rest countdown finished → exercise (BEGIN) phase. */
+function axisGuidedBeginCue() {
+  primeAudio();
+  beep(880, 0.28);
+  triggerHaptic(HAPTIC_MEDIUM);
+}
+
+/** Exercise finished (timer or mark done). */
+function axisGuidedExerciseCompleteCue() {
+  primeAudio();
+  beep(660, 0.4);
+  axisHapticSuccess();
 }
 
 function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
@@ -3106,6 +3446,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     setPhase(incl ? "instruction" : "rest");
   };
   const handleRestTimerComplete = () => {
+    axisGuidedBeginCue();
     const saved = guidedExerciseSnapshotsRef.current[fi];
     const canResume = typeof saved === "number" && saved > 0 && saved < guidedMoveSeconds;
     setGuidedExerciseResumeSeconds(canResume ? saved : null);
@@ -3250,18 +3591,40 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     };
   }, []);
 
-  // Wake Lock: keep screen on during flow (iOS/Safari support varies)
+  // Keep screen on during guided flow (Capacitor KeepAwake; web Wake Lock fallback)
   useEffect(() => {
-    if (phase === "intro") return;
-    if (phase === "closing") {
+    const releaseWebWakeLock = () => {
       try {wakeLockRef.current && wakeLockRef.current.release();wakeLockRef.current = null;} catch (e) {}
+    };
+    if (phase === "intro") {
+      axisNativeSetKeepAwake(false);
+      releaseWebWakeLock();
       return;
     }
-    if (navigator.wakeLock && typeof navigator.wakeLock.request === "function") {
+    if (phase === "closing") {
+      axisNativeSetKeepAwake(false);
+      releaseWebWakeLock();
+      return;
+    }
+    axisNativeSetKeepAwake(true);
+    if (!axisIsCapacitorNative() && navigator.wakeLock && typeof navigator.wakeLock.request === "function") {
       navigator.wakeLock.request("screen").then((lock) => {wakeLockRef.current = lock;}).catch(() => {});
     }
+    return () => {
+      axisNativeSetKeepAwake(false);
+      releaseWebWakeLock();
+    };
   }, [phase]);
-  useEffect(() => () => {try {wakeLockRef.current && wakeLockRef.current.release();wakeLockRef.current = null;} catch (e) {}}, []);
+
+  // Pause timers when the native app backgrounds (user switches apps / locks phone)
+  useEffect(() => {
+    const onBackground = () => {
+      if (phase === "intro" || phase === "closing") return;
+      setPaused(true);
+    };
+    window.addEventListener("axis-app-background", onBackground);
+    return () => window.removeEventListener("axis-app-background", onBackground);
+  }, [phase]);
 
   useEffect(() => {
     if (!titleRef.current) return;
@@ -3320,7 +3683,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   const completeCurrent = () => {
     delete guidedExerciseSnapshotsRef.current[fi];
     setGuidedExerciseResumeSeconds(null);
-    beep(660, 0.4);
+    axisGuidedExerciseCompleteCue();
     onToggle(cur.id);
     if (fi >= list.length - 1) {
       setPhase("closing");
@@ -3601,7 +3964,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       minHeight: 52,
       opacity: phase === "rest" && cur && !guidedTransitioning ? 1 : 0,
       pointerEvents: phase === "rest" && cur && !guidedTransitioning ? "auto" : "none"
-    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);handleRestTimerComplete();}, style: {
+    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", onClick: () => {handleRestTimerComplete();}, style: {
       flex: 2,
       minWidth: 0,
       minHeight: 52,
@@ -3668,7 +4031,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
       minHeight: 52,
       opacity: phase === "instruction" ? 1 : 0,
       pointerEvents: phase === "instruction" ? "auto" : "none"
-    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: () => {primeAudio();beep(880, 0.2);triggerHaptic(HAPTIC_LIGHT_TAP);setPhase("rest");}, style: {
+    } }, /*#__PURE__*/guidedPrevFooterButton(), /*#__PURE__*/React.createElement("button", { type: "button", className: isNight ? "guided-cta-fill" : undefined, onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);setPhase("rest");}, style: {
       flex: 2,
       minWidth: 0,
       minHeight: 52,
@@ -3852,7 +4215,9 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
     /*#__PURE__*/React.createElement("div", { className: "guided-complete-title" }, "Guided complete."),
     /*#__PURE__*/React.createElement("div", { className: "guided-complete-subtitle" }, "Take a few moments to breathe or rest."),
     /*#__PURE__*/React.createElement("div", { className: "guided-complete-summary" }, `${listTotal} exercises \u00b7 ${axisDurationMinLowerFromTrackDuration(trackDuration)}`),
-    /*#__PURE__*/React.createElement("button", { type: "button", className: "guided-complete-exit", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);onExit();}, "aria-label": "Exit guided session" }, "EXIT")
+    /*#__PURE__*/React.createElement("div", { className: "guided-complete-actions" }, /*#__PURE__*/
+    React.createElement("button", { type: "button", className: "guided-complete-share", onClick: () => {axisGuidedShareSession({ trackLabel, listTotal, streak });}, "aria-label": "Share session" }, "SHARE"), /*#__PURE__*/
+    React.createElement("button", { type: "button", className: "guided-complete-exit", onClick: () => {triggerHaptic(HAPTIC_LIGHT_TAP);onExit();}, "aria-label": "Exit guided session" }, "EXIT"))
     ),
 
 
@@ -6236,24 +6601,29 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
 function SettingsAccountRows() {
   const useState = React.useState;
   const useEffect = React.useEffect;
-  const syncUser = () => {return typeof window !== "undefined" && window.AXIS_auth && window.AXIS_auth.currentUser ? window.AXIS_auth.currentUser : null;};
+  const syncUser = () => axisSyncAuthUser();
   const [user, setUser] = useState(syncUser);
   const [ready, setReady] = useState(false);
   useEffect(() => {
+    axisHydrateNativeAuthFromStorage();
+    setUser(syncUser());
     const auth = typeof window !== "undefined" && window.AXIS_auth;
     const onAuth = typeof window !== "undefined" && window.AXIS_onAuthStateChanged;
     if (!auth || !onAuth) {
       setReady(true);
       return undefined;
     }
-    setUser(syncUser());
     const unsub = onAuth(auth, (u) => {
-      setUser(u || null);
+      if (u) {
+        setUser(u);
+        try {
+          if (u.uid) localStorage.setItem("axis_auth_uid", String(u.uid));
+          if (u.email) localStorage.setItem("axis_auth_email", String(u.email));
+        } catch (e) {}
+      } else if (!axisAuthHasSession()) {
+        setUser(null);
+      }
       setReady(true);
-      try {
-        if (u && u.uid) localStorage.setItem("axis_auth_uid", String(u.uid));
-        else localStorage.removeItem("axis_auth_uid");
-      } catch (e) {}
     });
     setReady(true);
     return () => {
@@ -6262,14 +6632,69 @@ function SettingsAccountRows() {
       } catch (e) {}
     };
   }, []);
-  const hasAuth = typeof window !== "undefined" && !!window.AXIS_auth;
+  const hasAuth = axisAuthCapabilitiesAvailable();
+  const signedIn = axisAuthHasSession();
   const email = user && user.email ? String(user.email) : null;
-  const emailMeta = !ready ? "…" : !hasAuth ? "—" : email || "Not signed in";
+  const emailMeta = !ready ? "…" : !hasAuth ? "—" : email || (signedIn ? "Signed in" : "Not signed in");
   const emailRow = /*#__PURE__*/React.createElement("div", { className: "settings-ios-row" }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Email"), /*#__PURE__*/React.createElement("span", { className: "settings-ios-meta settings-ios-meta--muted" }, emailMeta));
   const authMissingRow = ready && !hasAuth ? /*#__PURE__*/React.createElement("div", { className: "settings-ios-row settings-ios-row--stack" }, /*#__PURE__*/React.createElement("span", { style: { fontSize: "var(--text-xs)", color: "var(--text-secondary)", lineHeight: 1.45 } }, "Account sign-in is unavailable because the auth script did not load.")) : null;
-  const logInRow = ready && hasAuth && !email ? /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();window.location.href = "./login.html";} }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Log In")) : null;
-  const logOutRow = ready && hasAuth && email ? /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-row settings-ios-row--danger", onClick: () => {axisHapticTick();try { localStorage.removeItem("axis_auth_uid"); } catch (e) {}if (window.AXIS_signOut) window.AXIS_signOut().catch(() => {});} }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Log Out")) : null;
+  const logInRow = ready && hasAuth && !signedIn ? /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-row", onClick: () => {axisHapticTick();window.location.href = "./login.html";} }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Log In")) : null;
+  const logOutRow = ready && hasAuth && signedIn ? /*#__PURE__*/React.createElement("button", { type: "button", className: "settings-ios-row settings-ios-row--danger", onClick: () => {axisHapticTick();axisClearNativeAuthSession();if (window.AXIS_signOut) window.AXIS_signOut().catch(() => {});} }, /*#__PURE__*/React.createElement("span", { className: "settings-ios-label" }, "Log Out")) : null;
   return /*#__PURE__*/React.createElement(React.Fragment, null, emailRow, authMissingRow, logInRow, logOutRow);
+}
+
+function axisIsNativeShell() {
+  try {
+    if (axisIsCapacitorNative()) return true;
+    return !!(typeof document !== "undefined" && document.documentElement.classList.contains("axis-native-shell"));
+  } catch (_e) {
+    return false;
+  }
+}
+
+function axisSetDailyReminder(enabled) {
+  const on = !!enabled;
+  storageSet("axis_daily_reminder", on);
+  if (!axisIsNativeShell()) return Promise.resolve();
+  return loadAxisNativeModule()
+    .then((m) => {
+      if (!m) return;
+      if (on && typeof m.scheduleDailyReminder === "function") return m.scheduleDailyReminder();
+      if (!on && typeof m.cancelDailyReminder === "function") return m.cancelDailyReminder();
+    })
+    .catch(() => {});
+}
+
+function AxisOfflineBanner() {
+  const useState = React.useState;
+  const useEffect = React.useEffect;
+  const [offline, setOffline] = useState(() => typeof navigator !== "undefined" ? !navigator.onLine : false);
+  useEffect(() => {
+    const setOn = () => setOffline(false);
+    const setOff = () => setOffline(true);
+    window.addEventListener("axis-network-online", setOn);
+    window.addEventListener("axis-network-offline", setOff);
+    window.addEventListener("online", setOn);
+    window.addEventListener("offline", setOff);
+    if (axisIsCapacitorNative()) {
+      loadAxisNativeModule()
+        .then((m) => m && typeof m.getNetworkOnline === "function" && m.getNetworkOnline())
+        .then((online) => {if (typeof online === "boolean") setOffline(!online);})
+        .catch(() => {});
+    }
+    return () => {
+      window.removeEventListener("axis-network-online", setOn);
+      window.removeEventListener("axis-network-offline", setOff);
+      window.removeEventListener("online", setOn);
+      window.removeEventListener("offline", setOff);
+    };
+  }, []);
+  if (!offline) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "axis-offline-banner",
+    role: "status",
+    "aria-live": "polite"
+  }, "You're offline — workouts and history stay on this device. Cloud sync resumes when you're back online.");
 }
 
 function FeedbackButton() {
@@ -6489,35 +6914,96 @@ function axisMetricsMergeWeightByTs(local, imported) {
   return Array.from(map.values()).sort((a, b) => a.ts - b.ts);
 }
 
-/** Optional native bridge: window.axisHealthRequestPermissions({ read: ['weight','steps'] }) → { granted } */
+async function axisHealthNativeModule() {
+  if (!axisIsCapacitorNative()) return null;
+  try {
+    return await axisEnsureNativeReady();
+  } catch (_e) {
+    return null;
+  }
+}
+
+function axisHealthFailureMessage(reason) {
+  const r = String(reason || "").toLowerCase();
+  if (!r) return "Allow in Settings → Health → AXIS";
+  if (/unavailable|not available|health data|ios_only|web_stub|not implemented|unimplemented|bridge/.test(r)) {
+    return "Health not available";
+  }
+  if (/could not get permission|denied|permission/.test(r)) {
+    return "Allow in Settings → Health → AXIS";
+  }
+  return "Could not connect";
+}
+
+/** Settings → Connect Apple Health: permissions + first sync. */
+async function axisConnectAppleHealth() {
+  if (!axisIsCapacitorNative()) {
+    return { ok: false, message: "Health not available", weights: 0, steps: null };
+  }
+  await axisEnsureNativeReady();
+  const perm = await axisHealthRequestReadPermissions();
+  if (!perm || !perm.granted) {
+    const reason = perm && perm.reason ? String(perm.reason) : "";
+    const message = axisHealthFailureMessage(reason);
+    try {
+      console.warn("[AXIS] Apple Health connect failed:", reason || message);
+    } catch (_e) {}
+    return { ok: false, message, weights: 0, steps: null, reason };
+  }
+  const imported = await axisHealthFetchWeightSamplesNative();
+  const steps = await axisHealthFetchTodayStepsNative();
+  const message =
+    imported.length > 0 || (steps != null && steps > 0)
+      ? "Connected"
+      : "Allowed — no data in Health yet";
+  return { ok: true, message, weights: imported.length, steps, imported };
+}
+
+/** Native bridge: request HealthKit read access (steps + weight). */
 async function axisHealthRequestReadPermissions() {
   try {
+    const m = await axisHealthNativeModule();
+    if (m && typeof m.healthRequestPermissions === "function") {
+      return await m.healthRequestPermissions({ read: ["weight", "steps"] });
+    }
     if (typeof window.axisHealthRequestPermissions === "function") {
       return await window.axisHealthRequestPermissions({ read: ["weight", "steps"] });
     }
-  } catch (e) {}
-  return { granted: false, reason: "web_stub" };
+  } catch (e) {
+    return { granted: false, reason: e && e.message ? e.message : String(e) };
+  }
+  return { granted: false, reason: "unavailable" };
 }
 
-/** Optional: window.axisFetchHealthWeightSamples() → [{ ts, lbs, source:'health' }] */
+/** Native bridge: weight samples from Apple Health. */
 async function axisHealthFetchWeightSamplesNative() {
   try {
+    const m = await axisHealthNativeModule();
+    if (m && typeof m.healthFetchWeightSamples === "function") {
+      const r = await m.healthFetchWeightSamples();
+      if (Array.isArray(r)) return axisMetricsNormalizeWeightList(r);
+    }
     if (typeof window.axisFetchHealthWeightSamples === "function") {
       const r = await window.axisFetchHealthWeightSamples();
       if (Array.isArray(r)) return axisMetricsNormalizeWeightList(r);
     }
-  } catch (e) {}
+  } catch (_e) {}
   return [];
 }
 
-/** Optional: window.axisFetchTodayStepCount() → number */
+/** Native bridge: today's step count from Apple Health. */
 async function axisHealthFetchTodayStepsNative() {
   try {
+    const m = await axisHealthNativeModule();
+    if (m && typeof m.healthFetchTodaySteps === "function") {
+      const n = await m.healthFetchTodaySteps();
+      if (Number.isFinite(n) && n >= 0) return Math.floor(n);
+    }
     if (typeof window.axisFetchTodayStepCount === "function") {
       const n = await window.axisFetchTodayStepCount();
       if (Number.isFinite(n) && n >= 0) return Math.floor(n);
     }
-  } catch (e) {}
+  } catch (_e) {}
   return null;
 }
 
@@ -7355,6 +7841,8 @@ export {
   React,
   ReactDOM,
   SettingsAccountRows,
+  axisSetDailyReminder,
+  AxisOfflineBanner,
   TRACKS,
   TRACKS_DATA_FALLBACK,
   TRACK_CATEGORY_BY_ID,
@@ -7373,6 +7861,7 @@ export {
   axisFormatSessionHeaderDuration,
   axisFormatLastSessionDayUpper,
   axisHapticTick,
+  axisConnectAppleHealth,
   axisHealthFetchTodayStepsNative,
   axisHealthFetchWeightSamplesNative,
   axisHealthRequestReadPermissions,
@@ -7426,6 +7915,22 @@ function App() {
   const [nightMode, setNightMode] = useState(() => storageGet("axis_night", false));
   const [onboardingBloomMounted, setOnboardingBloomMounted] = useState(false);
   const [onboardingBloomOpaque, setOnboardingBloomOpaque] = useState(false);
+  const [WorkoutApp, setWorkoutApp] = useState(() => _axisWorkoutAppComponent);
+
+  useEffect(() => {
+    if (WorkoutApp) return;
+    let cancelled = false;
+    axisLoadWorkoutApp()
+      .then((comp) => {
+        if (!cancelled) setWorkoutApp(() => comp);
+      })
+      .catch((e) => {
+        if (!cancelled) {
+          showLoadErr("Workout UI failed to load: " + (e && e.message ? e.message : String(e)) + (e && e.stack ? "\n\n" + e.stack : ""));
+        }
+      });
+    return () => { cancelled = true; };
+  }, [WorkoutApp]);
 
   const toggleNight = () => setNightMode((n) => {const v = !n;storageSet("axis_night", v);return v;});
   const toggleTheme = () => setTheme((t) => {const n = t === "dark" ? "light" : "dark";storageSet("axis_theme", n);return n;});
@@ -7547,6 +8052,24 @@ function App() {
 
   const dataLoadWarn = typeof window !== "undefined" && window.__AXIS_DATA_LOAD_ERROR;
 
+  if (!WorkoutApp) {
+    return (/*#__PURE__*/
+    React.createElement("div", {
+      style: {
+        minHeight: "100dvh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#080d18",
+        color: "#f6f7f8",
+        fontFamily: "var(--font-ui, system-ui, sans-serif)",
+        fontSize: "16px",
+        letterSpacing: "0.04em"
+      } },
+    "Loading AXIS…")
+    );
+  }
+
   return (/*#__PURE__*/
     React.createElement("div", { style: appShellStyle }, /*#__PURE__*/
     onboardingBloomMounted ? /*#__PURE__*/React.createElement("div", {
@@ -7573,6 +8096,7 @@ function App() {
         color: "var(--text-primary, #f6f7f8)"
       } },
     dataLoadWarn),
+    /*#__PURE__*/React.createElement(AxisOfflineBanner, null),
     React.createElement("div", { className: "axis-app-scroll-root", style: appContentStyle }, /*#__PURE__*/
     React.createElement(WorkoutApp, {
       theme: theme,
@@ -7586,12 +8110,12 @@ function App() {
 
 }
 
-function bootstrapAxisApp() {
-  window.__AXIS_DATA_LOAD_ERROR = "";
+function axisBootstrapRenderApp() {
   try {
     if (typeof location !== "undefined" && !/[?&]noboard=1(?:&|$)/.test(String(location.search || ""))) {
       axisMigrateOnboardingLegacy();
-      if (!axisLocalOnboardingComplete()) {
+      // Capacitor WKWebView: skip web onboarding redirect (Babel-onboarding is unreliable in the native shell).
+      if (!axisIsCapacitorNative() && !axisLocalOnboardingComplete()) {
         let ob = "./onboarding";
         try {
           ob = typeof window.axisOnboardingHref === "function" ? window.axisOnboardingHref() : "./onboarding";
@@ -7620,9 +8144,23 @@ function bootstrapAxisApp() {
       return;
     }
     ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+    try {
+      if (typeof window !== "undefined" && typeof window.axisDismissBootOverlay === "function") {
+        window.axisDismissBootOverlay();
+      }
+    } catch (_e) {}
   } catch (e) {
     showLoadErr("Error: " + (e && e.message ? e.message : String(e)) + (e && e.stack ? "\n\n" + e.stack : ""));
   }
+}
+
+function bootstrapAxisApp() {
+  window.__AXIS_DATA_LOAD_ERROR = "";
+  axisHydrateNativeAuthFromStorage();
+  axisPrimeAudioOnFirstGesture();
+  axisNativeHideSplashFallback();
+  axisBootstrapRenderApp();
+  axisNativeShellInit().catch(() => {}).finally(() => axisNativeHideSplashFallback());
 }
 bootstrapAxisApp();
   

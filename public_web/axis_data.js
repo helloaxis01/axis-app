@@ -482,7 +482,8 @@ window.AXIS_JSON = {
               "position": "Sit on the floor with your legs straight out in front of you.",
               "next": "Wrap a resistance band around the bottoms of your feet. Hold one end in each hand. Sit tall.",
               "then": "Pull both hands toward your stomach. Squeeze your shoulder blades together.",
-              "tip": "Straighten your arms slowly. Keep your back straight."
+              "tip": "Straighten your arms slowly. Keep your back straight.",
+              "demoVideo": "/assets/exercise-animations/resistance-band-row/ResistanceBandRow_Markian_Test.mp4"
             },
             {
               "id": 14,
@@ -514,7 +515,8 @@ window.AXIS_JSON = {
               "position": "Stand with your back flat against a wall.",
               "next": "Press your head, upper back, and hips into the wall. Bend your elbows and press your arms against the wall to make a W shape.",
               "then": "Slide your arms slowly up the wall to make a Y shape. Keep your arms touching the wall.",
-              "tip": "Slide your arms slowly back down. Stop if your arms pull away from the wall."
+              "tip": "Slide your arms slowly back down. Stop if your arms pull away from the wall.",
+              "demoVideo": "/assets/exercise-animations/wall-angels/WallAngels_Markian_Test.mp4"
             }
           ]
         },
@@ -550,7 +552,8 @@ window.AXIS_JSON = {
               "position": "Lie flat on your back with your legs straight.",
               "next": "Keep your left leg straight on the floor. Relax your shoulders.",
               "then": "Lift your right leg straight up toward the ceiling. Grab the back of your right thigh with both hands.",
-              "tip": "Pull your leg gently toward your chest until you feel a stretch. Keep your knee slightly bent."
+              "tip": "Pull your leg gently toward your chest until you feel a stretch. Keep your knee slightly bent.",
+              "demoVideo": "/assets/exercise-animations/supine-hamstring-stretch-right/SupineHamstringStretch-Right_Markian_Test.mp4"
             },
             {
               "id": "15-L",
@@ -579,11 +582,12 @@ window.AXIS_JSON = {
               "position": "Lie flat on your back with your legs straight.",
               "next": "Keep your right leg straight on the floor. Relax your shoulders.",
               "then": "Lift your left leg straight up toward the ceiling. Grab the back of your left thigh with both hands.",
-              "tip": "Pull your leg gently toward your chest until you feel a stretch. Keep your knee slightly bent."
+              "tip": "Pull your leg gently toward your chest until you feel a stretch. Keep your knee slightly bent.",
+              "demoVideo": "/assets/exercise-animations/supine-hamstring-stretch-left/SupineHamstringStretch-Left_Markian_Test.mp4"
             },
             {
               "id": "16-R",
-              "name": "Figure Four Stretch - Right Hip",
+              "name": "Figure Four Stretch - Right",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "flow",
@@ -608,11 +612,12 @@ window.AXIS_JSON = {
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
               "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Push your right knee gently away from your body to feel a deeper stretch."
+              "tip": "Push your right knee gently away from your body to feel a deeper stretch.",
+              "demoVideo": "/assets/exercise-animations/figure-four-right/FigureFour-Right_Markian_Test.mp4"
             },
             {
               "id": "16-L",
-              "name": "Figure Four Stretch - Left Hip",
+              "name": "Figure Four Stretch - Left",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "flow",
@@ -637,7 +642,8 @@ window.AXIS_JSON = {
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Cross your left ankle over your right knee. Pull your left toes back toward your shin.",
               "then": "Grab the back of your right thigh with both hands. Pull your right leg toward your chest.",
-              "tip": "Push your left knee gently away from your body to feel a deeper stretch."
+              "tip": "Push your left knee gently away from your body to feel a deeper stretch.",
+              "demoVideo": "/assets/exercise-animations/figure-four-left/FigureFour-Left_Markian_Test.mp4"
             },
             {
               "id": 17,
@@ -669,7 +675,8 @@ window.AXIS_JSON = {
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Reach your arms straight out to the sides. Keep your shoulders flat on the floor.",
               "then": "Let both knees drop slowly to the right side. Keep your feet apart.",
-              "tip": "Lift your knees back to the middle, then let them drop slowly to the left side."
+              "tip": "Lift your knees back to the middle, then let them drop slowly to the left side.",
+              "demoVideo": "/assets/exercise-animations/windshield-wipers/WindshieldWipers_Markian_Test.mp4"
             },
             {
               "id": "18-R",
@@ -698,7 +705,8 @@ window.AXIS_JSON = {
               "position": "Lie flat on your back with your legs straight.",
               "next": "Pull your right knee to your chest. Reach your right arm straight out to the side.",
               "then": "Use your left hand to pull your right knee across your body toward the floor. Look to the right.",
-              "tip": "Keep your right shoulder flat on the floor. Let gravity pull your knee down."
+              "tip": "Keep your right shoulder flat on the floor. Let gravity pull your knee down.",
+              "demoVideo": "/assets/exercise-animations/reclined-spinal-twist-right/ReclinedSpinalTwist-Right_Markian_Test.mp4"
             },
             {
               "id": "18-L",
@@ -727,7 +735,8 @@ window.AXIS_JSON = {
               "position": "Lie flat on your back with your legs straight.",
               "next": "Pull your left knee to your chest. Reach your left arm straight out to the side.",
               "then": "Use your right hand to pull your left knee across your body toward the floor. Look to the left.",
-              "tip": "Keep your left shoulder flat on the floor. Let gravity pull your knee down."
+              "tip": "Keep your left shoulder flat on the floor. Let gravity pull your knee down.",
+              "demoVideo": "/assets/exercise-animations/reclined-spinal-twist-left/ReclinedSpinalTwist-Left_Markian_Test.mp4"
             }
           ]
         },
@@ -763,7 +772,8 @@ window.AXIS_JSON = {
               "position": "Sit on the floor with your legs straight out in front of you.",
               "next": "Sit up tall and take a deep breath.",
               "then": "Lean your chest forward toward your legs. Walk your hands down your legs toward your feet.",
-              "tip": "Let your head hang heavy. Do not force yourself to reach your toes."
+              "tip": "Let your head hang heavy. Do not force yourself to reach your toes.",
+              "demoVideo": "/assets/exercise-animations/seated-forward-fold/SeatedForwardFold_Markian_Test.mp4"
             },
             {
               "id": 20,
@@ -792,7 +802,8 @@ window.AXIS_JSON = {
               "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds.",
-              "tip": "Keep your head level. Do not point your chin up or down."
+              "tip": "Keep your head level. Do not point your chin up or down.",
+              "demoVideo": "/assets/exercise-animations/chin-tucks/ChinTucks_Markian_Test.mp4"
             },
             {
               "id": 21,
@@ -824,7 +835,8 @@ window.AXIS_JSON = {
               "position": "Sit or stand tall. Look straight ahead.",
               "next": "Relax your shoulders down. Keep your chest lifted.",
               "then": "Drop your right ear toward your right shoulder. Hold for 2 seconds.",
-              "tip": "Return to center, then drop your left ear toward your left shoulder. Move slowly through the front of the neck only."
+              "tip": "Return to center, then drop your left ear toward your left shoulder. Move slowly through the front of the neck only.",
+              "demoVideo": "/assets/exercise-animations/neck-rolls/NeckRolls_Markian_Test.mp4"
             }
           ]
         }
@@ -1416,7 +1428,8 @@ window.AXIS_JSON = {
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds.",
               "tip": "Keep your head level. Do not point your chin up or down.",
-              "reps": "10 reps"
+              "reps": "10 reps",
+              "demoVideo": "/assets/exercise-animations/chin-tucks/ChinTucks_Markian_Test.mp4"
             },
             {
               "id": 2112,
@@ -1618,7 +1631,7 @@ window.AXIS_JSON = {
             },
             {
               "id": "2118-R",
-              "name": "Figure-4 Stretch, Right",
+              "name": "Figure Four Stretch - Right",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
@@ -1626,28 +1639,29 @@ window.AXIS_JSON = {
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Cross Leg Over Knee",
+                  "label": "Cross Right Ankle",
                   "focus": "SETUP",
-                  "cue": "Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip."
+                  "cue": "Cross your right ankle over your left knee. Pull your right toes back toward your shin."
                 },
                 {
                   "pos": "B",
                   "label": "Draw In",
                   "focus": "STRETCH",
-                  "cue": "Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued."
+                  "cue": "Grab the back of your left thigh and pull your left leg toward your chest. Hold for the full duration."
                 },
                 {
-                  "cue": "You should feel this in the outer hip and glute of the crossed leg."
+                  "cue": "Push your right knee gently away from your body. You should feel this in your right hip and glute."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
               "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Push your right knee gently away from your body to feel a deeper stretch."
+              "tip": "Push your right knee gently away from your body to feel a deeper stretch.",
+              "demoVideo": "/assets/exercise-animations/figure-four-right/FigureFour-Right_Markian_Test.mp4"
             },
             {
               "id": "2118-L",
-              "name": "Figure-4 Stretch, Left",
+              "name": "Figure Four Stretch - Left",
               "start": "Lie on your back with your knees bent and feet flat on the floor.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
@@ -1655,24 +1669,25 @@ window.AXIS_JSON = {
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Cross Leg Over Knee",
+                  "label": "Cross Left Ankle",
                   "focus": "SETUP",
-                  "cue": "Lift your left foot off the floor and draw both legs toward your chest until you feel a stretch in your right hip."
+                  "cue": "Cross your left ankle over your right knee. Pull your left toes back toward your shin."
                 },
                 {
                   "pos": "B",
                   "label": "Draw In",
                   "focus": "STRETCH",
-                  "cue": "Hold for the full duration. Use your hand to gently press your right knee outward to deepen the stretch. Switch sides when cued."
+                  "cue": "Grab the back of your right thigh and pull your right leg toward your chest. Hold for the full duration."
                 },
                 {
-                  "cue": "You should feel this in the outer hip and glute of the crossed leg."
+                  "cue": "Push your left knee gently away from your body. You should feel this in your left hip and glute."
                 }
               ],
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Cross your left ankle over your right knee. Pull your left toes back toward your shin.",
               "then": "Grab the back of your right thigh with both hands. Pull your right leg toward your chest.",
-              "tip": "Push your left knee gently away from your body to feel a deeper stretch."
+              "tip": "Push your left knee gently away from your body to feel a deeper stretch.",
+              "demoVideo": "/assets/exercise-animations/figure-four-left/FigureFour-Left_Markian_Test.mp4"
             }
           ]
         }
@@ -1944,7 +1959,8 @@ window.AXIS_JSON = {
               "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds. Do 10 times.",
-              "tip": "Do not look up or down. Keep your head level."
+              "tip": "Do not look up or down. Keep your head level.",
+              "demoVideo": "/assets/exercise-animations/chin-tucks/ChinTucks_Markian_Test.mp4"
             },
             {
               "id": "403-R",
@@ -2204,7 +2220,8 @@ window.AXIS_JSON = {
               "position": "Sit, stand, or lie on your back with knees bent. Keep your eyes level with the horizon.",
               "next": "Relax your shoulders down. Relax your jaw.",
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds. Slowly release. Do 10 times.",
-              "tip": "Keep your head level. Do not point your chin up or down."
+              "tip": "Keep your head level. Do not point your chin up or down.",
+              "demoVideo": "/assets/exercise-animations/chin-tucks/ChinTucks_Markian_Test.mp4"
             },
             {
               "id": "502-R",
@@ -2717,7 +2734,8 @@ window.AXIS_JSON = {
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
               "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Rock slowly side to side. Hold for 60 seconds. Switch sides."
+              "tip": "Rock slowly side to side. Hold for 60 seconds. Switch sides.",
+              "demoVideo": "/assets/exercise-animations/figure-four-right/FigureFour-Right_Markian_Test.mp4"
             },
             {
               "id": "604-L",
@@ -2749,7 +2767,8 @@ window.AXIS_JSON = {
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
               "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Rock slowly side to side. Hold for 60 seconds. Switch sides."
+              "tip": "Rock slowly side to side. Hold for 60 seconds. Switch sides.",
+              "demoVideo": "/assets/exercise-animations/figure-four-left/FigureFour-Left_Markian_Test.mp4"
             },
             {
               "id": 605,
@@ -3056,7 +3075,8 @@ window.AXIS_JSON = {
               "position": "Lie on your back with your knees bent and feet flat on the floor.",
               "next": "Reach your arms straight out to the sides. Keep your shoulders flat against the floor.",
               "then": "Let both knees drop slowly to the right side. Breathe out.",
-              "tip": "Lift your knees back to the middle, then let them drop slowly to the left side."
+              "tip": "Lift your knees back to the middle, then let them drop slowly to the left side.",
+              "demoVideo": "/assets/exercise-animations/windshield-wipers/WindshieldWipers_Markian_Test.mp4"
             },
             {
               "id": "706-R",
@@ -3088,7 +3108,8 @@ window.AXIS_JSON = {
               "position": "Lie on your back. Keep your legs straight.",
               "next": "Pull your right knee to your chest. Reach your right arm straight out to the side.",
               "then": "Use your left hand to pull your right knee across your body toward the floor. Look to the right.",
-              "tip": "Bring your right knee back to the middle. Switch legs and look to the left. Hold for 60 seconds each side."
+              "tip": "Bring your right knee back to the middle. Switch legs and look to the left. Hold for 60 seconds each side.",
+              "demoVideo": "/assets/exercise-animations/reclined-spinal-twist-right/ReclinedSpinalTwist-Right_Markian_Test.mp4"
             },
             {
               "id": "706-L",
@@ -3120,7 +3141,8 @@ window.AXIS_JSON = {
               "position": "Lie on your back. Keep your legs straight.",
               "next": "Pull your right knee to your chest. Reach your right arm straight out to the side.",
               "then": "Use your left hand to pull your right knee across your body toward the floor. Look to the right.",
-              "tip": "Bring your right knee back to the middle. Switch legs and look to the left. Hold for 60 seconds each side."
+              "tip": "Bring your right knee back to the middle. Switch legs and look to the left. Hold for 60 seconds each side.",
+              "demoVideo": "/assets/exercise-animations/reclined-spinal-twist-left/ReclinedSpinalTwist-Left_Markian_Test.mp4"
             },
             {
               "id": 707,
@@ -5527,7 +5549,8 @@ window.AXIS_JSON = {
               "position": "Stand with your back flat against a wall.",
               "next": "Press your head, upper back, and hips into the wall. Bend your elbows and press your arms against the wall to make a W shape.",
               "then": "Slide your arms slowly up the wall to make a Y shape. Keep your arms touching the wall.",
-              "tip": "Slide your arms slowly back down. Stop if your arms pull away from the wall."
+              "tip": "Slide your arms slowly back down. Stop if your arms pull away from the wall.",
+              "demoVideo": "/assets/exercise-animations/wall-angels/WallAngels_Markian_Test.mp4"
             },
             {
               "id": 2004,
@@ -5556,7 +5579,8 @@ window.AXIS_JSON = {
               "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 3 to 5 seconds, then release.",
-              "tip": "Do not look up or down. Keep your head level."
+              "tip": "Do not look up or down. Keep your head level.",
+              "demoVideo": "/assets/exercise-animations/chin-tucks/ChinTucks_Markian_Test.mp4"
             },
             {
               "id": 2005,
@@ -6268,7 +6292,8 @@ window.AXIS_JSON = {
               "position": "Sit, stand, or lie on your back with knees bent and head supported. Keep your gaze level.",
               "next": "Relax your shoulders down. Keep your eyes level.",
               "then": "Pull your chin straight back to make a double chin. Hold for 3 to 5 seconds. Slowly release.",
-              "tip": "Keep your head level. Do not point your chin up or down. Do 10 times."
+              "tip": "Keep your head level. Do not point your chin up or down. Do 10 times.",
+              "demoVideo": "/assets/exercise-animations/chin-tucks/ChinTucks_Markian_Test.mp4"
             },
             {
               "id": 2107,

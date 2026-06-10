@@ -20368,9 +20368,13 @@ This typically indicates that your device does not have a healthy Internet conne
   });
 
   // src/firebase.js
+  function axisGetFirestoreDb() {
+    if (!db) db = getFirestore(app);
+    return db;
+  }
   async function syncUserProfile(user) {
     if (!user || !user.uid) return;
-    const userRef = doc(db, "users", user.uid);
+    const userRef = doc(axisGetFirestoreDb(), "users", user.uid);
     const snap = await getDoc(userRef);
     const email = user.email ?? null;
     const payload = {
@@ -20382,6 +20386,12 @@ This typically indicates that your device does not have a healthy Internet conne
       payload.onboardingComplete = false;
     }
     await setDoc(userRef, payload, { merge: true });
+    try {
+      const data = snap.exists() ? snap.data() : null;
+      if (data && data.onboardingComplete === true) {
+        localStorage.setItem(`axis_onboarded:${user.uid}`, JSON.stringify(true));
+      }
+    } catch (e) {}
   }
   var firebaseConfig, app, auth, db;
   var init_firebase = __esm({
@@ -20399,8 +20409,17 @@ This typically indicates that your device does not have a healthy Internet conne
         appId: "1:288491438427:web:b2bbeda5a575e927d3da7e"
       };
       app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-      auth = getAuth(app);
-      db = getFirestore(app);
+      const _axisCapNative = typeof window !== "undefined" && window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform();
+      if (_axisCapNative) {
+        try {
+          auth = initializeAuth(app, { persistence: browserLocalPersistence, popupRedirectResolver: browserPopupRedirectResolver });
+        } catch (_axisCapAuthErr) {
+          auth = getAuth(app);
+        }
+      } else {
+        auth = getAuth(app);
+      }
+      db = null;
     }
   });
 
@@ -20453,17 +20472,21 @@ This typically indicates that your device does not have a healthy Internet conne
             localStorage.setItem("axis_auth_uid", String(cred.user.uid || ""));
           } catch (err) {
           }
-          syncUserProfile(cred.user).catch((err) => {
+          try {
+            await Promise.race([
+              syncUserProfile(cred.user),
+              new Promise((_, reject) => setTimeout(() => reject(new Error("profile_sync_timeout")), 8000))
+            ]);
+          } catch (err) {
             try {
               console.error("AXIS: sync after sign-in", err);
             } catch (e2) {
             }
-          });
-          if (isOnboarded()) {
-            window.location.replace(new URL("./index.html", window.location.href).href);
-          } else {
-            window.location.replace(axisOnboardingUrl());
           }
+          const dest = typeof window.axisPostLoginHref === "function"
+            ? window.axisPostLoginHref()
+            : (isOnboarded() ? new URL("./index.html", window.location.href).href : axisOnboardingUrl());
+          window.location.replace(dest);
           return;
         } catch (err) {
           setError(err && err.message ? err.message : String(err));
@@ -20697,7 +20720,10 @@ This typically indicates that your device does not have a healthy Internet conne
           });
         }
         if (u && !isOnboarded2()) {
-          window.location.replace(axisOnboardingUrl());
+          const dest = typeof window.axisPostLoginHref === "function"
+            ? window.axisPostLoginHref()
+            : axisOnboardingUrl();
+          window.location.replace(dest);
         }
       });
       return () => unsub();

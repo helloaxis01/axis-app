@@ -10,8 +10,42 @@ const { execSync } = require("child_process");
 const root = path.resolve(__dirname, "..");
 const publicWeb = path.join(root, "public_web");
 const indexPath = path.join(publicWeb, "index.html");
+const appJsPath = path.join(publicWeb, "app.js");
 const manifestPath = path.join(publicWeb, "manifest.webmanifest");
 const buildIdPath = path.join(publicWeb, "build-id.txt");
+const buildLockPath = path.join(publicWeb, "build-lock.json");
+
+function gitOutput(args) {
+  try {
+    return execSync(`git ${args}`, {
+      cwd: root,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch (_e) {
+    return "";
+  }
+}
+
+function writeBuildLock(buildId) {
+  const lock = {
+    buildId,
+    lockedAt: new Date().toISOString(),
+    branch: gitOutput("rev-parse --abbrev-ref HEAD"),
+    commit: gitOutput("rev-parse HEAD"),
+    webRoot: "public_web",
+    vercel: {
+      buildCommand: "npm run build",
+      outputDirectory: "public_web",
+      productionBranch: "sync/axis-static-desktop",
+    },
+    capacitor: {
+      webDir: "public_web",
+      appId: "com.helloaxis.app",
+    },
+  };
+  fs.writeFileSync(buildLockPath, JSON.stringify(lock, null, 2) + "\n", "utf8");
+}
 
 function resolveBuildId() {
   const fromEnv =
@@ -52,6 +86,24 @@ function stampStylesheetHref(html, file, buildId) {
 
 function stampModuleAppJs(html, buildId) {
   return html.replace(/(\.\/app\.js)\?cb=[^"']+/g, `$1?cb=${buildId}`);
+}
+
+/** Cache-bust ES module imports inside app.js (Capacitor WKWebView caches aggressively). */
+function stampAppJsModuleImports(appJs, buildId) {
+  let s = appJs;
+  s = s.replace(
+    /from ['"]\.\/components\/WorkoutApp\.js(?:\?[^'"]*)?['"]/g,
+    `from './components/WorkoutApp.js?cb=${buildId}'`
+  );
+  s = s.replace(
+    /import\(['"]\.\/components\/WorkoutApp\.js(?:\?[^'"]*)?['"]\)/g,
+    `import("./components/WorkoutApp.js?cb=${buildId}")`
+  );
+  s = s.replace(
+    /import\(['"]\.\/vendor\/axis-native\.mjs(?:\?[^'"]*)?['"]\)/g,
+    `import("./vendor/axis-native.mjs?cb=${buildId}")`
+  );
+  return s;
 }
 
 function stampManifestHref(html, buildId) {
@@ -121,14 +173,20 @@ function main() {
   indexHtml = ensureBuildScripts(indexHtml, buildId);
   fs.writeFileSync(indexPath, indexHtml, "utf8");
 
+  if (fs.existsSync(appJsPath)) {
+    const appJs = fs.readFileSync(appJsPath, "utf8");
+    fs.writeFileSync(appJsPath, stampAppJsModuleImports(appJs, buildId), "utf8");
+  }
+
   if (fs.existsSync(manifestPath)) {
     const manifest = fs.readFileSync(manifestPath, "utf8");
     fs.writeFileSync(manifestPath, stampManifestJson(manifest, buildId), "utf8");
   }
 
   fs.writeFileSync(buildIdPath, buildId + "\n", "utf8");
+  writeBuildLock(buildId);
 
-  console.log("stamp-build:", buildId, "| index.html, manifest.webmanifest, build-id.txt");
+  console.log("stamp-build:", buildId, "| index.html, app.js, manifest.webmanifest, build-id.txt, build-lock.json");
 }
 
 main();

@@ -45,6 +45,44 @@ const VIDEO_BY_NAME = {
     dir: "isometric-wall-push-hold",
     file: "IsometricWallPushHold_Markian_Test.mp4",
   },
+  "Chin Tucks": { dir: "chin-tucks", file: "ChinTucks_Markian_Test.mp4" },
+  "Neck Rolls": { dir: "neck-rolls", file: "NeckRolls_Markian_Test.mp4" },
+  "Resistance Band Row": { dir: "resistance-band-row", file: "ResistanceBandRow_Markian_Test.mp4" },
+  "Wall Angels": { dir: "wall-angels", file: "WallAngels_Markian_Test.mp4" },
+  "Seated Forward Fold": { dir: "seated-forward-fold", file: "SeatedForwardFold_Markian_Test.mp4" },
+  "Windshield Wipers": { dir: "windshield-wipers", file: "WindshieldWipers_Markian_Test.mp4" },
+  "Supine Hamstring Stretch - Right Leg": {
+    dir: "supine-hamstring-stretch-right",
+    file: "SupineHamstringStretch-Right_Markian_Test.mp4",
+  },
+  "Supine Hamstring Stretch - Left Leg": {
+    dir: "supine-hamstring-stretch-left",
+    file: "SupineHamstringStretch-Left_Markian_Test.mp4",
+  },
+  "Figure Four Stretch - Right": {
+    dir: "figure-four-right",
+    file: "FigureFour-Right_Markian_Test.mp4",
+  },
+  "Figure Four Stretch - Left": {
+    dir: "figure-four-left",
+    file: "FigureFour-Left_Markian_Test.mp4",
+  },
+  "Supine Figure Four - Right Hip": {
+    dir: "figure-four-right",
+    file: "FigureFour-Right_Markian_Test.mp4",
+  },
+  "Supine Figure Four - Left Hip": {
+    dir: "figure-four-left",
+    file: "FigureFour-Left_Markian_Test.mp4",
+  },
+  "Reclined Spinal Twist - Right Side": {
+    dir: "reclined-spinal-twist-right",
+    file: "ReclinedSpinalTwist-Right_Markian_Test.mp4",
+  },
+  "Reclined Spinal Twist - Left Side": {
+    dir: "reclined-spinal-twist-left",
+    file: "ReclinedSpinalTwist-Left_Markian_Test.mp4",
+  },
 };
 
 const SOURCE_FILE_BY_BASENAME = Object.fromEntries(

@@ -80,8 +80,111 @@
   <div id="root"></div>
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script src="./auth-bundle.js"></script>
   <script>
+    function axisIsCapacitorNative() {
+      try {
+        var C = window.Capacitor;
+        return !!(C && typeof C.isNativePlatform === "function" && C.isNativePlatform());
+      } catch (e) {
+        return false;
+      }
+    }
+    function axisOnboardedEarly() {
+      try {
+        var uid = String(localStorage.getItem("axis_auth_uid") || "");
+        var key = uid ? ("axis_onboarded:" + uid) : "axis_onboarded";
+        var raw = localStorage.getItem(key);
+        return raw !== null && JSON.parse(raw) === true;
+      } catch (e) {
+        return false;
+      }
+    }
+    window.axisPostLoginHref = function () {
+      if (axisOnboardedEarly()) return "./index.html";
+      if (axisIsCapacitorNative()) return "./index.html";
+      return "./onboarding.html";
+    };
+  </script>
+  <script>
+    var FIREBASE_API_KEY = "AIzaSyBwWwUePj5jEUCRLUCrk26IPNxjF0WCnvc";
+
+    function axisIsCapacitorNative() {
+      try {
+        var C = window.Capacitor;
+        return !!(C && typeof C.isNativePlatform === "function" && C.isNativePlatform());
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function axisFirebaseAuthErrorMessage(payload) {
+      var msg = "";
+      try {
+        msg = payload && payload.error && payload.error.message ? String(payload.error.message) : "";
+      } catch (e) {}
+      var u = msg.toUpperCase();
+      if (u.indexOf("INVALID_LOGIN_CREDENTIALS") >= 0 || u.indexOf("INVALID_PASSWORD") >= 0 || u.indexOf("WRONG_PASSWORD") >= 0) {
+        return "Email or password is incorrect.";
+      }
+      if (u.indexOf("EMAIL_NOT_FOUND") >= 0 || u.indexOf("USER_NOT_FOUND") >= 0) {
+        return "No account found for that email.";
+      }
+      if (u.indexOf("EMAIL_EXISTS") >= 0) {
+        return "An account with this email already exists.";
+      }
+      if (u.indexOf("WEAK_PASSWORD") >= 0) {
+        return "Password is too weak (use at least 6 characters).";
+      }
+      if (u.indexOf("TOO_MANY_ATTEMPTS") >= 0) {
+        return "Too many attempts. Wait a few minutes and try again.";
+      }
+      return msg || "Could not sign in. Please try again.";
+    }
+
+    function axisPersistNativeRestSession(data) {
+      var uid = String(data.localId || "");
+      var email = data.email ? String(data.email) : "";
+      try {
+        localStorage.setItem("axis_auth_uid", uid);
+        if (email) localStorage.setItem("axis_auth_email", email);
+        if (data.idToken) localStorage.setItem("axis_firebase_id_token", String(data.idToken));
+        if (data.refreshToken) localStorage.setItem("axis_firebase_refresh_token", String(data.refreshToken));
+        if (data.expiresIn) {
+          localStorage.setItem("axis_firebase_token_expires", String(Date.now() + Number(data.expiresIn) * 1000));
+        }
+      } catch (e) {}
+      try {
+        window.AXIS_nativeAuthUser = { uid: uid, email: email || null };
+      } catch (e2) {}
+    }
+
+    async function axisNativeRestAuth(mode, email, password) {
+      var endpoint = mode === "signup" ? "signUp" : "signInWithPassword";
+      var url = "https://identitytoolkit.googleapis.com/v1/accounts:" + endpoint + "?key=" + FIREBASE_API_KEY;
+      var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timeoutId = controller ? setTimeout(function () { controller.abort(); }, 20000) : null;
+      try {
+        var res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email.trim(), password: password, returnSecureToken: true }),
+          signal: controller ? controller.signal : undefined
+        });
+        var data = await res.json();
+        if (!res.ok || data.error) {
+          throw new Error(axisFirebaseAuthErrorMessage(data));
+        }
+        return data;
+      } catch (err) {
+        if (err && err.name === "AbortError") {
+          throw new Error("Sign-in timed out. Check your connection and try again.");
+        }
+        throw err;
+      } finally {
+        if (timeoutId) clearTimeout(timeoutId);
+      }
+    }
+
     function axisOnboarded() {
       try {
         var uid = "";
@@ -99,6 +202,36 @@
         return false;
       }
     }
+
+    /** If this device has workout history, treat returning users as onboarded (matches app.js migrate). */
+    function axisMigrateOnboardingFromHistory(uid) {
+      try {
+        var key = uid ? ("axis_onboarded:" + uid) : "axis_onboarded";
+        if (localStorage.getItem(key) !== null) return;
+        var hist = [];
+        try {
+          var rawH = localStorage.getItem("axis_history");
+          if (rawH) hist = JSON.parse(rawH);
+        } catch (e) {}
+        var hasHist = Array.isArray(hist) && hist.length > 0;
+        if (hasHist) {
+          localStorage.setItem(key, JSON.stringify(true));
+        }
+      } catch (e) {}
+    }
+
+    /** Used by auth-bundle Login after sign-in; native app skips web onboarding shell. */
+    window.axisPostLoginHref = function () {
+      var uid = "";
+      try {
+        uid = (window.AXIS_auth && window.AXIS_auth.currentUser && window.AXIS_auth.currentUser.uid) ? String(window.AXIS_auth.currentUser.uid) : "";
+        if (!uid) uid = String(localStorage.getItem("axis_auth_uid") || "");
+      } catch (e) {}
+      axisMigrateOnboardingFromHistory(uid);
+      if (axisOnboarded()) return "./index.html";
+      if (axisIsCapacitorNative()) return "./index.html";
+      return window.axisOnboardingHref ? window.axisOnboardingHref() : "./onboarding.html";
+    };
 
     /** Replace the auth-bundle's broken/legacy logo block with the onboarding-parity AXIS wordmark + tagline. */
     function ensureLoginWordmark() {
@@ -131,20 +264,272 @@
       } catch (e) {}
     }
 
+    function NativeLogin() {
+      var useState = React.useState;
+      var modeState = useState("signin");
+      var mode = modeState[0];
+      var setMode = modeState[1];
+      var emailState = useState("");
+      var email = emailState[0];
+      var setEmail = emailState[1];
+      var passwordState = useState("");
+      var password = passwordState[0];
+      var setPassword = passwordState[1];
+      var confirmState = useState("");
+      var confirmPassword = confirmState[0];
+      var setConfirmPassword = confirmState[1];
+      var errorState = useState("");
+      var error = errorState[0];
+      var setError = errorState[1];
+      var busyState = useState(false);
+      var busy = busyState[0];
+      var setBusy = busyState[1];
+
+      var shell = {
+        width: "100%",
+        height: "100vh",
+        minHeight: "100dvh",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        padding: "max(20px, env(safe-area-inset-top, 0px)) 20px calc(20px + env(safe-area-inset-bottom, 0px))",
+        boxSizing: "border-box",
+        background: "radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%)",
+        color: "#f6f7f8"
+      };
+      var top = {
+        flex: "0 0 40%",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center"
+      };
+      var bottom = {
+        flex: "1 1 60%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      };
+      var formWrap = {
+        width: "100%",
+        maxWidth: 420,
+        textAlign: "center",
+        fontFamily: "'Inter', system-ui, sans-serif"
+      };
+      var input = {
+        width: "100%",
+        padding: "12px 16px",
+        marginBottom: "12px",
+        borderRadius: 999,
+        border: "1px solid rgba(255,255,255,0.18)",
+        background: "rgba(8,13,24,0.24)",
+        color: "#f6f7f8",
+        fontFamily: "'Inter', system-ui, sans-serif",
+        fontSize: "15px",
+        outline: "none",
+        boxSizing: "border-box"
+      };
+      var submitBtn = {
+        width: "100%",
+        padding: "14px 18px",
+        borderRadius: 999,
+        border: "none",
+        marginTop: "8px",
+        background: "#FF9F43",
+        color: "#252525",
+        fontFamily: "'Inter', system-ui, sans-serif",
+        fontSize: "13px",
+        fontWeight: 600,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        cursor: busy ? "wait" : "pointer",
+        opacity: busy ? 0.75 : 1
+      };
+      var toggleBtn = {
+        marginTop: "14px",
+        border: "none",
+        background: "none",
+        color: "rgba(246,247,248,0.78)",
+        width: "100%",
+        textAlign: "center",
+        cursor: "pointer",
+        fontFamily: "'Inter', system-ui, sans-serif",
+        fontSize: "13px"
+      };
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        setError("");
+        if (mode === "signup" && password !== confirmPassword) {
+          setError("Passwords must match.");
+          return;
+        }
+        setBusy(true);
+        axisNativeRestAuth(mode, email, password)
+          .then(function (data) {
+            axisPersistNativeRestSession(data);
+            if (mode === "signup") {
+              try {
+                localStorage.removeItem("hasCompletedOnboarding");
+                localStorage.setItem("axis_onboarded:" + data.localId, JSON.stringify(false));
+              } catch (err) {}
+            }
+            axisMigrateOnboardingFromHistory(String(data.localId || ""));
+            var dest = window.axisPostLoginHref ? window.axisPostLoginHref() : "./index.html";
+            window.location.replace(dest);
+          })
+          .catch(function (err) {
+            setError(err && err.message ? err.message : String(err));
+          })
+          .finally(function () {
+            setBusy(false);
+          });
+      }
+
+      return React.createElement(
+        "div",
+        { style: shell },
+        React.createElement(
+          "div",
+          { style: top },
+          React.createElement(
+            "div",
+            {
+              style: {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                marginTop: "calc(min(187px, 53vw) * 0.5)"
+              }
+            },
+            React.createElement("h1", { className: "axis-login-wordmark" }, "AXIS"),
+            React.createElement("p", { className: "axis-login-tagline" }, "X MOVE X MEND X MAINTAIN X")
+          )
+        ),
+        React.createElement(
+          "div",
+          { style: Object.assign({}, bottom, { marginTop: "calc(min(187px, 53vw) * -0.25)" }) },
+          React.createElement(
+            "div",
+            { style: formWrap },
+            React.createElement(
+              "div",
+              {
+                style: {
+                  marginBottom: "12px",
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontSize: "11px",
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "rgba(246,247,248,0.74)"
+                }
+              },
+              mode === "signin" ? "Sign in" : "Create account"
+            ),
+            React.createElement(
+              "form",
+              { onSubmit: handleSubmit },
+              React.createElement("input", {
+                style: input,
+                type: "email",
+                autoComplete: "email",
+                placeholder: "Email",
+                value: email,
+                onChange: function (ev) { setEmail(ev.target.value); },
+                required: true,
+                disabled: busy
+              }),
+              React.createElement("input", {
+                style: input,
+                type: "password",
+                autoComplete: mode === "signup" ? "new-password" : "current-password",
+                placeholder: "Password",
+                value: password,
+                onChange: function (ev) { setPassword(ev.target.value); },
+                required: true,
+                disabled: busy
+              }),
+              mode === "signup"
+                ? React.createElement("input", {
+                    style: input,
+                    type: "password",
+                    autoComplete: "new-password",
+                    placeholder: "Confirm password",
+                    value: confirmPassword,
+                    onChange: function (ev) { setConfirmPassword(ev.target.value); },
+                    required: true,
+                    disabled: busy
+                  })
+                : null,
+              error
+                ? React.createElement(
+                    "div",
+                    {
+                      style: {
+                        marginBottom: "8px",
+                        fontSize: "13px",
+                        color: "#ff8a8a",
+                        lineHeight: 1.45
+                      }
+                    },
+                    error
+                  )
+                : null,
+              React.createElement(
+                "button",
+                { type: "submit", style: submitBtn, disabled: busy },
+                busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"
+              )
+            ),
+            React.createElement(
+              "button",
+              {
+                type: "button",
+                style: toggleBtn,
+                disabled: busy,
+                onClick: function () {
+                  setError("");
+                  setMode(mode === "signin" ? "signup" : "signin");
+                }
+              },
+              mode === "signin" ? "Need an account? Sign up" : "Already have an account? Sign in"
+            )
+          )
+        )
+      );
+    }
+
     function LoginGate() {
       var useEffect = React.useEffect;
-      var Login = window.AXIS_Login;
+      var isNative = axisIsCapacitorNative();
+
       useEffect(function () {
+        if (!isNative) return;
+        try {
+          var uid = localStorage.getItem("axis_auth_uid");
+          if (uid && String(uid).trim()) {
+            window.AXIS_nativeAuthUser = {
+              uid: String(uid).trim(),
+              email: localStorage.getItem("axis_auth_email") || null
+            };
+            window.location.replace(window.axisPostLoginHref ? window.axisPostLoginHref() : "./index.html");
+          }
+        } catch (e) {}
+      }, []);
+
+      useEffect(function () {
+        if (isNative) return undefined;
         var auth = window.AXIS_auth;
         var onAuth = window.AXIS_onAuthStateChanged;
         if (!auth || !onAuth) return undefined;
         var unsub = onAuth(auth, function (u) {
           if (!u) return;
-          if (axisOnboarded()) {
-            window.location.replace("./index.html");
-          } else {
-            window.location.replace(window.axisOnboardingHref ? window.axisOnboardingHref() : "./onboarding.html");
-          }
+          try {
+            localStorage.setItem("axis_auth_uid", String(u.uid || ""));
+            if (u.email) localStorage.setItem("axis_auth_email", String(u.email));
+          } catch (e) {}
+          window.location.replace(window.axisPostLoginHref ? window.axisPostLoginHref() : "./index.html");
         });
         return function () {
           try {
@@ -152,7 +537,9 @@
           } catch (e) {}
         };
       }, []);
+
       useEffect(function () {
+        if (isNative) return undefined;
         ensureLoginWordmark();
         var obs = new MutationObserver(ensureLoginWordmark);
         obs.observe(document.body, { childList: true, subtree: true });
@@ -160,10 +547,32 @@
           try { obs.disconnect(); } catch (e) {}
         };
       }, []);
-      return React.createElement(Login);
+
+      if (isNative) {
+        return React.createElement(NativeLogin);
+      }
+      var Login = window.AXIS_Login;
+      return Login ? React.createElement(Login) : null;
     }
-    var root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(React.createElement(LoginGate));
+
+    function mountLoginGate() {
+      var rootEl = document.getElementById("root");
+      if (!rootEl || !window.React || !window.ReactDOM) return;
+      var root = ReactDOM.createRoot(rootEl);
+      root.render(React.createElement(LoginGate));
+    }
+
+    if (axisIsCapacitorNative()) {
+      mountLoginGate();
+    } else {
+      var authScript = document.createElement("script");
+      authScript.src = "./auth-bundle.js";
+      authScript.onload = mountLoginGate;
+      authScript.onerror = function () {
+        mountLoginGate();
+      };
+      document.body.appendChild(authScript);
+    }
   </script>
 </body>
 </html>

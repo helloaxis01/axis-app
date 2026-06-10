@@ -29,6 +29,15 @@ Do this in **Vercel → Project `axis-app` → Settings**:
 
 Save, then **Deployments → Redeploy** Production (clear cache if offered).
 
+## Native (Capacitor — audio + haptics)
+
+Same stamped **`public_web/`** as GOLD. See **[BUILD-LOCK.md](./BUILD-LOCK.md)**.
+
+```bash
+npm run cap:sync
+npm run cap:open:ios
+```
+
 ## Checklist after deploy
 
 - Open **`https://axis-app-beryl.vercel.app`** and confirm **Metrics / Today** behave like **4173**.

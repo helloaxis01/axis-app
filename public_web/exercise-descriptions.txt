@@ -125,14 +125,14 @@ Meta line (beside duration): Stretch
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Lower Body & Rotation
-Exercise: Figure Four Stretch - Right Hip  [exercise id: 16-R]
+Exercise: Figure Four Stretch - Right  [exercise id: 16-R]
 Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: The Baseline Protocol  [daily]
 Section: Lower Body & Rotation
-Exercise: Figure Four Stretch - Left Hip  [exercise id: 16-L]
+Exercise: Figure Four Stretch - Left  [exercise id: 16-L]
 Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
 Meta line (beside duration): Stretch
 
@@ -342,14 +342,14 @@ Meta line (beside duration): Core
 ------------------------------------------------------------------------------
 Track: The Foundation Reset  [morning]
 Section: Foundation sequence
-Exercise: Figure-4 Stretch — Right  [exercise id: 2118-R]
+Exercise: Figure Four Stretch - Right  [exercise id: 2118-R]
 Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
 Meta line (beside duration): Stretch
 
 ------------------------------------------------------------------------------
 Track: The Foundation Reset  [morning]
 Section: Foundation sequence
-Exercise: Figure-4 Stretch — Left  [exercise id: 2118-L]
+Exercise: Figure Four Stretch - Left  [exercise id: 2118-L]
 Card description (sub): Targets tight glutes and helps with discomfort deep in the hip.
 Meta line (beside duration): Stretch
 

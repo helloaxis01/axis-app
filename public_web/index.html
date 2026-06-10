@@ -7,6 +7,9 @@
     window.axisOnboardingHref = function () {
       var OND = "mparjodw";
       try {
+        if (window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform()) {
+          return "./onboarding.html?axis_ob=" + OND;
+        }
         var path = "./onboarding";
         if (window.location.protocol && window.location.protocol !== "file:") {
           var p = window.location.pathname || "/";
@@ -26,7 +29,7 @@
   <meta charset="UTF-8" />
   <!-- axis-build-stamp -->
 <script>
-window.AXIS_BUILD="d942931";
+window.AXIS_BUILD="2df3fb2";
 (function(){
   var b=window.AXIS_BUILD||"";
   if(!b)return;
@@ -58,13 +61,32 @@ window.AXIS_BUILD="d942931";
   
   <link rel="icon" href="./axis-icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" type="image/png" href="./axis-icon.png" sizes="180x180" />
-  <link rel="manifest" href="./manifest.webmanifest?v=e051818" />
+  <link rel="manifest" href="./manifest.webmanifest?v=2df3fb2" />
   <title>AXIS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+  (function () {
+    function axisLikelyNativeShell() {
+      try {
+        if (window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform()) {
+          return true;
+        }
+      } catch (e) {}
+      try {
+        var host = String(window.location.hostname || "").toLowerCase();
+        var protocol = String(window.location.protocol || "");
+        if (protocol === "capacitor:") return true;
+        if (protocol === "https:" && (host === "localhost" || host === "127.0.0.1")) return true;
+      } catch (e) {}
+      return false;
+    }
+    if (axisLikelyNativeShell()) return;
+    document.write('<link rel="preconnect" href="https://fonts.googleapis.com" />');
+    document.write('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />');
+    document.write('<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />');
+  })();
+  </script>
   <link rel="stylesheet" href="./onboarding.css" />
-  <link rel="stylesheet" href="./app.css?cb=e051824" />
+  <link rel="stylesheet" href="./app.css?cb=2df3fb2" />
   <style>
     :root {
       --font-display: 'Inter', sans-serif;
@@ -91,21 +113,29 @@ window.AXIS_BUILD="d942931";
     html, body { min-height: 100dvh; margin: 0; }
     #root { min-height: 100dvh; }
     body { font-family: var(--font-ui), sans-serif !important; }
-    #load-err { display:none; position:fixed; inset:0; background:#0a0a0f; color:#ff6b6b;
+    #load-err { display:none; position:fixed; inset:0; z-index:1000001; background:#0a0a0f; color:#ff6b6b;
       font-family: var(--font-ui), sans-serif; font-size: var(--text-sm); padding:40px; white-space:pre-wrap; }
+    #boot-status { position:fixed; inset:0; z-index:1000000; display:flex; align-items:center; justify-content:center;
+      background:#080d18; color:#f6f7f8; font-family:var(--font-ui),system-ui,sans-serif; font-size:16px; letter-spacing:0.04em; }
     /* Ensure onboarding screens are centered if the onboarding CSS isn't loaded */
     .ob-screen { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100dvh; box-sizing:border-box; }
   </style>
-  <script src="./axis_data.js?cb=d942931"></script>
+  <script src="./axis_data.js?cb=2df3fb2"></script>
 </head>
 <body>
+  <div id="boot-status" aria-live="polite">Starting AXIS…</div>
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
     function showLoadErr(msg) {
       var el = document.getElementById('load-err');
       if (el) { el.style.display = 'block'; el.textContent = msg; }
+      try { window.axisDismissBootOverlay(); } catch (e) {}
     }
+    window.axisDismissBootOverlay = function () {
+      var el = document.getElementById('boot-status');
+      if (el) el.remove();
+    };
     window.onerror = function(msg, src, line, col, err) {
       var s = String(msg || "");
       // Browsers use the literal "Script error." when the real error is hidden (cross-origin
@@ -124,10 +154,47 @@ window.AXIS_BUILD="d942931";
       showLoadErr("Error: " + msg + (err && err.stack ? "\n" + err.stack : ""));
       return true;
     };
+    window.addEventListener("unhandledrejection", function (ev) {
+      try {
+        var reason = ev && ev.reason;
+        var msg = reason && reason.message ? reason.message : String(reason || "Unhandled promise rejection");
+        showLoadErr("Error: " + msg + (reason && reason.stack ? "\n" + reason.stack : ""));
+      } catch (e) {}
+    });
+    setTimeout(function () {
+      try {
+        var root = document.getElementById("root");
+        if (!root || root.children.length > 0) return;
+        showLoadErr("AXIS did not start. Delete the app and reinstall from Xcode, or check Safari Web Inspector for errors.");
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.SplashScreen && typeof window.Capacitor.Plugins.SplashScreen.hide === "function") {
+          window.Capacitor.Plugins.SplashScreen.hide().catch(function () {});
+        }
+      } catch (e) {}
+    }, 4000);
   </script>
-  <script src="./vendor/react.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
-  <script src="./vendor/react-dom.production.min.js" crossorigin="anonymous" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
-  <script src="auth-bundle.js?cb=d942931"></script>
+  <script src="./vendor/react.production.min.js" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
+  <script src="./vendor/react-dom.production.min.js" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
+  <script>
+  (function () {
+    function axisShouldLoadAuthBundle() {
+      try {
+        if (window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform()) {
+          return false;
+        }
+      } catch (e) {}
+      try {
+        var host = String(window.location.hostname || "").toLowerCase();
+        var protocol = String(window.location.protocol || "");
+        if (protocol === "capacitor:") return false;
+        if (protocol === "https:" && (host === "localhost" || host === "127.0.0.1")) return false;
+      } catch (e) {}
+      return true;
+    }
+    if (axisShouldLoadAuthBundle()) {
+      document.write('<script src="auth-bundle.js?cb=2df3fb2"><\/script>');
+    }
+  })();
+  </script>
   <!-- Main UI: ./app.js (ES module). Workout data: ./axis_data.js (window.AXIS_JSON). -->
   <script>
     // Workout content is baked in via ./axis_data.js (window.AXIS_JSON); see bootstrapAxisApp in ./app.js.
@@ -155,6 +222,11 @@ window.AXIS_BUILD="d942931";
     } catch (e) {}
   })();
   </script>
-  <script type="module" src="./app.js?cb=e051824"></script>
+  <script type="module">
+    import("./app.js?cb=2df3fb2").catch(function (err) {
+      var msg = err && err.message ? err.message : String(err || "module load failed");
+      showLoadErr("Failed to load app.js: " + msg + (err && err.stack ? "\n\n" + err.stack : ""));
+    });
+  </script>
 </body>
 </html>

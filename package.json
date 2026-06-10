@@ -2,13 +2,20 @@
   "name": "axis-031726-rebuild",
   "version": "1.0.0",
   "private": true,
-  "description": "AXIS web shell (public_web)",
+  "description": "AXIS web shell (public_web). Vercel: npm run build → public_web. Native: npm run cap:sync.",
   "scripts": {
-    "build": "node scripts/stamp-build.cjs",
+    "build": "node scripts/stamp-build.cjs && node scripts/patch-exercise-demo-videos.cjs && node scripts/verify-inline-syntax.cjs",
     "stamp": "node scripts/stamp-build.cjs",
     "bump-cache": "node scripts/bump-cache.cjs",
     "verify": "node scripts/verify-inline-syntax.cjs",
-    "cap:sync": "node scripts/cap-sync-delegate.cjs",
+    "cap:bundle": "node scripts/bundle-axis-native.cjs",
+    "cap:sync": "npm run build && npm run cap:bundle && node scripts/patch-capacitor-spm.cjs && node scripts/patch-auth-login.cjs && npx cap sync && node scripts/prune-native-public.cjs",
+    "postinstall": "node scripts/patch-capacitor-spm.cjs",
+    "ios:ready": "node scripts/ios-ready.cjs",
+    "cap:open:ios": "npx cap open ios",
+    "cap:open:android": "npx cap open android",
+    "cap:run:ios": "npm run cap:sync && npx cap run ios",
+    "cap:run:android": "npm run cap:sync && npx cap run android",
     "preview": "node scripts/preview.cjs",
     "preview:axis-dist": "PREVIEW_AXIS_DIST=1 node scripts/preview.cjs",
     "preview:static": "cd public_web && npx --yes serve -l 4173 .",
@@ -16,7 +23,31 @@
     "sync:onboarding-dist": "node scripts/sync-onboarding-to-dist.cjs",
     "icons:generate": "node scripts/generate-axis-icon-png.cjs"
   },
+  "dependencies": {
+    "@capacitor-community/keep-awake": "^5.0.1",
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/app": "^6.0.2",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/haptics": "^6.0.2",
+    "@capacitor/ios": "^6.2.0",
+    "@capacitor/local-notifications": "^6.0.2",
+    "@capacitor/network": "^6.0.2",
+    "@capacitor/preferences": "^6.0.2",
+    "@capacitor/screen-orientation": "^6.0.2",
+    "@capacitor/share": "^6.0.2",
+    "@capacitor/splash-screen": "^6.0.2",
+    "@capacitor/status-bar": "^6.0.2",
+    "@perfood/capacitor-healthkit": "^1.3.2"
+  },
   "devDependencies": {
+    "@capacitor/cli": "^6.2.0",
+    "esbuild": "^0.25.0",
     "sharp": "^0.34.5"
+  },
+  "capacitor": {
+    "platforms": [
+      "ios",
+      "android"
+    ]
   }
 }
