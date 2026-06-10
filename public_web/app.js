@@ -2298,6 +2298,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
   const [remainingSeconds, setRemainingSeconds] = useState(() => axisGuidedExerciseTimerStartSec(seconds, initialRemainingSeconds));
   const fillRef = useRef(null);
   const completedRef = useRef(false);
+  const endCountdownSecRef = useRef(null);
   const midpointTriggeredRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
   const pausedRef = useRef(paused);
@@ -2312,6 +2313,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
   }, [remainingSeconds, onRemainingSecondsChange]);
   useEffect(() => {
     completedRef.current = false;
+    endCountdownSecRef.current = null;
     midpointTriggeredRef.current = false;
     let startSec = axisGuidedExerciseTimerStartSec(seconds, initialRemainingSeconds);
     const totalMs = Math.max(0, seconds * 1000);
@@ -2353,6 +2355,10 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
       if (hapticMidpoint && !midpointTriggeredRef.current && intSec === midpointThreshold && remainingMs > 0) {
         midpointTriggeredRef.current = true;
         triggerHaptic(HAPTIC_MEDIUM);
+      }
+      if (remainingMs > 0 && intSec >= 1 && intSec <= 5 && endCountdownSecRef.current !== intSec) {
+        endCountdownSecRef.current = intSec;
+        axisGuidedCountdownTickCue();
       }
       if (remainingMs <= 0 && !completedRef.current) {
         completedRef.current = true;
@@ -3287,11 +3293,16 @@ function axisGuidedRestStartCue() {
   beep(440, 0.22, { type: "sine", gain: 0.2 });
 }
 
-/** Rest & Get Ready — low dull tone + light tap on each of 3, 2, 1. */
-function axisGuidedPrepCountdownCue() {
+/** Shared low tick for prep (3,2,1) and exercise end (5,4,3,2,1) countdowns. */
+function axisGuidedCountdownTickCue() {
   primeAudio();
   beep(220, 0.14, { type: "triangle", gain: 0.16 });
   axisHapticTick();
+}
+
+/** Rest & Get Ready — low dull tone + light tap on each of 3, 2, 1. */
+function axisGuidedPrepCountdownCue() {
+  axisGuidedCountdownTickCue();
 }
 
 /** Rest countdown finished → exercise (BEGIN) phase. */
@@ -3301,11 +3312,11 @@ function axisGuidedBeginCue() {
   triggerHaptic(HAPTIC_MEDIUM);
 }
 
-/** Exercise finished (timer or mark done). */
+/** Exercise finished (timer or mark done) — soft low tone after optional end countdown. */
 function axisGuidedExerciseCompleteCue() {
   primeAudio();
-  beep(660, 0.4);
-  axisHapticSuccess();
+  beep(165, 0.22, { type: "triangle", gain: 0.11 });
+  axisHapticTick();
 }
 
 function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
