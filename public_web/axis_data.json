@@ -5626,6 +5626,9 @@
                   "cue": "Sit back toward heels and fold forward with arms extended. Relax the chest toward the floor."
                 },
                 {
+                  "pos": "B",
+                  "label": "Fold Forward",
+                  "focus": "STRETCH",
                   "cue": "Breathe deeply into the lower back. Let your chest and shoulders soften toward the floor. Hold for the full duration."
                 },
                 {
