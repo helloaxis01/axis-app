@@ -5796,7 +5796,6 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
   .timer-view-body .timer-breathe-pattern-cards-scroll {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
     gap: 10px;
     overflow-x: auto;
     overflow-y: visible;
@@ -5804,7 +5803,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     scroll-snap-type: x mandatory;
     scroll-padding-inline: max(20px, calc((100% - 215px) / 2));
     scrollbar-width: none;
-    padding: 8px 20px 8px;
+    padding: 4px 20px 6px;
     box-sizing: border-box;
   }
   .timer-view-body .timer-breathe-pattern-cards-scroll::-webkit-scrollbar {
@@ -5813,17 +5812,11 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
   .timer-view-body .timer-breathe-pattern-card {
     flex: 0 0 215px;
     width: 215px;
-    height: 156px;
-    min-height: 156px;
-    max-height: 156px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    scroll-snap-align: start;
+    min-height: 0;
+    scroll-snap-align: center;
     scroll-snap-stop: always;
     border-radius: 14px;
-    padding: 12px;
+    padding: 12px 14px;
     box-sizing: border-box;
     text-align: left;
     cursor: pointer;
@@ -5848,19 +5841,12 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
   }
   .timer-view-body .timer-breathe-pattern-card-head {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 0;
-    height: 28px;
-    min-height: 28px;
-    max-height: 28px;
-    flex-shrink: 0;
-    overflow: hidden;
+    margin-bottom: 8px;
   }
   .timer-view-body .timer-breathe-pattern-card-name {
-    flex: 1 1 auto;
-    min-width: 0;
     font-size: 14px;
     font-weight: 700;
     line-height: 1.2;
@@ -5873,21 +5859,16 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
   .timer-view-body .timer-breathe-pattern-card-intent {
     font-size: 11px;
     font-weight: 600;
-    line-height: 1.2;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-secondary);
     font-family: var(--font-display);
-    flex: 0 0 auto;
-    padding-top: 2px;
-    text-align: right;
+    flex-shrink: 0;
   }
   .timer-view-body .timer-breathe-pattern-card.is-active .timer-breathe-pattern-card-intent {
     color: var(--mood-accent);
   }
   .app .timer-view-body .timer-breathe-pattern-card-desc {
-    flex: 1 1 auto;
-    min-height: 0;
     font-size: 10px !important;
     line-height: 1.55 !important;
     font-weight: 400 !important;
@@ -5895,13 +5876,10 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     font-family: var(--font-ui), system-ui, sans-serif !important;
     margin: 0 !important;
     letter-spacing: 0.01em;
-    overflow: visible;
-    text-wrap: wrap;
-    hyphens: none !important;
-    -webkit-hyphens: none !important;
-    word-break: normal !important;
-    overflow-wrap: normal !important;
-    word-wrap: normal !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
   }
