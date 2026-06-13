@@ -415,7 +415,7 @@ window.AXIS_JSON = {
             {
               "id": 12,
               "name": "Isometric Wall Push Hold",
-              "start": "Stand facing a wall or sturdy chair, with your arms outstretched and hands on the surface.",
+              "start": "Stand facing a sturdy chair or wall with both hands on the surface.",
               "sub": "Push and hold. Build strength without moving.",
               "reps": "30s hold",
               "type": "time",
@@ -425,31 +425,31 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Setup",
                   "focus": "SETUP",
-                  "cue": "Stand facing a wall or sturdy chair, with your arms outstretched and hands on the surface."
+                  "cue": "Stand facing a sturdy chair or wall with both hands on the surface."
                 },
                 {
                   "pos": "B",
-                  "label": "Hand Position",
-                  "focus": "SETUP",
-                  "cue": "Place both hands flat on the wall or chair at shoulder height."
+                  "label": "Lean In",
+                  "focus": "ALIGN",
+                  "cue": "Step your feet back so your body leans forward in a straight line."
                 },
                 {
                   "pos": "C",
-                  "label": "Hold",
+                  "label": "Push and Hold",
                   "focus": "ISO",
-                  "cue": "Bend your elbows until they meet your waist. Stop and hold completely still."
+                  "cue": "Press firmly into the surface without moving. Keep your arms mostly straight."
                 },
                 {
                   "pos": "D",
-                  "label": "Duration",
+                  "label": "Breathe",
                   "focus": "HOLD",
-                  "cue": "Hold this position for the full duration. Keep your stomach muscles tight and breathe steadily."
+                  "cue": "Hold the push for the full duration. Keep your body long and breathe steadily."
                 }
               ],
-              "position": "Stand facing a wall or sturdy chair, with your arms outstretched and hands on the surface.",
-              "next": "Place both hands flat on the wall or chair at shoulder height.",
-              "then": "Bend your elbows until they meet your waist. Stop and hold completely still.",
-              "tip": "Hold this position for the full duration. Keep your stomach muscles tight and breathe steadily.",
+              "position": "Stand facing a sturdy chair or wall with both hands on the surface.",
+              "next": "Step your feet back so your body leans forward in a straight line.",
+              "then": "Press firmly into the surface without moving. Keep your arms mostly straight.",
+              "tip": "Hold the push for the full duration. Keep your body long and breathe steadily.",
               "demoVideo": "/assets/exercise-animations/isometric-wall-push-hold/IsometricWallPushHold_Markian_Test.mp4"
             },
             {
@@ -488,34 +488,37 @@ window.AXIS_JSON = {
             {
               "id": 14,
               "name": "Wall Angels",
-              "start": "Stand with your back flat against a wall.",
+              "start": "Sit on the floor with your back against a wall and your knees bent.",
               "sub": "Helps with shoulder mobility and opens up a tight or closed chest.",
               "reps": "6–10 slow reps",
               "type": "reps",
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Wall Contact",
+                  "label": "Seated Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Slowly slide your arms up the wall, maintaining contact at all times. Go only as far as contact allows."
+                  "cue": "Sit on the floor with your back against a wall and your knees bent."
                 },
                 {
                   "pos": "B",
-                  "label": "Slide Up",
-                  "focus": "RAISE",
-                  "cue": "Slide back down to start over 3 seconds. If contact is lost, reduce your range."
+                  "label": "Start in W",
+                  "focus": "SETUP",
+                  "cue": "Bend your elbows to make a W shape. Keep your head and upper back close to the wall."
                 },
                 {
                   "pos": "C",
-                  "label": "Slide Down",
-                  "focus": "LOWER",
-                  "cue": "Quality over range. Back, head, and hands all stay on the wall throughout."
+                  "label": "Slide Up and Down",
+                  "focus": "CONTROL",
+                  "cue": "Slide your arms up the wall toward a Y shape, then lower them slowly."
+                },
+                {
+                  "cue": "Move only as high as you can while keeping your back and arms close to the wall."
                 }
               ],
-              "position": "Stand with your back flat against a wall.",
-              "next": "Press your head, upper back, and hips into the wall. Bend your elbows and press your arms against the wall to make a W shape.",
-              "then": "Slide your arms slowly up the wall to make a Y shape. Keep your arms touching the wall.",
-              "tip": "Slide your arms slowly back down. Stop if your arms pull away from the wall.",
+              "position": "Sit on the floor with your back against a wall and your knees bent.",
+              "next": "Bend your elbows to make a W shape. Keep your head and upper back close to the wall.",
+              "then": "Slide your arms up the wall toward a Y shape, then lower them slowly.",
+              "tip": "Move only as high as you can while keeping your back and arms close to the wall.",
               "demoVideo": "/assets/exercise-animations/wall-angels/WallAngels_Markian_Test.mp4"
             }
           ]
@@ -588,7 +591,7 @@ window.AXIS_JSON = {
             {
               "id": "16-R",
               "name": "Figure Four Stretch - Right",
-              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "start": "Sit on the floor with your legs in front of you.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "flow",
               "seconds": 45,
@@ -597,28 +600,28 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Cross Right Ankle",
                   "focus": "SETUP",
-                  "cue": "Cross your right ankle over your left knee. Pull your right toes back toward your shin."
+                  "cue": "Sit on the floor. Cross your right ankle over your left thigh, just above the knee."
                 },
                 {
                   "pos": "B",
-                  "label": "Draw In",
+                  "label": "Sit Tall",
                   "focus": "STRETCH",
-                  "cue": "Grab the back of your left thigh and pull your left leg toward your chest. Hold for the full duration."
+                  "cue": "Sit tall and gently press your right knee away from your body."
                 },
                 {
-                  "cue": "Push your right knee gently away from your body. You should feel this in your right hip and glute."
+                  "cue": "Hold the stretch in your right hip and glute. Breathe and keep your right foot flexed."
                 }
               ],
-              "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
-              "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Push your right knee gently away from your body to feel a deeper stretch.",
+              "position": "Sit on the floor with your legs in front of you.",
+              "next": "Cross your right ankle over your left thigh, just above the knee.",
+              "then": "Sit tall and gently press your right knee away from your body.",
+              "tip": "Hold the stretch in your right hip and glute. Breathe and keep your right foot flexed.",
               "demoVideo": "/assets/exercise-animations/figure-four-right/FigureFour-Right_Markian_Test.mp4"
             },
             {
               "id": "16-L",
               "name": "Figure Four Stretch - Left",
-              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "start": "Sit on the floor with your legs in front of you.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "flow",
               "seconds": 45,
@@ -627,22 +630,22 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Cross Left Ankle",
                   "focus": "SETUP",
-                  "cue": "Cross your left ankle over your right knee. Pull your left toes back toward your shin."
+                  "cue": "Sit on the floor. Cross your left ankle over your right thigh, just above the knee."
                 },
                 {
                   "pos": "B",
-                  "label": "Draw In",
+                  "label": "Sit Tall",
                   "focus": "STRETCH",
-                  "cue": "Grab the back of your right thigh and pull your right leg toward your chest. Hold for the full duration."
+                  "cue": "Sit tall and gently press your left knee away from your body."
                 },
                 {
-                  "cue": "Push your left knee gently away from your body. You should feel this in your left hip and glute."
+                  "cue": "Hold the stretch in your left hip and glute. Breathe and keep your left foot flexed."
                 }
               ],
-              "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Cross your left ankle over your right knee. Pull your left toes back toward your shin.",
-              "then": "Grab the back of your right thigh with both hands. Pull your right leg toward your chest.",
-              "tip": "Push your left knee gently away from your body to feel a deeper stretch.",
+              "position": "Sit on the floor with your legs in front of you.",
+              "next": "Cross your left ankle over your right thigh, just above the knee.",
+              "then": "Sit tall and gently press your left knee away from your body.",
+              "tip": "Hold the stretch in your left hip and glute. Breathe and keep your left foot flexed.",
               "demoVideo": "/assets/exercise-animations/figure-four-left/FigureFour-Left_Markian_Test.mp4"
             },
             {
@@ -1667,7 +1670,7 @@ window.AXIS_JSON = {
             {
               "id": "2118-R",
               "name": "Figure Four Stretch - Right",
-              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "start": "Sit on the floor with your legs in front of you.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
               "seconds": 60,
@@ -1676,28 +1679,28 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Cross Right Ankle",
                   "focus": "SETUP",
-                  "cue": "Cross your right ankle over your left knee. Pull your right toes back toward your shin."
+                  "cue": "Sit on the floor. Cross your right ankle over your left thigh, just above the knee."
                 },
                 {
                   "pos": "B",
-                  "label": "Draw In",
+                  "label": "Sit Tall",
                   "focus": "STRETCH",
-                  "cue": "Grab the back of your left thigh and pull your left leg toward your chest. Hold for the full duration."
+                  "cue": "Sit tall and gently press your right knee away from your body."
                 },
                 {
-                  "cue": "Push your right knee gently away from your body. You should feel this in your right hip and glute."
+                  "cue": "Hold the stretch in your right hip and glute. Breathe and keep your right foot flexed."
                 }
               ],
-              "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
-              "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Push your right knee gently away from your body to feel a deeper stretch.",
+              "position": "Sit on the floor with your legs in front of you.",
+              "next": "Cross your right ankle over your left thigh, just above the knee.",
+              "then": "Sit tall and gently press your right knee away from your body.",
+              "tip": "Hold the stretch in your right hip and glute. Breathe and keep your right foot flexed.",
               "demoVideo": "/assets/exercise-animations/figure-four-right/FigureFour-Right_Markian_Test.mp4"
             },
             {
               "id": "2118-L",
               "name": "Figure Four Stretch - Left",
-              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "start": "Sit on the floor with your legs in front of you.",
               "sub": "Targets tight glutes and helps with discomfort deep in the hip.",
               "type": "time",
               "seconds": 60,
@@ -1706,22 +1709,22 @@ window.AXIS_JSON = {
                   "pos": "A",
                   "label": "Cross Left Ankle",
                   "focus": "SETUP",
-                  "cue": "Cross your left ankle over your right knee. Pull your left toes back toward your shin."
+                  "cue": "Sit on the floor. Cross your left ankle over your right thigh, just above the knee."
                 },
                 {
                   "pos": "B",
-                  "label": "Draw In",
+                  "label": "Sit Tall",
                   "focus": "STRETCH",
-                  "cue": "Grab the back of your right thigh and pull your right leg toward your chest. Hold for the full duration."
+                  "cue": "Sit tall and gently press your left knee away from your body."
                 },
                 {
-                  "cue": "Push your left knee gently away from your body. You should feel this in your left hip and glute."
+                  "cue": "Hold the stretch in your left hip and glute. Breathe and keep your left foot flexed."
                 }
               ],
-              "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Cross your left ankle over your right knee. Pull your left toes back toward your shin.",
-              "then": "Grab the back of your right thigh with both hands. Pull your right leg toward your chest.",
-              "tip": "Push your left knee gently away from your body to feel a deeper stretch.",
+              "position": "Sit on the floor with your legs in front of you.",
+              "next": "Cross your left ankle over your right thigh, just above the knee.",
+              "then": "Sit tall and gently press your left knee away from your body.",
+              "tip": "Hold the stretch in your left hip and glute. Breathe and keep your left foot flexed.",
               "demoVideo": "/assets/exercise-animations/figure-four-left/FigureFour-Left_Markian_Test.mp4"
             }
           ]
@@ -2790,68 +2793,62 @@ window.AXIS_JSON = {
           "exercises": [
             {
               "id": "604-R",
-              "name": "Supine Figure Four - Right Hip",
-              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "name": "Figure Four Stretch - Right",
+              "start": "Sit on the floor with your legs in front of you.",
               "sub": "Ankle over knee. Ease the hip open, breathe into it.",
               "type": "time",
               "seconds": 60,
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Setup",
+                  "label": "Cross Right Ankle",
                   "focus": "SETUP",
-                  "cue": "Lie on back, knees bent, feet flat. Cross right ankle over left knee. Flex the right foot to protect the knee joint."
+                  "cue": "Sit on the floor. Cross your right ankle over your left thigh, just above the knee."
                 },
                 {
                   "pos": "B",
-                  "label": "Draw In",
+                  "label": "Sit Tall",
                   "focus": "STRETCH",
-                  "cue": "Clasp hands behind left thigh and draw both legs toward chest. Feel the stretch deep in the right outer hip and glute. This targets the piriformis. The primary sciatic nerve compressor."
+                  "cue": "Sit tall and gently press your right knee away from your body."
                 },
                 {
-                  "pos": "C",
-                  "label": "Rock Gently",
-                  "focus": "RELEASE",
-                  "cue": "Rock slowly left and right to find the deepest point of tension. Hold 60s. Switch sides. Do not pull aggressively. Let the muscle release on its own timeline."
+                  "cue": "Hold the stretch in your right hip and glute. Breathe and keep your right foot flexed."
                 }
               ],
-              "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
-              "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Rock slowly side to side. Hold for 60 seconds. Switch sides.",
+              "position": "Sit on the floor with your legs in front of you.",
+              "next": "Cross your right ankle over your left thigh, just above the knee.",
+              "then": "Sit tall and gently press your right knee away from your body.",
+              "tip": "Hold the stretch in your right hip and glute. Breathe and keep your right foot flexed.",
               "demoVideo": "/assets/exercise-animations/figure-four-right/FigureFour-Right_Markian_Test.mp4"
             },
             {
               "id": "604-L",
-              "name": "Supine Figure Four - Left Hip",
-              "start": "Lie on your back with your knees bent and feet flat on the floor.",
+              "name": "Figure Four Stretch - Left",
+              "start": "Sit on the floor with your legs in front of you.",
               "sub": "Ankle over knee. Ease the hip open, breathe into it.",
               "type": "time",
               "seconds": 60,
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Setup",
+                  "label": "Cross Left Ankle",
                   "focus": "SETUP",
-                  "cue": "Lie on back, knees bent, feet flat. Cross right ankle over left knee. Flex the right foot to protect the knee joint."
+                  "cue": "Sit on the floor. Cross your left ankle over your right thigh, just above the knee."
                 },
                 {
                   "pos": "B",
-                  "label": "Draw In",
+                  "label": "Sit Tall",
                   "focus": "STRETCH",
-                  "cue": "Clasp hands behind left thigh and draw both legs toward chest. Feel the stretch deep in the right outer hip and glute. This targets the piriformis. The primary sciatic nerve compressor."
+                  "cue": "Sit tall and gently press your left knee away from your body."
                 },
                 {
-                  "pos": "C",
-                  "label": "Rock Gently",
-                  "focus": "RELEASE",
-                  "cue": "Rock slowly left and right to find the deepest point of tension. Hold 60s. Switch sides. Do not pull aggressively. Let the muscle release on its own timeline."
+                  "cue": "Hold the stretch in your left hip and glute. Breathe and keep your left foot flexed."
                 }
               ],
-              "position": "Lie on your back with your knees bent and feet flat on the floor.",
-              "next": "Cross your right ankle over your left knee. Pull your right toes back toward your shin.",
-              "then": "Grab the back of your left thigh with both hands. Pull your left leg toward your chest.",
-              "tip": "Rock slowly side to side. Hold for 60 seconds. Switch sides.",
+              "position": "Sit on the floor with your legs in front of you.",
+              "next": "Cross your left ankle over your right thigh, just above the knee.",
+              "then": "Sit tall and gently press your left knee away from your body.",
+              "tip": "Hold the stretch in your left hip and glute. Breathe and keep your left foot flexed.",
               "demoVideo": "/assets/exercise-animations/figure-four-left/FigureFour-Left_Markian_Test.mp4"
             },
             {
@@ -5630,31 +5627,37 @@ window.AXIS_JSON = {
             {
               "id": 2003,
               "name": "Wall Angels",
-              "start": "Stand with your back flat against a wall.",
+              "start": "Sit on the floor with your back against a wall and your knees bent.",
               "sub": "Helps with shoulder mobility and opens up a tight or closed chest.",
               "type": "reps",
               "reps": "5–10 reps",
               "steps": [
                 {
                   "pos": "A",
-                  "label": "Wall Contact",
+                  "label": "Seated Wall Setup",
                   "focus": "SETUP",
-                  "cue": "Head, upper back and glutes touch the wall. Arms in a W at shoulder height."
+                  "cue": "Sit on the floor with your back against a wall and your knees bent."
                 },
                 {
                   "pos": "B",
-                  "label": "Slide to Y",
-                  "focus": "ACTIVATE",
-                  "cue": "Slide arms up overhead into a Y keeping contact with the wall. Return slowly."
+                  "label": "Start in W",
+                  "focus": "SETUP",
+                  "cue": "Bend your elbows to make a W shape. Keep your head and upper back close to the wall."
                 },
                 {
-                  "cue": "Quality over range. If contact with the wall is lost, reduce your range of motion."
+                  "pos": "C",
+                  "label": "Slide Up and Down",
+                  "focus": "CONTROL",
+                  "cue": "Slide your arms up the wall toward a Y shape, then lower them slowly."
+                },
+                {
+                  "cue": "Move only as high as you can while keeping your back and arms close to the wall."
                 }
               ],
-              "position": "Stand with your back flat against a wall.",
-              "next": "Press your head, upper back, and hips into the wall. Bend your elbows and press your arms against the wall to make a W shape.",
-              "then": "Slide your arms slowly up the wall to make a Y shape. Keep your arms touching the wall.",
-              "tip": "Slide your arms slowly back down. Stop if your arms pull away from the wall.",
+              "position": "Sit on the floor with your back against a wall and your knees bent.",
+              "next": "Bend your elbows to make a W shape. Keep your head and upper back close to the wall.",
+              "then": "Slide your arms up the wall toward a Y shape, then lower them slowly.",
+              "tip": "Move only as high as you can while keeping your back and arms close to the wall.",
               "demoVideo": "/assets/exercise-animations/wall-angels/WallAngels_Markian_Test.mp4"
             },
             {

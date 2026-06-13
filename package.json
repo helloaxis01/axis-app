@@ -1,6 +1,6 @@
 {
   "name": "axis-031726-rebuild",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "AXIS web shell (public_web). Vercel: npm run build → public_web. Native: npm run cap:sync.",
   "scripts": {

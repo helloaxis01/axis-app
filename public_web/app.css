@@ -1163,6 +1163,47 @@ html, body, #root { font-family: var(--font-ui); }
   -webkit-text-fill-color: #000000 !important;
 }
 /* Guided shell: same base as Home/Timer + soft circadian mood wash (tokens on overlay [data-theme]) */
+.guided-overlay {
+  animation: none;
+}
+.guided-overlay.guided-overlay--exiting {
+  animation: axisGuidedOverlayOut 180ms ease both;
+}
+.axis-scene-transition-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  pointer-events: none;
+  background: #050a15;
+  opacity: 0;
+}
+.axis-scene-transition-scrim[data-night="true"] {
+  background: #000000;
+}
+.axis-scene-transition-scrim--exiting {
+  animation: axisSceneScrimExit 300ms ease both;
+}
+@keyframes axisGuidedOverlayOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(6px); }
+}
+@keyframes axisSceneScrimExit {
+  0% { opacity: 0; }
+  28%, 56% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guided-overlay,
+  .guided-overlay.guided-overlay--exiting,
+  .axis-scene-transition-scrim {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .axis-scene-transition-scrim {
+    display: none !important;
+  }
+}
 .guided-overlay[data-night="true"] {
   background: #000000;
   backdrop-filter: none;
@@ -2212,7 +2253,7 @@ html, body, #root { font-family: var(--font-ui); }
 }
 /* LIST/GUIDED: pre–full-bleed hdr-wrap, frosted backdrop carried this glow; boost orbs slightly when session is open */
 .app:not([data-night="true"]):has(.hdr-wrap) .app-orbs {
-  opacity: 0.32;
+  opacity: 0.28;
 }
 .app[data-theme="light"]:not([data-night="true"]):has(.hdr-wrap) .app-orbs {
   opacity: 0.54;
@@ -2384,7 +2425,7 @@ html.axis-native-shell .content.content--session {
   flex-shrink:0;
 }
 .hdr-session-head .hdr-title {
-  margin-top:0;
+  margin-top:6px;
 }
 .hdr-session-head .tabs {
   margin-top:6px;
@@ -3014,6 +3055,9 @@ a.settings-outline-btn {
   -webkit-text-fill-color: var(--text-primary) !important;
   opacity: 1 !important;
   font-variant-numeric: tabular-nums;
+}
+.hdr-session-head .hdr-dur.axis-duration-label {
+  font-weight: 500;
 }
 /* Exercise row meta ("45 SEC · SPINE"): +1px vs prior token scale; min readable contrast */
 .content--session .er-list-meta-dur,
@@ -4036,6 +4080,13 @@ a.settings-outline-btn {
   pointer-events: auto;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  min-height: 20px !important;
+  height: 20px !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  font-size: 9px !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1 !important;
 }
 .hdr-session-progress .tab-subbar-rule--above-prog {
   display: none;

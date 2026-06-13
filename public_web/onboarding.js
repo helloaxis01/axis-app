@@ -104,6 +104,27 @@ const obCss = `
   .ob-pad-after-cta { min-height:calc(env(safe-area-inset-bottom, 0px) + 70px); flex-shrink:0; width:100%; pointer-events:none; }
   .ob-screen.ob-screen-upper-bar .ob-pad { flex: 0 1 auto !important; }
   .ob-screen.ob-screen-upper-bar .ob-screen-body { flex: 0 1 auto !important; }
+  .ob-screen.ob-screen-safety {
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    padding-bottom: calc(160px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .ob-screen.ob-screen-safety .ob-screen-body,
+  .ob-screen.ob-screen-safety .ob-pad {
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+  }
+  .ob-screen.ob-screen-safety .ob-pad {
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)) !important;
+  }
   .ob-s0 {
     display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center;
     padding:calc(80px + env(safe-area-inset-top, 0px)) 24px calc(40px + env(safe-area-inset-bottom, 0px)); box-sizing:border-box; overflow:hidden;
@@ -719,23 +740,23 @@ const CIRCADIAN_THEMES = {
   dawn: {
     dark: {
       // orb1: brightest part top-right so it doesn't wash out exercise copy (center/left)
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,135,55,0.72) 0%, transparent 70%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,148,58,0.78) 0%, transparent 70%)",
       // orb2: large orb bottom-left for balance and more organic spread
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,175,75,0.50) 0%, transparent 72%)",
-      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(205,80,20,0.60) 0%, transparent 76%)",
-      accent: "#FF8C35", accentDim: "rgba(255,140,53,0.25)", accentGlow: "rgba(255,140,53,0.55)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,182,82,0.56) 0%, transparent 72%)",
+      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(255,98,38,0.44) 0%, transparent 76%)",
+      accent: "#FF9F43", accentDim: "rgba(255,159,67,0.28)", accentGlow: "rgba(255,159,67,0.58)",
       accentBtnText: "#1a0800",
       bg: MAIN_APP_BG.dark,
       textPrimary: "#FFF0E0",
       tabBg: "rgba(7,9,18,0.94)",
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,120,40,0.26) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,165,70,0.20) 0%, transparent 72%)",
-      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(220,120,30,0.18) 0%, transparent 76%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,120,40,0.30) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,165,70,0.24) 0%, transparent 72%)",
+      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(220,120,30,0.20) 0%, transparent 76%)",
       accent: "#C85A00", accentDim: "rgba(200,90,0,0.18)", accentGlow: "rgba(200,90,0,0.38)",
       accentBtnText: "var(--axis-white)",
-      bg: "linear-gradient(160deg, #ffe8c8 0%, #ffd4a0 35%, #ffbf78 70%, #ffd4a8 100%)",
+      bg: "linear-gradient(160deg, #FAF2EA 0%, #F7EDE3 35%, #F4E8DC 70%, #F8F0E8 100%)",
       textPrimary: "#2a1200",
     },
   },
@@ -752,12 +773,12 @@ const CIRCADIAN_THEMES = {
       tabBg: "rgba(0,8,4,0.88)",
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(0,210,175,0.30) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(0,195,155,0.22) 0%, transparent 72%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(0,210,175,0.32) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(0,195,155,0.24) 0%, transparent 72%)",
       orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(0,150,125,0.22) 0%, transparent 76%)",
       accent: "#007A6A", accentDim: "rgba(0,122,106,0.16)", accentGlow: "rgba(0,122,106,0.34)",
       accentBtnText: "var(--axis-white)",
-      bg: "linear-gradient(160deg, #f0fffc 0%, #e0fff8 35%, #d0fff4 70%, #e8fff9 100%)",
+      bg: "linear-gradient(160deg, #EFF8F5 0%, #EAF3F0 35%, #E5EEEB 70%, #EDF6F3 100%)",
       textPrimary: "#00261f",
     },
   },
@@ -774,12 +795,12 @@ const CIRCADIAN_THEMES = {
       tabBg: "rgba(0,6,14,0.88)",
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(40,120,230,0.28) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(70,160,230,0.22) 0%, transparent 72%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(40,120,230,0.30) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(70,160,230,0.24) 0%, transparent 72%)",
       orb3: "radial-gradient(ellipse 75% 75% at 50% 118%, rgba(40,90,200,0.22) 0%, transparent 76%)",
       accent: "#1060C0", accentDim: "rgba(16,96,192,0.17)", accentGlow: "rgba(16,96,192,0.38)",
       accentBtnText: "var(--axis-white)",
-      bg: "linear-gradient(160deg, #d8eeff 0%, #c0e0ff 35%, #a8d4ff 70%, #c8e8ff 100%)",
+      bg: "linear-gradient(160deg, #EBF2FA 0%, #E6ECF6 35%, #E1E8F2 70%, #E9F0F8 100%)",
       textPrimary: "#001830",
     },
   },
@@ -796,12 +817,12 @@ const CIRCADIAN_THEMES = {
       tabBg: "rgba(3,0,8,0.90)",
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(120,40,220,0.26) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(150,70,230,0.20) 0%, transparent 72%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(120,40,220,0.28) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(150,70,230,0.22) 0%, transparent 72%)",
       orb3: "radial-gradient(ellipse 75% 75% at 50% 120%, rgba(90,40,180,0.20) 0%, transparent 76%)",
       accent: "#6030B0", accentDim: "rgba(96,48,176,0.18)", accentGlow: "rgba(96,48,176,0.38)",
       accentBtnText: "var(--axis-white)",
-      bg: "linear-gradient(160deg, #ece0ff 0%, #ddd0ff 35%, #cec0ff 70%, #e0d4ff 100%)",
+      bg: "linear-gradient(160deg, #F2EEF8 0%, #EDE8F3 35%, #E8E2EE 70%, #F0ECF6 100%)",
       textPrimary: "#180030",
     },
   },
@@ -1466,7 +1487,7 @@ function Onboarding({ theme, onComplete }) {
           </div>}
 
           {/* 6: THE SAFETY + MEDICAL DISCLAIMER */}
-          {cur === 5 && <div className="ob-screen ob-cta-screen ob-safety-navy ob-content-only">
+          {cur === 5 && <div className="ob-screen ob-cta-screen ob-safety-navy ob-content-only ob-screen-safety">
             <div className="ob-screen-body">
               <div className="ob-pad">
               <div className="ob-eyebrow">The Safety</div>
@@ -1496,6 +1517,11 @@ function Onboarding({ theme, onComplete }) {
                   placeholder="Full name"
                   value={disclaimerName}
                   onChange={e => { setDisclaimerName(e.target.value); setDisclaimerWarning(false); }}
+                  onFocus={e => {
+                    try {
+                      window.setTimeout(() => e.currentTarget.scrollIntoView({ block: "center", behavior: "smooth" }), 80);
+                    } catch (_e) {}
+                  }}
                   style={{
                     width:"100%", padding:"12px 16px", borderRadius:12, fontSize:15,
                     fontFamily:"var(--font-ui),system-ui,sans-serif", fontWeight:400,

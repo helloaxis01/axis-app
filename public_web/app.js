@@ -123,7 +123,7 @@ function AxisSessionSkipForwardGlyph() {
 
 // Main app backgrounds (dark/light) — circadian dark themes reference MAIN_APP_BG.dark
 const MAIN_APP_BG = {
-  dark: "radial-gradient(ellipse at 50% 40%, #0f1f35 0%, #0a1525 45%, #080d18 100%)",
+  dark: "radial-gradient(ellipse at 50% 40%, #0b1a2f 0%, #071224 45%, #050a15 100%)",
   light: "linear-gradient(145deg, #dce6f0 0%, #e4ebf4 35%, #eaf0f7 70%, #f0f5fa 100%)"
 };
 
@@ -172,22 +172,22 @@ function axisResolveMoodPeriod(period) {
 const CIRCADIAN_THEMES = {
   dawn: {
     dark: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,135,55,0.72) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,175,75,0.50) 0%, transparent 72%)",
-      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(205,80,20,0.60) 0%, transparent 76%)",
-      accent: "#FF9F43", accentDim: "rgba(255,159,67,0.25)", accentGlow: "rgba(255,159,67,0.55)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,148,58,0.78) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,182,82,0.56) 0%, transparent 72%)",
+      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(255,98,38,0.44) 0%, transparent 76%)",
+      accent: "#FF9F43", accentDim: "rgba(255,159,67,0.28)", accentGlow: "rgba(255,159,67,0.58)",
       accentBtnText: "#252525",
       bg: MAIN_APP_BG.dark,
       textPrimary: "#FFF0E0",
       tabBg: "rgba(7,9,18,0.84)"
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,120,40,0.26) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,165,70,0.20) 0%, transparent 72%)",
-      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(220,120,30,0.18) 0%, transparent 76%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(255,120,40,0.30) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(255,165,70,0.24) 0%, transparent 72%)",
+      orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(220,120,30,0.20) 0%, transparent 76%)",
       accent: "#C85A00", accentDim: "rgba(200,90,0,0.18)", accentGlow: "rgba(200,90,0,0.38)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #F5F2EE 0%, #F2EFE9 50%, #F0EDE8 100%)",
+      bg: "linear-gradient(160deg, #FAF2EA 0%, #F7EDE3 35%, #F4E8DC 70%, #F8F0E8 100%)",
       textPrimary: "#2a1200"
     }
   },
@@ -203,12 +203,12 @@ const CIRCADIAN_THEMES = {
       tabBg: "rgba(0,8,4,0.78)"
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(0,210,175,0.30) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(0,195,155,0.22) 0%, transparent 72%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(0,210,175,0.32) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(0,195,155,0.24) 0%, transparent 72%)",
       orb3: "radial-gradient(ellipse 75% 75% at 50% 115%, rgba(0,150,125,0.22) 0%, transparent 76%)",
       accent: "#007A6A", accentDim: "rgba(0,122,106,0.16)", accentGlow: "rgba(0,122,106,0.34)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #F0F3F5 0%, #EDF0F2 50%, #EBF0F3 100%)",
+      bg: "linear-gradient(160deg, #EFF8F5 0%, #EAF3F0 35%, #E5EEEB 70%, #EDF6F3 100%)",
       textPrimary: "#00261f"
     }
   },
@@ -224,12 +224,12 @@ const CIRCADIAN_THEMES = {
       tabBg: "rgba(0,6,14,0.78)"
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(40,120,230,0.28) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(70,160,230,0.22) 0%, transparent 72%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(40,120,230,0.30) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(70,160,230,0.24) 0%, transparent 72%)",
       orb3: "radial-gradient(ellipse 75% 75% at 50% 118%, rgba(40,90,200,0.22) 0%, transparent 76%)",
       accent: "#1060C0", accentDim: "rgba(16,96,192,0.17)", accentGlow: "rgba(16,96,192,0.38)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #EEEEF5 0%, #EBEBF2 50%, #E8E8F0 100%)",
+      bg: "linear-gradient(160deg, #EBF2FA 0%, #E6ECF6 35%, #E1E8F2 70%, #E9F0F8 100%)",
       textPrimary: "#001830"
     }
   },
@@ -245,12 +245,12 @@ const CIRCADIAN_THEMES = {
       tabBg: "rgba(3,0,8,0.80)"
     },
     light: {
-      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(120,40,220,0.26) 0%, transparent 70%)",
-      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(150,70,230,0.20) 0%, transparent 72%)",
+      orb1: "radial-gradient(ellipse 120% 120% at 88% 18%, rgba(120,40,220,0.28) 0%, transparent 70%)",
+      orb2: "radial-gradient(ellipse 110% 110% at 5% 98%, rgba(150,70,230,0.22) 0%, transparent 72%)",
       orb3: "radial-gradient(ellipse 75% 75% at 50% 120%, rgba(90,40,180,0.20) 0%, transparent 76%)",
       accent: "#6030B0", accentDim: "rgba(96,48,176,0.18)", accentGlow: "rgba(96,48,176,0.38)",
       accentBtnText: "#f6f7f8",
-      bg: "linear-gradient(160deg, #EEEEF5 0%, #EAEAF2 50%, #E6E6F0 100%)",
+      bg: "linear-gradient(160deg, #F2EEF8 0%, #EDE8F3 35%, #E8E2EE 70%, #F0ECF6 100%)",
       textPrimary: "#180030"
     }
   }
@@ -2381,7 +2381,7 @@ function GuidedActiveTimer({ seconds = 45, accent, trackColor, hidden = false, p
       }
       if (remainingMs > 0 && intSec >= 1 && intSec <= 5 && endCountdownSecRef.current !== intSec) {
         endCountdownSecRef.current = intSec;
-        axisGuidedCountdownTickCue();
+        axisGuidedFinalCountdownTickCue();
       }
       if (remainingMs <= 0 && !completedRef.current) {
         completedRef.current = true;
@@ -3316,16 +3316,23 @@ function axisGuidedRestStartCue() {
   beep(440, 0.22, { type: "sine", gain: 0.2 });
 }
 
-/** Shared low tick for prep (3,2,1) and exercise end (5,4,3,2,1) countdowns. */
+/** Brighter prep tick for 3,2,1 before an exercise starts. */
 function axisGuidedCountdownTickCue() {
   primeAudio();
-  beep(220, 0.14, { type: "triangle", gain: 0.16 });
+  beep(440, 0.12, { type: "sine", gain: 0.14 });
   axisHapticTick();
 }
 
 /** Rest & Get Ready — low dull tone + light tap on each of 3, 2, 1. */
 function axisGuidedPrepCountdownCue() {
   axisGuidedCountdownTickCue();
+}
+
+/** Softer, lower final countdown tick for the last 5 seconds of movement. */
+function axisGuidedFinalCountdownTickCue() {
+  primeAudio();
+  beep(185, 0.11, { type: "triangle", gain: 0.075 });
+  axisHapticTick();
 }
 
 /** Rest countdown finished → exercise (BEGIN) phase. */
@@ -3338,12 +3345,12 @@ function axisGuidedBeginCue() {
 /** Exercise finished (timer or mark done) — soft low tone after optional end countdown. */
 function axisGuidedExerciseCompleteCue() {
   primeAudio();
-  beep(165, 0.22, { type: "triangle", gain: 0.11 });
+  beep(130, 0.16, { type: "triangle", gain: 0.055 });
   axisHapticTick();
 }
 
 function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
-  onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45, activeTrackId = "", showFirstAxisSessionLine = false }) {
+  onExit, onToggle, onSkip, formatTime, trackLabel = "", trackDuration = "", nightMode = false, streak = 0, onSessionComplete, exerciseDurationSeconds = 45, activeTrackId = "", showFirstAxisSessionLine = false, exiting = false }) {
 
   const isNight = nightMode;
   const isDark = isNight || theme === "dark";
@@ -4139,7 +4146,7 @@ function GuidedOverlay({ theme, activePeriod, activeAll: activeAllProp,
   }
 
   return (/*#__PURE__*/
-    React.createElement("div", { ref: guidedDialogRef, className: "guided-overlay", "data-theme": theme, "data-night": isNight ? "true" : "false", "data-phase": phase, "data-refresher": refresherOpen ? "open" : "closed", role: "dialog", "aria-modal": "true", "aria-label": "Guided session", style: {
+    React.createElement("div", { ref: guidedDialogRef, className: "guided-overlay" + (exiting ? " guided-overlay--exiting" : ""), "data-theme": theme, "data-night": isNight ? "true" : "false", "data-phase": phase, "data-refresher": refresherOpen ? "open" : "closed", role: "dialog", "aria-modal": "true", "aria-label": "Guided session", style: {
         position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 99999,
         display: "flex", flexDirection: "column",
         fontFamily: "var(--font-ui)", color: W, WebkitFontSmoothing: "antialiased",

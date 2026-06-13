@@ -173,7 +173,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   /** system tab: Mood is default; Settings opens from bottom control on Mood or full settings panel */
   const [systemPanel, setSystemPanel] = useState("mood");
   const [favoritesSegment, setFavoritesSegment] = useState("tracks");
-  const APP_VERSION_DISPLAY = "v1.0.0";
+  const APP_VERSION_DISPLAY = "v0.1.0";
   const [metricsFactsCycle, setMetricsFactsCycle] = useState(-1);
   const [activePeriod, setActivePeriod] = useState(() => storageGet("axis_period", null)); // null = auto
   const [hasActiveSession, setHasActiveSession] = useState(false);
@@ -190,6 +190,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const prevViewRef = useRef(null);
   const [openId, setOpenId] = useState(null);
   const [guidedActive, setGuidedActive] = useState(false);
+  const [guidedTransition, setGuidedTransition] = useState("idle");
   const [sessionComplete, setSessionComplete] = useState(false);
   const [listDone, setListDone] = useState(() => axisLoadSessionListDone());
   const [guidedDone, setGuidedDone] = useState(() => axisLoadSessionGuidedDone());
@@ -202,6 +203,8 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const sessionContentRef = useRef(null);
   const sessionFirstPurposeRef = useRef(null);
   const listScrollRef = useRef(0);
+  const guidedTransitionTimerRef = useRef(null);
+  const guidedTransitionReleaseTimerRef = useRef(null);
   const [guidedTimelineExpanded, setGuidedTimelineExpanded] = useState(false);
   const [purposeOpenBySection, setPurposeOpenBySection] = useState(() => ({}));
   const [homeTrackCategory, setHomeTrackCategory] = useState("all");
@@ -454,6 +457,10 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     const t = setInterval(() => setSessionSecs((s) => s + 1), 1000);
     return () => clearInterval(t);
   }, [guidedActive, sessionComplete]);
+  useEffect(() => () => {
+    if (guidedTransitionTimerRef.current) window.clearTimeout(guidedTransitionTimerRef.current);
+    if (guidedTransitionReleaseTimerRef.current) window.clearTimeout(guidedTransitionReleaseTimerRef.current);
+  }, []);
 
   // Paint gradient on body + apply circadian theme (useLayoutEffect to avoid flash on tab switch)
   useLayoutEffect(() => {
@@ -743,6 +750,9 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     primeAudio();
     beep(440, 0.08, { type: "sine", gain: 0.12 });
     void axisHealthRequestWorkoutPermissionsNative();
+    if (guidedTransitionTimerRef.current) window.clearTimeout(guidedTransitionTimerRef.current);
+    if (guidedTransitionReleaseTimerRef.current) window.clearTimeout(guidedTransitionReleaseTimerRef.current);
+    setGuidedTransition("idle");
     setGuidedActive(true);
   };
   const scrollToOwnPathExercises = () => {
@@ -1816,12 +1826,27 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const sessionBackCt = sessionBackNight ? null : CIRCADIAN_THEMES[sessionBackPeriod][sessionBackDark ? "dark" : "light"];
   const sessionBackIconColor = sessionBackNight ? "#FF3B30" : sessionBackCt && sessionBackCt.textPrimary || (sessionBackDark ? "var(--axis-white)" : "#0f1020");
   const sessionBackBorderColor = sessionBackNight ? "#FF3B30" : sessionBackDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.2)";
+  const exitGuidedSession = () => {
+    if (guidedTransitionTimerRef.current) window.clearTimeout(guidedTransitionTimerRef.current);
+    if (guidedTransitionReleaseTimerRef.current) window.clearTimeout(guidedTransitionReleaseTimerRef.current);
+    setGuidedTransition("exiting");
+    guidedTransitionTimerRef.current = window.setTimeout(() => {
+      setGuidedActive(false);
+      setSessionComplete(false);
+      setGuidedFirstSessionCelebration(false);
+      guidedTransitionTimerRef.current = null;
+    }, 90);
+    guidedTransitionReleaseTimerRef.current = window.setTimeout(() => {
+      setGuidedTransition("idle");
+      guidedTransitionReleaseTimerRef.current = null;
+    }, 300);
+  };
 
   // SESSION — render Guided overlay via portal to document.body so position:fixed is viewport-relative (parent has transform)
   const guidedOverlayEl = guidedActive ? /*#__PURE__*/
   React.createElement(GuidedOverlay, {
     theme: theme, activePeriod: activePeriod, activeAll: filteredAll,
-    onExit: () => {setGuidedActive(false);setSessionComplete(false);setGuidedFirstSessionCelebration(false);},
+    onExit: exitGuidedSession,
     onToggle: toggleGuided,
     onSkip: toggleSkip,
     formatTime: formatTime,
@@ -1841,14 +1866,25 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     onExerciseDurationChange: (seconds) => setExerciseDuration(seconds),
     exerciseDurationSeconds: exerciseDuration || 45,
     activeTrackId: track,
-    showFirstAxisSessionLine: guidedFirstSessionCelebration }
+    showFirstAxisSessionLine: guidedFirstSessionCelebration,
+    exiting: guidedTransition === "exiting" }
   ) :
+  null;
+  const guidedTransitionScrimEl = guidedTransition === "exiting" ? /*#__PURE__*/
+  React.createElement("div", {
+    className: `axis-scene-transition-scrim axis-scene-transition-scrim--${guidedTransition}`,
+    "data-night": nightMode ? "true" : "false",
+    "aria-hidden": true
+  }) :
   null;
 
   return (/*#__PURE__*/
     React.createElement(React.Fragment, null,
     guidedOverlayEl && typeof document !== "undefined" && document.body ?
     ReactDOM.createPortal(guidedOverlayEl, document.body) :
+    null,
+    guidedTransitionScrimEl && typeof document !== "undefined" && document.body ?
+    ReactDOM.createPortal(guidedTransitionScrimEl, document.body) :
     null, /*#__PURE__*/
     React.createElement("div", { className: "app", "data-theme": theme, "data-night": nightMode ? "true" : "false" }, /*#__PURE__*/
     React.createElement("div", { className: "app-orbs", style: { background: "var(--orb1), var(--orb2), var(--orb3)", transition: "background 0.4s ease" } }), /*#__PURE__*/
