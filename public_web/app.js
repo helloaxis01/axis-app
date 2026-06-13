@@ -5671,12 +5671,14 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     padding: 4px 0;
     box-sizing: border-box;
   }
-  .timer-view-body .timer-interval-rounds-slot {
+  .timer-view-body .timer-interval-rounds-slot,
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-cycles-slot {
     flex: 0 0 auto;
     min-height: 40px;
     padding: 0;
   }
-  .timer-view-body .timer-interval-start-row {
+  .timer-view-body .timer-interval-start-row,
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-start-row {
     margin-top: 14px;
   }
   .timer-view-body .timer-breathe-idle-column .timer-cta-row,
@@ -5950,12 +5952,9 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     border-color: rgba(255, 59, 48, 0.45);
   }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-cycles-slot {
-    flex: 0 0 auto;
-    min-height: 40px;
     padding: 0;
   }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-start-row {
-    margin-top: 14px;
     margin-bottom: 0;
   }
   .app .timer-view-body .timer-breathe-pattern-card-dot {
@@ -6548,7 +6547,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     ,
 
 
-    breatheUiState === "idle" && /*#__PURE__*/React.createElement("div", { className: "timer-secondary-block timer-breathe-idle-column", style: { flex: 1, minHeight: 0, width: "100%", marginTop: 0, marginBottom: 0, boxSizing: "border-box" } },
+    breatheUiState === "idle" && /*#__PURE__*/React.createElement("div", { className: "timer-secondary-block timer-breathe-idle-column", style: { flex: 1, minHeight: 0, width: "100%", marginTop: TIMER_IDLE_VERTICAL_GAP, marginBottom: 0, boxSizing: "border-box" } },
     React.createElement("div", { className: "timer-breathe-idle-top" },
     React.createElement("div", { className: "timer-breathe-pattern-cards-wrap" },
     React.createElement("div", { ref: breathePatternScrollRef, className: "timer-breathe-pattern-cards-scroll", onScroll: () => {

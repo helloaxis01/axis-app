@@ -2206,16 +2206,16 @@ html, body, #root { font-family: var(--font-ui); }
   z-index: 1;
   box-sizing:border-box;
 }
-.app-orbs { position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.15; background-position: top center; background-repeat: no-repeat; }
+.app-orbs { position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.20; background-position: top center; background-repeat: no-repeat; }
 .app[data-theme="light"]:not([data-night="true"]) .app-orbs {
-  opacity: 0.38;
+  opacity: 0.46;
 }
 /* LIST/GUIDED: pre–full-bleed hdr-wrap, frosted backdrop carried this glow; boost orbs slightly when session is open */
 .app:not([data-night="true"]):has(.hdr-wrap) .app-orbs {
-  opacity: 0.26;
+  opacity: 0.32;
 }
 .app[data-theme="light"]:not([data-night="true"]):has(.hdr-wrap) .app-orbs {
-  opacity: 0.46;
+  opacity: 0.54;
 }
 .app-orbs::after {
   content:''; position:absolute; inset:0; pointer-events:none;
