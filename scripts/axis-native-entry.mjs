@@ -204,11 +204,31 @@ export async function healthRequestPermissions(opts) {
     const want = opts && Array.isArray(opts.read) ? opts.read : ["weight", "steps"];
     if (want.includes("steps")) read.push("steps");
     if (want.includes("weight")) read.push("weight");
+    if (want.includes("activity")) read.push("activity");
+    if (want.includes("workout")) read.push("workout");
     if (!read.length) read.push("steps", "weight");
-    await CapacitorHealthkit.requestAuthorization({ read, write: [], all: [] });
+    const write = [];
+    const wantWrite = opts && Array.isArray(opts.write) ? opts.write : [];
+    if (wantWrite.includes("activity")) write.push("activity");
+    if (wantWrite.includes("workout")) write.push("workout");
+    await CapacitorHealthkit.requestAuthorization({ read, write, all: [] });
     return { granted: true };
   } catch (e) {
     return { granted: false, reason: e && e.message ? e.message : String(e) };
+  }
+}
+
+export async function healthSaveWorkout({ title = "AXIS Session", startDate, endDate } = {}) {
+  if (!isNative() || Capacitor.getPlatform() !== "ios") {
+    return { saved: false, reason: "ios_only" };
+  }
+  try {
+    await CapacitorHealthkit.isAvailable();
+    await CapacitorHealthkit.requestAuthorization({ read: [], write: ["workout"], all: [] });
+    const result = await CapacitorHealthkit.saveWorkout({ title, startDate, endDate });
+    return { saved: true, ...(result || {}) };
+  } catch (e) {
+    return { saved: false, reason: e && e.message ? e.message : String(e) };
   }
 }
 
@@ -264,6 +284,7 @@ function setupHealthBridge() {
     window.axisHealthRequestPermissions = healthRequestPermissions;
     window.axisFetchHealthWeightSamples = healthFetchWeightSamples;
     window.axisFetchTodayStepCount = healthFetchTodaySteps;
+    window.axisSaveHealthWorkout = healthSaveWorkout;
   } catch (_e) {}
 }
 

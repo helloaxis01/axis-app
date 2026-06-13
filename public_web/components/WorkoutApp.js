@@ -47,6 +47,8 @@ import {
   axisHealthFetchTodayStepsNative,
   axisHealthFetchWeightSamplesNative,
   axisHealthRequestReadPermissions,
+  axisHealthRequestWorkoutPermissionsNative,
+  axisHealthSaveWorkoutNative,
   axisHistoryForDailyTotals,
   axisLatestHistoryEntryForTrack,
   axisLatestHistoryEntryGlobal,
@@ -320,7 +322,11 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   useLayoutEffect(() => {
     try {
       if (typeof sessionStorage === "undefined" || sessionStorage.getItem("axis_boot_home") !== "1") return;
-      sessionStorage.removeItem("axis_boot_home");
+      if (typeof sessionStorage !== "undefined") {
+        sessionStorage.removeItem("axis_boot_home");
+        sessionStorage.removeItem("axis_onboarding_start_track");
+      }
+      try { localStorage.removeItem("axis_onboarding_start_track"); } catch (e) {}
       setView("home");
       setHomeSection("explore");
       setSystemPanel("mood");
@@ -664,6 +670,22 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
   const sessionMinutes = Math.round(sessionSeconds / 60) || 0;
   const sessionDurationLabel = axisFormatSessionHeaderDuration(sessionMinutes, perMoveSeconds);
   const pct = TOTAL > 0 ? Math.round(totalDone / TOTAL * 100) : 0;
+  const axisSaveCompletedSessionWorkout = (mode, durationSeconds) => {
+    const durationSec = Math.max(60, Math.round(Number(durationSeconds) || sessionSeconds || 60));
+    const trackLabel = TRACKS[track] && TRACKS[track].label || "AXIS Session";
+    const dayKey = new Date().toDateString();
+    const savedKey = `axis_health_workout_saved:${dayKey}:${track}:${mode}`;
+    if (storageGet(savedKey, false)) return;
+    const end = new Date();
+    const start = new Date(end.getTime() - durationSec * 1000);
+    axisHealthSaveWorkoutNative({
+      title: `${trackLabel} (${mode === "guided" ? "Guided" : "Own Pace"})`,
+      startDate: start.toISOString(),
+      endDate: end.toISOString()
+    }).then((result) => {
+      if (result && result.saved) storageSet(savedKey, true);
+    }).catch(() => {});
+  };
 
   const applySessionDoneToggle = (setStore, id) => {
     setStore((store) => {
@@ -683,6 +705,13 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
           storageSet("axis_history", newHistory);
           return newHistory;
         });
+      }
+      const justCompletedAll =
+        !wasDone &&
+        activeAll.length > 0 &&
+        activeAll.every((e) => !!nextSlice[e.id]);
+      if (justCompletedAll) {
+        window.setTimeout(() => axisSaveCompletedSessionWorkout("list", activeAll.length * (exerciseDuration || 45)), 0);
       }
       return axisSessionDoneMergeTrack(store, track, nextSlice);
     });
@@ -713,6 +742,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     axisHapticTick();
     primeAudio();
     beep(440, 0.08, { type: "sine", gain: 0.12 });
+    void axisHealthRequestWorkoutPermissionsNative();
     setGuidedActive(true);
   };
   const scrollToOwnPathExercises = () => {
@@ -935,7 +965,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
       React.createElement(SettingsAccountRows, null)))), /*#__PURE__*/
 
       React.createElement("div", { className: "tab-bar-spacer tab-bar-spacer--settings" }))), /*#__PURE__*/
-      privacyPolicyOpen && /*#__PURE__*/React.createElement("div", { className: "metrics-archive-backdrop", onClick: () => setPrivacyPolicyOpen(false) }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-modal", role: "dialog", "aria-modal": "true", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-header" }, /*#__PURE__*/React.createElement("h3", { className: "metrics-archive-title" }, "Privacy Policy"), /*#__PURE__*/React.createElement("button", { type: "button", className: "metrics-archive-close", onClick: () => setPrivacyPolicyOpen(false), "aria-label": "Close privacy policy" }, "\u00d7")), /*#__PURE__*/React.createElement("div", { className: "metrics-archive-body", style: { display: "flex", flexDirection: "column", gap: 10 } }, /*#__PURE__*/React.createElement("p", null, "Your workout history, goals, and preferences are stored on this device. We do not sell or profile your data."), /*#__PURE__*/React.createElement("p", null, "Account login uses Firebase Authentication. Local records are retained and older entries are archived automatically."), /*#__PURE__*/React.createElement("p", null, "You can export data any time from Data > Export My Data.")))), /*#__PURE__*/
+      privacyPolicyOpen && /*#__PURE__*/React.createElement("div", { className: "metrics-archive-backdrop", onClick: () => setPrivacyPolicyOpen(false) }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-modal", role: "dialog", "aria-modal": "true", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/React.createElement("div", { className: "metrics-archive-header" }, /*#__PURE__*/React.createElement("h3", { className: "metrics-archive-title" }, "Privacy Policy"), /*#__PURE__*/React.createElement("button", { type: "button", className: "metrics-archive-close", onClick: () => setPrivacyPolicyOpen(false), "aria-label": "Close privacy policy" }, "\u00d7")), /*#__PURE__*/React.createElement("div", { className: "metrics-archive-body", style: { display: "flex", flexDirection: "column", gap: 10 } }, /*#__PURE__*/React.createElement("p", null, "Your workout history, goals, and preferences are stored on this device and can sync to your account when you sign in. We do not sell or profile your data."), /*#__PURE__*/React.createElement("p", null, "Account login uses Firebase Authentication. Sync stores app records in Supabase so your sessions and bookmarks can follow you across devices."), /*#__PURE__*/React.createElement("p", null, "You can export data any time from Data > Export My Data.")))), /*#__PURE__*/
       React.createElement(MetricsArchivedDataModal, {
         open: archivedDataOpen,
         onClose: () => setArchivedDataOpen(false),
@@ -1801,6 +1831,7 @@ export function WorkoutApp({ theme, toggleTheme, nightMode = false, toggleNight 
     streak: streak,
     onSessionComplete: () => {
       setSessionComplete(true);
+      axisSaveCompletedSessionWorkout("guided", sessionSecs > 0 ? sessionSecs : sessionSeconds);
       const k = axisCelebrationScopedKey("axis_first_session_complete");
       if (!storageGet(k, false)) {
         storageSet(k, true);

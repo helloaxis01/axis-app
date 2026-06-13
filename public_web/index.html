@@ -5,23 +5,23 @@
   (function () {
     /** Bump axis_ob when onboarding route changes materially (avoids stale cached document after deploy). */
     window.axisOnboardingHref = function () {
-      var OND = "mparjodw";
+      var OND = "obintake1";
       try {
         if (window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform()) {
           return "./onboarding.html?axis_ob=" + OND;
         }
-        var path = "./onboarding";
+        var path = "./onboarding.html";
         if (window.location.protocol && window.location.protocol !== "file:") {
           var p = window.location.pathname || "/";
           var d = p.replace(/[^/]*$/, "");
           if (d.slice(-1) !== "/") d += "/";
-          path = window.location.origin + d + "onboarding";
+          path = window.location.origin + d + "onboarding.html";
         }
         var u = new URL(path, window.location.href);
         u.searchParams.set("axis_ob", OND);
         return u.href;
       } catch (e) {
-        return "./onboarding?axis_ob=" + OND;
+        return "./onboarding.html?axis_ob=" + OND;
       }
     };
   })();
@@ -29,7 +29,7 @@
   <meta charset="UTF-8" />
   <!-- axis-build-stamp -->
 <script>
-window.AXIS_BUILD="68ec039";
+window.AXIS_BUILD="4e7eeb1-b1f258e";
 (function(){
   var b=window.AXIS_BUILD||"";
   if(!b)return;
@@ -61,7 +61,7 @@ window.AXIS_BUILD="68ec039";
   
   <link rel="icon" href="./axis-icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" type="image/png" href="./axis-icon.png" sizes="180x180" />
-  <link rel="manifest" href="./manifest.webmanifest?v=68ec039" />
+  <link rel="manifest" href="./manifest.webmanifest?v=4e7eeb1-b1f258e" />
   <title>AXIS</title>
   <script>
   (function () {
@@ -86,7 +86,7 @@ window.AXIS_BUILD="68ec039";
   })();
   </script>
   <link rel="stylesheet" href="./onboarding.css" />
-  <link rel="stylesheet" href="./app.css?cb=68ec039" />
+  <link rel="stylesheet" href="./app.css?cb=4e7eeb1-b1f258e" />
   <style>
     :root {
       --font-display: 'Inter', sans-serif;
@@ -120,7 +120,7 @@ window.AXIS_BUILD="68ec039";
     /* Ensure onboarding screens are centered if the onboarding CSS isn't loaded */
     .ob-screen { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100dvh; box-sizing:border-box; }
   </style>
-  <script src="./axis_data.js?cb=68ec039"></script>
+  <script src="./axis_data_runtime.js?cb=4e7eeb1-b1f258e"></script>
 </head>
 <body>
   <div id="boot-status" aria-live="polite">Starting AXIS…</div>
@@ -172,8 +172,8 @@ window.AXIS_BUILD="68ec039";
       } catch (e) {}
     }, 4000);
   </script>
-  <script src="./vendor/react.production.min.js" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
-  <script src="./vendor/react-dom.production.min.js" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
+  <script src="./react.production.min.js" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
+  <script src="./react-dom.production.min.js" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
   <script>
   (function () {
     function axisShouldLoadAuthBundle() {
@@ -191,13 +191,13 @@ window.AXIS_BUILD="68ec039";
       return true;
     }
     if (axisShouldLoadAuthBundle()) {
-      document.write('<script src="auth-bundle.js?cb=68ec039"><\/script>');
+      document.write('<script src="auth-bundle.js?cb=4e7eeb1-b1f258e"><\/script>');
     }
   })();
   </script>
-  <!-- Main UI: ./app.js (ES module). Workout data: ./axis_data.js (window.AXIS_JSON). -->
+  <!-- Main UI: ./app.js (ES module). Workout data: ./axis_data_runtime.js (window.AXIS_JSON). -->
   <script>
-    // Workout content is baked in via ./axis_data.js (window.AXIS_JSON); see bootstrapAxisApp in ./app.js.
+    // Workout content is baked in via ./axis_data_runtime.js (window.AXIS_JSON); see bootstrapAxisApp in ./app.js.
   </script>
   <script>
   (function () {
@@ -223,10 +223,14 @@ window.AXIS_BUILD="68ec039";
   })();
   </script>
   <script type="module">
-    import("./app.js?cb=68ec039").catch(function (err) {
-      var msg = err && err.message ? err.message : String(err || "module load failed");
-      showLoadErr("Failed to load app.js: " + msg + (err && err.stack ? "\n\n" + err.stack : ""));
-    });
+    if (!window.React || !window.ReactDOM) {
+      showLoadErr("Could not load app libraries. Check your connection and refresh.");
+    } else {
+      import("./app.js?cb=4e7eeb1-b1f258e").catch(function (err) {
+        var msg = err && err.message ? err.message : String(err || "module load failed");
+        showLoadErr("Failed to load app.js: " + msg + (err && err.stack ? "\n\n" + err.stack : ""));
+      });
+    }
   </script>
 </body>
 </html>

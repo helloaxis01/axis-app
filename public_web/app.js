@@ -1,5 +1,8 @@
 const React = globalThis.React;
 const ReactDOM = globalThis.ReactDOM;
+if (!React || !ReactDOM) {
+  throw new Error("React did not load before AXIS app.js. Check that react.production.min.js and react-dom.production.min.js are available.");
+}
 const { useState, useEffect, useLayoutEffect, useRef, useId, useCallback } = React;
 
 // Development flag: add ?dev=1 to the URL or set localStorage.axis_dev = "1" to enable debug UI and verbose logs.
@@ -320,7 +323,7 @@ const TRACKS_DATA_FALLBACK = {
     id: "daily",
     label: "Workout data unavailable",
     subtitle: "Check axis_data.js",
-    purpose: "Could not load workout data. Ensure axis_data.js is present next to this page and defines window.AXIS_JSON, then refresh.",
+    purpose: "Could not load workout data. Ensure axis_data_runtime.js is present next to this page and defines window.AXIS_JSON, then refresh.",
     duration: "—",
     sections: []
   }
@@ -426,6 +429,10 @@ function axisResolveExerciseLoopVideoSrc(trackId, ex) {
 const AxisVideoPlayer = React.forwardRef(function AxisVideoPlayer({ src, className = "", poster = "", ariaLabel = "Exercise demonstration video", lazy = true }, ref) {
   const rootRef = useRef(null);
   const [inView, setInView] = useState(!lazy);
+  const [mediaError, setMediaError] = useState(false);
+  useEffect(() => {
+    setMediaError(false);
+  }, [src]);
   useEffect(() => {
     if (!lazy) return;
     const el = rootRef.current;
@@ -441,7 +448,7 @@ const AxisVideoPlayer = React.forwardRef(function AxisVideoPlayer({ src, classNa
     obs.observe(el);
     return () => obs.disconnect();
   }, [lazy, src]);
-  const showVideo = inView && !!src;
+  const showVideo = inView && !!src && !mediaError;
   useLayoutEffect(() => {
     if (!showVideo || !src) return;
     const v = typeof ref === "function" ? null : ref && ref.current;
@@ -461,8 +468,9 @@ const AxisVideoPlayer = React.forwardRef(function AxisVideoPlayer({ src, classNa
     preload: "metadata",
     disablePictureInPicture: true,
     controlsList: "nodownload noplaybackrate",
+    onError: () => setMediaError(true),
     "aria-label": ariaLabel
-  }) : /*#__PURE__*/React.createElement("div", { className: "axis-video-player__ph", "aria-hidden": true }));
+  }) : mediaError ? /*#__PURE__*/React.createElement("div", { className: "exercise-carousel__video-soon", "aria-hidden": true }, "VIDEO COMING SOON") : /*#__PURE__*/React.createElement("div", { className: "axis-video-player__ph", "aria-hidden": true }));
 });
 
 /** Best-effort native fullscreen (same path as MP4 demos); avoids portal lightbox when it succeeds. */
@@ -821,6 +829,10 @@ function ExerciseAnimation({ animationKey, mode = "dark", variant = "default", c
   const loopTimerRef = useRef(null);
   const [idx, setIdx] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [mediaError, setMediaError] = useState(false);
+  useEffect(() => {
+    setMediaError(false);
+  }, [videoSrc]);
   useEffect(() => {
     try {
       if (typeof window === "undefined" || !window.matchMedia) return;
@@ -859,7 +871,7 @@ function ExerciseAnimation({ animationKey, mode = "dark", variant = "default", c
     };
   }, [frames, reducedMotion, animationKey]);
   const stroke = exerciseAnimationStrokeColor(mode);
-  if (videoSrc) {
+  if (videoSrc && !mediaError) {
     const cnVideo = `exercise-animation exercise-animation--${variant} exercise-animation--video${className ? ` ${className}` : ""}`;
     return /*#__PURE__*/React.createElement("div", {
       className: cnVideo,
@@ -873,14 +885,16 @@ function ExerciseAnimation({ animationKey, mode = "dark", variant = "default", c
       loop: true,
       muted: true,
       playsInline: true,
-      preload: "metadata"
+      preload: "metadata",
+      onError: () => setMediaError(true)
     }) : /*#__PURE__*/React.createElement("img", {
       className: "exercise-animation__media",
       src: videoSrc,
       alt: "",
       loading: "lazy",
       decoding: "async",
-      draggable: false
+      draggable: false,
+      onError: () => setMediaError(true)
     }));
   }
   if (!frames || frames.length === 0) {
@@ -1109,6 +1123,13 @@ function exerciseSecondsFromSections(exId, sections, fallbackSec) {
   return fallbackSec || 45;
 }
 
+// ── AXIS CLOUD SYNC state (populated by the sync module below) ────────────────
+const AXIS_SYNC_KEYS = ["axis_history", "axis_pain_log", "axis_favs", "axis_favorite_tracks"];
+let _axisSyncTimer = null;
+let _axisSyncUid = null;
+let _axisSyncPulling = false;
+// ─────────────────────────────────────────────────────────────────────────────
+
 function storageGet(key, def) {
   try {const v = localStorage.getItem(key);return v !== null ? JSON.parse(v) : def;} catch (e) {return def;}
 }
@@ -1119,6 +1140,7 @@ function storageSet(key, val) {
     if (axisIsCapacitorNative()) {
       loadAxisNativeModule().then((m) => m && typeof m.prefsSet === "function" && m.prefsSet(key, raw)).catch(() => {});
     }
+    if (!_axisSyncPulling && AXIS_SYNC_KEYS.includes(key)) axisSyncSchedulePush();
   } catch (e) {}
 }
 function storageRemove(key) {
@@ -1177,6 +1199,7 @@ function axisAuthCapabilitiesAvailable() {
 }
 
 function axisClearNativeAuthSession() {
+  axisSyncOnLogout();
   try {
     if (typeof window !== "undefined") window.AXIS_nativeAuthUser = null;
   } catch (_e) {}
@@ -5053,11 +5076,9 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
   // Interval idle: fixed gap below ring and above START (matches TIMER_IDLE_VERTICAL_GAP on mid block)
   const TIMER_BTN_SPACER_ABOVE_INTERVAL_IDLE = { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: TIMER_IDLE_VERTICAL_GAP + 14, width: "100%" };
   const TIMER_BTN_SPACER_BELOW_INTERVAL_IDLE = { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: 12, width: "100%" };
-  // Breathe idle: match Interval — same gap (ring↔pattern/cycles ↔ START)
-  const TIMER_BTN_SPACER_ABOVE_BREATHE_IDLE = { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: TIMER_IDLE_VERTICAL_GAP + 14, width: "100%" };
   const TIMER_BTN_ROW = { flexShrink: 0, display: "flex", flexDirection: "row", flexWrap: "nowrap", gap: 10, width: "100%", justifyContent: "center", alignItems: "center", boxSizing: "border-box", paddingTop: 6, paddingBottom: 4, maxWidth: 380, marginTop: 28 };
   const TIMER_BTN_ROW_IDLE = { ...TIMER_BTN_ROW };
-  const TIMER_BTN_ROW_BREATHE_IDLE = { ...TIMER_BTN_ROW, marginTop: 14, paddingTop: 0, marginBottom: 0, flexShrink: 0 };
+  const TIMER_BTN_ROW_BREATHE_IDLE = { ...TIMER_BTN_ROW, paddingTop: 0, marginBottom: 0, flexShrink: 0 };
 
   const timerFlatCss = `
   .timer-view-body,
@@ -5622,6 +5643,23 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     align-items: center;
     box-sizing: border-box;
   }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-idle-top,
+  .timer-view-body .timer-interval-idle-column .timer-interval-idle-top {
+    position: relative;
+    height: 88px;
+    min-height: 88px;
+    max-height: 88px;
+  }
+  .timer-view-body .timer-interval-idle-column .timer-interval-idle-top {
+    height: 74px;
+    min-height: 74px;
+    max-height: 74px;
+  }
+  .timer-view-body .timer-breathe-content--idle .timer-breathe-idle-top {
+    height: 58px;
+    min-height: 58px;
+    max-height: 58px;
+  }
   .timer-view-body .timer-breathe-cycles-slot,
   .timer-view-body .timer-interval-rounds-slot {
     flex: 1 1 auto;
@@ -5632,6 +5670,14 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     justify-content: center;
     padding: 4px 0;
     box-sizing: border-box;
+  }
+  .timer-view-body .timer-interval-rounds-slot {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 0;
+  }
+  .timer-view-body .timer-interval-start-row {
+    margin-top: 14px;
   }
   .timer-view-body .timer-breathe-idle-column .timer-cta-row,
   .timer-view-body .timer-interval-idle-column .timer-cta-row {
@@ -5774,7 +5820,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
-    scroll-snap-align: center;
+    scroll-snap-align: start;
     scroll-snap-stop: always;
     border-radius: 14px;
     padding: 12px;
@@ -5882,7 +5928,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
   .timer-view-body .timer-breathe-content--idle .timer-breathe-idle-column {
     position: relative;
     z-index: 20;
-    margin-top: 0 !important;
+    margin-top: ${TIMER_IDLE_VERTICAL_GAP}px !important;
     padding-bottom: 16px;
     transform: none;
     box-sizing: border-box;
@@ -6407,7 +6453,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     React.createElement("div", { style: TIMER_BTN_SPACER_ABOVE, "aria-hidden": true }),
     React.createElement("div", { className: "timer-cta-row timer-interval-active-cta", style: TIMER_BTN_ROW_IDLE }, /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: () => {axisHapticTick();setIRunning((r) => !r);}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta", style: BTN }, iRunning ? "Pause" : "Resume"), /*#__PURE__*/
-    React.createElement("button", { type: "button", onClick: () => {axisHapticTick();iReset();}, className: "timer-glass-btn-ghost", style: BTN_GHOST }, "Reset")
+    React.createElement("button", { type: "button", onClick: () => {axisHapticTick();iReset();}, className: "timer-glass-btn-ghost", style: BTN_GHOST }, "End")
     )
     ),
     iPhase === "done" && /*#__PURE__*/
@@ -6589,7 +6635,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     React.createElement("div", { style: TIMER_BTN_SPACER_ABOVE, "aria-hidden": true }),
     React.createElement("div", { className: "timer-cta-row timer-breathe-active-cta", style: TIMER_BTN_ROW_IDLE }, /*#__PURE__*/
     React.createElement("button", { type: "button", onClick: () => {if (breatheUiState === "countdown") {axisHapticTick();bReset();} else {axisHapticTick();if (bRunning) {setBPaused(true);setBRunning(false);} else {setBPaused(false);setBRunning(true);}}}, className: "timer-glass-btn-pri ultra-filled-btn timer-start-cta", style: BTN }, breatheUiState === "countdown" ? "Pause" : bRunning ? "Pause" : "Resume"), /*#__PURE__*/
-    React.createElement("button", { type: "button", onClick: () => {axisHapticTick();bReset();}, className: "timer-glass-btn-ghost", style: BTN_GHOST }, "Reset")
+    React.createElement("button", { type: "button", onClick: () => {axisHapticTick();bReset();}, className: "timer-glass-btn-ghost", style: BTN_GHOST }, "End")
     )
     ),
     breatheUiState === "done" && /*#__PURE__*/React.createElement("div", { style: { flexShrink: 0, width: "100%", minHeight: TIMER_PHASE_BAND, boxSizing: "border-box" }, "aria-hidden": true }),
@@ -6631,8 +6677,10 @@ function SettingsAccountRows() {
           if (u.uid) localStorage.setItem("axis_auth_uid", String(u.uid));
           if (u.email) localStorage.setItem("axis_auth_email", String(u.email));
         } catch (e) {}
+        if (u.uid) axisSyncOnLogin(String(u.uid)).catch(() => {});
       } else if (!axisAuthHasSession()) {
         setUser(null);
+        axisSyncOnLogout();
       }
       setReady(true);
     });
@@ -6970,7 +7018,7 @@ async function axisConnectAppleHealth() {
   return { ok: true, message, weights: imported.length, steps, imported };
 }
 
-/** Native bridge: request HealthKit read access (steps + weight). */
+/** Native bridge: request HealthKit read access (steps + weight) and optional workout write access. */
 async function axisHealthRequestReadPermissions() {
   try {
     const m = await axisHealthNativeModule();
@@ -6984,6 +7032,38 @@ async function axisHealthRequestReadPermissions() {
     return { granted: false, reason: e && e.message ? e.message : String(e) };
   }
   return { granted: false, reason: "unavailable" };
+}
+
+/** Native bridge: request Apple Health permission to save completed AXIS workouts. */
+async function axisHealthRequestWorkoutPermissionsNative() {
+  try {
+    const m = await axisHealthNativeModule();
+    if (m && typeof m.healthRequestPermissions === "function") {
+      return await m.healthRequestPermissions({ read: [], write: ["workout"] });
+    }
+    if (typeof window.axisHealthRequestPermissions === "function") {
+      return await window.axisHealthRequestPermissions({ read: [], write: ["workout"] });
+    }
+  } catch (e) {
+    return { granted: false, reason: e && e.message ? e.message : String(e) };
+  }
+  return { granted: false, reason: "unavailable" };
+}
+
+/** Native bridge: save a completed AXIS session as an Apple Health workout. */
+async function axisHealthSaveWorkoutNative({ title, startDate, endDate } = {}) {
+  try {
+    const m = await axisHealthNativeModule();
+    if (m && typeof m.healthSaveWorkout === "function") {
+      return await m.healthSaveWorkout({ title, startDate, endDate });
+    }
+    if (typeof window.axisSaveHealthWorkout === "function") {
+      return await window.axisSaveHealthWorkout({ title, startDate, endDate });
+    }
+  } catch (e) {
+    return { saved: false, reason: e && e.message ? e.message : String(e) };
+  }
+  return { saved: false, reason: "unavailable" };
 }
 
 /** Native bridge: weight samples from Apple Health. */
@@ -7876,6 +7956,8 @@ export {
   axisHealthFetchTodayStepsNative,
   axisHealthFetchWeightSamplesNative,
   axisHealthRequestReadPermissions,
+  axisHealthRequestWorkoutPermissionsNative,
+  axisHealthSaveWorkoutNative,
   axisHistoryForDailyTotals,
   axisLatestHistoryEntryForTrack,
   axisLatestHistoryEntryGlobal,
@@ -8125,7 +8207,7 @@ function axisBootstrapRenderApp() {
   try {
     if (typeof location !== "undefined" && !/[?&]noboard=1(?:&|$)/.test(String(location.search || ""))) {
       axisMigrateOnboardingLegacy();
-      // Capacitor WKWebView: skip web onboarding redirect (Babel-onboarding is unreliable in the native shell).
+      // Capacitor WKWebView: skip web onboarding redirect; native login should enter the app shell directly.
       if (!axisIsCapacitorNative() && !axisLocalOnboardingComplete()) {
         let ob = "./onboarding";
         try {
@@ -8165,6 +8247,118 @@ function axisBootstrapRenderApp() {
   }
 }
 
+// ── AXIS CLOUD SYNC ───────────────────────────────────────────────────────────
+// Uses Supabase REST (no SDK) — URL + anon key come from window.AXIS_SUPABASE_*.
+// Table: public.user_sync — one row per uid, upserted on every mutation to the
+// four tracked keys. On login, remote state is pulled and merged before pushing.
+
+function _axisSbHeaders() {
+  const key = (typeof window !== "undefined" && window.AXIS_SUPABASE_ANON_KEY) || "";
+  return { apikey: key, Authorization: "Bearer " + key, "Content-Type": "application/json" };
+}
+function _axisSbUrl(path) {
+  const base = ((typeof window !== "undefined" && window.AXIS_SUPABASE_URL) || "").replace(/\/$/, "");
+  return base + path;
+}
+
+async function axisSyncPush(uid) {
+  if (!uid) return;
+  const url = _axisSbUrl("/rest/v1/user_sync");
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { ..._axisSbHeaders(), Prefer: "resolution=merge-duplicates,return=minimal" },
+      body: JSON.stringify({
+        user_id: uid,
+        history: storageGet("axis_history", []),
+        pain_log: storageGet("axis_pain_log", []),
+        favs: storageGet("axis_favs", {}),
+        favorite_tracks: storageGet("axis_favorite_tracks", []),
+        synced_at: new Date().toISOString(),
+      }),
+    });
+  } catch (_e) {}
+}
+
+async function axisSyncPull(uid) {
+  if (!uid) return;
+  const url = _axisSbUrl("/rest/v1/user_sync?user_id=eq." + encodeURIComponent(uid) + "&limit=1");
+  let remote;
+  try {
+    const res = await fetch(url, { method: "GET", headers: _axisSbHeaders(), cache: "no-store" });
+    if (!res.ok) return;
+    const rows = await res.json();
+    if (!Array.isArray(rows) || rows.length === 0) return;
+    remote = rows[0];
+  } catch (_e) { return; }
+
+  _axisSyncPulling = true;
+  try {
+    // history — concat + dedup by loggedAt, newest first
+    const remoteHistory = Array.isArray(remote.history) ? remote.history : [];
+    if (remoteHistory.length > 0) {
+      const local = storageGet("axis_history", []);
+      const byKey = new Map();
+      for (const e of [...local, ...remoteHistory]) {
+        const k = e.loggedAt != null ? String(e.loggedAt) : (e.date ? String(e.date) : JSON.stringify(e));
+        byKey.set(k, e);
+      }
+      storageSet("axis_history",
+        Array.from(byKey.values()).sort((a, b) => Number(b.loggedAt || 0) - Number(a.loggedAt || 0))
+      );
+    }
+
+    // pain_log — concat + dedup by ts, newest first
+    const remotePain = Array.isArray(remote.pain_log) ? remote.pain_log : [];
+    if (remotePain.length > 0) {
+      const local = storageGet("axis_pain_log", []);
+      const byTs = new Map();
+      for (const e of [...local, ...remotePain]) byTs.set(String(e.ts ?? JSON.stringify(e)), e);
+      storageSet("axis_pain_log",
+        Array.from(byTs.values()).sort((a, b) => Number(b.ts || 0) - Number(a.ts || 0))
+      );
+    }
+
+    // favs — union object, remote wins on conflict
+    const remoteFavs = remote.favs && typeof remote.favs === "object" && !Array.isArray(remote.favs) ? remote.favs : {};
+    if (Object.keys(remoteFavs).length > 0) {
+      storageSet("axis_favs", { ...storageGet("axis_favs", {}), ...remoteFavs });
+    }
+
+    // favorite_tracks — array union, deduplicated
+    const remoteTracks = Array.isArray(remote.favorite_tracks) ? remote.favorite_tracks : [];
+    if (remoteTracks.length > 0) {
+      storageSet("axis_favorite_tracks", [...new Set([...storageGet("axis_favorite_tracks", []), ...remoteTracks])]);
+    }
+  } finally {
+    _axisSyncPulling = false;
+  }
+}
+
+function axisSyncSchedulePush() {
+  const uid = _axisSyncUid || axisActiveUidForStorage();
+  if (!uid) return;
+  _axisSyncUid = uid;
+  if (_axisSyncTimer) clearTimeout(_axisSyncTimer);
+  _axisSyncTimer = setTimeout(() => {
+    _axisSyncTimer = null;
+    axisSyncPush(_axisSyncUid).catch(() => {});
+  }, 2000);
+}
+
+async function axisSyncOnLogin(uid) {
+  if (!uid) return;
+  _axisSyncUid = uid;
+  await axisSyncPull(uid);
+  await axisSyncPush(uid);
+}
+
+function axisSyncOnLogout() {
+  _axisSyncUid = null;
+  if (_axisSyncTimer) { clearTimeout(_axisSyncTimer); _axisSyncTimer = null; }
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function bootstrapAxisApp() {
   window.__AXIS_DATA_LOAD_ERROR = "";
   axisHydrateNativeAuthFromStorage();
@@ -8172,6 +8366,11 @@ function bootstrapAxisApp() {
   axisNativeHideSplashFallback();
   axisBootstrapRenderApp();
   axisNativeShellInit().catch(() => {}).finally(() => axisNativeHideSplashFallback());
+  // Pull remote state for users who were already signed in before this launch
+  setTimeout(() => {
+    const uid = axisActiveUidForStorage();
+    if (uid) axisSyncOnLogin(uid).catch(() => {});
+  }, 1500);
 }
 bootstrapAxisApp();
   

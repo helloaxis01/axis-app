@@ -5,6 +5,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const { execSync } = require("child_process");
 
 const root = path.resolve(__dirname, "..");
@@ -56,11 +57,25 @@ function resolveBuildId() {
     return String(fromEnv).trim().slice(0, 12);
   }
   try {
-    return execSync("git rev-parse --short HEAD", {
+    const base = execSync("git rev-parse --short HEAD", {
       cwd: root,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
     }).trim();
+    const dirtyDiff = execSync(
+      "git diff -- public_web scripts package.json ios android",
+      {
+        cwd: root,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+        maxBuffer: 1024 * 1024 * 20,
+      }
+    );
+    if (dirtyDiff && dirtyDiff.trim()) {
+      const dirtyHash = crypto.createHash("sha1").update(dirtyDiff).digest("hex").slice(0, 7);
+      return `${base}-${dirtyHash}`;
+    }
+    return base;
   } catch (e) {
     return Date.now().toString(36);
   }
@@ -168,7 +183,7 @@ function main() {
   indexHtml = stampModuleAppJs(indexHtml, buildId);
   indexHtml = stampStylesheetHref(indexHtml, "app.css", buildId);
   indexHtml = stampScriptSrc(indexHtml, "auth-bundle.js", buildId);
-  indexHtml = stampScriptSrc(indexHtml, "axis_data.js", buildId);
+  indexHtml = stampScriptSrc(indexHtml, "axis_data_runtime.js", buildId);
   indexHtml = stampManifestHref(indexHtml, buildId);
   indexHtml = ensureBuildScripts(indexHtml, buildId);
   fs.writeFileSync(indexPath, indexHtml, "utf8");

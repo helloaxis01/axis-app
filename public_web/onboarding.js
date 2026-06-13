@@ -141,9 +141,7 @@ const obCss = `
     backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
   }
-  .ob-benefit--list-recommended {
-    border-left: 2px solid var(--mood-color, var(--ob-accent));
-  }
+  .ob-benefit--list-recommended {}
   .ob-benefit--guided-secondary {
     background: rgba(255,255,255,0.055);
     border-color: rgba(255,255,255,0.10);
@@ -509,7 +507,7 @@ const obCss = `
     color: #252525 !important;
     -webkit-text-fill-color: #252525 !important;
   }
-  /* LIST/GUIDED + tab rows: same Inter body scale as .ob-body (14/400/1.7); titles 14/700 */
+  /* Track option + tab rows: same Inter body scale as .ob-body (14/400/1.7); titles 14/700 */
   .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card-label,
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
@@ -572,13 +570,11 @@ const obCss = `
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-card {
     background: rgba(37, 37, 37, 0.04) !important;
     border: 1px solid rgba(37, 37, 37, 0.16) !important;
-    border-left: 3px solid var(--ob-accent) !important;
     border-radius: 14px !important;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-upper-bar .ob-upper-bar-demo {
     background: rgba(37, 37, 37, 0.04) !important;
     border: 1px solid rgba(37, 37, 37, 0.16) !important;
-    border-left: 1px solid rgba(37, 37, 37, 0.16) !important;
     border-radius: 14px !important;
   }
   .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-icon {
@@ -855,7 +851,7 @@ function Onboarding({ theme, onComplete }) {
   const [cur, setCur] = useState(0);
   const [visible, setVisible] = useState(true);
   const [direction, setDirection] = useState(1);
-  const total = 12; // Intro…Safety, Appearance, LIST & GUIDED, Lower Tab Menu, Upper Bar, Ultra, Launch
+  const total = 12; // Intro…Science, Safety, Appearance, Track Options, Lower Tab Menu, Upper Bar, Ultra, Launch
   const [disclaimerName, setDisclaimerName] = useState("");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
   const [disclaimerWarning, setDisclaimerWarning] = useState(false);
@@ -882,9 +878,6 @@ function Onboarding({ theme, onComplete }) {
   const [obPeriod, setObPeriod] = useState(null); // null = none selected; first mood user picks lights up
   const [obTheme, setObTheme] = useState(theme || "dark");
   const [obAutoTime, setObAutoTime] = useState(false); // false = user picks mood/color; true = set and forget (follow time of day)
-  const [obReason, setObReason] = useState(null); // "tightness" | "stress" | "routine" for calibration / Start here
-  const [obArea, setObArea] = useState(null); // back / neck / hips / knees / feet / general
-  const [obTime, setObTime] = useState(null); // 5 | 10 | 15 | 20 (minutes) for calibration
   const [hasChosenMood, setHasChosenMood] = useState(false); // Grey until user picks a mood on Appearance
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedAppIcon, setSelectedAppIcon] = useState(() => {
@@ -1038,7 +1031,7 @@ function Onboarding({ theme, onComplete }) {
 
   /* Background save to Supabase once name + disclaimer are complete (check box and/or before Accept). Does not navigate. */
   useEffect(() => {
-    if (cur !== 5) return;
+    if (cur !== 6) return;
     const name = disclaimerName.trim();
     if (!name || !disclaimerChecked || consentPersistedRef.current) return;
     consentPersistedRef.current = true;
@@ -1057,6 +1050,10 @@ function Onboarding({ theme, onComplete }) {
   const doLaunch = () => {
     const selectedMoodPeriod = selectedMood && selectedMood.id ? mapMoodIdToPeriod(selectedMood.id) : null;
     const launchPeriod = obAutoTime ? null : (obPeriod ?? selectedMoodPeriod ?? getCircadianPeriod());
+    try {
+      sessionStorage.setItem("axis_ob_visual_handoff", "1");
+      sessionStorage.setItem("axis_boot_home", "1");
+    } catch (e) {}
     storageSet("axis_period", launchPeriod);
     try {
       if (obAutoTime) localStorage.setItem("selectedMood", "auto");
@@ -1070,10 +1067,6 @@ function Onboarding({ theme, onComplete }) {
     } catch (e) {}
     try { localStorage.setItem("hasCompletedOnboarding", "true"); } catch (e) {}
     onComplete({ period: launchPeriod || getCircadianPeriod(), theme: obTheme });
-    try {
-      sessionStorage.setItem("axis_ob_visual_handoff", "1");
-      sessionStorage.setItem("axis_boot_home", "1");
-    } catch (e) {}
     const el = typeof document !== "undefined" ? (document.querySelector(".ob-wrap") || document.body) : null;
     if (el) {
       el.style.transition = "opacity 300ms ease";
@@ -1332,15 +1325,21 @@ function Onboarding({ theme, onComplete }) {
       <div
         style={{
           padding: "16px",
-          borderRadius: 14,
-          border: isLight ? "1px solid rgba(37,37,37,0.16)" : `1px solid ${accent}55`,
-          background: isLight ? "rgba(37,37,37,0.04)" : `rgba(${hexToRgb(accent)}, 0.05)`,
-          borderLeft: `3px solid ${accent}`,
-          marginBottom: 10
+          borderRadius: 16,
+          border: isLight ? "1px solid rgba(37,37,37,0.14)" : `1px solid rgba(${hexToRgb(accent)}, 0.28)`,
+          background: isLight
+            ? "rgba(255,255,255,0.46)"
+            : `linear-gradient(145deg, rgba(${hexToRgb(accent)}, 0.08), rgba(255,255,255,0.035))`,
+          marginBottom: 10,
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)"
         }}
       >
-        <div className="ob-mode-card-label" style={{ marginBottom: 6 }}>
-          {label}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 6 }}>
+          <div className="ob-mode-card-label" style={{ marginBottom: 0 }}>
+            {label}
+          </div>
         </div>
         <div className="ob-mode-card-desc">
           {desc}
@@ -1390,18 +1389,6 @@ function Onboarding({ theme, onComplete }) {
         >
         {cur === 0 && (
           <div className="ob-screen ob-intro-hero" style={{ position: "relative" }}>
-            <div style={{
-              position: "absolute",
-              top: "calc(env(safe-area-inset-top, 0px) + 14px)",
-              right: 18,
-              fontFamily: 'var(--font-meta), "Roboto Mono", ui-monospace, monospace',
-              fontSize: 10,
-              fontWeight: 500,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "var(--ob-text-sec)",
-              opacity: 0.72,
-            }}>OB-mp4ea8nk</div>
             <div className="ob-intro-hero__inner">
               <h1 className="ob-intro-hero__wordmark">AXIS</h1>
               <p className="ob-intro-hero__sub">X MOVE X MEND X MAINTAIN X</p>
@@ -1454,12 +1441,12 @@ function Onboarding({ theme, onComplete }) {
                 <div className="ob-eyebrow">The Science</div>
                 <div className="ob-heading">Motion is needed for your body to repair.</div>
                 <div className="ob-body" style={{ marginBottom: 0 }}>
-                  Exercise therapy beats pills and passive fixes for chronic pain.
+                  Consistent therapeutic movement can support pain reduction, better function, and more confidence in your body.
                 </div>
                 <div className="ob-eyebrow">The Method</div>
                 <div className="ob-heading">One session. Total reset.</div>
                 <div className="ob-body" style={{ marginBottom: 0 }}>
-                  8 minute morning boost or evening deep release. AXIS fits your day. We handle the cues so you can stay in the flow.
+                  Quick resets or deeper sessions. AXIS fits your day. We handle the cues so you can stay in the flow.
                 </div>
               </div>
             </div>
@@ -1472,7 +1459,7 @@ function Onboarding({ theme, onComplete }) {
               <div className="ob-eyebrow">The Ethics</div>
               <div className="ob-heading">Your data is your data.</div>
               <div className="ob-body" style={{marginBottom:28}}>
-                We only ask you to sign a medical disclaimer and create an account. We don&apos;t ask for your age. We don&apos;t ask for your weight. Your info is your info. We only take what&apos;s necessary. No tracking. No BS. Your data stays on your device.
+                We only ask for what the app needs: your safety acknowledgment and a few preferences to shape your first session. We don&apos;t ask for your age. We don&apos;t ask for your weight. No ads. No behavioral tracking. If you create an account, your saved sessions and bookmarks can sync across your devices.
               </div>
               </div>
             </div>
@@ -1622,29 +1609,30 @@ function Onboarding({ theme, onComplete }) {
             </div>
           </div>}
 
-          {/* 8: LIST & GUIDED — session modes */}
+          {/* 8: SESSION OPTIONS — mirrors track entry cards */}
           {cur === 7 && <div className="ob-screen ob-content-only ob-screen-session-modes">
             <div className="ob-screen-body" style={{ position: "relative", zIndex: 10 }}>
               <div className="ob-pad">
-                <Tag accent={accent}>SESSION MODES</Tag>
-                <div className="ob-heading">LIST vs GUIDED</div>
+                <Tag accent={accent}>TRACK OPTIONS</Tag>
+                <div className="ob-heading">Choose how to move.</div>
                 <div className="ob-body" style={{ marginBottom: 22 }}>
-                  On the sessions tab you pick how you want to move: browse on your own, or follow a timed flow.
+                  Every track gives you two ways in. Start the timed flow, or scroll the exercise list and move at your own pace.
                 </div>
                 <div className="ob-mode-cards">
                   <ModeCard
                     accent={accent}
-                    label="LIST"
-                    desc="Self-paced. Scroll the exercise list, set each move (e.g. 30 to 60s), skip freely, and control your own pace. Great when you want flexibility or a quick pick-up."
+                    label="GUIDED SESSION"
+                    desc="Hands-free. Auto-timed. Rest included. You can adjust how long each move lasts from Settings."
                   />
+                  <div style={{ textAlign: "center", fontFamily: "var(--font-meta)", fontSize: 10, letterSpacing: "0.18em", color: "var(--ob-text-sec)", margin: "2px 0 10px" }}>OR</div>
                   <ModeCard
                     accent={accent}
-                    label="GUIDED"
-                    desc="Hands-free. Auto-timed. Rest for :15 between moves."
+                    label="GO AT YOUR OWN PACE"
+                    desc="Pick moves. Control speed. Your timing. Scroll the exercise list, expand instructions, skip, bookmark, and check moves off as you go."
                   />
                 </div>
                 <div className="ob-body" style={{ marginTop: 18 }}>
-                  Switch LIST / GUIDED from the session header whenever you like.
+                  You can switch approach every time you open a track.
                 </div>
               </div>
             </div>
@@ -1675,7 +1663,6 @@ function Onboarding({ theme, onComplete }) {
                         borderRadius: 14,
                         border: obTheme === "light" ? "1px solid rgba(37,37,37,0.16)" : `1px solid ${accent}55`,
                         background: obTheme === "light" ? "rgba(37,37,37,0.04)" : `rgba(${hexToRgb(accent)}, 0.05)`,
-                        borderLeft: `3px solid ${accent}`,
                         marginBottom: 10,
                         alignItems: "flex-start",
                         gap: 12
@@ -1722,7 +1709,6 @@ function Onboarding({ theme, onComplete }) {
                     borderRadius: 14,
                     border: obTheme === "light" ? "1px solid rgba(37,37,37,0.16)" : `1px solid ${accent}55`,
                     background: obTheme === "light" ? "rgba(37,37,37,0.04)" : `rgba(${hexToRgb(accent)}, 0.05)`,
-                    borderLeft: `3px solid ${accent}`
                   }}
                 >
                   <div className="ob-upper-bar-demo__row">
@@ -1778,7 +1764,7 @@ function Onboarding({ theme, onComplete }) {
       </div>
 
       <div className="ob-ext-nav">
-        {["Intro","Perspective","Foundation","Science · Method","Ethics","Safety","Appearance","LIST & GUIDED","The Lower Tab Menu","The Upper Bar","Ultra Mode","Launch"].map((l, i) => (
+        {["Intro","Perspective","Foundation","Science · Method","Ethics","Safety","Appearance","Track Options","The Lower Tab Menu","The Upper Bar","Ultra Mode","Launch"].map((l, i) => (
           <button key={l} className="ob-en-btn" onClick={() => go(i)}>{l}</button>
         ))}
         <button className="ob-en-btn" style={{ borderColor: "#FFBF65", color: "#FFBF65" }} onClick={() => go(11)}>→ Launch Screen</button>

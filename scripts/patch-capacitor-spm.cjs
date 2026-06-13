@@ -116,6 +116,7 @@ const patches = [
     methods: [
       "requestAuthorization",
       "queryHKitSampleType",
+      "saveWorkout",
       "isAvailable",
       "multipleQueryHKitSampleType",
       "isEditionAuthorized",

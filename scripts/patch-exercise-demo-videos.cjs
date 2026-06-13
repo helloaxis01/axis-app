@@ -9,6 +9,7 @@ const path = require("path");
 const root = path.join(__dirname, "..");
 const jsonPath = path.join(root, "public_web", "axis_data.json");
 const jsPath = path.join(root, "public_web", "axis_data.js");
+const runtimeJsPath = path.join(root, "public_web", "axis_data_runtime.js");
 const videosDir = path.join(root, "Videos");
 
 /** Exercise display name (exact match) → asset folder + filename */
@@ -150,6 +151,7 @@ function patchTracks(tracks) {
 function writeAxisDataJs(data) {
   const body = "window.AXIS_JSON = " + JSON.stringify(data, null, 2) + ";\n";
   fs.writeFileSync(jsPath, body, "utf8");
+  fs.writeFileSync(runtimeJsPath, body, "utf8");
 }
 
 const { copied, skipped } = copyVideoAssets();

@@ -25,7 +25,7 @@
 	<key>NSHealthShareUsageDescription</key>
 	<string>AXIS can read your steps and weight from Apple Health to show progress on the Metrics screen.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>AXIS does not write health data. This permission is required by Apple Health for read access.</string>
+	<string>AXIS can save completed mobility sessions as Apple Health workouts so they can contribute to your Activity rings.</string>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>AXIS can send a daily reminder when it's time for your practice.</string>
 	<key>UILaunchStoryboardName</key>

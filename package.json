@@ -4,7 +4,7 @@
   "private": true,
   "description": "AXIS web shell (public_web). Vercel: npm run build → public_web. Native: npm run cap:sync.",
   "scripts": {
-    "build": "node scripts/stamp-build.cjs && node scripts/patch-exercise-demo-videos.cjs && node scripts/verify-inline-syntax.cjs",
+    "build": "node scripts/stamp-build.cjs && node scripts/patch-exercise-demo-videos.cjs && node scripts/copy-public-runtime.cjs && node scripts/compile-onboarding.cjs && node scripts/verify-inline-syntax.cjs",
     "stamp": "node scripts/stamp-build.cjs",
     "bump-cache": "node scripts/bump-cache.cjs",
     "verify": "node scripts/verify-inline-syntax.cjs",

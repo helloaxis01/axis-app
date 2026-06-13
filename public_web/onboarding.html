@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: mparjodw -->
-<html lang="en" data-axis-ob-live="mparjodw">
+<!-- AXIS onboarding source of truth for this repo: public_web/onboarding.html (deploy this file next to index.html). onboard-build: obintake1 -->
+<html lang="en" data-axis-ob-live="obintake1">
 <head>
   <meta charset="UTF-8" />
-  <script>window.AXIS_ONBOARD_BUILD="mparjodw";</script>
+  <script>window.AXIS_ONBOARD_BUILD="obintake1";</script>
   <!-- Force fresh URL once per bump; bump string with onboarding.js/css/material changes (keep in sync with index.html login.html axis_ob). -->
-  <script>(function(){var V='mparjodw';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
+  <script>(function(){var V='obintake1';try{var u=new URL(window.location.href);if(u.searchParams.get('axis_ob')!==V){u.searchParams.set('axis_ob',V);location.replace(u.href);}}catch(e){}})();</script>
   <!-- Root base: pretty URL /onboarding/ otherwise resolves ./onboarding.css → /onboarding/onboarding.css (404) -->
   <base id="axis-ob-base" href="/" />
   <script>(function(){try{if(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform()){var b=document.getElementById("axis-ob-base");if(b)b.setAttribute("href","./");}}catch(e){}})();</script>
@@ -17,12 +17,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="icon" href="/axis-icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" type="image/png" href="/axis-icon.png" sizes="180x180" />
-  <title>AXIS · Onboarding OB-mparjodw</title>
+  <title>AXIS · Onboarding OB-obintake1</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/onboarding.css?v=mparjodw" />
-  <script src="./axis_data.js"></script>
+  <link rel="stylesheet" href="/onboarding.css?v=obintake1" />
+  <script src="./axis_data_runtime.js"></script>
   <style>
  
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -366,13 +366,9 @@ body { font-family: var(--font-ui), sans-serif !important; }
   .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card {
     background: rgba(255, 255, 255, 0.03) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-left: 2px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 12px !important;
     padding: 14px 14px 14px 12px !important;
     box-sizing: border-box !important;
-  }
-  .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card--list {
-    border-left-color: var(--ob-accent) !important;
   }
   .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-title {
     font-family: var(--font-display), "Inter", system-ui, sans-serif !important;
@@ -392,14 +388,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card {
     background: rgba(0, 0, 0, 0.03) !important;
     border-color: rgba(0, 0, 0, 0.1) !important;
-    border-left-color: rgba(0, 0, 0, 0.14) !important;
-  }
-  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card--list,
-  .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card--guided {
-    border-left-color: color-mix(in srgb, var(--ob-accent) 70%, rgba(0, 0, 0, 0.18)) !important;
-  }
-  .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-card--guided {
-    border-left-color: var(--ob-accent) !important;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-session-modes .ob-mode-title {
     color: rgba(29, 29, 31, 0.9) !important;
@@ -419,7 +407,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
     align-items: flex-start !important;
     gap: 12px !important;
     border: 1px solid color-mix(in srgb, var(--ob-accent) 34%, transparent) !important;
-    border-left: 3px solid var(--ob-accent) !important;
     border-radius: 14px !important;
     padding: 16px !important;
     background: color-mix(in srgb, var(--ob-accent) 8%, transparent) !important;
@@ -464,7 +451,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-card {
     border: 1px solid rgba(37, 37, 37, 0.16) !important;
-    border-left: 3px solid var(--ob-accent) !important;
     background: rgba(37, 37, 37, 0.04) !important;
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-content-only.ob-screen-tab-guide .ob-tab-guide-title {
@@ -492,7 +478,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
   }
   .ob-wrap[data-theme="light"] .ob-screen.ob-screen-upper-bar .ob-upper-bar-demo {
     border: 1px solid rgba(37, 37, 37, 0.16) !important;
-    border-left: 3px solid var(--ob-accent) !important;
     background: rgba(37, 37, 37, 0.04) !important;
   }
   .ob-upper-bar-demo__row {
@@ -1246,7 +1231,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .ob-benefit--list-recommended {
-    border-left: 2px solid var(--mood-color, var(--ob-accent));
   }
   .ob-benefit--guided-secondary {
     background: rgba(255,255,255,0.055);
@@ -1587,7 +1571,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .ob-benefit--list-recommended {
-    border-left: 2px solid var(--mood-color, var(--ob-accent));
   }
   .ob-benefit--guided-secondary {
     background: rgba(255,255,255,0.055);
@@ -1838,7 +1821,7 @@ body { font-family: var(--font-ui), sans-serif !important; }
   </style>
 </head>
 <body>
-  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-mparjodw -->
+  <!-- Served file must live at public_web/onboarding.html · build-marker:AXIS-OB-obintake1 -->
   <div id="root"></div>
   <div id="load-err"></div>
   <script>
@@ -1874,9 +1857,6 @@ body { font-family: var(--font-ui), sans-serif !important; }
       return true;
     };
   </script>
-  <script src="./vendor/react.production.min.js" onerror="showLoadErr('Could not load React. Check your connection and try again.')"></script>
-  <script src="./vendor/react-dom.production.min.js" onerror="showLoadErr('Could not load React DOM. Check your connection and try again.')"></script>
-  <script src="./vendor/babel.min.js" onerror="showLoadErr('Could not load Babel. Check your connection and try again.')"></script>
-  <script type="text/babel" data-presets="react" src="./onboarding.js"></script>
+  <script src="./onboarding.compiled.js?v=obintake1" onerror="showLoadErr('Could not load onboarding. Check your connection and try again.')"></script>
 </body>
 </html>

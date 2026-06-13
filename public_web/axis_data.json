@@ -850,9 +850,9 @@
       "purpose": "Gentle continuous movement for circulation, joint lubrication, and recovery.",
       "sections": [
         {
-          "label": "Full Reset",
-          "tag": "RF",
-          "purpose": "Warm-up, circulation, and mobility. Each movement is 1 minute. This should feel easy, not tiring. Let the body move, not the mind.",
+          "label": "Wake Circulation",
+          "tag": "LF1",
+          "purpose": "Start with light bounce, wave, and arm movement to wake circulation without strain.",
           "exercises": [
             {
               "id": 101,
@@ -986,7 +986,14 @@
               "then": "Move both arms in circles forward 15 times. Make the circles bigger as you go.",
               "tip": "Switch directions. Move both arms in circles backward 15 times.",
               "demoVideo": "/assets/exercise-animations/arm-circles-forward/ArmCirclesForward_Markian_Test.mp4"
-            },
+            }
+          ]
+        },
+        {
+          "label": "Release Tension",
+          "tag": "LF2",
+          "purpose": "Let the upper body go soft before adding bigger rotational patterns.",
+          "exercises": [
             {
               "id": 109,
               "name": "Dead Arms",
@@ -1052,7 +1059,14 @@
               "next": "Bend your knees slightly. Let your chest, head, and arms hang heavy toward the floor.",
               "then": "Shake your upper body gently side to side. Let your back wobble.",
               "tip": "Keep your arms loose. Do not use any muscles to hold yourself up."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Rotate & Mobilize",
+          "tag": "LF3",
+          "purpose": "Use easy torso and hip rotation to restore whole-body rhythm.",
+          "exercises": [
             {
               "id": 104,
               "name": "Trunk Twists",
@@ -1151,7 +1165,14 @@
               "next": "Look straight ahead. Keep your chest and shoulders completely still.",
               "then": "Move your hips to the right, then sweep them to the left in a circle.",
               "tip": "Make the circles bigger as you go. Move only your hips."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Rebuild Flow",
+          "tag": "LF4",
+          "purpose": "Finish with stepping, lower-body pump, chest opening, and gentle wall strength.",
+          "exercises": [
             {
               "id": 113,
               "name": "March Taps",
@@ -1364,9 +1385,9 @@
       "duration": "~22 min",
       "sections": [
         {
-          "label": "Foundation sequence",
-          "tag": "A0",
-          "purpose": "Follow the list in order after cardio or on its own. Reduce reps or range if you are new to a move, and stop if you feel sharp pain, numbness, or dizziness.",
+          "label": "Alignment Prep",
+          "tag": "FR1",
+          "purpose": "Set spinal position, neck alignment, and shoulder mechanics before loading the body.",
           "exercises": [
             {
               "id": 2110,
@@ -1501,7 +1522,14 @@
               "next": "Press your head, upper back, and hips into the wall. Bend your elbows and press the backs of your hands against the wall in a W shape.",
               "then": "Slide your arms slowly up the wall until they form a Y shape above your head. Keep your hands on the wall.",
               "tip": "Slide your arms back down to a W shape. Do 12 slow reps."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Strength Base",
+          "tag": "FR2",
+          "purpose": "Add controlled leg and core work with clear positions and steady pacing.",
+          "exercises": [
             {
               "id": 2114,
               "name": "Box Squats",
@@ -1628,7 +1656,14 @@
               "then": "Keep your hips level with your shoulders. Hold steady breathing.",
               "tip": "Drop to knees for a shorter hold if needed. Quality over duration.",
               "demoVideo": "/assets/exercise-animations/forearm-plank/ForearmPlank_Markian_Test.mp4"
-            },
+            }
+          ]
+        },
+        {
+          "label": "Hip Release",
+          "tag": "FR3",
+          "purpose": "Finish by opening both hips so the reset ends with less compression.",
+          "exercises": [
             {
               "id": "2118-R",
               "name": "Figure Four Stretch - Right",
@@ -1700,9 +1735,9 @@
       "purpose": "Neurological recovery for sleep induction. Gentle positions and slow breathing cue the body toward rest.",
       "sections": [
         {
-          "label": "Better Sleep Stretch",
-          "tag": "Z0",
-          "purpose": "Slow transitions only. These positions support down-regulation after a demanding day. Avoid forcing stretches; use pillows for support.",
+          "label": "Settle the Body",
+          "tag": "NE1",
+          "purpose": "Begin with supported positions that tell the nervous system it can slow down.",
           "exercises": [
             {
               "id": 301,
@@ -1790,7 +1825,14 @@
               "next": "Pull both knees to your chest. Clasp your hands over your shins.",
               "then": "Rock slowly from left to right. Let your lower back press into the floor.",
               "tip": "Move slowly. Let the floor massage your back."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Rotate & Breathe",
+          "tag": "NE2",
+          "purpose": "Finish with gentle spinal rotation and breathing to downshift for sleep.",
+          "exercises": [
             {
               "id": "304-R",
               "name": "Supine Twist - Right Side",
@@ -1899,9 +1941,9 @@
       "purpose": "Six movements to undo an hour of sitting. Stand up. Do it now.",
       "sections": [
         {
-          "label": "The Desk Break",
-          "tag": "X7",
-          "purpose": "Six movements to undo an hour of sitting. Stand up and do it now. Don't wait for a better time.",
+          "label": "Open the Front Line",
+          "tag": "DU1",
+          "purpose": "Reverse the rounded chest and forward-head position that builds during desk work.",
           "exercises": [
             {
               "id": 401,
@@ -1961,7 +2003,14 @@
               "then": "Pull your chin straight back to make a double chin. Hold for 2 seconds. Do 10 times.",
               "tip": "Do not look up or down. Keep your head level.",
               "demoVideo": "/assets/exercise-animations/chin-tucks/ChinTucks_Markian_Test.mp4"
-            },
+            }
+          ]
+        },
+        {
+          "label": "Restore Mid-Back & Hips",
+          "tag": "DU2",
+          "purpose": "Bring rotation back to the thoracic spine and length back to the hip flexors.",
+          "exercises": [
             {
               "id": "403-R",
               "name": "Thoracic Rotations - Right Side",
@@ -2083,7 +2132,14 @@
               "next": "Place your left foot flat on the floor in front of you. Point both hip bones forward. Place your hands on your left thigh.",
               "then": "Lean your hips slowly forward until you feel a pull in your right thigh. Keep your chest up. Hold.",
               "tip": "Do not let your front knee push past your toes. Switch sides."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Hands, Wrists & Neck",
+          "tag": "DU3",
+          "purpose": "Finish with the smaller tissues that take the most repetitive strain.",
+          "exercises": [
             {
               "id": 405,
               "name": "Wrist & Forearm Release",
@@ -2189,9 +2245,9 @@
       "purpose": "Undo the forward pull of screen time. Seven targeted releases for the neck and shoulder girdle.",
       "sections": [
         {
-          "label": "Digital Detox",
-          "tag": "UP",
-          "purpose": "The neck and upper traps absorb everything, hours of screen time, stress, poor posture, shallow breathing. This session undoes it. Move slowly and without urgency. This area responds to patience, not force.",
+          "label": "Cervical Reset",
+          "tag": "TN1",
+          "purpose": "Restore neck position first, then soften the side neck and levator line.",
           "exercises": [
             {
               "id": 501,
@@ -2344,7 +2400,14 @@
               "next": "Turn your head to the right and drop your chin toward your right armpit.",
               "then": "Place your right hand gently on the back of your head. Do not pull. Hold for 30 seconds.",
               "tip": "Let the weight of your hand do the work. Switch sides."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Upper Trap Release",
+          "tag": "TN2",
+          "purpose": "Give the top of the shoulders a dedicated release before larger shoulder work.",
+          "exercises": [
             {
               "id": 504,
               "name": "Upper Trap Release",
@@ -2373,7 +2436,14 @@
               "next": "Sit up tall. Keep your right hand trapped under your hip to hold your shoulder down.",
               "then": "Drop your left ear toward your left shoulder and lean your head slightly forward. Hold for 30 seconds.",
               "tip": "Keep your right shoulder pressed down. Switch sides."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Shoulder & Chest Open",
+          "tag": "TN3",
+          "purpose": "Finish by restoring shoulder blade movement and opening the front body.",
+          "exercises": [
             {
               "id": "505-R",
               "name": "Thread the Needle - Right Side",
@@ -2508,9 +2578,9 @@
       "purpose": "Open the hips, free the lower back, restore the range that sitting steals.",
       "sections": [
         {
-          "label": "Happy Hips",
-          "tag": "LX",
-          "purpose": "The hips are the body's centre of power, and the first thing to tighten from sitting. Restricted hips pull on the lower back, destabilise the knees, and shorten the stride. These holds release the hip flexors, rotators, and adductors. Stay in each position. Let gravity and breath do the work.",
+          "label": "Hip Rotators",
+          "tag": "HF1",
+          "purpose": "Start with deep external-rotation positions on both sides.",
           "exercises": [
             {
               "id": "601-R",
@@ -2577,70 +2647,6 @@
               "tip": "Lean your chest forward over your right leg. Keep your back straight. Switch sides."
             },
             {
-              "id": "602-R",
-              "name": "Kneeling Hip Flexor Stretch - Right Hip",
-              "start": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
-              "sub": "Undo the damage of sitting. Open the front of the hip.",
-              "type": "time",
-              "seconds": 60,
-              "steps": [
-                {
-                  "pos": "A",
-                  "label": "Half Kneel",
-                  "focus": "SETUP",
-                  "cue": "Kneel on right knee, left foot forward. Hips square. Stack left knee over left ankle. Place hands on left thigh."
-                },
-                {
-                  "pos": "B",
-                  "label": "Shift & Tuck",
-                  "focus": "STRETCH",
-                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under. Do not arch the lower back."
-                },
-                {
-                  "pos": "C",
-                  "label": "Arm Reach",
-                  "focus": "DEEPEN",
-                  "cue": "Reach right arm overhead and lean slightly left. This lengthens the hip flexor through the full chain to the ribcage. Hold 60s. Switch sides."
-                }
-              ],
-              "position": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
-              "next": "Place your hands on your left thigh. Point both hip bones straight forward.",
-              "then": "Push your hips forward until you feel a pull in your right thigh. Do not arch your lower back.",
-              "tip": "Reach your right arm up to the ceiling and lean slightly to the left. Hold for 60 seconds. Switch sides."
-            },
-            {
-              "id": "602-L",
-              "name": "Kneeling Hip Flexor Stretch - Left Hip",
-              "start": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
-              "sub": "Undo the damage of sitting. Open the front of the hip.",
-              "type": "time",
-              "seconds": 60,
-              "steps": [
-                {
-                  "pos": "A",
-                  "label": "Half Kneel",
-                  "focus": "SETUP",
-                  "cue": "Kneel on right knee, left foot forward. Hips square. Stack left knee over left ankle. Place hands on left thigh."
-                },
-                {
-                  "pos": "B",
-                  "label": "Shift & Tuck",
-                  "focus": "STRETCH",
-                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under. Do not arch the lower back."
-                },
-                {
-                  "pos": "C",
-                  "label": "Arm Reach",
-                  "focus": "DEEPEN",
-                  "cue": "Reach right arm overhead and lean slightly left. This lengthens the hip flexor through the full chain to the ribcage. Hold 60s. Switch sides."
-                }
-              ],
-              "position": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
-              "next": "Place your hands on your left thigh. Point both hip bones straight forward.",
-              "then": "Push your hips forward until you feel a pull in your right thigh. Do not arch your lower back.",
-              "tip": "Reach your right arm up to the ceiling and lean slightly to the left. Hold for 60 seconds. Switch sides."
-            },
-            {
               "id": "603-R",
               "name": "Pigeon Pose - Right Hip",
               "start": "Start on all fours, hands and knees on the floor.",
@@ -2703,7 +2709,85 @@
               "next": "Slide your right knee forward behind your right hand. Slide your left leg straight back.",
               "then": "Point both hip bones forward toward the floor. Do not let your hips fall to one side.",
               "tip": "Walk your hands forward and lower your chest to the floor. Hold for 90 seconds. Switch sides."
+            }
+          ]
+        },
+        {
+          "label": "Hip Flexor Length",
+          "tag": "HF2",
+          "purpose": "Open the front of both hips to counter sitting and anterior pelvic pull.",
+          "exercises": [
+            {
+              "id": "602-R",
+              "name": "Kneeling Hip Flexor Stretch - Right Hip",
+              "start": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
+              "sub": "Undo the damage of sitting. Open the front of the hip.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Half Kneel",
+                  "focus": "SETUP",
+                  "cue": "Kneel on right knee, left foot forward. Hips square. Stack left knee over left ankle. Place hands on left thigh."
+                },
+                {
+                  "pos": "B",
+                  "label": "Shift & Tuck",
+                  "focus": "STRETCH",
+                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under. Do not arch the lower back."
+                },
+                {
+                  "pos": "C",
+                  "label": "Arm Reach",
+                  "focus": "DEEPEN",
+                  "cue": "Reach right arm overhead and lean slightly left. This lengthens the hip flexor through the full chain to the ribcage. Hold 60s. Switch sides."
+                }
+              ],
+              "position": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
+              "next": "Place your hands on your left thigh. Point both hip bones straight forward.",
+              "then": "Push your hips forward until you feel a pull in your right thigh. Do not arch your lower back.",
+              "tip": "Reach your right arm up to the ceiling and lean slightly to the left. Hold for 60 seconds. Switch sides."
             },
+            {
+              "id": "602-L",
+              "name": "Kneeling Hip Flexor Stretch - Left Hip",
+              "start": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
+              "sub": "Undo the damage of sitting. Open the front of the hip.",
+              "type": "time",
+              "seconds": 60,
+              "steps": [
+                {
+                  "pos": "A",
+                  "label": "Half Kneel",
+                  "focus": "SETUP",
+                  "cue": "Kneel on right knee, left foot forward. Hips square. Stack left knee over left ankle. Place hands on left thigh."
+                },
+                {
+                  "pos": "B",
+                  "label": "Shift & Tuck",
+                  "focus": "STRETCH",
+                  "cue": "Shift hips forward until you feel a deep stretch in the right hip flexor and front of the right thigh. Tuck the pelvis slightly under. Do not arch the lower back."
+                },
+                {
+                  "pos": "C",
+                  "label": "Arm Reach",
+                  "focus": "DEEPEN",
+                  "cue": "Reach right arm overhead and lean slightly left. This lengthens the hip flexor through the full chain to the ribcage. Hold 60s. Switch sides."
+                }
+              ],
+              "position": "Kneel on the floor with your right knee down. Place your left foot flat in front of you.",
+              "next": "Place your hands on your left thigh. Point both hip bones straight forward.",
+              "then": "Push your hips forward until you feel a pull in your right thigh. Do not arch your lower back.",
+              "tip": "Reach your right arm up to the ceiling and lean slightly to the left. Hold for 60 seconds. Switch sides."
+            }
+          ]
+        },
+        {
+          "label": "Supine & Lateral Openers",
+          "tag": "HF3",
+          "purpose": "Finish with gentler supported hip openers and lateral range.",
+          "exercises": [
             {
               "id": "604-R",
               "name": "Supine Figure Four - Right Hip",
@@ -2910,9 +2994,9 @@
       "purpose": "For days when the lower back needs care, not challenge. Gentle traction and release.",
       "sections": [
         {
-          "label": "Lower Back Soother",
-          "tag": "LD",
-          "purpose": "For days when the lower back is tight, achy, or recovering. These movements decompress, not strengthen. Gravity and breath do the work. Nothing here should hurt. If something does, skip it and rest in Child's Pose. This is not the session to push through.",
+          "label": "Decompress & Mobilize",
+          "tag": "LR1",
+          "purpose": "Start on the floor with low-back decompression and small spinal movement.",
           "exercises": [
             {
               "id": 701,
@@ -3011,7 +3095,14 @@
               "then": "EXHALE: Push your back up toward the ceiling. Tuck your chin toward your chest.",
               "tip": "Return to a neutral tabletop with your back flat. Continue for 10 slow cycles.",
               "demoVideo": "/assets/exercise-animations/cat-cow/CatCow_Markian_Test.mp4"
-            },
+            }
+          ]
+        },
+        {
+          "label": "Rotate & Release",
+          "tag": "LR2",
+          "purpose": "Use gentle flexion and rotation to ease lumbar stiffness.",
+          "exercises": [
             {
               "id": 704,
               "name": "Child's Pose",
@@ -3143,7 +3234,14 @@
               "then": "Use your left hand to pull your right knee across your body toward the floor. Look to the right.",
               "tip": "Bring your right knee back to the middle. Switch legs and look to the left. Hold for 60 seconds each side.",
               "demoVideo": "/assets/exercise-animations/reclined-spinal-twist-left/ReclinedSpinalTwist-Left_Markian_Test.mp4"
-            },
+            }
+          ]
+        },
+        {
+          "label": "Downshift",
+          "tag": "LR3",
+          "purpose": "Finish with a supported position that lets the back settle.",
+          "exercises": [
             {
               "id": 707,
               "name": "Legs Up the Wall",
@@ -5424,9 +5522,9 @@
       "purpose": "A guided 7–10 minute flow to restore thoracic mobility and reduce upper back tension.",
       "sections": [
         {
-          "label": "Thoracic Flow",
-          "tag": "XP",
-          "purpose": "A short guided sequence to restore thoracic mobility, reduce upper back tension, and relieve chest/arm referral. Works well before/after sitting or anxious states.",
+          "label": "Thoracic Mobility",
+          "tag": "TC1",
+          "purpose": "Mobilize the mid-back before asking the shoulders and chest to open.",
           "exercises": [
             {
               "id": 2000,
@@ -5521,7 +5619,14 @@
               "next": "Cross your arms over your chest. Keep your hips pointing straight forward.",
               "then": "Turn your chest to the right. Keep your hips completely still.",
               "tip": "Turn your chest back to the middle, then turn to the left."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Chest & Shoulder Open",
+          "tag": "TC2",
+          "purpose": "Finish with shoulder mechanics, neck alignment, and a supported release.",
+          "exercises": [
             {
               "id": 2003,
               "name": "Wall Angels",
@@ -5653,9 +5758,9 @@
       "purpose": "Short PT-style routine for wrist and hand mobility, perfect for keyboard users.",
       "sections": [
         {
-          "label": "Wrist & Hand Reset",
-          "tag": "UC",
-          "purpose": "Short PT-style routine: glides, stretches and nerve glides for wrist and hand health, great for keyboard users.",
+          "label": "Stretch the Forearm Line",
+          "tag": "CT1",
+          "purpose": "Open the flexor and extensor tissues that get loaded by typing and gripping.",
           "exercises": [
             {
               "id": 2010,
@@ -5714,7 +5819,14 @@
               "next": "Turn your palm to face the floor.",
               "then": "Use your other hand to gently pull your fingers down toward your body. Hold for 30 seconds.",
               "tip": "Keep your elbow straight. Pull gently. Switch arms."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Glide & Reset",
+          "tag": "CT2",
+          "purpose": "Finish with nerve glide, prayer stretch, and a light shakeout.",
+          "exercises": [
             {
               "id": 2012,
               "name": "Median Nerve Glide",
@@ -6853,9 +6965,9 @@
       "purpose": "Bulletproof the joint: strengthen the muscles that support it and use low-load movements to lubricate and offload pressure.",
       "sections": [
         {
-          "label": "Knee Resilience",
-          "tag": "SA",
-          "purpose": "Bulletproof the joint by strengthening the muscles that support it while using low-load, high-precision movements to lubricate the joint and offload pressure. Motion is lotion. It's normal for arthritic or cranky knees to feel stiff for the first few repetitions; as the joint warms up and synovial fluid flows, discomfort usually gives way to ease.",
+          "label": "Quad Activation",
+          "tag": "KR1",
+          "purpose": "Wake up terminal knee extension and straight-leg control before loading.",
           "exercises": [
             {
               "id": "2201-R",
@@ -6952,7 +7064,14 @@
               "next": "Bend one knee and place that foot flat on the floor. Keep your other leg completely straight.",
               "then": "Lift your straight leg until it is level with your bent knee. Squeeze your thigh muscle at the top.",
               "tip": "Lower your leg slowly for 3 seconds. Do 10 to 12 times. Switch legs."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Controlled Range",
+          "tag": "KR2",
+          "purpose": "Work knee bend, hip support, and controlled joint range.",
+          "exercises": [
             {
               "id": 2203,
               "name": "Isometric Wall Sits",
@@ -7048,7 +7167,14 @@
               "next": "Rest your top hand flat on the outside of your top knee.",
               "then": "Lift your top knee slowly toward the ceiling. Push down with your hand at the same time to make it harder.",
               "tip": "Lower your knee slowly back down. Do 10 to 12 times. Switch sides."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Functional Strength",
+          "tag": "KR3",
+          "purpose": "Finish with seated extension and step-up strength for daily movement.",
+          "exercises": [
             {
               "id": 2206,
               "name": "Seated Knee Extensions",
@@ -7126,9 +7252,9 @@
       "duration": "~6 min",
       "sections": [
         {
-          "label": "Evening structural pass",
-          "tag": "EM",
-          "purpose": "Floss tissues gently. Never aggressive stretching. Use pillows for knees or head support as needed.",
+          "label": "Spinal Unwind",
+          "tag": "SM1",
+          "purpose": "Move the spine through gentle flexion and rotation before settling.",
           "exercises": [
             {
               "id": 2130,
@@ -7252,7 +7378,14 @@
               "next": "Reach your arms straight out in front of you on the floor. Rest your forehead on the floor.",
               "then": "Walk both hands to the right side until you feel a pull along your left side.",
               "tip": "Walk your hands back to the middle, then walk them to the left side."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Neck & Pelvis Finish",
+          "tag": "SM2",
+          "purpose": "Finish with small alignment drills for the neck and low back.",
+          "exercises": [
             {
               "id": 2133,
               "name": "Gentle Neck Glides",
@@ -7327,9 +7460,9 @@
       "duration": "~11 min",
       "sections": [
         {
-          "label": "360 unwind",
-          "tag": "3U",
-          "purpose": "Mobility first, then longer restorative holds. Stay in legs-up for the final breath block when it feels right.",
+          "label": "Spine & Shoulders",
+          "tag": "360A",
+          "purpose": "Open the mid-back and shoulders before moving into deeper rest.",
           "exercises": [
             {
               "id": 2140,
@@ -7453,7 +7586,14 @@
               "next": "Reach your arms straight out in front of you on the floor. Rest your forehead on the floor.",
               "then": "Walk both hands to the right side until you feel a pull along your left side.",
               "tip": "Walk your hands back to the middle, then walk them to the left side."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Parasympathetic Finish",
+          "tag": "360B",
+          "purpose": "Close with supported hip opening, inversion, and breathing.",
+          "exercises": [
             {
               "id": 2144,
               "name": "Reclined Butterfly",
@@ -7556,9 +7696,9 @@
       "duration": "5 MIN",
       "sections": [
         {
-          "label": "The Hourly Practice",
-          "tag": "HP",
-          "purpose": "Five standing moves you can do anywhere, anytime. No mat, no warmup, no excuse. Built for the gaps in your day.",
+          "label": "Wake the Body",
+          "tag": "HP1",
+          "purpose": "Use simple standing movements to interrupt sitting and restore circulation.",
           "exercises": [
             {
               "id": 9601,
@@ -7646,7 +7786,14 @@
               "next": "Take a controlled side step, pause, then return to center.",
               "then": "Alternate sides or repeat on one side. Keep tempo smooth.",
               "tip": "Keep steps modest so balance stays easy."
-            },
+            }
+          ]
+        },
+        {
+          "label": "Rotate & Open",
+          "tag": "HP2",
+          "purpose": "Finish with rotation and a quick chest-neck release.",
+          "exercises": [
             {
               "id": 9604,
               "name": "Standing Twists",
