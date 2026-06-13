@@ -29,7 +29,7 @@
   <meta charset="UTF-8" />
   <!-- axis-build-stamp -->
 <script>
-window.AXIS_BUILD="f523cd3-efb0872";
+window.AXIS_BUILD="2a05962-f606560";
 (function(){
   var b=window.AXIS_BUILD||"";
   if(!b)return;
@@ -61,7 +61,7 @@ window.AXIS_BUILD="f523cd3-efb0872";
   
   <link rel="icon" href="./axis-icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" type="image/png" href="./axis-icon.png" sizes="180x180" />
-  <link rel="manifest" href="./manifest.webmanifest?v=f523cd3-efb0872" />
+  <link rel="manifest" href="./manifest.webmanifest?v=2a05962-f606560" />
   <title>AXIS</title>
   <script>
   (function () {
@@ -86,7 +86,7 @@ window.AXIS_BUILD="f523cd3-efb0872";
   })();
   </script>
   <link rel="stylesheet" href="./onboarding.css" />
-  <link rel="stylesheet" href="./app.css?cb=f523cd3-efb0872" />
+  <link rel="stylesheet" href="./app.css?cb=2a05962-f606560" />
   <style>
     :root {
       --font-display: 'Inter', sans-serif;
@@ -120,7 +120,7 @@ window.AXIS_BUILD="f523cd3-efb0872";
     /* Ensure onboarding screens are centered if the onboarding CSS isn't loaded */
     .ob-screen { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100dvh; box-sizing:border-box; }
   </style>
-  <script src="./axis_data_runtime.js?cb=f523cd3-efb0872"></script>
+  <script src="./axis_data_runtime.js?cb=2a05962-f606560"></script>
 </head>
 <body>
   <div id="boot-status" aria-live="polite">Starting AXIS…</div>
@@ -191,7 +191,7 @@ window.AXIS_BUILD="f523cd3-efb0872";
       return true;
     }
     if (axisShouldLoadAuthBundle()) {
-      document.write('<script src="auth-bundle.js?cb=f523cd3-efb0872"><\/script>');
+      document.write('<script src="auth-bundle.js?cb=2a05962-f606560"><\/script>');
     }
   })();
   </script>
@@ -226,7 +226,7 @@ window.AXIS_BUILD="f523cd3-efb0872";
     if (!window.React || !window.ReactDOM) {
       showLoadErr("Could not load app libraries. Check your connection and refresh.");
     } else {
-      import("./app.js?cb=f523cd3-efb0872").catch(function (err) {
+      import("./app.js?cb=2a05962-f606560").catch(function (err) {
         var msg = err && err.message ? err.message : String(err || "module load failed");
         showLoadErr("Failed to load app.js: " + msg + (err && err.stack ? "\n\n" + err.stack : ""));
       });
