@@ -5656,9 +5656,9 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     max-height: 74px;
   }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-idle-top {
-    height: 192px;
-    min-height: 192px;
-    max-height: 192px;
+    height: 74px;
+    min-height: 74px;
+    max-height: 74px;
   }
   .timer-view-body .timer-breathe-cycles-slot,
   .timer-view-body .timer-interval-rounds-slot {
@@ -5914,7 +5914,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
   .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-cards-wrap {
     position: relative;
     z-index: 21;
-    margin-top: -46px;
+    margin-top: -128px;
     overflow: visible;
   }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-pattern-cards-scroll {
@@ -5955,7 +5955,7 @@ function TimerView({ theme, view, setView, nightMode = false, activePeriod = nul
     padding: 0;
   }
   .timer-view-body .timer-breathe-content--idle .timer-breathe-start-row {
-    margin-top: 8px;
+    margin-top: 14px;
     margin-bottom: 0;
   }
   .app .timer-view-body .timer-breathe-pattern-card-dot {
